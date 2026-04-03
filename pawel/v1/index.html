@@ -4,7 +4,632 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JP Auto Restoration — Classic Car Bodywork, Painting & Welding</title>
-  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* === Reset & Base === */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --color-bg: #0a0a0a;
+      --color-surface: #141414;
+      --color-surface-light: #1e1e1e;
+      --color-accent: #d4a44a;
+      --color-accent-hover: #e6b85c;
+      --color-text: #e0e0e0;
+      --color-text-muted: #888;
+      --color-white: #fff;
+      --font-heading: 'Georgia', serif;
+      --font-body: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      --radius: 8px;
+      --shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    a {
+      color: var(--color-accent);
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .section {
+      padding: 100px 0;
+    }
+
+    h2 {
+      font-family: var(--font-heading);
+      font-size: 2.4rem;
+      margin-bottom: 12px;
+      color: var(--color-white);
+    }
+
+    .section-subtitle {
+      color: var(--color-text-muted);
+      font-size: 1.1rem;
+      margin-bottom: 48px;
+    }
+
+    /* === Buttons === */
+    .btn {
+      display: inline-block;
+      padding: 14px 32px;
+      background: var(--color-accent);
+      color: var(--color-bg);
+      font-weight: 700;
+      font-size: 0.95rem;
+      border: 2px solid var(--color-accent);
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .btn:hover {
+      background: var(--color-accent-hover);
+      border-color: var(--color-accent-hover);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--color-accent);
+    }
+
+    .btn-outline:hover {
+      background: var(--color-accent);
+      color: var(--color-bg);
+    }
+
+    /* === Navbar === */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(10, 10, 10, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+
+    .logo {
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--color-white);
+    }
+
+    .logo span {
+      color: var(--color-accent);
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--color-text);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--color-accent);
+    }
+
+    .btn-nav {
+      padding: 10px 24px;
+      border: 1px solid var(--color-accent);
+      border-radius: var(--radius);
+      color: var(--color-accent) !important;
+    }
+
+    .btn-nav:hover {
+      background: var(--color-accent);
+      color: var(--color-bg) !important;
+    }
+
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--color-white);
+      font-size: 1.6rem;
+      cursor: pointer;
+    }
+
+    /* === Language Switcher === */
+    .lang-switcher {
+      display: flex;
+      gap: 4px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 6px;
+      padding: 3px;
+    }
+
+    .lang-btn {
+      background: none;
+      border: none;
+      color: var(--color-text-muted);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 6px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .lang-btn:hover {
+      color: var(--color-white);
+    }
+
+    .lang-btn.active {
+      background: var(--color-accent);
+      color: var(--color-bg);
+    }
+
+    /* === Hero === */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      background: url('../pics/ebffd798-4d15-4851-8d9c-09e3710c7ee1.jpeg') center/cover no-repeat;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(10, 10, 10, 0.85) 40%, rgba(10, 10, 10, 0.5));
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+    }
+
+    .hero-content h1 {
+      font-family: var(--font-heading);
+      font-size: 3.6rem;
+      line-height: 1.15;
+      color: var(--color-white);
+      margin-bottom: 20px;
+    }
+
+    .hero-content p {
+      font-size: 1.2rem;
+      color: var(--color-text-muted);
+      margin-bottom: 36px;
+      max-width: 540px;
+    }
+
+    .hero-content .btn {
+      margin-right: 16px;
+      margin-bottom: 12px;
+    }
+
+    /* === About === */
+    .about {
+      background: var(--color-surface);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .about-images {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .about-images img {
+      border-radius: var(--radius);
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+    }
+
+    .about-text h2 {
+      margin-bottom: 20px;
+    }
+
+    .about-text p {
+      margin-bottom: 16px;
+      color: var(--color-text-muted);
+    }
+
+    .stats {
+      display: flex;
+      gap: 32px;
+      margin-top: 32px;
+    }
+
+    .stat {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stat strong {
+      font-size: 1.8rem;
+      color: var(--color-accent);
+      font-family: var(--font-heading);
+    }
+
+    .stat span {
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* === Services === */
+    .services {
+      background: var(--color-bg);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+
+    .service-card {
+      background: var(--color-surface);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .service-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow);
+    }
+
+    .service-card img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+    }
+
+    .service-body {
+      padding: 28px 24px;
+    }
+
+    .service-body h3 {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      color: var(--color-white);
+      margin-bottom: 12px;
+    }
+
+    .service-body p {
+      color: var(--color-text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* === Process === */
+    .process {
+      background: var(--color-surface);
+    }
+
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+    }
+
+    .step {
+      text-align: center;
+      padding: 32px 20px;
+    }
+
+    .step-number {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      color: var(--color-bg);
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+
+    .step h3 {
+      font-family: var(--font-heading);
+      color: var(--color-white);
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+    }
+
+    .step p {
+      color: var(--color-text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* === Gallery === */
+    .gallery {
+      background: var(--color-bg);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .gallery-item {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .gallery-item.large {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.05);
+    }
+
+    .gallery-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 12px 16px;
+      background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+      color: var(--color-white);
+      font-size: 0.85rem;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .gallery-item:hover .gallery-caption {
+      opacity: 1;
+    }
+
+    /* === Contact === */
+    .contact {
+      background: var(--color-surface);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .contact-info h2 {
+      margin-bottom: 16px;
+    }
+
+    .contact-info > p {
+      color: var(--color-text-muted);
+      margin-bottom: 32px;
+    }
+
+    .contact-details {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .contact-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .contact-item strong {
+      color: var(--color-accent);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .contact-item span {
+      color: var(--color-text);
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      padding: 14px 18px;
+      background: var(--color-surface-light);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius);
+      color: var(--color-text);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      transition: border-color 0.3s;
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      outline: none;
+      border-color: var(--color-accent);
+    }
+
+    .contact-form textarea {
+      resize: vertical;
+    }
+
+    .contact-form .btn {
+      align-self: flex-start;
+      border: none;
+    }
+
+    /* === Footer === */
+    .footer {
+      padding: 32px 0;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--color-text-muted);
+      font-size: 0.85rem;
+    }
+
+    /* === Responsive === */
+    @media (max-width: 1024px) {
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .process-steps {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .gallery-item.large {
+        grid-column: span 1;
+        grid-row: span 1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-content h1 {
+        font-size: 2.4rem;
+      }
+
+      h2 {
+        font-size: 1.8rem;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .process-steps {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: rgba(10, 10, 10, 0.97);
+        padding: 24px;
+        gap: 20px;
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .nav-toggle {
+        display: block;
+      }
+
+      .stats {
+        gap: 20px;
+      }
+
+      .section {
+        padding: 64px 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-content h1 {
+        font-size: 1.9rem;
+      }
+
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .process-steps {
+        grid-template-columns: 1fr;
+      }
+
+      .stats {
+        flex-direction: column;
+        gap: 16px;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -12,13 +637,20 @@
   <nav class="navbar">
     <div class="container nav-container">
       <a href="#" class="logo">JP <span>Auto Restoration</span></a>
-      <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
-      <ul class="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#gallery">Gallery</a></li>
-        <li><a href="#contact" class="btn-nav">Contact Us</a></li>
-      </ul>
+      <div class="nav-right">
+        <div class="lang-switcher">
+          <button class="lang-btn active" data-lang="en">EN</button>
+          <button class="lang-btn" data-lang="pl">PL</button>
+          <button class="lang-btn" data-lang="is">IS</button>
+        </div>
+        <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+        <ul class="nav-links">
+          <li><a href="#about" data-i18n="nav_about">About</a></li>
+          <li><a href="#services" data-i18n="nav_services">Services</a></li>
+          <li><a href="#gallery" data-i18n="nav_gallery">Gallery</a></li>
+          <li><a href="#contact" class="btn-nav" data-i18n="nav_contact">Contact Us</a></li>
+        </ul>
+      </div>
     </div>
   </nav>
 
@@ -26,10 +658,10 @@
   <header class="hero">
     <div class="hero-overlay"></div>
     <div class="container hero-content">
-      <h1>We Bring Classic Cars<br>Back to Life</h1>
-      <p>Expert bodywork restoration, professional spray painting, and precision welding — all under one roof.</p>
-      <a href="#services" class="btn">Our Services</a>
-      <a href="#gallery" class="btn btn-outline">See Our Work</a>
+      <h1 data-i18n="hero_title">We Bring Classic Cars<br>Back to Life</h1>
+      <p data-i18n="hero_subtitle">Expert bodywork restoration, professional spray painting, and precision welding — all under one roof.</p>
+      <a href="#services" class="btn" data-i18n="hero_btn_services">Our Services</a>
+      <a href="#gallery" class="btn btn-outline" data-i18n="hero_btn_gallery">See Our Work</a>
     </div>
   </header>
 
@@ -41,21 +673,21 @@
         <img src="../pics/695e6474-6de2-4b9e-b9b8-0b6203b1a803.jpeg" alt="BMW in primer">
       </div>
       <div class="about-text">
-        <h2>About Us</h2>
-        <p>We are a two-man specialist workshop dedicated to bringing old cars back to life. With hands-on expertise in automotive restoration, we handle every stage of the process — from stripping down rusty bodywork to delivering a showroom-quality finish.</p>
-        <p>We have experience working on a range of classic marques, including BMW and Jaguar. Whether it's a full ground-up restoration or targeted repair work, we treat every car with the care it deserves.</p>
+        <h2 data-i18n="about_title">About Us</h2>
+        <p data-i18n="about_p1">We are a two-man specialist workshop dedicated to bringing old cars back to life. With hands-on expertise in automotive restoration, we handle every stage of the process — from stripping down rusty bodywork to delivering a showroom-quality finish.</p>
+        <p data-i18n="about_p2">We have experience working on a range of classic marques, including BMW and Jaguar. Whether it's a full ground-up restoration or targeted repair work, we treat every car with the care it deserves.</p>
         <div class="stats">
           <div class="stat">
             <strong>2</strong>
-            <span>Skilled Craftsmen</span>
+            <span data-i18n="stat_craftsmen">Skilled Craftsmen</span>
           </div>
           <div class="stat">
             <strong>100%</strong>
-            <span>In-House Work</span>
+            <span data-i18n="stat_inhouse">In-House Work</span>
           </div>
           <div class="stat">
             <strong>3-in-1</strong>
-            <span>Body, Paint & Weld</span>
+            <span data-i18n="stat_3in1">Body, Paint & Weld</span>
           </div>
         </div>
       </div>
@@ -65,28 +697,28 @@
   <!-- Services -->
   <section id="services" class="section services">
     <div class="container">
-      <h2>What We Do</h2>
-      <p class="section-subtitle">Full restoration services from bare metal to final coat</p>
+      <h2 data-i18n="services_title">What We Do</h2>
+      <p class="section-subtitle" data-i18n="services_subtitle">Full restoration services from bare metal to final coat</p>
       <div class="services-grid">
         <div class="service-card">
           <img src="../pics/cccf6edf-f3bf-4048-8051-476e8cd0d9e9.jpeg" alt="Car body restoration">
           <div class="service-body">
-            <h3>Body Restoration & Repair</h3>
-            <p>We strip old paint, remove rust and corrosion, repair or replace damaged panels, and prepare the body with precision filler and sanding for a flawless foundation.</p>
+            <h3 data-i18n="service1_title">Body Restoration & Repair</h3>
+            <p data-i18n="service1_desc">We strip old paint, remove rust and corrosion, repair or replace damaged panels, and prepare the body with precision filler and sanding for a flawless foundation.</p>
           </div>
         </div>
         <div class="service-card">
           <img src="../pics/492cfa80-3126-4fa7-adf6-6c5e8e993268.jpeg" alt="Car prepared for painting">
           <div class="service-body">
-            <h3>Professional Spray Painting</h3>
-            <p>Our dedicated paint booth with infrared drying lamps delivers durable, showroom-quality finishes. Full respray, primer, base coat, and clear coat — any colour you want.</p>
+            <h3 data-i18n="service2_title">Professional Spray Painting</h3>
+            <p data-i18n="service2_desc">Our dedicated paint booth with infrared drying lamps delivers durable, showroom-quality finishes. Full respray, primer, base coat, and clear coat — any colour you want.</p>
           </div>
         </div>
         <div class="service-card">
           <img src="../pics/0bb66204-13d7-4cbd-9171-5a0c98b78fdb.jpeg" alt="TIG welding close-up">
           <div class="service-body">
-            <h3>Welding & Metal Fabrication</h3>
-            <p>TIG and MIG/MAG welding for structural chassis repair, floor pan restoration, custom exhaust fabrication, and stainless steel work. Clean, strong joints every time.</p>
+            <h3 data-i18n="service3_title">Welding & Metal Fabrication</h3>
+            <p data-i18n="service3_desc">TIG and MIG/MAG welding for structural chassis repair, floor pan restoration, custom exhaust fabrication, and stainless steel work. Clean, strong joints every time.</p>
           </div>
         </div>
       </div>
@@ -96,28 +728,28 @@
   <!-- Process -->
   <section class="section process">
     <div class="container">
-      <h2>Our Process</h2>
-      <p class="section-subtitle">From wreck to perfection, step by step</p>
+      <h2 data-i18n="process_title">Our Process</h2>
+      <p class="section-subtitle" data-i18n="process_subtitle">From wreck to perfection, step by step</p>
       <div class="process-steps">
         <div class="step">
           <div class="step-number">1</div>
-          <h3>Strip & Assess</h3>
-          <p>We strip the car down, assess the damage, and plan the restoration work needed.</p>
+          <h3 data-i18n="step1_title">Strip & Assess</h3>
+          <p data-i18n="step1_desc">We strip the car down, assess the damage, and plan the restoration work needed.</p>
         </div>
         <div class="step">
           <div class="step-number">2</div>
-          <h3>Weld & Repair</h3>
-          <p>Rusted panels are cut out, new metal welded in, and structural integrity restored.</p>
+          <h3 data-i18n="step2_title">Weld & Repair</h3>
+          <p data-i18n="step2_desc">Rusted panels are cut out, new metal welded in, and structural integrity restored.</p>
         </div>
         <div class="step">
           <div class="step-number">3</div>
-          <h3>Prime & Prepare</h3>
-          <p>The body is filled, sanded, and coated in primer — ready for the paint booth.</p>
+          <h3 data-i18n="step3_title">Prime & Prepare</h3>
+          <p data-i18n="step3_desc">The body is filled, sanded, and coated in primer — ready for the paint booth.</p>
         </div>
         <div class="step">
           <div class="step-number">4</div>
-          <h3>Paint & Finish</h3>
-          <p>Professional spray painting and clear coat for a durable, factory-quality finish.</p>
+          <h3 data-i18n="step4_title">Paint & Finish</h3>
+          <p data-i18n="step4_desc">Professional spray painting and clear coat for a durable, factory-quality finish.</p>
         </div>
       </div>
     </div>
@@ -126,56 +758,56 @@
   <!-- Gallery -->
   <section id="gallery" class="section gallery">
     <div class="container">
-      <h2>Our Work</h2>
-      <p class="section-subtitle">Real projects from our workshop</p>
+      <h2 data-i18n="gallery_title">Our Work</h2>
+      <p class="section-subtitle" data-i18n="gallery_subtitle">Real projects from our workshop</p>
       <div class="gallery-grid">
         <div class="gallery-item large">
           <img src="../pics/ebffd798-4d15-4851-8d9c-09e3710c7ee1.jpeg" alt="Restored Jaguar XJ in dark blue">
-          <div class="gallery-caption">Jaguar XJ — Full Restoration</div>
+          <div class="gallery-caption" data-i18n="gal_jaguar">Jaguar XJ — Full Restoration</div>
         </div>
         <div class="gallery-item">
           <img src="../pics/cccf6edf-f3bf-4048-8051-476e8cd0d9e9.jpeg" alt="BMW bodywork in progress">
-          <div class="gallery-caption">BMW — Bodywork Start</div>
+          <div class="gallery-caption" data-i18n="gal_bmw_body">BMW — Bodywork Start</div>
         </div>
         <div class="gallery-item">
           <img src="../pics/492cfa80-3126-4fa7-adf6-6c5e8e993268.jpeg" alt="BMW masked and primed">
-          <div class="gallery-caption">BMW — Primed & Masked</div>
+          <div class="gallery-caption" data-i18n="gal_bmw_primed">BMW — Primed & Masked</div>
         </div>
         <div class="gallery-item">
           <img src="../pics/695e6474-6de2-4b9e-b9b8-0b6203b1a803.jpeg" alt="BMW fully primed">
-          <div class="gallery-caption">BMW — Full Primer Coat</div>
+          <div class="gallery-caption" data-i18n="gal_bmw_primer">BMW — Full Primer Coat</div>
         </div>
         <div class="gallery-item">
           <img src="../pics/d110c732-9c81-49ac-87eb-5d600512beba.jpeg" alt="Spray painting in booth">
-          <div class="gallery-caption">Spray Painting in Action</div>
+          <div class="gallery-caption" data-i18n="gal_spray">Spray Painting in Action</div>
         </div>
         <div class="gallery-item">
           <img src="../pics/289d5f05-6193-4df9-b912-83c197f476b3.jpeg" alt="Infrared drying after paint">
-          <div class="gallery-caption">Infrared Paint Drying</div>
+          <div class="gallery-caption" data-i18n="gal_infrared">Infrared Paint Drying</div>
         </div>
         <div class="gallery-item">
           <img src="../pics/0bb66204-13d7-4cbd-9171-5a0c98b78fdb.jpeg" alt="TIG weld on stainless steel pipe">
-          <div class="gallery-caption">TIG Weld — Stainless Pipe</div>
+          <div class="gallery-caption" data-i18n="gal_tig">TIG Weld — Stainless Pipe</div>
         </div>
         <div class="gallery-item">
           <img src="../pics/85daec2c-7466-4f70-8696-b1b5c54f1c10.jpeg" alt="Custom exhaust pipe fabrication">
-          <div class="gallery-caption">Custom Exhaust Fabrication</div>
+          <div class="gallery-caption" data-i18n="gal_exhaust">Custom Exhaust Fabrication</div>
         </div>
         <div class="gallery-item">
           <img src="../pics/a9b72ad2-68d6-4319-8c3d-1ffd9dfc629f.jpeg" alt="Before and after chassis weld repair">
-          <div class="gallery-caption">Chassis Repair — Before & After</div>
+          <div class="gallery-caption" data-i18n="gal_chassis">Chassis Repair — Before & After</div>
         </div>
         <div class="gallery-item">
           <img src="../pics/ac99ed9f-fcce-4dec-9587-740dc8da4532.jpeg" alt="Body panel weld seam">
-          <div class="gallery-caption">Panel Weld Repair</div>
+          <div class="gallery-caption" data-i18n="gal_panel">Panel Weld Repair</div>
         </div>
         <div class="gallery-item">
           <img src="../pics/c07af24d-0763-4389-8392-fdfb236e4237.jpeg" alt="Structural weld bead">
-          <div class="gallery-caption">Structural Weld Joint</div>
+          <div class="gallery-caption" data-i18n="gal_structural">Structural Weld Joint</div>
         </div>
         <div class="gallery-item">
           <img src="../pics/b171ab54-debb-41dc-817b-ac888a05fc23.jpeg" alt="Floor pan welding">
-          <div class="gallery-caption">Floor Pan Welding</div>
+          <div class="gallery-caption" data-i18n="gal_floor">Floor Pan Welding</div>
         </div>
       </div>
     </div>
@@ -185,29 +817,29 @@
   <section id="contact" class="section contact">
     <div class="container contact-grid">
       <div class="contact-info">
-        <h2>Get in Touch</h2>
-        <p>Have a classic car that needs some love? Reach out and let's talk about your project.</p>
+        <h2 data-i18n="contact_title">Get in Touch</h2>
+        <p data-i18n="contact_subtitle">Have a classic car that needs some love? Reach out and let's talk about your project.</p>
         <div class="contact-details">
           <div class="contact-item">
-            <strong>Workshop</strong>
-            <span>Open Mon–Fri, 8:00–17:00</span>
+            <strong data-i18n="contact_workshop">Workshop</strong>
+            <span data-i18n="contact_hours">Open Mon–Fri, 8:00–17:00</span>
           </div>
           <div class="contact-item">
-            <strong>Phone</strong>
+            <strong data-i18n="contact_phone">Phone</strong>
             <span>+48 XXX XXX XXX</span>
           </div>
           <div class="contact-item">
-            <strong>Email</strong>
+            <strong data-i18n="contact_email">Email</strong>
             <span>kontakt@jpauto.pl</span>
           </div>
         </div>
       </div>
-      <form class="contact-form" onsubmit="event.preventDefault(); alert('Message sent! We will get back to you soon.');">
-        <input type="text" placeholder="Your Name" required>
-        <input type="email" placeholder="Your Email" required>
-        <input type="text" placeholder="Car Make & Model">
-        <textarea placeholder="Tell us about your project..." rows="5" required></textarea>
-        <button type="submit" class="btn">Send Message</button>
+      <form class="contact-form" id="contactForm">
+        <input type="text" data-i18n-placeholder="form_name" placeholder="Your Name" required>
+        <input type="email" data-i18n-placeholder="form_email" placeholder="Your Email" required>
+        <input type="text" data-i18n-placeholder="form_car" placeholder="Car Make & Model">
+        <textarea data-i18n-placeholder="form_message" placeholder="Tell us about your project..." rows="5" required></textarea>
+        <button type="submit" class="btn" data-i18n="form_submit">Send Message</button>
       </form>
     </div>
   </section>
@@ -215,27 +847,289 @@
   <!-- Footer -->
   <footer class="footer">
     <div class="container">
-      <p>&copy; 2026 JP Auto Restoration. All rights reserved.</p>
+      <p>&copy; 2026 JP Auto Restoration. <span data-i18n="footer_rights">All rights reserved.</span></p>
     </div>
   </footer>
 
   <script>
+    var translations = {
+      en: {
+        // Nav
+        nav_about: "About",
+        nav_services: "Services",
+        nav_gallery: "Gallery",
+        nav_contact: "Contact Us",
+        // Hero
+        hero_title: "We Bring Classic Cars<br>Back to Life",
+        hero_subtitle: "Expert bodywork restoration, professional spray painting, and precision welding — all under one roof.",
+        hero_btn_services: "Our Services",
+        hero_btn_gallery: "See Our Work",
+        // About
+        about_title: "About Us",
+        about_p1: "We are a two-man specialist workshop dedicated to bringing old cars back to life. With hands-on expertise in automotive restoration, we handle every stage of the process — from stripping down rusty bodywork to delivering a showroom-quality finish.",
+        about_p2: "We have experience working on a range of classic marques, including BMW and Jaguar. Whether it's a full ground-up restoration or targeted repair work, we treat every car with the care it deserves.",
+        stat_craftsmen: "Skilled Craftsmen",
+        stat_inhouse: "In-House Work",
+        stat_3in1: "Body, Paint & Weld",
+        // Services
+        services_title: "What We Do",
+        services_subtitle: "Full restoration services from bare metal to final coat",
+        service1_title: "Body Restoration & Repair",
+        service1_desc: "We strip old paint, remove rust and corrosion, repair or replace damaged panels, and prepare the body with precision filler and sanding for a flawless foundation.",
+        service2_title: "Professional Spray Painting",
+        service2_desc: "Our dedicated paint booth with infrared drying lamps delivers durable, showroom-quality finishes. Full respray, primer, base coat, and clear coat — any colour you want.",
+        service3_title: "Welding & Metal Fabrication",
+        service3_desc: "TIG and MIG/MAG welding for structural chassis repair, floor pan restoration, custom exhaust fabrication, and stainless steel work. Clean, strong joints every time.",
+        // Process
+        process_title: "Our Process",
+        process_subtitle: "From wreck to perfection, step by step",
+        step1_title: "Strip & Assess",
+        step1_desc: "We strip the car down, assess the damage, and plan the restoration work needed.",
+        step2_title: "Weld & Repair",
+        step2_desc: "Rusted panels are cut out, new metal welded in, and structural integrity restored.",
+        step3_title: "Prime & Prepare",
+        step3_desc: "The body is filled, sanded, and coated in primer — ready for the paint booth.",
+        step4_title: "Paint & Finish",
+        step4_desc: "Professional spray painting and clear coat for a durable, factory-quality finish.",
+        // Gallery
+        gallery_title: "Our Work",
+        gallery_subtitle: "Real projects from our workshop",
+        gal_jaguar: "Jaguar XJ — Full Restoration",
+        gal_bmw_body: "BMW — Bodywork Start",
+        gal_bmw_primed: "BMW — Primed & Masked",
+        gal_bmw_primer: "BMW — Full Primer Coat",
+        gal_spray: "Spray Painting in Action",
+        gal_infrared: "Infrared Paint Drying",
+        gal_tig: "TIG Weld — Stainless Pipe",
+        gal_exhaust: "Custom Exhaust Fabrication",
+        gal_chassis: "Chassis Repair — Before & After",
+        gal_panel: "Panel Weld Repair",
+        gal_structural: "Structural Weld Joint",
+        gal_floor: "Floor Pan Welding",
+        // Contact
+        contact_title: "Get in Touch",
+        contact_subtitle: "Have a classic car that needs some love? Reach out and let's talk about your project.",
+        contact_workshop: "Workshop",
+        contact_hours: "Open Mon–Fri, 8:00–17:00",
+        contact_phone: "Phone",
+        contact_email: "Email",
+        form_name: "Your Name",
+        form_email: "Your Email",
+        form_car: "Car Make & Model",
+        form_message: "Tell us about your project...",
+        form_submit: "Send Message",
+        form_alert: "Message sent! We will get back to you soon.",
+        // Footer
+        footer_rights: "All rights reserved."
+      },
+
+      pl: {
+        // Nav
+        nav_about: "O nas",
+        nav_services: "Uslugi",
+        nav_gallery: "Galeria",
+        nav_contact: "Kontakt",
+        // Hero
+        hero_title: "Przywracamy klasyczne<br>samochody do zycia",
+        hero_subtitle: "Profesjonalna renowacja karoserii, lakierowanie natryskowe i precyzyjne spawanie — wszystko pod jednym dachem.",
+        hero_btn_services: "Nasze uslugi",
+        hero_btn_gallery: "Zobacz nasze prace",
+        // About
+        about_title: "O nas",
+        about_p1: "Jestesmy dwuosobowym specjalistycznym warsztatem, ktory przywraca stare samochody do zycia. Dzieki praktycznemu doswiadczeniu w renowacji samochodow, zajmujemy sie kazdym etapem procesu — od usuwania zardzewiala karoserii po dostarczenie wykonczenia najwyzszej jakosci.",
+        about_p2: "Mamy doswiadczenie w pracy z roznymi klasycznymi markami, w tym BMW i Jaguar. Niezaleznie od tego, czy jest to pelna renowacja, czy ukierunkowana naprawa, traktujemy kazdy samochod z nalezyta starannascia.",
+        stat_craftsmen: "Doswiadczeni rzemieSlnicy",
+        stat_inhouse: "Praca wlasna",
+        stat_3in1: "Karoseria, lakier i spawanie",
+        // Services
+        services_title: "Co robimy",
+        services_subtitle: "Pelne uslugi renowacji — od golego metalu po ostatnia warstwe lakieru",
+        service1_title: "Renowacja i naprawa karoserii",
+        service1_desc: "Usuwamy stary lakier, rdze i korozje, naprawiamy lub wymieniamy uszkodzone panele i przygotowujemy karoserie z precyzyjnym szpachlowaniem i szlifowaniem.",
+        service2_title: "Profesjonalne lakierowanie",
+        service2_desc: "Nasza kabina lakiernicza z lampami na podczerwien zapewnia trwale wykonczenie najwyzszej jakosci. Pelne lakierowanie, podklad, baza i lakier bezbarwny — w dowolnym kolorze.",
+        service3_title: "Spawanie i obrobka metalu",
+        service3_desc: "Spawanie TIG i MIG/MAG do napraw konstrukcyjnych podwozia, podlog, niestandardowych ukladow wydechowych i prac ze stala nierdzewna. Czyste, mocne spoiny za kazdym razem.",
+        // Process
+        process_title: "Nasz proces",
+        process_subtitle: "Od wraku do perfekcji, krok po kroku",
+        step1_title: "Demontaz i ocena",
+        step1_desc: "Rozbieramy samochod, oceniamy uszkodzenia i planujemy potrzebne prace renowacyjne.",
+        step2_title: "Spawanie i naprawa",
+        step2_desc: "Zardzewiala panele sa wycinane, nowy metal jest wspawany, a integralnosc strukturalna przywrocona.",
+        step3_title: "Podklad i przygotowanie",
+        step3_desc: "Karoseria jest szpachlowana, szlifowana i pokryta podkladem — gotowa do kabiny lakierniczej.",
+        step4_title: "Lakierowanie i wykonczenie",
+        step4_desc: "Profesjonalne lakierowanie natryskowe i lakier bezbarwny dla trwalego, fabrycznego wykonczenia.",
+        // Gallery
+        gallery_title: "Nasze prace",
+        gallery_subtitle: "Prawdziwe projekty z naszego warsztatu",
+        gal_jaguar: "Jaguar XJ — pelna renowacja",
+        gal_bmw_body: "BMW — poczatek prac karoseryjnych",
+        gal_bmw_primed: "BMW — zagruntowane i zamaskowane",
+        gal_bmw_primer: "BMW — pelna warstwa podkladu",
+        gal_spray: "Lakierowanie w akcji",
+        gal_infrared: "Suszenie lakieru na podczerwien",
+        gal_tig: "Spoina TIG — rura nierdzewna",
+        gal_exhaust: "Niestandardowy uklad wydechowy",
+        gal_chassis: "Naprawa podwozia — przed i po",
+        gal_panel: "Naprawa spawalnicza panelu",
+        gal_structural: "Spoina konstrukcyjna",
+        gal_floor: "Spawanie podlogi",
+        // Contact
+        contact_title: "Skontaktuj sie",
+        contact_subtitle: "Masz klasyczny samochod, ktory potrzebuje odnowy? Napisz do nas i porozmawiajmy o Twoim projekcie.",
+        contact_workshop: "Warsztat",
+        contact_hours: "Czynne pon.–pt., 8:00–17:00",
+        contact_phone: "Telefon",
+        contact_email: "Email",
+        form_name: "Twoje imie",
+        form_email: "Twoj email",
+        form_car: "Marka i model samochodu",
+        form_message: "Opowiedz nam o swoim projekcie...",
+        form_submit: "Wyslij wiadomosc",
+        form_alert: "Wiadomosc wyslana! Odezwiemy sie wkrotce.",
+        // Footer
+        footer_rights: "Wszelkie prawa zastrzezone."
+      },
+
+      is: {
+        // Nav
+        nav_about: "Um okkur",
+        nav_services: "Thjonusta",
+        nav_gallery: "Myndasafn",
+        nav_contact: "Hafdu samband",
+        // Hero
+        hero_title: "Vid gefum klassiskum bilum<br>nytt lif",
+        hero_subtitle: "Serfraed endurgerda yfirbordar, fagleg udasprautun og nakvaemar suduvinnu — allt undir einu thaki.",
+        hero_btn_services: "Thjonustan okkar",
+        hero_btn_gallery: "Sjadu verk okkar",
+        // About
+        about_title: "Um okkur",
+        about_p1: "Vid erum tveggja manna serhaefdarverkstaedi sem helgar sig thvi ad gefa gomlum bilum nytt lif. Med verklegri reynslu i endurgerd bifreidar sinnum um hvert stig ferlisins — fra thvi ad fjarlaegja rydhgadhan yfirborb til thess ad skila fullkominni afrakstur.",
+        about_p2: "Vid hofum reynslu af vinnu med ymsum klassiskum bilamerki, thar a medal BMW og Jaguar. Hvort sem um er ad raeda fulla endurgerd eda markvissar vidgerdir, komum vid fram vid hvern bil med theirri umhyggu sem hann a skilid.",
+        stat_craftsmen: "Haefir idnsmennir",
+        stat_inhouse: "Innanhussvinna",
+        stat_3in1: "Yfirbordi, malning og suduvinna",
+        // Services
+        services_title: "Hvad vid gerum",
+        services_subtitle: "Full endurgerdarahjonusta — fra berum malmi til lokalagsins",
+        service1_title: "Endurgerd og vidgerd yfirbordar",
+        service1_desc: "Vid fjarlaegjum gamlan lakk, ryb og taeringu, gerum vid eda skiptum um skemmda plotu og undirbuum yfirborb med nakvaemuslipun og sparkli.",
+        service2_title: "Fagleg udasprautun",
+        service2_desc: "Serhaefdar malningarklefa med innraudum thurrkurlompum tryggir endingargoda lokaafrakstur. Full udasprautun, grunnur, grunnlakk og blankt yfirlag — i hvaada lit sem thu vilt.",
+        service3_title: "Suduvinna og malmsmidar",
+        service3_desc: "TIG og MIG/MAG suduvinna fyrir vidgerdir a grind, golfi, serhannada pustarori og rydrfritt stal. Hrein, sterk tengsl i hvert skipti.",
+        // Process
+        process_title: "Ferlid okkar",
+        process_subtitle: "Fra flaki til fullkomnunar, skref fyrir skref",
+        step1_title: "Afklaedsla og mat",
+        step1_desc: "Vid tökum bilinn i sundur, metum skemmdir og skipuleggjum endurgerdarvinnu.",
+        step2_title: "Suduvinna og vidgerd",
+        step2_desc: "Rydgadar plotur eru skornar ut, nytt mal er sudad i og burdarvirki endurheimt.",
+        step3_title: "Grunnun og undirbuningur",
+        step3_desc: "Yfirbordsid er fylt, slipat og grundat — toilbuid i malningarklefan.",
+        step4_title: "Malning og frangengid",
+        step4_desc: "Fagleg udasprautun og blankt yfirlag fyrir endingargoda, verdsmidju-goeda afrakstur.",
+        // Gallery
+        gallery_title: "Verk okkar",
+        gallery_subtitle: "Raunveruleg verkefni ur verkstaedi okkar",
+        gal_jaguar: "Jaguar XJ — full endurgerd",
+        gal_bmw_body: "BMW — upphaf yfirbordsvinnu",
+        gal_bmw_primed: "BMW — grundad og hult",
+        gal_bmw_primer: "BMW — fullur grunnur",
+        gal_spray: "Udasprautun i framkvaemd",
+        gal_infrared: "Innraudur thurrkun a lakki",
+        gal_tig: "TIG suduvinna — rydrfritt ror",
+        gal_exhaust: "Serhannatud pust ror",
+        gal_chassis: "Grindarvid gerd — fyrir og eftir",
+        gal_panel: "Suduvinna a plotu",
+        gal_structural: "Burdarsuduvinna",
+        gal_floor: "Golfsuduvinna",
+        // Contact
+        contact_title: "Hafdu samband",
+        contact_subtitle: "Attu klassiskan bil sem tharf adhlyningu? Hafdu samband og raedum verkefnid thitt.",
+        contact_workshop: "Verkstaedi",
+        contact_hours: "Opid man.–fos., 8:00–17:00",
+        contact_phone: "Simi",
+        contact_email: "Netfang",
+        form_name: "Nafnid thitt",
+        form_email: "Netfangid thitt",
+        form_car: "Tegund og gerb bils",
+        form_message: "Segdu okkur fra verkefninu thinu...",
+        form_submit: "Senda skilabod",
+        form_alert: "Skilabod sent! Vid hofum samband fljotlega.",
+        // Footer
+        footer_rights: "Allur rettur askilinn."
+      }
+    };
+
+    var currentLang = "en";
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      document.documentElement.lang = lang;
+
+      // Update text content
+      document.querySelectorAll("[data-i18n]").forEach(function (el) {
+        var key = el.getAttribute("data-i18n");
+        if (translations[lang] && translations[lang][key]) {
+          el.innerHTML = translations[lang][key];
+        }
+      });
+
+      // Update placeholders
+      document.querySelectorAll("[data-i18n-placeholder]").forEach(function (el) {
+        var key = el.getAttribute("data-i18n-placeholder");
+        if (translations[lang] && translations[lang][key]) {
+          el.placeholder = translations[lang][key];
+        }
+      });
+
+      // Update active button
+      document.querySelectorAll(".lang-btn").forEach(function (btn) {
+        btn.classList.toggle("active", btn.getAttribute("data-lang") === lang);
+      });
+
+      // Store preference
+      localStorage.setItem("jp-lang", lang);
+    }
+
+    // Language switcher buttons
+    document.querySelectorAll(".lang-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        setLanguage(this.getAttribute("data-lang"));
+      });
+    });
+
+    // Contact form
+    document.getElementById("contactForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      alert(translations[currentLang].form_alert);
+    });
+
     // Mobile nav toggle
-    document.querySelector('.nav-toggle').addEventListener('click', function () {
-      document.querySelector('.nav-links').classList.toggle('active');
+    document.querySelector(".nav-toggle").addEventListener("click", function () {
+      document.querySelector(".nav-links").classList.toggle("active");
     });
 
     // Smooth scroll
     document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
-      anchor.addEventListener('click', function (e) {
+      anchor.addEventListener("click", function (e) {
         e.preventDefault();
-        var target = document.querySelector(this.getAttribute('href'));
+        var target = document.querySelector(this.getAttribute("href"));
         if (target) {
-          target.scrollIntoView({ behavior: 'smooth' });
-          document.querySelector('.nav-links').classList.remove('active');
+          target.scrollIntoView({ behavior: "smooth" });
+          document.querySelector(".nav-links").classList.remove("active");
         }
       });
     });
+
+    // Restore saved language
+    var saved = localStorage.getItem("jp-lang");
+    if (saved && translations[saved]) {
+      setLanguage(saved);
+    }
   </script>
 
 </body>
