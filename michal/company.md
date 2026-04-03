@@ -2,6 +2,7 @@
 
 - 1 man army
 - Programmer
+- Professional experience since 2012
 - Doing small IT projects
 
 ## Dane kontaktowe

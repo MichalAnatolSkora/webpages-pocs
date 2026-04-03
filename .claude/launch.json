@@ -2,6 +2,12 @@
   "version": "0.0.1",
   "configurations": [
     {
+      "name": "v1",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8091", "--directory", "michal/v1"],
+      "port": 8091
+    },
+    {
       "name": "v2",
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "8090", "--directory", "."],
