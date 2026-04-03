@@ -45,7 +45,8 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      mix-blend-mode: difference;
+      background: rgba(10, 10, 10, 0.85);
+      backdrop-filter: blur(12px);
     }
 
     /* === PHONE BAR === */
@@ -621,7 +622,6 @@
       .service-row { grid-template-columns: 60px 1fr; gap: 20px; }
       .service-num { font-size: 2.5rem; }
       .service-detail { display: none; }
-      .nav { mix-blend-mode: normal; }
       .nav.menu-open { background: rgba(10,10,10,0.98); }
       .nav-links { display: none; flex-direction: column; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #0a0a0a; justify-content: center; align-items: center; gap: 40px; z-index: 150; }
       .nav-links.active { display: flex; }

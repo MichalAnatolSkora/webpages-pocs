@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flokki1 ehf. — Car Painting, Welding & Mechanics | Hveragerdi</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Anton&family=Special+Elite&family=Inter:wght@300;400;600;700&display=swap');
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --yellow: #f5c518;
+      --yellow-dark: #d4a800;
+      --red: #c0392b;
+      --red-light: #e74c3c;
+      --black: #0a0a0a;
+      --dark: #111;
+      --brown: #1a1510;
+      --cream: #f5e6c8;
+      --white: #faf0dc;
+      --mid: #8a7e6b;
+      --font-title: 'Anton', sans-serif;
+      --font-retro: 'Special Elite', monospace;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--black);
+      color: var(--cream);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+
+    img { display: block; max-width: 100%; height: auto; }
+    a { color: inherit; text-decoration: none; }
+
+    /* === NAV === */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 16px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--black);
+      border-bottom: 3px solid var(--yellow);
+    }
+
+    .nav-brand {
+      font-family: var(--font-title);
+      font-size: 1.6rem;
+      color: var(--yellow);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .lang-switcher { display: flex; gap: 0; }
+
+    .lang-btn {
+      background: none;
+      border: 2px solid var(--yellow);
+      color: var(--yellow);
+      font-family: var(--font-retro);
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .lang-btn:first-child { border-radius: 3px 0 0 3px; border-right: none; }
+    .lang-btn:last-child { border-radius: 0 3px 3px 0; border-left: none; }
+    .lang-btn:nth-child(2) { border-radius: 0; }
+
+    .lang-btn.active {
+      background: var(--yellow);
+      color: var(--black);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--font-retro);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--cream);
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--yellow); }
+
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--yellow);
+      font-size: 1.8rem;
+      cursor: pointer;
+    }
+
+    /* === PHONE STRIP === */
+    .phone-strip {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 200;
+      background: var(--yellow);
+      text-align: center;
+      padding: 10px;
+    }
+
+    .phone-strip a {
+      font-family: var(--font-title);
+      font-size: 1.1rem;
+      color: var(--black);
+      letter-spacing: 3px;
+    }
+
+    /* === HERO === */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 40px 80px;
+      position: relative;
+      background: var(--black);
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 70% 50%, rgba(245,197,24,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse at 30% 80%, rgba(192,57,43,0.04) 0%, transparent 50%);
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+    }
+
+    .hero-chapter {
+      font-family: var(--font-retro);
+      font-size: 0.85rem;
+      letter-spacing: 6px;
+      color: var(--mid);
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      font-family: var(--font-title);
+      font-size: clamp(4rem, 12vw, 10rem);
+      line-height: 0.95;
+      color: var(--yellow);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      text-shadow: 4px 4px 0 var(--red), 8px 8px 0 rgba(0,0,0,0.3);
+    }
+
+    .hero-subtitle {
+      font-family: var(--font-title);
+      font-size: clamp(1.5rem, 4vw, 3rem);
+      color: var(--cream);
+      text-transform: uppercase;
+      letter-spacing: 6px;
+      margin-bottom: 40px;
+    }
+
+    .hero-quote {
+      font-family: var(--font-retro);
+      font-size: 1.05rem;
+      color: var(--mid);
+      max-width: 550px;
+      margin: 0 auto 48px;
+      line-height: 1.8;
+    }
+
+    .hero-quote em {
+      color: var(--yellow);
+      font-style: normal;
+    }
+
+    .hero-cta {
+      display: inline-block;
+      font-family: var(--font-title);
+      font-size: 1.2rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--black);
+      background: var(--yellow);
+      padding: 16px 48px;
+      border: none;
+      transition: all 0.2s;
+    }
+
+    .hero-cta:hover {
+      background: var(--cream);
+      transform: scale(1.03);
+    }
+
+    /* === CHAPTER DIVIDER === */
+    .chapter {
+      text-align: center;
+      padding: 60px 20px;
+      background: var(--yellow);
+    }
+
+    .chapter h2 {
+      font-family: var(--font-title);
+      font-size: clamp(2rem, 5vw, 4rem);
+      color: var(--black);
+      text-transform: uppercase;
+      letter-spacing: 4px;
+    }
+
+    .chapter .chapter-num {
+      font-family: var(--font-retro);
+      font-size: 0.8rem;
+      color: rgba(0,0,0,0.4);
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .chapter.red { background: var(--red); }
+    .chapter.red h2 { color: var(--white); }
+    .chapter.red .chapter-num { color: rgba(255,255,255,0.4); }
+
+    /* === ABOUT === */
+    .about {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 80vh;
+    }
+
+    .about-img {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+
+    .about-img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, transparent 60%, var(--brown));
+    }
+
+    .about-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 80px 60px;
+      background: var(--brown);
+    }
+
+    .about-text .who {
+      font-family: var(--font-retro);
+      font-size: 0.75rem;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--yellow);
+      margin-bottom: 20px;
+    }
+
+    .about-text h3 {
+      font-family: var(--font-title);
+      font-size: 2.8rem;
+      text-transform: uppercase;
+      color: var(--cream);
+      line-height: 1;
+      margin-bottom: 24px;
+    }
+
+    .about-text h3 span { color: var(--yellow); }
+
+    .about-text p {
+      font-size: 0.95rem;
+      color: var(--mid);
+      max-width: 460px;
+      margin-bottom: 14px;
+      font-weight: 300;
+    }
+
+    /* === SERVICES === */
+    .services {
+      padding: 100px 40px;
+      background: var(--black);
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .service-item {
+      display: grid;
+      grid-template-columns: 80px 240px 1fr;
+      gap: 32px;
+      align-items: baseline;
+      padding: 36px 0;
+      border-bottom: 1px solid #222;
+    }
+
+    .service-item:first-child { border-top: 1px solid #222; }
+
+    .s-num {
+      font-family: var(--font-title);
+      font-size: 3.5rem;
+      color: var(--red);
+      line-height: 1;
+    }
+
+    .s-name {
+      font-family: var(--font-title);
+      font-size: 1.6rem;
+      color: var(--yellow);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .s-desc {
+      font-family: var(--font-retro);
+      font-size: 0.85rem;
+      color: var(--mid);
+      line-height: 1.7;
+    }
+
+    /* === GALLERY === */
+    .gallery-wrap {
+      padding: 100px 0 100px 40px;
+      background: var(--brown);
+    }
+
+    .gallery-header {
+      margin-bottom: 48px;
+    }
+
+    .gallery-header .chapter-num {
+      font-family: var(--font-retro);
+      font-size: 0.75rem;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--yellow);
+      margin-bottom: 8px;
+    }
+
+    .gallery-header h2 {
+      font-family: var(--font-title);
+      font-size: clamp(2.5rem, 4vw, 4rem);
+      color: var(--cream);
+      text-transform: uppercase;
+    }
+
+    .gallery-scroll {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      padding-bottom: 20px;
+      cursor: grab;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .gallery-scroll::-webkit-scrollbar { height: 3px; }
+    .gallery-scroll::-webkit-scrollbar-track { background: #1a1510; }
+    .gallery-scroll::-webkit-scrollbar-thumb { background: var(--yellow); }
+
+    .g-card {
+      flex: 0 0 auto;
+      width: 320px;
+      position: relative;
+      overflow: hidden;
+      border: 3px solid #222;
+      transition: border-color 0.3s;
+    }
+
+    .g-card:hover { border-color: var(--yellow); }
+
+    .g-card.big { width: 480px; }
+
+    .g-card img {
+      width: 100%; height: 380px;
+      object-fit: cover;
+      transition: transform 0.5s;
+      filter: sepia(15%) contrast(1.05);
+    }
+
+    .g-card:hover img { transform: scale(1.05); }
+
+    .g-card .g-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 32px 16px 12px;
+      background: linear-gradient(transparent, rgba(0,0,0,0.9));
+      font-family: var(--font-retro);
+      font-size: 0.8rem;
+      color: var(--cream);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .g-card:hover .g-label { opacity: 1; }
+
+    /* === BIG QUOTE === */
+    .big-quote {
+      padding: 120px 40px;
+      text-align: center;
+      background: var(--black);
+    }
+
+    .big-quote blockquote {
+      font-family: var(--font-title);
+      font-size: clamp(2rem, 5vw, 4rem);
+      color: var(--cream);
+      text-transform: uppercase;
+      line-height: 1.15;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .big-quote blockquote span { color: var(--yellow); }
+
+    .big-quote .attribution {
+      font-family: var(--font-retro);
+      font-size: 0.8rem;
+      color: var(--mid);
+      margin-top: 24px;
+      letter-spacing: 3px;
+    }
+
+    /* === CONTACT === */
+    .contact-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .contact-left {
+      padding: 80px 60px;
+      background: var(--yellow);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .contact-left .chapter-num {
+      font-family: var(--font-retro);
+      font-size: 0.75rem;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.4);
+      margin-bottom: 8px;
+    }
+
+    .contact-left h2 {
+      font-family: var(--font-title);
+      font-size: clamp(3rem, 5vw, 4.5rem);
+      text-transform: uppercase;
+      color: var(--black);
+      line-height: 0.95;
+      margin-bottom: 32px;
+    }
+
+    .c-info {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .c-row {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .c-row .c-label {
+      font-family: var(--font-retro);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: rgba(0,0,0,0.45);
+    }
+
+    .c-row .c-val {
+      font-family: var(--font-title);
+      font-size: 1.1rem;
+      color: var(--black);
+      letter-spacing: 1px;
+    }
+
+    .contact-right {
+      padding: 80px 60px;
+      background: var(--dark);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .contact-right h3 {
+      font-family: var(--font-title);
+      font-size: 1.8rem;
+      color: var(--yellow);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 32px;
+    }
+
+    .c-form { display: flex; flex-direction: column; gap: 16px; }
+
+    .c-form input, .c-form textarea {
+      padding: 12px 0;
+      background: none;
+      border: none;
+      border-bottom: 2px solid #333;
+      color: var(--cream);
+      font-family: var(--font-retro);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .c-form input:focus, .c-form textarea:focus { border-color: var(--yellow); }
+    .c-form textarea { resize: none; }
+    .c-form input::placeholder, .c-form textarea::placeholder { color: #555; }
+
+    .c-submit {
+      align-self: flex-start;
+      margin-top: 8px;
+      padding: 14px 40px;
+      background: var(--red);
+      color: var(--cream);
+      font-family: var(--font-title);
+      font-size: 1.1rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .c-submit:hover { background: var(--red-light); }
+
+    /* === FOOTER === */
+    .footer {
+      padding: 32px 40px 64px;
+      text-align: center;
+      background: var(--black);
+      border-top: 3px solid var(--yellow);
+    }
+
+    .footer p {
+      font-family: var(--font-retro);
+      font-size: 0.8rem;
+      color: var(--mid);
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 900px) {
+      body { padding-bottom: 48px; }
+      .about { grid-template-columns: 1fr; }
+      .about-img { height: 50vh; }
+      .about-img::after { background: linear-gradient(transparent 60%, var(--brown)); }
+      .about-text { padding: 60px 32px; }
+      .contact-section { grid-template-columns: 1fr; }
+      .contact-left { padding: 60px 32px; }
+      .contact-right { padding: 60px 32px; }
+      .service-item { grid-template-columns: 50px 1fr; gap: 16px; }
+      .s-num { font-size: 2.5rem; }
+      .s-desc { display: none; }
+      .nav { padding: 14px 20px; }
+      .nav-links { display: none; flex-direction: column; position: fixed; inset: 0; background: var(--black); justify-content: center; align-items: center; gap: 36px; z-index: 150; }
+      .nav-links.active { display: flex; }
+      .nav-links a { font-size: 1.4rem; letter-spacing: 4px; }
+      .nav-toggle { display: block; position: relative; z-index: 200; }
+      .g-card { width: 260px; }
+      .g-card.big { width: 360px; }
+      .g-card img { height: 300px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero { padding: 120px 24px 60px; }
+      .hero-title { text-shadow: 2px 2px 0 var(--red), 4px 4px 0 rgba(0,0,0,0.3); }
+      .services { padding: 60px 20px; }
+      .gallery-wrap { padding: 60px 0 60px 20px; }
+      .big-quote { padding: 80px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PHONE -->
+  <div class="phone-strip">
+    <a href="tel:+3547834274">+354 783 4274</a>
+  </div>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="#" class="nav-brand">Flokki1</a>
+    <div class="nav-right">
+      <div class="lang-switcher">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="pl">PL</button>
+        <button class="lang-btn" data-lang="is">IS</button>
+      </div>
+      <button class="nav-toggle" aria-label="Menu">&#9776;</button>
+      <ul class="nav-links">
+        <li><a href="#about" data-i18n="nav_about">About</a></li>
+        <li><a href="#services" data-i18n="nav_services">Services</a></li>
+        <li><a href="#gallery" data-i18n="nav_gallery">Gallery</a></li>
+        <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="hero-chapter" data-i18n="hero_chapter">Chapter I &mdash; Hveragerdi, Iceland</div>
+      <h1 class="hero-title" data-i18n="hero_title">FLOKKI1</h1>
+      <p class="hero-subtitle" data-i18n="hero_sub">Rust. Paint. Steel.</p>
+      <p class="hero-quote" data-i18n="hero_quote">"You see, this profession, it ain't about <em>fixing cars</em>. It's about bringing the <em>dead back to life</em>."</p>
+      <a href="#gallery" class="hero-cta" data-i18n="hero_cta">See the evidence</a>
+    </div>
+  </header>
+
+  <!-- CHAPTER: ABOUT -->
+  <div class="chapter">
+    <div class="chapter-num" data-i18n="ch2">Chapter II</div>
+    <h2 data-i18n="ch2_title">The guys behind the garage</h2>
+  </div>
+
+  <section id="about" class="about">
+    <div class="about-img">
+      <img src="../pics/ebffd798-4d15-4851-8d9c-09e3710c7ee1.jpeg" alt="Jaguar XJ">
+    </div>
+    <div class="about-text">
+      <div class="who" data-i18n="about_who">The crew</div>
+      <h3 data-i18n="about_h3">Two men. <span>Zero compromises.</span></h3>
+      <p data-i18n="about_p1">The founder paints cars like other people breathe — naturally, effortlessly, and better than most. Every car he's ever owned, he painted himself. That's not a hobby. That's a reputation.</p>
+      <p data-i18n="about_p2">His partner welds like a surgeon operates — steady hands, clean lines, no second chances needed. Together they run Flokki1 ehf. out of Hveragerdi with a fully equipped workshop and the skills to back it up.</p>
+    </div>
+  </section>
+
+  <!-- CHAPTER: SERVICES -->
+  <div class="chapter red">
+    <div class="chapter-num" data-i18n="ch3">Chapter III</div>
+    <h2 data-i18n="ch3_title">What's in the briefcase</h2>
+  </div>
+
+  <section id="services" class="services">
+    <div class="service-item">
+      <div class="s-num">01</div>
+      <div class="s-name" data-i18n="s1">Car Painting</div>
+      <div class="s-desc" data-i18n="s1d">Full respray. Primer, base, clear coat. Infrared drying booth. Any colour you want. Showroom finish, every time.</div>
+    </div>
+    <div class="service-item">
+      <div class="s-num">02</div>
+      <div class="s-name" data-i18n="s2">Welding</div>
+      <div class="s-desc" data-i18n="s2d">TIG & MIG/MAG. Chassis, floor pans, exhaust, stainless steel. Joints so clean they belong in a museum.</div>
+    </div>
+    <div class="service-item">
+      <div class="s-num">03</div>
+      <div class="s-name" data-i18n="s3">Bodywork</div>
+      <div class="s-desc" data-i18n="s3d">Rust removal, panel repair, filler, sanding, full body prep. From wreck to ready.</div>
+    </div>
+    <div class="service-item">
+      <div class="s-num">04</div>
+      <div class="s-name" data-i18n="s4">Mechanics</div>
+      <div class="s-desc" data-i18n="s4d">General automotive repair and maintenance. The boring stuff done right.</div>
+    </div>
+    <div class="service-item">
+      <div class="s-num">05</div>
+      <div class="s-name" data-i18n="s5">Fabrication</div>
+      <div class="s-desc" data-i18n="s5d">Custom exhaust systems, intake pipes, one-off metal parts. If it's metal, we make it.</div>
+    </div>
+  </section>
+
+  <!-- BIG QUOTE -->
+  <div class="big-quote">
+    <blockquote data-i18n="bigquote">"The difference between a <span>wreck</span> and a <span>classic</span> is someone who gives a damn."</blockquote>
+    <div class="attribution">— Flokki1 ehf.</div>
+  </div>
+
+  <!-- CHAPTER: GALLERY -->
+  <div class="chapter">
+    <div class="chapter-num" data-i18n="ch4">Chapter IV</div>
+    <h2 data-i18n="ch4_title">The evidence</h2>
+  </div>
+
+  <section id="gallery" class="gallery-wrap">
+    <div class="gallery-scroll">
+      <div class="g-card big">
+        <img src="../pics/ebffd798-4d15-4851-8d9c-09e3710c7ee1.jpeg" alt="Jaguar XJ">
+        <div class="g-label" data-i18n="g1">Jaguar XJ — Full Restoration</div>
+      </div>
+      <div class="g-card">
+        <img src="../pics/cccf6edf-f3bf-4048-8051-476e8cd0d9e9.jpeg" alt="BMW bodywork">
+        <div class="g-label" data-i18n="g2">BMW — Bodywork Start</div>
+      </div>
+      <div class="g-card">
+        <img src="../pics/d110c732-9c81-49ac-87eb-5d600512beba.jpeg" alt="Spray painting">
+        <div class="g-label" data-i18n="g3">Spray Painting in Action</div>
+      </div>
+      <div class="g-card big">
+        <img src="../pics/a9b72ad2-68d6-4319-8c3d-1ffd9dfc629f.jpeg" alt="Before after">
+        <div class="g-label" data-i18n="g4">Before & After</div>
+      </div>
+      <div class="g-card">
+        <img src="../pics/0bb66204-13d7-4cbd-9171-5a0c98b78fdb.jpeg" alt="TIG weld">
+        <div class="g-label" data-i18n="g5">TIG Weld — Stainless Pipe</div>
+      </div>
+      <div class="g-card">
+        <img src="../pics/492cfa80-3126-4fa7-adf6-6c5e8e993268.jpeg" alt="Primed BMW">
+        <div class="g-label" data-i18n="g6">BMW — Primed & Masked</div>
+      </div>
+      <div class="g-card">
+        <img src="../pics/85daec2c-7466-4f70-8696-b1b5c54f1c10.jpeg" alt="Exhaust">
+        <div class="g-label" data-i18n="g7">Custom Exhaust Fabrication</div>
+      </div>
+      <div class="g-card">
+        <img src="../pics/695e6474-6de2-4b9e-b9b8-0b6203b1a803.jpeg" alt="Primer coat">
+        <div class="g-label" data-i18n="g8">BMW — Full Primer Coat</div>
+      </div>
+      <div class="g-card">
+        <img src="../pics/289d5f05-6193-4df9-b912-83c197f476b3.jpeg" alt="Infrared">
+        <div class="g-label" data-i18n="g9">Infrared Paint Drying</div>
+      </div>
+      <div class="g-card">
+        <img src="../pics/c07af24d-0763-4389-8392-fdfb236e4237.jpeg" alt="Weld joint">
+        <div class="g-label" data-i18n="g10">Structural Weld Joint</div>
+      </div>
+      <div class="g-card">
+        <img src="../pics/ac99ed9f-fcce-4dec-9587-740dc8da4532.jpeg" alt="Panel weld">
+        <div class="g-label" data-i18n="g11">Panel Weld Repair</div>
+      </div>
+      <div class="g-card">
+        <img src="../pics/b171ab54-debb-41dc-817b-ac888a05fc23.jpeg" alt="Floor pan">
+        <div class="g-label" data-i18n="g12">Floor Pan Welding</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAPTER: CONTACT -->
+  <div class="chapter red">
+    <div class="chapter-num" data-i18n="ch5">Chapter V</div>
+    <h2 data-i18n="ch5_title">The meeting</h2>
+  </div>
+
+  <section id="contact" class="contact-section">
+    <div class="contact-left">
+      <div class="chapter-num" data-i18n="cl_label">Find us</div>
+      <h2 data-i18n="cl_title">Let's talk business</h2>
+      <div class="c-info">
+        <div class="c-row">
+          <span class="c-label" data-i18n="ci_addr">Address</span>
+          <span class="c-val">Borgarhraun 2, 810 Hveragerdi</span>
+        </div>
+        <div class="c-row">
+          <span class="c-label" data-i18n="ci_phone">Phone</span>
+          <span class="c-val">+354 783 4274</span>
+        </div>
+        <div class="c-row">
+          <span class="c-label">Kennitala</span>
+          <span class="c-val">6503221690</span>
+        </div>
+        <div class="c-row">
+          <span class="c-label" data-i18n="ci_hours">Hours</span>
+          <span class="c-val" data-i18n="ci_hours_v">Mon-Fri, 8:00-17:00</span>
+        </div>
+      </div>
+    </div>
+    <div class="contact-right">
+      <h3 data-i18n="cr_title">Drop us a line</h3>
+      <form class="c-form" id="contactForm">
+        <input type="text" data-i18n-placeholder="f_name" placeholder="Your name" required>
+        <input type="email" data-i18n-placeholder="f_email" placeholder="Your email" required>
+        <input type="text" data-i18n-placeholder="f_car" placeholder="Car make & model">
+        <textarea rows="4" data-i18n-placeholder="f_msg" placeholder="What's the job?" required></textarea>
+        <button type="submit" class="c-submit" data-i18n="f_btn">Send it</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>&copy; 2026 Flokki1 ehf. <span data-i18n="footer">All rights reserved.</span></p>
+  </footer>
+
+  <script>
+    var T = {
+      en: {
+        nav_about:"About", nav_services:"Services", nav_gallery:"Gallery", nav_contact:"Contact",
+        hero_chapter:"Chapter I &mdash; Hveragerdi, Iceland",
+        hero_title:"FLOKKI1",
+        hero_sub:"Rust. Paint. Steel.",
+        hero_quote:"\"You see, this profession, it ain't about <em>fixing cars</em>. It's about bringing the <em>dead back to life</em>.\"",
+        hero_cta:"See the evidence",
+        ch2:"Chapter II", ch2_title:"The guys behind the garage",
+        about_who:"The crew",
+        about_h3:"Two men. <span>Zero compromises.</span>",
+        about_p1:"The founder paints cars like other people breathe — naturally, effortlessly, and better than most. Every car he's ever owned, he painted himself. That's not a hobby. That's a reputation.",
+        about_p2:"His partner welds like a surgeon operates — steady hands, clean lines, no second chances needed. Together they run Flokki1 ehf. out of Hveragerdi with a fully equipped workshop and the skills to back it up.",
+        ch3:"Chapter III", ch3_title:"What's in the briefcase",
+        s1:"Car Painting", s1d:"Full respray. Primer, base, clear coat. Infrared drying booth. Any colour you want. Showroom finish, every time.",
+        s2:"Welding", s2d:"TIG & MIG/MAG. Chassis, floor pans, exhaust, stainless steel. Joints so clean they belong in a museum.",
+        s3:"Bodywork", s3d:"Rust removal, panel repair, filler, sanding, full body prep. From wreck to ready.",
+        s4:"Mechanics", s4d:"General automotive repair and maintenance. The boring stuff done right.",
+        s5:"Fabrication", s5d:"Custom exhaust systems, intake pipes, one-off metal parts. If it's metal, we make it.",
+        bigquote:"\"The difference between a <span>wreck</span> and a <span>classic</span> is someone who gives a damn.\"",
+        ch4:"Chapter IV", ch4_title:"The evidence",
+        g1:"Jaguar XJ — Full Restoration", g2:"BMW — Bodywork Start", g3:"Spray Painting in Action",
+        g4:"Before & After", g5:"TIG Weld — Stainless Pipe", g6:"BMW — Primed & Masked",
+        g7:"Custom Exhaust Fabrication", g8:"BMW — Full Primer Coat", g9:"Infrared Paint Drying",
+        g10:"Structural Weld Joint", g11:"Panel Weld Repair", g12:"Floor Pan Welding",
+        ch5:"Chapter V", ch5_title:"The meeting",
+        cl_label:"Find us", cl_title:"Let's talk business",
+        ci_addr:"Address", ci_phone:"Phone", ci_hours:"Hours", ci_hours_v:"Mon–Fri, 8:00–17:00",
+        cr_title:"Drop us a line",
+        f_name:"Your name", f_email:"Your email", f_car:"Car make & model", f_msg:"What's the job?",
+        f_btn:"Send it", f_alert:"Message sent! We'll be in touch.",
+        footer:"All rights reserved."
+      },
+      pl: {
+        nav_about:"O nas", nav_services:"Uslugi", nav_gallery:"Galeria", nav_contact:"Kontakt",
+        hero_chapter:"Rozdzial I &mdash; Hveragerdi, Islandia",
+        hero_title:"FLOKKI1",
+        hero_sub:"Rdza. Lakier. Stal.",
+        hero_quote:"\"Widzisz, w tym fachu nie chodzi o <em>naprawianie aut</em>. Chodzi o <em>wskrzeszanie umarlych</em>.\"",
+        hero_cta:"Zobacz dowody",
+        ch2:"Rozdzial II", ch2_title:"Ludzie z warsztatu",
+        about_who:"Ekipa",
+        about_h3:"Dwoch ludzi. <span>Zero kompromisow.</span>",
+        about_p1:"Zalozyciel maluje samochody tak, jak inni oddychaja — naturalnie, bez wysilku i lepiej niz wiekszosc. Kazdy samochod, jaki mial, pomalował sam. To nie hobby. To reputacja.",
+        about_p2:"Jego wspolnik spawa jak chirurg operuje — pewna reka, czyste linie, bez potrzeby poprawek. Razem prowadza Flokki1 ehf. w Hveragerdi z w pelni wyposazonym warsztatem i umiejetnosciami na to wszystko.",
+        ch3:"Rozdzial III", ch3_title:"Co jest w walizce",
+        s1:"Lakierowanie", s1d:"Pelne lakierowanie. Podklad, baza, bezbarwny. Kabina z podczerwienia. Dowolny kolor. Efekt salonowy.",
+        s2:"Spawanie", s2d:"TIG i MIG/MAG. Podwozie, podlogi, wydechy, nierdzewna. Spoiny tak czyste, ze nadaja sie do muzeum.",
+        s3:"Karoseria", s3d:"Usuwanie rdzy, naprawa paneli, szpachlowanie, szlifowanie. Od wraku do gotowosci.",
+        s4:"Mechanika", s4d:"Ogolne naprawy i serwis. Nudne rzeczy zrobione dobrze.",
+        s5:"Fabricacja", s5d:"Niestandardowe wydechy, rury dolotowe, czesci na zamowienie. Jesli to metal, robimy to.",
+        bigquote:"\"Roznica miedzy <span>wrakiem</span> a <span>klasykiem</span> to ktos, komu nie jest wszystko jedno.\"",
+        ch4:"Rozdzial IV", ch4_title:"Dowody",
+        g1:"Jaguar XJ — pelna renowacja", g2:"BMW — poczatek prac", g3:"Lakierowanie w akcji",
+        g4:"Przed i po", g5:"Spoina TIG — nierdzewna", g6:"BMW — zagruntowane",
+        g7:"Niestandardowy wydech", g8:"BMW — pelny podklad", g9:"Suszenie na podczerwien",
+        g10:"Spoina konstrukcyjna", g11:"Naprawa panelu", g12:"Spawanie podlogi",
+        ch5:"Rozdzial V", ch5_title:"Spotkanie",
+        cl_label:"Znajdz nas", cl_title:"Porozmawiajmy o interesach",
+        ci_addr:"Adres", ci_phone:"Telefon", ci_hours:"Godziny", ci_hours_v:"Pon.–Pt., 8:00–17:00",
+        cr_title:"Napisz do nas",
+        f_name:"Twoje imie", f_email:"Twoj email", f_car:"Marka i model", f_msg:"Jaka robota?",
+        f_btn:"Wyslij", f_alert:"Wyslane! Odezwiemy sie.",
+        footer:"Wszelkie prawa zastrzezone."
+      },
+      is: {
+        nav_about:"Um okkur", nav_services:"Thjonusta", nav_gallery:"Myndasafn", nav_contact:"Samband",
+        hero_chapter:"Kafli I &mdash; Hveragerdi, Island",
+        hero_title:"FLOKKI1",
+        hero_sub:"Ryb. Malning. Stal.",
+        hero_quote:"\"Thetta starf snyst ekki um ad <em>laga bila</em>. Thad snyst um ad <em>vekja daudha til lifs</em>.\"",
+        hero_cta:"Sjadu sodanirnar",
+        ch2:"Kafli II", ch2_title:"Mennirnar a bak vid bilskurinn",
+        about_who:"Lidid",
+        about_h3:"Tveir menn. <span>Engin makalausi.</span>",
+        about_p1:"Stofnandinn malar bila eins og adrir anda — edhlilegha, audveldlega og betur en flestir. Hann maladi sjalfur hvern bil sem hann hefur att. Thad er ekki aahugamal. Thad er mannord.",
+        about_p2:"Felagi hans sudar eins og skurdlaknir — stadugar hendur, hreinar linur, engin thorf a annarri tilraun. Saman reka their Flokki1 ehf. i Hveragerdi med fullbudid verkstaedi og haefnina til ad bakka thad upp.",
+        ch3:"Kafli III", ch3_title:"Hvad er i toeskunni",
+        s1:"Bilamalning", s1d:"Full udasprautun. Grunnur, grunnlakk, blankt yfirlag. Innraud thurrkun. Hvadhvernadar litur.",
+        s2:"Suduvinna", s2d:"TIG og MIG/MAG. Grind, golf, pustaror, rydrfritt stal. Sudur svo hrein ad thau eiga heima i safni.",
+        s3:"Yfirbordsvidgerd", s3d:"Rydfjarlaeging, plotuvidbod, sparkl, slipun. Fra flaki til tilbuid.",
+        s4:"Velvirki", s4d:"Almennar bilavidgerdir og vidhald. Leidinlegu hlutirnir gerdir rett.",
+        s5:"Malmsmidar", s5d:"Serhannud pustaror, inntaksror, serstok hlutir ur malmi. Ef thad er ur malmi, vid gerum thad.",
+        bigquote:"\"Munurinn a <span>flaki</span> og <span>klassik</span> er einhver sem er ekki alveg sama.\"",
+        ch4:"Kafli IV", ch4_title:"Sodanirnar",
+        g1:"Jaguar XJ — full endurgerd", g2:"BMW — upphaf", g3:"Udasprautun i framkvaemd",
+        g4:"Fyrir og eftir", g5:"TIG — rydrfritt ror", g6:"BMW — grundad",
+        g7:"Serhannatud pustaror", g8:"BMW — fullur grunnur", g9:"Innraud thurrkun",
+        g10:"Burdarsuduvinna", g11:"Plotu vidgerd", g12:"Golf suduvinna",
+        ch5:"Kafli V", ch5_title:"Fundurinn",
+        cl_label:"Finndu okkur", cl_title:"Tokum saman um vidhskipti",
+        ci_addr:"Heimilisfang", ci_phone:"Simi", ci_hours:"Opnunartimi", ci_hours_v:"Man.–Fos., 8:00–17:00",
+        cr_title:"Sendu okkur linu",
+        f_name:"Nafnid thitt", f_email:"Netfangid thitt", f_car:"Tegund og gerd", f_msg:"Hvad tharf ad gera?",
+        f_btn:"Senda", f_alert:"Sent! Vid hofum samband.",
+        footer:"Allur rettur askilinn."
+      }
+    };
+
+    var lang = "en";
+    function setLang(l) {
+      lang = l; document.documentElement.lang = l;
+      document.querySelectorAll("[data-i18n]").forEach(function(e) {
+        var k = e.getAttribute("data-i18n"); if (T[l]&&T[l][k]) e.innerHTML = T[l][k];
+      });
+      document.querySelectorAll("[data-i18n-placeholder]").forEach(function(e) {
+        var k = e.getAttribute("data-i18n-placeholder"); if (T[l]&&T[l][k]) e.placeholder = T[l][k];
+      });
+      document.querySelectorAll(".lang-btn").forEach(function(b) {
+        b.classList.toggle("active", b.getAttribute("data-lang")===l);
+      });
+      localStorage.setItem("f1-lang", l);
+    }
+
+    document.querySelectorAll(".lang-btn").forEach(function(b) {
+      b.addEventListener("click", function() { setLang(this.getAttribute("data-lang")); });
+    });
+
+    document.getElementById("contactForm").addEventListener("submit", function(e) {
+      e.preventDefault(); alert(T[lang].f_alert);
+    });
+
+    document.querySelector(".nav-toggle").addEventListener("click", function() {
+      var links = document.querySelector(".nav-links");
+      links.classList.toggle("active");
+      this.innerHTML = links.classList.contains("active") ? "&#10005;" : "&#9776;";
+    });
+
+    document.querySelectorAll(".nav-links a").forEach(function(a) {
+      a.addEventListener("click", function(e) {
+        e.preventDefault();
+        var t = document.querySelector(this.getAttribute("href"));
+        if (t) t.scrollIntoView({ behavior: "smooth" });
+        document.querySelector(".nav-links").classList.remove("active");
+        document.querySelector(".nav-toggle").innerHTML = "&#9776;";
+      });
+    });
+
+    // Drag scroll gallery
+    var gs = document.querySelector(".gallery-scroll");
+    var isDown=false, startX, scrollL;
+    gs.addEventListener("mousedown", function(e){isDown=true;gs.style.cursor="grabbing";startX=e.pageX-gs.offsetLeft;scrollL=gs.scrollLeft;});
+    gs.addEventListener("mouseleave", function(){isDown=false;gs.style.cursor="grab";});
+    gs.addEventListener("mouseup", function(){isDown=false;gs.style.cursor="grab";});
+    gs.addEventListener("mousemove", function(e){if(!isDown)return;e.preventDefault();gs.scrollLeft=scrollL-(e.pageX-gs.offsetLeft-startX)*1.5;});
+
+    var saved = localStorage.getItem("f1-lang");
+    if (saved && T[saved]) setLang(saved);
+  </script>
+
+</body>
+</html>
