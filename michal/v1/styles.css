@@ -66,22 +66,55 @@ nav {
     gap: 12px;
 }
 
-.lang-switch {
-    font-family: inherit;
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--text-secondary);
-    background: none;
-    cursor: pointer;
-    padding: 4px 10px;
-    border-radius: 6px;
+.lang-toggle {
+    display: flex;
+    align-items: center;
+    background: var(--card-bg);
     border: 1px solid var(--border);
-    transition: all 0.2s ease;
+    border-radius: 999px;
+    padding: 2px;
+    cursor: pointer;
+    position: relative;
+    user-select: none;
 }
 
-.lang-switch:hover {
-    color: var(--text);
-    border-color: var(--text-secondary);
+.lang-option {
+    font-family: inherit;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 999px;
+    color: var(--text-secondary);
+    position: relative;
+    z-index: 1;
+    transition: color 0.2s ease;
+}
+
+.lang-slider {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: calc(50% - 2px);
+    height: calc(100% - 4px);
+    background: var(--accent);
+    border-radius: 999px;
+    transition: transform 0.2s ease;
+}
+
+.lang-toggle .lang-option[data-lang="en"] {
+    color: #fff;
+}
+
+.lang-toggle.pl-active .lang-slider {
+    transform: translateX(100%);
+}
+
+.lang-toggle.pl-active .lang-option[data-lang="en"] {
+    color: var(--text-secondary);
+}
+
+.lang-toggle.pl-active .lang-option[data-lang="pl"] {
+    color: #fff;
 }
 
 .nav-phone {

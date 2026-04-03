@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,7 +29,11 @@
                 StableTech
             </a>
             <div class="nav-right">
-                <button class="lang-switch" id="lang-toggle">EN</button>
+                <div class="lang-toggle" id="lang-toggle">
+                    <span class="lang-option" data-lang="en">EN</span>
+                    <span class="lang-option" data-lang="pl">PL</span>
+                    <span class="lang-slider"></span>
+                </div>
                 <a href="tel:+48505533851" class="nav-phone">+48 505 533 851</a>
             </div>
         </div>
@@ -37,42 +41,42 @@
 
     <header>
         <div class="container">
-            <p class="header-intro" data-pl="Cześć, jestem" data-en="Hi, I'm">Cześć, jestem</p>
+            <p class="header-intro" data-pl="Cześć, jestem" data-en="Hi, I'm">Hi, I'm</p>
             <h1>Michał Skóra</h1>
-            <p class="header-desc" data-pl="Jednoosobowa firma programistyczna. Realizuję małe projekty IT — szybko, sprawnie, bez zbędnej biurokracji." data-en="One-man software company. I build small IT projects — fast, efficiently, no red tape.">Jednoosobowa firma programistyczna. Realizuję małe projekty IT — szybko, sprawnie, bez zbędnej biurokracji.</p>
+            <p class="header-desc" data-pl="Jednoosobowa firma programistyczna. Realizuję małe projekty IT — szybko, sprawnie, bez zbędnej biurokracji." data-en="One-man software company. I build small IT projects — fast, efficiently, no red tape.">One-man software company. I build small IT projects — fast, efficiently, no red tape.</p>
         </div>
     </header>
 
     <main>
         <section class="services">
             <div class="container">
-                <h2 data-pl="Usługi" data-en="Services">Usługi</h2>
+                <h2 data-pl="Usługi" data-en="Services">Services</h2>
                 <div class="services-grid">
                     <a class="service-card service-card-link" href="https://github.com/MichalAnatolSkora/payments-library" target="_blank" rel="noopener">
                         <div class="service-icon">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
                         </div>
-                        <h3 data-pl="Integracje płatności" data-en="Payment integrations">Integracje płatności</h3>
-                        <p data-pl="Podłączenie systemów płatności do Twojej aplikacji lub sklepu." data-en="Connecting payment systems to your app or online store.">Podłączenie systemów płatności do Twojej aplikacji lub sklepu.</p>
+                        <h3 data-pl="Integracje płatności" data-en="Payment integrations">Payment integrations</h3>
+                        <p data-pl="Podłączenie systemów płatności do Twojej aplikacji lub sklepu." data-en="Connecting payment systems to your app or online store.">Connecting payment systems to your app or online store.</p>
                         <span class="tag tag-open-source">Open Source</span>
-                        <span class="tag tag-soon" data-pl="Wkrótce" data-en="Coming soon">Wkrótce</span>
+                        <span class="tag tag-soon" data-pl="Wkrótce" data-en="Coming soon">Coming soon</span>
                     </a>
                     <a class="service-card service-card-link" href="https://github.com/MichalAnatolSkora/yolo-on-rpi5-hailo10h" target="_blank" rel="noopener">
                         <div class="service-icon">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
                         </div>
-                        <h3 data-pl="Smart kamery" data-en="Smart cameras">Smart kamery</h3>
-                        <p data-pl="Inteligentne systemy monitoringu z analizą obrazu." data-en="Intelligent monitoring systems with image analysis.">Inteligentne systemy monitoringu z analizą obrazu.</p>
+                        <h3 data-pl="Smart kamery" data-en="Smart cameras">Smart cameras</h3>
+                        <p data-pl="Inteligentne systemy monitoringu z analizą obrazu." data-en="Intelligent monitoring systems with image analysis.">Intelligent monitoring systems with image analysis.</p>
                         <span class="tag tag-open-source">Open Source</span>
-                        <span class="tag tag-soon" data-pl="Wkrótce" data-en="Coming soon">Wkrótce</span>
+                        <span class="tag tag-soon" data-pl="Wkrótce" data-en="Coming soon">Coming soon</span>
                     </a>
                     <div class="service-card">
                         <div class="service-icon">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
                         </div>
                         <h3>AI Voice Agent</h3>
-                        <p data-pl="Głosowy asystent AI dopasowany do potrzeb Twojego biznesu." data-en="AI-powered voice assistant tailored to your business needs.">Głosowy asystent AI dopasowany do potrzeb Twojego biznesu.</p>
-                        <span class="tag tag-soon" data-pl="Wkrótce" data-en="Coming soon">Wkrótce</span>
+                        <p data-pl="Głosowy asystent AI dopasowany do potrzeb Twojego biznesu." data-en="AI-powered voice assistant tailored to your business needs.">AI-powered voice assistant tailored to your business needs.</p>
+                        <span class="tag tag-soon" data-pl="Wkrótce" data-en="Coming soon">Coming soon</span>
                     </div>
                 </div>
             </div>
@@ -80,31 +84,31 @@
 
         <section class="about">
             <div class="container">
-                <h2 data-pl="O mnie" data-en="About me">O mnie</h2>
+                <h2 data-pl="O mnie" data-en="About me">About me</h2>
                 <div class="about-photo">
                     <img src="photo.jpg" alt="Michał Skóra">
                 </div>
                 <div class="about-content">
                     <div class="about-text">
-                        <p data-pl="Działam jako solo developer pod firmą StableTech. Skupiam się na tym, żeby dostarczyć działające rozwiązanie — bez rozbudowanych procesów, bez zbędnych spotkań." data-en="I work as a solo developer under StableTech. My focus is on delivering working solutions — no lengthy processes, no unnecessary meetings.">Działam jako solo developer pod firmą StableTech. Skupiam się na tym, żeby dostarczyć działające rozwiązanie — bez rozbudowanych procesów, bez zbędnych spotkań.</p>
-                        <p data-pl="Mam doświadczenie w dużych projektach bankowych. Jeśli masz pomysł na projekt IT, porozmawiajmy." data-en="I have experience in large-scale banking projects. If you have an IT project in mind, let's talk.">Mam doświadczenie w dużych projektach bankowych. Jeśli masz pomysł na projekt IT, porozmawiajmy.</p>
+                        <p data-pl="Działam jako solo developer pod firmą StableTech. Skupiam się na tym, żeby dostarczyć działające rozwiązanie — bez rozbudowanych procesów, bez zbędnych spotkań." data-en="I work as a solo developer under StableTech. My focus is on delivering working solutions — no lengthy processes, no unnecessary meetings.">I work as a solo developer under StableTech. My focus is on delivering working solutions — no lengthy processes, no unnecessary meetings.</p>
+                        <p data-pl="Mam doświadczenie w dużych projektach bankowych. Jeśli masz pomysł na projekt IT, porozmawiajmy." data-en="I have experience in large-scale banking projects. If you have an IT project in mind, let's talk.">I have experience in large-scale banking projects. If you have an IT project in mind, let's talk.</p>
                     </div>
                     <div class="traits">
                         <div class="trait">
-                            <span class="trait-label" data-pl="Doświadczenie" data-en="Experience">Doświadczenie</span>
-                            <span class="trait-value"><span id="years-counter"></span> <span data-pl="lat w branży" data-en="years in the industry">lat w branży</span></span>
+                            <span class="trait-label" data-pl="Doświadczenie" data-en="Experience">Experience</span>
+                            <span class="trait-value"><span id="years-counter"></span> <span data-pl="lat w branży" data-en="years in the industry">years in the industry</span></span>
                         </div>
                         <div class="trait">
-                            <span class="trait-label" data-pl="Podejście" data-en="Approach">Podejście</span>
+                            <span class="trait-label" data-pl="Podejście" data-en="Approach">Approach</span>
                             <span class="trait-value">Solo dev, full stack</span>
                         </div>
                         <div class="trait">
-                            <span class="trait-label" data-pl="Tempo" data-en="Pace">Tempo</span>
-                            <span class="trait-value" data-pl="Szybka realizacja" data-en="Fast delivery">Szybka realizacja</span>
+                            <span class="trait-label" data-pl="Tempo" data-en="Pace">Pace</span>
+                            <span class="trait-value" data-pl="Szybka realizacja" data-en="Fast delivery">Fast delivery</span>
                         </div>
                         <div class="trait">
-                            <span class="trait-label" data-pl="Styl pracy" data-en="Work style">Styl pracy</span>
-                            <span class="trait-value" data-pl="Bez korpo, bez biurokracji" data-en="No corporate overhead">Bez korpo, bez biurokracji</span>
+                            <span class="trait-label" data-pl="Styl pracy" data-en="Work style">Work style</span>
+                            <span class="trait-value" data-pl="Bez korpo, bez biurokracji" data-en="No corporate overhead">No corporate overhead</span>
                         </div>
                     </div>
                 </div>
@@ -113,7 +117,7 @@
 
         <section class="tech">
             <div class="container">
-                <h2 data-pl="Technologie" data-en="Tech stack">Technologie</h2>
+                <h2 data-pl="Technologie" data-en="Tech stack">Tech stack</h2>
                 <div class="tech-grid">
                     <span class="tech-tag">C#</span>
                     <span class="tech-tag">Python</span>
@@ -130,13 +134,13 @@
 
         <section class="process">
             <div class="container">
-                <h2 data-pl="Jak wygląda współpraca" data-en="How we work together">Jak wygląda współpraca</h2>
+                <h2 data-pl="Jak wygląda współpraca" data-en="How we work together">How we work together</h2>
                 <div class="timeline">
                     <div class="timeline-step">
                         <div class="timeline-dot">1</div>
                         <div class="timeline-content">
-                            <h3 data-pl="Kontakt" data-en="Contact">Kontakt</h3>
-                            <p data-pl="Opowiedz mi o swoim pomyśle. Zadzwoń lub napisz." data-en="Tell me about your idea. Call or write.">Opowiedz mi o swoim pomyśle. Zadzwoń lub napisz.</p>
+                            <h3 data-pl="Kontakt" data-en="Contact">Contact</h3>
+                            <p data-pl="Opowiedz mi o swoim pomyśle. Zadzwoń lub napisz." data-en="Tell me about your idea. Call or write.">Tell me about your idea. Call or write.</p>
                         </div>
                     </div>
                     <div class="timeline-arrow">
@@ -145,8 +149,8 @@
                     <div class="timeline-step">
                         <div class="timeline-dot">2</div>
                         <div class="timeline-content">
-                            <h3 data-pl="Wycena wstępna" data-en="Initial estimate">Wycena wstępna</h3>
-                            <p data-pl="Szacuję zakres i koszt, żebyś wiedział czego się spodziewać." data-en="I assess scope and cost so you know what to expect.">Szacuję zakres i koszt, żebyś wiedział czego się spodziewać.</p>
+                            <h3 data-pl="Wycena wstępna" data-en="Initial estimate">Initial estimate</h3>
+                            <p data-pl="Szacuję zakres i koszt, żebyś wiedział czego się spodziewać." data-en="I assess scope and cost so you know what to expect.">I assess scope and cost so you know what to expect.</p>
                         </div>
                     </div>
                     <div class="timeline-arrow">
@@ -156,7 +160,7 @@
                         <div class="timeline-dot">3</div>
                         <div class="timeline-content">
                             <h3>Proof of concept</h3>
-                            <p data-pl="Buduję działający prototyp, żebyś zobaczył kierunek." data-en="I build a working prototype so you can see the direction.">Buduję działający prototyp, żebyś zobaczył kierunek.</p>
+                            <p data-pl="Buduję działający prototyp, żebyś zobaczył kierunek." data-en="I build a working prototype so you can see the direction.">I build a working prototype so you can see the direction.</p>
                         </div>
                     </div>
                     <div class="timeline-arrow">
@@ -165,8 +169,8 @@
                     <div class="timeline-step">
                         <div class="timeline-dot">4</div>
                         <div class="timeline-content">
-                            <h3 data-pl="Wycena właściwa" data-en="Final estimate">Wycena właściwa</h3>
-                            <p data-pl="Na bazie prototypu precyzuję koszt i harmonogram." data-en="Based on the prototype, I refine cost and timeline.">Na bazie prototypu precyzuję koszt i harmonogram.</p>
+                            <h3 data-pl="Wycena właściwa" data-en="Final estimate">Final estimate</h3>
+                            <p data-pl="Na bazie prototypu precyzuję koszt i harmonogram." data-en="Based on the prototype, I refine cost and timeline.">Based on the prototype, I refine cost and timeline.</p>
                         </div>
                     </div>
                     <div class="timeline-arrow">
@@ -175,8 +179,8 @@
                     <div class="timeline-step">
                         <div class="timeline-dot">5</div>
                         <div class="timeline-content">
-                            <h3 data-pl="Realizacja" data-en="Development">Realizacja</h3>
-                            <p data-pl="Koduję, testuję, wdrażam. Pokazuję postępy na bieżąco." data-en="I code, test, deploy. You see progress along the way.">Koduję, testuję, wdrażam. Pokazuję postępy na bieżąco.</p>
+                            <h3 data-pl="Realizacja" data-en="Development">Development</h3>
+                            <p data-pl="Koduję, testuję, wdrażam. Pokazuję postępy na bieżąco." data-en="I code, test, deploy. You see progress along the way.">I code, test, deploy. You see progress along the way.</p>
                         </div>
                     </div>
                     <div class="timeline-arrow">
@@ -185,8 +189,8 @@
                     <div class="timeline-step">
                         <div class="timeline-dot">6</div>
                         <div class="timeline-content">
-                            <h3 data-pl="Odbiór iteracyjny" data-en="Iterative delivery">Odbiór iteracyjny</h3>
-                            <p data-pl="Oddaję w częściach, zbieramy feedback, dopieszczamy." data-en="I deliver in parts, we gather feedback, we refine.">Oddaję w częściach, zbieramy feedback, dopieszczamy.</p>
+                            <h3 data-pl="Odbiór iteracyjny" data-en="Iterative delivery">Iterative delivery</h3>
+                            <p data-pl="Oddaję w częściach, zbieramy feedback, dopieszczamy." data-en="I deliver in parts, we gather feedback, we refine.">I deliver in parts, we gather feedback, we refine.</p>
                         </div>
                     </div>
                 </div>
@@ -195,9 +199,9 @@
 
         <section class="contact">
             <div class="container">
-                <h2 data-pl="Kontakt" data-en="Contact">Kontakt</h2>
+                <h2 data-pl="Kontakt" data-en="Contact">Contact</h2>
                 <div class="contact-content">
-                    <p class="contact-lead" data-pl="Masz projekt do zrealizowania?" data-en="Got a project in mind?">Masz projekt do zrealizowania?</p>
+                    <p class="contact-lead" data-pl="Masz projekt do zrealizowania?" data-en="Got a project in mind?">Got a project in mind?</p>
                     <div class="contact-links">
                         <a href="tel:+48505533851" class="contact-link">+48 505 533 851</a>
                         <a href="mailto:michal.anatol.skora@gmail.com" class="contact-link">michal.anatol.skora@gmail.com</a>
@@ -223,21 +227,21 @@
         const years = new Date().getFullYear() - start;
         document.getElementById('years-counter').textContent = years + '+';
 
-        let lang = localStorage.getItem('lang') || 'pl';
+        let lang = localStorage.getItem('lang') || 'en';
         const toggle = document.getElementById('lang-toggle');
 
         function setLang(l) {
             lang = l;
             localStorage.setItem('lang', l);
             document.documentElement.lang = l;
-            toggle.textContent = l === 'pl' ? 'EN' : 'PL';
+            toggle.classList.toggle('pl-active', l === 'pl');
             document.querySelectorAll('[data-pl][data-en]').forEach(el => {
                 el.textContent = el.getAttribute('data-' + l);
             });
         }
 
-        toggle.addEventListener('click', () => setLang(lang === 'pl' ? 'en' : 'pl'));
-        if (lang === 'en') setLang('en');
+        toggle.addEventListener('click', () => setLang(lang === 'en' ? 'pl' : 'en'));
+        setLang(lang);
 
         document.getElementById('logo-link').addEventListener('click', (e) => {
             e.preventDefault();
