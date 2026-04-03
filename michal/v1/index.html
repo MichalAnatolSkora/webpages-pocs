@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StableTech Michał Skóra</title>
+    <meta name="description" content="One-man software company. Small IT projects — fast, efficiently, no red tape.">
+    <meta property="og:title" content="StableTech Michał Skóra">
+    <meta property="og:description" content="One-man software company. Small IT projects — fast, efficiently, no red tape.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="photo.jpg">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 28 28'><rect width='28' height='28' rx='8' fill='%23D97706'/><rect x='3.5' y='21.5' width='6' height='4' rx='.8' fill='%23F5F0E8'/><rect x='11' y='21.5' width='6' height='4' rx='.8' fill='%23F5F0E8'/><rect x='18.5' y='21.5' width='6' height='4' rx='.8' fill='%23F5F0E8'/><rect x='6.25' y='16' width='6' height='4' rx='.8' fill='%23F5F0E8'/><rect x='13.75' y='16' width='6' height='4' rx='.8' fill='%23F5F0E8'/><rect x='3.5' y='10.5' width='6' height='4' rx='.8' fill='%23F5F0E8'/><rect x='11' y='10.5' width='6' height='4' rx='.8' fill='%23F5F0E8'/><rect x='18.5' y='10.5' width='6' height='4' rx='.8' fill='%23F5F0E8' opacity='.35'/><rect x='6.25' y='5' width='6' height='4' rx='.8' fill='%23F5F0E8' opacity='.55'/><rect x='13.75' y='5' width='6' height='4' rx='.8' fill='%23F5F0E8' opacity='.25'/></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -29,11 +35,7 @@
                 StableTech
             </a>
             <div class="nav-right">
-                <div class="lang-toggle" id="lang-toggle">
-                    <span class="lang-option" data-lang="en">EN</span>
-                    <span class="lang-option" data-lang="pl">PL</span>
-                    <span class="lang-slider"></span>
-                </div>
+                <button class="lang-switch" id="lang-toggle">PL</button>
                 <a href="tel:+48505533851" class="nav-phone">+48 505 533 851</a>
             </div>
         </div>
@@ -59,7 +61,6 @@
                         <h3 data-pl="Integracje płatności" data-en="Payment integrations">Payment integrations</h3>
                         <p data-pl="Podłączenie systemów płatności do Twojej aplikacji lub sklepu." data-en="Connecting payment systems to your app or online store.">Connecting payment systems to your app or online store.</p>
                         <span class="tag tag-open-source">Open Source</span>
-                        <span class="tag tag-soon" data-pl="Wkrótce" data-en="Coming soon">Coming soon</span>
                     </a>
                     <a class="service-card service-card-link" href="https://github.com/MichalAnatolSkora/yolo-on-rpi5-hailo10h" target="_blank" rel="noopener">
                         <div class="service-icon">
@@ -68,7 +69,6 @@
                         <h3 data-pl="Smart kamery" data-en="Smart cameras">Smart cameras</h3>
                         <p data-pl="Inteligentne systemy monitoringu z analizą obrazu." data-en="Intelligent monitoring systems with image analysis.">Intelligent monitoring systems with image analysis.</p>
                         <span class="tag tag-open-source">Open Source</span>
-                        <span class="tag tag-soon" data-pl="Wkrótce" data-en="Coming soon">Coming soon</span>
                     </a>
                     <div class="service-card">
                         <div class="service-icon">
@@ -85,31 +85,31 @@
         <section class="about">
             <div class="container">
                 <h2 data-pl="O mnie" data-en="About me">About me</h2>
-                <div class="about-photo">
-                    <img src="photo.jpg" alt="Michał Skóra">
-                </div>
-                <div class="about-content">
+                <div class="about-layout">
+                    <div class="about-photo">
+                        <img src="photo.jpg" alt="Michał Skóra">
+                    </div>
                     <div class="about-text">
                         <p data-pl="Działam jako solo developer pod firmą StableTech. Skupiam się na tym, żeby dostarczyć działające rozwiązanie — bez rozbudowanych procesów, bez zbędnych spotkań." data-en="I work as a solo developer under StableTech. My focus is on delivering working solutions — no lengthy processes, no unnecessary meetings.">I work as a solo developer under StableTech. My focus is on delivering working solutions — no lengthy processes, no unnecessary meetings.</p>
                         <p data-pl="Mam doświadczenie w dużych projektach bankowych. Jeśli masz pomysł na projekt IT, porozmawiajmy." data-en="I have experience in large-scale banking projects. If you have an IT project in mind, let's talk.">I have experience in large-scale banking projects. If you have an IT project in mind, let's talk.</p>
                     </div>
-                    <div class="traits">
-                        <div class="trait">
-                            <span class="trait-label" data-pl="Doświadczenie" data-en="Experience">Experience</span>
-                            <span class="trait-value"><span id="years-counter"></span> <span data-pl="lat w branży" data-en="years in the industry">years in the industry</span></span>
-                        </div>
-                        <div class="trait">
-                            <span class="trait-label" data-pl="Podejście" data-en="Approach">Approach</span>
-                            <span class="trait-value">Solo dev, full stack</span>
-                        </div>
-                        <div class="trait">
-                            <span class="trait-label" data-pl="Tempo" data-en="Pace">Pace</span>
-                            <span class="trait-value" data-pl="Szybka realizacja" data-en="Fast delivery">Fast delivery</span>
-                        </div>
-                        <div class="trait">
-                            <span class="trait-label" data-pl="Styl pracy" data-en="Work style">Work style</span>
-                            <span class="trait-value" data-pl="Bez korpo, bez biurokracji" data-en="No corporate overhead">No corporate overhead</span>
-                        </div>
+                </div>
+                <div class="traits">
+                    <div class="trait">
+                        <span class="trait-label" data-pl="Doświadczenie" data-en="Experience">Experience</span>
+                        <span class="trait-value"><span id="years-counter"></span> <span data-pl="lat w branży" data-en="years in the industry">years in the industry</span></span>
+                    </div>
+                    <div class="trait">
+                        <span class="trait-label" data-pl="Podejście" data-en="Approach">Approach</span>
+                        <span class="trait-value">Solo dev, full stack</span>
+                    </div>
+                    <div class="trait">
+                        <span class="trait-label" data-pl="Tempo" data-en="Pace">Pace</span>
+                        <span class="trait-value" data-pl="Szybka realizacja" data-en="Fast delivery">Fast delivery</span>
+                    </div>
+                    <div class="trait">
+                        <span class="trait-label" data-pl="Styl pracy" data-en="Work style">Work style</span>
+                        <span class="trait-value" data-pl="Bez korpo, bez biurokracji" data-en="No corporate overhead">No corporate overhead</span>
                     </div>
                 </div>
             </div>
@@ -135,69 +135,32 @@
         <section class="process">
             <div class="container">
                 <h2 data-pl="Jak wygląda współpraca" data-en="How we work together">How we work together</h2>
-                <div class="timeline">
-                    <div class="timeline-step">
-                        <div class="timeline-dot">1</div>
-                        <div class="timeline-content">
-                            <h3 data-pl="Kontakt" data-en="Contact">Contact</h3>
-                            <p data-pl="Opowiedz mi o swoim pomyśle. Zadzwoń lub napisz." data-en="Tell me about your idea. Call or write.">Tell me about your idea. Call or write.</p>
+                <div class="gantt">
+                    <div class="gantt-row" style="--start:0; --span:30">
+                        <div class="gantt-bar">
+                            <span class="gantt-label" data-pl="Kontakt i wycena" data-en="Contact & estimate">Contact & estimate</span>
                         </div>
                     </div>
-                    <div class="timeline-arrow">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 4L10 16M10 16L5 11M10 16L15 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </div>
-                    <div class="timeline-step">
-                        <div class="timeline-dot">2</div>
-                        <div class="timeline-content">
-                            <h3 data-pl="Wycena wstępna" data-en="Initial estimate">Initial estimate</h3>
-                            <p data-pl="Szacuję zakres i koszt, żebyś wiedział czego się spodziewać." data-en="I assess scope and cost so you know what to expect.">I assess scope and cost so you know what to expect.</p>
+                    <div class="gantt-row" style="--start:15; --span:35">
+                        <div class="gantt-bar">
+                            <span class="gantt-label">Proof of concept</span>
                         </div>
                     </div>
-                    <div class="timeline-arrow">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 4L10 16M10 16L5 11M10 16L15 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </div>
-                    <div class="timeline-step">
-                        <div class="timeline-dot">3</div>
-                        <div class="timeline-content">
-                            <h3>Proof of concept</h3>
-                            <p data-pl="Buduję działający prototyp, żebyś zobaczył kierunek." data-en="I build a working prototype so you can see the direction.">I build a working prototype so you can see the direction.</p>
+                    <div class="gantt-row" style="--start:30; --span:45">
+                        <div class="gantt-bar">
+                            <span class="gantt-label" data-pl="Realizacja" data-en="Development">Development</span>
                         </div>
                     </div>
-                    <div class="timeline-arrow">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 4L10 16M10 16L5 11M10 16L15 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </div>
-                    <div class="timeline-step">
-                        <div class="timeline-dot">4</div>
-                        <div class="timeline-content">
-                            <h3 data-pl="Wycena właściwa" data-en="Final estimate">Final estimate</h3>
-                            <p data-pl="Na bazie prototypu precyzuję koszt i harmonogram." data-en="Based on the prototype, I refine cost and timeline.">Based on the prototype, I refine cost and timeline.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-arrow">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 4L10 16M10 16L5 11M10 16L15 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </div>
-                    <div class="timeline-step">
-                        <div class="timeline-dot">5</div>
-                        <div class="timeline-content">
-                            <h3 data-pl="Realizacja" data-en="Development">Development</h3>
-                            <p data-pl="Koduję, testuję, wdrażam. Pokazuję postępy na bieżąco." data-en="I code, test, deploy. You see progress along the way.">I code, test, deploy. You see progress along the way.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-arrow">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 4L10 16M10 16L5 11M10 16L15 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </div>
-                    <div class="timeline-step">
-                        <div class="timeline-dot">6</div>
-                        <div class="timeline-content">
-                            <h3 data-pl="Odbiór iteracyjny" data-en="Iterative delivery">Iterative delivery</h3>
-                            <p data-pl="Oddaję w częściach, zbieramy feedback, dopieszczamy." data-en="I deliver in parts, we gather feedback, we refine.">I deliver in parts, we gather feedback, we refine.</p>
+                    <div class="gantt-row" style="--start:50; --span:50">
+                        <div class="gantt-bar">
+                            <span class="gantt-label" data-pl="Odbiór iteracyjny" data-en="Iterative delivery">Iterative delivery</span>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="contact">
+        <section class="contact" id="contact">
             <div class="container">
                 <h2 data-pl="Kontakt" data-en="Contact">Contact</h2>
                 <div class="contact-content">
@@ -234,7 +197,7 @@
             lang = l;
             localStorage.setItem('lang', l);
             document.documentElement.lang = l;
-            toggle.classList.toggle('pl-active', l === 'pl');
+            toggle.textContent = l === 'en' ? 'PL' : 'EN';
             document.querySelectorAll('[data-pl][data-en]').forEach(el => {
                 el.textContent = el.getAttribute('data-' + l);
             });
