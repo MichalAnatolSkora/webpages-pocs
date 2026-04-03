@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flokki1 ehf. — Car Painting, Welding & Mechanics | Hveragerdi</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600;700&display=swap');
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --black: #0a0a0a;
+      --dark: #111;
+      --grey: #1a1a1a;
+      --mid: #888;
+      --light: #ccc;
+      --white: #f5f5f0;
+      --accent: #ff4d00;
+      --accent2: #ff6a2a;
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--black);
+      color: var(--light);
+      line-height: 1.6;
+      overflow-x: hidden;
+      padding-bottom: 48px;
+    }
+
+    img { display: block; max-width: 100%; height: auto; }
+    a { color: inherit; text-decoration: none; }
+
+    /* === NAV === */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      mix-blend-mode: difference;
+    }
+
+    /* === PHONE BAR === */
+    .phone-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 200;
+      background: var(--accent);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 12px 20px;
+      gap: 10px;
+    }
+
+    .phone-bar a {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      letter-spacing: 3px;
+      color: var(--black);
+      font-weight: 700;
+    }
+
+    .phone-bar .phone-icon {
+      width: 20px;
+      height: 20px;
+      display: inline-block;
+    }
+
+    .nav-brand {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      color: var(--white);
+      letter-spacing: 2px;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .lang-switcher {
+      display: flex;
+      gap: 2px;
+    }
+
+    .lang-btn {
+      background: none;
+      border: 1px solid rgba(255,255,255,0.3);
+      color: var(--white);
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 5px 10px;
+      cursor: pointer;
+      letter-spacing: 1px;
+      transition: all 0.2s;
+    }
+
+    .lang-btn:first-child { border-radius: 4px 0 0 4px; }
+    .lang-btn:last-child { border-radius: 0 4px 4px 0; }
+
+    .lang-btn.active {
+      background: var(--white);
+      color: var(--black);
+      border-color: var(--white);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--white);
+      font-weight: 600;
+    }
+
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--white);
+      font-size: 1.8rem;
+      cursor: pointer;
+    }
+
+    /* === HERO === */
+    .hero {
+      height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+    }
+
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 60px;
+      padding-bottom: 80px;
+      background: var(--black);
+    }
+
+    .hero-tag {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      color: var(--accent);
+      margin-bottom: 24px;
+      font-weight: 700;
+    }
+
+    .hero-tag span { display: inline-block; }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(4rem, 8vw, 7rem);
+      line-height: 0.9;
+      color: var(--white);
+      margin-bottom: 32px;
+    }
+
+    .hero-title em {
+      font-style: normal;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-desc {
+      max-width: 400px;
+      color: var(--mid);
+      font-size: 0.95rem;
+      margin-bottom: 40px;
+      font-weight: 300;
+    }
+
+    .hero-desc span { display: none; }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-weight: 700;
+      color: var(--white);
+      transition: color 0.3s;
+    }
+
+    .hero-cta:hover { color: var(--accent); }
+
+    .hero-cta .arrow {
+      width: 48px;
+      height: 1px;
+      background: var(--accent);
+      position: relative;
+      transition: width 0.3s;
+    }
+
+    .hero-cta:hover .arrow { width: 64px; }
+
+    .hero-cta .arrow::after {
+      content: '';
+      position: absolute;
+      right: 0; top: -3px;
+      border: solid var(--accent);
+      border-width: 0 1px 1px 0;
+      padding: 3px;
+      transform: rotate(-45deg);
+    }
+
+    .hero-right {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-right img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-right::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 40%;
+      background: linear-gradient(transparent, rgba(10,10,10,0.4));
+    }
+
+    /* === MARQUEE === */
+    .marquee-wrap {
+      background: var(--accent);
+      overflow: hidden;
+      padding: 14px 0;
+    }
+
+    .marquee {
+      display: flex;
+      animation: marquee 20s linear infinite;
+      white-space: nowrap;
+    }
+
+    .marquee span {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      letter-spacing: 4px;
+      color: var(--black);
+      padding: 0 40px;
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* === SPLIT SECTION === */
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 80vh;
+    }
+
+    .split-img {
+      overflow: hidden;
+    }
+
+    .split-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 6s ease;
+    }
+
+    .split-img:hover img {
+      transform: scale(1.05);
+    }
+
+    .split-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 80px 60px;
+      background: var(--dark);
+    }
+
+    .split-text .label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      color: var(--accent);
+      margin-bottom: 24px;
+      font-weight: 700;
+    }
+
+    .split-text h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 4vw, 4rem);
+      color: var(--white);
+      line-height: 0.95;
+      margin-bottom: 24px;
+    }
+
+    .split-text p {
+      color: var(--mid);
+      font-size: 0.95rem;
+      max-width: 460px;
+      margin-bottom: 16px;
+      font-weight: 300;
+    }
+
+    .split.reverse { direction: rtl; }
+    .split.reverse > * { direction: ltr; }
+
+    /* === SERVICES STRIP === */
+    .services-strip {
+      padding: 120px 40px;
+      background: var(--black);
+    }
+
+    .services-strip .label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      color: var(--accent);
+      margin-bottom: 16px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .services-strip h2 {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 5vw, 5rem);
+      text-align: center;
+      color: var(--white);
+      line-height: 0.95;
+      margin-bottom: 80px;
+    }
+
+    .service-rows {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .service-row {
+      display: grid;
+      grid-template-columns: 200px 1fr auto;
+      gap: 40px;
+      align-items: center;
+      padding: 32px 0;
+      border-top: 1px solid #222;
+      transition: background 0.3s;
+    }
+
+    .service-row:last-child { border-bottom: 1px solid #222; }
+
+    .service-row:hover {
+      background: rgba(255, 77, 0, 0.03);
+    }
+
+    .service-num {
+      font-family: var(--font-display);
+      font-size: 4rem;
+      color: #1a1a1a;
+      line-height: 1;
+      transition: color 0.3s;
+    }
+
+    .service-row:hover .service-num { color: var(--accent); }
+
+    .service-name {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      color: var(--white);
+      letter-spacing: 2px;
+    }
+
+    .service-detail {
+      color: var(--mid);
+      font-size: 0.85rem;
+      max-width: 300px;
+      text-align: right;
+      font-weight: 300;
+    }
+
+    /* === GALLERY HORIZONTAL === */
+    .gallery-section {
+      padding: 120px 0 120px 40px;
+      background: var(--dark);
+    }
+
+    .gallery-section .label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      color: var(--accent);
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+
+    .gallery-section h2 {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 5vw, 5rem);
+      color: var(--white);
+      line-height: 0.95;
+      margin-bottom: 60px;
+    }
+
+    .gallery-scroll {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding-bottom: 20px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      cursor: grab;
+    }
+
+    .gallery-scroll::-webkit-scrollbar { height: 4px; }
+    .gallery-scroll::-webkit-scrollbar-track { background: #1a1a1a; }
+    .gallery-scroll::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+    .gallery-card {
+      flex: 0 0 auto;
+      width: 340px;
+      scroll-snap-align: start;
+      position: relative;
+      overflow: hidden;
+      border-radius: 4px;
+    }
+
+    .gallery-card.wide { width: 500px; }
+
+    .gallery-card img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+
+    .gallery-card:hover img {
+      transform: scale(1.06);
+    }
+
+    .gallery-card .caption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 40px 20px 16px;
+      background: linear-gradient(transparent, rgba(0,0,0,0.85));
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--white);
+      letter-spacing: 1px;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all 0.3s;
+    }
+
+    .gallery-card:hover .caption {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* === CONTACT === */
+    .contact {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 70vh;
+    }
+
+    .contact-left {
+      background: var(--accent);
+      padding: 80px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .contact-left h2 {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 5vw, 5rem);
+      color: var(--black);
+      line-height: 0.95;
+      margin-bottom: 32px;
+    }
+
+    .contact-info-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .contact-info-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .contact-info-item .ci-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-weight: 700;
+      color: rgba(0,0,0,0.5);
+      margin-bottom: 4px;
+    }
+
+    .contact-info-item .ci-value {
+      font-size: 1rem;
+      color: var(--black);
+      font-weight: 600;
+    }
+
+    .contact-right {
+      background: var(--dark);
+      padding: 80px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .contact-right .label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      color: var(--accent);
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+
+    .contact-right h3 {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      color: var(--white);
+      margin-bottom: 32px;
+      letter-spacing: 1px;
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      padding: 14px 0;
+      background: none;
+      border: none;
+      border-bottom: 1px solid #333;
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      transition: border-color 0.3s;
+      outline: none;
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border-color: var(--accent);
+    }
+
+    .contact-form textarea { resize: none; }
+
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder { color: #555; }
+
+    .submit-btn {
+      align-self: flex-start;
+      margin-top: 12px;
+      padding: 14px 40px;
+      background: var(--accent);
+      color: var(--black);
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      letter-spacing: 3px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .submit-btn:hover { background: var(--accent2); }
+
+    /* === FOOTER === */
+    .footer {
+      padding: 40px;
+      text-align: center;
+      color: #333;
+      font-size: 0.8rem;
+      background: var(--black);
+      border-top: 1px solid #1a1a1a;
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; height: auto; }
+      .hero-left { padding: 120px 32px 60px; min-height: 60vh; }
+      .hero-right { height: 50vh; }
+      .split { grid-template-columns: 1fr; }
+      .split.reverse { direction: ltr; }
+      .split-img { height: 50vh; }
+      .split-text { padding: 60px 32px; }
+      .contact { grid-template-columns: 1fr; }
+      .contact-left { padding: 60px 32px; }
+      .contact-right { padding: 60px 32px; }
+      .service-row { grid-template-columns: 60px 1fr; gap: 20px; }
+      .service-num { font-size: 2.5rem; }
+      .service-detail { display: none; }
+      .nav-links { display: none; flex-direction: column; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10,10,10,0.97); justify-content: center; align-items: center; gap: 32px; }
+      .nav-links.active { display: flex; }
+      .nav-links a { font-size: 1.2rem; }
+      .nav-toggle { display: block; }
+      .gallery-card { width: 280px; }
+      .gallery-card.wide { width: 380px; }
+      .gallery-card img { height: 300px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title { font-size: 3.2rem; }
+      .nav { padding: 16px 20px; }
+      .services-strip { padding: 80px 20px; }
+      .gallery-section { padding: 80px 0 80px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PHONE BAR -->
+  <div class="phone-bar">
+    <svg class="phone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+    <a href="tel:+3547834274">+354 783 4274</a>
+  </div>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="#" class="nav-brand">FLOKKI1</a>
+    <div class="nav-right">
+      <div class="lang-switcher">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="pl">PL</button>
+        <button class="lang-btn" data-lang="is">IS</button>
+      </div>
+      <button class="nav-toggle" aria-label="Menu">&#9776;</button>
+      <ul class="nav-links">
+        <li><a href="#about" data-i18n="nav_about">About</a></li>
+        <li><a href="#services" data-i18n="nav_services">Services</a></li>
+        <li><a href="#gallery" data-i18n="nav_gallery">Gallery</a></li>
+        <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-left">
+      <div class="hero-tag" data-i18n="hero_tag">Hveragerdi, Iceland</div>
+      <h1 class="hero-title" data-i18n="hero_title">RUST TO<em>GLORY</em></h1>
+      <p class="hero-desc" data-i18n="hero_desc">Professional car painting, expert welding, and full mechanical service. A fully equipped two-man workshop ready for any job.</p>
+      <a href="#gallery" class="hero-cta">
+        <span data-i18n="hero_cta">See our work</span>
+        <span class="arrow"></span>
+      </a>
+    </div>
+    <div class="hero-right">
+      <img src="../pics/ebffd798-4d15-4851-8d9c-09e3710c7ee1.jpeg" alt="Jaguar XJ restoration">
+    </div>
+  </header>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="marquee">
+      <span data-i18n="m1">CAR PAINTING</span>
+      <span>&bull;</span>
+      <span data-i18n="m2">WELDING</span>
+      <span>&bull;</span>
+      <span data-i18n="m3">BODYWORK</span>
+      <span>&bull;</span>
+      <span data-i18n="m4">MECHANICS</span>
+      <span>&bull;</span>
+      <span data-i18n="m5">RESTORATION</span>
+      <span>&bull;</span>
+      <span data-i18n="m1">CAR PAINTING</span>
+      <span>&bull;</span>
+      <span data-i18n="m2">WELDING</span>
+      <span>&bull;</span>
+      <span data-i18n="m3">BODYWORK</span>
+      <span>&bull;</span>
+      <span data-i18n="m4">MECHANICS</span>
+      <span>&bull;</span>
+      <span data-i18n="m5">RESTORATION</span>
+      <span>&bull;</span>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about" class="split">
+    <div class="split-img">
+      <img src="../pics/695e6474-6de2-4b9e-b9b8-0b6203b1a803.jpeg" alt="BMW full primer coat">
+    </div>
+    <div class="split-text">
+      <div class="label" data-i18n="about_label">Who we are</div>
+      <h2 data-i18n="about_title">TWO MEN.<br>ONE MISSION.</h2>
+      <p data-i18n="about_p1">Flokki1 ehf. is a specialist workshop based in Hveragerdi, Iceland. The founder is known locally for painting all of his own cars to a professional standard and has years of hands-on experience in car mechanics.</p>
+      <p data-i18n="about_p2">His partner is an exceptionally skilled welder whose precision speaks for itself. Together — with the right skills, top equipment, and a shared passion — we take on everything from full resprays to structural welding and mechanical repairs.</p>
+    </div>
+  </section>
+
+  <!-- PAINTING SPLIT -->
+  <section class="split reverse">
+    <div class="split-text">
+      <div class="label" data-i18n="paint_label">Signature service</div>
+      <h2 data-i18n="paint_title">PAINT THAT<br>SPEAKS.</h2>
+      <p data-i18n="paint_desc">Every car we paint gets the same treatment — meticulous prep, proper masking, and a dedicated booth with infrared drying. Primer, base coat, clear coat. Any colour. Showroom finish.</p>
+    </div>
+    <div class="split-img">
+      <img src="../pics/492cfa80-3126-4fa7-adf6-6c5e8e993268.jpeg" alt="BMW primed and masked">
+    </div>
+  </section>
+
+  <!-- WELDING SPLIT -->
+  <section class="split">
+    <div class="split-img">
+      <img src="../pics/0bb66204-13d7-4cbd-9171-5a0c98b78fdb.jpeg" alt="TIG weld stainless steel">
+    </div>
+    <div class="split-text">
+      <div class="label" data-i18n="weld_label">Precision craft</div>
+      <h2 data-i18n="weld_title">WELDS THAT<br>HOLD.</h2>
+      <p data-i18n="weld_desc">TIG and MIG/MAG — chassis repair, floor pans, custom exhaust fabrication, stainless steel work. Our welder's hands don't shake. Clean, strong joints every single time.</p>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" class="services-strip">
+    <div class="label" data-i18n="services_label">What we offer</div>
+    <h2 data-i18n="services_title">SERVICES</h2>
+    <div class="service-rows">
+      <div class="service-row">
+        <div class="service-num">01</div>
+        <div class="service-name" data-i18n="s1_name">CAR PAINTING</div>
+        <div class="service-detail" data-i18n="s1_detail">Full respray, primer, base coat, clear coat. Infrared drying. Any colour.</div>
+      </div>
+      <div class="service-row">
+        <div class="service-num">02</div>
+        <div class="service-name" data-i18n="s2_name">WELDING</div>
+        <div class="service-detail" data-i18n="s2_detail">TIG & MIG/MAG. Chassis, floor pans, exhaust, stainless steel.</div>
+      </div>
+      <div class="service-row">
+        <div class="service-num">03</div>
+        <div class="service-name" data-i18n="s3_name">BODYWORK</div>
+        <div class="service-detail" data-i18n="s3_detail">Rust removal, panel repair, filler, sanding, full body prep.</div>
+      </div>
+      <div class="service-row">
+        <div class="service-num">04</div>
+        <div class="service-name" data-i18n="s4_name">MECHANICS</div>
+        <div class="service-detail" data-i18n="s4_detail">General automotive repair and maintenance.</div>
+      </div>
+      <div class="service-row">
+        <div class="service-num">05</div>
+        <div class="service-name" data-i18n="s5_name">FABRICATION</div>
+        <div class="service-detail" data-i18n="s5_detail">Custom exhaust systems, intake pipes, one-off metal parts.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery" class="gallery-section">
+    <div class="label" data-i18n="gallery_label">From the workshop</div>
+    <h2 data-i18n="gallery_title">OUR WORK</h2>
+    <div class="gallery-scroll">
+      <div class="gallery-card wide">
+        <img src="../pics/ebffd798-4d15-4851-8d9c-09e3710c7ee1.jpeg" alt="Jaguar XJ">
+        <div class="caption" data-i18n="g_jaguar">Jaguar XJ — Full Restoration</div>
+      </div>
+      <div class="gallery-card">
+        <img src="../pics/cccf6edf-f3bf-4048-8051-476e8cd0d9e9.jpeg" alt="BMW bodywork">
+        <div class="caption" data-i18n="g_bmw1">BMW — Bodywork Start</div>
+      </div>
+      <div class="gallery-card">
+        <img src="../pics/d110c732-9c81-49ac-87eb-5d600512beba.jpeg" alt="Spray painting">
+        <div class="caption" data-i18n="g_spray">Spray Painting in Action</div>
+      </div>
+      <div class="gallery-card wide">
+        <img src="../pics/a9b72ad2-68d6-4319-8c3d-1ffd9dfc629f.jpeg" alt="Before and after">
+        <div class="caption" data-i18n="g_before">Before & After</div>
+      </div>
+      <div class="gallery-card">
+        <img src="../pics/289d5f05-6193-4df9-b912-83c197f476b3.jpeg" alt="Infrared drying">
+        <div class="caption" data-i18n="g_infrared">Infrared Paint Drying</div>
+      </div>
+      <div class="gallery-card">
+        <img src="../pics/0bb66204-13d7-4cbd-9171-5a0c98b78fdb.jpeg" alt="TIG weld">
+        <div class="caption" data-i18n="g_tig">TIG Weld — Stainless Pipe</div>
+      </div>
+      <div class="gallery-card">
+        <img src="../pics/85daec2c-7466-4f70-8696-b1b5c54f1c10.jpeg" alt="Custom exhaust">
+        <div class="caption" data-i18n="g_exhaust">Custom Exhaust Fabrication</div>
+      </div>
+      <div class="gallery-card">
+        <img src="../pics/695e6474-6de2-4b9e-b9b8-0b6203b1a803.jpeg" alt="Full primer">
+        <div class="caption" data-i18n="g_primer">BMW — Full Primer Coat</div>
+      </div>
+      <div class="gallery-card">
+        <img src="../pics/c07af24d-0763-4389-8392-fdfb236e4237.jpeg" alt="Structural weld">
+        <div class="caption" data-i18n="g_struct">Structural Weld Joint</div>
+      </div>
+      <div class="gallery-card">
+        <img src="../pics/ac99ed9f-fcce-4dec-9587-740dc8da4532.jpeg" alt="Panel weld">
+        <div class="caption" data-i18n="g_panel">Panel Weld Repair</div>
+      </div>
+      <div class="gallery-card">
+        <img src="../pics/b171ab54-debb-41dc-817b-ac888a05fc23.jpeg" alt="Floor pan">
+        <div class="caption" data-i18n="g_floor">Floor Pan Welding</div>
+      </div>
+      <div class="gallery-card">
+        <img src="../pics/492cfa80-3126-4fa7-adf6-6c5e8e993268.jpeg" alt="Primed BMW">
+        <div class="caption" data-i18n="g_masked">BMW — Primed & Masked</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact">
+    <div class="contact-left">
+      <h2 data-i18n="contact_title">LET'S<br>TALK.</h2>
+      <div class="contact-info-list">
+        <div class="contact-info-item">
+          <span class="ci-label" data-i18n="ci_address">Address</span>
+          <span class="ci-value">Borgarhraun 2, 810 Hveragerdi</span>
+        </div>
+        <div class="contact-info-item">
+          <span class="ci-label" data-i18n="ci_phone">Phone</span>
+          <span class="ci-value">+354 783 4274</span>
+        </div>
+        <div class="contact-info-item">
+          <span class="ci-label">Kennitala</span>
+          <span class="ci-value">6503221690</span>
+        </div>
+        <div class="contact-info-item">
+          <span class="ci-label" data-i18n="ci_hours">Hours</span>
+          <span class="ci-value" data-i18n="ci_hours_val">Mon–Fri, 8:00–17:00</span>
+        </div>
+      </div>
+    </div>
+    <div class="contact-right">
+      <div class="label" data-i18n="form_label">Send a message</div>
+      <h3 data-i18n="form_title">TELL US ABOUT YOUR PROJECT</h3>
+      <form class="contact-form" id="contactForm">
+        <input type="text" data-i18n-placeholder="f_name" placeholder="Your Name" required>
+        <input type="email" data-i18n-placeholder="f_email" placeholder="Your Email" required>
+        <input type="text" data-i18n-placeholder="f_car" placeholder="Car Make & Model">
+        <textarea rows="4" data-i18n-placeholder="f_msg" placeholder="What do you need?" required></textarea>
+        <button type="submit" class="submit-btn" data-i18n="f_submit">SEND</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>&copy; 2026 Flokki1 ehf. <span data-i18n="footer">All rights reserved.</span></p>
+  </footer>
+
+  <script>
+    var T = {
+      en: {
+        nav_about:"About", nav_services:"Services", nav_gallery:"Gallery", nav_contact:"Contact",
+        hero_tag:"Hveragerdi, Iceland",
+        hero_title:"RUST TO<em>GLORY</em>",
+        hero_desc:"Professional car painting, expert welding, and full mechanical service. A fully equipped two-man workshop ready for any job.",
+        hero_cta:"See our work",
+        m1:"CAR PAINTING", m2:"WELDING", m3:"BODYWORK", m4:"MECHANICS", m5:"RESTORATION",
+        about_label:"Who we are",
+        about_title:"TWO MEN.<br>ONE MISSION.",
+        about_p1:"Flokki1 ehf. is a specialist workshop based in Hveragerdi, Iceland. The founder is known locally for painting all of his own cars to a professional standard and has years of hands-on experience in car mechanics.",
+        about_p2:"His partner is an exceptionally skilled welder whose precision speaks for itself. Together — with the right skills, top equipment, and a shared passion — we take on everything from full resprays to structural welding and mechanical repairs.",
+        paint_label:"Signature service", paint_title:"PAINT THAT<br>SPEAKS.",
+        paint_desc:"Every car we paint gets the same treatment — meticulous prep, proper masking, and a dedicated booth with infrared drying. Primer, base coat, clear coat. Any colour. Showroom finish.",
+        weld_label:"Precision craft", weld_title:"WELDS THAT<br>HOLD.",
+        weld_desc:"TIG and MIG/MAG — chassis repair, floor pans, custom exhaust fabrication, stainless steel work. Our welder's hands don't shake. Clean, strong joints every single time.",
+        services_label:"What we offer", services_title:"SERVICES",
+        s1_name:"CAR PAINTING", s1_detail:"Full respray, primer, base coat, clear coat. Infrared drying. Any colour.",
+        s2_name:"WELDING", s2_detail:"TIG & MIG/MAG. Chassis, floor pans, exhaust, stainless steel.",
+        s3_name:"BODYWORK", s3_detail:"Rust removal, panel repair, filler, sanding, full body prep.",
+        s4_name:"MECHANICS", s4_detail:"General automotive repair and maintenance.",
+        s5_name:"FABRICATION", s5_detail:"Custom exhaust systems, intake pipes, one-off metal parts.",
+        gallery_label:"From the workshop", gallery_title:"OUR WORK",
+        g_jaguar:"Jaguar XJ — Full Restoration", g_bmw1:"BMW — Bodywork Start",
+        g_spray:"Spray Painting in Action", g_before:"Before & After",
+        g_infrared:"Infrared Paint Drying", g_tig:"TIG Weld — Stainless Pipe",
+        g_exhaust:"Custom Exhaust Fabrication", g_primer:"BMW — Full Primer Coat",
+        g_struct:"Structural Weld Joint", g_panel:"Panel Weld Repair",
+        g_floor:"Floor Pan Welding", g_masked:"BMW — Primed & Masked",
+        contact_title:"LET'S<br>TALK.",
+        ci_address:"Address", ci_phone:"Phone", ci_hours:"Hours", ci_hours_val:"Mon–Fri, 8:00–17:00",
+        form_label:"Send a message", form_title:"TELL US ABOUT YOUR PROJECT",
+        f_name:"Your Name", f_email:"Your Email", f_car:"Car Make & Model", f_msg:"What do you need?",
+        f_submit:"SEND", f_alert:"Message sent! We will get back to you soon.",
+        footer:"All rights reserved."
+      },
+      pl: {
+        nav_about:"O nas", nav_services:"Uslugi", nav_gallery:"Galeria", nav_contact:"Kontakt",
+        hero_tag:"Hveragerdi, Islandia",
+        hero_title:"OD RDZY<em>DO CHWALY</em>",
+        hero_desc:"Profesjonalne lakierowanie, spawanie i pelna obsluga mechaniczna. W pelni wyposazony dwuosobowy warsztat gotowy na kazde zlecenie.",
+        hero_cta:"Zobacz nasze prace",
+        m1:"LAKIEROWANIE", m2:"SPAWANIE", m3:"KAROSERIA", m4:"MECHANIKA", m5:"RENOWACJA",
+        about_label:"Kim jestesmy",
+        about_title:"DWOCH LUDZI.<br>JEDNA MISJA.",
+        about_p1:"Flokki1 ehf. to specjalistyczny warsztat w Hveragerdi na Islandii. Zalozyciel jest znany z tego, ze wszystkie swoje samochody lakierowal sam na profesjonalnym poziomie i ma wieloletnie doswiadczenie w mechanice samochodowej.",
+        about_p2:"Jego wspolnik to wyjatkowo utalentowany spawacz, ktorego precyzja mowi sama za siebie. Razem — z odpowiednimi umiejetnosciami, najlepszym sprzetem i wspolna pasja — podejmujemy sie wszystkiego, od pelnego lakierowania po spawanie konstrukcyjne i naprawy mechaniczne.",
+        paint_label:"Nasza specjalnosc", paint_title:"LAKIER, KTORY<br>MOWI SAM ZA SIEBIE.",
+        paint_desc:"Kazdy samochod traktujemy tak samo — staranne przygotowanie, profesjonalne maskowanie i dedykowana kabina z suszeniem na podczerwien. Podklad, baza, lakier bezbarwny. Dowolny kolor. Efekt salonowy.",
+        weld_label:"Precyzyjne rzemiaslo", weld_title:"SPOINY, KTORE<br>TRZYMAJA.",
+        weld_desc:"TIG i MIG/MAG — naprawy podwozia, podlog, niestandardowe uklady wydechowe, stal nierdzewna. Rece naszego spawacza nie drzą. Czyste, mocne polaczenia za kazdym razem.",
+        services_label:"Co oferujemy", services_title:"USLUGI",
+        s1_name:"LAKIEROWANIE", s1_detail:"Pelne lakierowanie, podklad, baza, lakier bezbarwny. Suszenie na podczerwien.",
+        s2_name:"SPAWANIE", s2_detail:"TIG i MIG/MAG. Podwozie, podlogi, wydechy, stal nierdzewna.",
+        s3_name:"KAROSERIA", s3_detail:"Usuwanie rdzy, naprawa paneli, szpachlowanie, szlifowanie.",
+        s4_name:"MECHANIKA", s4_detail:"Ogolne naprawy i serwis samochodowy.",
+        s5_name:"FABRICACJA", s5_detail:"Niestandardowe wydechy, rury dolotowe, czesci na zamowienie.",
+        gallery_label:"Z naszego warsztatu", gallery_title:"NASZE PRACE",
+        g_jaguar:"Jaguar XJ — pelna renowacja", g_bmw1:"BMW — poczatek prac",
+        g_spray:"Lakierowanie w akcji", g_before:"Przed i po",
+        g_infrared:"Suszenie na podczerwien", g_tig:"Spoina TIG — rura nierdzewna",
+        g_exhaust:"Niestandardowy wydech", g_primer:"BMW — pelny podklad",
+        g_struct:"Spoina konstrukcyjna", g_panel:"Naprawa panelu",
+        g_floor:"Spawanie podlogi", g_masked:"BMW — zagruntowane",
+        contact_title:"POROZMA-<br>WIAJMY.",
+        ci_address:"Adres", ci_phone:"Telefon", ci_hours:"Godziny", ci_hours_val:"Pon.–Pt., 8:00–17:00",
+        form_label:"Wyslij wiadomosc", form_title:"OPOWIEDZ NAM O SWOIM PROJEKCIE",
+        f_name:"Twoje imie", f_email:"Twoj email", f_car:"Marka i model samochodu", f_msg:"Czego potrzebujesz?",
+        f_submit:"WYSLIJ", f_alert:"Wiadomosc wyslana! Odezwiemy sie wkrotce.",
+        footer:"Wszelkie prawa zastrzezone."
+      },
+      is: {
+        nav_about:"Um okkur", nav_services:"Thjonusta", nav_gallery:"Myndasafn", nav_contact:"Samband",
+        hero_tag:"Hveragerdi, Island",
+        hero_title:"FRA RYDI<em>TIL DYRDAR</em>",
+        hero_desc:"Fagleg bilamalning, serfroed suduvinna og full velvirknithjonusta. Fullbudid tveggja manna verkstaedi tilbuid i hvadhvernadar verkefni.",
+        hero_cta:"Sjadu verk okkar",
+        m1:"BILAMALNING", m2:"SUDUVINNA", m3:"YFIRBORDSVIDGERD", m4:"VELVIRKI", m5:"ENDURGERD",
+        about_label:"Hverjir vid erum",
+        about_title:"TVEIR MENN.<br>EITT MARKMID.",
+        about_p1:"Flokki1 ehf. er serhaefdarverkstaedi i Hveragerdi. Stofnandinn er thekktur fyrir ad mala alla sina eigin bila a faglegum stodli og hefur margra ara reynslu af bilvidgerdum.",
+        about_p2:"Felagi hans er otrulega haefur sudumadur sem sker sig ur med nakvaemuvinnu. Saman — med rettu haefnina, besta bunad og sameiginlega astridu — tokumst vid a vid allt fra fullri malning til suduvinna a burdarvirki og velvidgerdir.",
+        paint_label:"Okkar serthjonusta", paint_title:"MALNING SEM<br>TALAR.",
+        paint_desc:"Hver bill sem vid malum faer somu medhoendlun — vandleg undirbuningur, nakvam hulun og serhaefdar malningarklefa med innraudri thurrkun. Grunnur, grunnlakk, blankt yfirlag. Hvadhvernadar litur. Syningarsalarfragnegid.",
+        weld_label:"Nakvaemuhandverk", weld_title:"SUDUR SEM<br>HALDA.",
+        weld_desc:"TIG og MIG/MAG — grindavidgerdir, golf, serhannada pustarori, rydrfritt stal. Hendur sudumadsins skjalfa ekki. Hrein, sterk tengsl i hvert einasta skipti.",
+        services_label:"Hvad vid bjoodum", services_title:"THJONUSTA",
+        s1_name:"BILAMALNING", s1_detail:"Full udasprautun, grunnur, grunnlakk, blankt yfirlag. Innraud thurrkun.",
+        s2_name:"SUDUVINNA", s2_detail:"TIG og MIG/MAG. Grind, golf, pustaror, rydrfritt stal.",
+        s3_name:"YFIRBORDSVIDGERD", s3_detail:"Rydfjarlaeging, plotuvidbod, sparkl, slipun.",
+        s4_name:"VELVIRKI", s4_detail:"Almennar bilavidgerdir og vidhalds thjonusta.",
+        s5_name:"MALMSMIDAR", s5_detail:"Serhannatud pustaror, inntaksror, serstok malm hlutir.",
+        gallery_label:"Ur verkstaedinu", gallery_title:"VERK OKKAR",
+        g_jaguar:"Jaguar XJ — full endurgerd", g_bmw1:"BMW — upphaf yfirbordsvinnu",
+        g_spray:"Udasprautun i framkvaemd", g_before:"Fyrir og eftir",
+        g_infrared:"Innraud thurrkun", g_tig:"TIG suduvinna — rydrfritt ror",
+        g_exhaust:"Serhannatud pust ror", g_primer:"BMW — fullur grunnur",
+        g_struct:"Burdarsuduvinna", g_panel:"Plotu vidgerd",
+        g_floor:"Golf suduvinna", g_masked:"BMW — grundad og hult",
+        contact_title:"TOKUM<br>SAMAN.",
+        ci_address:"Heimilisfang", ci_phone:"Simi", ci_hours:"Opnunartimi", ci_hours_val:"Man.–Fos., 8:00–17:00",
+        form_label:"Senda skilabod", form_title:"SEGDU OKKUR FRA VERKEFNINU",
+        f_name:"Nafnid thitt", f_email:"Netfangid thitt", f_car:"Tegund og gerd bils", f_msg:"Hvad tharf ad gera?",
+        f_submit:"SENDA", f_alert:"Skilabod sent! Vid hofum samband fljotlega.",
+        footer:"Allur rettur askilinn."
+      }
+    };
+
+    var lang = "en";
+
+    function setLang(l) {
+      lang = l;
+      document.documentElement.lang = l;
+      document.querySelectorAll("[data-i18n]").forEach(function(el) {
+        var k = el.getAttribute("data-i18n");
+        if (T[l] && T[l][k]) el.innerHTML = T[l][k];
+      });
+      document.querySelectorAll("[data-i18n-placeholder]").forEach(function(el) {
+        var k = el.getAttribute("data-i18n-placeholder");
+        if (T[l] && T[l][k]) el.placeholder = T[l][k];
+      });
+      document.querySelectorAll(".lang-btn").forEach(function(b) {
+        b.classList.toggle("active", b.getAttribute("data-lang") === l);
+      });
+      localStorage.setItem("flokki-lang", l);
+    }
+
+    document.querySelectorAll(".lang-btn").forEach(function(b) {
+      b.addEventListener("click", function() { setLang(this.getAttribute("data-lang")); });
+    });
+
+    document.getElementById("contactForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      alert(T[lang].f_alert);
+    });
+
+    document.querySelector(".nav-toggle").addEventListener("click", function() {
+      document.querySelector(".nav-links").classList.toggle("active");
+    });
+
+    document.querySelectorAll('.nav-links a').forEach(function(a) {
+      a.addEventListener("click", function(e) {
+        e.preventDefault();
+        var t = document.querySelector(this.getAttribute("href"));
+        if (t) t.scrollIntoView({ behavior: "smooth" });
+        document.querySelector(".nav-links").classList.remove("active");
+      });
+    });
+
+    // Drag scroll gallery
+    var gs = document.querySelector(".gallery-scroll");
+    var isDown = false, startX, scrollL;
+    gs.addEventListener("mousedown", function(e) { isDown = true; gs.style.cursor = "grabbing"; startX = e.pageX - gs.offsetLeft; scrollL = gs.scrollLeft; });
+    gs.addEventListener("mouseleave", function() { isDown = false; gs.style.cursor = "grab"; });
+    gs.addEventListener("mouseup", function() { isDown = false; gs.style.cursor = "grab"; });
+    gs.addEventListener("mousemove", function(e) { if (!isDown) return; e.preventDefault(); var x = e.pageX - gs.offsetLeft; gs.scrollLeft = scrollL - (x - startX) * 1.5; });
+
+    var saved = localStorage.getItem("flokki-lang");
+    if (saved && T[saved]) setLang(saved);
+  </script>
+
+</body>
+</html>
