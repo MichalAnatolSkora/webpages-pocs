@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Webpages POCs</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      background: #0f0f0f;
+      color: #e0e0e0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 80px 24px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .subtitle {
+      color: #888;
+      margin-bottom: 60px;
+    }
+
+    .projects {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .project {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      padding: 28px 32px;
+    }
+
+    .project h2 {
+      font-size: 1.3rem;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+
+    .versions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .versions a {
+      display: inline-block;
+      padding: 10px 24px;
+      background: #d4a44a;
+      color: #0f0f0f;
+      font-weight: 700;
+      font-size: 0.9rem;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .versions a:hover {
+      background: #e6b85c;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Webpages POCs</h1>
+  <p class="subtitle">Proof of concept websites</p>
+
+  <div class="projects">
+    <div class="project">
+      <h2>Pawel — Flokki1 ehf.</h2>
+      <div class="versions">
+        <a href="pawel/v1/index.html">v1</a>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
