@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StableTech Michał Skóra</title>
+    <meta name="description" content="One-man software company. Small IT projects — fast, efficiently, no red tape.">
+    <meta property="og:title" content="StableTech Michał Skóra">
+    <meta property="og:description" content="One-man software company. Small IT projects — fast, efficiently, no red tape.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="photo.jpg">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 28 28'><rect width='28' height='28' rx='8' fill='%23C2410C'/><rect x='3.5' y='21.5' width='6' height='4' rx='.8' fill='%23FFF7ED'/><rect x='11' y='21.5' width='6' height='4' rx='.8' fill='%23FFF7ED'/><rect x='18.5' y='21.5' width='6' height='4' rx='.8' fill='%23FFF7ED'/><rect x='6.25' y='16' width='6' height='4' rx='.8' fill='%23FFF7ED'/><rect x='13.75' y='16' width='6' height='4' rx='.8' fill='%23FFF7ED'/><rect x='3.5' y='10.5' width='6' height='4' rx='.8' fill='%23FFF7ED'/><rect x='11' y='10.5' width='6' height='4' rx='.8' fill='%23FFF7ED'/><rect x='18.5' y='10.5' width='6' height='4' rx='.8' fill='%23FFF7ED' opacity='.35'/><rect x='6.25' y='5' width='6' height='4' rx='.8' fill='%23FFF7ED' opacity='.55'/><rect x='13.75' y='5' width='6' height='4' rx='.8' fill='%23FFF7ED' opacity='.25'/></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <div class="container nav-inner">
+            <a href="#" class="nav-logo" id="logo-link">
+                <svg class="logo-mark" width="28" height="28" viewBox="0 0 28 28" fill="none">
+                    <rect width="28" height="28" rx="8" fill="#C2410C"/>
+                    <rect x="3.5" y="21.5" width="6" height="4" rx="0.8" fill="#FFF7ED"/>
+                    <rect x="11" y="21.5" width="6" height="4" rx="0.8" fill="#FFF7ED"/>
+                    <rect x="18.5" y="21.5" width="6" height="4" rx="0.8" fill="#FFF7ED"/>
+                    <rect x="6.25" y="16" width="6" height="4" rx="0.8" fill="#FFF7ED"/>
+                    <rect x="13.75" y="16" width="6" height="4" rx="0.8" fill="#FFF7ED"/>
+                    <rect x="3.5" y="10.5" width="6" height="4" rx="0.8" fill="#FFF7ED"/>
+                    <rect x="11" y="10.5" width="6" height="4" rx="0.8" fill="#FFF7ED"/>
+                    <rect x="18.5" y="10.5" width="6" height="4" rx="0.8" fill="#FFF7ED" opacity="0.35"/>
+                    <rect x="6.25" y="5" width="6" height="4" rx="0.8" fill="#FFF7ED" opacity="0.55"/>
+                    <rect x="13.75" y="5" width="6" height="4" rx="0.8" fill="#FFF7ED" opacity="0.25"/>
+                </svg>
+                StableTech
+            </a>
+            <div class="nav-right">
+                <button class="lang-switch" id="lang-toggle">PL</button>
+                <a href="tel:+48505533851" class="nav-phone">+48 505 533 851</a>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <div class="container header-grid">
+            <div class="header-text">
+                <p class="header-intro" data-pl="Cześć, jestem" data-en="Hi, I'm">Hi, I'm</p>
+                <h1>Michał<br>Skóra</h1>
+                <p class="header-desc" data-pl="Jednoosobowa firma programistyczna. Realizuję małe projekty IT — szybko, sprawnie, bez zbędnej biurokracji." data-en="One-man software company. I build small IT projects — fast, efficiently, no red tape.">One-man software company. I build small IT projects — fast, efficiently, no red tape.</p>
+                <div class="header-stats">
+                    <div class="stat">
+                        <span class="stat-number"><span id="years-counter"></span></span>
+                        <span class="stat-label" data-pl="lat doświadczenia" data-en="years of experience">years of experience</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">Full stack</span>
+                        <span class="stat-label" data-pl="solo developer" data-en="solo developer">solo developer</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" data-pl="Szybka" data-en="Fast">Fast</span>
+                        <span class="stat-label" data-pl="realizacja projektów" data-en="project delivery">project delivery</span>
+                    </div>
+                </div>
+            </div>
+            <div class="header-photo">
+                <img src="photo.jpg" alt="Michał Skóra">
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="services">
+            <div class="container">
+                <div class="section-header">
+                    <h2 data-pl="Usługi" data-en="Services">Services</h2>
+                    <p class="section-desc" data-pl="Czym mogę Ci pomóc" data-en="What I can help you with">What I can help you with</p>
+                </div>
+                <div class="services-list">
+                    <a class="service-item" href="https://github.com/MichalAnatolSkora/payments-library" target="_blank" rel="noopener">
+                        <div class="service-num">01</div>
+                        <div class="service-body">
+                            <h3 data-pl="Integracje płatności" data-en="Payment integrations">Payment integrations</h3>
+                            <p data-pl="Podłączenie systemów płatności do Twojej aplikacji lub sklepu." data-en="Connecting payment systems to your app or online store.">Connecting payment systems to your app or online store.</p>
+                        </div>
+                        <span class="badge badge-green">Open Source</span>
+                        <svg class="service-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 15L15 5M15 5H8M15 5V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                    <a class="service-item" href="https://github.com/MichalAnatolSkora/yolo-on-rpi5-hailo10h" target="_blank" rel="noopener">
+                        <div class="service-num">02</div>
+                        <div class="service-body">
+                            <h3 data-pl="Smart kamery" data-en="Smart cameras">Smart cameras</h3>
+                            <p data-pl="Inteligentne systemy monitoringu z analizą obrazu." data-en="Intelligent monitoring systems with image analysis.">Intelligent monitoring systems with image analysis.</p>
+                        </div>
+                        <span class="badge badge-green">Open Source</span>
+                        <svg class="service-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 15L15 5M15 5H8M15 5V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                    <div class="service-item service-item-disabled">
+                        <div class="service-num">03</div>
+                        <div class="service-body">
+                            <h3>AI Voice Agent</h3>
+                            <p data-pl="Głosowy asystent AI dopasowany do potrzeb Twojego biznesu." data-en="AI-powered voice assistant tailored to your business needs.">AI-powered voice assistant tailored to your business needs.</p>
+                        </div>
+                        <span class="badge" data-pl="Wkrótce" data-en="Coming soon">Coming soon</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="tech">
+            <div class="container">
+                <div class="section-header">
+                    <h2 data-pl="Technologie" data-en="Tech stack">Tech stack</h2>
+                </div>
+                <div class="tech-grid">
+                    <span class="tech-tag">C#</span>
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">Docker</span>
+                    <span class="tech-tag">AWS</span>
+                    <span class="tech-tag">Kubernetes</span>
+                    <span class="tech-tag">MSSQL</span>
+                    <span class="tech-tag">PostgreSQL</span>
+                    <span class="tech-tag">DynamoDB</span>
+                    <span class="tech-tag">Keycloak</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="process">
+            <div class="container">
+                <div class="section-header">
+                    <h2 data-pl="Jak wygląda współpraca" data-en="How we work together">How we work together</h2>
+                </div>
+                <div class="gantt">
+                    <div class="gantt-axis">
+                        <span data-pl="Tydzień 1" data-en="Week 1">Week 1</span>
+                        <span data-pl="Tydzień 2" data-en="Week 2">Week 2</span>
+                        <span data-pl="Tydzień 3" data-en="Week 3">Week 3</span>
+                        <span data-pl="Tydzień 4" data-en="Week 4">Week 4</span>
+                        <span data-pl="Tydzień 5" data-en="Week 5">Week 5</span>
+                        <span data-pl="Tydzień 6" data-en="Week 6">Week 6</span>
+                    </div>
+                    <div class="gantt-chart">
+                        <div class="gantt-grid"></div>
+                        <div class="gantt-row" style="--start:0; --span:18">
+                            <div class="gantt-bar"></div>
+                            <span class="gantt-label" data-pl="Kontakt i wycena" data-en="Contact & estimate">Contact & estimate</span>
+                        </div>
+                        <div class="gantt-row" style="--start:18; --span:25">
+                            <div class="gantt-bar"></div>
+                            <span class="gantt-label">Proof of concept</span>
+                        </div>
+                        <div class="gantt-row" style="--start:35; --span:50">
+                            <div class="gantt-bar"></div>
+                            <span class="gantt-label" data-pl="Realizacja" data-en="Development">Development</span>
+                        </div>
+                        <div class="gantt-row" style="--start:50; --span:50">
+                            <div class="gantt-bar"></div>
+                            <span class="gantt-label" data-pl="Odbiór iteracyjny" data-en="Iterative delivery">Iterative delivery</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact" id="contact">
+            <div class="container">
+                <div class="contact-grid">
+                    <div class="contact-text">
+                        <h2 data-pl="Porozmawiajmy" data-en="Let's talk">Let's talk</h2>
+                        <p data-pl="Masz projekt do zrealizowania? Napisz lub zadzwoń." data-en="Got a project in mind? Write or call.">Got a project in mind? Write or call.</p>
+                    </div>
+                    <div class="contact-info">
+                        <a href="tel:+48505533851" class="contact-link">+48 505 533 851</a>
+                        <a href="mailto:michal.anatol.skora@gmail.com" class="contact-link">michal.anatol.skora@gmail.com</a>
+                        <a href="https://github.com/MichalAnatolSkora" target="_blank" rel="noopener" class="contact-link">github.com/MichalAnatolSkora</a>
+                        <div class="contact-legal">
+                            <p>StableTech Michał Skóra</p>
+                            <p>NIP: 8961645191 &middot; REGON: 540063442</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-inner">
+            <span>&copy; 2026 StableTech Michał Skóra</span>
+        </div>
+    </footer>
+
+    <script>
+        const start = 2012;
+        const years = new Date().getFullYear() - start;
+        document.getElementById('years-counter').textContent = years + '+';
+
+        let lang = localStorage.getItem('lang') || 'en';
+        const toggle = document.getElementById('lang-toggle');
+
+        function setLang(l) {
+            lang = l;
+            localStorage.setItem('lang', l);
+            document.documentElement.lang = l;
+            toggle.textContent = l === 'en' ? 'PL' : 'EN';
+            document.querySelectorAll('[data-pl][data-en]').forEach(el => {
+                el.textContent = el.getAttribute('data-' + l);
+            });
+        }
+
+        toggle.addEventListener('click', () => setLang(lang === 'en' ? 'pl' : 'en'));
+        setLang(lang);
+
+        document.getElementById('logo-link').addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
