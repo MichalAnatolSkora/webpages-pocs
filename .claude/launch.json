@@ -12,6 +12,12 @@
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "8090", "--directory", "michal/v2"],
       "port": 8090
+    },
+    {
+      "name": "v3",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8092", "--directory", "michal/v3"],
+      "port": 8092
     }
   ]
 }
