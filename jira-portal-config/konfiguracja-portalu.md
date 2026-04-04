@@ -99,6 +99,50 @@ Jezyk profilu uzytkownika admina jest ustawiony na **English (United Kingdom)**.
 
 ---
 
+## 6. Dostep do portalu dla klientow (bez logowania)
+
+### Aktualny stan
+
+**Strona:** https://michal89.atlassian.net/jira/servicedesk/projects/STAB/settings/customer-permissions
+
+Channel access jest ustawiony na **Restricted** - tylko zaproszone osoby moga zglaszac tickety.
+
+Dostepne opcje w ustawieniu Channel access:
+- **Restricted** (obecne) - tylko zaproszone osoby
+- **Open** - kazdy z kontem Atlassian moze zglaszac (ale nadal wymaga logowania)
+
+### Problem: link personalizowany bez logowania
+
+Jira Service Management **nie wspiera** w pelni anonimowego zglaszania ticketow przez portal. Nawet przy ustawieniu "Open" klient musi zalogowac sie kontem Atlassian.
+
+Natywne opcje Jiry (Forms, Widget, Portal) nie pozwalaja na stworzenie unikalnego linku per klient z GUIDem, ktory identyfikowalby klienta bez logowania.
+
+### Mozliwe rozwiazania
+
+**Opcja A: Wlasna strona + Jira REST API (rekomendowane)**
+- Prosty formularz webowy hostowany np. na Vercel/Netlify
+- URL z unikalnym tokenem klienta, np. `https://twoja-strona.com/zgloszenie?token=a1b2c3d4`
+- Backend mapuje token na klienta i tworzy ticket w Jirze przez REST API
+- Klient nie musi sie logowac ani miec konta Atlassian
+- Wymaga: hosting z backendem (Vercel Functions, Netlify Functions, itp.), API token Jiry
+
+**Opcja B: Email channel**
+- Wlaczenie kanalu email w STAB (Channels & self service -> Email)
+- Strona: https://michal89.atlassian.net/jira/servicedesk/projects/STAB/settings/email
+- Klienci wysylaja maila na adres projektu, ticket tworzy sie automatycznie
+- Formularz HTML moze wysylac maila z pre-wypelnionym polem "od kogo"
+- Najprostsza opcja, zero backendu
+
+**Opcja C: Portal z ustawieniem "Open"**
+- Zmiana Channel access na "Open" na stronie Customer permissions
+- Link do portalu: https://michal89.atlassian.net/servicedesk/customer/portal/2
+- Kazdy moze zglaszac, ale musi sie zalogowac/zarejestrowac kontem Atlassian
+- Darmowe konta dla klientow, nie licza sie do licencji
+
+### Status: NIE WDROZONE - wymaga decyzji ktore podejscie wybrac
+
+---
+
 ## Adresy URL - podsumowanie
 
 | Co | URL |
