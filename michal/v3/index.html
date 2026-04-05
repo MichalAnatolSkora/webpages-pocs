@@ -308,28 +308,36 @@
                     observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+        }, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
 
         document.querySelectorAll('.anim').forEach(el => observer.observe(el));
 
-        // Start animations on load
-        window.addEventListener('load', () => {
-            setLang(lang, false);
-            // Reset words for typing
-            document.querySelectorAll('#hero-heading .word').forEach(w => w.classList.remove('visible'));
-            document.getElementById('hero-heading').classList.remove('done');
+        // Start hero animations
+        function startHero() {
+            // Build heading with words hidden
+            buildHeadingHTML(lang);
 
             // Stagger reveal hero elements
             const loads = document.querySelectorAll('.anim-load');
             loads.forEach((el, i) => {
                 setTimeout(() => {
                     el.classList.add('revealed');
-                    if (i === 0) {
-                        setTimeout(() => typeHeading(), 200);
+                    if (i === 1) {
+                        // Start typing after heading element is revealed
+                        setTimeout(() => typeHeading(), 100);
                     }
                 }, i * 150);
             });
-        });
+        }
+
+        // Init language without animation, then start hero
+        setLang(lang, false);
+
+        if (document.readyState === 'complete') {
+            startHero();
+        } else {
+            window.addEventListener('load', startHero);
+        }
     </script>
 </body>
 </html>
