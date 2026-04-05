@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corum Technologies Sp. z o.o.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0f2b46;
+            --primary-light: #1a3d5c;
+            --accent: #2d8cf0;
+            --accent-hover: #1a6fd4;
+            --text: #1a1a2e;
+            --text-light: #555;
+            --text-muted: #888;
+            --bg: #ffffff;
+            --bg-alt: #f6f8fb;
+            --border: #e2e8f0;
+            --radius: 12px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+            background: var(--bg);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            transition: box-shadow 0.3s;
+        }
+
+        nav.scrolled {
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 72px;
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            background: var(--accent);
+            color: #fff !important;
+            padding: 8px 20px;
+            border-radius: 8px;
+            transition: background 0.2s, transform 0.2s !important;
+        }
+
+        .nav-cta::after {
+            display: none !important;
+        }
+
+        .nav-cta:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+
+        .burger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .burger span {
+            width: 24px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+
+        /* ── HERO ── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 24px 80px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(160deg, #f0f5ff 0%, #ffffff 40%, #f8faff 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -30%;
+            width: 800px;
+            height: 800px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(45, 140, 240, 0.07) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -20%;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(15, 43, 70, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(45, 140, 240, 0.1);
+            color: var(--accent);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.4rem, 5vw, 3.8rem);
+            font-weight: 700;
+            line-height: 1.15;
+            color: var(--primary);
+            letter-spacing: -0.03em;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 em {
+            font-style: normal;
+            color: var(--accent);
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-light);
+            max-width: 560px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 32px;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.25s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(45, 140, 240, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(45, 140, 240, 0.35);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--border);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* ── SECTIONS ── */
+        section {
+            padding: 100px 24px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            display: inline-block;
+            background: rgba(45, 140, 240, 0.1);
+            color: var(--accent);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .section-subtitle {
+            font-size: 1.05rem;
+            color: var(--text-light);
+            max-width: 600px;
+            line-height: 1.7;
+        }
+
+        .section-header {
+            margin-bottom: 64px;
+        }
+
+        .section-header.center {
+            text-align: center;
+        }
+
+        .section-header.center .section-subtitle {
+            margin: 0 auto;
+        }
+
+        /* ── VALUES GRID ── */
+        #o-nas {
+            background: var(--bg-alt);
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+        }
+
+        .value-card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 36px 32px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .value-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s;
+        }
+
+        .value-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
+            border-color: transparent;
+        }
+
+        .value-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .value-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+
+        .value-icon.trust { background: rgba(45, 140, 240, 0.1); color: #2d8cf0; }
+        .value-icon.efficiency { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+        .value-icon.support { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
+        .value-icon.discretion { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+
+        .value-card h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .value-card p {
+            font-size: 0.92rem;
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        /* ── MISSION ── */
+        .mission-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+            align-items: center;
+        }
+
+        .mission-visual {
+            position: relative;
+        }
+
+        .mission-box {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: 20px;
+            padding: 48px;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mission-box::before {
+            content: '';
+            position: absolute;
+            top: -40%;
+            right: -30%;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: rgba(45, 140, 240, 0.15);
+        }
+
+        .mission-box h3 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            position: relative;
+        }
+
+        .mission-box p {
+            font-size: 1rem;
+            opacity: 0.8;
+            position: relative;
+        }
+
+        .mission-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .mission-stat {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .mission-stat strong {
+            display: block;
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .mission-stat span {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .mission-text h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+
+        .mission-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .mission-list li {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .mission-list .icon {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(45, 140, 240, 0.1);
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .mission-list .text strong {
+            display: block;
+            font-size: 0.95rem;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .mission-list .text span {
+            font-size: 0.88rem;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* ── CONTACT ── */
+        #kontakt {
+            background: var(--bg-alt);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        .contact-item {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .contact-item .icon {
+            flex-shrink: 0;
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: rgba(45, 140, 240, 0.1);
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .contact-item strong {
+            display: block;
+            font-size: 0.95rem;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .contact-item span {
+            font-size: 0.88rem;
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+
+        .contact-form {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 36px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            color: var(--text);
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+            background: var(--bg-alt);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(45, 140, 240, 0.1);
+            background: #fff;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .contact-form .btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--primary);
+            color: rgba(255, 255, 255, 0.7);
+            padding: 48px 24px 32px;
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .footer-logo {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .footer-logo span {
+            color: var(--accent);
+        }
+
+        footer p {
+            font-size: 0.82rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 0.82rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #fff;
+        }
+
+        /* ── ANIMATIONS ── */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 72px;
+                left: 0;
+                right: 0;
+                background: #fff;
+                flex-direction: column;
+                padding: 24px;
+                gap: 20px;
+                border-bottom: 1px solid var(--border);
+                box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06);
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .burger {
+                display: flex;
+            }
+
+            .mission-grid,
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .mission-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            section {
+                padding: 64px 20px;
+            }
+
+            .hero {
+                padding: 100px 20px 60px;
+                min-height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+    <div class="nav-inner">
+        <a href="#" class="logo">Corum<span>Technologies</span></a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#">Strona Glowna</a></li>
+            <li><a href="#o-nas">O Nas</a></li>
+            <li><a href="#misja">Nasza Misja</a></li>
+            <li><a href="#kontakt" class="nav-cta">Kontakt</a></li>
+        </ul>
+        <button class="burger" id="burger" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-content fade-up">
+        <div class="hero-badge">Transfer Technologii & Produkcja</div>
+        <h1>Zbuduj Z Nami Swoj <em>Rozwoj Gospodarczy</em></h1>
+        <p>Specjalizujemy sie w obsludze transferow technologii oraz produkcji technologicznej. Laczmy biznesy z Europy i Azji.</p>
+        <div class="hero-buttons">
+            <a href="#kontakt" class="btn btn-primary">Skontaktuj sie &#8594;</a>
+            <a href="#o-nas" class="btn btn-outline">Poznaj nas</a>
+        </div>
+    </div>
+</section>
+
+<!-- O NAS / WARTOSCI -->
+<section id="o-nas">
+    <div class="container">
+        <div class="section-header center fade-up">
+            <div class="section-label">Dlaczego my</div>
+            <h2 class="section-title">Wartosci, ktore nas wyrozniaja</h2>
+            <p class="section-subtitle">Budujemy dlugofalowe relacje biznesowe oparte na zaufaniu, efektywnosci i pelnej dyskrecji.</p>
+        </div>
+
+        <div class="values-grid">
+            <div class="value-card fade-up">
+                <div class="value-icon trust">&#9830;</div>
+                <h3>Zaufanie</h3>
+                <p>Specjalizujemy sie w obsludze transferow technologii oraz produkcji technologicznej. Jestesmy zaufanym partnerem dla zespolow z Europy i Azji.</p>
+            </div>
+            <div class="value-card fade-up">
+                <div class="value-icon efficiency">&#9650;</div>
+                <h3>Efektywnosc</h3>
+                <p>Oferujemy efektywne rozwiazania technologiczne maksymalizujace zyski. Realizujemy projekty laczenia biznesow z partnerami miedzynarodowymi.</p>
+            </div>
+            <div class="value-card fade-up">
+                <div class="value-icon support">&#9733;</div>
+                <h3>Wsparcie biznesowe</h3>
+                <p>Usprawniamy kluczowe przeplyw produktow i uslug, ograniczamy bariery technologiczne oraz gwarantujemy wysoka jakosc.</p>
+            </div>
+            <div class="value-card fade-up">
+                <div class="value-icon discretion">&#9670;</div>
+                <h3>Dyskrecja</h3>
+                <p>Transparentne zasady relacji biznesowych i pozycja zaufanego partnera to fundament naszej dzialalnosci.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- MISJA -->
+<section id="misja">
+    <div class="container">
+        <div class="mission-grid">
+            <div class="mission-visual fade-up">
+                <div class="mission-box">
+                    <h3>Europa &amp; Azja</h3>
+                    <p>Laczenie rynkow i technologii</p>
+                    <div class="mission-stats">
+                        <div class="mission-stat">
+                            <strong>100%</strong>
+                            <span>Zaangazowanie</span>
+                        </div>
+                        <div class="mission-stat">
+                            <strong>24/7</strong>
+                            <span>Dostepnosc</span>
+                        </div>
+                        <div class="mission-stat">
+                            <strong>B2B</strong>
+                            <span>Wspolpraca</span>
+                        </div>
+                        <div class="mission-stat">
+                            <strong>EU+Asia</strong>
+                            <span>Zasiag</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mission-text fade-up">
+                <div class="section-label">Nasza Misja</div>
+                <h2 class="section-title">Laczenie technologii z biznesem</h2>
+                <p class="section-subtitle" style="margin-bottom: 32px;">Naszym celem jest budowanie mostow miedzy rynkami europejskimi i azjatyckimi.</p>
+
+                <ul class="mission-list">
+                    <li>
+                        <div class="icon">&#8644;</div>
+                        <div class="text">
+                            <strong>Transfery technologii</strong>
+                            <span>Kompleksowa obsluga procesow transferu technologii miedzy rynkami.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="icon">&#9881;</div>
+                        <div class="text">
+                            <strong>Produkcja technologiczna</strong>
+                            <span>Wsparcie w optymalizacji i wdrazaniu procesow produkcyjnych.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="icon">&#10003;</div>
+                        <div class="text">
+                            <strong>Gwarancja jakosci</strong>
+                            <span>Najwyzsze standardy jakosci na kazdym etapie wspolpracy.</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- KONTAKT -->
+<section id="kontakt">
+    <div class="container">
+        <div class="section-header center fade-up">
+            <div class="section-label">Kontakt</div>
+            <h2 class="section-title">Porozmawiajmy o wspolpracy</h2>
+            <p class="section-subtitle">Skontaktuj sie z nami, aby omowic szczegoly potencjalnej wspolpracy.</p>
+        </div>
+
+        <div class="contact-grid">
+            <div class="contact-info fade-up">
+                <div class="contact-item">
+                    <div class="icon">&#9873;</div>
+                    <div>
+                        <strong>Siedziba firmy</strong>
+                        <span>ul. Lipowa 19<br>95-050 Konstantynow Lodzki</span>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="icon">&#9993;</div>
+                    <div>
+                        <strong>KRS</strong>
+                        <span>0000946211</span>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="icon">&#9830;</div>
+                    <div>
+                        <strong>NIP</strong>
+                        <span>7312074957</span>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="icon">&#9733;</div>
+                    <div>
+                        <strong>REGON</strong>
+                        <span>520990394</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-form fade-up">
+                <form onsubmit="event.preventDefault(); alert('Wiadomosc wyslana!');">
+                    <div class="form-group">
+                        <label for="name">Imie i nazwisko</label>
+                        <input type="text" id="name" placeholder="Jan Kowalski" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Adres e-mail</label>
+                        <input type="email" id="email" placeholder="jan@firma.pl" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Wiadomosc</label>
+                        <textarea id="message" placeholder="Opisz swoje potrzeby..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Wyslij wiadomosc &#8594;</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-inner">
+        <div class="footer-logo">Corum<span>Technologies</span></div>
+        <p>&copy; 2024 Corum Technologies Sp. z o.o. Wszelkie prawa zastrzezone.</p>
+        <ul class="footer-links">
+            <li><a href="#o-nas">O Nas</a></li>
+            <li><a href="#misja">Misja</a></li>
+            <li><a href="#kontakt">Kontakt</a></li>
+        </ul>
+    </div>
+</footer>
+
+<script>
+    // Burger menu
+    document.getElementById('burger').addEventListener('click', () => {
+        document.getElementById('navLinks').classList.toggle('open');
+    });
+
+    // Navbar shadow on scroll
+    window.addEventListener('scroll', () => {
+        document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 10);
+    });
+
+    // Fade-up on scroll
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
