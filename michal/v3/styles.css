@@ -317,7 +317,7 @@ header h1 .accent {
 
 .process-steps {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 0;
 }
 
@@ -344,9 +344,7 @@ header h1 .accent {
     overflow: hidden;
 }
 
-.step:first-child .step-line::after,
-.step:nth-child(2) .step-line::after,
-.step:nth-child(3) .step-line::after {
+.step:nth-child(-n+4) .step-line::after {
     content: '';
     position: absolute;
     inset: 0;
@@ -354,7 +352,7 @@ header h1 .accent {
     border-radius: 1px;
 }
 
-.step:nth-child(4) .step-line {
+.step:nth-child(5) .step-line {
     background: var(--border);
 }
 
@@ -378,6 +376,33 @@ header h1 .accent {
     font-size: 0.85rem;
     color: var(--text-muted);
     line-height: 1.6;
+}
+
+.step-contact {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.step-contact-pill {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--accent);
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.step-contact-pill:hover {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+    transform: translateY(-2px);
 }
 
 /* ABOUT */
@@ -511,6 +536,150 @@ footer {
     color: var(--text-muted);
 }
 
+/* ANIMATIONS */
+
+/* Hero elements — hidden until loader finishes */
+.anim-load {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.anim-load.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Typewriter heading */
+.typewriter .word {
+    display: inline;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    filter: blur(4px);
+}
+
+.typewriter .word.visible {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+}
+
+.typewriter .word.accent {
+    color: var(--accent);
+}
+
+.typewriter .line-break {
+    display: block;
+    height: 0;
+    width: 100%;
+}
+
+/* Blinking cursor after heading */
+.typewriter::after {
+    content: '▎';
+    display: inline-block;
+    color: var(--accent);
+    font-weight: 300;
+    animation: cursorBlink 0.8s ease-in-out infinite;
+    margin-left: 2px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.typewriter.typing::after {
+    opacity: 1;
+}
+
+.typewriter.done::after {
+    animation: cursorFadeOut 0.6s ease forwards;
+    animation-delay: 1s;
+}
+
+@keyframes cursorBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+@keyframes cursorFadeOut {
+    to { opacity: 0; }
+}
+
+/* Scroll-triggered */
+.anim {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.anim.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Process step lines animate on scroll */
+.step-line::after {
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.anim.is-visible .step-line::after {
+    transform: scaleX(1);
+}
+
+.anim.is-visible .step:nth-child(1) .step-line::after { transition-delay: 0ms; }
+.anim.is-visible .step:nth-child(2) .step-line::after { transition-delay: 150ms; }
+.anim.is-visible .step:nth-child(3) .step-line::after { transition-delay: 300ms; }
+.anim.is-visible .step:nth-child(4) .step-line::after { transition-delay: 450ms; }
+
+/* Hero tech stack pills stagger */
+.hero-stack.anim-load.revealed span {
+    opacity: 0;
+    animation: fadeSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hero-stack.anim-load.revealed span:nth-child(1) { animation-delay: 0ms; }
+.hero-stack.anim-load.revealed span:nth-child(2) { animation-delay: 50ms; }
+.hero-stack.anim-load.revealed span:nth-child(3) { animation-delay: 100ms; }
+.hero-stack.anim-load.revealed span:nth-child(4) { animation-delay: 150ms; }
+.hero-stack.anim-load.revealed span:nth-child(5) { animation-delay: 200ms; }
+.hero-stack.anim-load.revealed span:nth-child(6) { animation-delay: 250ms; }
+.hero-stack.anim-load.revealed span:nth-child(7) { animation-delay: 300ms; }
+.hero-stack.anim-load.revealed span:nth-child(8) { animation-delay: 350ms; }
+.hero-stack.anim-load.revealed span:nth-child(9) { animation-delay: 400ms; }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .anim, .anim-load {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+    .typewriter .word {
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+        transition: none !important;
+    }
+    .typewriter::after { display: none; }
+    .step-line::after {
+        transform: scaleX(1) !important;
+        transition: none !important;
+    }
+    .hero-stack.anim-load.revealed span {
+        animation: none !important;
+        opacity: 1 !important;
+    }
+}
+
 /* MOBILE */
 @media (max-width: 768px) {
     header {
@@ -528,7 +697,7 @@ footer {
 
     .process-steps {
         grid-template-columns: repeat(2, 1fr);
-        gap: 32px;
+        gap: 24px;
     }
 
     .step {

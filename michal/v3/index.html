@@ -43,13 +43,13 @@
 
     <header>
         <div class="container">
-            <div class="hero-label" data-pl="Wdrożenia systemów IT" data-en="IT systems implementation">IT systems implementation</div>
-            <h1><span data-pl="Projektuję, buduję i wdrażam" data-en="I design, build & deploy">I design, build & deploy</span><br><span class="accent" data-pl="systemy informatyczne" data-en="software systems">software systems</span><br><span data-pl="dla Twojego biznesu." data-en="for your business.">for your business.</span></h1>
-            <div class="hero-bottom">
+            <div class="hero-label anim-load" data-pl="Wdrożenia systemów IT" data-en="IT systems implementation">IT systems implementation</div>
+            <h1 id="hero-heading" class="anim-load typewriter"></h1>
+            <div class="hero-bottom anim-load">
                 <p class="hero-sub" data-pl="Od pomysłu do działającego systemu na produkcji. Szybko, bez zbędnych procesów, z doświadczeniem w bankowości i e-commerce." data-en="From idea to production-ready system. Fast, no red tape, with experience in banking and e-commerce.">From idea to production-ready system. Fast, no red tape, with experience in banking and e-commerce.</p>
                 <a href="#contact" class="hero-cta" data-pl="Porozmawiajmy" data-en="Get in touch">Get in touch</a>
             </div>
-            <div class="hero-stack">
+            <div class="hero-stack anim-load">
                 <span><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" width="14" height="14" alt="C#"> C#</span>
                 <span><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="14" height="14" alt="Python"> Python</span>
                 <span><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" width="14" height="14" alt="Docker"> Docker</span>
@@ -57,6 +57,8 @@
                 <span><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg" width="14" height="14" alt="Kubernetes"> Kubernetes</span>
                 <span><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-plain.svg" width="14" height="14" alt="MSSQL"> MSSQL</span>
                 <span><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" width="14" height="14" alt="PostgreSQL"> PostgreSQL</span>
+                <span><img src="https://cdn.simpleicons.org/keycloak/4D4D4D" width="14" height="14" alt="Keycloak"> Keycloak</span>
+                <span><img src="https://cdn.simpleicons.org/clerk/6C47FF" width="14" height="14" alt="Clerk"> Clerk</span>
             </div>
         </div>
     </header>
@@ -64,8 +66,8 @@
     <main>
         <section class="what-we-do">
             <div class="container">
-                <div class="section-label" data-pl="Co robimy" data-en="What we do">What we do</div>
-                <div class="capabilities">
+                <div class="section-label anim" data-pl="Co robimy" data-en="What we do">What we do</div>
+                <div class="capabilities anim">
                     <a href="https://github.com/MichalAnatolSkora/payments-library" target="_blank" rel="noopener" class="capability capability-link">
                         <div class="cap-icon">
                             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
@@ -110,30 +112,44 @@
 
         <section class="process">
             <div class="container">
-                <div class="section-label" data-pl="Proces" data-en="Process">Process</div>
-                <h2 class="process-title" data-pl="Od pomysłu do wdrożenia" data-en="From idea to deployment">From idea to deployment</h2>
-                <div class="process-steps">
-                    <div class="step">
+                <div class="section-label anim" data-pl="Proces" data-en="Process">Process</div>
+                <h2 class="process-title anim" data-pl="Od pomysłu do wdrożenia" data-en="From idea to deployment">From idea to deployment</h2>
+                <div class="process-steps anim">
+                    <div class="step step-cta">
                         <div class="step-line"></div>
                         <div class="step-num">01</div>
+                        <h3 data-pl="Zadzwoń lub napisz" data-en="Call or email">Call or email</h3>
+                        <p data-pl="Opisz swój pomysł — odezwę się w 24h." data-en="Tell me about your idea — I'll reply within 24h.">Tell me about your idea — I'll reply within 24h.</p>
+                        <div class="step-contact">
+                            <a href="tel:+48505533851" class="step-contact-pill" title="+48 505 533 851">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                            </a>
+                            <a href="mailto:michal.anatol.skora@gmail.com" class="step-contact-pill" title="michal.anatol.skora@gmail.com">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-line"></div>
+                        <div class="step-num">02</div>
                         <h3 data-pl="Kontakt i wycena" data-en="Scope & estimate">Scope & estimate</h3>
                         <p data-pl="Poznaję Twój problem. Daję wycenę w 48h." data-en="I learn your problem. Estimate within 48h.">I learn your problem. Estimate within 48h.</p>
                     </div>
                     <div class="step">
                         <div class="step-line"></div>
-                        <div class="step-num">02</div>
+                        <div class="step-num">03</div>
                         <h3>Proof of concept</h3>
                         <p data-pl="Działający prototyp, żebyś zobaczył kierunek." data-en="Working prototype to validate direction.">Working prototype to validate direction.</p>
                     </div>
                     <div class="step">
                         <div class="step-line"></div>
-                        <div class="step-num">03</div>
+                        <div class="step-num">04</div>
                         <h3 data-pl="Realizacja" data-en="Build & deploy">Build & deploy</h3>
                         <p data-pl="Koduję, testuję, wdrażam na produkcję." data-en="I code, test, ship to production.">I code, test, ship to production.</p>
                     </div>
                     <div class="step">
                         <div class="step-line"></div>
-                        <div class="step-num">04</div>
+                        <div class="step-num">05</div>
                         <h3 data-pl="Iteracja" data-en="Iterate">Iterate</h3>
                         <p data-pl="Feedback, poprawki, kolejne wersje." data-en="Feedback, fixes, next versions.">Feedback, fixes, next versions.</p>
                     </div>
@@ -143,10 +159,10 @@
 
         <section class="about">
             <div class="container about-grid">
-                <div class="about-photo">
+                <div class="about-photo anim">
                     <img src="photo.jpg" alt="Michał Skóra">
                 </div>
-                <div class="about-text">
+                <div class="about-text anim">
                     <div class="section-label" data-pl="Kim jestem" data-en="Who I am">Who I am</div>
                     <h2>Michał Skóra</h2>
                     <p><span data-pl="Solo developer z ponad" data-en="Solo developer with over">Solo developer with over</span> <strong><span id="years-counter"></span> <span data-pl="lat doświadczenia" data-en="years of experience">years of experience</span></strong>. <span data-pl="Wcześniej w dużych projektach bankowych. Teraz buduję systemy IT pod firmą StableTech — szybko, sprawnie, bez korpo." data-en="Previously in large banking projects. Now I build IT systems under StableTech — fast, lean, no corporate overhead.">Previously in large banking projects. Now I build IT systems under StableTech — fast, lean, no corporate overhead.</span></p>
@@ -157,7 +173,7 @@
 
         <section class="contact" id="contact">
             <div class="container">
-                <div class="contact-card">
+                <div class="contact-card anim">
                     <div class="contact-left">
                         <div class="section-label" data-pl="Kontakt" data-en="Contact">Contact</div>
                         <h2 data-pl="Masz system do wdrożenia?" data-en="Got a system to build?">Got a system to build?</h2>
@@ -191,7 +207,68 @@
         let lang = localStorage.getItem('lang') || 'en';
         const toggle = document.getElementById('lang-toggle');
 
-        function setLang(l) {
+        // Heading text per language
+        const headingData = {
+            en: [
+                { words: 'I design, build & deploy', cls: '' },
+                { br: true },
+                { words: 'software systems', cls: 'accent' },
+                { br: true },
+                { words: 'for your business.', cls: '' }
+            ],
+            pl: [
+                { words: 'Projektuję, buduję i wdrażam', cls: '' },
+                { br: true },
+                { words: 'systemy informatyczne', cls: 'accent' },
+                { br: true },
+                { words: 'dla Twojego biznesu.', cls: '' }
+            ]
+        };
+
+        function buildHeadingHTML(l) {
+            const h = document.getElementById('hero-heading');
+            h.innerHTML = '';
+            h.classList.remove('typing', 'done');
+            const lines = headingData[l];
+            lines.forEach(line => {
+                if (line.br) {
+                    h.appendChild(document.createElement('br'));
+                    return;
+                }
+                line.words.split(' ').forEach(w => {
+                    const span = document.createElement('span');
+                    span.className = 'word' + (line.cls ? ' ' + line.cls : '');
+                    span.textContent = w + ' ';
+                    h.appendChild(span);
+                });
+            });
+        }
+
+        function typeHeading(callback) {
+            const h = document.getElementById('hero-heading');
+            const words = h.querySelectorAll('.word');
+            h.classList.add('typing');
+
+            let i = 0;
+            function showNext() {
+                if (i >= words.length) {
+                    h.classList.remove('typing');
+                    h.classList.add('done');
+                    if (callback) callback();
+                    return;
+                }
+                words[i].classList.add('visible');
+                i++;
+                // Uneven timing: base 60-110ms, occasional pauses 180-280ms
+                const pause = Math.random() < 0.2
+                    ? 180 + Math.random() * 100
+                    : 60 + Math.random() * 50;
+                setTimeout(showNext, pause);
+            }
+            showNext();
+        }
+
+        function setLang(l, animate) {
             lang = l;
             localStorage.setItem('lang', l);
             document.documentElement.lang = l;
@@ -199,14 +276,52 @@
             document.querySelectorAll('[data-pl][data-en]').forEach(el => {
                 el.textContent = el.getAttribute('data-' + l);
             });
+            buildHeadingHTML(l);
+            if (animate) {
+                typeHeading();
+            } else {
+                // Show all words instantly
+                document.querySelectorAll('#hero-heading .word').forEach(w => w.classList.add('visible'));
+                document.getElementById('hero-heading').classList.add('done');
+            }
         }
 
-        toggle.addEventListener('click', () => setLang(lang === 'en' ? 'pl' : 'en'));
-        setLang(lang);
+        toggle.addEventListener('click', () => setLang(lang === 'en' ? 'pl' : 'en', true));
 
         document.getElementById('logo-link').addEventListener('click', (e) => {
             e.preventDefault();
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Scroll-triggered animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.anim').forEach(el => observer.observe(el));
+
+        // Start animations on load
+        window.addEventListener('load', () => {
+            setLang(lang, false);
+            // Reset words for typing
+            document.querySelectorAll('#hero-heading .word').forEach(w => w.classList.remove('visible'));
+            document.getElementById('hero-heading').classList.remove('done');
+
+            // Stagger reveal hero elements
+            const loads = document.querySelectorAll('.anim-load');
+            loads.forEach((el, i) => {
+                setTimeout(() => {
+                    el.classList.add('revealed');
+                    if (i === 0) {
+                        setTimeout(() => typeHeading(), 200);
+                    }
+                }, i * 150);
+            });
         });
     </script>
 </body>
