@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StableTech Michał Skóra — IT Systems Implementation</title>
+    <meta name="description" content="We design, build and deploy IT systems for your business. Payment integrations, smart cameras, AI solutions.">
+    <meta property="og:title" content="StableTech — IT Systems Implementation">
+    <meta property="og:description" content="We design, build and deploy IT systems for your business.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="photo.jpg">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 28 28'><rect width='28' height='28' rx='6' fill='%23C2410C'/><rect x='3' y='21' width='5.5' height='3.5' rx='.7' fill='%23FFF7ED'/><rect x='9.5' y='21' width='9' height='3.5' rx='.7' fill='%23FFF7ED'/><rect x='19.5' y='21' width='5.5' height='3.5' rx='.7' fill='%23FFF7ED'/><rect x='3' y='16.5' width='9' height='3.5' rx='.7' fill='%23FFF7ED'/><rect x='13' y='16.5' width='5.5' height='3.5' rx='.7' fill='%23FFF7ED'/><rect x='19.5' y='16.5' width='5.5' height='3.5' rx='.7' fill='%23FFF7ED'/><rect x='3' y='12' width='5.5' height='3.5' rx='.7' fill='%23FFF7ED' opacity='.85'/><rect x='9.5' y='12' width='5.5' height='3.5' rx='.7' fill='%23FFF7ED' opacity='.85'/><rect x='16' y='12' width='9' height='3.5' rx='.7' fill='%23FFF7ED' opacity='.7'/><rect x='3' y='7.5' width='9' height='3.5' rx='.7' fill='%23FFF7ED' opacity='.45'/><rect x='13' y='7.5' width='5.5' height='3.5' rx='.7' fill='%23FFF7ED' opacity='.35'/><rect x='3' y='3' width='5.5' height='3.5' rx='.7' fill='%23FFF7ED' opacity='.18'/></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <div class="container nav-inner">
+            <a href="#" class="nav-logo" id="logo-link">
+                <svg class="logo-mark" width="28" height="28" viewBox="0 0 28 28" fill="none">
+                    <rect width="28" height="28" rx="6" fill="#C2410C"/>
+                    <!-- Row 5 (bottom) — full -->
+                    <rect x="3" y="21" width="5.5" height="3.5" rx="0.7" fill="#FFF7ED"/>
+                    <rect x="9.5" y="21" width="9" height="3.5" rx="0.7" fill="#FFF7ED"/>
+                    <rect x="19.5" y="21" width="5.5" height="3.5" rx="0.7" fill="#FFF7ED"/>
+                    <!-- Row 4 -->
+                    <rect x="3" y="16.5" width="9" height="3.5" rx="0.7" fill="#FFF7ED"/>
+                    <rect x="13" y="16.5" width="5.5" height="3.5" rx="0.7" fill="#FFF7ED"/>
+                    <rect x="19.5" y="16.5" width="5.5" height="3.5" rx="0.7" fill="#FFF7ED"/>
+                    <!-- Row 3 — slightly faded -->
+                    <rect x="3" y="12" width="5.5" height="3.5" rx="0.7" fill="#FFF7ED" opacity="0.85"/>
+                    <rect x="9.5" y="12" width="5.5" height="3.5" rx="0.7" fill="#FFF7ED" opacity="0.85"/>
+                    <rect x="16" y="12" width="9" height="3.5" rx="0.7" fill="#FFF7ED" opacity="0.7"/>
+                    <!-- Row 2 — fading -->
+                    <rect x="3" y="7.5" width="9" height="3.5" rx="0.7" fill="#FFF7ED" opacity="0.45"/>
+                    <rect x="13" y="7.5" width="5.5" height="3.5" rx="0.7" fill="#FFF7ED" opacity="0.35"/>
+                    <!-- Row 1 (top) — most faded -->
+                    <rect x="3" y="3" width="5.5" height="3.5" rx="0.7" fill="#FFF7ED" opacity="0.18"/>
+                </svg>
+                StableTech
+            </a>
+            <div class="nav-right">
+                <button class="lang-switch" id="lang-toggle">PL</button>
+                <a href="tel:+48505533851" class="nav-phone">+48 505 533 851</a>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <div class="container">
+            <div class="hero-label anim-load" data-pl="Wdrożenia systemów IT" data-en="IT systems implementation">IT systems implementation</div>
+            <h1 id="hero-heading" class="anim-load typewriter"></h1>
+            <div class="hero-bottom anim-load">
+                <p class="hero-sub" data-pl="Od pomysłu do działającego systemu na produkcji. Szybko, bez zbędnych procesów, z doświadczeniem w bankowości i e-commerce." data-en="From idea to production-ready system. Fast, no red tape, with experience in banking and e-commerce.">From idea to production-ready system. Fast, no red tape, with experience in banking and e-commerce.</p>
+                <a href="#contact" class="hero-cta" data-pl="Porozmawiajmy" data-en="Get in touch">Get in touch</a>
+            </div>
+            <div class="hero-stack anim-load">
+                <span><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" width="14" height="14" alt="C#"> C#</span>
+                <span><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="14" height="14" alt="Python"> Python</span>
+                <span><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" width="14" height="14" alt="Docker"> Docker</span>
+                <span><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" width="14" height="14" alt="AWS"> AWS</span>
+                <span><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg" width="14" height="14" alt="Kubernetes"> Kubernetes</span>
+                <span><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-plain.svg" width="14" height="14" alt="MSSQL"> MSSQL</span>
+                <span><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" width="14" height="14" alt="PostgreSQL"> PostgreSQL</span>
+                <span><img src="https://cdn.simpleicons.org/keycloak/4D4D4D" width="14" height="14" alt="Keycloak"> Keycloak</span>
+                <span><img src="https://cdn.simpleicons.org/clerk/6C47FF" width="14" height="14" alt="Clerk"> Clerk</span>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="what-we-do">
+            <div class="container">
+                <div class="section-label anim" data-pl="Co robimy" data-en="What we do">What we do</div>
+                <div class="capabilities anim">
+                    <a href="https://github.com/MichalAnatolSkora/payments-library" target="_blank" rel="noopener" class="capability capability-link">
+                        <div class="cap-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                        </div>
+                        <h3 data-pl="Integracje płatności" data-en="Payment integrations">Payment integrations</h3>
+                        <p data-pl="Podłączenie systemów płatności do Twojej aplikacji. Stripe, PayU, przelewy24." data-en="Connecting payment systems to your app. Stripe, PayU, Przelewy24.">Connecting payment systems to your app. Stripe, PayU, Przelewy24.</p>
+                        <span class="cap-link">
+                            <span class="badge-green">Open Source</span>
+                            <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M5 15L15 5M15 5H8M15 5V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </span>
+                    </a>
+                    <a href="https://github.com/MichalAnatolSkora/yolo-on-rpi5-hailo10h" target="_blank" rel="noopener" class="capability capability-link">
+                        <div class="cap-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                        </div>
+                        <h3 data-pl="Smart kamery" data-en="Smart cameras">Smart cameras</h3>
+                        <p data-pl="Systemy monitoringu z analizą obrazu w czasie rzeczywistym." data-en="Monitoring systems with real-time image analysis.">Monitoring systems with real-time image analysis.</p>
+                        <span class="cap-link">
+                            <span class="badge-green">Open Source</span>
+                            <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M5 15L15 5M15 5H8M15 5V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </span>
+                    </a>
+                    <div class="capability">
+                        <div class="cap-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                        </div>
+                        <h3 data-pl="Integracja LLM" data-en="LLM integration">LLM integration</h3>
+                        <p data-pl="Wdrożenie modeli językowych (Ollama, Qwen) do Twojego projektu." data-en="Integrating language models (Ollama, Qwen) into your project.">Integrating language models (Ollama, Qwen) into your project.</p>
+                        <span class="badge-muted" data-pl="Wkrótce" data-en="Coming soon">Coming soon</span>
+                    </div>
+                    <div class="capability">
+                        <div class="cap-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+                        </div>
+                        <h3>AI Voice Agent</h3>
+                        <p data-pl="Głosowy asystent AI dopasowany do Twojego biznesu." data-en="AI-powered voice assistant tailored to your business.">AI-powered voice assistant tailored to your business.</p>
+                        <span class="badge-muted" data-pl="Wkrótce" data-en="Coming soon">Coming soon</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="process">
+            <div class="container">
+                <div class="section-label anim" data-pl="Proces" data-en="Process">Process</div>
+                <h2 class="process-title anim" data-pl="Od pomysłu do wdrożenia" data-en="From idea to deployment">From idea to deployment</h2>
+                <div class="process-steps anim">
+                    <div class="step step-cta">
+                        <div class="step-line"></div>
+                        <div class="step-num">01</div>
+                        <h3 data-pl="Zadzwoń lub napisz" data-en="Call or email">Call or email</h3>
+                        <p data-pl="Opisz swój pomysł — odezwę się w 24h." data-en="Tell me about your idea — I'll reply within 24h.">Tell me about your idea — I'll reply within 24h.</p>
+                        <div class="step-contact">
+                            <a href="tel:+48505533851" class="step-contact-pill" title="+48 505 533 851">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                            </a>
+                            <a href="mailto:michal.anatol.skora@gmail.com" class="step-contact-pill" title="michal.anatol.skora@gmail.com">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-line"></div>
+                        <div class="step-num">02</div>
+                        <h3 data-pl="Kontakt i wycena" data-en="Scope & estimate">Scope & estimate</h3>
+                        <p data-pl="Poznaję Twój problem. Daję wycenę w 48h." data-en="I learn your problem. Estimate within 48h.">I learn your problem. Estimate within 48h.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-line"></div>
+                        <div class="step-num">03</div>
+                        <h3>Proof of concept</h3>
+                        <p data-pl="Działający prototyp, żebyś zobaczył kierunek." data-en="Working prototype to validate direction.">Working prototype to validate direction.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-line"></div>
+                        <div class="step-num">04</div>
+                        <h3 data-pl="Realizacja" data-en="Build & deploy">Build & deploy</h3>
+                        <p data-pl="Koduję, testuję, wdrażam na produkcję." data-en="I code, test, ship to production.">I code, test, ship to production.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-line"></div>
+                        <div class="step-num">05</div>
+                        <h3 data-pl="Iteracja" data-en="Iterate">Iterate</h3>
+                        <p data-pl="Feedback, poprawki, kolejne wersje." data-en="Feedback, fixes, next versions.">Feedback, fixes, next versions.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="about">
+            <div class="container about-grid">
+                <div class="about-photo anim">
+                    <img src="photo.jpg" alt="Michał Skóra">
+                </div>
+                <div class="about-text anim">
+                    <div class="section-label" data-pl="Kim jestem" data-en="Who I am">Who I am</div>
+                    <h2>Michał Skóra</h2>
+                    <p><span data-pl="Solo developer z ponad" data-en="Solo developer with over">Solo developer with over</span> <strong><span id="years-counter"></span> <span data-pl="lat doświadczenia" data-en="years of experience">years of experience</span></strong>. <span data-pl="Wcześniej w dużych projektach bankowych. Teraz buduję systemy IT pod firmą StableTech — szybko, sprawnie, bez korpo." data-en="Previously in large banking projects. Now I build IT systems under StableTech — fast, lean, no corporate overhead.">Previously in large banking projects. Now I build IT systems under StableTech — fast, lean, no corporate overhead.</span></p>
+                    <p style="margin-top: 12px;"><span data-pl="Interesuję się sztuczną inteligencją — szczególnie bezpieczeństwem (np. prompt injection) i stabilnością wdrożeń produkcyjnych." data-en="Interested in AI — especially security topics like prompt injection and keeping production deployments stable.">Interested in AI — especially security topics like prompt injection and keeping production deployments stable.</span></p>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact" id="contact">
+            <div class="container">
+                <div class="contact-card anim">
+                    <div class="contact-left">
+                        <div class="section-label" data-pl="Kontakt" data-en="Contact">Contact</div>
+                        <h2 data-pl="Masz system do wdrożenia?" data-en="Got a system to build?">Got a system to build?</h2>
+                        <p data-pl="Opisz mi swój projekt — odezwę się w ciągu 24h." data-en="Describe your project — I'll get back within 24h.">Describe your project — I'll get back within 24h.</p>
+                    </div>
+                    <div class="contact-right">
+                        <a href="tel:+48505533851" class="contact-link contact-link-primary">+48 505 533 851</a>
+                        <a href="mailto:michal.anatol.skora@gmail.com" class="contact-link">michal.anatol.skora@gmail.com</a>
+                        <a href="https://github.com/MichalAnatolSkora" target="_blank" rel="noopener" class="contact-link">github.com/MichalAnatolSkora</a>
+                        <div class="contact-legal">
+                            <p>StableTech Michał Skóra</p>
+                            <p>NIP: 8961645191 &middot; REGON: 540063442</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-inner">
+            <span>&copy; 2026 StableTech Michał Skóra</span>
+        </div>
+    </footer>
+
+    <script>
+        const start = 2012;
+        const years = new Date().getFullYear() - start;
+        document.getElementById('years-counter').textContent = years + '+';
+
+        let lang = localStorage.getItem('lang') || 'en';
+        const toggle = document.getElementById('lang-toggle');
+
+        // Heading text per language
+        const headingData = {
+            en: [
+                { words: 'I design, build & deploy', cls: '' },
+                { br: true },
+                { words: 'software systems', cls: 'accent' },
+                { br: true },
+                { words: 'for your business.', cls: '' }
+            ],
+            pl: [
+                { words: 'Projektuję, buduję i wdrażam', cls: '' },
+                { br: true },
+                { words: 'systemy informatyczne', cls: 'accent' },
+                { br: true },
+                { words: 'dla Twojego biznesu.', cls: '' }
+            ]
+        };
+
+        function buildHeadingHTML(l) {
+            const h = document.getElementById('hero-heading');
+            h.innerHTML = '';
+            h.classList.remove('typing', 'done');
+            const lines = headingData[l];
+            lines.forEach(line => {
+                if (line.br) {
+                    h.appendChild(document.createElement('br'));
+                    return;
+                }
+                line.words.split(' ').forEach(w => {
+                    const span = document.createElement('span');
+                    span.className = 'word' + (line.cls ? ' ' + line.cls : '');
+                    span.textContent = w + ' ';
+                    h.appendChild(span);
+                });
+            });
+        }
+
+        function typeHeading(callback) {
+            const h = document.getElementById('hero-heading');
+            const words = h.querySelectorAll('.word');
+            h.classList.add('typing');
+
+            let i = 0;
+            function showNext() {
+                if (i >= words.length) {
+                    h.classList.remove('typing');
+                    h.classList.add('done');
+                    if (callback) callback();
+                    return;
+                }
+                words[i].classList.add('visible');
+                i++;
+                // Uneven timing: base 60-110ms, occasional pauses 180-280ms
+                const pause = Math.random() < 0.2
+                    ? 180 + Math.random() * 100
+                    : 60 + Math.random() * 50;
+                setTimeout(showNext, pause);
+            }
+            showNext();
+        }
+
+        function setLang(l, animate) {
+            lang = l;
+            localStorage.setItem('lang', l);
+            document.documentElement.lang = l;
+            toggle.textContent = l === 'en' ? 'PL' : 'EN';
+            document.querySelectorAll('[data-pl][data-en]').forEach(el => {
+                el.textContent = el.getAttribute('data-' + l);
+            });
+            buildHeadingHTML(l);
+            if (animate) {
+                typeHeading();
+            } else {
+                // Show all words instantly
+                document.querySelectorAll('#hero-heading .word').forEach(w => w.classList.add('visible'));
+                document.getElementById('hero-heading').classList.add('done');
+            }
+        }
+
+        toggle.addEventListener('click', () => setLang(lang === 'en' ? 'pl' : 'en', true));
+
+        document.getElementById('logo-link').addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Scroll-triggered animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
+
+        document.querySelectorAll('.anim').forEach(el => observer.observe(el));
+
+        // Start hero animations
+        function startHero() {
+            // Build heading with words hidden
+            buildHeadingHTML(lang);
+
+            // Stagger reveal hero elements
+            const loads = document.querySelectorAll('.anim-load');
+            loads.forEach((el, i) => {
+                setTimeout(() => {
+                    el.classList.add('revealed');
+                    if (i === 1) {
+                        // Start typing after heading element is revealed
+                        setTimeout(() => typeHeading(), 100);
+                    }
+                }, i * 150);
+            });
+        }
+
+        // Init language without animation, then start hero
+        setLang(lang, false);
+
+        if (document.readyState === 'complete') {
+            startHero();
+        } else {
+            window.addEventListener('load', startHero);
+        }
+    </script>
+</body>
+</html>
