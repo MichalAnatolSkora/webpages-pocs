@@ -1030,11 +1030,11 @@
       .service-row { grid-template-columns: 60px 1fr; gap: 20px; }
       .service-num { font-size: 2.5rem; }
       .service-detail { display: none; }
-      .nav.menu-open { background: rgba(10,10,10,0.98); }
-      .nav-links { display: none; flex-direction: column; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #0a0a0a; justify-content: center; align-items: center; gap: 40px; z-index: 150; }
+      .nav.menu-open { background: #0a0a0a; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 9000; flex-wrap: wrap; align-content: flex-start; }
+      .nav-links { display: none; flex-direction: column; width: 100%; position: absolute; top: 0; left: 0; right: 0; height: 100vh; height: 100svh; background: #0a0a0a; justify-content: center; align-items: center; gap: 40px; padding-bottom: 60px; }
       .nav-links.active { display: flex; }
       .nav-links a { font-size: 1.6rem; letter-spacing: 4px; }
-      .nav-toggle { display: block; position: relative; z-index: 200; }
+      .nav-toggle { display: block; position: relative; z-index: 10; }
       .gallery-card { width: 280px; }
       .gallery-card.wide { width: 380px; }
       .gallery-card img { height: 300px; }
@@ -1562,15 +1562,7 @@
     gs.addEventListener("mouseup", function() { isDown = false; gs.style.cursor = "grab"; });
     gs.addEventListener("mousemove", function(e) { if (!isDown) return; e.preventDefault(); var x = e.pageX - gs.offsetLeft; gs.scrollLeft = scrollL - (x - startX) * 1.5; });
 
-    // === PARALLAX on split images ===
-    window.addEventListener("scroll", function() {
-      document.querySelectorAll(".split-img img").forEach(function(img) {
-        var rect = img.getBoundingClientRect();
-        var center = rect.top + rect.height / 2;
-        var offset = (center - window.innerHeight / 2) * 0.05;
-        img.style.transform = "translateY(" + offset + "px)";
-      });
-    }, { passive: true });
+
 
     var saved = localStorage.getItem("flokki-lang");
     if (saved && T[saved]) setLang(saved);
