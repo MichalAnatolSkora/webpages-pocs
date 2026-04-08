@@ -721,6 +721,8 @@
       position: relative;
     }
 
+    .gallery-hint { display: none; }
+
     .gallery-section .label {
       font-size: 0.7rem;
       text-transform: uppercase;
@@ -1035,9 +1037,35 @@
       .nav-links.active { display: flex; }
       .nav-links a { font-size: 1.6rem; letter-spacing: 4px; }
       .nav-toggle { display: block; position: relative; z-index: 10; }
-      .gallery-card { width: 280px; }
-      .gallery-card.wide { width: 380px; }
-      .gallery-card img { height: 300px; }
+      .gallery-card { width: 260px; }
+      .gallery-card.wide { width: 300px; }
+      .gallery-card img { height: 280px; }
+      .gallery-section { padding: 100px 0 100px 20px; }
+      .gallery-section::after {
+        content: '';
+        position: absolute;
+        top: 0; right: 0; bottom: 0;
+        width: 50px;
+        background: linear-gradient(to right, transparent, var(--dark));
+        pointer-events: none;
+        z-index: 2;
+      }
+      .gallery-hint {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 20px;
+        font-size: 0.7rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--mid);
+        animation: swipeHint 2s ease-in-out infinite;
+      }
+      .gallery-hint svg { width: 16px; height: 16px; }
+      @keyframes swipeHint {
+        0%, 100% { transform: translateX(0); opacity: 0.6; }
+        50% { transform: translateX(8px); opacity: 1; }
+      }
       .scroll-indicator { display: none; }
       .cursor-glow { display: none; }
     }
@@ -1209,6 +1237,10 @@
   <section id="gallery" class="gallery-section">
     <div class="label reveal" data-i18n="gallery_label">From the workshop</div>
     <h2 class="reveal" data-i18n="gallery_title">OUR WORK</h2>
+    <div class="gallery-hint" data-i18n="gallery_swipe">
+      <span>Swipe</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </div>
     <div class="gallery-scroll">
       <div class="gallery-card wide">
         <img src="../pics/ebffd798-4d15-4851-8d9c-09e3710c7ee1.jpeg" alt="Jaguar XJ">
@@ -1419,7 +1451,7 @@
         s3_name:"BODYWORK", s3_detail:"Rust removal, panel repair, filler, sanding, full body prep.",
         s4_name:"MECHANICS", s4_detail:"General automotive repair and maintenance.",
         s5_name:"FABRICATION", s5_detail:"Custom exhaust systems, intake pipes, one-off metal parts.",
-        gallery_label:"From the workshop", gallery_title:"OUR WORK",
+        gallery_label:"From the workshop", gallery_title:"OUR WORK", gallery_swipe:"Swipe",
         g_jaguar:"Jaguar XJ — Full Restoration", g_bmw1:"BMW — Bodywork Start",
         g_spray:"Spray Painting in Action", g_before:"Before & After",
         g_infrared:"Infrared Paint Drying", g_tig:"TIG Weld — Stainless Pipe",
@@ -1454,7 +1486,7 @@
         s3_name:"KAROSERIA", s3_detail:"Usuwanie rdzy, naprawa paneli, szpachlowanie, szlifowanie.",
         s4_name:"MECHANIKA", s4_detail:"Ogolne naprawy i serwis samochodowy.",
         s5_name:"FABRICACJA", s5_detail:"Niestandardowe wydechy, rury dolotowe, czesci na zamowienie.",
-        gallery_label:"Z naszego warsztatu", gallery_title:"NASZE PRACE",
+        gallery_label:"Z naszego warsztatu", gallery_title:"NASZE PRACE", gallery_swipe:"Przewin",
         g_jaguar:"Jaguar XJ — pelna renowacja", g_bmw1:"BMW — poczatek prac",
         g_spray:"Lakierowanie w akcji", g_before:"Przed i po",
         g_infrared:"Suszenie na podczerwien", g_tig:"Spoina TIG — rura nierdzewna",
@@ -1489,7 +1521,7 @@
         s3_name:"YFIRBORDSVIDGERD", s3_detail:"Rydfjarlaeging, plotuvidbod, sparkl, slipun.",
         s4_name:"VELVIRKI", s4_detail:"Almennar bilavidgerdir og vidhalds thjonusta.",
         s5_name:"MALMSMIDAR", s5_detail:"Serhannatud pustaror, inntaksror, serstok malm hlutir.",
-        gallery_label:"Ur verkstaedinu", gallery_title:"VERK OKKAR",
+        gallery_label:"Ur verkstaedinu", gallery_title:"VERK OKKAR", gallery_swipe:"Strjuka",
         g_jaguar:"Jaguar XJ — full endurgerd", g_bmw1:"BMW — upphaf yfirbordsvinnu",
         g_spray:"Udasprautun i framkvaemd", g_before:"Fyrir og eftir",
         g_infrared:"Innraud thurrkun", g_tig:"TIG suduvinna — rydrfritt ror",
