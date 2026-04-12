@@ -4,15 +4,27 @@
     box-sizing: border-box;
 }
 
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
+}
+
 :root {
     --bg: #F5F4EF;
     --bg-alt: #E8E6DC;
     --text: #141413;
     --text-secondary: #30302E;
     --text-muted: #6B6B69;
-    --accent: #D97757;
-    --accent-hover: #C4623F;
-    --accent-light: rgba(217, 119, 87, 0.08);
+    --accent: #AB4A2B;
+    --accent-hover: #8F3C20;
+    --accent-light: rgba(171, 74, 43, 0.08);
     --border: rgba(20, 20, 19, 0.12);
     --border-strong: rgba(20, 20, 19, 0.2);
     --mono: 'JetBrains Mono', monospace;
