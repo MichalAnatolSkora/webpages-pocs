@@ -89,12 +89,12 @@ body {
 
 .logo-sub {
     font-family: var(--mono);
-    font-size: 0.56rem;
+    font-size: 0.65rem;
     font-weight: 600;
     color: var(--accent);
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    margin-top: 1px;
+    margin-top: 2px;
 }
 
 .nav-right {
@@ -314,7 +314,7 @@ header h1 .accent {
     align-items: center;
     gap: 6px;
     text-decoration: none;
-    color: #15803d;
+    color: var(--accent);
     font-size: 0.8rem;
     font-weight: 600;
     transition: gap 0.15s ease;
@@ -330,8 +330,8 @@ header h1 .accent {
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.03em;
-    color: #15803d;
-    background: #f0fdf4;
+    color: var(--accent);
+    background: var(--accent-light);
     padding: 4px 10px;
     border-radius: 4px;
     border: 1px solid var(--accent);
@@ -772,8 +772,8 @@ footer {
         align-items: center;
         justify-content: center;
         border-radius: 50%;
-        width: 36px;
-        height: 36px;
+        width: 44px;
+        height: 44px;
     }
 
     .nav-phone-icon {
