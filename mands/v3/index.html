@@ -259,16 +259,8 @@
   }
   .hero-tag strong { color: var(--ink); font-weight: 500; }
   .hero-tag .year {
-    font-family: 'Fraunces', serif;
-    font-style: italic;
-    font-weight: 500;
-    font-size: 18px;
-    letter-spacing: -0.01em;
     color: var(--ink);
-    text-transform: none;
-    margin-left: 2px;
     position: relative;
-    top: 2px;
   }
   .hero-tag .year::before {
     content: '';
@@ -277,7 +269,7 @@
     border-radius: 50%;
     background: var(--acid);
     box-shadow: 0 0 0 3px rgba(200,234,83,.25);
-    margin: 0 10px 2px 4px;
+    margin: 0 8px 2px 0;
     vertical-align: middle;
   }
   .hero-display {
@@ -1433,7 +1425,7 @@
   <div class="hero-inner">
     <div class="hero-left">
       <div>
-        <div class="hero-tag" data-i="hero.tag">№ 001 <strong>Instytut Badawczy</strong> <span class="year">od 2005</span></div>
+        <div class="hero-tag" data-i="hero.tag">№ 001 <strong>Instytut Badawczy</strong> <span class="year">/ est. 2005</span></div>
         <h1 class="hero-display" data-i="hero.title">
           <span class="line">Badania</span>
           <span class="line">rynku</span>
@@ -1943,7 +1935,7 @@
     'nav.careers': 'Careers',
     'nav.contact': 'Contact',
 
-    'hero.tag': '№ 001 <strong>Research Institute</strong> <span class="year">since 2005</span>',
+    'hero.tag': '№ 001 <strong>Research Institute</strong> <span class="year">/ est. 2005</span>',
     'hero.title': '<span class="line">Market</span><span class="line"><em class="amp">&</em> opinion</span><span class="line"><em>research.</em></span>',
     'hero.sub': 'Polish research institute operating since <span class="serif">2005</span>. We listen, analyse and advise — helping you find the path to market success.',
     'hero.cta': 'Commission a study',
