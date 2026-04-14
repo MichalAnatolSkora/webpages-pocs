@@ -111,6 +111,33 @@
     background: var(--acid);
     box-shadow: 0 0 0 3px rgba(200,234,83,.25);
   }
+  .topbar-end {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .topbar-lang {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    padding: 7px 12px;
+    border: 1px solid var(--gray-line);
+    border-radius: 999px;
+    transition: background .2s ease, color .2s ease, border-color .2s ease;
+    text-decoration: none;
+    cursor: pointer;
+    background: transparent;
+    color: inherit;
+    line-height: 1;
+  }
+  .topbar-lang:hover,
+  .topbar-lang:focus-visible {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
   .topbar-right {
     font-family: 'JetBrains Mono', monospace;
     font-size: 12px;
@@ -119,8 +146,8 @@
     display: inline-flex;
     gap: 10px;
     align-items: center;
-    padding: 10px 14px;
-    margin: -10px -14px -10px 0;
+    padding: 8px 14px;
+    margin: 0;
   }
   .topbar-right .dot {
     width: 6px; height: 6px;
@@ -185,8 +212,8 @@
     position: absolute;
     inset: 0;
     background-image:
-      linear-gradient(rgba(15,15,12,.07) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(15,15,12,.07) 1px, transparent 1px);
+      linear-gradient(rgba(139,184,32,.5) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(139,184,32,.5) 1px, transparent 1px);
     background-size: 56px 56px;
     background-position: -1px -1px;
     -webkit-mask-image: radial-gradient(ellipse 80% 70% at 30% 40%, rgba(0,0,0,.9) 0%, rgba(0,0,0,.3) 55%, transparent 85%);
@@ -231,6 +258,28 @@
     background: var(--ink);
   }
   .hero-tag strong { color: var(--ink); font-weight: 500; }
+  .hero-tag .year {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 18px;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    text-transform: none;
+    margin-left: 2px;
+    position: relative;
+    top: 2px;
+  }
+  .hero-tag .year::before {
+    content: '';
+    display: inline-block;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--acid);
+    box-shadow: 0 0 0 3px rgba(200,234,83,.25);
+    margin: 0 10px 2px 4px;
+    vertical-align: middle;
+  }
   .hero-display {
     font-family: 'Fraunces', serif;
     font-size: clamp(48px, 6.4vw, 100px);
@@ -278,16 +327,6 @@
       radial-gradient(ellipse 70% 60% at 65% 35%, rgba(139,184,32,.18), transparent 65%),
       radial-gradient(ellipse 50% 40% at 20% 80%, rgba(139,184,32,.06), transparent 60%);
     z-index: 1;
-    pointer-events: none;
-  }
-  .hero-right::after {
-    content: '';
-    position: absolute; inset: 0;
-    background-image:
-      linear-gradient(rgba(245,242,234,.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(245,242,234,.04) 1px, transparent 1px);
-    background-size: 64px 64px;
-    z-index: 2;
     pointer-events: none;
   }
   .hero-dash {
@@ -1055,8 +1094,69 @@
     margin-top: 8px;
     font-weight: 400;
   }
+  .contact-map {
+    margin-top: 80px;
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(245,242,234,.15);
+    background: #0f0f0c;
+  }
+  .contact-map iframe {
+    display: block;
+    width: 100%;
+    height: 440px;
+    border: 0;
+    filter: grayscale(.35) contrast(1.05);
+  }
+  .contact-map-tag {
+    position: absolute;
+    top: 16px; left: 16px;
+    z-index: 2;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    color: var(--ink);
+    background: var(--paper);
+    padding: 8px 14px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    pointer-events: none;
+    box-shadow: 0 4px 16px rgba(0,0,0,.25);
+  }
+  .contact-map-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--acid);
+    box-shadow: 0 0 0 3px rgba(200,234,83,.3);
+  }
+  .contact-map-link {
+    position: absolute;
+    bottom: 16px; right: 16px;
+    z-index: 2;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    color: var(--ink);
+    background: var(--paper);
+    padding: 10px 14px;
+    border-radius: 999px;
+    text-decoration: none;
+    border: 1px solid rgba(15,15,12,.08);
+    box-shadow: 0 4px 16px rgba(0,0,0,.25);
+    transition: transform .2s ease, background .2s ease;
+  }
+  .contact-map-link:hover {
+    transform: translateY(-2px);
+    background: var(--acid);
+  }
   .contact-cta {
-    margin-top: 100px;
+    margin-top: 80px;
     padding-top: 40px;
     border-top: 1px solid rgba(245,242,234,.15);
     display: flex;
@@ -1271,7 +1371,7 @@
       margin: 0 16px 16px;
       border-radius: 20px;
     }
-    .contact-head { font-size: clamp(44px, 13vw, 72px); margin-bottom: 48px; }
+    .contact-head { font-size: clamp(34px, 10vw, 72px); margin-bottom: 48px; letter-spacing: -0.03em; }
     .contact-grid { gap: 28px; }
     .contact-col p { font-size: 18px; }
     .contact-cta {
@@ -1309,20 +1409,23 @@
 <div class="topbar" id="topbar">
   <a href="#top" class="topbar-left" aria-label="MANDS — strona główna">MANDS</a>
   <nav class="topbar-mid" id="topbar-nav" aria-label="Główna nawigacja">
-    <a href="#idx-01">Manifest</a>
-    <a href="#idx-02">Metody</a>
-    <a href="#idx-03">Retail</a>
-    <a href="#idx-04">Archiwum</a>
-    <a href="#idx-05">Kariera</a>
-    <a href="#idx-06">Kontakt</a>
+    <a href="#idx-01" data-i="nav.manifest">Manifest</a>
+    <a href="#idx-02" data-i="nav.methods">Metody</a>
+    <a href="#idx-03" data-i="nav.retail">Retail</a>
+    <a href="#idx-04" data-i="nav.archive">Archiwum</a>
+    <a href="#idx-05" data-i="nav.careers">Kariera</a>
+    <a href="#idx-06" data-i="nav.contact">Kontakt</a>
   </nav>
-  <a href="tel:+48713220686" class="topbar-right" aria-label="Zadzwoń: +48 71 322 06 86">
-    <span class="dot" aria-hidden="true"></span>
-    +48 71 322 06 86
-  </a>
-  <button class="topbar-burger" type="button" aria-label="Otwórz menu" aria-controls="topbar-nav" aria-expanded="false">
-    <span></span>
-  </button>
+  <div class="topbar-end">
+    <a href="tel:+48713220686" class="topbar-right" aria-label="Zadzwoń: +48 71 322 06 86">
+      <span class="dot" aria-hidden="true"></span>
+      +48 71 322 06 86
+    </a>
+    <button type="button" class="topbar-lang" aria-label="Switch language / Zmień język">EN</button>
+    <button class="topbar-burger" type="button" aria-label="Otwórz menu" aria-controls="topbar-nav" aria-expanded="false">
+      <span></span>
+    </button>
+  </div>
 </div>
 
 <!-- HERO -->
@@ -1330,18 +1433,18 @@
   <div class="hero-inner">
     <div class="hero-left">
       <div>
-        <div class="hero-tag">№ 001 <strong>Instytut Badawczy</strong> / est. 2005</div>
-        <h1 class="hero-display">
+        <div class="hero-tag" data-i="hero.tag">№ 001 <strong>Instytut Badawczy</strong> <span class="year">od 2005</span></div>
+        <h1 class="hero-display" data-i="hero.title">
           <span class="line">Badania</span>
           <span class="line">rynku</span>
           <span class="line"><em>i opinii.</em></span>
         </h1>
       </div>
       <div>
-        <p class="hero-sub">Polski instytut badawczy działający od <span class="serif">2005 roku</span>. Słuchamy, analizujemy i doradzamy — pomagamy znaleźć drogę do rynkowego sukcesu.</p>
+        <p class="hero-sub" data-i="hero.sub">Polski instytut badawczy działający od <span class="serif">2005 roku</span>. Słuchamy, analizujemy i doradzamy — pomagamy znaleźć drogę do rynkowego sukcesu.</p>
         <div class="hero-actions">
           <a href="#idx-06" class="arrow-link">
-            Zamów badanie
+            <span data-i="hero.cta">Zamów badanie</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
           </a>
           <div class="hero-note">info@mands.pl · +48 71 322 06 86</div>
@@ -1360,9 +1463,9 @@
           </defs>
 
           <!-- ============ PANEL 1: 20 LAT PROJEKTÓW ============ -->
-          <text class="hd-label" x="0" y="18">/ Zrealizowane projekty · 2005—2024</text>
+          <text class="hd-label" x="0" y="18" data-i="dash.projects.label">/ Zrealizowane projekty · 2005—2024</text>
           <text class="hd-val" x="0" y="52">4 600</text>
-          <text class="hd-label" x="84" y="52">projektów w 20 lat</text>
+          <text class="hd-label" x="84" y="52" data-i="dash.projects.note">projektów w 20 lat</text>
 
           <!-- grid -->
           <line class="hd-grid" x1="0" y1="100" x2="460" y2="100"/>
@@ -1406,8 +1509,8 @@
           <line class="hd-divider" x1="0" y1="304" x2="460" y2="304"/>
 
           <!-- ============ PANEL 2: STRUKTURA PRÓBY ============ -->
-          <text class="hd-label" x="0" y="328">/ Struktura próby · 2024</text>
-          <text class="hd-val-sm" x="460" y="328" text-anchor="end">540 000 wywiadów</text>
+          <text class="hd-label" x="0" y="328" data-i="dash.sample.label">/ Struktura próby · 2024</text>
+          <text class="hd-val-sm" x="460" y="328" text-anchor="end" data-i="dash.sample.value">540 000 wywiadów</text>
 
           <!-- horizontal stacked bar, y=346, h=38, widths scaled to 460 total minus 8px of gaps -->
           <!-- CATI 38% = 173 -->
@@ -1435,21 +1538,21 @@
 
           <!-- ============ PANEL 3: ZASIĘG + STANDARDY ============ -->
           <!-- col 1: ankieterzy -->
-          <text class="hd-label" x="0" y="456">/ Siatka terenowa</text>
+          <text class="hd-label" x="0" y="456" data-i="dash.field.label">/ Siatka terenowa</text>
           <text class="hd-val" x="0" y="500" style="font-size:30px;">400</text>
-          <text class="hd-label" x="76" y="492">ankieterów</text>
-          <text class="hd-label" x="76" y="506">w 16 województwach</text>
-          <text class="hd-label" x="0" y="526">+ 10 trenerów regionalnych</text>
+          <text class="hd-label" x="76" y="492" data-i="dash.field.line1">ankieterów</text>
+          <text class="hd-label" x="76" y="506" data-i="dash.field.line2">w 16 województwach</text>
+          <text class="hd-label" x="0" y="526" data-i="dash.field.trainers">+ 10 trenerów regionalnych</text>
 
           <!-- col 2: standardy -->
-          <text class="hd-label" x="252" y="456">/ Standardy jakości</text>
+          <text class="hd-label" x="252" y="456" data-i="dash.standards.label">/ Standardy jakości</text>
           <g transform="translate(252,472)">
             <rect rx="14" ry="14" x="0"   y="0" width="96" height="28" fill="none" stroke="rgba(245,242,234,.4)" stroke-width="1"/>
             <text x="48" y="19" text-anchor="middle" class="hd-chip">OFBOR</text>
             <rect rx="14" ry="14" x="104" y="0" width="104" height="28" fill="none" stroke="rgba(245,242,234,.4)" stroke-width="1"/>
             <text x="156" y="19" text-anchor="middle" class="hd-chip">ESOMAR</text>
           </g>
-          <text class="hd-label" x="252" y="526">członek od 2008</text>
+          <text class="hd-label" x="252" y="526" data-i="dash.standards.note">członek od 2008</text>
         </svg>
       </div>
       <!-- map removed
@@ -1533,49 +1636,49 @@
 
   <div class="hero-strip">
     <div>
-      <span class="mono">/ 001 — Doświadczenie</span>
-      <strong>20<em>+</em> lat</strong>
+      <span class="mono" data-i="strip.1.label">/ 001 — Doświadczenie</span>
+      <strong data-i="strip.1.val">20<em>+</em> lat</strong>
     </div>
     <div>
-      <span class="mono">/ 002 — Ankieterzy</span>
-      <strong>400<em>+</em> w&nbsp;Polsce</strong>
+      <span class="mono" data-i="strip.2.label">/ 002 — Ankieterzy</span>
+      <strong data-i="strip.2.val">400<em>+</em> w&nbsp;Polsce</strong>
     </div>
     <div>
-      <span class="mono">/ 003 — Wywiady</span>
-      <strong>10<em>k</em> / tydzień</strong>
+      <span class="mono" data-i="strip.3.label">/ 003 — Wywiady</span>
+      <strong data-i="strip.3.val">10<em>k</em> / tydzień</strong>
     </div>
     <div>
-      <span class="mono">/ 004 — Standardy</span>
-      <strong>OFBOR <em>·</em> ESOMAR</strong>
+      <span class="mono" data-i="strip.4.label">/ 004 — Standardy</span>
+      <strong data-i="strip.4.val">OFBOR <em>·</em> ESOMAR</strong>
     </div>
   </div>
 </section>
 
 <!-- CHAPTER 01 — ABOUT -->
 <section id="idx-01" class="section">
-  <div class="section-num">§ <strong>01</strong> / Manifest</div>
+  <div class="section-num" data-i="sec01.num">§ <strong>01</strong> / Manifest</div>
   <div class="chapter">
-    <div class="chapter-label">
+    <div class="chapter-label" data-i="sec01.label">
       Rozdział pierwszy
       <strong>Kim jesteśmy</strong>
     </div>
     <div>
-      <p class="chapter-body reveal">Jesteśmy instytutem referencyjnym dla <em>sieci handlowych.</em> Stawiamy na indywidualne podejście — słuchamy, analizujemy, doradzamy.</p>
+      <p class="chapter-body reveal" data-i="sec01.body">Jesteśmy instytutem referencyjnym dla <em>sieci handlowych.</em> Stawiamy na indywidualne podejście — słuchamy, analizujemy, doradzamy.</p>
       <div class="chapter-details reveal">
         <div>
-          <span class="mono">/ 001 — Podejście</span>
-          <h4>Indywidualnie.</h4>
-          <p>Każdy klient otrzymuje wsparcie merytoryczne dopasowane do jego potrzeb — bez szablonów.</p>
+          <span class="mono" data-i="sec01.d1.label">/ 001 — Podejście</span>
+          <h4 data-i="sec01.d1.h">Indywidualnie.</h4>
+          <p data-i="sec01.d1.p">Każdy klient otrzymuje wsparcie merytoryczne dopasowane do jego potrzeb — bez szablonów.</p>
         </div>
         <div>
-          <span class="mono">/ 002 — Technologia</span>
-          <h4>Własne narzędzia.</h4>
-          <p>Teleinformatyczny system B2B integrujący sondażowanie, przetwarzanie danych i raportowanie.</p>
+          <span class="mono" data-i="sec01.d2.label">/ 002 — Technologia</span>
+          <h4 data-i="sec01.d2.h">Własne narzędzia.</h4>
+          <p data-i="sec01.d2.p">Teleinformatyczny system B2B integrujący sondażowanie, przetwarzanie danych i raportowanie.</p>
         </div>
         <div>
-          <span class="mono">/ 003 — Zespół</span>
-          <h4>Doświadczenie.</h4>
-          <p>Specjaliści z wieloletnim stażem. Praca zgodnie z Kodeksem ESOMAR i standardami PKJPA.</p>
+          <span class="mono" data-i="sec01.d3.label">/ 003 — Zespół</span>
+          <h4 data-i="sec01.d3.h">Doświadczenie.</h4>
+          <p data-i="sec01.d3.p">Specjaliści z wieloletnim stażem. Praca zgodnie z Kodeksem ESOMAR i standardami PKJPA.</p>
         </div>
       </div>
     </div>
@@ -1584,20 +1687,20 @@
 
 <!-- CHAPTER 02 — SOLUTIONS -->
 <section id="idx-02" class="section">
-  <div class="section-num">§ <strong>02</strong> / Metody badawcze</div>
+  <div class="section-num" data-i="sec02.num">§ <strong>02</strong> / Metody badawcze</div>
   <div class="solutions-wrap">
-    <h2 class="solutions-title reveal">Pełna paleta<br>metod <em>badawczych.</em></h2>
+    <h2 class="solutions-title reveal" data-i="sec02.title">Pełna paleta<br>metod <em>badawczych.</em></h2>
     <table class="solutions-table">
-      <tr class="reveal"><td class="sol-num">/01</td><td class="sol-name">CATI<em>.</em></td><td class="sol-tag">Ilościowe · Telefon</td><td class="sol-desc">Wywiady telefoniczne wspomagane komputerowo. Studio we Wrocławiu od 2005 r. oraz praca zdalna w modelu Cati@Home.</td><td class="sol-arrow">↗</td></tr>
-      <tr class="reveal"><td class="sol-num">/02</td><td class="sol-name">CAWI<em>.</em></td><td class="sol-tag">Ilościowe · Online</td><td class="sol-desc">Ankieta internetowa wypełniana samodzielnie. Szybka dystrybucja, niski koszt, szeroki zasięg.</td><td class="sol-arrow">↗</td></tr>
-      <tr class="reveal"><td class="sol-num">/03</td><td class="sol-name">MOBI<em>.</em></td><td class="sol-tag">Ilościowe · Tablet</td><td class="sol-desc">Ewolucja papier-ołówek. Tablety z multimediami i automatycznym zapisem lokalizacji GPS.</td><td class="sol-arrow">↗</td></tr>
-      <tr class="reveal"><td class="sol-num">/04</td><td class="sol-name">FGI<em>.</em></td><td class="sol-tag">Jakościowe · Grupa</td><td class="sol-desc">Focus Group Interviews — dyskusje grupowe, testowanie konceptów (logo, opakowania, reklamy), analiza zachowań konsumenckich.</td><td class="sol-arrow">↗</td></tr>
-      <tr class="reveal"><td class="sol-num">/05</td><td class="sol-name">IDI<em>.</em></td><td class="sol-tag">Jakościowe · Indywidualne</td><td class="sol-desc">Individual In-Depth Interview — pogłębione rozmowy 1:1 z trudno dostępnymi grupami lub w tematach drażliwych.</td><td class="sol-arrow">↗</td></tr>
-      <tr class="reveal"><td class="sol-num">/06</td><td class="sol-name">FoBo<em>.</em></td><td class="sol-tag">Jakościowe · Online</td><td class="sol-desc">Focus Board — platforma do jakościowych badań online (focusy w internecie, moderowane dyskusje asynchroniczne).</td><td class="sol-arrow">↗</td></tr>
-      <tr class="reveal"><td class="sol-num">/07</td><td class="sol-name">Mystery Shopper<em>.</em></td><td class="sol-tag">Audyt · Retail &amp; Usługi</td><td class="sol-desc">Tajemniczy klient — kilkuset audytorów w całej Polsce. Weryfikacja standardów obsługi, ekspozycji i procedur.</td><td class="sol-arrow">↗</td></tr>
-      <tr class="reveal"><td class="sol-num">/08</td><td class="sol-name">PaaS<em>.</em></td><td class="sol-tag">Technologia · SaaS</td><td class="sol-desc">Platform as a Service — dostęp do technologii badawczej (CATI, CAPI, CAWI, MOBI, Mystery Shopper) na określony czas projektu.</td><td class="sol-arrow">↗</td></tr>
-      <tr class="reveal"><td class="sol-num">/09</td><td class="sol-name">Fokusownia<em>.</em></td><td class="sol-tag">Infrastruktura</td><td class="sol-desc">Profesjonalnie wyposażona fokusownia z podglądownią w siedzibie we Wrocławiu.</td><td class="sol-arrow">↗</td></tr>
-      <tr class="reveal"><td class="sol-num">/10</td><td class="sol-name">Standardy<em>.</em></td><td class="sol-tag">OFBOR · ESOMAR</td><td class="sol-desc">Pracujemy zgodnie z międzynarodowymi standardami jakości badań rynku i opinii.</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/01</td><td class="sol-name" data-i="m.cati.name">CATI<em>.</em></td><td class="sol-tag" data-i="m.cati.tag">Ilościowe · Telefon</td><td class="sol-desc" data-i="m.cati.desc">Computer-Assisted Telephone Interviewing. Tysiące wywiadów miesięcznie w badaniach sondażowych, społecznych, konsumenckich i B2B — w Polsce i za granicą. Własne studio we Wrocławiu od 2005 r., profesjonalne stanowiska, opieka doświadczonych supervisorów oraz praca zdalna w modelu Cati@Home. Szybka realizacja, szybkie opracowanie wyników, minimalizacja błędów, pełna kontrola nad projektem.</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/02</td><td class="sol-name" data-i="m.cawi.name">CAWI<em>.</em></td><td class="sol-tag" data-i="m.cawi.tag">Ilościowe · Online</td><td class="sol-desc" data-i="m.cawi.desc">Computer Assisted Web Interview — ankieta internetowa wypełniana samodzielnie. Realizujemy w oprogramowaniu CADAS CAWI, które łączy elementy organizacyjne, metodologiczne, kontrolne i informatyczne procesu badawczego. Klient partycypuje w projekcie: testuje kwestionariusz, na bieżąco podgląda wyniki i postęp badania. Pełne bezpieczeństwo — szyfrowany dostęp i podwójne szyfrowanie danych, łącznie z danymi teleadresowymi respondentów. Dla respondenta proces jest przystępny: bez instalacji dodatkowego oprogramowania, z możliwością przerwania i powrotu bez utraty odpowiedzi.</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/03</td><td class="sol-name" data-i="m.mobi.name">MOBI<em>.</em></td><td class="sol-tag" data-i="m.mobi.tag">Ilościowe · Tablet</td><td class="sol-desc" data-i="m.mobi.desc">Ewolucja tradycyjnych badań typu „papier-ołówek" do pełnoprawnych wywiadów wspomaganych komputerowo. Ankieter posługuje się tabletem dokładnie tak samo jak ankietą papierową, z możliwością wykorzystania multimediów i zaawansowanych technik wizualizacji pytań (m.in. drag & drop). Automatyczny zapis lokalizacji GPS oraz nagrywanie wywiadów ułatwia i przyspiesza kontrolę pracy ankieterów w terenie.</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/04</td><td class="sol-name" data-i="m.fgi.name">FGI<em>.</em></td><td class="sol-tag" data-i="m.fgi.tag">Jakościowe · Grupa</td><td class="sol-desc" data-i="m.fgi.desc">Focus Group Interviews — jedna z najpopularniejszych metod badań jakościowych. Dyskusja grupowa kontrolowana przez moderatora, prowadzona na podstawie wcześniej przygotowanego scenariusza. Stosowana do testowania nowych konceptów (logo, opakowania, reklamy) i badania zachowań konsumenckich; charakteryzuje się twórczym i inspirującym charakterem z możliwością pogłębionej analizy tematu. Przebieg wywiadu jest rejestrowany.</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/05</td><td class="sol-name" data-i="m.idi.name">IDI<em>.</em></td><td class="sol-tag" data-i="m.idi.tag">Jakościowe · Indywidualne</td><td class="sol-desc" data-i="m.idi.desc">Individual In-Depth Interview — druga najpopularniejsza metoda badań jakościowych. Rozmowa moderatora z respondentem w celu dotarcia do pożądanych informacji oraz poznania postaw, intencji i motywów działań badanego. Prowadzona według ustalonego scenariusza o charakterze otwartym; sprawdza się w sytuacjach z trudnym dostępem do grup badawczych lub przy tematach drażliwych. Przebieg zwykle jest rejestrowany.</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/06</td><td class="sol-name" data-i="m.fobo.name">FoBo<em>.</em></td><td class="sol-tag" data-i="m.fobo.tag">Jakościowe · Online</td><td class="sol-desc" data-i="m.fobo.desc">Focus Board — platforma do jakościowych badań online. Alternatywa dla metod tradycyjnych: wywiady indywidualne i grupowe prowadzone przez Internet, również w formie bezkontaktowej. Rekrutacja telefoniczna wg screenera, realizacja przez Zoom (z opcją tłumaczenia symultanicznego), transmisja na żywo przez YouTube do wskazanych odbiorców, nagrania audio-video i transkrypcje. Zakres współpracy od nadzoru technicznego po pełny projekt z rekrutacją, moderacją i raportem.</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/07</td><td class="sol-name" data-i="m.ms.name">Mystery Shopper<em>.</em></td><td class="sol-tag" data-i="m.ms.tag">Audyt · Retail & Usługi</td><td class="sol-desc" data-i="m.ms.desc">Tajemniczy klient — kilkuset audytorów w całej Polsce realizuje projekty audytowe dla sieci retailowych i usługowych. Weryfikacja standardów obsługi, ekspozycji materiałów POS i procedur sprzedażowych. Dostępny także jako komponent platformy PaaS.</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/08</td><td class="sol-name" data-i="m.paas.name">PaaS<em>.</em></td><td class="sol-tag" data-i="m.paas.tag">Technologia · SaaS</td><td class="sol-desc" data-i="m.paas.desc">Platform as a Service — rozwiązanie pozwalające wypożyczyć na określony czas dostęp do technologii i oprogramowania badawczego. Dedykowane firmom, które nie chcą inwestować w sprzęt lub potrzebują dostępu do narzędzi statystycznych tylko na czas konkretnego projektu. Badania obejmują CATI, CAPI, CAWI, MOBI oraz Mystery Shopper.</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/09</td><td class="sol-name" data-i="m.focus.name">Fokusownia<em>.</em></td><td class="sol-tag" data-i="m.focus.tag">Infrastruktura · Wrocław</td><td class="sol-desc" data-i="m.focus.desc">W pełni wyposażona fokusownia z podglądownią oraz oddzielnym pomieszczeniem dla tłumacza przy ul. Prusa we Wrocławiu. Pomoce dla moderatora (telewizor, rzutnik, flipchart), profesjonalny sprzęt audio z tłumaczeniem symultanicznym i jednoczesnym nagrywaniem A/V w dwóch wersjach językowych, video streaming grup fokusowych (opcjonalnie, w wersji oryginalnej lub z lektorem), bezprzewodowy Internet, poczęstunek dla respondentów. Studio przystosowane dla osób niepełnosprawnych.</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/10</td><td class="sol-name" data-i="m.std.name">Standardy<em>.</em></td><td class="sol-tag" data-i="m.std.tag">OFBOR · ESOMAR</td><td class="sol-desc" data-i="m.std.desc">Przestrzegamy norm jakości w procesie realizacji badań — pracujemy zgodnie ze standardami OFBOR, co daje klientowi gwarancję wysokiej jakości całego procesu badawczego i jest świadectwem dbałości o każdy jego element. Działamy również w oparciu o Kodeks ESOMAR.</td><td class="sol-arrow">↗</td></tr>
     </table>
   </div>
 </section>
@@ -1605,23 +1708,23 @@
 <!-- BIG NUMBERS -->
 <section class="bignums">
   <div class="bignums-inner">
-    <h2>◆ Liczby MANDS / w liczbach</h2>
+    <h2 data-i="big.title">◆ Liczby MANDS / w liczbach</h2>
     <div class="bignums-grid">
       <div class="bignum reveal">
-        <div class="bignum-val">20<em>+</em></div>
-        <div class="bignum-label"><strong>Lat doświadczenia</strong>nieprzerwanie na rynku badań od 2005 roku</div>
+        <div class="bignum-val" data-i="big.1.val">20<em>+</em></div>
+        <div class="bignum-label" data-i="big.1.label"><strong>Lat doświadczenia</strong>nieprzerwanie na rynku badań od 2005 roku</div>
       </div>
       <div class="bignum reveal">
-        <div class="bignum-val">400</div>
-        <div class="bignum-label"><strong>Ankieterów</strong>w całej Polsce, nadzorowanych przez trenerów regionalnych</div>
+        <div class="bignum-val" data-i="big.2.val">400</div>
+        <div class="bignum-label" data-i="big.2.label"><strong>Ankieterów</strong>w całej Polsce, nadzorowanych przez trenerów regionalnych</div>
       </div>
       <div class="bignum reveal">
-        <div class="bignum-val">10<em>k</em></div>
-        <div class="bignum-label"><strong>Wywiadów</strong>tygodniowo w ramach kontroli dystrybucji materiałów</div>
+        <div class="bignum-val" data-i="big.3.val">10<em>k</em></div>
+        <div class="bignum-label" data-i="big.3.label"><strong>Wywiadów</strong>tygodniowo w ramach kontroli dystrybucji materiałów</div>
       </div>
       <div class="bignum reveal">
-        <div class="bignum-val">10</div>
-        <div class="bignum-label"><strong>Trenerów regionalnych</strong>nadzorujących jakość pracy ankieterów w terenie</div>
+        <div class="bignum-val" data-i="big.4.val">10</div>
+        <div class="bignum-label" data-i="big.4.label"><strong>Trenerów regionalnych</strong>nadzorujących jakość pracy ankieterów w terenie</div>
       </div>
     </div>
   </div>
@@ -1629,19 +1732,19 @@
 
 <!-- CHAPTER 03 — RETAIL -->
 <section id="idx-03" class="section">
-  <div class="section-num">§ <strong>03</strong> / Dla sieci handlowych</div>
+  <div class="section-num" data-i="sec03.num">§ <strong>03</strong> / Dla sieci handlowych</div>
   <div class="retail-wrap">
     <div class="retail-intro">
-      <div class="chapter-label">
+      <div class="chapter-label" data-i="sec03.label">
         Rozdział trzeci
-        <strong>Retail <span class="amp">&amp;</span> dystrybucja</strong>
+        <strong>Retail <span class="amp">&</span> dystrybucja</strong>
       </div>
-      <h2 class="retail-headline reveal">Sprawdzamy, czy Twoje<br>gazetki <em>docierają do klientów.</em></h2>
+      <h2 class="retail-headline reveal" data-i="sec03.headline">Sprawdzamy, czy Twoje<br>gazetki <em>docierają do klientów.</em></h2>
     </div>
     <div class="retail-layout">
       <div class="retail-image reveal">
         <img src="../images/IMG_5254-e1455562945354.jpg" alt="Badania terenowe MANDS" />
-        <div class="retail-image-tag">
+        <div class="retail-image-tag" data-i="sec03.tag">
           <strong>10 000+</strong>
           gospodarstw domowych / tydzień
         </div>
@@ -1650,29 +1753,29 @@
         <div class="retail-entry reveal">
           <div class="r-idx">/01</div>
           <div>
-            <div class="r-name">Distribution Check</div>
-            <div class="r-desc">Kontrola dystrybucji materiałów reklamowych. Tygodniowo odwiedzamy ponad 10 tysięcy gospodarstw domowych sprawdzając, czy gazetki zostały dostarczone.</div>
+            <div class="r-name" data-i="r.1.name">Distribution Check</div>
+            <div class="r-desc" data-i="r.1.desc">Kontrola dystrybucji materiałów reklamowych. Tygodniowo odwiedzamy ponad 10 tysięcy gospodarstw domowych sprawdzając, czy gazetki zostały dostarczone.</div>
           </div>
         </div>
         <div class="retail-entry reveal">
           <div class="r-idx">/02</div>
           <div>
-            <div class="r-name">Exit Store</div>
-            <div class="r-desc">Badanie na terenie sklepu z jego klientami — analiza wartości koszyka, częstotliwości zakupów. Rezultat: heatmapa obszarów atrakcyjnych finansowo.</div>
+            <div class="r-name" data-i="r.2.name">Exit Store</div>
+            <div class="r-desc" data-i="r.2.desc">Badanie na terenie sklepu z jego klientami — analiza wartości koszyka, częstotliwości zakupów. Rezultat: heatmapa obszarów atrakcyjnych finansowo.</div>
           </div>
         </div>
         <div class="retail-entry reveal">
           <div class="r-idx">/03</div>
           <div>
-            <div class="r-name">Distribution Reporting System</div>
-            <div class="r-desc">Webowe narzędzie SaaS do raportowania kolportażu. Obsługa SMS dla kolporterów, eksport CSV/XLSX, historia kampanii.</div>
+            <div class="r-name" data-i="r.3.name">Distribution Reporting System</div>
+            <div class="r-desc" data-i="r.3.desc">Webowe narzędzie SaaS do raportowania kolportażu. Obsługa SMS dla kolporterów, eksport CSV/XLSX, historia kampanii.</div>
           </div>
         </div>
         <div class="retail-entry reveal">
           <div class="r-idx">/04</div>
           <div>
-            <div class="r-name">Call Distribution Check</div>
-            <div class="r-desc">Telefoniczna kontrola dystrybucji gazetek. Około 10 tysięcy wywiadów w kluczowych lokalizacjach — realizowana zwykle raz na dwa lata.</div>
+            <div class="r-name" data-i="r.4.name">Call Distribution Check</div>
+            <div class="r-desc" data-i="r.4.desc">Telefoniczna kontrola dystrybucji gazetek. Około 10 tysięcy wywiadów w kluczowych lokalizacjach — realizowana zwykle raz na dwa lata.</div>
           </div>
         </div>
       </div>
@@ -1682,35 +1785,35 @@
 
 <!-- CHAPTER 04 — RESULTS -->
 <section id="idx-04" class="section">
-  <div class="section-num">§ <strong>04</strong> / Archiwum publikacji</div>
+  <div class="section-num" data-i="sec04.num">§ <strong>04</strong> / Archiwum publikacji</div>
   <div class="results-wrap">
     <div class="results-head">
-      <h2 class="reveal">Wybrane<br>publikacje <em><span class="amp">&amp;</span> raporty.</em></h2>
-      <p class="reveal">Dzielimy się wynikami wybranych badań — od skuteczności portali pracy w IT, przez infolinie hostingowe, po plany podróżnicze Polaków.</p>
+      <h2 class="reveal" data-i="sec04.title">Wybrane<br>publikacje <em><span class="amp">&</span> raporty.</em></h2>
+      <p class="reveal" data-i="sec04.sub">Dzielimy się wynikami wybranych badań — od skuteczności portali pracy w IT, przez infolinie hostingowe, po plany podróżnicze Polaków.</p>
     </div>
     <div class="results-list">
       <div class="result reveal">
-        <div class="result-year">Anno 2022</div>
-        <div class="result-title">Portale z ogłoszeniami IT</div>
-        <div class="result-desc">Trzecia edycja badania skuteczności portali pracy IT dla No Fluff Jobs — cztery stanowiska testowe metodą tajemniczego klienta.</div>
+        <div class="result-year" data-i="res.1.year">Anno 2022</div>
+        <div class="result-title" data-i="res.1.title">Portale z ogłoszeniami IT</div>
+        <div class="result-desc" data-i="res.1.desc">Trzecia edycja badania skuteczności portali pracy IT dla No Fluff Jobs — cztery stanowiska testowe metodą tajemniczego klienta.</div>
         <div class="result-arrow">↗</div>
       </div>
       <div class="result reveal">
-        <div class="result-year">Anno 2021</div>
-        <div class="result-title">Infolinie firm hostingowych</div>
-        <div class="result-desc">Badanie skuteczności obsługi klienta przeprowadzone wśród firm obsługujących co najmniej 10 000 domen.</div>
+        <div class="result-year" data-i="res.2.year">Anno 2021</div>
+        <div class="result-title" data-i="res.2.title">Infolinie firm hostingowych</div>
+        <div class="result-desc" data-i="res.2.desc">Badanie skuteczności obsługi klienta przeprowadzone wśród firm obsługujących co najmniej 10 000 domen.</div>
         <div class="result-arrow">↗</div>
       </div>
       <div class="result reveal">
-        <div class="result-year">Anno 2020</div>
-        <div class="result-title">Plany podróżnicze Polaków</div>
-        <div class="result-desc">Raport częściowy Ogólnopolskiego Badania Podróżników — wpływ pandemii na plany urlopowe i wybory kierunkowe.</div>
+        <div class="result-year" data-i="res.3.year">Anno 2020</div>
+        <div class="result-title" data-i="res.3.title">Plany podróżnicze Polaków</div>
+        <div class="result-desc" data-i="res.3.desc">Raport częściowy Ogólnopolskiego Badania Podróżników — wpływ pandemii na plany urlopowe i wybory kierunkowe.</div>
         <div class="result-arrow">↗</div>
       </div>
       <div class="result reveal">
-        <div class="result-year">Metodologia</div>
-        <div class="result-title">Tajemniczy klient</div>
-        <div class="result-desc">Kilkuset tajemniczych klientów w całej Polsce realizuje projekty audytowe — od retail przez gastronomię po usługi finansowe.</div>
+        <div class="result-year" data-i="res.4.year">Metodologia</div>
+        <div class="result-title" data-i="res.4.title">Tajemniczy klient</div>
+        <div class="result-desc" data-i="res.4.desc">Kilkuset tajemniczych klientów w całej Polsce realizuje projekty audytowe — od retail przez gastronomię po usługi finansowe.</div>
         <div class="result-arrow">↗</div>
       </div>
     </div>
@@ -1719,26 +1822,26 @@
 
 <!-- CAREERS -->
 <section id="idx-05" class="section">
-  <div class="section-num">§ <strong>05</strong> / Kariera</div>
+  <div class="section-num" data-i="sec05.num">§ <strong>05</strong> / Kariera</div>
   <div class="careers-wrap">
     <div class="careers-head">
-      <h2 class="reveal">Dołącz do<br><em>zespołu.</em></h2>
-      <p class="reveal">Instytut o pracowników merytorycznych oparty, rozszerzany siatką ankieterską i tajemniczymi klientami. Rekrutacja stała — CV przyjmujemy niezależnie od aktualnych ogłoszeń.</p>
+      <h2 class="reveal" data-i="sec05.title">Dołącz do<br><em>zespołu.</em></h2>
+      <p class="reveal" data-i="sec05.sub">Instytut o pracowników merytorycznych oparty, rozszerzany siatką ankieterską i tajemniczymi klientami. Rekrutacja stała — CV przyjmujemy niezależnie od aktualnych ogłoszeń.</p>
     </div>
 
     <div class="careers-grid">
       <div class="careers-stats reveal">
-        <div class="careers-stat">
+        <div class="careers-stat" data-i="car.stat.1">
           Zespół merytoryczny
           <strong>20<em>+</em></strong>
           analityków, projektantów badań, supervisorów
         </div>
-        <div class="careers-stat">
+        <div class="careers-stat" data-i="car.stat.2">
           Siatka terenowa
           <strong>400<em>+</em></strong>
           ankieterów i kilkuset tajemniczych klientów
         </div>
-        <div class="careers-stat">
+        <div class="careers-stat" data-i="car.stat.3">
           Zasięg
           <strong>PL</strong>
           cała Polska — 10 trenerów regionalnych
@@ -1746,27 +1849,27 @@
       </div>
 
       <div class="careers-jobs">
-        <h3>/ Aktualnie poszukujemy</h3>
+        <h3 data-i="car.jobs.h">/ Aktualnie poszukujemy</h3>
         <div class="careers-jobs-list">
           <a class="career-job reveal" href="mailto:rekrutacja@mands.pl?subject=Teleankieter%20CATI%20Wroc%C5%82aw">
             <div class="career-job-num">/01</div>
-            <div class="career-job-title">Teleankieter · studio CATI Wrocław<small>Praca stacjonarna lub zdalna (Cati@Home)</small></div>
+            <div class="career-job-title" data-i="car.job.1">Teleankieter · studio CATI Wrocław<small>Praca stacjonarna lub zdalna (Cati@Home)</small></div>
             <div class="career-job-arrow">↗</div>
           </a>
           <a class="career-job reveal" href="mailto:rekrutacja@mands.pl?subject=Kontroler%20dystrybucji">
             <div class="career-job-num">/02</div>
-            <div class="career-job-title">Kontroler dystrybucji materiałów reklamowych<small>Praca w terenie · cała Polska</small></div>
+            <div class="career-job-title" data-i="car.job.2">Kontroler dystrybucji materiałów reklamowych<small>Praca w terenie · cała Polska</small></div>
             <div class="career-job-arrow">↗</div>
           </a>
           <a class="career-job reveal" href="mailto:rekrutacja@mands.pl?subject=Siatka%20ankieterska">
             <div class="career-job-num">/03</div>
-            <div class="career-job-title">Siatka ankieterska &amp; tajemniczy klienci<small>Rekrutacja ciągła · całe PL</small></div>
+            <div class="career-job-title" data-i="car.job.3">Siatka ankieterska & tajemniczy klienci<small>Rekrutacja ciągła · całe PL</small></div>
             <div class="career-job-arrow">↗</div>
           </a>
         </div>
 
         <div class="careers-apply reveal">
-          <div class="careers-apply-text">Zainteresowany współpracą? Wyślij CV i kilka słów o sobie.</div>
+          <div class="careers-apply-text" data-i="car.apply">Zainteresowany współpracą? Wyślij CV i kilka słów o sobie.</div>
           <a href="mailto:rekrutacja@mands.pl">rekrutacja@mands.pl ↗</a>
         </div>
       </div>
@@ -1777,27 +1880,36 @@
 <!-- CONTACT -->
 <section id="idx-06" class="contact">
   <div class="contact-inner">
-    <h2 class="contact-head">Porozmawiajmy<br>o <em>badaniu.</em></h2>
+    <h2 class="contact-head" data-i="con.head">Porozmawiajmy<br>o <em>badaniu.</em></h2>
 
     <div class="contact-grid">
       <div class="contact-col">
-        <h4>/ 001 — Siedziba</h4>
-        <p>ul. B. Prusa 1/48<br>50-319 Wrocław<br><small>NIP: PL8851557675</small></p>
+        <h4 data-i="con.1.h">/ 001 — Siedziba</h4>
+        <p data-i="con.1.p">ul. B. Prusa 1/48<br>50-319 Wrocław<br><small>NIP: PL8851557675</small></p>
       </div>
       <div class="contact-col">
-        <h4>/ 002 — Kontakt</h4>
-        <p><a href="mailto:info@mands.pl">info@mands.pl</a><br><a href="tel:+48713220686">+48 71 322 06 86</a><small>zwykle odpowiadamy w ciągu 24h</small></p>
+        <h4 data-i="con.2.h">/ 002 — Kontakt</h4>
+        <p data-i="con.2.p"><a href="mailto:info@mands.pl">info@mands.pl</a><br><a href="tel:+48713220686">+48 71 322 06 86</a><small>zwykle odpowiadamy w ciągu 24h</small></p>
       </div>
       <div class="contact-col">
-        <h4>/ 003 — Kariera</h4>
-        <p><a href="mailto:rekrutacja@mands.pl">rekrutacja@mands.pl</a><small>ankieterzy · tajemniczy klienci · merytoryka</small></p>
+        <h4 data-i="con.3.h">/ 003 — Kariera</h4>
+        <p data-i="con.3.p"><a href="mailto:rekrutacja@mands.pl">rekrutacja@mands.pl</a><small>ankieterzy · tajemniczy klienci · merytoryka</small></p>
       </div>
     </div>
 
+    <div class="contact-map">
+      <div class="contact-map-tag">MANDS · ul. Prusa 1/48, Wrocław</div>
+      <iframe
+        src="https://maps.google.com/maps?&q=Boles%C5%82awa+Prusa+1+%2C+Wroc%C5%82aw+50-319&output=embed&iwloc"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="MANDS — siedziba na mapie"></iframe>
+    </div>
+
     <div class="contact-cta">
-      <div class="contact-cta-text">Masz pytanie o projekt badawczy? Odezwij się.</div>
+      <div class="contact-cta-text" data-i="con.cta.text">Masz pytanie o projekt badawczy? Odezwij się.</div>
       <a href="mailto:info@mands.pl">
-        Napisz do nas
+        <span data-i="con.cta.btn">Napisz do nas</span>
         <span>↗</span>
       </a>
     </div>
@@ -1807,21 +1919,200 @@
 <!-- FOOTER -->
 <footer>
   <div class="foot-inner">
-    <div class="foot-mark">m<em class="amp">&amp;</em>s</div>
+    <div class="foot-mark">m<em class="amp">&</em>s</div>
     <div class="foot-meta">
-      <div>Instytut Badawczy</div>
-      <strong>MANDS / Wrocław</strong>
+      <div data-i="foot.1">Instytut Badawczy</div>
+      <strong data-i="foot.2">MANDS / Wrocław</strong>
       <div>est. MMV</div>
       <div>51.10°N · 17.03°E</div>
     </div>
   </div>
   <div class="foot-bot">
-    <div>© 2026 MANDS — Wszystkie prawa zastrzeżone</div>
-    <div>Badania rynku i opinii / Made in Wrocław</div>
+    <div data-i="foot.bot.1">© 2026 MANDS — Wszystkie prawa zastrzeżone</div>
+    <div data-i="foot.bot.2">Badania rynku i opinii / Made in Wrocław</div>
   </div>
 </footer>
 
 <script>
+  // i18n — EN dictionary (PL is the source in the DOM)
+  const EN = {
+    'nav.manifest': 'Manifesto',
+    'nav.methods': 'Methods',
+    'nav.retail': 'Retail',
+    'nav.archive': 'Archive',
+    'nav.careers': 'Careers',
+    'nav.contact': 'Contact',
+
+    'hero.tag': '№ 001 <strong>Research Institute</strong> <span class="year">since 2005</span>',
+    'hero.title': '<span class="line">Market</span><span class="line"><em class="amp">&</em> opinion</span><span class="line"><em>research.</em></span>',
+    'hero.sub': 'Polish research institute operating since <span class="serif">2005</span>. We listen, analyse and advise — helping you find the path to market success.',
+    'hero.cta': 'Commission a study',
+
+    'dash.projects.label': '/ Completed projects · 2005—2024',
+    'dash.projects.note': 'projects over 20 years',
+    'dash.sample.label': '/ Sample structure · 2024',
+    'dash.sample.value': '540,000 interviews',
+    'dash.field.label': '/ Field network',
+    'dash.field.line1': 'interviewers',
+    'dash.field.line2': 'across 16 regions',
+    'dash.field.trainers': '+ 10 regional trainers',
+    'dash.standards.label': '/ Quality standards',
+    'dash.standards.note': 'member since 2008',
+
+    'strip.1.label': '/ 001 — Experience',
+    'strip.1.val': '20<em>+</em> years',
+    'strip.2.label': '/ 002 — Interviewers',
+    'strip.2.val': '400<em>+</em> in&nbsp;Poland',
+    'strip.3.label': '/ 003 — Interviews',
+    'strip.3.val': '10<em>k</em> / week',
+    'strip.4.label': '/ 004 — Standards',
+    'strip.4.val': 'OFBOR <em>·</em> ESOMAR',
+
+    'sec01.num': '§ <strong>01</strong> / Manifesto',
+    'sec01.label': 'Chapter one<strong>Who we are</strong>',
+    'sec01.body': 'We are a reference institute for <em>retail chains.</em> We rely on an individual approach — we listen, analyse and advise.',
+    'sec01.d1.label': '/ 001 — Approach',
+    'sec01.d1.h': 'Individually.',
+    'sec01.d1.p': 'Every client receives substantive support tailored to their needs — no templates.',
+    'sec01.d2.label': '/ 002 — Technology',
+    'sec01.d2.h': 'Proprietary tools.',
+    'sec01.d2.p': 'In-house B2B platform integrating surveying, data processing and reporting.',
+    'sec01.d3.label': '/ 003 — Team',
+    'sec01.d3.h': 'Experience.',
+    'sec01.d3.p': 'Specialists with years of experience. Work in line with the ESOMAR Code and PKJPA standards.',
+
+    'sec02.num': '§ <strong>02</strong> / Research methods',
+    'sec02.title': 'A full palette<br>of <em>research methods.</em>',
+
+    'm.cati.name': 'CATI<em>.</em>',
+    'm.cati.tag': 'Quantitative · Phone',
+    'm.cati.desc': 'Computer-Assisted Telephone Interviewing. Thousands of interviews a month across opinion, social, consumer and B2B studies — in Poland and abroad. Our own Wrocław studio running since 2005, professional workstations, oversight by experienced supervisors and remote work in the Cati@Home model. Fast fieldwork, fast results, minimised error, full control over the project.',
+    'm.cawi.name': 'CAWI<em>.</em>',
+    'm.cawi.tag': 'Quantitative · Online',
+    'm.cawi.desc': 'Computer Assisted Web Interview — a self-completion online questionnaire. We run CAWI on CADAS CAWI software, which combines the organisational, methodological, control and IT layers of the research process. The client participates in the project: tests the questionnaire, and follows results and progress live. Full security — encrypted access and double encryption of data, including respondents\' contact details. For respondents the process is simple: no additional software to install, with the option to pause and resume without losing answers.',
+    'm.mobi.name': 'MOBI<em>.</em>',
+    'm.mobi.tag': 'Quantitative · Tablet',
+    'm.mobi.desc': 'An evolution of the traditional "paper-and-pencil" approach into fully computer-assisted interviewing. The interviewer uses a tablet exactly as a paper form, with the ability to embed multimedia and advanced question-display techniques (e.g. drag & drop). Automatic GPS capture and interview recording simplify and speed up field quality control.',
+    'm.fgi.name': 'FGI<em>.</em>',
+    'm.fgi.tag': 'Qualitative · Group',
+    'm.fgi.desc': 'Focus Group Interviews — one of the most popular qualitative methods. A moderator-led group discussion based on a prepared scenario. Used to test new concepts (logos, packaging, advertising) and to investigate consumer behaviour; creative and inspiring in nature, with room for in-depth analysis. Sessions are recorded.',
+    'm.idi.name': 'IDI<em>.</em>',
+    'm.idi.tag': 'Qualitative · Individual',
+    'm.idi.desc': 'Individual In-Depth Interview — the second most popular qualitative method. A conversation between moderator and respondent aimed at reaching the desired information and understanding attitudes, intentions and motives. Conducted to an open-format scenario; works well with hard-to-reach groups and sensitive topics. Sessions are typically recorded.',
+    'm.fobo.name': 'FoBo<em>.</em>',
+    'm.fobo.tag': 'Qualitative · Online',
+    'm.fobo.desc': 'Focus Board — a platform for online qualitative research. An alternative to traditional methods: individual and group interviews run over the internet, including contact-free. Phone recruitment by screener, delivery via Zoom (with simultaneous interpretation option), live YouTube streaming for stakeholders, audio-video recordings and transcripts. Scope ranges from technical supervision to a full project with recruitment, moderation and report.',
+    'm.ms.name': 'Mystery Shopper<em>.</em>',
+    'm.ms.tag': 'Audit · Retail & Services',
+    'm.ms.desc': 'Mystery Shopper — several hundred auditors across Poland deliver audit projects for retail and service networks. Verification of service standards, POS material display and sales procedures. Also available as a module of the PaaS platform.',
+    'm.paas.name': 'PaaS<em>.</em>',
+    'm.paas.tag': 'Technology · SaaS',
+    'm.paas.desc': 'Platform as a Service — lets you rent access to research technology and software for a defined period. Aimed at companies that prefer not to invest in equipment or need statistical tooling only for a specific project. Studies covered: CATI, CAPI, CAWI, MOBI and Mystery Shopper.',
+    'm.focus.name': 'Focus Suite<em>.</em>',
+    'm.focus.tag': 'Infrastructure · Wrocław',
+    'm.focus.desc': 'A fully equipped focus studio with an observation room and a separate booth for an interpreter, located on Prusa street in Wrocław. Moderator aids (TV, projector, flipchart), professional audio with simultaneous interpretation and simultaneous A/V recording in two language versions, video streaming of focus groups (optional, original or voice-over), wireless internet, refreshments for respondents. The studio is accessible for people with disabilities.',
+    'm.std.name': 'Standards<em>.</em>',
+    'm.std.tag': 'OFBOR · ESOMAR',
+    'm.std.desc': 'We adhere to quality norms across the research process — working in line with OFBOR standards, which guarantees the client a high quality of the whole research process and evidences care for every part of it. We also operate under the ESOMAR Code.',
+
+    'big.title': '◆ MANDS in numbers',
+    'big.1.val': '20<em>+</em>',
+    'big.1.label': '<strong>Years of experience</strong>uninterrupted on the research market since 2005',
+    'big.2.val': '400',
+    'big.2.label': '<strong>Interviewers</strong>across Poland, supervised by regional trainers',
+    'big.3.val': '10<em>k</em>',
+    'big.3.label': '<strong>Interviews</strong>weekly as part of distribution control projects',
+    'big.4.val': '10',
+    'big.4.label': '<strong>Regional trainers</strong>overseeing the quality of fieldwork',
+
+    'sec03.num': '§ <strong>03</strong> / For retail chains',
+    'sec03.label': 'Chapter three<strong>Retail <span class="amp">&</span> distribution</strong>',
+    'sec03.headline': 'We check whether your<br>leaflets <em>reach customers.</em>',
+    'sec03.tag': '<strong>10,000+</strong>households / week',
+    'r.1.name': 'Distribution Check',
+    'r.1.desc': 'Control of advertising material distribution. Each week we visit more than 10,000 households to verify whether leaflets have been delivered.',
+    'r.2.name': 'Exit Store',
+    'r.2.desc': 'In-store research with actual shoppers — analysis of basket value and purchase frequency. Output: a heatmap of financially attractive catchment areas.',
+    'r.3.name': 'Distribution Reporting System',
+    'r.3.desc': 'A SaaS web tool for leaflet-distribution reporting. SMS handling for distributors, CSV/XLSX export, campaign history.',
+    'r.4.name': 'Call Distribution Check',
+    'r.4.desc': 'Phone-based leaflet distribution control. Around 10,000 interviews in key locations — typically run every two years.',
+
+    'sec04.num': '§ <strong>04</strong> / Publications archive',
+    'sec04.title': 'Selected<br>publications <em><span class="amp">&</span> reports.</em>',
+    'sec04.sub': 'We share results from selected studies — from IT job-board effectiveness, through hosting-company hotlines, to Polish travellers\' plans.',
+    'res.1.year': 'Anno 2022',
+    'res.1.title': 'IT job boards',
+    'res.1.desc': 'Third edition of a study on the effectiveness of IT job boards for No Fluff Jobs — four test roles run via mystery shopper.',
+    'res.2.year': 'Anno 2021',
+    'res.2.title': 'Hosting-company hotlines',
+    'res.2.desc': 'A customer-service effectiveness study among companies managing at least 10,000 domains.',
+    'res.3.year': 'Anno 2020',
+    'res.3.title': 'Travel plans of Poles',
+    'res.3.desc': 'A partial report from the National Travellers Survey — the pandemic\'s impact on holiday plans and destination choices.',
+    'res.4.year': 'Methodology',
+    'res.4.title': 'Mystery shopper',
+    'res.4.desc': 'Several hundred mystery shoppers across Poland run audit projects — from retail through hospitality to financial services.',
+
+    'sec05.num': '§ <strong>05</strong> / Careers',
+    'sec05.title': 'Join the<br><em>team.</em>',
+    'sec05.sub': 'An institute built around a specialist core team, extended by an interviewer network and mystery shoppers. Recruitment is ongoing — we accept CVs regardless of current openings.',
+    'car.stat.1': 'Core team<strong>20<em>+</em></strong>analysts, study designers, supervisors',
+    'car.stat.2': 'Field network<strong>400<em>+</em></strong>interviewers and several hundred mystery shoppers',
+    'car.stat.3': 'Reach<strong>PL</strong>all of Poland — 10 regional trainers',
+    'car.jobs.h': '/ Currently hiring',
+    'car.job.1': 'Telephone interviewer · CATI studio Wrocław<small>On-site or remote (Cati@Home)</small>',
+    'car.job.2': 'Distribution controller (advertising materials)<small>Fieldwork · all of Poland</small>',
+    'car.job.3': 'Interviewer network & mystery shoppers<small>Ongoing recruitment · all of Poland</small>',
+    'car.apply': 'Interested in working together? Send us your CV and a few words about yourself.',
+
+    'con.head': 'Let\'s talk<br>about your <em>study.</em>',
+    'con.1.h': '/ 001 — Headquarters',
+    'con.1.p': 'ul. B. Prusa 1/48<br>50-319 Wrocław, Poland<br><small>VAT: PL8851557675</small>',
+    'con.2.h': '/ 002 — Contact',
+    'con.2.p': '<a href="mailto:info@mands.pl">info@mands.pl</a><br><a href="tel:+48713220686">+48 71 322 06 86</a><small>we usually reply within 24h</small>',
+    'con.3.h': '/ 003 — Careers',
+    'con.3.p': '<a href="mailto:rekrutacja@mands.pl">rekrutacja@mands.pl</a><small>interviewers · mystery shoppers · core team</small>',
+    'con.cta.text': 'Got a research project in mind? Reach out.',
+    'con.cta.btn': 'Write to us',
+
+    'foot.1': 'Research Institute',
+    'foot.2': 'MANDS / Wrocław',
+    'foot.bot.1': '© 2026 MANDS — All rights reserved',
+    'foot.bot.2': 'Market & opinion research / Made in Wrocław'
+  };
+
+  (function () {
+    const btn = document.querySelector('.topbar-lang');
+    const nodes = document.querySelectorAll('[data-i]');
+    // cache original PL HTML
+    nodes.forEach(el => { el.dataset.pl = el.innerHTML; });
+
+    function setLang(lang) {
+      nodes.forEach(el => {
+        const key = el.getAttribute('data-i');
+        el.innerHTML = lang === 'en' ? (EN[key] || el.dataset.pl) : el.dataset.pl;
+      });
+      document.documentElement.lang = lang;
+      try { localStorage.setItem('mands-lang', lang); } catch (e) {}
+      if (btn) {
+        btn.textContent = lang === 'en' ? 'PL' : 'EN';
+        btn.setAttribute('aria-label', lang === 'en' ? 'Zmień język na polski' : 'Switch language to English');
+      }
+    }
+
+    let initial = 'pl';
+    try { initial = localStorage.getItem('mands-lang') || 'pl'; } catch (e) {}
+    if (initial === 'en') setLang('en');
+
+    if (btn) {
+      btn.addEventListener('click', () => {
+        const next = (document.documentElement.lang === 'en') ? 'pl' : 'en';
+        setLang(next);
+      });
+    }
+  })();
+
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
   }, { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
