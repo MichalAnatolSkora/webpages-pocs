@@ -861,6 +861,139 @@
   .result:hover .result-year,
   .result:hover .result-desc { color: var(--ink); }
 
+  /* Careers */
+  .careers-wrap { max-width: 1400px; margin: 0 auto; padding-top: 60px; }
+  .careers-head {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    margin-bottom: 80px;
+    align-items: end;
+  }
+  .careers-head h2 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(42px, 6.5vw, 110px);
+    font-weight: 700;
+    line-height: 0.9;
+    letter-spacing: -0.035em;
+  }
+  .careers-head h2 em { font-style: italic; color: var(--green); font-weight: 500; }
+  .careers-head p { font-size: 16px; color: var(--ink-soft); max-width: 42ch; justify-self: end; line-height: 1.55; }
+  .careers-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1.9fr;
+    gap: 60px;
+    align-items: start;
+  }
+  .careers-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding-right: 40px;
+    border-right: 1px solid var(--gray-line);
+  }
+  .careers-stat {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    color: var(--gray);
+  }
+  .careers-stat strong {
+    display: block;
+    font-family: 'Fraunces', serif;
+    font-size: clamp(48px, 5vw, 72px);
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-top: 6px;
+    margin-bottom: 6px;
+  }
+  .careers-stat em { font-style: italic; color: var(--green); font-weight: 500; }
+  .careers-jobs h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    color: var(--gray);
+    margin-bottom: 28px;
+  }
+  .careers-jobs-list { display: flex; flex-direction: column; gap: 0; }
+  .career-job {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 32px;
+    padding: 28px 0;
+    border-top: 1px solid var(--gray-line);
+    align-items: baseline;
+    text-decoration: none;
+    color: inherit;
+    transition: padding .3s ease;
+  }
+  .career-job:last-child { border-bottom: 1px solid var(--gray-line); }
+  .career-job:hover { padding-left: 12px; }
+  .career-job-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--gray);
+    letter-spacing: .1em;
+  }
+  .career-job-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(22px, 2.4vw, 32px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .career-job-title small {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 400;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    margin-top: 8px;
+  }
+  .career-job-arrow {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-style: italic;
+    color: var(--gray);
+    transition: color .2s ease, transform .3s ease;
+  }
+  .career-job:hover .career-job-arrow { color: var(--ink); transform: translateX(6px); }
+  .careers-apply {
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px dashed var(--gray-line);
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .careers-apply-text {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-style: italic;
+    max-width: 38ch;
+  }
+  .careers-apply a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    padding: 14px 22px;
+    border: 1px solid var(--ink);
+    border-radius: 999px;
+    text-decoration: none;
+    color: inherit;
+    transition: background .2s ease, color .2s ease;
+  }
+  .careers-apply a:hover { background: var(--ink); color: var(--paper); }
+
   /* Contact */
   .contact {
     background: var(--ink);
@@ -1037,6 +1170,12 @@
     .results-head { grid-template-columns: 1fr; }
     .results-head p { justify-self: start; }
     .result { grid-template-columns: 1fr; gap: 12px; }
+    .careers-head { grid-template-columns: 1fr; gap: 24px; }
+    .careers-head p { justify-self: start; }
+    .careers-grid { grid-template-columns: 1fr; gap: 48px; }
+    .careers-stats { padding-right: 0; border-right: none; flex-direction: row; flex-wrap: wrap; gap: 24px; }
+    .careers-stat { flex: 1 1 140px; }
+    .career-job { grid-template-columns: 56px 1fr auto; gap: 16px; }
     .contact-grid { grid-template-columns: 1fr; gap: 32px; }
     .bignums-grid { grid-template-columns: 1fr; }
     .bignum { border-right: none !important; padding: 36px 0 !important; }
@@ -1153,6 +1292,9 @@
 
     .topbar {
       top: 10px; left: 12px; right: 12px;
+      width: auto;
+      max-width: none;
+      transform: none;
       padding: 8px 8px 8px 22px;
     }
     .topbar-left { font-size: 16px; }
@@ -1171,7 +1313,8 @@
     <a href="#idx-02">Metody</a>
     <a href="#idx-03">Retail</a>
     <a href="#idx-04">Archiwum</a>
-    <a href="#idx-05">Kontakt</a>
+    <a href="#idx-05">Kariera</a>
+    <a href="#idx-06">Kontakt</a>
   </nav>
   <a href="tel:+48713220686" class="topbar-right" aria-label="Zadzwoń: +48 71 322 06 86">
     <span class="dot" aria-hidden="true"></span>
@@ -1197,7 +1340,7 @@
       <div>
         <p class="hero-sub">Polski instytut badawczy działający od <span class="serif">2005 roku</span>. Słuchamy, analizujemy i doradzamy — pomagamy znaleźć drogę do rynkowego sukcesu.</p>
         <div class="hero-actions">
-          <a href="#idx-05" class="arrow-link">
+          <a href="#idx-06" class="arrow-link">
             Zamów badanie
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
           </a>
@@ -1445,14 +1588,16 @@
   <div class="solutions-wrap">
     <h2 class="solutions-title reveal">Pełna paleta<br>metod <em>badawczych.</em></h2>
     <table class="solutions-table">
-      <tr class="reveal"><td class="sol-num">/01</td><td class="sol-name">CATI<em>.</em></td><td class="sol-tag">Ilościowe · Telefon</td><td class="sol-desc">Wywiady telefoniczne wspomagane komputerowo. Szybki czas realizacji, pełna kontrola projektu.</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/01</td><td class="sol-name">CATI<em>.</em></td><td class="sol-tag">Ilościowe · Telefon</td><td class="sol-desc">Wywiady telefoniczne wspomagane komputerowo. Studio we Wrocławiu od 2005 r. oraz praca zdalna w modelu Cati@Home.</td><td class="sol-arrow">↗</td></tr>
       <tr class="reveal"><td class="sol-num">/02</td><td class="sol-name">CAWI<em>.</em></td><td class="sol-tag">Ilościowe · Online</td><td class="sol-desc">Ankieta internetowa wypełniana samodzielnie. Szybka dystrybucja, niski koszt, szeroki zasięg.</td><td class="sol-arrow">↗</td></tr>
       <tr class="reveal"><td class="sol-num">/03</td><td class="sol-name">MOBI<em>.</em></td><td class="sol-tag">Ilościowe · Tablet</td><td class="sol-desc">Ewolucja papier-ołówek. Tablety z multimediami i automatycznym zapisem lokalizacji GPS.</td><td class="sol-arrow">↗</td></tr>
-      <tr class="reveal"><td class="sol-num">/04</td><td class="sol-name">PaaS<em>.</em></td><td class="sol-tag">Technologia · SaaS</td><td class="sol-desc">Platform as a Service — dostęp do technologii badawczej (CATI, CAPI, CAWI, MOBI) na abonament.</td><td class="sol-arrow">↗</td></tr>
-      <tr class="reveal"><td class="sol-num">/05</td><td class="sol-name">FGI<em>.</em></td><td class="sol-tag">Jakościowe · Grupa</td><td class="sol-desc">Focus groups — dyskusje grupowe, testowanie konceptów, analiza zachowań konsumenckich.</td><td class="sol-arrow">↗</td></tr>
-      <tr class="reveal"><td class="sol-num">/06</td><td class="sol-name">Online IDI<em>.</em></td><td class="sol-tag">Jakościowe · Zdalnie</td><td class="sol-desc">Wywiady indywidualne i grupowe przez Internet — bez ograniczeń geograficznych.</td><td class="sol-arrow">↗</td></tr>
-      <tr class="reveal"><td class="sol-num">/07</td><td class="sol-name">Fokusownia<em>.</em></td><td class="sol-tag">Infrastruktura</td><td class="sol-desc">Profesjonalnie wyposażona fokusownia z podglądownią w siedzibie we Wrocławiu.</td><td class="sol-arrow">↗</td></tr>
-      <tr class="reveal"><td class="sol-num">/08</td><td class="sol-name">Standardy<em>.</em></td><td class="sol-tag">OFBOR · ESOMAR</td><td class="sol-desc">Pracujemy zgodnie z międzynarodowymi standardami jakości badań rynku i opinii.</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/04</td><td class="sol-name">FGI<em>.</em></td><td class="sol-tag">Jakościowe · Grupa</td><td class="sol-desc">Focus Group Interviews — dyskusje grupowe, testowanie konceptów (logo, opakowania, reklamy), analiza zachowań konsumenckich.</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/05</td><td class="sol-name">IDI<em>.</em></td><td class="sol-tag">Jakościowe · Indywidualne</td><td class="sol-desc">Individual In-Depth Interview — pogłębione rozmowy 1:1 z trudno dostępnymi grupami lub w tematach drażliwych.</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/06</td><td class="sol-name">FoBo<em>.</em></td><td class="sol-tag">Jakościowe · Online</td><td class="sol-desc">Focus Board — platforma do jakościowych badań online (focusy w internecie, moderowane dyskusje asynchroniczne).</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/07</td><td class="sol-name">Mystery Shopper<em>.</em></td><td class="sol-tag">Audyt · Retail &amp; Usługi</td><td class="sol-desc">Tajemniczy klient — kilkuset audytorów w całej Polsce. Weryfikacja standardów obsługi, ekspozycji i procedur.</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/08</td><td class="sol-name">PaaS<em>.</em></td><td class="sol-tag">Technologia · SaaS</td><td class="sol-desc">Platform as a Service — dostęp do technologii badawczej (CATI, CAPI, CAWI, MOBI, Mystery Shopper) na określony czas projektu.</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/09</td><td class="sol-name">Fokusownia<em>.</em></td><td class="sol-tag">Infrastruktura</td><td class="sol-desc">Profesjonalnie wyposażona fokusownia z podglądownią w siedzibie we Wrocławiu.</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/10</td><td class="sol-name">Standardy<em>.</em></td><td class="sol-tag">OFBOR · ESOMAR</td><td class="sol-desc">Pracujemy zgodnie z międzynarodowymi standardami jakości badań rynku i opinii.</td><td class="sol-arrow">↗</td></tr>
     </table>
   </div>
 </section>
@@ -1572,8 +1717,65 @@
   </div>
 </section>
 
+<!-- CAREERS -->
+<section id="idx-05" class="section">
+  <div class="section-num">§ <strong>05</strong> / Kariera</div>
+  <div class="careers-wrap">
+    <div class="careers-head">
+      <h2 class="reveal">Dołącz do<br><em>zespołu.</em></h2>
+      <p class="reveal">Instytut o pracowników merytorycznych oparty, rozszerzany siatką ankieterską i tajemniczymi klientami. Rekrutacja stała — CV przyjmujemy niezależnie od aktualnych ogłoszeń.</p>
+    </div>
+
+    <div class="careers-grid">
+      <div class="careers-stats reveal">
+        <div class="careers-stat">
+          Zespół merytoryczny
+          <strong>20<em>+</em></strong>
+          analityków, projektantów badań, supervisorów
+        </div>
+        <div class="careers-stat">
+          Siatka terenowa
+          <strong>400<em>+</em></strong>
+          ankieterów i kilkuset tajemniczych klientów
+        </div>
+        <div class="careers-stat">
+          Zasięg
+          <strong>PL</strong>
+          cała Polska — 10 trenerów regionalnych
+        </div>
+      </div>
+
+      <div class="careers-jobs">
+        <h3>/ Aktualnie poszukujemy</h3>
+        <div class="careers-jobs-list">
+          <a class="career-job reveal" href="mailto:rekrutacja@mands.pl?subject=Teleankieter%20CATI%20Wroc%C5%82aw">
+            <div class="career-job-num">/01</div>
+            <div class="career-job-title">Teleankieter · studio CATI Wrocław<small>Praca stacjonarna lub zdalna (Cati@Home)</small></div>
+            <div class="career-job-arrow">↗</div>
+          </a>
+          <a class="career-job reveal" href="mailto:rekrutacja@mands.pl?subject=Kontroler%20dystrybucji">
+            <div class="career-job-num">/02</div>
+            <div class="career-job-title">Kontroler dystrybucji materiałów reklamowych<small>Praca w terenie · cała Polska</small></div>
+            <div class="career-job-arrow">↗</div>
+          </a>
+          <a class="career-job reveal" href="mailto:rekrutacja@mands.pl?subject=Siatka%20ankieterska">
+            <div class="career-job-num">/03</div>
+            <div class="career-job-title">Siatka ankieterska &amp; tajemniczy klienci<small>Rekrutacja ciągła · całe PL</small></div>
+            <div class="career-job-arrow">↗</div>
+          </a>
+        </div>
+
+        <div class="careers-apply reveal">
+          <div class="careers-apply-text">Zainteresowany współpracą? Wyślij CV i kilka słów o sobie.</div>
+          <a href="mailto:rekrutacja@mands.pl">rekrutacja@mands.pl ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- CONTACT -->
-<section id="idx-05" class="contact">
+<section id="idx-06" class="contact">
   <div class="contact-inner">
     <h2 class="contact-head">Porozmawiajmy<br>o <em>badaniu.</em></h2>
 
