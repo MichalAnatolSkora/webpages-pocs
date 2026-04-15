@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MANDS — Instytut Badań Rynku i Opinii · od 2005</title>
+<meta name="description" content="MANDS — polski instytut badawczy. Badania rynku, opinii, dystrybucji. CATI · CAWI · MOBI · FGI." />
+<link rel="icon" href="../images/cropped-logo-png-1-180x180.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800&family=Nunito:wght@400;600;700;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #fff8ec;
+    --cream-2: #ffeed1;
+    --peach: #ffd9b8;
+    --pink: #ffc7c2;
+    --mint: #bfe8cf;
+    --sky: #c7e3f4;
+    --lavender: #d8cbf0;
+    --yellow: #ffd966;
+    --coral: #ff8a65;
+    --ink: #2b2442;
+    --ink-soft: #4a3f66;
+    --line: #2b2442;
+    --r: 24px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; background: var(--cream); }
+  body {
+    font-family: 'Nunito', -apple-system, sans-serif;
+    color: var(--ink);
+    background: var(--cream);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+  .serif { font-family: 'Fraunces', Georgia, serif; font-weight: 700; }
+  .hand { font-family: 'Caveat', cursive; font-weight: 700; }
+
+  /* Background dots */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    pointer-events: none;
+    background-image: radial-gradient(circle, rgba(43,36,66,.08) 1px, transparent 1.5px);
+    background-size: 28px 28px;
+    z-index: 0;
+  }
+
+  .wrap { position: relative; z-index: 1; }
+
+  /* Topbar */
+  .topbar {
+    position: fixed; top: 18px; left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 40px);
+    max-width: 1400px;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 26px;
+    background: var(--cream);
+    border: 2.5px solid var(--line);
+    border-radius: 999px;
+    box-shadow: 4px 4px 0 var(--line);
+  }
+  .topbar-logo {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: -0.01em;
+  }
+  .topbar-logo svg { width: 36px; height: 36px; }
+  .topbar-nav {
+    display: flex; gap: 26px;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .topbar-nav a {
+    padding: 6px 4px;
+    border-bottom: 2px solid transparent;
+    transition: border-color .2s;
+  }
+  .topbar-nav a:hover { border-bottom-color: var(--coral); }
+  .topbar-end { display: flex; align-items: center; gap: 12px; }
+  .topbar-phone {
+    font-weight: 700;
+    font-size: 13px;
+    padding: 8px 16px;
+    background: var(--yellow);
+    border: 2px solid var(--line);
+    border-radius: 999px;
+  }
+  .topbar-lang {
+    font-weight: 700;
+    font-size: 12px;
+    padding: 8px 14px;
+    background: var(--cream);
+    border: 2px solid var(--line);
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  .topbar-burger { display: none; }
+
+  section[id] { scroll-margin-top: 110px; }
+
+  /* HERO */
+  .hero {
+    padding: 140px 32px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 18px;
+    background: var(--mint);
+    border: 2px solid var(--line);
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 13px;
+    margin-bottom: 24px;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 10px; height: 10px;
+    background: var(--coral);
+    border-radius: 50%;
+    border: 1.5px solid var(--line);
+  }
+  .hero-display {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(52px, 7vw, 104px);
+    line-height: 0.98;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 28px;
+    position: relative;
+  }
+  .hero-display em {
+    font-style: italic;
+    color: var(--coral);
+    position: relative;
+  }
+  .hero-display .squiggle {
+    position: absolute;
+    left: 0; right: 0; bottom: -10px;
+    height: 14px;
+    width: 100%;
+  }
+  .hero-sub {
+    font-size: 19px;
+    line-height: 1.6;
+    max-width: 46ch;
+    margin-bottom: 36px;
+    color: var(--ink-soft);
+  }
+  .hero-actions { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 30px;
+    background: var(--coral);
+    color: var(--cream);
+    border: 2.5px solid var(--line);
+    border-radius: 999px;
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 19px;
+    box-shadow: 5px 5px 0 var(--line);
+    transition: transform .2s, box-shadow .2s;
+  }
+  .btn-primary:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 7px 7px 0 var(--line);
+  }
+  .btn-primary svg { width: 22px; height: 22px; }
+  .hero-note { font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+
+  /* Hero illustration */
+  .hero-illus {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1.02;
+  }
+  .hero-illus svg { width: 100%; height: 100%; overflow: visible; }
+
+  @keyframes float {
+    0%,100% { transform: translateY(0) rotate(0); }
+    50% { transform: translateY(-6px) rotate(-1deg); }
+  }
+  @keyframes floatAlt {
+    0%,100% { transform: translateY(0) rotate(0); }
+    50% { transform: translateY(-8px) rotate(2deg); }
+  }
+  @keyframes wiggle {
+    0%,100% { transform: rotate(-2deg); }
+    50% { transform: rotate(2deg); }
+  }
+  .float-a { animation: float 4s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+  .float-b { animation: floatAlt 5s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+  .wiggle { animation: wiggle 3s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+
+  /* Strip */
+  .hero-strip {
+    max-width: 1400px;
+    margin: 70px auto 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+  }
+  .strip-card {
+    padding: 22px 24px;
+    background: var(--cream);
+    border: 2.5px solid var(--line);
+    border-radius: var(--r);
+    box-shadow: 4px 4px 0 var(--line);
+    display: flex; align-items: center; gap: 16px;
+  }
+  .strip-card:nth-child(1) { background: var(--peach); }
+  .strip-card:nth-child(2) { background: var(--mint); }
+  .strip-card:nth-child(3) { background: var(--sky); }
+  .strip-card:nth-child(4) { background: var(--lavender); }
+  .strip-icon {
+    width: 52px; height: 52px;
+    flex: none;
+  }
+  .strip-card .mono {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-bottom: 4px;
+    opacity: .75;
+  }
+  .strip-card strong {
+    display: block;
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+  }
+  .strip-card em { font-style: italic; color: var(--coral); }
+
+  /* Sections */
+  .section {
+    padding: 120px 32px;
+    position: relative;
+  }
+  .section-num {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 16px;
+    background: var(--yellow);
+    border: 2px solid var(--line);
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+
+  /* Chapter about */
+  .chapter {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .chapter-side .hand {
+    display: block;
+    font-size: 32px;
+    color: var(--coral);
+    transform: rotate(-4deg);
+    margin-bottom: 10px;
+  }
+  .chapter-side strong {
+    display: block;
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+  .chapter-side-illus { margin-top: 30px; width: 100%; max-width: 280px; }
+  .chapter-body {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(30px, 3.4vw, 52px);
+    line-height: 1.15;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 50px;
+  }
+  .chapter-body em { font-style: italic; color: var(--coral); }
+  .chapter-details {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .detail-card {
+    padding: 28px 26px;
+    background: var(--cream);
+    border: 2.5px solid var(--line);
+    border-radius: var(--r);
+    box-shadow: 4px 4px 0 var(--line);
+  }
+  .detail-card:nth-child(1) { background: var(--peach); }
+  .detail-card:nth-child(2) { background: var(--sky); }
+  .detail-card:nth-child(3) { background: var(--mint); }
+  .detail-icon { width: 56px; height: 56px; margin-bottom: 14px; }
+  .detail-card .mono {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    opacity: .7;
+  }
+  .detail-card h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+  .detail-card p { font-size: 14.5px; color: var(--ink-soft); }
+
+  /* Solutions */
+  .solutions-wrap { max-width: 1300px; margin: 0 auto; }
+  .solutions-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(44px, 7vw, 104px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 50px;
+    position: relative;
+  }
+  .solutions-title em { font-style: italic; color: var(--coral); }
+  .solutions-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+  }
+  .method-card {
+    padding: 30px 30px 28px;
+    background: var(--cream);
+    border: 2.5px solid var(--line);
+    border-radius: var(--r);
+    box-shadow: 5px 5px 0 var(--line);
+    position: relative;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .method-card:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 8px 8px 0 var(--line);
+  }
+  .method-card:nth-child(10n+1) { background: var(--peach); }
+  .method-card:nth-child(10n+2) { background: var(--mint); }
+  .method-card:nth-child(10n+3) { background: var(--sky); }
+  .method-card:nth-child(10n+4) { background: var(--lavender); }
+  .method-card:nth-child(10n+5) { background: var(--pink); }
+  .method-card:nth-child(10n+6) { background: var(--cream-2); }
+  .method-card:nth-child(10n+7) { background: var(--mint); }
+  .method-card:nth-child(10n+8) { background: var(--peach); }
+  .method-card:nth-child(10n+9) { background: var(--sky); }
+  .method-card:nth-child(10n)   { background: var(--lavender); }
+  .method-head { display: flex; align-items: flex-start; gap: 18px; margin-bottom: 14px; }
+  .method-icon {
+    width: 64px; height: 64px; flex: none;
+    background: var(--cream);
+    border: 2px solid var(--line);
+    border-radius: 16px;
+    padding: 8px;
+  }
+  .method-num {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 13px;
+    opacity: .7;
+  }
+  .method-name {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-top: 2px;
+  }
+  .method-name em { font-style: italic; color: var(--coral); }
+  .method-tag {
+    display: inline-block;
+    padding: 4px 12px;
+    background: var(--cream);
+    border: 1.5px solid var(--line);
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-bottom: 14px;
+  }
+  .method-desc { font-size: 14px; color: var(--ink-soft); line-height: 1.6; }
+
+  /* Big numbers */
+  .bignums { padding: 120px 32px; background: var(--ink); color: var(--cream); position: relative; overflow: hidden; }
+  .bignums::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle, rgba(255,248,236,.08) 1px, transparent 1.5px);
+    background-size: 28px 28px;
+  }
+  .bignums-inner { max-width: 1300px; margin: 0 auto; position: relative; }
+  .bignums h2 {
+    font-family: 'Caveat', cursive;
+    font-size: 54px;
+    font-weight: 700;
+    color: var(--yellow);
+    margin-bottom: 50px;
+    transform: rotate(-1deg);
+  }
+  .bignums-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .bignum {
+    padding: 34px 28px;
+    background: var(--cream);
+    color: var(--ink);
+    border: 2.5px solid var(--cream);
+    border-radius: var(--r);
+    box-shadow: 5px 5px 0 var(--yellow);
+  }
+  .bignum:nth-child(2) { background: var(--peach); }
+  .bignum:nth-child(3) { background: var(--mint); }
+  .bignum:nth-child(4) { background: var(--lavender); }
+  .bignum-icon { width: 54px; height: 54px; margin-bottom: 14px; }
+  .bignum-val {
+    font-family: 'Fraunces', serif;
+    font-size: 68px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+  .bignum-val em { font-style: italic; color: var(--coral); }
+  .bignum-label { font-size: 14px; color: var(--ink-soft); line-height: 1.5; }
+  .bignum-label strong { display: block; font-family: 'Fraunces', serif; font-size: 17px; font-weight: 800; color: var(--ink); margin-bottom: 4px; }
+
+  /* Retail */
+  .retail-wrap { max-width: 1300px; margin: 0 auto; }
+  .retail-headline {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(40px, 6vw, 84px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    margin-bottom: 60px;
+  }
+  .retail-headline em { font-style: italic; color: var(--coral); }
+  .retail-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 60px;
+    align-items: start;
+  }
+  .retail-illus {
+    background: var(--sky);
+    border: 2.5px solid var(--line);
+    border-radius: var(--r);
+    box-shadow: 6px 6px 0 var(--line);
+    padding: 30px;
+    position: relative;
+  }
+  .retail-illus svg { width: 100%; height: auto; }
+  .retail-badge {
+    position: absolute;
+    top: -22px; right: -22px;
+    width: 130px; height: 130px;
+    background: var(--yellow);
+    border: 2.5px solid var(--line);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 8px;
+    box-shadow: 4px 4px 0 var(--line);
+    transform: rotate(8deg);
+  }
+  .retail-badge strong {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .retail-badge span { font-size: 10px; font-weight: 700; line-height: 1.2; margin-top: 4px; }
+  .retail-list { display: flex; flex-direction: column; gap: 18px; }
+  .retail-entry {
+    display: flex;
+    gap: 20px;
+    padding: 24px;
+    background: var(--cream);
+    border: 2.5px solid var(--line);
+    border-radius: var(--r);
+    box-shadow: 4px 4px 0 var(--line);
+  }
+  .retail-entry:nth-child(1) { background: var(--peach); }
+  .retail-entry:nth-child(2) { background: var(--mint); }
+  .retail-entry:nth-child(3) { background: var(--lavender); }
+  .retail-entry:nth-child(4) { background: var(--pink); }
+  .r-icon { width: 56px; height: 56px; flex: none; }
+  .r-name { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 800; margin-bottom: 6px; letter-spacing: -0.01em; }
+  .r-desc { font-size: 14px; color: var(--ink-soft); }
+
+  /* Results */
+  .results-wrap { max-width: 1300px; margin: 0 auto; }
+  .results-head { display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: end; margin-bottom: 50px; }
+  .results-head h2 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(42px, 6vw, 88px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .results-head h2 em { font-style: italic; color: var(--coral); }
+  .results-head p { font-size: 17px; color: var(--ink-soft); max-width: 42ch; }
+  .results-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+  .result {
+    padding: 30px;
+    background: var(--cream);
+    border: 2.5px solid var(--line);
+    border-radius: var(--r);
+    box-shadow: 5px 5px 0 var(--line);
+    position: relative;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .result:hover { transform: translate(-3px,-3px); box-shadow: 8px 8px 0 var(--line); }
+  .result:nth-child(1) { background: var(--mint); }
+  .result:nth-child(2) { background: var(--peach); }
+  .result:nth-child(3) { background: var(--lavender); }
+  .result:nth-child(4) { background: var(--sky); }
+  .result-icon { width: 56px; height: 56px; margin-bottom: 16px; }
+  .result-year {
+    font-family: 'Caveat', cursive;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--coral);
+    margin-bottom: 4px;
+  }
+  .result-title {
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+  .result-desc { font-size: 14px; color: var(--ink-soft); }
+  .result-arrow {
+    position: absolute;
+    top: 26px; right: 26px;
+    font-size: 22px;
+    width: 38px; height: 38px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--cream);
+    border: 2px solid var(--line);
+    border-radius: 50%;
+  }
+
+  /* Careers */
+  .careers-wrap { max-width: 1300px; margin: 0 auto; }
+  .careers-head { display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: end; margin-bottom: 60px; }
+  .careers-head h2 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(42px, 6vw, 88px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .careers-head h2 em { font-style: italic; color: var(--coral); }
+  .careers-head p { font-size: 17px; color: var(--ink-soft); max-width: 42ch; }
+  .careers-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 40px; align-items: start; }
+  .careers-stats { display: flex; flex-direction: column; gap: 18px; }
+  .careers-stat {
+    padding: 24px 26px;
+    border: 2.5px solid var(--line);
+    border-radius: var(--r);
+    box-shadow: 4px 4px 0 var(--line);
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+  }
+  .careers-stat:nth-child(1) { background: var(--peach); }
+  .careers-stat:nth-child(2) { background: var(--mint); }
+  .careers-stat:nth-child(3) { background: var(--lavender); }
+  .careers-stat strong {
+    display: block;
+    font-family: 'Fraunces', serif;
+    font-size: 54px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    text-transform: none;
+    line-height: 1;
+    margin: 8px 0;
+  }
+  .careers-stat strong em { font-style: italic; color: var(--coral); }
+  .careers-stat .sub { display: block; font-weight: 600; text-transform: none; letter-spacing: 0; font-size: 14px; color: var(--ink-soft); }
+
+  .careers-jobs h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 18px;
+  }
+  .careers-jobs-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 28px; }
+  .career-job {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 22px 24px;
+    background: var(--cream);
+    border: 2.5px solid var(--line);
+    border-radius: var(--r);
+    box-shadow: 4px 4px 0 var(--line);
+    transition: transform .2s, box-shadow .2s;
+  }
+  .career-job:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--line); }
+  .career-job-num {
+    font-family: 'Caveat', cursive;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--coral);
+    flex: none;
+  }
+  .career-job-title { flex: 1; font-family: 'Fraunces', serif; font-size: 19px; font-weight: 700; }
+  .career-job-title small { display: block; font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 600; color: var(--ink-soft); margin-top: 3px; }
+  .career-job-arrow {
+    width: 40px; height: 40px;
+    background: var(--yellow);
+    border: 2px solid var(--line);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex: none;
+  }
+  .careers-apply {
+    padding: 24px 26px;
+    background: var(--yellow);
+    border: 2.5px solid var(--line);
+    border-radius: var(--r);
+    box-shadow: 4px 4px 0 var(--line);
+    display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap;
+  }
+  .careers-apply-text { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 700; }
+  .careers-apply a { font-weight: 700; font-size: 15px; border-bottom: 2px solid var(--line); }
+
+  /* Contact */
+  .contact { padding: 120px 32px; background: var(--cream-2); border-top: 3px solid var(--line); border-bottom: 3px solid var(--line); }
+  .contact-inner { max-width: 1300px; margin: 0 auto; }
+  .contact-head {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(48px, 7vw, 104px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 60px;
+  }
+  .contact-head em { font-style: italic; color: var(--coral); }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin-bottom: 40px;
+  }
+  .contact-col {
+    padding: 28px;
+    background: var(--cream);
+    border: 2.5px solid var(--line);
+    border-radius: var(--r);
+    box-shadow: 4px 4px 0 var(--line);
+  }
+  .contact-col:nth-child(1) { background: var(--mint); }
+  .contact-col:nth-child(2) { background: var(--peach); }
+  .contact-col:nth-child(3) { background: var(--lavender); }
+  .contact-col h4 { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 800; margin-bottom: 14px; }
+  .contact-col p { font-size: 15px; font-weight: 600; line-height: 1.7; }
+  .contact-col a { border-bottom: 1.5px solid var(--line); }
+  .contact-col small { display: block; font-size: 12px; font-weight: 600; color: var(--ink-soft); margin-top: 8px; }
+
+  .contact-map {
+    position: relative;
+    border: 2.5px solid var(--line);
+    border-radius: var(--r);
+    overflow: hidden;
+    box-shadow: 5px 5px 0 var(--line);
+    margin-bottom: 40px;
+    height: 340px;
+    background: var(--cream);
+  }
+  .contact-map iframe { width: 100%; height: 100%; border: 0; }
+  .contact-map-tag {
+    position: absolute; top: 18px; left: 18px;
+    padding: 8px 16px;
+    background: var(--yellow);
+    border: 2px solid var(--line);
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    z-index: 2;
+    box-shadow: 3px 3px 0 var(--line);
+  }
+  .contact-cta {
+    padding: 30px 34px;
+    background: var(--ink);
+    color: var(--cream);
+    border-radius: var(--r);
+    display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap;
+    box-shadow: 5px 5px 0 var(--coral);
+    border: 2.5px solid var(--line);
+  }
+  .contact-cta-text { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 700; max-width: 32ch; }
+  .contact-cta a {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 26px;
+    background: var(--coral);
+    border: 2px solid var(--cream);
+    border-radius: 999px;
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 17px;
+  }
+
+  /* Footer */
+  footer {
+    padding: 60px 32px 40px;
+    background: var(--cream);
+  }
+  .foot-inner {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+    padding-bottom: 30px;
+    border-bottom: 2px dashed var(--line);
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .foot-mark {
+    font-family: 'Fraunces', serif;
+    font-size: 64px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+  .foot-mark em { color: var(--coral); font-style: italic; }
+  .foot-meta { text-align: right; font-size: 13px; font-weight: 600; line-height: 1.7; }
+  .foot-meta strong { display: block; font-family: 'Fraunces', serif; font-size: 18px; }
+  .foot-bot {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    flex-wrap: wrap; gap: 16px;
+  }
+
+  /* Responsive */
+  @media (max-width: 960px) {
+    .topbar-nav { display: none; }
+    .topbar-phone { display: none; }
+    .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+    .hero-strip { grid-template-columns: repeat(2, 1fr); }
+    .chapter { grid-template-columns: 1fr; gap: 40px; }
+    .chapter-details { grid-template-columns: 1fr; }
+    .solutions-grid { grid-template-columns: 1fr; }
+    .bignums-grid { grid-template-columns: repeat(2, 1fr); }
+    .retail-layout { grid-template-columns: 1fr; }
+    .results-head { grid-template-columns: 1fr; }
+    .results-list { grid-template-columns: 1fr; }
+    .careers-head { grid-template-columns: 1fr; }
+    .careers-grid { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .section { padding: 80px 20px; }
+    .hero { padding: 120px 20px 60px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- TOPBAR -->
+<div class="topbar" id="topbar">
+  <a href="#top" class="topbar-logo">
+    <svg viewBox="0 0 40 40" fill="none" stroke="#2b2442" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="20" cy="20" r="16" fill="#ff8a65"/>
+      <path d="M10 26 L10 14 L16 22 L22 14 L22 26" stroke="#fff8ec"/>
+      <circle cx="29" cy="18" r="3" stroke="#fff8ec"/>
+      <path d="M31 20 L33 22" stroke="#fff8ec"/>
+    </svg>
+    MANDS
+  </a>
+  <nav class="topbar-nav" aria-label="Główna nawigacja">
+    <a href="#idx-01">Manifest</a>
+    <a href="#idx-02">Metody</a>
+    <a href="#idx-03">Retail</a>
+    <a href="#idx-04">Archiwum</a>
+    <a href="#idx-05">Kariera</a>
+    <a href="#idx-06">Kontakt</a>
+  </nav>
+  <div class="topbar-end">
+    <a href="tel:+48713220686" class="topbar-phone">+48 71 322 06 86</a>
+    <button type="button" class="topbar-lang">EN</button>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-tag">№ 001 · Instytut Badawczy · est. 2005</div>
+      <h1 class="hero-display">
+        Badania<br>
+        rynku<br>
+        <em>i opinii.
+          <svg class="squiggle" viewBox="0 0 400 14" fill="none" stroke="#ff8a65" stroke-width="4" stroke-linecap="round">
+            <path d="M4 10 Q 50 2, 100 8 T 200 8 T 300 8 T 396 8"/>
+          </svg>
+        </em>
+      </h1>
+      <p class="hero-sub">Polski instytut badawczy działający od <span class="serif">2005 roku</span>. Słuchamy, analizujemy i doradzamy — pomagamy znaleźć drogę do rynkowego sukcesu.</p>
+      <div class="hero-actions">
+        <a href="#idx-06" class="btn-primary">
+          Zamów badanie
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <div class="hero-note">info@mands.pl<br>+48 71 322 06 86</div>
+      </div>
+    </div>
+
+    <!-- Hero illustration -->
+    <div class="hero-illus" aria-hidden="true">
+      <svg viewBox="0 0 520 530" xmlns="http://www.w3.org/2000/svg">
+        <!-- Background blob -->
+        <path d="M 80 120 Q 40 60, 140 50 Q 260 20, 370 70 Q 480 120, 470 240 Q 490 360, 400 430 Q 290 510, 180 470 Q 60 430, 60 310 Q 20 200, 80 120 Z"
+              fill="#bfe8cf" stroke="#2b2442" stroke-width="3" stroke-linejoin="round"/>
+
+        <!-- Small decoration dots -->
+        <circle cx="90" cy="90" r="5" fill="#ff8a65" stroke="#2b2442" stroke-width="2"/>
+        <circle cx="450" cy="100" r="6" fill="#ffd966" stroke="#2b2442" stroke-width="2"/>
+        <circle cx="440" cy="400" r="4" fill="#ff8a65" stroke="#2b2442" stroke-width="2"/>
+        <path d="M 70 420 L 80 410 M 70 410 L 80 420" stroke="#2b2442" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M 400 40 L 410 30 M 400 30 L 410 40" stroke="#2b2442" stroke-width="2.5" stroke-linecap="round"/>
+
+        <!-- Clipboard -->
+        <g class="float-a">
+          <rect x="130" y="110" width="220" height="280" rx="14" fill="#fff8ec" stroke="#2b2442" stroke-width="3"/>
+          <rect x="200" y="95" width="80" height="30" rx="6" fill="#ffd966" stroke="#2b2442" stroke-width="3"/>
+          <circle cx="240" cy="110" r="5" fill="#2b2442"/>
+          <!-- Chart bars inside clipboard -->
+          <text x="150" y="150" font-family="Fraunces, serif" font-size="16" font-weight="800" fill="#2b2442">Badanie 2024</text>
+          <line x1="150" y1="165" x2="330" y2="165" stroke="#2b2442" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <!-- bars -->
+          <rect x="160" y="250" width="24" height="50" rx="4" fill="#ffc7c2" stroke="#2b2442" stroke-width="2"/>
+          <rect x="192" y="220" width="24" height="80" rx="4" fill="#c7e3f4" stroke="#2b2442" stroke-width="2"/>
+          <rect x="224" y="200" width="24" height="100" rx="4" fill="#d8cbf0" stroke="#2b2442" stroke-width="2"/>
+          <rect x="256" y="180" width="24" height="120" rx="4" fill="#bfe8cf" stroke="#2b2442" stroke-width="2"/>
+          <rect x="288" y="150" width="24" height="150" rx="4" fill="#ff8a65" stroke="#2b2442" stroke-width="2"/>
+          <line x1="150" y1="305" x2="330" y2="305" stroke="#2b2442" stroke-width="2.5"/>
+          <!-- Labels -->
+          <text x="240" y="340" text-anchor="middle" font-family="Caveat, cursive" font-size="22" font-weight="700" fill="#ff8a65">CATI · CAWI · MOBI</text>
+          <text x="240" y="365" text-anchor="middle" font-family="Nunito, sans-serif" font-size="12" font-weight="700" fill="#2b2442">4 600 projektów / 20 lat</text>
+        </g>
+
+        <!-- Magnifying glass -->
+        <g class="float-b">
+          <circle cx="400" cy="180" r="54" fill="#fff8ec" stroke="#2b2442" stroke-width="4"/>
+          <circle cx="400" cy="180" r="54" fill="none" stroke="#ff8a65" stroke-width="2" stroke-dasharray="4 4"/>
+          <path d="M 440 220 L 480 260" stroke="#2b2442" stroke-width="10" stroke-linecap="round"/>
+          <path d="M 440 220 L 480 260" stroke="#ffd966" stroke-width="5" stroke-linecap="round"/>
+          <!-- Small chart inside lens -->
+          <path d="M 370 195 L 385 180 L 400 190 L 415 165 L 430 175" fill="none" stroke="#ff8a65" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="430" cy="175" r="4" fill="#ff8a65" stroke="#2b2442" stroke-width="1.5"/>
+        </g>
+
+        <!-- Speech bubble 1 -->
+        <g class="wiggle" style="transform-origin: 100px 320px;">
+          <path d="M 40 280 Q 30 270, 40 260 L 150 260 Q 170 260, 170 280 L 170 320 Q 170 340, 150 340 L 90 340 L 70 360 L 75 340 L 55 340 Q 40 340, 40 320 Z"
+                fill="#ffd966" stroke="#2b2442" stroke-width="3" stroke-linejoin="round"/>
+          <circle cx="75" cy="300" r="4" fill="#2b2442"/>
+          <circle cx="100" cy="300" r="4" fill="#2b2442"/>
+          <circle cx="125" cy="300" r="4" fill="#2b2442"/>
+        </g>
+
+        <!-- Speech bubble 2 -->
+        <g class="float-a">
+          <path d="M 360 360 Q 350 350, 360 340 L 480 340 Q 500 340, 500 360 L 500 410 Q 500 430, 480 430 L 430 430 L 410 450 L 415 430 L 380 430 Q 360 430, 360 410 Z"
+                fill="#ffc7c2" stroke="#2b2442" stroke-width="3" stroke-linejoin="round"/>
+          <text x="430" y="385" text-anchor="middle" font-family="Caveat, cursive" font-size="26" font-weight="700" fill="#2b2442">Opinia?</text>
+          <text x="430" y="410" text-anchor="middle" font-family="Nunito, sans-serif" font-size="11" font-weight="700" fill="#2b2442">540k wywiadów</text>
+        </g>
+
+        <!-- Little character -->
+        <g>
+          <circle cx="100" cy="180" r="28" fill="#ff8a65" stroke="#2b2442" stroke-width="3"/>
+          <circle cx="92" cy="175" r="3" fill="#2b2442"/>
+          <circle cx="108" cy="175" r="3" fill="#2b2442"/>
+          <path d="M 90 188 Q 100 195, 110 188" fill="none" stroke="#2b2442" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M 75 160 Q 100 140, 125 160" fill="none" stroke="#2b2442" stroke-width="3" stroke-linecap="round"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Strip -->
+  <div class="hero-strip">
+    <div class="strip-card">
+      <svg class="strip-icon" viewBox="0 0 60 60" fill="none" stroke="#2b2442" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="30" cy="30" r="24" fill="#fff8ec"/>
+        <path d="M30 16 L30 30 L40 36"/>
+      </svg>
+      <div>
+        <span class="mono">/ 001 — Doświadczenie</span>
+        <strong>20<em>+</em> lat</strong>
+      </div>
+    </div>
+    <div class="strip-card">
+      <svg class="strip-icon" viewBox="0 0 60 60" fill="none" stroke="#2b2442" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="22" cy="24" r="8" fill="#fff8ec"/>
+        <circle cx="38" cy="24" r="8" fill="#ffd966"/>
+        <path d="M10 46 Q10 36, 22 36 Q34 36, 34 46"/>
+        <path d="M26 46 Q26 36, 38 36 Q50 36, 50 46"/>
+      </svg>
+      <div>
+        <span class="mono">/ 002 — Ankieterzy</span>
+        <strong>400<em>+</em> w Polsce</strong>
+      </div>
+    </div>
+    <div class="strip-card">
+      <svg class="strip-icon" viewBox="0 0 60 60" fill="none" stroke="#2b2442" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="10" y="14" width="40" height="30" rx="4" fill="#fff8ec"/>
+        <path d="M18 28 L24 22 L30 30 L38 20 L44 26"/>
+        <circle cx="44" cy="26" r="2.5" fill="#ff8a65"/>
+        <path d="M20 50 L40 50"/>
+      </svg>
+      <div>
+        <span class="mono">/ 003 — Wywiady</span>
+        <strong>10<em>k</em> / tydzień</strong>
+      </div>
+    </div>
+    <div class="strip-card">
+      <svg class="strip-icon" viewBox="0 0 60 60" fill="none" stroke="#2b2442" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M30 10 L46 18 L46 32 Q46 44, 30 50 Q14 44, 14 32 L14 18 Z" fill="#fff8ec"/>
+        <path d="M22 30 L28 36 L40 22"/>
+      </svg>
+      <div>
+        <span class="mono">/ 004 — Standardy</span>
+        <strong>OFBOR <em>·</em> ESOMAR</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 01 — ABOUT -->
+<section id="idx-01" class="section">
+  <div class="chapter">
+    <div class="chapter-side">
+      <div class="section-num">§ 01 / Manifest</div>
+      <span class="hand">Rozdział pierwszy</span>
+      <strong>Kim jesteśmy</strong>
+      <svg class="chapter-side-illus" viewBox="0 0 280 200" fill="none" stroke="#2b2442" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Coffee cup -->
+        <path d="M 40 70 L 50 160 Q 50 175, 65 175 L 155 175 Q 170 175, 170 160 L 180 70 Z" fill="#ffd9b8"/>
+        <ellipse cx="110" cy="70" rx="70" ry="12" fill="#fff8ec"/>
+        <path d="M 180 90 Q 220 90, 220 120 Q 220 150, 180 150" fill="none"/>
+        <!-- steam -->
+        <path d="M 85 50 Q 90 35, 85 20" stroke-dasharray="0"/>
+        <path d="M 110 50 Q 115 30, 110 15"/>
+        <path d="M 135 50 Q 140 35, 135 20"/>
+        <!-- heart -->
+        <path d="M 240 40 Q 235 30, 245 30 Q 255 30, 260 40 Q 265 30, 275 30 Q 285 30, 280 40 Q 275 55, 260 70 Q 245 55, 240 40 Z" fill="#ff8a65"/>
+      </svg>
+    </div>
+    <div>
+      <p class="chapter-body">Jesteśmy instytutem referencyjnym dla <em>sieci handlowych.</em> Stawiamy na indywidualne podejście — słuchamy, analizujemy, doradzamy.</p>
+      <div class="chapter-details">
+        <div class="detail-card">
+          <svg class="detail-icon" viewBox="0 0 60 60" fill="none" stroke="#2b2442" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="30" cy="22" r="10" fill="#fff8ec"/>
+            <path d="M12 50 Q12 36, 30 36 Q48 36, 48 50"/>
+            <path d="M42 14 L46 10 L50 14 M46 10 L46 20" stroke="#ff8a65"/>
+          </svg>
+          <span class="mono">/ 001 — Podejście</span>
+          <h4>Indywidualnie.</h4>
+          <p>Każdy klient otrzymuje wsparcie merytoryczne dopasowane do jego potrzeb — bez szablonów.</p>
+        </div>
+        <div class="detail-card">
+          <svg class="detail-icon" viewBox="0 0 60 60" fill="none" stroke="#2b2442" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="8" y="12" width="44" height="30" rx="4" fill="#fff8ec"/>
+            <path d="M16 24 L20 28 L28 20" stroke="#ff8a65"/>
+            <path d="M32 26 L46 26 M32 32 L42 32"/>
+            <path d="M20 50 L40 50 M30 42 L30 50"/>
+          </svg>
+          <span class="mono">/ 002 — Technologia</span>
+          <h4>Własne narzędzia.</h4>
+          <p>Teleinformatyczny system B2B integrujący sondażowanie, przetwarzanie danych i raportowanie.</p>
+        </div>
+        <div class="detail-card">
+          <svg class="detail-icon" viewBox="0 0 60 60" fill="none" stroke="#2b2442" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="20" cy="22" r="8" fill="#fff8ec"/>
+            <circle cx="40" cy="22" r="8" fill="#ffd966"/>
+            <path d="M8 46 Q8 34, 20 34 Q32 34, 32 46"/>
+            <path d="M28 46 Q28 34, 40 34 Q52 34, 52 46"/>
+          </svg>
+          <span class="mono">/ 003 — Zespół</span>
+          <h4>Doświadczenie.</h4>
+          <p>Specjaliści z wieloletnim stażem. Praca zgodnie z Kodeksem ESOMAR i standardami PKJPA.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 02 — SOLUTIONS -->
+<section id="idx-02" class="section">
+  <div class="solutions-wrap">
+    <div class="section-num">§ 02 / Metody badawcze</div>
+    <h2 class="solutions-title">Pełna paleta<br>metod <em>badawczych.</em></h2>
+    <div class="solutions-grid">
+
+      <div class="method-card">
+        <div class="method-head">
+          <svg class="method-icon" viewBox="0 0 60 60" fill="none" stroke="#2b2442" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 10 Q14 6, 18 6 L24 6 Q28 6, 28 10 L30 18 Q26 22, 20 22 Q18 34, 30 40 Q36 34, 40 32 L48 34 Q52 34, 52 38 L52 44 Q52 50, 46 50 Q18 50, 14 22 Z" fill="#fff8ec"/>
+          </svg>
+          <div>
+            <div class="method-num">/01</div>
+            <div class="method-name">CATI<em>.</em></div>
+          </div>
+        </div>
+        <div class="method-tag">Ilościowe · Telefon</div>
+        <p class="method-desc">Computer-Assisted Telephone Interviewing. Tysiące wywiadów miesięcznie w badaniach sondażowych, społecznych, konsumenckich i B2B — w Polsce i za granicą. Własne studio we Wrocławiu od 2005 r., profesjonalne stanowiska, opieka doświadczonych supervisorów oraz praca zdalna w modelu Cati@Home.</p>
+      </div>
+
+      <div class="method-card">
+        <div class="method-head">
+          <svg class="method-icon" viewBox="0 0 60 60" fill="none" stroke="#2b2442" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="6" y="12" width="48" height="32" rx="3" fill="#fff8ec"/>
+            <path d="M6 20 L54 20"/>
+            <circle cx="11" cy="16" r="1" fill="#2b2442"/>
+            <circle cx="15" cy="16" r="1" fill="#2b2442"/>
+            <path d="M14 30 L22 30 M14 36 L30 36"/>
+            <rect x="36" y="27" width="12" height="12" rx="2" fill="#ffd966"/>
+            <path d="M38 33 L41 36 L46 30" stroke="#2b2442"/>
+          </svg>
+          <div>
+            <div class="method-num">/02</div>
+            <div class="method-name">CAWI<em>.</em></div>
+          </div>
+        </div>
+        <div class="method-tag">Ilościowe · Online</div>
+        <p class="method-desc">Computer Assisted Web Interview — ankieta internetowa wypełniana samodzielnie. Realizujemy w oprogramowaniu CADAS CAWI. Klient partycypuje w projekcie: testuje kwestionariusz, na bieżąco podgląda wyniki. Pełne bezpieczeństwo — szyfrowany dostęp i podwójne szyfrowanie danych.</p>
+      </div>
+
+      <div class="method-card">
+        <div class="method-head">
+          <svg class="method-icon" viewBox="0 0 60 60" fill="none" stroke="#2b2442" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="14" y="6" width="32" height="48" rx="4" fill="#fff8ec"/>
+            <path d="M14 12 L46 12 M14 46 L46 46"/>
+            <path d="M22 20 L38 20 M22 26 L38 26 M22 32 L32 32"/>
+            <circle cx="30" cy="50" r="1.5" fill="#2b2442"/>
+            <circle cx="38" cy="38" r="4" fill="#ff8a65"/>
+          </svg>
+          <div>
+            <div class="method-num">/03</div>
+            <div class="method-name">MOBI<em>.</em></div>
+          </div>
+        </div>
+        <div class="method-tag">Ilościowe · Tablet</div>
+        <p class="method-desc">Ewolucja tradycyjnych badań typu „papier-ołówek" do pełnoprawnych wywiadów wspomaganych komputerowo. Ankieter posługuje się tabletem z możliwością wykorzystania multimediów i zaawansowanych technik wizualizacji pytań. Automatyczny zapis lokalizacji GPS oraz nagrywanie wywiadów.</p>
+      </div>
+
+      <div class="method-card">
+        <div class="method-head">
+          <svg class="method-icon" viewBox="0 0 60 60" fill="none" stroke="#2b2442" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="20" cy="20" r="7" fill="#fff8ec"/>
+            <circle cx="40" cy="20" r="7" fill="#ffd966"/>
+            <circle cx="30" cy="36" r="7" fill="#ffc7c2"/>
+            <path d="M8 52 Q8 42, 20 42 Q24 42, 26 44"/>
+            <path d="M34 44 Q36 42, 40 42 Q52 42, 52 52"/>
+            <path d="M18 52 Q18 42, 30 42 Q42 42, 42 52"/>
+          </svg>
+          <div>
+            <div class="method-num">/04</div>
+            <div class="method-name">FGI<em>.</em></div>
+          </div>
+        </div>
+        <div class="method-tag">Jakościowe · Grupa</div>
+        <p class="method-desc">Focus Group Interviews — jedna z najpopularniejszych metod badań jakościowych. Dyskusja grupowa kontrolowana przez moderatora. Stosowana do testowania nowych konceptów (logo, opakowania, reklamy) i badania zachowań konsumenckich; charakteryzuje się twórczym i inspirującym charakterem.</p>
+      </div>
+
+      <div class="method-card">
+        <div class="method-head">
+          <svg class="method-icon" viewBox="0 0 60 60" fill="none" stroke="#2b2442" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="22" cy="22" r="10" fill="#fff8ec"/>
+            <path d="M10 50 Q10 38, 22 38 Q34 38, 34 50"/>
+            <path d="M38 14 Q48 14, 48 24 Q48 30, 42 32 L42 38 L38 34"/>
+          </svg>
+          <div>
+            <div class="method-num">/05</div>
+            <div class="method-name">IDI<em>.</em></div>
+          </div>
+        </div>
+        <div class="method-tag">Jakościowe · Indywidualne</div>
+        <p class="method-desc">Individual In-Depth Interview — rozmowa moderatora z respondentem w celu dotarcia do pożądanych informacji oraz poznania postaw, intencji i motywów działań badanego. Sprawdza się w sytuacjach z trudnym dostępem do grup badawczych lub przy tematach drażliwych.</p>
+      </div>
+
+      <div class="method-card">
+        <div class="method-head">
+          <svg class="method-icon" viewBox="0 0 60 60" fill="none" stroke="#2b2442" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="6" y="10" width="48" height="34" rx="4" fill="#fff8ec"/>
+            <circle cx="20" cy="24" r="4"/>
+            <circle cx="32" cy="24" r="4"/>
+            <circle cx="44" cy="24" r="4"/>
+            <path d="M14 34 L46 34"/>
+            <path d="M22 44 L38 44 M30 44 L30 50"/>
+            <path d="M24 52 L36 52"/>
+          </svg>
+          <div>
+            <div class="method-num">/06</div>
+            <div class="method-name">FoBo<em>.</em></div>
+          </div>
+        </div>
+        <div class="method-tag">Jakościowe · Online</div>
+        <p class="method-desc">Focus Board — platforma do jakościowych badań online. Alternatywa dla metod tradycyjnych: wywiady indywidualne i grupowe prowadzone przez Internet. Rekrutacja telefoniczna wg screenera, realizacja przez Zoom z opcją tłumaczenia symultanicznego, transmisja na żywo, nagrania audio-video i transkrypcje.</p>
+      </div>
+
+      <div class="method-card">
+        <div class="method-head">
+          <svg class="method-icon" viewBox="0 0 60 60" fill="none" stroke="#2b2442" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="26" cy="26" r="16" fill="#fff8ec"/>
+            <path d="M38 38 L50 50" stroke-width="4"/>
+            <circle cx="26" cy="22" r="4"/>
+            <path d="M18 36 Q26 30, 34 36"/>
+          </svg>
+          <div>
+            <div class="method-num">/07</div>
+            <div class="method-name">Mystery Shopper<em>.</em></div>
+          </div>
+        </div>
+        <div class="method-tag">Audyt · Retail & Usługi</div>
+        <p class="method-desc">Tajemniczy klient — kilkuset audytorów w całej Polsce realizuje projekty audytowe dla sieci retailowych i usługowych. Weryfikacja standardów obsługi, ekspozycji materiałów POS i procedur sprzedażowych. Dostępny także jako komponent platformy PaaS.</p>
+      </div>
+
+      <div class="method-card">
+        <div class="method-head">
+          <svg class="method-icon" viewBox="0 0 60 60" fill="none" stroke="#2b2442" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 18 Q10 10, 18 10 L42 10 Q50 10, 50 18 L50 32 Q50 40, 42 40 L30 40 L20 50 L22 40 L18 40 Q10 40, 10 32 Z" fill="#fff8ec"/>
+            <circle cx="22" cy="25" r="2" fill="#2b2442"/>
+            <circle cx="30" cy="25" r="2" fill="#2b2442"/>
+            <circle cx="38" cy="25" r="2" fill="#2b2442"/>
+          </svg>
+          <div>
+            <div class="method-num">/08</div>
+            <div class="method-name">PaaS<em>.</em></div>
+          </div>
+        </div>
+        <div class="method-tag">Technologia · SaaS</div>
+        <p class="method-desc">Platform as a Service — rozwiązanie pozwalające wypożyczyć na określony czas dostęp do technologii i oprogramowania badawczego. Dedykowane firmom, które nie chcą inwestować w sprzęt. Badania obejmują CATI, CAPI, CAWI, MOBI oraz Mystery Shopper.</p>
+      </div>
+
+      <div class="method-card">
+        <div class="method-head">
+          <svg class="method-icon" viewBox="0 0 60 60" fill="none" stroke="#2b2442" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="8" y="14" width="44" height="34" rx="4" fill="#fff8ec"/>
+            <circle cx="18" cy="26" r="3"/>
+            <circle cx="30" cy="26" r="3"/>
+            <circle cx="42" cy="26" r="3"/>
+            <circle cx="18" cy="38" r="3"/>
+            <circle cx="30" cy="38" r="3" fill="#ff8a65"/>
+            <circle cx="42" cy="38" r="3"/>
+          </svg>
+          <div>
+            <div class="method-num">/09</div>
+            <div class="method-name">Fokusownia<em>.</em></div>
+          </div>
+        </div>
+        <div class="method-tag">Infrastruktura · Wrocław</div>
+        <p class="method-desc">W pełni wyposażona fokusownia z podglądownią oraz oddzielnym pomieszczeniem dla tłumacza przy ul. Prusa we Wrocławiu. Profesjonalny sprzęt audio z tłumaczeniem symultanicznym, video streaming grup fokusowych, bezprzewodowy Internet. Studio przystosowane dla osób niepełnosprawnych.</p>
+      </div>
+
+      <div class="method-card">
+        <div class="method-head">
+          <svg class="method-icon" viewBox="0 0 60 60" fill="none" stroke="#2b2442" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M30 6 L46 14 L46 32 Q46 46, 30 54 Q14 46, 14 32 L14 14 Z" fill="#fff8ec"/>
+            <path d="M22 30 L28 36 L40 22" stroke="#ff8a65" stroke-width="3.5"/>
+          </svg>
+          <div>
+            <div class="method-num">/10</div>
+            <div class="method-name">Standardy<em>.</em></div>
+          </div>
+        </div>
+        <div class="method-tag">OFBOR · ESOMAR</div>
+        <p class="method-desc">Przestrzegamy norm jakości w procesie realizacji badań — pracujemy zgodnie ze standardami OFBOR, co daje klientowi gwarancję wysokiej jakości całego procesu badawczego i jest świadectwem dbałości o każdy jego element. Działamy również w oparciu o Kodeks ESOMAR.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- BIG NUMBERS -->
+<section class="bignums">
+  <div class="bignums-inner">
+    <h2>◆ Liczby MANDS / w liczbach</h2>
+    <div class="bignums-grid">
+      <div class="bignum">
+        <svg class="bignum-icon" viewBox="0 0 60 60" fill="none" stroke="#2b2442" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="30" cy="30" r="22" fill="#ffd966"/>
+          <path d="M30 18 L30 30 L40 36"/>
+        </svg>
+        <div class="bignum-val">20<em>+</em></div>
+        <div class="bignum-label"><strong>Lat doświadczenia</strong>nieprzerwanie na rynku badań od 2005 roku</div>
+      </div>
+      <div class="bignum">
+        <svg class="bignum-icon" viewBox="0 0 60 60" fill="none" stroke="#2b2442" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="22" cy="24" r="8" fill="#fff8ec"/>
+          <circle cx="38" cy="24" r="8" fill="#ffd966"/>
+          <path d="M10 46 Q10 36, 22 36 Q34 36, 34 46"/>
+          <path d="M26 46 Q26 36, 38 36 Q50 36, 50 46"/>
+        </svg>
+        <div class="bignum-val">400</div>
+        <div class="bignum-label"><strong>Ankieterów</strong>w całej Polsce, nadzorowanych przez trenerów regionalnych</div>
+      </div>
+      <div class="bignum">
+        <svg class="bignum-icon" viewBox="0 0 60 60" fill="none" stroke="#2b2442" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10 48 L10 14 L22 20 L22 48 M22 48 L22 24 L34 18 L34 48 M34 48 L34 10 L46 16 L46 48" fill="#ffc7c2"/>
+          <path d="M6 48 L52 48"/>
+        </svg>
+        <div class="bignum-val">10<em>k</em></div>
+        <div class="bignum-label"><strong>Wywiadów</strong>tygodniowo w ramach kontroli dystrybucji materiałów</div>
+      </div>
+      <div class="bignum">
+        <svg class="bignum-icon" viewBox="0 0 60 60" fill="none" stroke="#2b2442" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="30" cy="24" r="12" fill="#d8cbf0"/>
+          <path d="M30 36 L30 52"/>
+          <path d="M14 44 L46 44"/>
+          <path d="M24 22 L28 26 L36 18" stroke="#ff8a65"/>
+        </svg>
+        <div class="bignum-val">10</div>
+        <div class="bignum-label"><strong>Trenerów regionalnych</strong>nadzorujących jakość pracy ankieterów w terenie</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 03 — RETAIL -->
+<section id="idx-03" class="section">
+  <div class="retail-wrap">
+    <div class="section-num">§ 03 / Dla sieci handlowych</div>
+    <h2 class="retail-headline">Sprawdzamy, czy Twoje<br>gazetki <em>docierają do klientów.</em></h2>
+    <div class="retail-layout">
+      <div class="retail-illus">
+        <svg viewBox="0 0 400 420" fill="none" stroke="#2b2442" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+          <!-- Houses row -->
+          <g>
+            <path d="M 30 220 L 30 160 L 70 130 L 110 160 L 110 220 Z" fill="#ffc7c2"/>
+            <rect x="58" y="180" width="24" height="40" fill="#fff8ec"/>
+            <rect x="40" y="170" width="14" height="14" fill="#fff8ec"/>
+            <rect x="90" y="170" width="14" height="14" fill="#fff8ec"/>
+          </g>
+          <g>
+            <path d="M 140 220 L 140 150 L 185 115 L 230 150 L 230 220 Z" fill="#bfe8cf"/>
+            <rect x="170" y="175" width="30" height="45" fill="#fff8ec"/>
+            <rect x="150" y="165" width="14" height="14" fill="#fff8ec"/>
+            <rect x="205" y="165" width="14" height="14" fill="#fff8ec"/>
+            <path d="M 185 115 L 185 95" stroke-width="2"/>
+            <path d="M 182 95 L 195 98 L 182 102 Z" fill="#ff8a65"/>
+          </g>
+          <g>
+            <path d="M 260 220 L 260 165 L 300 135 L 340 165 L 340 220 Z" fill="#d8cbf0"/>
+            <rect x="288" y="185" width="24" height="35" fill="#fff8ec"/>
+            <rect x="270" y="175" width="14" height="14" fill="#fff8ec"/>
+            <rect x="316" y="175" width="14" height="14" fill="#fff8ec"/>
+          </g>
+          <!-- Ground -->
+          <path d="M 10 220 L 390 220" stroke-width="3.5"/>
+          <!-- Mailboxes -->
+          <rect x="115" y="210" width="12" height="14" fill="#ffd966"/>
+          <rect x="235" y="210" width="12" height="14" fill="#ffd966"/>
+          <rect x="345" y="210" width="12" height="14" fill="#ffd966"/>
+          <!-- Leaflets flying -->
+          <g class="float-a">
+            <rect x="150" y="260" width="40" height="54" rx="2" fill="#fff8ec"/>
+            <path d="M 156 270 L 184 270 M 156 280 L 184 280 M 156 290 L 176 290"/>
+            <rect x="154" y="295" width="14" height="12" fill="#ff8a65"/>
+          </g>
+          <g class="float-b">
+            <rect x="220" y="290" width="40" height="54" rx="2" fill="#fff8ec" transform="rotate(8 240 317)"/>
+            <path d="M 226 300 L 254 300 M 226 310 L 254 310 M 226 320 L 246 320" transform="rotate(8 240 317)"/>
+          </g>
+          <g class="float-a">
+            <rect x="80" y="290" width="40" height="54" rx="2" fill="#fff8ec" transform="rotate(-6 100 317)"/>
+            <path d="M 86 300 L 114 300 M 86 310 L 114 310" transform="rotate(-6 100 317)"/>
+            <rect x="84" y="315" width="18" height="12" fill="#ffd966" transform="rotate(-6 100 317)"/>
+          </g>
+          <!-- Person/Interviewer -->
+          <g>
+            <circle cx="310" cy="300" r="14" fill="#ff8a65"/>
+            <circle cx="306" cy="297" r="1.5" fill="#2b2442"/>
+            <circle cx="314" cy="297" r="1.5" fill="#2b2442"/>
+            <path d="M 305 304 Q 310 308, 315 304"/>
+            <path d="M 298 316 L 310 314 L 322 316 L 322 360 L 298 360 Z" fill="#bfe8cf"/>
+            <!-- clipboard -->
+            <rect x="325" y="320" width="22" height="28" rx="2" fill="#fff8ec"/>
+            <path d="M 328 326 L 344 326 M 328 332 L 344 332 M 328 338 L 340 338"/>
+          </g>
+          <!-- Checkmark stars -->
+          <path d="M 40 380 L 44 372 L 48 380 L 56 382 L 50 388 L 52 396 L 44 392 L 36 396 L 38 388 L 32 382 Z" fill="#ffd966"/>
+          <path d="M 180 380 L 184 372 L 188 380 L 196 382 L 190 388 L 192 396 L 184 392 L 176 396 L 178 388 L 172 382 Z" fill="#ffd966"/>
+        </svg>
+        <div class="retail-badge">
+          <strong>10 000<em>+</em></strong>
+          <span>gospodarstw<br>domowych / tydzień</span>
+        </div>
+      </div>
+      <div class="retail-list">
+        <div class="retail-entry">
+          <svg class="r-icon" viewBox="0 0 60 60" fill="none" stroke="#2b2442" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="10" y="16" width="40" height="30" rx="3" fill="#fff8ec"/>
+            <path d="M10 24 L30 36 L50 24"/>
+            <path d="M38 10 L42 6 L46 10 M42 6 L42 16" stroke="#ff8a65"/>
+          </svg>
+          <div>
+            <div class="r-name">Distribution Check</div>
+            <div class="r-desc">Kontrola dystrybucji materiałów reklamowych. Tygodniowo odwiedzamy ponad 10 tysięcy gospodarstw domowych sprawdzając, czy gazetki zostały dostarczone.</div>
+          </div>
+        </div>
+        <div class="retail-entry">
+          <svg class="r-icon" viewBox="0 0 60 60" fill="none" stroke="#2b2442" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 20 L52 20 L46 48 L14 48 Z" fill="#fff8ec"/>
+            <path d="M18 20 L22 10 L38 10 L42 20"/>
+            <circle cx="24" cy="54" r="3"/>
+            <circle cx="40" cy="54" r="3"/>
+          </svg>
+          <div>
+            <div class="r-name">Exit Store</div>
+            <div class="r-desc">Badanie na terenie sklepu z jego klientami — analiza wartości koszyka, częstotliwości zakupów. Rezultat: heatmapa obszarów atrakcyjnych finansowo.</div>
+          </div>
+        </div>
+        <div class="retail-entry">
+          <svg class="r-icon" viewBox="0 0 60 60" fill="none" stroke="#2b2442" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="8" y="10" width="44" height="34" rx="3" fill="#fff8ec"/>
+            <path d="M14 22 L22 18 L30 24 L38 16 L46 22"/>
+            <circle cx="46" cy="22" r="2" fill="#ff8a65"/>
+            <path d="M14 32 L46 32 M14 38 L34 38"/>
+            <path d="M20 48 L40 48"/>
+          </svg>
+          <div>
+            <div class="r-name">Distribution Reporting System</div>
+            <div class="r-desc">Webowe narzędzie SaaS do raportowania kolportażu. Obsługa SMS dla kolporterów, eksport CSV/XLSX, historia kampanii.</div>
+          </div>
+        </div>
+        <div class="retail-entry">
+          <svg class="r-icon" viewBox="0 0 60 60" fill="none" stroke="#2b2442" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 10 Q14 6, 18 6 L24 6 Q28 6, 28 10 L30 18 Q26 22, 20 22 Q18 34, 30 40 Q36 34, 40 32 L48 34 Q52 34, 52 38 L52 44 Q52 50, 46 50 Q18 50, 14 22 Z" fill="#fff8ec"/>
+          </svg>
+          <div>
+            <div class="r-name">Call Distribution Check</div>
+            <div class="r-desc">Telefoniczna kontrola dystrybucji gazetek. Około 10 tysięcy wywiadów w kluczowych lokalizacjach — realizowana zwykle raz na dwa lata.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 04 — RESULTS -->
+<section id="idx-04" class="section">
+  <div class="results-wrap">
+    <div class="section-num">§ 04 / Archiwum publikacji</div>
+    <div class="results-head">
+      <h2>Wybrane<br>publikacje <em>& raporty.</em></h2>
+      <p>Dzielimy się wynikami wybranych badań — od skuteczności portali pracy w IT, przez infolinie hostingowe, po plany podróżnicze Polaków.</p>
+    </div>
+    <div class="results-list">
+      <div class="result">
+        <svg class="result-icon" viewBox="0 0 60 60" fill="none" stroke="#2b2442" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="10" y="12" width="40" height="38" rx="3" fill="#fff8ec"/>
+          <path d="M10 22 L50 22"/>
+          <path d="M16 30 L32 30 M16 36 L32 36"/>
+          <rect x="38" y="28" width="10" height="14" rx="1" fill="#ff8a65"/>
+        </svg>
+        <div class="result-year">Anno 2022</div>
+        <div class="result-title">Portale z ogłoszeniami IT</div>
+        <div class="result-desc">Trzecia edycja badania skuteczności portali pracy IT dla No Fluff Jobs — cztery stanowiska testowe metodą tajemniczego klienta.</div>
+        <div class="result-arrow">↗</div>
+      </div>
+      <div class="result">
+        <svg class="result-icon" viewBox="0 0 60 60" fill="none" stroke="#2b2442" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 10 Q14 6, 18 6 L24 6 Q28 6, 28 10 L30 18 Q26 22, 20 22 Q18 34, 30 40 Q36 34, 40 32 L48 34 Q52 34, 52 38 L52 44 Q52 50, 46 50 Q18 50, 14 22 Z" fill="#fff8ec"/>
+        </svg>
+        <div class="result-year">Anno 2021</div>
+        <div class="result-title">Infolinie firm hostingowych</div>
+        <div class="result-desc">Badanie skuteczności obsługi klienta przeprowadzone wśród firm obsługujących co najmniej 10 000 domen.</div>
+        <div class="result-arrow">↗</div>
+      </div>
+      <div class="result">
+        <svg class="result-icon" viewBox="0 0 60 60" fill="none" stroke="#2b2442" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="30" cy="30" r="20" fill="#fff8ec"/>
+          <path d="M10 30 L50 30 M30 10 Q40 30, 30 50 Q20 30, 30 10"/>
+        </svg>
+        <div class="result-year">Anno 2020</div>
+        <div class="result-title">Plany podróżnicze Polaków</div>
+        <div class="result-desc">Raport częściowy Ogólnopolskiego Badania Podróżników — wpływ pandemii na plany urlopowe i wybory kierunkowe.</div>
+        <div class="result-arrow">↗</div>
+      </div>
+      <div class="result">
+        <svg class="result-icon" viewBox="0 0 60 60" fill="none" stroke="#2b2442" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="26" cy="26" r="16" fill="#fff8ec"/>
+          <path d="M38 38 L50 50" stroke-width="4"/>
+          <circle cx="26" cy="22" r="4"/>
+          <path d="M18 34 Q26 30, 34 34"/>
+        </svg>
+        <div class="result-year">Metodologia</div>
+        <div class="result-title">Tajemniczy klient</div>
+        <div class="result-desc">Kilkuset tajemniczych klientów w całej Polsce realizuje projekty audytowe — od retail przez gastronomię po usługi finansowe.</div>
+        <div class="result-arrow">↗</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAREERS -->
+<section id="idx-05" class="section">
+  <div class="careers-wrap">
+    <div class="section-num">§ 05 / Kariera</div>
+    <div class="careers-head">
+      <h2>Dołącz do<br><em>zespołu.</em></h2>
+      <p>Instytut o pracowników merytorycznych oparty, rozszerzany siatką ankieterską i tajemniczymi klientami. Rekrutacja stała — CV przyjmujemy niezależnie od aktualnych ogłoszeń.</p>
+    </div>
+    <div class="careers-grid">
+      <div class="careers-stats">
+        <div class="careers-stat">
+          Zespół merytoryczny
+          <strong>20<em>+</em></strong>
+          <span class="sub">analityków, projektantów badań, supervisorów</span>
+        </div>
+        <div class="careers-stat">
+          Siatka terenowa
+          <strong>400<em>+</em></strong>
+          <span class="sub">ankieterów i kilkuset tajemniczych klientów</span>
+        </div>
+        <div class="careers-stat">
+          Zasięg
+          <strong>PL</strong>
+          <span class="sub">cała Polska — 10 trenerów regionalnych</span>
+        </div>
+      </div>
+
+      <div class="careers-jobs">
+        <h3>/ Aktualnie poszukujemy</h3>
+        <div class="careers-jobs-list">
+          <a class="career-job" href="mailto:rekrutacja@mands.pl?subject=Teleankieter%20CATI%20Wroc%C5%82aw">
+            <div class="career-job-num">/01</div>
+            <div class="career-job-title">Teleankieter · studio CATI Wrocław<small>Praca stacjonarna lub zdalna (Cati@Home)</small></div>
+            <div class="career-job-arrow">↗</div>
+          </a>
+          <a class="career-job" href="mailto:rekrutacja@mands.pl?subject=Kontroler%20dystrybucji">
+            <div class="career-job-num">/02</div>
+            <div class="career-job-title">Kontroler dystrybucji materiałów reklamowych<small>Praca w terenie · cała Polska</small></div>
+            <div class="career-job-arrow">↗</div>
+          </a>
+          <a class="career-job" href="mailto:rekrutacja@mands.pl?subject=Siatka%20ankieterska">
+            <div class="career-job-num">/03</div>
+            <div class="career-job-title">Siatka ankieterska & tajemniczy klienci<small>Rekrutacja ciągła · całe PL</small></div>
+            <div class="career-job-arrow">↗</div>
+          </a>
+        </div>
+        <div class="careers-apply">
+          <div class="careers-apply-text">Zainteresowany współpracą? Wyślij CV i kilka słów o sobie.</div>
+          <a href="mailto:rekrutacja@mands.pl">rekrutacja@mands.pl ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="idx-06" class="contact">
+  <div class="contact-inner">
+    <div class="section-num">§ 06 / Kontakt</div>
+    <h2 class="contact-head">Porozmawiajmy<br>o <em>badaniu.</em></h2>
+
+    <div class="contact-grid">
+      <div class="contact-col">
+        <h4>/ 001 — Siedziba</h4>
+        <p>ul. B. Prusa 1/48<br>50-319 Wrocław<br><small>NIP: PL8851557675</small></p>
+      </div>
+      <div class="contact-col">
+        <h4>/ 002 — Kontakt</h4>
+        <p><a href="mailto:info@mands.pl">info@mands.pl</a><br><a href="tel:+48713220686">+48 71 322 06 86</a><small>zwykle odpowiadamy w ciągu 24h</small></p>
+      </div>
+      <div class="contact-col">
+        <h4>/ 003 — Kariera</h4>
+        <p><a href="mailto:rekrutacja@mands.pl">rekrutacja@mands.pl</a><small>ankieterzy · tajemniczy klienci · merytoryka</small></p>
+      </div>
+    </div>
+
+    <div class="contact-map">
+      <div class="contact-map-tag">MANDS · ul. Prusa 1/48, Wrocław</div>
+      <iframe
+        src="https://maps.google.com/maps?&q=Boles%C5%82awa+Prusa+1+%2C+Wroc%C5%82aw+50-319&output=embed&iwloc"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="MANDS — siedziba na mapie"></iframe>
+    </div>
+
+    <div class="contact-cta">
+      <div class="contact-cta-text">Masz pytanie o projekt badawczy? Odezwij się.</div>
+      <a href="mailto:info@mands.pl">
+        Napisz do nas
+        <span>↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-inner">
+    <div class="foot-mark">m<em>&</em>s</div>
+    <div class="foot-meta">
+      <div>Instytut Badawczy</div>
+      <strong>MANDS / Wrocław</strong>
+      <div>est. MMV</div>
+      <div>51.10°N · 17.03°E</div>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <div>© 2026 MANDS — Wszystkie prawa zastrzeżone</div>
+    <div>Badania rynku i opinii / Made in Wrocław</div>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>

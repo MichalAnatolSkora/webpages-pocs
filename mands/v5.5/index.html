@@ -1,0 +1,1633 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MANDS — Instytut Badań Rynku i Opinii · od 2005</title>
+<meta name="description" content="MANDS — polski instytut badawczy. Badania rynku, opinii, dystrybucji. CATI · CAWI · MOBI · FGI." />
+<link rel="icon" href="../images/cropped-logo-png-1-180x180.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Roboto+Mono:wght@400;500&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet">
+<style>
+  /* Material Design 3 inspired palette */
+  :root {
+    --md-primary: #1565c0;          /* indigo/blue 800 */
+    --md-primary-hi: #1e88e5;
+    --md-on-primary: #ffffff;
+    --md-primary-container: #d6e4ff;
+    --md-on-primary-container: #0b3d91;
+    --md-secondary: #ff6d00;        /* deep orange A400 */
+    --md-secondary-hi: #ff9100;
+    --md-tertiary: #00897b;         /* teal 600 */
+    --md-surface: #fdfcff;
+    --md-surface-1: #f5f3fa;
+    --md-surface-2: #eeecf4;
+    --md-surface-3: #e7e4ee;
+    --md-outline: #c4c7d0;
+    --md-outline-variant: #e1e2ec;
+    --md-on-surface: #1b1b1f;
+    --md-on-surface-variant: #46464f;
+    --md-error: #ba1a1a;
+
+    /* Elevation shadows (Material 3) */
+    --elev-1: 0 1px 2px rgba(0,0,0,.16), 0 1px 2px rgba(0,0,0,.12);
+    --elev-2: 0 1px 3px rgba(0,0,0,.18), 0 2px 6px rgba(0,0,0,.12);
+    --elev-3: 0 1px 3px rgba(0,0,0,.2), 0 4px 12px rgba(0,0,0,.14);
+    --elev-4: 0 2px 4px rgba(0,0,0,.22), 0 8px 24px rgba(0,0,0,.18);
+    --elev-5: 0 4px 8px rgba(0,0,0,.24), 0 16px 40px rgba(0,0,0,.22);
+
+    --r-sm: 8px;
+    --r: 12px;
+    --r-lg: 16px;
+    --r-xl: 28px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; background: var(--md-surface); }
+  body {
+    font-family: 'Roboto', -apple-system, sans-serif;
+    color: var(--md-on-surface);
+    background: var(--md-surface);
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+  .mono { font-family: 'Roboto Mono', monospace; font-size: 11px; letter-spacing: 0.04em; }
+  .micon {
+    font-family: 'Material Symbols Outlined';
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    white-space: nowrap;
+    direction: ltr;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: 'liga';
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  ::selection { background: var(--md-primary-container); color: var(--md-on-primary-container); }
+
+  /* =========== APP BAR (Material top app bar) =========== */
+  .appbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: var(--md-primary);
+    color: var(--md-on-primary);
+    height: 72px;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    box-shadow: var(--elev-2);
+  }
+  .appbar-inner {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .appbar-brand {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: 0.04em;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--md-on-primary);
+  }
+  .appbar-brand .brand-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--md-secondary);
+    box-shadow: 0 0 0 3px rgba(255,109,0,.25);
+  }
+  .appbar-nav {
+    display: flex;
+    gap: 4px;
+    margin-left: 32px;
+    flex: 1;
+  }
+  .appbar-nav a {
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 10px 16px;
+    border-radius: 999px;
+    color: rgba(255,255,255,.92);
+    transition: background .2s ease;
+    position: relative;
+  }
+  .appbar-nav a:hover { background: rgba(255,255,255,.12); }
+  .appbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .appbar-phone {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 13px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.14);
+    color: var(--md-on-primary);
+  }
+  .appbar-phone:hover { background: rgba(255,255,255,.22); }
+  .appbar-lang {
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    padding: 8px 14px;
+    border: 1px solid rgba(255,255,255,.4);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--md-on-primary);
+    cursor: pointer;
+  }
+  .appbar-lang:hover { background: rgba(255,255,255,.14); }
+
+  section[id] { scroll-margin-top: 96px; }
+
+  /* =========== HERO =========== */
+  .hero {
+    padding: 120px 24px 72px;
+    background:
+      radial-gradient(ellipse 60% 50% at 20% 20%, rgba(21,101,192,.12), transparent 60%),
+      radial-gradient(ellipse 50% 40% at 85% 75%, rgba(255,109,0,.1), transparent 60%),
+      var(--md-surface);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .hero-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: var(--md-primary-container);
+    color: var(--md-on-primary-container);
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 24px;
+    box-shadow: var(--elev-1);
+  }
+  .hero-chip .micon { font-size: 18px; }
+  .hero-title {
+    font-size: clamp(42px, 6vw, 84px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    font-weight: 900;
+    color: var(--md-on-surface);
+    margin-bottom: 24px;
+  }
+  .hero-title .accent { color: var(--md-primary); }
+  .hero-title .accent-2 { color: var(--md-secondary); font-style: italic; }
+  .hero-sub {
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--md-on-surface-variant);
+    max-width: 52ch;
+    margin-bottom: 32px;
+  }
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  /* Material Filled Button */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 24px;
+    border-radius: 999px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    border: none;
+    transition: box-shadow .2s ease, transform .1s ease, background .2s ease;
+  }
+  .btn-filled {
+    background: var(--md-primary);
+    color: var(--md-on-primary);
+    box-shadow: var(--elev-2);
+  }
+  .btn-filled:hover { box-shadow: var(--elev-3); background: var(--md-primary-hi); }
+  .btn-filled:active { transform: scale(.98); }
+  .btn-tonal {
+    background: var(--md-primary-container);
+    color: var(--md-on-primary-container);
+  }
+  .btn-tonal:hover { box-shadow: var(--elev-1); }
+  .btn-outlined {
+    background: transparent;
+    color: var(--md-primary);
+    border: 1px solid var(--md-outline);
+  }
+  .btn-outlined:hover { background: rgba(21,101,192,.06); }
+  .btn-text {
+    background: transparent;
+    color: var(--md-primary);
+    padding: 10px 12px;
+  }
+  .btn-text:hover { background: rgba(21,101,192,.08); }
+
+  /* Hero right card (dashboard) */
+  .hero-card {
+    background: var(--md-surface);
+    border-radius: var(--r-xl);
+    padding: 32px;
+    box-shadow: var(--elev-4);
+    position: relative;
+  }
+  .hero-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  .hero-card-header h3 {
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--md-on-surface-variant);
+  }
+  .hero-card-header .badge {
+    background: var(--md-tertiary);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+  }
+  .hc-stat {
+    font-size: 56px;
+    font-weight: 900;
+    color: var(--md-primary);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .hc-stat-label {
+    font-size: 13px;
+    color: var(--md-on-surface-variant);
+    margin-top: 4px;
+    margin-bottom: 24px;
+  }
+  .hc-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+    height: 120px;
+    padding: 8px 0;
+    border-top: 1px solid var(--md-outline-variant);
+    border-bottom: 1px solid var(--md-outline-variant);
+    margin-bottom: 16px;
+  }
+  .hc-bars .bar {
+    flex: 1;
+    background: var(--md-primary-container);
+    border-radius: 3px 3px 0 0;
+    transition: background .2s ease;
+  }
+  .hc-bars .bar.hi { background: var(--md-secondary); }
+  .hc-bars-x {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--md-on-surface-variant);
+    font-family: 'Roboto Mono', monospace;
+    margin-bottom: 24px;
+  }
+  .hc-segs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+  .hc-segs .seg {
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .hc-segs .seg.s1 { flex: 38; background: var(--md-primary); }
+  .hc-segs .seg.s2 { flex: 27; background: var(--md-primary-hi); }
+  .hc-segs .seg.s3 { flex: 18; background: var(--md-secondary); }
+  .hc-segs .seg.s4 { flex: 9; background: var(--md-tertiary); font-size: 11px; }
+  .hc-segs .seg.s5 { flex: 8; background: #6a6a72; font-size: 11px; }
+  .hc-segs-lbls {
+    display: flex;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--md-on-surface-variant);
+    font-family: 'Roboto Mono', monospace;
+    margin-bottom: 20px;
+  }
+  .hc-segs-lbls span:nth-child(1) { flex: 38; }
+  .hc-segs-lbls span:nth-child(2) { flex: 27; }
+  .hc-segs-lbls span:nth-child(3) { flex: 18; }
+  .hc-segs-lbls span:nth-child(4) { flex: 9; }
+  .hc-segs-lbls span:nth-child(5) { flex: 8; }
+  .hc-chips {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .hc-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: var(--md-surface-2);
+    color: var(--md-on-surface);
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid var(--md-outline-variant);
+  }
+  .hc-chip .micon { font-size: 14px; color: var(--md-tertiary); }
+
+  /* Hero stats strip */
+  .hero-strip {
+    max-width: 1440px;
+    margin: 56px auto 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .hero-strip .card {
+    background: var(--md-surface);
+    border-radius: var(--r-lg);
+    padding: 20px 24px;
+    box-shadow: var(--elev-1);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border: 1px solid var(--md-outline-variant);
+    transition: box-shadow .2s ease;
+  }
+  .hero-strip .card:hover { box-shadow: var(--elev-3); }
+  .hero-strip .card .top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--md-on-surface-variant);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .hero-strip .card .top .micon { color: var(--md-primary); font-size: 20px; }
+  .hero-strip .card strong {
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--md-on-surface);
+  }
+  .hero-strip .card strong em { font-style: normal; color: var(--md-secondary); }
+
+  /* =========== SECTIONS =========== */
+  .section {
+    padding: 96px 24px;
+    position: relative;
+  }
+  .section-inner { max-width: 1440px; margin: 0 auto; }
+  .section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    margin-bottom: 56px;
+    flex-wrap: wrap;
+  }
+  .section-num {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px;
+    background: var(--md-primary-container);
+    color: var(--md-on-primary-container);
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    box-shadow: var(--elev-1);
+  }
+  .section-num .micon { font-size: 18px; }
+  .section-title {
+    font-size: clamp(36px, 4.5vw, 56px);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    max-width: 20ch;
+  }
+  .section-title .accent { color: var(--md-primary); }
+  .section-title .accent-2 { color: var(--md-secondary); font-style: italic; }
+  .section-sub {
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--md-on-surface-variant);
+    max-width: 60ch;
+    margin-top: 16px;
+  }
+
+  /* alt background for zebra sections */
+  .section.alt { background: var(--md-surface-1); }
+
+  /* =========== CHAPTER 01 — MANIFEST =========== */
+  .manifest-body {
+    font-size: clamp(24px, 2.6vw, 36px);
+    font-weight: 500;
+    line-height: 1.3;
+    color: var(--md-on-surface);
+    max-width: 28ch;
+    margin-bottom: 48px;
+  }
+  .manifest-body em { font-style: italic; color: var(--md-primary); }
+  .manifest-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .manifest-card {
+    background: var(--md-surface);
+    border-radius: var(--r-lg);
+    padding: 32px;
+    box-shadow: var(--elev-1);
+    border: 1px solid var(--md-outline-variant);
+    transition: box-shadow .2s ease, transform .2s ease;
+    position: relative;
+  }
+  .manifest-card:hover { box-shadow: var(--elev-3); transform: translateY(-2px); }
+  .manifest-card .avatar {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    background: var(--md-primary-container);
+    color: var(--md-on-primary-container);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  .manifest-card .avatar .micon { font-size: 26px; }
+  .manifest-card .label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--md-on-surface-variant);
+    margin-bottom: 6px;
+  }
+  .manifest-card h4 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .manifest-card p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--md-on-surface-variant);
+  }
+
+  /* =========== CHAPTER 02 — METHODS =========== */
+  .methods-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  .method {
+    background: var(--md-surface);
+    border-radius: var(--r-lg);
+    padding: 28px 32px;
+    box-shadow: var(--elev-1);
+    border: 1px solid var(--md-outline-variant);
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    gap: 20px;
+    align-items: start;
+    transition: box-shadow .2s ease, transform .2s ease;
+  }
+  .method:hover { box-shadow: var(--elev-3); transform: translateY(-2px); }
+  .method .num {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    background: var(--md-primary);
+    color: var(--md-on-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    box-shadow: var(--elev-1);
+  }
+  .method.hi .num { background: var(--md-secondary); }
+  .method .body h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .method .body h3 em { color: var(--md-primary); font-style: normal; }
+  .method .tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    background: var(--md-surface-2);
+    color: var(--md-on-surface-variant);
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+  .method .desc {
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--md-on-surface-variant);
+  }
+  .method .arrow {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--md-surface-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--md-primary);
+    flex: none;
+  }
+  .method:hover .arrow { background: var(--md-primary-container); }
+
+  /* =========== BIG NUMBERS =========== */
+  .bignums-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .bignum {
+    background: var(--md-surface);
+    border-radius: var(--r-lg);
+    padding: 32px;
+    box-shadow: var(--elev-1);
+    border: 1px solid var(--md-outline-variant);
+    position: relative;
+    transition: box-shadow .2s ease;
+  }
+  .bignum:hover { box-shadow: var(--elev-3); }
+  .bignum .icn {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    background: var(--md-primary-container);
+    color: var(--md-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  .bignum .icn .micon { font-size: 26px; }
+  .bignum .val {
+    font-size: 56px;
+    font-weight: 900;
+    color: var(--md-primary);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+  .bignum .val em { font-style: normal; color: var(--md-secondary); }
+  .bignum strong {
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .bignum span {
+    font-size: 13px;
+    color: var(--md-on-surface-variant);
+    line-height: 1.5;
+  }
+
+  /* =========== CHAPTER 03 — RETAIL =========== */
+  .retail-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-top: 40px;
+  }
+  .retail-image {
+    position: relative;
+    border-radius: var(--r-xl);
+    overflow: hidden;
+    box-shadow: var(--elev-4);
+    min-height: 500px;
+    background: #ccc;
+  }
+  .retail-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    inset: 0;
+  }
+  .retail-image-tag {
+    position: absolute;
+    left: 24px; bottom: 24px;
+    background: var(--md-surface);
+    color: var(--md-on-surface);
+    border-radius: var(--r);
+    padding: 16px 20px;
+    box-shadow: var(--elev-3);
+    max-width: 220px;
+  }
+  .retail-image-tag strong {
+    display: block;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--md-primary);
+    margin-bottom: 4px;
+  }
+  .retail-image-tag span {
+    font-size: 12px;
+    color: var(--md-on-surface-variant);
+  }
+  .retail-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .retail-entry {
+    background: var(--md-surface);
+    border-radius: var(--r-lg);
+    padding: 24px 28px;
+    box-shadow: var(--elev-1);
+    border: 1px solid var(--md-outline-variant);
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 20px;
+    align-items: start;
+    transition: box-shadow .2s ease, transform .2s ease;
+  }
+  .retail-entry:hover { box-shadow: var(--elev-3); transform: translateX(4px); }
+  .retail-entry .icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    background: var(--md-primary-container);
+    color: var(--md-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .retail-entry .icon .micon { font-size: 26px; }
+  .retail-entry h4 {
+    font-size: 19px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .retail-entry p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--md-on-surface-variant);
+  }
+
+  /* =========== CHAPTER 04 — RESULTS / ARCHIVE =========== */
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  .result {
+    background: var(--md-surface);
+    border-radius: var(--r-lg);
+    padding: 32px;
+    box-shadow: var(--elev-2);
+    border-top: 4px solid var(--md-primary);
+    position: relative;
+    transition: box-shadow .2s ease, transform .2s ease;
+  }
+  .result:nth-child(2) { border-top-color: var(--md-secondary); }
+  .result:nth-child(3) { border-top-color: var(--md-tertiary); }
+  .result:nth-child(4) { border-top-color: var(--md-primary-hi); }
+  .result:hover { box-shadow: var(--elev-4); transform: translateY(-3px); }
+  .result .year {
+    display: inline-block;
+    padding: 4px 12px;
+    background: var(--md-surface-2);
+    color: var(--md-on-surface-variant);
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .result h3 {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+  .result p {
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--md-on-surface-variant);
+    margin-bottom: 20px;
+  }
+  .result .more {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--md-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* =========== CHAPTER 05 — CAREERS =========== */
+  .careers-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 48px;
+    margin-top: 40px;
+  }
+  .careers-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .career-stat {
+    background: var(--md-primary);
+    color: var(--md-on-primary);
+    border-radius: var(--r-lg);
+    padding: 28px;
+    box-shadow: var(--elev-2);
+  }
+  .career-stat:nth-child(2) { background: var(--md-secondary); }
+  .career-stat:nth-child(3) { background: var(--md-tertiary); }
+  .career-stat .label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: .85;
+    margin-bottom: 10px;
+  }
+  .career-stat strong {
+    display: block;
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .career-stat strong em { font-style: normal; opacity: .8; }
+  .career-stat span {
+    font-size: 13px;
+    line-height: 1.5;
+    opacity: .92;
+  }
+  .careers-jobs h3 {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--md-on-surface-variant);
+    margin-bottom: 20px;
+  }
+  .career-job {
+    display: grid;
+    grid-template-columns: 56px 1fr 40px;
+    align-items: center;
+    gap: 20px;
+    background: var(--md-surface);
+    border-radius: var(--r-lg);
+    padding: 20px 24px;
+    box-shadow: var(--elev-1);
+    border: 1px solid var(--md-outline-variant);
+    margin-bottom: 12px;
+    color: var(--md-on-surface);
+    transition: box-shadow .2s ease, background .2s ease;
+  }
+  .career-job:hover { box-shadow: var(--elev-3); background: var(--md-surface-1); }
+  .career-job .jnum {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    background: var(--md-primary-container);
+    color: var(--md-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .career-job .jnum .micon { font-size: 24px; }
+  .career-job .jtitle {
+    font-size: 17px;
+    font-weight: 500;
+  }
+  .career-job .jtitle small {
+    display: block;
+    font-size: 13px;
+    color: var(--md-on-surface-variant);
+    font-weight: 400;
+    margin-top: 4px;
+  }
+  .career-job .jarrow .micon {
+    color: var(--md-primary);
+    font-size: 24px;
+  }
+  .careers-apply {
+    background: var(--md-primary-container);
+    color: var(--md-on-primary-container);
+    padding: 24px 28px;
+    border-radius: var(--r-lg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-top: 8px;
+    box-shadow: var(--elev-1);
+    flex-wrap: wrap;
+  }
+  .careers-apply a {
+    font-weight: 700;
+    color: var(--md-primary);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* =========== CONTACT =========== */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+  .contact-card {
+    background: var(--md-surface);
+    border-radius: var(--r-lg);
+    padding: 28px;
+    box-shadow: var(--elev-1);
+    border: 1px solid var(--md-outline-variant);
+  }
+  .contact-card .icn {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    background: var(--md-primary-container);
+    color: var(--md-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  .contact-card .icn .micon { font-size: 26px; }
+  .contact-card h4 {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--md-on-surface-variant);
+    margin-bottom: 8px;
+  }
+  .contact-card p {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  .contact-card p a { color: var(--md-primary); font-weight: 500; }
+  .contact-card p small {
+    display: block;
+    font-size: 12px;
+    color: var(--md-on-surface-variant);
+    margin-top: 6px;
+  }
+
+  .contact-map {
+    border-radius: var(--r-xl);
+    overflow: hidden;
+    box-shadow: var(--elev-3);
+    position: relative;
+    height: 340px;
+    margin-bottom: 40px;
+  }
+  .contact-map iframe {
+    width: 100%; height: 100%;
+    border: 0;
+    display: block;
+  }
+  .contact-map-tag {
+    position: absolute;
+    top: 16px; left: 16px;
+    padding: 8px 16px;
+    background: var(--md-surface);
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+    box-shadow: var(--elev-2);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 2;
+  }
+  .contact-map-tag .micon { font-size: 16px; color: var(--md-primary); }
+
+  .contact-cta {
+    background: var(--md-primary);
+    color: var(--md-on-primary);
+    padding: 40px;
+    border-radius: var(--r-xl);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    box-shadow: var(--elev-3);
+    flex-wrap: wrap;
+  }
+  .contact-cta-text {
+    font-size: 22px;
+    font-weight: 500;
+    max-width: 32ch;
+  }
+  .contact-cta a {
+    background: var(--md-secondary);
+    color: #fff;
+    padding: 14px 26px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+    box-shadow: var(--elev-2);
+  }
+  .contact-cta a:hover { background: var(--md-secondary-hi); box-shadow: var(--elev-3); }
+
+  /* =========== FAB =========== */
+  .fab {
+    position: fixed;
+    right: 32px;
+    bottom: 32px;
+    width: 64px; height: 64px;
+    border-radius: 20px;
+    background: var(--md-secondary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--elev-4);
+    z-index: 90;
+    border: none;
+    cursor: pointer;
+    transition: box-shadow .2s ease, transform .1s ease;
+  }
+  .fab:hover { box-shadow: var(--elev-5); background: var(--md-secondary-hi); }
+  .fab:active { transform: scale(.95); }
+  .fab .micon { font-size: 28px; }
+  .fab-extended {
+    width: auto;
+    padding: 0 24px;
+    gap: 10px;
+    font-weight: 500;
+    font-size: 15px;
+    letter-spacing: 0.04em;
+  }
+
+  /* =========== FOOTER =========== */
+  footer {
+    background: #0f1116;
+    color: #e3e5ee;
+    padding: 72px 24px 32px;
+  }
+  .foot-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid rgba(255,255,255,.1);
+  }
+  .foot-brand {
+    font-size: 32px;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .foot-brand .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--md-secondary);
+  }
+  .foot-meta strong {
+    display: block;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 6px 0;
+  }
+  .foot-meta div, .foot-meta small {
+    color: #a3a6b3;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .foot-links a {
+    display: block;
+    color: #e3e5ee;
+    padding: 4px 0;
+    font-size: 14px;
+  }
+  .foot-links a:hover { color: var(--md-secondary-hi); }
+  .foot-bot {
+    max-width: 1440px;
+    margin: 32px auto 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    font-size: 12px;
+    color: #8f92a1;
+    flex-wrap: wrap;
+  }
+
+  /* =========== RESPONSIVE =========== */
+  @media (max-width: 1100px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-strip { grid-template-columns: repeat(2, 1fr); }
+    .methods-grid { grid-template-columns: 1fr; }
+    .manifest-grid { grid-template-columns: 1fr; }
+    .bignums-grid { grid-template-columns: repeat(2, 1fr); }
+    .retail-layout { grid-template-columns: 1fr; }
+    .results-grid { grid-template-columns: 1fr; }
+    .careers-layout { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .appbar-nav { display: none; }
+    .foot-inner { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .hero { padding: 100px 16px 48px; }
+    .section { padding: 64px 16px; }
+    .hero-strip { grid-template-columns: 1fr; }
+    .bignums-grid { grid-template-columns: 1fr; }
+    .method { grid-template-columns: 48px 1fr; }
+    .method .arrow { display: none; }
+    .appbar { padding: 0 16px; height: 64px; }
+    .appbar-brand { font-size: 18px; }
+    .appbar-phone { display: none; }
+    .fab { right: 16px; bottom: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- APP BAR -->
+<header class="appbar">
+  <div class="appbar-inner">
+    <a href="#top" class="appbar-brand">
+      <span class="brand-dot"></span>
+      MANDS
+    </a>
+    <nav class="appbar-nav" aria-label="Główna nawigacja">
+      <a href="#idx-01">Manifest</a>
+      <a href="#idx-02">Metody</a>
+      <a href="#idx-03">Retail</a>
+      <a href="#idx-04">Archiwum</a>
+      <a href="#idx-05">Kariera</a>
+      <a href="#idx-06">Kontakt</a>
+    </nav>
+    <div class="appbar-actions">
+      <a href="tel:+48713220686" class="appbar-phone">
+        <span class="micon">call</span>
+        +48 71 322 06 86
+      </a>
+      <button type="button" class="appbar-lang" aria-label="Switch language">EN</button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-chip">
+        <span class="micon">verified</span>
+        Instytut Badawczy · est. 2005
+      </div>
+      <h1 class="hero-title">
+        Badania <span class="accent">rynku</span><br>
+        <span class="accent-2">i opinii.</span>
+      </h1>
+      <p class="hero-sub">Polski instytut badawczy działający od <strong>2005 roku</strong>. Słuchamy, analizujemy i doradzamy — pomagamy znaleźć drogę do rynkowego sukcesu.</p>
+      <div class="hero-actions">
+        <a href="#idx-06" class="btn btn-filled">
+          <span class="micon">send</span>
+          Zamów badanie
+        </a>
+        <a href="#idx-02" class="btn btn-tonal">
+          <span class="micon">science</span>
+          Nasze metody
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-card">
+        <div class="hero-card-header">
+          <h3>Projekty · 2005—2024</h3>
+          <span class="badge">LIVE</span>
+        </div>
+        <div class="hc-stat">4 600</div>
+        <div class="hc-stat-label">projektów w 20 lat</div>
+        <div class="hc-bars">
+          <div class="bar" style="height:10%"></div>
+          <div class="bar" style="height:14%"></div>
+          <div class="bar" style="height:18%"></div>
+          <div class="bar" style="height:22%"></div>
+          <div class="bar" style="height:21%"></div>
+          <div class="bar" style="height:26%"></div>
+          <div class="bar" style="height:32%"></div>
+          <div class="bar" style="height:37%"></div>
+          <div class="bar" style="height:43%"></div>
+          <div class="bar" style="height:50%"></div>
+          <div class="bar" style="height:57%"></div>
+          <div class="bar" style="height:64%"></div>
+          <div class="bar" style="height:72%"></div>
+          <div class="bar" style="height:79%"></div>
+          <div class="bar" style="height:91%"></div>
+          <div class="bar" style="height:82%"></div>
+          <div class="bar" style="height:88%"></div>
+          <div class="bar" style="height:78%"></div>
+          <div class="bar" style="height:94%"></div>
+          <div class="bar hi" style="height:100%"></div>
+        </div>
+        <div class="hc-bars-x">
+          <span>2005</span><span>2010</span><span>2015</span><span>2020</span><span>2024</span>
+        </div>
+
+        <div class="hc-stat-label" style="margin-bottom:8px; text-transform:uppercase; letter-spacing:0.08em; font-size:11px;">Struktura próby · 540 000 wywiadów</div>
+        <div class="hc-segs">
+          <div class="seg s1">38%</div>
+          <div class="seg s2">27%</div>
+          <div class="seg s3">18%</div>
+          <div class="seg s4">9%</div>
+          <div class="seg s5">8%</div>
+        </div>
+        <div class="hc-segs-lbls">
+          <span>CATI</span><span>CAWI</span><span>MOBI</span><span>F2F</span><span>FGI</span>
+        </div>
+
+        <div class="hc-chips">
+          <span class="hc-chip"><span class="micon">shield</span>OFBOR</span>
+          <span class="hc-chip"><span class="micon">shield</span>ESOMAR</span>
+          <span class="hc-chip"><span class="micon">groups</span>400 ankieterów</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-strip">
+    <div class="card">
+      <div class="top"><span class="micon">history</span>Doświadczenie</div>
+      <strong>20<em>+</em> lat</strong>
+    </div>
+    <div class="card">
+      <div class="top"><span class="micon">groups</span>Ankieterzy</div>
+      <strong>400<em>+</em> w Polsce</strong>
+    </div>
+    <div class="card">
+      <div class="top"><span class="micon">forum</span>Wywiady</div>
+      <strong>10<em>k</em> / tydzień</strong>
+    </div>
+    <div class="card">
+      <div class="top"><span class="micon">verified</span>Standardy</div>
+      <strong>OFBOR <em>·</em> ESOMAR</strong>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 01 — MANIFEST -->
+<section id="idx-01" class="section">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-num"><span class="micon">bookmark</span>§ 01 · Manifest</div>
+    </div>
+    <h2 class="section-title">Kim <span class="accent">jesteśmy</span>.</h2>
+    <p class="section-sub">Rozdział pierwszy — o podejściu, narzędziach i zespole.</p>
+    <p class="manifest-body">Jesteśmy instytutem referencyjnym dla <em>sieci handlowych</em>. Stawiamy na indywidualne podejście — słuchamy, analizujemy, doradzamy.</p>
+
+    <div class="manifest-grid">
+      <div class="manifest-card">
+        <div class="avatar"><span class="micon">person</span></div>
+        <div class="label">/ 001 — Podejście</div>
+        <h4>Indywidualnie.</h4>
+        <p>Każdy klient otrzymuje wsparcie merytoryczne dopasowane do jego potrzeb — bez szablonów.</p>
+      </div>
+      <div class="manifest-card">
+        <div class="avatar"><span class="micon">build</span></div>
+        <div class="label">/ 002 — Technologia</div>
+        <h4>Własne narzędzia.</h4>
+        <p>Teleinformatyczny system B2B integrujący sondażowanie, przetwarzanie danych i raportowanie.</p>
+      </div>
+      <div class="manifest-card">
+        <div class="avatar"><span class="micon">workspace_premium</span></div>
+        <div class="label">/ 003 — Zespół</div>
+        <h4>Doświadczenie.</h4>
+        <p>Specjaliści z wieloletnim stażem. Praca zgodnie z Kodeksem ESOMAR i standardami PKJPA.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 02 — METHODS -->
+<section id="idx-02" class="section alt">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-num"><span class="micon">science</span>§ 02 · Metody badawcze</div>
+    </div>
+    <h2 class="section-title">Pełna paleta<br>metod <span class="accent-2">badawczych</span>.</h2>
+    <p class="section-sub">Od klasycznych wywiadów telefonicznych po badania online, grupy fokusowe i audyty tajemniczego klienta.</p>
+
+    <div class="methods-grid" style="margin-top:56px;">
+      <div class="method">
+        <div class="num">01</div>
+        <div class="body">
+          <h3>CATI<em>.</em></h3>
+          <div class="tag">Ilościowe · Telefon</div>
+          <p class="desc">Computer-Assisted Telephone Interviewing. Tysiące wywiadów miesięcznie w badaniach sondażowych, społecznych, konsumenckich i B2B — w Polsce i za granicą. Własne studio we Wrocławiu od 2005 r., profesjonalne stanowiska, opieka doświadczonych supervisorów oraz praca zdalna w modelu Cati@Home.</p>
+        </div>
+        <div class="arrow"><span class="micon">north_east</span></div>
+      </div>
+
+      <div class="method">
+        <div class="num">02</div>
+        <div class="body">
+          <h3>CAWI<em>.</em></h3>
+          <div class="tag">Ilościowe · Online</div>
+          <p class="desc">Computer Assisted Web Interview — ankieta internetowa wypełniana samodzielnie. Realizujemy w oprogramowaniu CADAS CAWI. Pełne bezpieczeństwo — szyfrowany dostęp i podwójne szyfrowanie danych, łącznie z danymi teleadresowymi respondentów.</p>
+        </div>
+        <div class="arrow"><span class="micon">north_east</span></div>
+      </div>
+
+      <div class="method hi">
+        <div class="num">03</div>
+        <div class="body">
+          <h3>MOBI<em>.</em></h3>
+          <div class="tag">Ilościowe · Tablet</div>
+          <p class="desc">Ewolucja tradycyjnych badań typu „papier-ołówek" do pełnoprawnych wywiadów wspomaganych komputerowo. Ankieter posługuje się tabletem z możliwością wykorzystania multimediów i zaawansowanych technik wizualizacji pytań (m.in. drag & drop). Automatyczny zapis lokalizacji GPS.</p>
+        </div>
+        <div class="arrow"><span class="micon">north_east</span></div>
+      </div>
+
+      <div class="method">
+        <div class="num">04</div>
+        <div class="body">
+          <h3>FGI<em>.</em></h3>
+          <div class="tag">Jakościowe · Grupa</div>
+          <p class="desc">Focus Group Interviews — jedna z najpopularniejszych metod badań jakościowych. Dyskusja grupowa kontrolowana przez moderatora, prowadzona na podstawie wcześniej przygotowanego scenariusza. Stosowana do testowania nowych konceptów i badania zachowań konsumenckich.</p>
+        </div>
+        <div class="arrow"><span class="micon">north_east</span></div>
+      </div>
+
+      <div class="method">
+        <div class="num">05</div>
+        <div class="body">
+          <h3>IDI<em>.</em></h3>
+          <div class="tag">Jakościowe · Indywidualne</div>
+          <p class="desc">Individual In-Depth Interview — druga najpopularniejsza metoda badań jakościowych. Rozmowa moderatora z respondentem w celu poznania postaw, intencji i motywów działań. Sprawdza się w sytuacjach z trudnym dostępem do grup badawczych lub przy tematach drażliwych.</p>
+        </div>
+        <div class="arrow"><span class="micon">north_east</span></div>
+      </div>
+
+      <div class="method">
+        <div class="num">06</div>
+        <div class="body">
+          <h3>FoBo<em>.</em></h3>
+          <div class="tag">Jakościowe · Online</div>
+          <p class="desc">Focus Board — platforma do jakościowych badań online. Wywiady indywidualne i grupowe prowadzone przez Internet. Rekrutacja telefoniczna, realizacja przez Zoom, transmisja na żywo przez YouTube, nagrania audio-video i transkrypcje.</p>
+        </div>
+        <div class="arrow"><span class="micon">north_east</span></div>
+      </div>
+
+      <div class="method hi">
+        <div class="num">07</div>
+        <div class="body">
+          <h3>Mystery Shopper<em>.</em></h3>
+          <div class="tag">Audyt · Retail & Usługi</div>
+          <p class="desc">Tajemniczy klient — kilkuset audytorów w całej Polsce realizuje projekty audytowe dla sieci retailowych i usługowych. Weryfikacja standardów obsługi, ekspozycji materiałów POS i procedur sprzedażowych. Dostępny także jako komponent platformy PaaS.</p>
+        </div>
+        <div class="arrow"><span class="micon">north_east</span></div>
+      </div>
+
+      <div class="method">
+        <div class="num">08</div>
+        <div class="body">
+          <h3>PaaS<em>.</em></h3>
+          <div class="tag">Technologia · SaaS</div>
+          <p class="desc">Platform as a Service — rozwiązanie pozwalające wypożyczyć na określony czas dostęp do technologii i oprogramowania badawczego. Badania obejmują CATI, CAPI, CAWI, MOBI oraz Mystery Shopper.</p>
+        </div>
+        <div class="arrow"><span class="micon">north_east</span></div>
+      </div>
+
+      <div class="method">
+        <div class="num">09</div>
+        <div class="body">
+          <h3>Fokusownia<em>.</em></h3>
+          <div class="tag">Infrastruktura · Wrocław</div>
+          <p class="desc">W pełni wyposażona fokusownia z podglądownią oraz oddzielnym pomieszczeniem dla tłumacza przy ul. Prusa we Wrocławiu. Profesjonalny sprzęt audio z tłumaczeniem symultanicznym, video streaming grup fokusowych. Studio przystosowane dla osób niepełnosprawnych.</p>
+        </div>
+        <div class="arrow"><span class="micon">north_east</span></div>
+      </div>
+
+      <div class="method">
+        <div class="num">10</div>
+        <div class="body">
+          <h3>Standardy<em>.</em></h3>
+          <div class="tag">OFBOR · ESOMAR</div>
+          <p class="desc">Przestrzegamy norm jakości w procesie realizacji badań — pracujemy zgodnie ze standardami OFBOR, co daje klientowi gwarancję wysokiej jakości całego procesu badawczego. Działamy również w oparciu o Kodeks ESOMAR.</p>
+        </div>
+        <div class="arrow"><span class="micon">north_east</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BIG NUMBERS -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-num"><span class="micon">insights</span>Liczby MANDS</div>
+    </div>
+    <h2 class="section-title">MANDS <span class="accent">w liczbach</span>.</h2>
+
+    <div class="bignums-grid" style="margin-top:56px;">
+      <div class="bignum">
+        <div class="icn"><span class="micon">history</span></div>
+        <div class="val">20<em>+</em></div>
+        <strong>Lat doświadczenia</strong>
+        <span>nieprzerwanie na rynku badań od 2005 roku</span>
+      </div>
+      <div class="bignum">
+        <div class="icn"><span class="micon">groups</span></div>
+        <div class="val">400</div>
+        <strong>Ankieterów</strong>
+        <span>w całej Polsce, nadzorowanych przez trenerów regionalnych</span>
+      </div>
+      <div class="bignum">
+        <div class="icn"><span class="micon">forum</span></div>
+        <div class="val">10<em>k</em></div>
+        <strong>Wywiadów</strong>
+        <span>tygodniowo w ramach kontroli dystrybucji materiałów</span>
+      </div>
+      <div class="bignum">
+        <div class="icn"><span class="micon">school</span></div>
+        <div class="val">10</div>
+        <strong>Trenerów regionalnych</strong>
+        <span>nadzorujących jakość pracy ankieterów w terenie</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 03 — RETAIL -->
+<section id="idx-03" class="section alt">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-num"><span class="micon">storefront</span>§ 03 · Dla sieci handlowych</div>
+    </div>
+    <h2 class="section-title">Retail <span class="accent">&</span> dystrybucja.</h2>
+    <p class="section-sub">Sprawdzamy, czy Twoje <strong>gazetki docierają do klientów</strong>. Rozdział trzeci.</p>
+
+    <div class="retail-layout">
+      <div class="retail-image">
+        <img src="../images/IMG_5254-e1455562945354.jpg" alt="Badania terenowe MANDS" />
+        <div class="retail-image-tag">
+          <strong>10 000+</strong>
+          <span>gospodarstw domowych / tydzień</span>
+        </div>
+      </div>
+      <div class="retail-list">
+        <div class="retail-entry">
+          <div class="icon"><span class="micon">fact_check</span></div>
+          <div>
+            <h4>Distribution Check</h4>
+            <p>Kontrola dystrybucji materiałów reklamowych. Tygodniowo odwiedzamy ponad 10 tysięcy gospodarstw domowych sprawdzając, czy gazetki zostały dostarczone.</p>
+          </div>
+        </div>
+        <div class="retail-entry">
+          <div class="icon"><span class="micon">shopping_cart</span></div>
+          <div>
+            <h4>Exit Store</h4>
+            <p>Badanie na terenie sklepu z jego klientami — analiza wartości koszyka, częstotliwości zakupów. Rezultat: heatmapa obszarów atrakcyjnych finansowo.</p>
+          </div>
+        </div>
+        <div class="retail-entry">
+          <div class="icon"><span class="micon">dashboard</span></div>
+          <div>
+            <h4>Distribution Reporting System</h4>
+            <p>Webowe narzędzie SaaS do raportowania kolportażu. Obsługa SMS dla kolporterów, eksport CSV/XLSX, historia kampanii.</p>
+          </div>
+        </div>
+        <div class="retail-entry">
+          <div class="icon"><span class="micon">call</span></div>
+          <div>
+            <h4>Call Distribution Check</h4>
+            <p>Telefoniczna kontrola dystrybucji gazetek. Około 10 tysięcy wywiadów w kluczowych lokalizacjach — realizowana zwykle raz na dwa lata.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 04 — ARCHIVE -->
+<section id="idx-04" class="section">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-num"><span class="micon">library_books</span>§ 04 · Archiwum publikacji</div>
+    </div>
+    <h2 class="section-title">Wybrane publikacje<br><span class="accent-2">& raporty</span>.</h2>
+    <p class="section-sub">Dzielimy się wynikami wybranych badań — od skuteczności portali pracy w IT, przez infolinie hostingowe, po plany podróżnicze Polaków.</p>
+
+    <div class="results-grid" style="margin-top:48px;">
+      <div class="result">
+        <div class="year">Anno 2022</div>
+        <h3>Portale z ogłoszeniami IT</h3>
+        <p>Trzecia edycja badania skuteczności portali pracy IT dla No Fluff Jobs — cztery stanowiska testowe metodą tajemniczego klienta.</p>
+        <a href="#" class="more">Czytaj więcej <span class="micon">arrow_forward</span></a>
+      </div>
+      <div class="result">
+        <div class="year">Anno 2021</div>
+        <h3>Infolinie firm hostingowych</h3>
+        <p>Badanie skuteczności obsługi klienta przeprowadzone wśród firm obsługujących co najmniej 10 000 domen.</p>
+        <a href="#" class="more">Czytaj więcej <span class="micon">arrow_forward</span></a>
+      </div>
+      <div class="result">
+        <div class="year">Anno 2020</div>
+        <h3>Plany podróżnicze Polaków</h3>
+        <p>Raport częściowy Ogólnopolskiego Badania Podróżników — wpływ pandemii na plany urlopowe i wybory kierunkowe.</p>
+        <a href="#" class="more">Czytaj więcej <span class="micon">arrow_forward</span></a>
+      </div>
+      <div class="result">
+        <div class="year">Metodologia</div>
+        <h3>Tajemniczy klient</h3>
+        <p>Kilkuset tajemniczych klientów w całej Polsce realizuje projekty audytowe — od retail przez gastronomię po usługi finansowe.</p>
+        <a href="#" class="more">Czytaj więcej <span class="micon">arrow_forward</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 05 — CAREERS -->
+<section id="idx-05" class="section alt">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-num"><span class="micon">work</span>§ 05 · Kariera</div>
+    </div>
+    <h2 class="section-title">Dołącz do<br><span class="accent-2">zespołu</span>.</h2>
+    <p class="section-sub">Instytut o pracowników merytorycznych oparty, rozszerzany siatką ankieterską i tajemniczymi klientami. Rekrutacja stała — CV przyjmujemy niezależnie od aktualnych ogłoszeń.</p>
+
+    <div class="careers-layout">
+      <div class="careers-stats">
+        <div class="career-stat">
+          <div class="label">Zespół merytoryczny</div>
+          <strong>20<em>+</em></strong>
+          <span>analityków, projektantów badań, supervisorów</span>
+        </div>
+        <div class="career-stat">
+          <div class="label">Siatka terenowa</div>
+          <strong>400<em>+</em></strong>
+          <span>ankieterów i kilkuset tajemniczych klientów</span>
+        </div>
+        <div class="career-stat">
+          <div class="label">Zasięg</div>
+          <strong>PL</strong>
+          <span>cała Polska — 10 trenerów regionalnych</span>
+        </div>
+      </div>
+
+      <div class="careers-jobs">
+        <h3>/ Aktualnie poszukujemy</h3>
+        <a class="career-job" href="mailto:rekrutacja@mands.pl?subject=Teleankieter%20CATI%20Wroc%C5%82aw">
+          <div class="jnum"><span class="micon">headset_mic</span></div>
+          <div class="jtitle">Teleankieter · studio CATI Wrocław<small>Praca stacjonarna lub zdalna (Cati@Home)</small></div>
+          <div class="jarrow"><span class="micon">arrow_forward</span></div>
+        </a>
+        <a class="career-job" href="mailto:rekrutacja@mands.pl?subject=Kontroler%20dystrybucji">
+          <div class="jnum"><span class="micon">local_shipping</span></div>
+          <div class="jtitle">Kontroler dystrybucji materiałów reklamowych<small>Praca w terenie · cała Polska</small></div>
+          <div class="jarrow"><span class="micon">arrow_forward</span></div>
+        </a>
+        <a class="career-job" href="mailto:rekrutacja@mands.pl?subject=Siatka%20ankieterska">
+          <div class="jnum"><span class="micon">diversity_3</span></div>
+          <div class="jtitle">Siatka ankieterska & tajemniczy klienci<small>Rekrutacja ciągła · całe PL</small></div>
+          <div class="jarrow"><span class="micon">arrow_forward</span></div>
+        </a>
+
+        <div class="careers-apply">
+          <div>Zainteresowany współpracą? Wyślij CV i kilka słów o sobie.</div>
+          <a href="mailto:rekrutacja@mands.pl">rekrutacja@mands.pl <span class="micon">arrow_forward</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 06 — CONTACT -->
+<section id="idx-06" class="section">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-num"><span class="micon">mail</span>§ 06 · Kontakt</div>
+    </div>
+    <h2 class="section-title">Porozmawiajmy<br>o <span class="accent">badaniu</span>.</h2>
+
+    <div class="contact-grid">
+      <div class="contact-card">
+        <div class="icn"><span class="micon">place</span></div>
+        <h4>/ 001 — Siedziba</h4>
+        <p>ul. B. Prusa 1/48<br>50-319 Wrocław<br><small>NIP: PL8851557675</small></p>
+      </div>
+      <div class="contact-card">
+        <div class="icn"><span class="micon">call</span></div>
+        <h4>/ 002 — Kontakt</h4>
+        <p><a href="mailto:info@mands.pl">info@mands.pl</a><br><a href="tel:+48713220686">+48 71 322 06 86</a><small>zwykle odpowiadamy w ciągu 24h</small></p>
+      </div>
+      <div class="contact-card">
+        <div class="icn"><span class="micon">badge</span></div>
+        <h4>/ 003 — Kariera</h4>
+        <p><a href="mailto:rekrutacja@mands.pl">rekrutacja@mands.pl</a><small>ankieterzy · tajemniczy klienci · merytoryka</small></p>
+      </div>
+    </div>
+
+    <div class="contact-map">
+      <div class="contact-map-tag"><span class="micon">location_on</span>MANDS · ul. Prusa 1/48, Wrocław</div>
+      <iframe
+        src="https://maps.google.com/maps?&q=Boles%C5%82awa+Prusa+1+%2C+Wroc%C5%82aw+50-319&output=embed&iwloc"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="MANDS — siedziba na mapie"></iframe>
+    </div>
+
+    <div class="contact-cta">
+      <div class="contact-cta-text">Masz pytanie o projekt badawczy? Odezwij się.</div>
+      <a href="mailto:info@mands.pl">
+        <span class="micon">send</span>
+        Napisz do nas
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-inner">
+    <div>
+      <div class="foot-brand">
+        <span class="dot"></span>
+        M&S
+      </div>
+      <p style="color:#a3a6b3; font-size:13px; margin-top:16px; line-height:1.6;">Instytut Badań Rynku i Opinii. Materiał wizualny zbudowany w stylu Material Design.</p>
+    </div>
+    <div class="foot-meta">
+      <div>Instytut Badawczy</div>
+      <strong>MANDS / Wrocław</strong>
+      <div>est. MMV</div>
+      <div>51.10°N · 17.03°E</div>
+    </div>
+    <div class="foot-links">
+      <a href="#idx-01">Manifest</a>
+      <a href="#idx-02">Metody</a>
+      <a href="#idx-03">Retail</a>
+      <a href="#idx-04">Archiwum</a>
+      <a href="#idx-05">Kariera</a>
+      <a href="#idx-06">Kontakt</a>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <div>© 2026 MANDS — Wszystkie prawa zastrzeżone</div>
+    <div>Badania rynku i opinii / Made in Wrocław</div>
+  </div>
+</footer>
+
+<!-- Extended FAB -->
+<a href="#idx-06" class="fab fab-extended" aria-label="Zamów badanie">
+  <span class="micon">send</span>
+  Zamów badanie
+</a>
+
+</body>
+</html>

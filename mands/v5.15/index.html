@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MANDS — Instytut Badań Rynku i Opinii · od 2005</title>
+<meta name="description" content="MANDS — polski instytut badawczy. Badania rynku, opinii, dystrybucji. CATI · CAWI · MOBI · FGI." />
+<link rel="icon" href="../images/cropped-logo-png-1-180x180.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,400;1,9..144,700&family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#efe9dc;
+    --paper-2:#e6dfce;
+    --ink:#0b0b08;
+    --ink-2:#2c2a24;
+    --rule:#0b0b08;
+    --muted:#6a665b;
+    --accent:#8a0f0f;
+    --gold:#a47a1e;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{background:var(--paper);scroll-behavior:smooth}
+  body{
+    font-family:'EB Garamond',Georgia,serif;
+    color:var(--ink);
+    background:var(--paper);
+    font-size:18px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  /* newsprint texture */
+  body::before{
+    content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.3' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+    opacity:.09;mix-blend-mode:multiply;
+  }
+  img{max-width:100%;display:block;filter:grayscale(100%) contrast(1.05)}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--ink);color:var(--paper)}
+
+  .display{font-family:'Playfair Display',serif;font-weight:900;letter-spacing:-.015em;line-height:.92}
+  .serif-ital{font-family:'Playfair Display',serif;font-style:italic;font-weight:700}
+  .garamond{font-family:'EB Garamond',serif}
+  .mono{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase}
+  .smallcaps{font-variant:small-caps;letter-spacing:.1em}
+  .amp{font-family:'Playfair Display',serif;font-style:italic;font-weight:400}
+
+  /* ===== MASTHEAD ===== */
+  .masthead{
+    border-bottom:3px double var(--ink);
+    padding:22px 48px 14px;
+    max-width:1440px;
+    margin:0 auto;
+  }
+  .masthead-top{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+    padding-bottom:10px;border-bottom:1px solid var(--ink);
+  }
+  .masthead-top span{flex:1}
+  .masthead-top .center{text-align:center}
+  .masthead-top .right{text-align:right}
+  .masthead-title{
+    font-family:'Playfair Display',serif;
+    font-weight:900;
+    font-size:clamp(72px,13vw,220px);
+    line-height:.82;
+    letter-spacing:-.04em;
+    text-align:center;
+    padding:18px 0 6px;
+  }
+  .masthead-title em{font-style:italic;font-weight:400}
+  .masthead-sub{
+    display:flex;justify-content:space-between;align-items:center;
+    border-top:1px solid var(--ink);
+    border-bottom:3px double var(--ink);
+    padding:10px 0;
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:15px;
+  }
+  .masthead-sub .latin{font-variant:small-caps;letter-spacing:.14em;font-style:normal;font-size:12px}
+  .masthead-nav{
+    display:flex;justify-content:center;gap:36px;padding:12px 0 2px;
+    font-family:'EB Garamond',serif;
+    font-size:13px;text-transform:uppercase;letter-spacing:.22em;
+  }
+  .masthead-nav a{position:relative}
+  .masthead-nav a:hover{font-style:italic}
+  .masthead-nav a + a::before{
+    content:'·';position:absolute;left:-21px;color:var(--muted)
+  }
+
+  /* ===== LAYOUT ===== */
+  .paper{max-width:1440px;margin:0 auto;padding:0 48px 80px}
+  .rule-thin{border-top:1px solid var(--ink);margin:0}
+  .rule-double{border-top:3px double var(--ink);margin:0}
+  .rule-thick{border-top:4px solid var(--ink);margin:0}
+
+  .folio{
+    display:flex;justify-content:space-between;
+    font-family:'JetBrains Mono',monospace;
+    font-size:9px;letter-spacing:.2em;text-transform:uppercase;
+    padding:8px 0;color:var(--muted);
+  }
+
+  /* ===== SECTION HEADERS ===== */
+  .chapter-mark{
+    display:flex;align-items:baseline;gap:18px;
+    padding:40px 0 10px;
+    border-bottom:1px solid var(--ink);
+  }
+  .chapter-mark .num{
+    font-family:'Playfair Display',serif;
+    font-weight:900;font-size:64px;line-height:1;
+  }
+  .chapter-mark .num em{font-style:italic;font-weight:400}
+  .chapter-mark .meta{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--muted);
+  }
+  .chapter-mark .meta strong{color:var(--ink);font-weight:500}
+  .chapter-mark .rule-fill{flex:1;border-bottom:1px dotted var(--ink);margin:0 14px 14px;height:1px}
+
+  section[id]{scroll-margin-top:40px}
+
+  /* ===== HERO / FRONT PAGE ===== */
+  .frontpage{padding-top:22px}
+  .deckline{
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    text-align:center;
+    font-size:17px;
+    padding:8px 0 14px;
+    color:var(--ink-2);
+  }
+  .frontpage-title{
+    font-family:'Playfair Display',serif;
+    font-weight:900;
+    font-size:clamp(64px,9.5vw,160px);
+    line-height:.86;
+    letter-spacing:-.035em;
+    text-align:center;
+    padding:4px 0 10px;
+  }
+  .frontpage-title em{font-style:italic;font-weight:400}
+  .frontpage-title .amp{color:var(--accent)}
+  .byline{
+    display:flex;justify-content:center;gap:28px;
+    font-family:'EB Garamond',serif;font-style:italic;font-size:14px;
+    padding:6px 0 22px;border-bottom:1px solid var(--ink);margin-bottom:18px;
+  }
+  .byline .smallcaps{font-style:normal}
+
+  .frontgrid{
+    display:grid;
+    grid-template-columns:1.1fr 2px 1fr 2px 1fr;
+    gap:0 26px;
+    padding-top:20px;
+  }
+  .frontgrid > hr{
+    border:none;border-left:1px solid var(--ink);height:100%;width:0;
+  }
+  .col-lead{padding-right:4px}
+  .col-lead h2{
+    font-family:'Playfair Display',serif;
+    font-size:42px;font-weight:900;line-height:.95;
+    letter-spacing:-.01em;margin-bottom:10px;
+  }
+  .col-lead h2 em{font-style:italic;font-weight:400}
+  .col-lead .kicker{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    text-transform:uppercase;letter-spacing:.2em;color:var(--accent);
+    margin-bottom:8px;
+  }
+  .col-lead p{
+    columns:2;column-gap:22px;column-rule:1px solid var(--ink);
+    text-align:justify;hyphens:auto;font-size:15.5px;line-height:1.5;
+    padding-top:10px;
+  }
+  .dropcap::first-letter{
+    font-family:'Playfair Display',serif;
+    font-weight:900;
+    float:left;
+    font-size:84px;
+    line-height:.78;
+    padding:6px 8px 0 0;
+    color:var(--accent);
+  }
+
+  .col-stats{padding:0 6px}
+  .col-stats .hd{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    text-transform:uppercase;letter-spacing:.2em;
+    border-bottom:1px solid var(--ink);padding-bottom:6px;margin-bottom:10px;
+  }
+  .stat-row{
+    display:flex;justify-content:space-between;align-items:baseline;
+    padding:10px 0;border-bottom:1px dotted var(--ink);
+    font-family:'EB Garamond',serif;
+  }
+  .stat-row .lbl{font-size:13px;font-style:italic;color:var(--ink-2)}
+  .stat-row .val{
+    font-family:'Playfair Display',serif;font-weight:900;font-size:22px;
+  }
+  .stat-row .val em{font-style:italic;font-weight:400;color:var(--accent)}
+
+  .pull-quote{
+    border-top:3px double var(--ink);
+    border-bottom:3px double var(--ink);
+    margin:18px 0;
+    padding:18px 4px;
+    font-family:'Playfair Display',serif;font-style:italic;font-weight:400;
+    font-size:22px;line-height:1.25;text-align:center;
+  }
+  .pull-quote::before{content:'“';display:block;font-size:56px;line-height:.4;padding-top:18px;color:var(--accent)}
+  .pull-quote::after{content:'”';display:block;font-size:56px;line-height:.2;color:var(--accent)}
+  .pull-quote cite{
+    display:block;margin-top:10px;font-style:normal;font-size:11px;
+    font-variant:small-caps;letter-spacing:.18em;color:var(--muted);
+  }
+
+  .col-side h3{
+    font-family:'Playfair Display',serif;font-weight:900;
+    font-size:22px;line-height:1;padding-bottom:6px;
+    border-bottom:1px solid var(--ink);margin-bottom:10px;
+  }
+  .col-side p{font-size:14px;line-height:1.5;text-align:justify;hyphens:auto}
+  .col-side .mini-list{
+    margin-top:12px;padding-top:10px;border-top:1px solid var(--ink);
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    letter-spacing:.14em;text-transform:uppercase;line-height:1.9;
+  }
+  .col-side .mini-list span{display:block;border-bottom:1px dotted var(--ink);padding:3px 0}
+
+  .front-strip{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    border-top:4px solid var(--ink);border-bottom:4px solid var(--ink);
+    margin-top:26px;
+  }
+  .front-strip > div{
+    padding:18px 20px;
+    border-right:1px solid var(--ink);
+    text-align:center;
+  }
+  .front-strip > div:last-child{border-right:none}
+  .front-strip .k{
+    font-family:'JetBrains Mono',monospace;font-size:9px;
+    letter-spacing:.2em;text-transform:uppercase;color:var(--muted);
+  }
+  .front-strip .v{
+    font-family:'Playfair Display',serif;font-weight:900;
+    font-size:30px;line-height:1;padding:6px 0 4px;
+  }
+  .front-strip .v em{font-style:italic;font-weight:400;color:var(--accent)}
+  .front-strip .t{font-family:'EB Garamond',serif;font-style:italic;font-size:13px;color:var(--ink-2)}
+
+  /* ===== §01 MANIFEST ===== */
+  .manifest{
+    display:grid;grid-template-columns:1fr 2px 2.2fr;gap:0 30px;
+    padding-top:24px;
+  }
+  .manifest > hr{border:none;border-left:1px solid var(--ink);width:0;height:100%}
+  .manifest-aside h3{
+    font-family:'Playfair Display',serif;font-style:italic;font-weight:400;
+    font-size:36px;line-height:1;padding-bottom:10px;
+  }
+  .manifest-aside .kicker{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    text-transform:uppercase;letter-spacing:.2em;color:var(--accent);margin-bottom:6px;
+  }
+  .manifest-aside .aside-note{
+    margin-top:18px;padding:12px 14px;
+    border:1px solid var(--ink);background:var(--paper-2);
+    font-style:italic;font-size:14px;
+  }
+  .manifest-body .lead{
+    font-family:'Playfair Display',serif;font-weight:400;font-style:italic;
+    font-size:32px;line-height:1.15;margin-bottom:18px;
+    letter-spacing:-.005em;
+  }
+  .manifest-body .lead em{font-weight:700;font-style:italic;color:var(--accent)}
+  .manifest-cols{
+    columns:3;column-gap:26px;column-rule:1px solid var(--ink);
+    text-align:justify;hyphens:auto;font-size:15px;
+  }
+  .manifest-cols h4{
+    font-family:'Playfair Display',serif;font-weight:900;
+    font-size:16px;padding-top:10px;margin-bottom:4px;
+    break-after:avoid;
+  }
+  .manifest-cols .tag{
+    font-family:'JetBrains Mono',monospace;font-size:9px;
+    letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
+  }
+  .manifest-cols p{margin-bottom:10px}
+
+  /* ===== §02 METHODS ===== */
+  .methods-head{
+    display:grid;grid-template-columns:2fr 1fr;gap:30px;
+    padding:26px 0 18px;
+  }
+  .methods-title{
+    font-family:'Playfair Display',serif;font-weight:900;
+    font-size:clamp(48px,6.2vw,94px);line-height:.88;letter-spacing:-.02em;
+  }
+  .methods-title em{font-style:italic;font-weight:400}
+  .methods-head .deck{
+    font-family:'EB Garamond',serif;font-style:italic;font-size:17px;
+    border-left:2px solid var(--ink);padding-left:18px;align-self:end;
+  }
+  .methods-list{
+    border-top:3px double var(--ink);
+  }
+  .method{
+    display:grid;
+    grid-template-columns:56px 1.4fr 1fr 3fr 24px;
+    gap:22px;
+    padding:18px 6px;
+    border-bottom:1px solid var(--ink);
+    align-items:baseline;
+  }
+  .method:nth-child(even){background:rgba(11,11,8,.025)}
+  .method .m-num{
+    font-family:'Playfair Display',serif;font-weight:900;font-size:34px;
+    line-height:1;color:var(--accent);
+  }
+  .method .m-name{
+    font-family:'Playfair Display',serif;font-weight:900;
+    font-size:28px;letter-spacing:-.01em;
+  }
+  .method .m-name em{font-style:italic;font-weight:400}
+  .method .m-tag{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
+  }
+  .method .m-desc{
+    font-size:14.5px;line-height:1.5;text-align:justify;hyphens:auto;
+  }
+  .method .m-arrow{font-family:'Playfair Display',serif;font-size:24px}
+
+  /* ===== BIG NUMBERS ===== */
+  .bignums{
+    border-top:4px solid var(--ink);border-bottom:4px solid var(--ink);
+    margin:40px 0 20px;padding:28px 0;
+  }
+  .bignums h3{
+    font-family:'Playfair Display',serif;font-style:italic;font-weight:400;
+    font-size:40px;text-align:center;margin-bottom:22px;
+  }
+  .bignums h3 em{font-weight:900;font-style:italic}
+  .bn-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);
+  }
+  .bn-grid > div{
+    padding:10px 24px;border-right:1px solid var(--ink);text-align:center;
+  }
+  .bn-grid > div:last-child{border-right:none}
+  .bn-grid .v{
+    font-family:'Playfair Display',serif;font-weight:900;
+    font-size:82px;line-height:1;letter-spacing:-.03em;
+  }
+  .bn-grid .v em{font-style:italic;font-weight:400;color:var(--accent)}
+  .bn-grid .lbl{
+    font-family:'EB Garamond',serif;font-style:italic;
+    font-size:14px;line-height:1.4;padding-top:8px;
+  }
+  .bn-grid .lbl strong{
+    display:block;font-style:normal;font-weight:700;font-variant:small-caps;
+    letter-spacing:.08em;font-size:13px;padding-bottom:2px;
+  }
+
+  /* ===== §03 RETAIL ===== */
+  .retail{
+    display:grid;grid-template-columns:1fr 1.2fr;gap:32px;
+    padding-top:24px;
+  }
+  .retail-left h2{
+    font-family:'Playfair Display',serif;font-weight:900;
+    font-size:clamp(44px,5.4vw,80px);line-height:.92;letter-spacing:-.02em;
+    margin-bottom:18px;
+  }
+  .retail-left h2 em{font-style:italic;font-weight:400;color:var(--accent)}
+  .retail-left .fig{
+    margin-top:14px;border-top:1px solid var(--ink);border-bottom:3px double var(--ink);
+    padding:12px 0;
+  }
+  .retail-left .fig img{width:100%;aspect-ratio:4/3;object-fit:cover}
+  .retail-left .fig figcaption{
+    font-family:'EB Garamond',serif;font-style:italic;
+    font-size:13px;padding-top:8px;color:var(--ink-2);
+    display:flex;justify-content:space-between;gap:14px;
+  }
+  .retail-left .fig figcaption strong{
+    font-family:'Playfair Display',serif;font-style:normal;font-weight:900;
+  }
+  .retail-list{
+    border-top:3px double var(--ink);
+  }
+  .retail-entry{
+    display:grid;grid-template-columns:54px 1fr;gap:18px;
+    padding:16px 0;border-bottom:1px solid var(--ink);
+  }
+  .retail-entry .ri{
+    font-family:'Playfair Display',serif;font-weight:900;font-size:38px;line-height:1;
+    color:var(--accent);
+  }
+  .retail-entry h4{
+    font-family:'Playfair Display',serif;font-weight:900;
+    font-size:24px;margin-bottom:4px;
+  }
+  .retail-entry p{font-size:15px;line-height:1.5;text-align:justify;hyphens:auto}
+
+  /* ===== §04 ARCHIVE ===== */
+  .archive-head{
+    display:grid;grid-template-columns:1.4fr 1fr;gap:28px;padding:24px 0 16px;
+    align-items:end;
+  }
+  .archive-head h2{
+    font-family:'Playfair Display',serif;font-weight:900;
+    font-size:clamp(48px,6vw,92px);line-height:.9;letter-spacing:-.02em;
+  }
+  .archive-head h2 em{font-style:italic;font-weight:400}
+  .archive-head p{
+    font-family:'EB Garamond',serif;font-style:italic;font-size:17px;
+    border-left:2px solid var(--ink);padding-left:18px;
+  }
+  .archive{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+    border-top:3px double var(--ink);border-bottom:3px double var(--ink);
+  }
+  .archive .card{
+    padding:20px 18px;border-right:1px solid var(--ink);
+    min-height:220px;display:flex;flex-direction:column;
+  }
+  .archive .card:last-child{border-right:none}
+  .archive .year{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    letter-spacing:.2em;text-transform:uppercase;color:var(--accent);
+    padding-bottom:8px;border-bottom:1px dotted var(--ink);margin-bottom:12px;
+  }
+  .archive h4{
+    font-family:'Playfair Display',serif;font-weight:900;
+    font-size:24px;line-height:1.05;margin-bottom:10px;
+  }
+  .archive p{font-size:14px;line-height:1.45;flex:1}
+  .archive .arrow{
+    font-family:'Playfair Display',serif;font-size:24px;text-align:right;padding-top:10px;
+  }
+
+  /* ===== §05 CAREERS ===== */
+  .careers{padding-top:24px}
+  .careers-head{
+    display:grid;grid-template-columns:1.1fr 1.4fr;gap:30px;align-items:end;
+    padding-bottom:20px;border-bottom:3px double var(--ink);
+  }
+  .careers-head h2{
+    font-family:'Playfair Display',serif;font-weight:900;
+    font-size:clamp(48px,6.5vw,96px);line-height:.9;letter-spacing:-.02em;
+  }
+  .careers-head h2 em{font-style:italic;font-weight:400;color:var(--accent)}
+  .careers-head p{font-family:'EB Garamond',serif;font-size:17px;font-style:italic;line-height:1.45}
+  .careers-body{
+    display:grid;grid-template-columns:1fr 2px 2fr;gap:0 30px;padding-top:22px;
+  }
+  .careers-body > hr{border:none;border-left:1px solid var(--ink);height:100%;width:0}
+  .careers-stats div{
+    border-bottom:1px solid var(--ink);padding:14px 0;
+  }
+  .careers-stats .hd{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
+  }
+  .careers-stats .vv{
+    font-family:'Playfair Display',serif;font-weight:900;font-size:56px;line-height:1;
+    padding:4px 0;
+  }
+  .careers-stats .vv em{font-style:italic;font-weight:400;color:var(--accent)}
+  .careers-stats .tt{font-family:'EB Garamond',serif;font-style:italic;font-size:14px}
+  .careers-jobs h3{
+    font-family:'Playfair Display',serif;font-weight:900;font-size:22px;
+    padding-bottom:8px;border-bottom:1px solid var(--ink);margin-bottom:8px;
+  }
+  .career-job{
+    display:grid;grid-template-columns:56px 1fr 24px;gap:18px;
+    padding:16px 0;border-bottom:1px solid var(--ink);
+    align-items:baseline;
+  }
+  .career-job .n{
+    font-family:'Playfair Display',serif;font-weight:900;font-size:28px;
+    line-height:1;color:var(--accent);
+  }
+  .career-job .t{
+    font-family:'Playfair Display',serif;font-weight:900;font-size:20px;line-height:1.2;
+  }
+  .career-job .t small{
+    display:block;font-family:'EB Garamond',serif;font-weight:400;font-style:italic;
+    font-size:14px;padding-top:2px;color:var(--ink-2);
+  }
+  .career-job .a{font-family:'Playfair Display',serif;font-size:22px}
+  .career-job:hover{background:rgba(11,11,8,.04)}
+  .apply{
+    margin-top:18px;padding:16px 0;border-top:3px double var(--ink);
+    display:flex;justify-content:space-between;align-items:baseline;gap:20px;
+    font-style:italic;
+  }
+  .apply a{font-family:'Playfair Display',serif;font-weight:900;font-style:normal;font-size:18px;text-decoration:underline}
+
+  /* ===== §06 CONTACT ===== */
+  .contact{padding-top:24px}
+  .contact h2{
+    font-family:'Playfair Display',serif;font-weight:900;
+    font-size:clamp(56px,8vw,130px);line-height:.88;letter-spacing:-.03em;
+    text-align:center;padding-bottom:18px;
+  }
+  .contact h2 em{font-style:italic;font-weight:400;color:var(--accent)}
+  .contact-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);
+    border-top:3px double var(--ink);border-bottom:3px double var(--ink);
+  }
+  .contact-grid > div{
+    padding:20px 22px;border-right:1px solid var(--ink);
+  }
+  .contact-grid > div:last-child{border-right:none}
+  .contact-grid h4{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    letter-spacing:.2em;text-transform:uppercase;color:var(--accent);
+    padding-bottom:8px;margin-bottom:10px;border-bottom:1px dotted var(--ink);
+  }
+  .contact-grid p{
+    font-family:'Playfair Display',serif;font-weight:900;font-size:22px;
+    line-height:1.2;
+  }
+  .contact-grid p small{
+    display:block;font-family:'EB Garamond',serif;font-weight:400;
+    font-style:italic;font-size:14px;color:var(--ink-2);padding-top:8px;
+  }
+  .contact-grid a{text-decoration:underline;text-decoration-style:dotted}
+  .contact-map{
+    margin-top:20px;border:1px solid var(--ink);
+    position:relative;
+  }
+  .contact-map iframe{
+    width:100%;height:340px;border:0;display:block;
+    filter:grayscale(100%) contrast(1.05) sepia(20%);
+  }
+  .contact-map .tag{
+    position:absolute;top:12px;left:12px;
+    background:var(--paper);padding:6px 10px;border:1px solid var(--ink);
+    font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;
+    text-transform:uppercase;
+  }
+  .contact-cta{
+    margin-top:20px;padding:22px;
+    border:3px double var(--ink);
+    display:flex;justify-content:space-between;align-items:center;gap:20px;
+    font-family:'Playfair Display',serif;font-style:italic;font-size:22px;
+  }
+  .contact-cta a{
+    font-style:normal;font-weight:900;text-decoration:underline;
+    display:inline-flex;gap:8px;
+  }
+
+  /* ===== COLOPHON FOOTER ===== */
+  .colophon{
+    border-top:4px solid var(--ink);margin-top:40px;padding:36px 48px 22px;
+    max-width:1440px;margin-left:auto;margin-right:auto;
+    text-align:center;
+  }
+  .colophon .mark{
+    font-family:'Playfair Display',serif;font-weight:900;
+    font-size:110px;line-height:.85;letter-spacing:-.03em;
+  }
+  .colophon .mark em{font-style:italic;font-weight:400;color:var(--accent)}
+  .colophon .meta{
+    display:flex;justify-content:center;gap:30px;padding-top:12px;
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
+    border-bottom:1px solid var(--ink);padding-bottom:14px;
+  }
+  .colophon .meta strong{color:var(--ink)}
+  .colophon .bot{
+    display:flex;justify-content:space-between;padding-top:12px;
+    font-family:'EB Garamond',serif;font-style:italic;font-size:13px;color:var(--muted);
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width:1100px){
+    .frontgrid{grid-template-columns:1fr;gap:22px 0}
+    .frontgrid > hr{display:none}
+    .col-lead p{columns:1}
+    .manifest{grid-template-columns:1fr}
+    .manifest > hr{display:none}
+    .manifest-cols{columns:2}
+    .methods-head{grid-template-columns:1fr}
+    .method{grid-template-columns:44px 1fr;gap:6px 14px}
+    .method .m-tag,.method .m-arrow{display:none}
+    .method .m-desc{grid-column:1/-1;padding-top:6px}
+    .method .m-name{grid-column:2}
+    .bn-grid{grid-template-columns:repeat(2,1fr)}
+    .bn-grid > div{border-bottom:1px solid var(--ink)}
+    .bn-grid > div:nth-child(2){border-right:none}
+    .retail{grid-template-columns:1fr}
+    .archive{grid-template-columns:repeat(2,1fr)}
+    .archive .card:nth-child(2){border-right:none}
+    .archive .card{border-bottom:1px solid var(--ink)}
+    .careers-head,.careers-body,.archive-head{grid-template-columns:1fr}
+    .careers-body > hr{display:none}
+    .contact-grid{grid-template-columns:1fr}
+    .contact-grid > div{border-right:none;border-bottom:1px solid var(--ink)}
+  }
+  @media (max-width:680px){
+    .masthead,.paper,.colophon{padding-left:22px;padding-right:22px}
+    .masthead-nav{flex-wrap:wrap;gap:22px}
+    .masthead-nav a + a::before{display:none}
+    .manifest-cols{columns:1}
+    .bn-grid{grid-template-columns:1fr}
+    .bn-grid > div{border-right:none;border-bottom:1px solid var(--ink)}
+    .archive{grid-template-columns:1fr}
+    .archive .card{border-right:none;border-bottom:1px solid var(--ink)}
+    .front-strip{grid-template-columns:1fr 1fr}
+    .front-strip > div:nth-child(2){border-right:none}
+    .front-strip > div{border-bottom:1px solid var(--ink)}
+    body{font-size:17px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ MASTHEAD ============ -->
+<header class="masthead" id="top">
+  <div class="masthead-top">
+    <span>Vol. XX · № 001</span>
+    <span class="center">Wrocław · Rzeczpospolita Polska</span>
+    <span class="right">Anno Domini MMXXVI</span>
+  </div>
+  <h1 class="masthead-title">M<em>&amp;</em>ANDS</h1>
+  <div class="masthead-sub">
+    <span class="latin">Instytutum Investigationis</span>
+    <span>Badania rynku, opinii <span class="amp">&amp;</span> dystrybucji — od roku 2005</span>
+    <span class="latin">Editio Prima</span>
+  </div>
+  <nav class="masthead-nav">
+    <a href="#idx-01">Manifest</a>
+    <a href="#idx-02">Metody</a>
+    <a href="#idx-03">Retail</a>
+    <a href="#idx-04">Archiwum</a>
+    <a href="#idx-05">Kariera</a>
+    <a href="#idx-06">Kontakt</a>
+  </nav>
+</header>
+
+<main class="paper">
+
+  <!-- ============ FRONT PAGE / HERO ============ -->
+  <div class="folio"><span>— str. i —</span><span>FRONTISPICIUM</span><span>PL · EN</span></div>
+  <section class="frontpage">
+    <div class="deckline">Niniejszym przedkłada się raport otwarcia — o polskim instytucie, który od dwudziestu lat słucha rynku.</div>
+    <h2 class="frontpage-title">Badania rynku <span class="amp">&amp;</span> <em>opinii.</em></h2>
+    <div class="byline">
+      <span><span class="smallcaps">Od redakcji —</span> <em>M. Kowalski</em></span>
+      <span><span class="smallcaps">Data —</span> <em>niedziela, 15 IV 2026</em></span>
+      <span><span class="smallcaps">Cena —</span> <em>egzemplarz bezpłatny</em></span>
+    </div>
+
+    <div class="frontgrid">
+      <div class="col-lead">
+        <div class="kicker">— Artykuł wstępny —</div>
+        <h2>Polski instytut, który słucha <em>rynku.</em></h2>
+        <p class="dropcap">Polski instytut badawczy działający nieprzerwanie od dwa tysiące piątego roku. Słuchamy, analizujemy i doradzamy — pomagamy znaleźć drogę do rynkowego sukcesu. Jesteśmy instytutem referencyjnym dla sieci handlowych, producentów i agencji, którym zależy na rzetelnych danych i głębokiej interpretacji. Pracujemy z klientem od pierwszej rozmowy aż po ostatni wykres w raporcie. Każde badanie projektujemy indywidualnie — bez szablonów, bez gotowych schematów. Narzędzia tworzymy sami: teleinformatyczny system B2B integruje sondażowanie, przetwarzanie i raportowanie w jednym przepływie.</p>
+      </div>
+
+      <hr/>
+
+      <div class="col-stats">
+        <div class="hd">Tabela I · Instytut w liczbach</div>
+        <div class="stat-row"><span class="lbl">Lata działalności</span><span class="val">20<em>+</em></span></div>
+        <div class="stat-row"><span class="lbl">Ankieterzy w Polsce</span><span class="val">400<em>+</em></span></div>
+        <div class="stat-row"><span class="lbl">Wywiadów tygodniowo</span><span class="val">10<em>k</em></span></div>
+        <div class="stat-row"><span class="lbl">Województw</span><span class="val">16</span></div>
+        <div class="stat-row"><span class="lbl">Trenerów regionalnych</span><span class="val">10</span></div>
+        <div class="stat-row"><span class="lbl">Projekty 2005—2024</span><span class="val">4 600</span></div>
+
+        <div class="pull-quote">
+          Słuchamy, analizujemy, doradzamy — bez szablonów, bez skrótów.
+          <cite>— Credo MANDS, od 2005</cite>
+        </div>
+      </div>
+
+      <hr/>
+
+      <div class="col-side">
+        <h3>Zamów badanie</h3>
+        <p><em>Porozmawiajmy o projekcie.</em> Odpowiadamy zwykle w ciągu dwudziestu czterech godzin. Każdy brief traktujemy poważnie — nawet jeśli ostatecznie zdecydujesz się na inną pracownię.</p>
+        <div class="mini-list">
+          <span>info@mands.pl</span>
+          <span>+48 71 322 06 86</span>
+          <span>ul. B. Prusa 1/48, Wrocław</span>
+          <span>OFBOR · ESOMAR</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="front-strip">
+      <div>
+        <div class="k">/ 001 — Doświadczenie</div>
+        <div class="v">20<em>+</em></div>
+        <div class="t">lata nieprzerwanie</div>
+      </div>
+      <div>
+        <div class="k">/ 002 — Ankieterzy</div>
+        <div class="v">400<em>+</em></div>
+        <div class="t">w całej Polsce</div>
+      </div>
+      <div>
+        <div class="k">/ 003 — Wywiady</div>
+        <div class="v">10<em>k</em></div>
+        <div class="t">tygodniowo</div>
+      </div>
+      <div>
+        <div class="k">/ 004 — Standardy</div>
+        <div class="v">OFBOR</div>
+        <div class="t">oraz Kodeks ESOMAR</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ §01 MANIFEST ============ -->
+  <div class="folio"><span>— str. ii —</span><span>CAPUT PRIMUM · MANIFESTO</span><span>§ 01</span></div>
+  <section id="idx-01">
+    <div class="chapter-mark">
+      <div class="num">§ <em>01</em></div>
+      <div class="rule-fill"></div>
+      <div class="meta">Rozdział pierwszy / <strong>Kim jesteśmy</strong></div>
+    </div>
+
+    <div class="manifest">
+      <aside class="manifest-aside">
+        <div class="kicker">— Aside —</div>
+        <h3>Manifest<br>redakcji.</h3>
+        <p style="font-style:italic;font-size:15px;line-height:1.5">Trzy filary, na których od dwóch dekad opiera się praca naszego instytutu. Credo spisane w roku założenia i odnawiane z każdym nowym projektem.</p>
+        <div class="aside-note">
+          „Dobre badanie zaczyna się od dobrze postawionego pytania — i od gotowości, by usłyszeć odpowiedź, której się nie spodziewamy.”
+        </div>
+      </aside>
+
+      <hr/>
+
+      <div class="manifest-body">
+        <p class="lead">Jesteśmy instytutem referencyjnym dla <em>sieci handlowych.</em> Stawiamy na indywidualne podejście — słuchamy, analizujemy, doradzamy.</p>
+        <div class="manifest-cols">
+          <span class="tag">/ 001 — Podejście</span>
+          <h4>Indywidualnie.</h4>
+          <p>Każdy klient otrzymuje wsparcie merytoryczne dopasowane do jego potrzeb — bez szablonów. Projekt badawczy układa się tak, jak układa się dobry tekst: od najważniejszego pytania, przez metodę, aż po formę prezentacji wyniku.</p>
+
+          <span class="tag">/ 002 — Technologia</span>
+          <h4>Własne narzędzia.</h4>
+          <p>Teleinformatyczny system B2B integrujący sondażowanie, przetwarzanie danych i raportowanie. Nie wynajmujemy obcego silnika — piszemy własny, ponieważ tylko wtedy możemy ręczyć za każdy etap pracy.</p>
+
+          <span class="tag">/ 003 — Zespół</span>
+          <h4>Doświadczenie.</h4>
+          <p>Specjaliści z wieloletnim stażem. Praca zgodnie z Kodeksem ESOMAR i standardami PKJPA. Merytoryczny rdzeń instytutu liczy ponad dwudziestu analityków, projektantów badań i supervisorów — ludzi, którzy zostali w zawodzie, bo go naprawdę lubią.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ §02 METHODS ============ -->
+  <div class="folio"><span>— str. iii —</span><span>CAPUT SECUNDUM · METHODI</span><span>§ 02</span></div>
+  <section id="idx-02">
+    <div class="chapter-mark">
+      <div class="num">§ <em>02</em></div>
+      <div class="rule-fill"></div>
+      <div class="meta">Rozdział drugi / <strong>Metody badawcze</strong></div>
+    </div>
+
+    <div class="methods-head">
+      <h2 class="methods-title">Pełna paleta<br>metod <em>badawczych.</em></h2>
+      <p class="deck">Od tradycyjnych wywiadów telefonicznych po własną platformę Focus Board — dziesięć narzędzi, z których korzystamy na co dzień, opisanych tak, jak lubimy najbardziej: bez marketingowego pudru.</p>
+    </div>
+
+    <div class="methods-list">
+      <article class="method">
+        <div class="m-num">/01</div>
+        <div class="m-name">CATI<em>.</em></div>
+        <div class="m-tag">Ilościowe · Telefon</div>
+        <div class="m-desc">Computer-Assisted Telephone Interviewing. Tysiące wywiadów miesięcznie w badaniach sondażowych, społecznych, konsumenckich i B2B — w Polsce i za granicą. Własne studio we Wrocławiu od 2005 r., profesjonalne stanowiska, opieka doświadczonych supervisorów oraz praca zdalna w modelu Cati@Home. Szybka realizacja, szybkie opracowanie wyników, minimalizacja błędów, pełna kontrola nad projektem.</div>
+        <div class="m-arrow">↗</div>
+      </article>
+      <article class="method">
+        <div class="m-num">/02</div>
+        <div class="m-name">CAWI<em>.</em></div>
+        <div class="m-tag">Ilościowe · Online</div>
+        <div class="m-desc">Computer Assisted Web Interview — ankieta internetowa wypełniana samodzielnie. Realizujemy w oprogramowaniu CADAS CAWI, które łączy elementy organizacyjne, metodologiczne, kontrolne i informatyczne procesu badawczego. Klient partycypuje w projekcie: testuje kwestionariusz, na bieżąco podgląda wyniki i postęp badania. Pełne bezpieczeństwo — szyfrowany dostęp i podwójne szyfrowanie danych, łącznie z danymi teleadresowymi respondentów. Dla respondenta proces jest przystępny: bez instalacji dodatkowego oprogramowania, z możliwością przerwania i powrotu bez utraty odpowiedzi.</div>
+        <div class="m-arrow">↗</div>
+      </article>
+      <article class="method">
+        <div class="m-num">/03</div>
+        <div class="m-name">MOBI<em>.</em></div>
+        <div class="m-tag">Ilościowe · Tablet</div>
+        <div class="m-desc">Ewolucja tradycyjnych badań typu „papier-ołówek" do pełnoprawnych wywiadów wspomaganych komputerowo. Ankieter posługuje się tabletem dokładnie tak samo jak ankietą papierową, z możliwością wykorzystania multimediów i zaawansowanych technik wizualizacji pytań (m.in. drag & drop). Automatyczny zapis lokalizacji GPS oraz nagrywanie wywiadów ułatwia i przyspiesza kontrolę pracy ankieterów w terenie.</div>
+        <div class="m-arrow">↗</div>
+      </article>
+      <article class="method">
+        <div class="m-num">/04</div>
+        <div class="m-name">FGI<em>.</em></div>
+        <div class="m-tag">Jakościowe · Grupa</div>
+        <div class="m-desc">Focus Group Interviews — jedna z najpopularniejszych metod badań jakościowych. Dyskusja grupowa kontrolowana przez moderatora, prowadzona na podstawie wcześniej przygotowanego scenariusza. Stosowana do testowania nowych konceptów (logo, opakowania, reklamy) i badania zachowań konsumenckich; charakteryzuje się twórczym i inspirującym charakterem z możliwością pogłębionej analizy tematu. Przebieg wywiadu jest rejestrowany.</div>
+        <div class="m-arrow">↗</div>
+      </article>
+      <article class="method">
+        <div class="m-num">/05</div>
+        <div class="m-name">IDI<em>.</em></div>
+        <div class="m-tag">Jakościowe · Indywidualne</div>
+        <div class="m-desc">Individual In-Depth Interview — druga najpopularniejsza metoda badań jakościowych. Rozmowa moderatora z respondentem w celu dotarcia do pożądanych informacji oraz poznania postaw, intencji i motywów działań badanego. Prowadzona według ustalonego scenariusza o charakterze otwartym; sprawdza się w sytuacjach z trudnym dostępem do grup badawczych lub przy tematach drażliwych. Przebieg zwykle jest rejestrowany.</div>
+        <div class="m-arrow">↗</div>
+      </article>
+      <article class="method">
+        <div class="m-num">/06</div>
+        <div class="m-name">FoBo<em>.</em></div>
+        <div class="m-tag">Jakościowe · Online</div>
+        <div class="m-desc">Focus Board — platforma do jakościowych badań online. Alternatywa dla metod tradycyjnych: wywiady indywidualne i grupowe prowadzone przez Internet, również w formie bezkontaktowej. Rekrutacja telefoniczna wg screenera, realizacja przez Zoom (z opcją tłumaczenia symultanicznego), transmisja na żywo przez YouTube do wskazanych odbiorców, nagrania audio-video i transkrypcje. Zakres współpracy od nadzoru technicznego po pełny projekt z rekrutacją, moderacją i raportem.</div>
+        <div class="m-arrow">↗</div>
+      </article>
+      <article class="method">
+        <div class="m-num">/07</div>
+        <div class="m-name">Mystery Shopper<em>.</em></div>
+        <div class="m-tag">Audyt · Retail & Usługi</div>
+        <div class="m-desc">Tajemniczy klient — kilkuset audytorów w całej Polsce realizuje projekty audytowe dla sieci retailowych i usługowych. Weryfikacja standardów obsługi, ekspozycji materiałów POS i procedur sprzedażowych. Dostępny także jako komponent platformy PaaS.</div>
+        <div class="m-arrow">↗</div>
+      </article>
+      <article class="method">
+        <div class="m-num">/08</div>
+        <div class="m-name">PaaS<em>.</em></div>
+        <div class="m-tag">Technologia · SaaS</div>
+        <div class="m-desc">Platform as a Service — rozwiązanie pozwalające wypożyczyć na określony czas dostęp do technologii i oprogramowania badawczego. Dedykowane firmom, które nie chcą inwestować w sprzęt lub potrzebują dostępu do narzędzi statystycznych tylko na czas konkretnego projektu. Badania obejmują CATI, CAPI, CAWI, MOBI oraz Mystery Shopper.</div>
+        <div class="m-arrow">↗</div>
+      </article>
+      <article class="method">
+        <div class="m-num">/09</div>
+        <div class="m-name">Fokusownia<em>.</em></div>
+        <div class="m-tag">Infrastruktura · Wrocław</div>
+        <div class="m-desc">W pełni wyposażona fokusownia z podglądownią oraz oddzielnym pomieszczeniem dla tłumacza przy ul. Prusa we Wrocławiu. Pomoce dla moderatora (telewizor, rzutnik, flipchart), profesjonalny sprzęt audio z tłumaczeniem symultanicznym i jednoczesnym nagrywaniem A/V w dwóch wersjach językowych, video streaming grup fokusowych (opcjonalnie, w wersji oryginalnej lub z lektorem), bezprzewodowy Internet, poczęstunek dla respondentów. Studio przystosowane dla osób niepełnosprawnych.</div>
+        <div class="m-arrow">↗</div>
+      </article>
+      <article class="method">
+        <div class="m-num">/10</div>
+        <div class="m-name">Standardy<em>.</em></div>
+        <div class="m-tag">OFBOR · ESOMAR</div>
+        <div class="m-desc">Przestrzegamy norm jakości w procesie realizacji badań — pracujemy zgodnie ze standardami OFBOR, co daje klientowi gwarancję wysokiej jakości całego procesu badawczego i jest świadectwem dbałości o każdy jego element. Działamy również w oparciu o Kodeks ESOMAR.</div>
+        <div class="m-arrow">↗</div>
+      </article>
+    </div>
+
+    <div class="bignums">
+      <h3>◆ Liczby MANDS <em>w liczbach.</em></h3>
+      <div class="bn-grid">
+        <div>
+          <div class="v">20<em>+</em></div>
+          <div class="lbl"><strong>Lat doświadczenia</strong>nieprzerwanie na rynku badań od 2005 roku</div>
+        </div>
+        <div>
+          <div class="v">400</div>
+          <div class="lbl"><strong>Ankieterów</strong>w całej Polsce, nadzorowanych przez trenerów regionalnych</div>
+        </div>
+        <div>
+          <div class="v">10<em>k</em></div>
+          <div class="lbl"><strong>Wywiadów</strong>tygodniowo w ramach kontroli dystrybucji materiałów</div>
+        </div>
+        <div>
+          <div class="v">10</div>
+          <div class="lbl"><strong>Trenerów regionalnych</strong>nadzorujących jakość pracy ankieterów w terenie</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ §03 RETAIL ============ -->
+  <div class="folio"><span>— str. iv —</span><span>CAPUT TERTIUM · NEGOTIUM</span><span>§ 03</span></div>
+  <section id="idx-03">
+    <div class="chapter-mark">
+      <div class="num">§ <em>03</em></div>
+      <div class="rule-fill"></div>
+      <div class="meta">Rozdział trzeci / <strong>Retail <span class="amp">&amp;</span> dystrybucja</strong></div>
+    </div>
+
+    <div class="retail">
+      <div class="retail-left">
+        <h2>Sprawdzamy, czy Twoje gazetki <em>docierają do klientów.</em></h2>
+        <p style="font-style:italic;font-size:16px;line-height:1.55">Ponad dziesięć tysięcy gospodarstw domowych tygodniowo. Cztery produkty dla sieci handlowych, od Distribution Check po webową platformę raportowania.</p>
+        <figure class="fig">
+          <img src="../images/IMG_5254-e1455562945354.jpg" alt="Badania terenowe MANDS" />
+          <figcaption>
+            <span><em>Ryc. I —</em> ankieter w terenie podczas Distribution Check. Fotografia z archiwum instytutu.</span>
+            <strong>10 000+ / tydzień</strong>
+          </figcaption>
+        </figure>
+      </div>
+      <div class="retail-list">
+        <div class="retail-entry">
+          <div class="ri">/01</div>
+          <div>
+            <h4>Distribution Check</h4>
+            <p>Kontrola dystrybucji materiałów reklamowych. Tygodniowo odwiedzamy ponad 10 tysięcy gospodarstw domowych sprawdzając, czy gazetki zostały dostarczone.</p>
+          </div>
+        </div>
+        <div class="retail-entry">
+          <div class="ri">/02</div>
+          <div>
+            <h4>Exit Store</h4>
+            <p>Badanie na terenie sklepu z jego klientami — analiza wartości koszyka, częstotliwości zakupów. Rezultat: heatmapa obszarów atrakcyjnych finansowo.</p>
+          </div>
+        </div>
+        <div class="retail-entry">
+          <div class="ri">/03</div>
+          <div>
+            <h4>Distribution Reporting System</h4>
+            <p>Webowe narzędzie SaaS do raportowania kolportażu. Obsługa SMS dla kolporterów, eksport CSV/XLSX, historia kampanii.</p>
+          </div>
+        </div>
+        <div class="retail-entry">
+          <div class="ri">/04</div>
+          <div>
+            <h4>Call Distribution Check</h4>
+            <p>Telefoniczna kontrola dystrybucji gazetek. Około 10 tysięcy wywiadów w kluczowych lokalizacjach — realizowana zwykle raz na dwa lata.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ §04 ARCHIVE ============ -->
+  <div class="folio"><span>— str. v —</span><span>CAPUT QUARTUM · ARCHIVUM</span><span>§ 04</span></div>
+  <section id="idx-04">
+    <div class="chapter-mark">
+      <div class="num">§ <em>04</em></div>
+      <div class="rule-fill"></div>
+      <div class="meta">Rozdział czwarty / <strong>Archiwum publikacji</strong></div>
+    </div>
+
+    <div class="archive-head">
+      <h2>Wybrane publikacje <em><span class="amp">&amp;</span> raporty.</em></h2>
+      <p>Dzielimy się wynikami wybranych badań — od skuteczności portali pracy w IT, przez infolinie hostingowe, po plany podróżnicze Polaków.</p>
+    </div>
+
+    <div class="archive">
+      <article class="card">
+        <div class="year">Anno 2022</div>
+        <h4>Portale z ogłoszeniami IT</h4>
+        <p>Trzecia edycja badania skuteczności portali pracy IT dla No Fluff Jobs — cztery stanowiska testowe metodą tajemniczego klienta.</p>
+        <div class="arrow">↗</div>
+      </article>
+      <article class="card">
+        <div class="year">Anno 2021</div>
+        <h4>Infolinie firm hostingowych</h4>
+        <p>Badanie skuteczności obsługi klienta przeprowadzone wśród firm obsługujących co najmniej 10 000 domen.</p>
+        <div class="arrow">↗</div>
+      </article>
+      <article class="card">
+        <div class="year">Anno 2020</div>
+        <h4>Plany podróżnicze Polaków</h4>
+        <p>Raport częściowy Ogólnopolskiego Badania Podróżników — wpływ pandemii na plany urlopowe i wybory kierunkowe.</p>
+        <div class="arrow">↗</div>
+      </article>
+      <article class="card">
+        <div class="year">Metodologia</div>
+        <h4>Tajemniczy klient</h4>
+        <p>Kilkuset tajemniczych klientów w całej Polsce realizuje projekty audytowe — od retail przez gastronomię po usługi finansowe.</p>
+        <div class="arrow">↗</div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ §05 CAREERS ============ -->
+  <div class="folio"><span>— str. vi —</span><span>CAPUT QUINTUM · OPERA</span><span>§ 05</span></div>
+  <section id="idx-05" class="careers">
+    <div class="chapter-mark">
+      <div class="num">§ <em>05</em></div>
+      <div class="rule-fill"></div>
+      <div class="meta">Rozdział piąty / <strong>Kariera</strong></div>
+    </div>
+
+    <div class="careers-head">
+      <h2>Dołącz do <em>zespołu.</em></h2>
+      <p>Instytut o pracowników merytorycznych oparty, rozszerzany siatką ankieterską i tajemniczymi klientami. Rekrutacja stała — CV przyjmujemy niezależnie od aktualnych ogłoszeń.</p>
+    </div>
+
+    <div class="careers-body">
+      <div class="careers-stats">
+        <div>
+          <div class="hd">/ Zespół merytoryczny</div>
+          <div class="vv">20<em>+</em></div>
+          <div class="tt">analityków, projektantów badań, supervisorów</div>
+        </div>
+        <div>
+          <div class="hd">/ Siatka terenowa</div>
+          <div class="vv">400<em>+</em></div>
+          <div class="tt">ankieterów i kilkuset tajemniczych klientów</div>
+        </div>
+        <div>
+          <div class="hd">/ Zasięg</div>
+          <div class="vv">PL</div>
+          <div class="tt">cała Polska — 10 trenerów regionalnych</div>
+        </div>
+      </div>
+
+      <hr/>
+
+      <div class="careers-jobs">
+        <h3>/ Aktualnie poszukujemy</h3>
+        <a class="career-job" href="mailto:rekrutacja@mands.pl?subject=Teleankieter%20CATI%20Wroc%C5%82aw">
+          <div class="n">/01</div>
+          <div class="t">Teleankieter · studio CATI Wrocław<small>Praca stacjonarna lub zdalna (Cati@Home)</small></div>
+          <div class="a">↗</div>
+        </a>
+        <a class="career-job" href="mailto:rekrutacja@mands.pl?subject=Kontroler%20dystrybucji">
+          <div class="n">/02</div>
+          <div class="t">Kontroler dystrybucji materiałów reklamowych<small>Praca w terenie · cała Polska</small></div>
+          <div class="a">↗</div>
+        </a>
+        <a class="career-job" href="mailto:rekrutacja@mands.pl?subject=Siatka%20ankieterska">
+          <div class="n">/03</div>
+          <div class="t">Siatka ankieterska <span class="amp">&amp;</span> tajemniczy klienci<small>Rekrutacja ciągła · całe PL</small></div>
+          <div class="a">↗</div>
+        </a>
+
+        <div class="apply">
+          <span>Zainteresowany współpracą? <em>Wyślij CV i kilka słów o sobie.</em></span>
+          <a href="mailto:rekrutacja@mands.pl">rekrutacja@mands.pl ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ §06 CONTACT ============ -->
+  <div class="folio"><span>— str. vii —</span><span>CAPUT SEXTUM · EPISTOLAE</span><span>§ 06</span></div>
+  <section id="idx-06" class="contact">
+    <div class="chapter-mark">
+      <div class="num">§ <em>06</em></div>
+      <div class="rule-fill"></div>
+      <div class="meta">Rozdział szósty / <strong>Kontakt</strong></div>
+    </div>
+
+    <h2>Porozmawiajmy<br>o <em>badaniu.</em></h2>
+
+    <div class="contact-grid">
+      <div>
+        <h4>/ 001 — Siedziba</h4>
+        <p>ul. B. Prusa 1/48<br>50-319 Wrocław<small>NIP: PL8851557675</small></p>
+      </div>
+      <div>
+        <h4>/ 002 — Kontakt</h4>
+        <p><a href="mailto:info@mands.pl">info@mands.pl</a><br><a href="tel:+48713220686">+48 71 322 06 86</a><small>zwykle odpowiadamy w ciągu 24h</small></p>
+      </div>
+      <div>
+        <h4>/ 003 — Kariera</h4>
+        <p><a href="mailto:rekrutacja@mands.pl">rekrutacja@mands.pl</a><small>ankieterzy · tajemniczy klienci · merytoryka</small></p>
+      </div>
+    </div>
+
+    <div class="contact-map">
+      <div class="tag">MANDS · ul. Prusa 1/48, Wrocław</div>
+      <iframe
+        src="https://maps.google.com/maps?&q=Boles%C5%82awa+Prusa+1+%2C+Wroc%C5%82aw+50-319&output=embed&iwloc"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="MANDS — siedziba na mapie"></iframe>
+    </div>
+
+    <div class="contact-cta">
+      <span>Masz pytanie o projekt badawczy? <em>Odezwij się.</em></span>
+      <a href="mailto:info@mands.pl">Napisz do nas <span>↗</span></a>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ COLOPHON ============ -->
+<footer class="colophon">
+  <div class="mark">m<em>&amp;</em>s</div>
+  <div class="meta">
+    <span>Instytut Badawczy</span>
+    <span><strong>MANDS / Wrocław</strong></span>
+    <span>est. MMV</span>
+    <span>51.10°N · 17.03°E</span>
+  </div>
+  <div class="bot">
+    <span>© 2026 MANDS — Wszystkie prawa zastrzeżone</span>
+    <span>Badania rynku i opinii / Made in Wrocław</span>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MANDS — Instytut Badań Rynku i Opinii · od 2005</title>
+<meta name="description" content="MANDS — polski instytut badawczy. Badania rynku, opinii, dystrybucji. CATI · CAWI · MOBI · FGI." />
+<link rel="icon" href="../images/cropped-logo-png-1-180x180.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,900;1,9..144,500;1,9..144,700&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0d0a;
+    --bg-2:#14170f;
+    --ink:#f2efe4;
+    --ink-dim:rgba(242,239,228,.62);
+    --ink-faint:rgba(242,239,228,.18);
+    --acid:#d4ff3c;
+    --acid-2:#8bb820;
+    --rule:rgba(242,239,228,.14);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{
+    scroll-behavior:smooth;
+    scroll-snap-type:y mandatory;
+    background:var(--bg);
+  }
+  body{
+    font-family:'Inter',-apple-system,sans-serif;
+    color:var(--ink);
+    background:var(--bg);
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .serif{font-family:'Fraunces',Georgia,serif;font-weight:700;letter-spacing:-.03em}
+  .ital{font-family:'Fraunces',serif;font-style:italic;font-weight:500}
+  .mono{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+  ::selection{background:var(--acid);color:#000}
+
+  /* film grain */
+  body::before{
+    content:'';
+    position:fixed;inset:0;pointer-events:none;z-index:999;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+    opacity:.08;mix-blend-mode:overlay;
+  }
+
+  /* ============ TOP NAV ============ */
+  .nav{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:22px 40px;
+    mix-blend-mode:difference;
+    color:#fff;
+    pointer-events:none;
+  }
+  .nav > *{pointer-events:auto}
+  .nav-mark{
+    font-family:'Fraunces',serif;font-weight:900;font-size:22px;letter-spacing:-.02em;
+  }
+  .nav-links{
+    display:flex;gap:26px;
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    text-transform:uppercase;letter-spacing:.14em;
+  }
+  .nav-links a{opacity:.7;transition:opacity .2s}
+  .nav-links a:hover,.nav-links a.is-active{opacity:1}
+  .nav-phone{
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    letter-spacing:.1em;text-transform:uppercase;
+  }
+  @media(max-width:880px){
+    .nav{padding:18px 22px}
+    .nav-links{display:none}
+  }
+
+  /* ============ SIDE INDICATOR ============ */
+  .side{
+    position:fixed;
+    right:40px;top:50%;transform:translateY(-50%);
+    z-index:40;
+    display:flex;flex-direction:column;gap:22px;
+    align-items:flex-end;
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    text-transform:uppercase;letter-spacing:.14em;
+  }
+  .side-item{
+    display:flex;align-items:center;gap:14px;
+    color:var(--ink-dim);
+    cursor:pointer;
+    transition:color .3s;
+  }
+  .side-item .dot{
+    width:8px;height:8px;border-radius:50%;
+    border:1px solid var(--ink-dim);
+    background:transparent;transition:all .3s;
+  }
+  .side-item .lbl{opacity:0;transform:translateX(8px);transition:all .3s}
+  .side-item:hover{color:var(--ink)}
+  .side-item:hover .lbl{opacity:1;transform:translateX(0)}
+  .side-item.is-active{color:var(--acid)}
+  .side-item.is-active .dot{
+    background:var(--acid);border-color:var(--acid);
+    box-shadow:0 0 0 4px rgba(212,255,60,.18);
+  }
+  .side-item.is-active .lbl{opacity:1;transform:translateX(0)}
+  .side-count{
+    margin-top:12px;padding-top:12px;
+    border-top:1px solid var(--ink-faint);
+    color:var(--ink-dim);font-size:9px;min-width:68px;text-align:right;
+  }
+  @media(max-width:880px){.side{display:none}}
+
+  /* ============ SECTION / SLIDE ============ */
+  .slide{
+    min-height:100vh;
+    scroll-snap-align:start;
+    scroll-snap-stop:always;
+    position:relative;
+    display:flex;
+    padding:120px 8vw 80px;
+    border-bottom:1px solid var(--rule);
+    overflow:hidden;
+  }
+  .slide-num{
+    position:absolute;
+    top:36px;left:40px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--ink-dim);
+    display:flex;gap:14px;align-items:center;
+  }
+  .slide-num .bar{
+    width:32px;height:1px;background:var(--ink-dim);
+  }
+  .slide-tag{
+    position:absolute;bottom:36px;left:40px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--ink-dim);
+  }
+  .slide-tag::before{content:'// '}
+
+  /* reveal baseline */
+  .reveal{opacity:0;transform:translateY(40px);transition:opacity .9s ease,transform .9s ease}
+  .reveal.in{opacity:1;transform:none}
+  .reveal.d1{transition-delay:.1s}
+  .reveal.d2{transition-delay:.2s}
+  .reveal.d3{transition-delay:.3s}
+  .reveal.d4{transition-delay:.4s}
+  .reveal.d5{transition-delay:.5s}
+
+  /* ============ HERO ============ */
+  .hero{
+    background:
+      radial-gradient(ellipse 90% 65% at 30% 40%,rgba(212,255,60,.08),transparent 60%),
+      radial-gradient(ellipse 60% 50% at 80% 80%,rgba(139,184,32,.06),transparent 60%),
+      var(--bg);
+    display:grid;
+    grid-template-columns:1.2fr .8fr;
+    gap:60px;
+    align-items:center;
+  }
+  .hero::before{
+    content:'';
+    position:absolute;inset:0;
+    background-image:
+      linear-gradient(var(--ink-faint) 1px,transparent 1px),
+      linear-gradient(90deg,var(--ink-faint) 1px,transparent 1px);
+    background-size:80px 80px;
+    mask-image:radial-gradient(ellipse 70% 60% at 30% 45%,#000 0%,transparent 80%);
+    -webkit-mask-image:radial-gradient(ellipse 70% 60% at 30% 45%,#000 0%,transparent 80%);
+    pointer-events:none;
+    opacity:.7;
+    will-change:transform;
+  }
+  .hero-copy{position:relative;z-index:2;max-width:900px}
+  .hero-eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--ink-dim);
+    display:flex;align-items:center;gap:16px;
+    margin-bottom:40px;
+  }
+  .hero-eyebrow::before{content:'';width:48px;height:1px;background:var(--acid)}
+  .hero-eyebrow strong{color:var(--ink);font-weight:500}
+  .hero-title{
+    font-family:'Fraunces',serif;font-weight:900;
+    font-size:clamp(64px,10vw,180px);
+    line-height:.88;letter-spacing:-.05em;
+    font-variation-settings:"opsz" 144;
+  }
+  .hero-title .l{display:block;overflow:hidden}
+  .hero-title .l span{display:inline-block}
+  .hero-title em{
+    font-style:italic;font-weight:500;
+    background:linear-gradient(110deg,var(--acid),var(--acid-2));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero-sub{
+    margin-top:40px;
+    font-size:18px;line-height:1.6;
+    color:var(--ink-dim);
+    max-width:50ch;
+  }
+  .hero-sub strong{color:var(--ink);font-weight:500}
+  .hero-cta{
+    display:inline-flex;align-items:center;gap:14px;
+    margin-top:40px;
+    padding:18px 32px;
+    border-radius:999px;
+    background:var(--acid);
+    color:#000;
+    font-family:'Fraunces',serif;font-style:italic;font-size:20px;font-weight:500;
+    transition:gap .25s,transform .25s;
+  }
+  .hero-cta:hover{gap:22px;transform:translateY(-2px)}
+  .hero-cta svg{width:20px;height:20px}
+
+  .hero-visual{
+    position:relative;z-index:2;
+    aspect-ratio:4/5;
+    width:100%;
+    max-width:460px;
+    justify-self:end;
+  }
+  .hero-card{
+    position:absolute;inset:0;
+    border:1px solid var(--rule);
+    border-radius:28px;
+    background:
+      radial-gradient(ellipse 70% 60% at 60% 30%,rgba(212,255,60,.12),transparent 65%),
+      rgba(255,255,255,.02);
+    backdrop-filter:blur(4px);
+    padding:36px;
+    display:flex;flex-direction:column;justify-content:space-between;
+    overflow:hidden;
+  }
+  .hero-card::before{
+    content:'';position:absolute;inset:0;
+    background-image:
+      linear-gradient(var(--ink-faint) 1px,transparent 1px),
+      linear-gradient(90deg,var(--ink-faint) 1px,transparent 1px);
+    background-size:40px 40px;opacity:.4;
+    pointer-events:none;
+  }
+  .hc-top{
+    position:relative;display:flex;justify-content:space-between;
+    font-family:'JetBrains Mono',monospace;font-size:9px;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--ink-dim);
+  }
+  .hc-top strong{display:block;color:var(--acid);font-weight:500;margin-bottom:3px}
+  .hc-fig{
+    position:relative;
+    font-family:'Fraunces',serif;font-weight:900;
+    font-size:clamp(64px,9vw,140px);line-height:.9;letter-spacing:-.04em;
+  }
+  .hc-fig small{
+    display:block;
+    font-family:'JetBrains Mono',monospace;font-weight:400;
+    font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ink-dim);margin-top:14px;
+  }
+  .hc-quote{
+    position:relative;
+    font-family:'Fraunces',serif;font-style:italic;
+    font-size:22px;line-height:1.25;font-weight:500;
+    max-width:22ch;
+  }
+  .hc-quote cite{
+    display:block;margin-top:16px;
+    font-family:'JetBrains Mono',monospace;font-style:normal;
+    font-size:9px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ink-dim);
+  }
+
+  .hero-strip{
+    position:absolute;left:8vw;right:8vw;bottom:60px;
+    display:grid;grid-template-columns:repeat(4,1fr);gap:20px;
+    z-index:2;
+  }
+  .hero-strip div{
+    padding-top:18px;
+    border-top:1px solid var(--rule);
+  }
+  .hero-strip .mono{color:var(--ink-dim);display:block;margin-bottom:8px}
+  .hero-strip strong{
+    font-family:'Fraunces',serif;font-size:22px;font-weight:700;
+    letter-spacing:-.02em;display:block;
+  }
+  .hero-strip em{font-style:italic;color:var(--acid);font-weight:500}
+
+  @media(max-width:1100px){
+    .hero{grid-template-columns:1fr}
+    .hero-visual{display:none}
+    .hero-strip{grid-template-columns:repeat(2,1fr);position:relative;left:0;right:0;bottom:0;margin-top:50px}
+  }
+
+  /* ============ MANIFEST ============ */
+  .manifest{
+    background:var(--bg-2);
+    flex-direction:column;justify-content:center;
+  }
+  .manifest-wrap{max-width:1400px;width:100%;margin:0 auto}
+  .chapter-label{
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    letter-spacing:.18em;text-transform:uppercase;
+    color:var(--ink-dim);
+    display:flex;align-items:baseline;gap:14px;
+    margin-bottom:60px;
+  }
+  .chapter-label strong{color:var(--ink);font-weight:500}
+  .chapter-label::before{content:'';width:60px;height:1px;background:var(--acid);display:inline-block}
+
+  .big-statement{
+    font-family:'Fraunces',serif;font-weight:700;
+    font-size:clamp(40px,5.6vw,88px);line-height:1.05;letter-spacing:-.03em;
+    max-width:22ch;
+  }
+  .big-statement em{
+    font-style:italic;font-weight:500;color:var(--acid);
+  }
+  .manifest-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:40px;
+    margin-top:80px;
+    padding-top:60px;
+    border-top:1px solid var(--rule);
+  }
+  .manifest-cell .mono{color:var(--ink-dim);display:block;margin-bottom:20px}
+  .manifest-cell h4{
+    font-family:'Fraunces',serif;font-size:28px;font-weight:600;
+    letter-spacing:-.02em;margin-bottom:14px;
+  }
+  .manifest-cell p{color:var(--ink-dim);font-size:15px;line-height:1.65}
+  @media(max-width:880px){.manifest-grid{grid-template-columns:1fr;gap:34px}}
+
+  /* ============ METHODS ============ */
+  .methods{
+    flex-direction:column;justify-content:center;
+    background:var(--bg);
+  }
+  .methods-wrap{max-width:1400px;width:100%;margin:0 auto}
+  .methods-title{
+    font-family:'Fraunces',serif;font-weight:700;
+    font-size:clamp(44px,6vw,92px);line-height:.95;letter-spacing:-.03em;
+    margin-bottom:60px;max-width:18ch;
+  }
+  .methods-title em{font-style:italic;font-weight:500;color:var(--acid)}
+  .methods-list{
+    display:flex;flex-direction:column;
+    border-top:1px solid var(--rule);
+  }
+  .method{
+    display:grid;
+    grid-template-columns:60px 180px 1fr auto;
+    gap:30px;align-items:center;
+    padding:22px 0;
+    border-bottom:1px solid var(--rule);
+    cursor:pointer;
+    transition:padding .3s,background .3s;
+  }
+  .method:hover{padding-left:20px;padding-right:20px;background:rgba(212,255,60,.03)}
+  .method:hover .m-name{color:var(--acid)}
+  .m-idx{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    color:var(--ink-dim);letter-spacing:.14em;
+  }
+  .m-name{
+    font-family:'Fraunces',serif;font-weight:700;
+    font-size:32px;letter-spacing:-.02em;
+    transition:color .3s;
+  }
+  .m-name em{font-style:italic;color:var(--acid);font-weight:500}
+  .m-tag{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--ink-dim);
+  }
+  .m-arrow{font-size:22px;color:var(--ink-dim);transition:transform .3s,color .3s}
+  .method:hover .m-arrow{transform:translate(4px,-4px);color:var(--acid)}
+  .m-desc{
+    display:none;
+    grid-column:1 / -1;
+    padding:12px 0 20px;
+    color:var(--ink-dim);font-size:14px;line-height:1.6;max-width:80ch;
+  }
+  .method.open{padding-top:30px;padding-bottom:30px}
+  .method.open .m-desc{display:block}
+  .method.open .m-arrow{transform:rotate(90deg);color:var(--acid)}
+  @media(max-width:880px){
+    .method{grid-template-columns:40px 1fr auto;gap:14px}
+    .m-tag{display:none}
+    .m-name{font-size:22px}
+  }
+
+  /* ============ BIG NUMBERS ============ */
+  .bignums{
+    background:var(--bg-2);
+    flex-direction:column;justify-content:center;align-items:center;text-align:center;
+  }
+  .bignums-wrap{max-width:1400px;width:100%}
+  .bignums-title{
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    letter-spacing:.2em;text-transform:uppercase;color:var(--ink-dim);
+    margin-bottom:60px;
+  }
+  .bignums-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:20px;
+  }
+  .bignum{
+    padding:40px 24px;
+    border:1px solid var(--rule);
+    border-radius:20px;
+    text-align:left;
+    position:relative;
+    overflow:hidden;
+    transition:border-color .3s,transform .3s;
+  }
+  .bignum:hover{border-color:var(--acid);transform:translateY(-4px)}
+  .bignum::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:1px;
+    background:linear-gradient(90deg,transparent,var(--acid),transparent);
+    opacity:0;transition:opacity .3s;
+  }
+  .bignum:hover::before{opacity:1}
+  .bn-val{
+    font-family:'Fraunces',serif;font-weight:900;
+    font-size:clamp(60px,7vw,110px);
+    line-height:.9;letter-spacing:-.04em;
+    font-variation-settings:"opsz" 144;
+  }
+  .bn-val em{font-style:italic;color:var(--acid);font-weight:500}
+  .bn-lbl{
+    margin-top:22px;padding-top:22px;
+    border-top:1px solid var(--rule);
+    font-size:13px;line-height:1.5;color:var(--ink-dim);
+  }
+  .bn-lbl strong{
+    display:block;color:var(--ink);font-weight:500;
+    font-family:'Fraunces',serif;font-size:17px;margin-bottom:6px;
+  }
+  @media(max-width:880px){.bignums-grid{grid-template-columns:repeat(2,1fr)}}
+
+  /* ============ RETAIL ============ */
+  .retail{
+    background:var(--bg);
+    flex-direction:column;justify-content:center;
+  }
+  .retail-wrap{max-width:1400px;width:100%;margin:0 auto}
+  .retail-headline{
+    font-family:'Fraunces',serif;font-weight:700;
+    font-size:clamp(44px,6.4vw,100px);line-height:.95;letter-spacing:-.03em;
+    margin-bottom:70px;max-width:18ch;
+  }
+  .retail-headline em{font-style:italic;font-weight:500;color:var(--acid)}
+  .retail-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;
+  }
+  .retail-visual{
+    position:relative;
+    aspect-ratio:4/5;
+    border-radius:24px;overflow:hidden;
+    border:1px solid var(--rule);
+  }
+  .retail-visual img{
+    width:100%;height:100%;object-fit:cover;
+    filter:grayscale(.3) contrast(1.05);
+  }
+  .retail-visual::after{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(180deg,transparent 30%,rgba(11,13,10,.8) 100%);
+  }
+  .retail-tag{
+    position:absolute;left:28px;bottom:28px;z-index:2;
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    text-transform:uppercase;letter-spacing:.14em;color:var(--ink-dim);
+  }
+  .retail-tag strong{
+    display:block;
+    font-family:'Fraunces',serif;font-size:56px;font-weight:900;
+    color:var(--acid);letter-spacing:-.02em;line-height:1;margin-bottom:6px;
+  }
+  .retail-list{display:flex;flex-direction:column;gap:4px}
+  .retail-entry{
+    display:grid;grid-template-columns:56px 1fr;gap:20px;
+    padding:26px 0;
+    border-top:1px solid var(--rule);
+  }
+  .retail-entry:last-child{border-bottom:1px solid var(--rule)}
+  .r-idx{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    color:var(--acid);letter-spacing:.14em;
+  }
+  .r-name{
+    font-family:'Fraunces',serif;font-size:24px;font-weight:600;
+    letter-spacing:-.02em;margin-bottom:8px;
+  }
+  .r-desc{font-size:14px;line-height:1.6;color:var(--ink-dim)}
+  @media(max-width:880px){.retail-grid{grid-template-columns:1fr}}
+
+  /* ============ ARCHIVE ============ */
+  .archive{
+    background:var(--bg-2);
+    flex-direction:column;justify-content:center;
+  }
+  .archive-wrap{max-width:1400px;width:100%;margin:0 auto}
+  .archive-head{
+    display:grid;grid-template-columns:1.3fr 1fr;gap:40px;
+    margin-bottom:70px;align-items:end;
+  }
+  .archive-title{
+    font-family:'Fraunces',serif;font-weight:700;
+    font-size:clamp(44px,6.4vw,100px);line-height:.95;letter-spacing:-.03em;
+  }
+  .archive-title em{font-style:italic;font-weight:500;color:var(--acid)}
+  .archive-head p{color:var(--ink-dim);font-size:16px;line-height:1.6;max-width:42ch}
+  .archive-list{display:flex;flex-direction:column}
+  .archive-item{
+    display:grid;
+    grid-template-columns:140px 1fr 2fr 40px;
+    gap:30px;align-items:center;
+    padding:28px 0;
+    border-top:1px solid var(--rule);
+    transition:padding .3s,background .3s;
+  }
+  .archive-item:last-child{border-bottom:1px solid var(--rule)}
+  .archive-item:hover{padding-left:14px;padding-right:14px;background:rgba(212,255,60,.03)}
+  .archive-item:hover .a-title{color:var(--acid)}
+  .a-year{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--ink-dim);
+  }
+  .a-title{
+    font-family:'Fraunces',serif;font-size:26px;font-weight:600;
+    letter-spacing:-.02em;transition:color .3s;
+  }
+  .a-desc{font-size:14px;line-height:1.6;color:var(--ink-dim)}
+  .a-arrow{font-size:22px;color:var(--ink-dim);transition:transform .3s,color .3s}
+  .archive-item:hover .a-arrow{transform:translate(4px,-4px);color:var(--acid)}
+  @media(max-width:880px){
+    .archive-head{grid-template-columns:1fr;gap:30px}
+    .archive-item{grid-template-columns:1fr;gap:8px;padding:22px 0}
+  }
+
+  /* ============ CAREERS ============ */
+  .careers{
+    background:var(--bg);
+    flex-direction:column;justify-content:center;
+  }
+  .careers-wrap{max-width:1400px;width:100%;margin:0 auto}
+  .careers-head{
+    display:grid;grid-template-columns:1.3fr 1fr;gap:40px;
+    margin-bottom:70px;align-items:end;
+  }
+  .careers-title{
+    font-family:'Fraunces',serif;font-weight:700;
+    font-size:clamp(44px,6.4vw,100px);line-height:.95;letter-spacing:-.03em;
+  }
+  .careers-title em{font-style:italic;font-weight:500;color:var(--acid)}
+  .careers-head p{color:var(--ink-dim);font-size:16px;line-height:1.65;max-width:46ch}
+  .careers-grid{
+    display:grid;grid-template-columns:.8fr 1.2fr;gap:60px;align-items:start;
+  }
+  .careers-stats{display:flex;flex-direction:column;gap:4px}
+  .careers-stat{
+    padding:24px 0;
+    border-top:1px solid var(--rule);
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    text-transform:uppercase;letter-spacing:.14em;color:var(--ink-dim);
+  }
+  .careers-stat:last-child{border-bottom:1px solid var(--rule)}
+  .careers-stat strong{
+    display:block;
+    font-family:'Fraunces',serif;font-weight:900;
+    font-size:52px;color:var(--ink);letter-spacing:-.03em;line-height:1;
+    margin:10px 0;
+  }
+  .careers-stat em{font-style:italic;color:var(--acid);font-weight:500}
+
+  .careers-jobs h3{
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--ink-dim);
+    margin-bottom:24px;font-weight:400;
+  }
+  .career-job{
+    display:grid;grid-template-columns:56px 1fr 40px;
+    gap:20px;align-items:center;
+    padding:26px 0;
+    border-top:1px solid var(--rule);
+    transition:padding .3s,background .3s;
+  }
+  .career-job:last-of-type{border-bottom:1px solid var(--rule)}
+  .career-job:hover{padding-left:14px;padding-right:14px;background:rgba(212,255,60,.03)}
+  .career-job:hover .cj-title{color:var(--acid)}
+  .cj-num{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    color:var(--acid);letter-spacing:.14em;
+  }
+  .cj-title{
+    font-family:'Fraunces',serif;font-size:22px;font-weight:600;
+    letter-spacing:-.02em;transition:color .3s;
+  }
+  .cj-title small{
+    display:block;margin-top:6px;
+    font-family:'Inter',sans-serif;font-size:13px;color:var(--ink-dim);font-weight:400;
+  }
+  .cj-arrow{font-size:22px;color:var(--ink-dim);transition:transform .3s,color .3s}
+  .career-job:hover .cj-arrow{transform:translate(4px,-4px);color:var(--acid)}
+
+  .careers-apply{
+    margin-top:36px;padding:26px 32px;
+    border-radius:16px;
+    background:rgba(212,255,60,.06);
+    border:1px solid var(--rule);
+    display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;
+  }
+  .careers-apply-text{
+    font-family:'Fraunces',serif;font-style:italic;font-size:19px;font-weight:500;
+  }
+  .careers-apply a{
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    letter-spacing:.14em;text-transform:uppercase;
+    color:var(--acid);
+  }
+  @media(max-width:880px){
+    .careers-grid{grid-template-columns:1fr}
+    .careers-head{grid-template-columns:1fr;gap:30px}
+  }
+
+  /* ============ CONTACT ============ */
+  .contact{
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 40%,rgba(212,255,60,.1),transparent 70%),
+      var(--bg-2);
+    flex-direction:column;justify-content:center;
+  }
+  .contact-wrap{max-width:1400px;width:100%;margin:0 auto;position:relative;z-index:2}
+  .contact-head{
+    font-family:'Fraunces',serif;font-weight:700;
+    font-size:clamp(52px,8vw,140px);line-height:.9;letter-spacing:-.04em;
+    margin-bottom:70px;
+  }
+  .contact-head em{font-style:italic;font-weight:500;color:var(--acid)}
+  .contact-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:40px;
+    padding-top:50px;border-top:1px solid var(--rule);
+  }
+  .contact-col h4{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--ink-dim);
+    font-weight:400;margin-bottom:18px;
+  }
+  .contact-col p{
+    font-family:'Fraunces',serif;font-size:20px;font-weight:500;
+    line-height:1.5;letter-spacing:-.01em;
+  }
+  .contact-col p a{border-bottom:1px solid var(--acid)}
+  .contact-col p a:hover{color:var(--acid)}
+  .contact-col small{
+    display:block;margin-top:12px;
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--ink-dim);font-weight:400;
+  }
+
+  .contact-cta{
+    margin-top:60px;padding:40px;
+    border-radius:24px;
+    background:var(--acid);
+    color:#000;
+    display:flex;justify-content:space-between;align-items:center;gap:30px;flex-wrap:wrap;
+  }
+  .contact-cta-text{
+    font-family:'Fraunces',serif;font-style:italic;font-weight:500;
+    font-size:clamp(22px,2.4vw,32px);letter-spacing:-.02em;max-width:22ch;
+  }
+  .contact-cta a{
+    display:inline-flex;align-items:center;gap:14px;
+    padding:18px 32px;
+    background:#000;color:var(--acid);
+    border-radius:999px;
+    font-family:'Fraunces',serif;font-style:italic;font-weight:500;font-size:20px;
+    transition:gap .25s;
+  }
+  .contact-cta a:hover{gap:20px}
+  @media(max-width:880px){.contact-grid{grid-template-columns:1fr}}
+
+  /* ============ FOOTER ============ */
+  footer{
+    background:var(--bg);
+    padding:80px 8vw 40px;
+    border-top:1px solid var(--rule);
+    scroll-snap-align:start;
+  }
+  .foot-inner{
+    max-width:1400px;margin:0 auto;
+    display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:end;
+    padding-bottom:40px;
+    border-bottom:1px solid var(--rule);
+  }
+  .foot-mark{
+    font-family:'Fraunces',serif;font-weight:900;
+    font-size:clamp(80px,12vw,180px);line-height:.85;letter-spacing:-.05em;
+  }
+  .foot-mark em{font-style:italic;font-weight:500;color:var(--acid)}
+  .foot-meta{
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--ink-dim);
+    text-align:right;line-height:2;
+  }
+  .foot-meta strong{display:block;color:var(--ink);font-weight:500;font-size:14px}
+  .foot-bot{
+    max-width:1400px;margin:30px auto 0;
+    display:flex;justify-content:space-between;
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--ink-dim);
+    flex-wrap:wrap;gap:14px;
+  }
+
+  /* reduced motion */
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-snap-type:none;scroll-behavior:auto}
+    .reveal{opacity:1;transform:none;transition:none}
+  }
+</style>
+</head>
+<body id="top">
+
+<!-- ============ TOP NAV ============ -->
+<nav class="nav">
+  <a href="#top" class="nav-mark">MANDS</a>
+  <div class="nav-links">
+    <a href="#s-01">Manifest</a>
+    <a href="#s-02">Metody</a>
+    <a href="#s-04">Retail</a>
+    <a href="#s-05">Archiwum</a>
+    <a href="#s-06">Kariera</a>
+    <a href="#s-07">Kontakt</a>
+  </div>
+  <a href="tel:+48713220686" class="nav-phone">+48 71 322 06 86</a>
+</nav>
+
+<!-- ============ SIDE INDICATOR ============ -->
+<aside class="side" id="side">
+  <a href="#s-00" class="side-item" data-sec="s-00"><span class="lbl">Intro</span><span class="dot"></span></a>
+  <a href="#s-01" class="side-item" data-sec="s-01"><span class="lbl">Manifest</span><span class="dot"></span></a>
+  <a href="#s-02" class="side-item" data-sec="s-02"><span class="lbl">Metody</span><span class="dot"></span></a>
+  <a href="#s-03" class="side-item" data-sec="s-03"><span class="lbl">Liczby</span><span class="dot"></span></a>
+  <a href="#s-04" class="side-item" data-sec="s-04"><span class="lbl">Retail</span><span class="dot"></span></a>
+  <a href="#s-05" class="side-item" data-sec="s-05"><span class="lbl">Archiwum</span><span class="dot"></span></a>
+  <a href="#s-06" class="side-item" data-sec="s-06"><span class="lbl">Kariera</span><span class="dot"></span></a>
+  <a href="#s-07" class="side-item" data-sec="s-07"><span class="lbl">Kontakt</span><span class="dot"></span></a>
+  <div class="side-count" id="sideCount">00 / 08</div>
+</aside>
+
+<!-- ============ 00 HERO ============ -->
+<section class="slide hero" id="s-00">
+  <div class="slide-num"><span class="bar"></span>§ 00 / Intro</div>
+
+  <div class="hero-copy">
+    <div class="hero-eyebrow reveal">№ 001 <strong>Instytut Badawczy</strong> / est. 2005</div>
+    <h1 class="hero-title">
+      <span class="l reveal d1"><span>Badania</span></span>
+      <span class="l reveal d2"><span>rynku</span></span>
+      <span class="l reveal d3"><span><em>i opinii.</em></span></span>
+    </h1>
+    <p class="hero-sub reveal d4">Polski instytut badawczy działający od <strong>2005 roku</strong>. Słuchamy, analizujemy i doradzamy — pomagamy znaleźć drogę do rynkowego sukcesu.</p>
+    <a href="#s-07" class="hero-cta reveal d5">
+      <span>Zamów badanie</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
+    </a>
+  </div>
+
+  <div class="hero-visual reveal d3">
+    <div class="hero-card">
+      <div class="hc-top">
+        <div><strong>MANDS / DASH</strong>Projekty · 2005—2024</div>
+        <div>REC ●</div>
+      </div>
+      <div class="hc-fig">
+        4 600
+        <small>zrealizowanych projektów w 20 lat</small>
+      </div>
+      <div class="hc-quote">
+        „Słuchamy, analizujemy, doradzamy."
+        <cite>— metoda MANDS</cite>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-strip">
+    <div class="reveal d1"><span class="mono">/ 001 — Doświadczenie</span><strong>20<em>+</em> lat</strong></div>
+    <div class="reveal d2"><span class="mono">/ 002 — Ankieterzy</span><strong>400<em>+</em> w Polsce</strong></div>
+    <div class="reveal d3"><span class="mono">/ 003 — Wywiady</span><strong>10<em>k</em> / tydzień</strong></div>
+    <div class="reveal d4"><span class="mono">/ 004 — Standardy</span><strong>OFBOR <em>·</em> ESOMAR</strong></div>
+  </div>
+</section>
+
+<!-- ============ 01 MANIFEST ============ -->
+<section class="slide manifest" id="s-01">
+  <div class="slide-num"><span class="bar"></span>§ 01 / Manifest</div>
+  <div class="manifest-wrap">
+    <div class="chapter-label reveal">Rozdział pierwszy <strong>Kim jesteśmy</strong></div>
+    <h2 class="big-statement reveal d1">Jesteśmy instytutem referencyjnym dla <em>sieci handlowych.</em> Słuchamy, analizujemy, doradzamy.</h2>
+    <div class="manifest-grid">
+      <div class="manifest-cell reveal d2">
+        <span class="mono">/ 001 — Podejście</span>
+        <h4>Indywidualnie.</h4>
+        <p>Każdy klient otrzymuje wsparcie merytoryczne dopasowane do jego potrzeb — bez szablonów.</p>
+      </div>
+      <div class="manifest-cell reveal d3">
+        <span class="mono">/ 002 — Technologia</span>
+        <h4>Własne narzędzia.</h4>
+        <p>Teleinformatyczny system B2B integrujący sondażowanie, przetwarzanie danych i raportowanie.</p>
+      </div>
+      <div class="manifest-cell reveal d4">
+        <span class="mono">/ 003 — Zespół</span>
+        <h4>Doświadczenie.</h4>
+        <p>Specjaliści z wieloletnim stażem. Praca zgodnie z Kodeksem ESOMAR i standardami PKJPA.</p>
+      </div>
+    </div>
+  </div>
+  <div class="slide-tag">scroll</div>
+</section>
+
+<!-- ============ 02 METHODS ============ -->
+<section class="slide methods" id="s-02">
+  <div class="slide-num"><span class="bar"></span>§ 02 / Metody badawcze</div>
+  <div class="methods-wrap">
+    <h2 class="methods-title reveal">Pełna paleta<br>metod <em>badawczych.</em></h2>
+    <div class="methods-list">
+      <div class="method reveal d1">
+        <div class="m-idx">/01</div>
+        <div class="m-name">CATI<em>.</em></div>
+        <div class="m-tag">Ilościowe · Telefon</div>
+        <div class="m-arrow">↗</div>
+        <div class="m-desc">Computer-Assisted Telephone Interviewing. Tysiące wywiadów miesięcznie w badaniach sondażowych, społecznych, konsumenckich i B2B — w Polsce i za granicą. Własne studio we Wrocławiu od 2005 r., profesjonalne stanowiska, opieka doświadczonych supervisorów oraz praca zdalna w modelu Cati@Home.</div>
+      </div>
+      <div class="method reveal d1">
+        <div class="m-idx">/02</div>
+        <div class="m-name">CAWI<em>.</em></div>
+        <div class="m-tag">Ilościowe · Online</div>
+        <div class="m-arrow">↗</div>
+        <div class="m-desc">Computer Assisted Web Interview — ankieta internetowa wypełniana samodzielnie. Realizujemy w oprogramowaniu CADAS CAWI, które łączy elementy organizacyjne, metodologiczne, kontrolne i informatyczne procesu badawczego. Pełne bezpieczeństwo — szyfrowany dostęp i podwójne szyfrowanie danych.</div>
+      </div>
+      <div class="method reveal d2">
+        <div class="m-idx">/03</div>
+        <div class="m-name">MOBI<em>.</em></div>
+        <div class="m-tag">Ilościowe · Tablet</div>
+        <div class="m-arrow">↗</div>
+        <div class="m-desc">Ewolucja tradycyjnych badań typu „papier-ołówek" do pełnoprawnych wywiadów wspomaganych komputerowo. Ankieter posługuje się tabletem z możliwością wykorzystania multimediów i zaawansowanych technik wizualizacji pytań (m.in. drag & drop). Automatyczny zapis lokalizacji GPS i nagrywanie wywiadów.</div>
+      </div>
+      <div class="method reveal d2">
+        <div class="m-idx">/04</div>
+        <div class="m-name">FGI<em>.</em></div>
+        <div class="m-tag">Jakościowe · Grupa</div>
+        <div class="m-arrow">↗</div>
+        <div class="m-desc">Focus Group Interviews — jedna z najpopularniejszych metod badań jakościowych. Dyskusja grupowa kontrolowana przez moderatora, prowadzona na podstawie wcześniej przygotowanego scenariusza. Stosowana do testowania nowych konceptów (logo, opakowania, reklamy) i badania zachowań konsumenckich.</div>
+      </div>
+      <div class="method reveal d3">
+        <div class="m-idx">/05</div>
+        <div class="m-name">IDI<em>.</em></div>
+        <div class="m-tag">Jakościowe · Indywidualne</div>
+        <div class="m-arrow">↗</div>
+        <div class="m-desc">Individual In-Depth Interview — rozmowa moderatora z respondentem w celu dotarcia do pożądanych informacji oraz poznania postaw, intencji i motywów działań badanego. Prowadzona według ustalonego scenariusza o charakterze otwartym; sprawdza się przy tematach drażliwych.</div>
+      </div>
+      <div class="method reveal d3">
+        <div class="m-idx">/06</div>
+        <div class="m-name">FoBo<em>.</em></div>
+        <div class="m-tag">Jakościowe · Online</div>
+        <div class="m-arrow">↗</div>
+        <div class="m-desc">Focus Board — platforma do jakościowych badań online. Wywiady indywidualne i grupowe prowadzone przez Internet. Rekrutacja telefoniczna wg screenera, realizacja przez Zoom (z opcją tłumaczenia symultanicznego), transmisja na żywo przez YouTube, nagrania audio-video i transkrypcje.</div>
+      </div>
+      <div class="method reveal d4">
+        <div class="m-idx">/07</div>
+        <div class="m-name">Mystery Shopper<em>.</em></div>
+        <div class="m-tag">Audyt · Retail & Usługi</div>
+        <div class="m-arrow">↗</div>
+        <div class="m-desc">Tajemniczy klient — kilkuset audytorów w całej Polsce realizuje projekty audytowe dla sieci retailowych i usługowych. Weryfikacja standardów obsługi, ekspozycji materiałów POS i procedur sprzedażowych. Dostępny także jako komponent platformy PaaS.</div>
+      </div>
+      <div class="method reveal d4">
+        <div class="m-idx">/08</div>
+        <div class="m-name">PaaS<em>.</em></div>
+        <div class="m-tag">Technologia · SaaS</div>
+        <div class="m-arrow">↗</div>
+        <div class="m-desc">Platform as a Service — rozwiązanie pozwalające wypożyczyć na określony czas dostęp do technologii i oprogramowania badawczego. Dedykowane firmom, które nie chcą inwestować w sprzęt lub potrzebują dostępu do narzędzi statystycznych tylko na czas konkretnego projektu. Obejmuje CATI, CAPI, CAWI, MOBI i Mystery Shopper.</div>
+      </div>
+      <div class="method reveal d5">
+        <div class="m-idx">/09</div>
+        <div class="m-name">Fokusownia<em>.</em></div>
+        <div class="m-tag">Infrastruktura · Wrocław</div>
+        <div class="m-arrow">↗</div>
+        <div class="m-desc">W pełni wyposażona fokusownia z podglądownią oraz oddzielnym pomieszczeniem dla tłumacza przy ul. Prusa we Wrocławiu. Pomoce dla moderatora (telewizor, rzutnik, flipchart), profesjonalny sprzęt audio z tłumaczeniem symultanicznym, nagrywanie A/V w dwóch wersjach językowych. Studio przystosowane dla osób niepełnosprawnych.</div>
+      </div>
+      <div class="method reveal d5">
+        <div class="m-idx">/10</div>
+        <div class="m-name">Standardy<em>.</em></div>
+        <div class="m-tag">OFBOR · ESOMAR</div>
+        <div class="m-arrow">↗</div>
+        <div class="m-desc">Przestrzegamy norm jakości w procesie realizacji badań — pracujemy zgodnie ze standardami OFBOR, co daje klientowi gwarancję wysokiej jakości całego procesu badawczego. Działamy również w oparciu o Kodeks ESOMAR.</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-tag">click to expand</div>
+</section>
+
+<!-- ============ 03 BIG NUMBERS ============ -->
+<section class="slide bignums" id="s-03">
+  <div class="slide-num"><span class="bar"></span>§ 03 / W liczbach</div>
+  <div class="bignums-wrap">
+    <div class="bignums-title reveal">◆ Liczby MANDS / w liczbach</div>
+    <div class="bignums-grid">
+      <div class="bignum reveal d1">
+        <div class="bn-val">20<em>+</em></div>
+        <div class="bn-lbl"><strong>Lat doświadczenia</strong>nieprzerwanie na rynku badań od 2005 roku</div>
+      </div>
+      <div class="bignum reveal d2">
+        <div class="bn-val">400</div>
+        <div class="bn-lbl"><strong>Ankieterów</strong>w całej Polsce, nadzorowanych przez trenerów regionalnych</div>
+      </div>
+      <div class="bignum reveal d3">
+        <div class="bn-val">10<em>k</em></div>
+        <div class="bn-lbl"><strong>Wywiadów</strong>tygodniowo w ramach kontroli dystrybucji materiałów</div>
+      </div>
+      <div class="bignum reveal d4">
+        <div class="bn-val">10</div>
+        <div class="bn-lbl"><strong>Trenerów regionalnych</strong>nadzorujących jakość pracy ankieterów w terenie</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 04 RETAIL ============ -->
+<section class="slide retail" id="s-04">
+  <div class="slide-num"><span class="bar"></span>§ 04 / Retail & dystrybucja</div>
+  <div class="retail-wrap">
+    <div class="chapter-label reveal">Rozdział trzeci <strong>Retail & dystrybucja</strong></div>
+    <h2 class="retail-headline reveal d1">Sprawdzamy, czy Twoje<br>gazetki <em>docierają do klientów.</em></h2>
+    <div class="retail-grid">
+      <div class="retail-visual reveal d2">
+        <img src="../images/IMG_5254-e1455562945354.jpg" alt="Badania terenowe MANDS" />
+        <div class="retail-tag">
+          <strong>10 000+</strong>
+          gospodarstw domowych / tydzień
+        </div>
+      </div>
+      <div class="retail-list">
+        <div class="retail-entry reveal d2">
+          <div class="r-idx">/01</div>
+          <div>
+            <div class="r-name">Distribution Check</div>
+            <div class="r-desc">Kontrola dystrybucji materiałów reklamowych. Tygodniowo odwiedzamy ponad 10 tysięcy gospodarstw domowych sprawdzając, czy gazetki zostały dostarczone.</div>
+          </div>
+        </div>
+        <div class="retail-entry reveal d3">
+          <div class="r-idx">/02</div>
+          <div>
+            <div class="r-name">Exit Store</div>
+            <div class="r-desc">Badanie na terenie sklepu z jego klientami — analiza wartości koszyka, częstotliwości zakupów. Rezultat: heatmapa obszarów atrakcyjnych finansowo.</div>
+          </div>
+        </div>
+        <div class="retail-entry reveal d4">
+          <div class="r-idx">/03</div>
+          <div>
+            <div class="r-name">Distribution Reporting System</div>
+            <div class="r-desc">Webowe narzędzie SaaS do raportowania kolportażu. Obsługa SMS dla kolporterów, eksport CSV/XLSX, historia kampanii.</div>
+          </div>
+        </div>
+        <div class="retail-entry reveal d5">
+          <div class="r-idx">/04</div>
+          <div>
+            <div class="r-name">Call Distribution Check</div>
+            <div class="r-desc">Telefoniczna kontrola dystrybucji gazetek. Około 10 tysięcy wywiadów w kluczowych lokalizacjach — realizowana zwykle raz na dwa lata.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 ARCHIVE ============ -->
+<section class="slide archive" id="s-05">
+  <div class="slide-num"><span class="bar"></span>§ 05 / Archiwum publikacji</div>
+  <div class="archive-wrap">
+    <div class="archive-head">
+      <h2 class="archive-title reveal">Wybrane<br>publikacje <em>& raporty.</em></h2>
+      <p class="reveal d1">Dzielimy się wynikami wybranych badań — od skuteczności portali pracy w IT, przez infolinie hostingowe, po plany podróżnicze Polaków.</p>
+    </div>
+    <div class="archive-list">
+      <div class="archive-item reveal d1">
+        <div class="a-year">Anno 2022</div>
+        <div class="a-title">Portale z ogłoszeniami IT</div>
+        <div class="a-desc">Trzecia edycja badania skuteczności portali pracy IT dla No Fluff Jobs — cztery stanowiska testowe metodą tajemniczego klienta.</div>
+        <div class="a-arrow">↗</div>
+      </div>
+      <div class="archive-item reveal d2">
+        <div class="a-year">Anno 2021</div>
+        <div class="a-title">Infolinie firm hostingowych</div>
+        <div class="a-desc">Badanie skuteczności obsługi klienta przeprowadzone wśród firm obsługujących co najmniej 10 000 domen.</div>
+        <div class="a-arrow">↗</div>
+      </div>
+      <div class="archive-item reveal d3">
+        <div class="a-year">Anno 2020</div>
+        <div class="a-title">Plany podróżnicze Polaków</div>
+        <div class="a-desc">Raport częściowy Ogólnopolskiego Badania Podróżników — wpływ pandemii na plany urlopowe i wybory kierunkowe.</div>
+        <div class="a-arrow">↗</div>
+      </div>
+      <div class="archive-item reveal d4">
+        <div class="a-year">Metodologia</div>
+        <div class="a-title">Tajemniczy klient</div>
+        <div class="a-desc">Kilkuset tajemniczych klientów w całej Polsce realizuje projekty audytowe — od retail przez gastronomię po usługi finansowe.</div>
+        <div class="a-arrow">↗</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 06 CAREERS ============ -->
+<section class="slide careers" id="s-06">
+  <div class="slide-num"><span class="bar"></span>§ 06 / Kariera</div>
+  <div class="careers-wrap">
+    <div class="careers-head">
+      <h2 class="careers-title reveal">Dołącz do<br><em>zespołu.</em></h2>
+      <p class="reveal d1">Instytut o pracowników merytorycznych oparty, rozszerzany siatką ankieterską i tajemniczymi klientami. Rekrutacja stała — CV przyjmujemy niezależnie od aktualnych ogłoszeń.</p>
+    </div>
+    <div class="careers-grid">
+      <div class="careers-stats reveal d1">
+        <div class="careers-stat">
+          Zespół merytoryczny
+          <strong>20<em>+</em></strong>
+          analityków, projektantów badań, supervisorów
+        </div>
+        <div class="careers-stat">
+          Siatka terenowa
+          <strong>400<em>+</em></strong>
+          ankieterów i kilkuset tajemniczych klientów
+        </div>
+        <div class="careers-stat">
+          Zasięg
+          <strong>PL</strong>
+          cała Polska — 10 trenerów regionalnych
+        </div>
+      </div>
+      <div class="careers-jobs">
+        <h3 class="reveal d2">/ Aktualnie poszukujemy</h3>
+        <a class="career-job reveal d2" href="mailto:rekrutacja@mands.pl?subject=Teleankieter%20CATI%20Wroc%C5%82aw">
+          <div class="cj-num">/01</div>
+          <div class="cj-title">Teleankieter · studio CATI Wrocław<small>Praca stacjonarna lub zdalna (Cati@Home)</small></div>
+          <div class="cj-arrow">↗</div>
+        </a>
+        <a class="career-job reveal d3" href="mailto:rekrutacja@mands.pl?subject=Kontroler%20dystrybucji">
+          <div class="cj-num">/02</div>
+          <div class="cj-title">Kontroler dystrybucji materiałów reklamowych<small>Praca w terenie · cała Polska</small></div>
+          <div class="cj-arrow">↗</div>
+        </a>
+        <a class="career-job reveal d4" href="mailto:rekrutacja@mands.pl?subject=Siatka%20ankieterska">
+          <div class="cj-num">/03</div>
+          <div class="cj-title">Siatka ankieterska & tajemniczy klienci<small>Rekrutacja ciągła · całe PL</small></div>
+          <div class="cj-arrow">↗</div>
+        </a>
+        <div class="careers-apply reveal d5">
+          <div class="careers-apply-text">Zainteresowany współpracą? Wyślij CV i kilka słów o sobie.</div>
+          <a href="mailto:rekrutacja@mands.pl">rekrutacja@mands.pl ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 07 CONTACT ============ -->
+<section class="slide contact" id="s-07">
+  <div class="slide-num"><span class="bar"></span>§ 07 / Kontakt</div>
+  <div class="contact-wrap">
+    <h2 class="contact-head reveal">Porozmawiajmy<br>o <em>badaniu.</em></h2>
+    <div class="contact-grid">
+      <div class="contact-col reveal d1">
+        <h4>/ 001 — Siedziba</h4>
+        <p>ul. B. Prusa 1/48<br>50-319 Wrocław<small>NIP: PL8851557675</small></p>
+      </div>
+      <div class="contact-col reveal d2">
+        <h4>/ 002 — Kontakt</h4>
+        <p><a href="mailto:info@mands.pl">info@mands.pl</a><br><a href="tel:+48713220686">+48 71 322 06 86</a><small>zwykle odpowiadamy w ciągu 24h</small></p>
+      </div>
+      <div class="contact-col reveal d3">
+        <h4>/ 003 — Kariera</h4>
+        <p><a href="mailto:rekrutacja@mands.pl">rekrutacja@mands.pl</a><small>ankieterzy · tajemniczy klienci · merytoryka</small></p>
+      </div>
+    </div>
+    <div class="contact-cta reveal d4">
+      <div class="contact-cta-text">Masz pytanie o projekt badawczy? Odezwij się.</div>
+      <a href="mailto:info@mands.pl">
+        <span>Napisz do nas</span>
+        <span>↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="foot-inner">
+    <div class="foot-mark">m<em>&</em>s</div>
+    <div class="foot-meta">
+      <div>Instytut Badawczy</div>
+      <strong>MANDS / Wrocław</strong>
+      <div>est. MMV</div>
+      <div>51.10°N · 17.03°E</div>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <div>© 2026 MANDS — Wszystkie prawa zastrzeżone</div>
+    <div>Badania rynku i opinii / Made in Wrocław</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // IntersectionObserver reveal
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  },{threshold:.15,rootMargin:'0px 0px -60px 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // Side indicator + section counter
+  const sections = document.querySelectorAll('section.slide');
+  const sideItems = document.querySelectorAll('.side-item');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const counter = document.getElementById('sideCount');
+  const total = String(sections.length).padStart(2,'0');
+
+  const so = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const id = e.target.id;
+        sideItems.forEach(it=>{
+          it.classList.toggle('is-active',it.dataset.sec===id);
+        });
+        navLinks.forEach(a=>{
+          a.classList.toggle('is-active',a.getAttribute('href')==='#'+id);
+        });
+        const idx = Array.from(sections).indexOf(e.target);
+        counter.textContent = String(idx).padStart(2,'0')+' / '+total;
+      }
+    });
+  },{threshold:.55});
+  sections.forEach(s=>so.observe(s));
+
+  // Parallax hero grid
+  const hero = document.querySelector('.hero');
+  if(hero && !matchMedia('(prefers-reduced-motion:reduce)').matches){
+    window.addEventListener('scroll',()=>{
+      const y = window.scrollY;
+      if(y < window.innerHeight*1.2){
+        hero.style.setProperty('--py', y*.3+'px');
+        hero.style.backgroundPosition = '0 '+(y*.2)+'px, 0 '+(y*.15)+'px, 0 0';
+      }
+    },{passive:true});
+  }
+
+  // Method expand
+  document.querySelectorAll('.method').forEach(m=>{
+    m.addEventListener('click',()=>{
+      m.classList.toggle('open');
+    });
+  });
+})();
+</script>
+</body>
+</html>

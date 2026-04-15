@@ -1,0 +1,1791 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MANDS // Instytut Badań Rynku i Opinii · SYS.2005</title>
+<meta name="description" content="MANDS — polski instytut badawczy. Badania rynku, opinii, dystrybucji. CATI · CAWI · MOBI · FGI." />
+<link rel="icon" href="../images/cropped-logo-png-1-180x180.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #05020a;
+    --bg-2: #0a0614;
+    --bg-3: #110821;
+    --ink: #e8f7ff;
+    --dim: #7a6b99;
+    --mag: #ff2bd6;
+    --mag-2: #ff5ce4;
+    --cyan: #00f0ff;
+    --cyan-2: #66faff;
+    --lime: #c6ff00;
+    --line: rgba(0,240,255,0.18);
+    --line-mag: rgba(255,43,214,0.22);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; background: var(--bg); }
+  body {
+    font-family: 'Rajdhani', -apple-system, sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    font-size: 16px;
+    line-height: 1.55;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+
+  .dsp { font-family: 'Orbitron', sans-serif; font-weight: 900; letter-spacing: 0.02em; text-transform: uppercase; }
+  .mono { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; }
+  .amp { font-family: 'Orbitron', sans-serif; font-style: normal; }
+
+  ::selection { background: var(--mag); color: #000; text-shadow: none; }
+
+  /* Global grid + scanlines overlay */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(0,240,255,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,240,255,0.035) 1px, transparent 1px);
+    background-size: 48px 48px;
+    z-index: 1;
+  }
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(0,0,0,0) 0px,
+      rgba(0,0,0,0) 2px,
+      rgba(255,43,214,0.035) 3px,
+      rgba(0,240,255,0.04) 4px
+    );
+    mix-blend-mode: screen;
+    z-index: 1000;
+    animation: scanflick 6s linear infinite;
+  }
+  @keyframes scanflick {
+    0%, 97%, 100% { opacity: 1; }
+    98% { opacity: 0.6; }
+    98.5% { opacity: 1; }
+    99% { opacity: 0.8; }
+  }
+
+  /* Radial backdrop glow */
+  .bg-aura {
+    position: fixed; inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 20% 10%, rgba(255,43,214,0.14), transparent 60%),
+      radial-gradient(ellipse 50% 40% at 80% 30%, rgba(0,240,255,0.12), transparent 60%),
+      radial-gradient(ellipse 60% 50% at 50% 90%, rgba(198,255,0,0.06), transparent 70%);
+  }
+
+  /* Topbar — HUD */
+  .topbar {
+    position: fixed; top: 14px; left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 32px);
+    max-width: 1500px;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 18px;
+    background: rgba(5,2,10,0.75);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--line);
+    box-shadow:
+      0 0 24px rgba(0,240,255,0.15),
+      inset 0 0 24px rgba(255,43,214,0.04);
+    clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+  }
+  .topbar-left {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 20px;
+    letter-spacing: 0.18em;
+    color: var(--cyan);
+    text-shadow: 0 0 10px var(--cyan), 0 0 22px rgba(0,240,255,0.5);
+    position: relative;
+  }
+  .topbar-left::before { content: '▮ '; color: var(--mag); text-shadow: 0 0 8px var(--mag); }
+  .topbar-mid {
+    display: flex;
+    gap: 22px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+  }
+  .topbar-mid a {
+    color: var(--ink);
+    padding: 8px 4px;
+    position: relative;
+    transition: color 0.2s, text-shadow 0.2s;
+  }
+  .topbar-mid a::before { content: '> '; color: var(--dim); }
+  .topbar-mid a:hover,
+  .topbar-mid a.is-active {
+    color: var(--cyan);
+    text-shadow: 0 0 8px var(--cyan), 0 0 16px rgba(0,240,255,0.6);
+  }
+  .topbar-mid a:hover::before,
+  .topbar-mid a.is-active::before { color: var(--mag); text-shadow: 0 0 8px var(--mag); }
+  .topbar-end { display: inline-flex; gap: 10px; align-items: center; }
+  .topbar-right {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--lime);
+    padding: 8px 12px;
+    border: 1px solid rgba(198,255,0,0.3);
+    text-shadow: 0 0 6px rgba(198,255,0,0.7);
+  }
+  .topbar-lang {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    padding: 7px 12px;
+    background: transparent;
+    color: var(--mag);
+    border: 1px solid var(--mag);
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    text-shadow: 0 0 6px var(--mag);
+    box-shadow: 0 0 12px rgba(255,43,214,0.3), inset 0 0 12px rgba(255,43,214,0.08);
+    transition: all 0.2s;
+  }
+  .topbar-lang:hover { background: var(--mag); color: #000; text-shadow: none; }
+  .topbar-burger { display: none; background: none; border: none; color: var(--cyan); cursor: pointer; width: 40px; height: 40px; }
+  .topbar-burger span, .topbar-burger span::before, .topbar-burger span::after {
+    display: block; width: 20px; height: 2px; background: currentColor; box-shadow: 0 0 8px currentColor; position: relative;
+  }
+  .topbar-burger span::before { content: ''; position: absolute; top: -6px; }
+  .topbar-burger span::after  { content: ''; position: absolute; top:  6px; }
+
+  section[id] { scroll-margin-top: 100px; }
+
+  /* Glitch text */
+  .glitch {
+    position: relative;
+    display: inline-block;
+    color: var(--ink);
+    text-shadow:
+      0 0 14px rgba(232,247,255,0.4),
+      0 0 28px rgba(0,240,255,0.25);
+  }
+  .glitch::before,
+  .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    pointer-events: none;
+  }
+  .glitch::before {
+    color: var(--mag);
+    text-shadow: 0 0 14px var(--mag);
+    animation: glitchA 3.2s infinite steps(1);
+    mix-blend-mode: screen;
+  }
+  .glitch::after {
+    color: var(--cyan);
+    text-shadow: 0 0 14px var(--cyan);
+    animation: glitchB 2.7s infinite steps(1);
+    mix-blend-mode: screen;
+  }
+  @keyframes glitchA {
+    0%, 92%, 100% { transform: translate(0,0); opacity: 0.6; }
+    93% { transform: translate(-2px, 1px); opacity: 0.9; }
+    94% { transform: translate(2px, -1px); }
+    95% { transform: translate(-1px, 2px); }
+    96% { transform: translate(0,0); }
+  }
+  @keyframes glitchB {
+    0%, 93%, 100% { transform: translate(0,0); opacity: 0.5; }
+    94% { transform: translate(2px, 1px); opacity: 0.9; }
+    95% { transform: translate(-2px, -1px); }
+    96% { transform: translate(1px, -2px); }
+  }
+  @keyframes flicker {
+    0%, 95%, 100% { opacity: 1; }
+    96% { opacity: 0.6; }
+    97% { opacity: 1; }
+    98% { opacity: 0.3; }
+    99% { opacity: 1; }
+  }
+
+  /* HUD label */
+  .hud {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    text-shadow: 0 0 8px rgba(0,240,255,0.6);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .hud::before {
+    content: '◢';
+    color: var(--mag);
+    text-shadow: 0 0 8px var(--mag);
+  }
+
+  /* HERO */
+  .hero {
+    padding: 120px 32px 40px;
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+    z-index: 2;
+  }
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 40px;
+    max-width: 1500px;
+    margin: 0 auto;
+    width: 100%;
+    flex: 1;
+    align-items: center;
+    position: relative;
+  }
+  .hero-left { padding: 20px 10px; }
+  .hero-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--mag);
+    text-shadow: 0 0 8px var(--mag);
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    animation: flicker 8s infinite;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 40px; height: 1px;
+    background: var(--mag);
+    box-shadow: 0 0 8px var(--mag);
+  }
+  .hero-tag strong { color: var(--cyan); text-shadow: 0 0 8px var(--cyan); font-weight: 500; }
+  .hero-tag .year { color: var(--lime); text-shadow: 0 0 8px var(--lime); }
+
+  .hero-display {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(54px, 7vw, 120px);
+    line-height: 0.9;
+    font-weight: 900;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+  }
+  .hero-display .line { display: block; }
+  .hero-display em {
+    font-style: normal;
+    color: var(--mag);
+    text-shadow:
+      0 0 16px var(--mag),
+      0 0 32px rgba(255,43,214,0.6),
+      0 0 64px rgba(255,43,214,0.4);
+  }
+  .hero-display .line:nth-child(1) .glitch::before,
+  .hero-display .line:nth-child(2) .glitch::before { }
+
+  .hero-sub {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--ink);
+    max-width: 48ch;
+    margin: 0 0 32px;
+    opacity: 0.85;
+  }
+  .hero-sub .serif { color: var(--lime); font-weight: 700; text-shadow: 0 0 8px var(--lime); }
+
+  .hero-actions { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
+  .btn-neon {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    padding: 18px 32px;
+    color: var(--cyan);
+    background: rgba(0,240,255,0.05);
+    border: 1px solid var(--cyan);
+    box-shadow:
+      0 0 24px rgba(0,240,255,0.4),
+      inset 0 0 16px rgba(0,240,255,0.1);
+    text-shadow: 0 0 8px var(--cyan);
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+    transition: all 0.25s;
+    cursor: pointer;
+  }
+  .btn-neon:hover {
+    background: var(--cyan);
+    color: #000;
+    text-shadow: none;
+    box-shadow: 0 0 40px var(--cyan), 0 0 80px rgba(0,240,255,0.6);
+  }
+  .btn-neon svg { width: 16px; height: 16px; }
+  .hero-note {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--dim);
+    letter-spacing: 0.1em;
+  }
+
+  /* Hero right — HUD panel */
+  .hero-right {
+    position: relative;
+    background: linear-gradient(135deg, var(--bg-2) 0%, var(--bg-3) 100%);
+    border: 1px solid var(--line);
+    min-height: 540px;
+    padding: 32px;
+    overflow: hidden;
+    box-shadow:
+      0 0 40px rgba(0,240,255,0.15),
+      inset 0 0 60px rgba(255,43,214,0.05);
+    clip-path: polygon(24px 0, 100% 0, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0 100%, 0 24px);
+  }
+  .hero-right::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,240,255,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,240,255,0.06) 1px, transparent 1px);
+    background-size: 24px 24px;
+    pointer-events: none;
+  }
+  .hero-right::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 60% 40%, rgba(255,43,214,0.1), transparent 70%);
+    pointer-events: none;
+  }
+  .hero-dash { position: relative; z-index: 2; height: 100%; }
+  .hero-dash svg { width: 100%; height: 100%; }
+
+  .hd-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; fill: var(--cyan); }
+  .hd-val { font-family: 'Orbitron', sans-serif; font-size: 26px; font-weight: 900; fill: var(--ink); }
+  .hd-val-sm { font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 700; fill: var(--mag); }
+  .hd-axis { stroke: rgba(0,240,255,0.3); stroke-width: 1; }
+  .hd-grid { stroke: rgba(0,240,255,0.08); stroke-width: 1; }
+  .hd-bar { fill: rgba(0,240,255,0.35); }
+  .hd-bar-hl { fill: var(--mag); filter: drop-shadow(0 0 6px var(--mag)); }
+  .hd-divider { stroke: rgba(255,43,214,0.3); stroke-width: 1; stroke-dasharray: 4 4; }
+  @keyframes hdPulse { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+  .hd-pulse { animation: hdPulse 2.2s ease-in-out infinite; }
+  .hd-seg-val { font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 900; fill: var(--ink); }
+  .hd-on-hl { fill: #000; }
+  .hd-seg-lbl { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; fill: var(--dim); }
+  .hd-chip { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 0.14em; fill: var(--lime); }
+
+  /* Hero strip */
+  .hero-strip {
+    margin: 40px auto 0;
+    max-width: 1500px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-strip > div {
+    padding: 20px 22px;
+    background: rgba(10,6,20,0.7);
+    border: 1px solid var(--line);
+    border-left: 2px solid var(--mag);
+    position: relative;
+    box-shadow: 0 0 16px rgba(255,43,214,0.1);
+  }
+  .hero-strip .mono {
+    color: var(--cyan);
+    display: block;
+    margin-bottom: 8px;
+    text-shadow: 0 0 6px rgba(0,240,255,0.6);
+  }
+  .hero-strip strong {
+    display: block;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--ink);
+    text-shadow: 0 0 10px rgba(232,247,255,0.4);
+    line-height: 1;
+  }
+  .hero-strip em { font-style: normal; color: var(--lime); text-shadow: 0 0 8px var(--lime); }
+
+  /* SECTION */
+  .section {
+    padding: 140px 32px;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+    z-index: 2;
+  }
+  .section-num {
+    position: absolute;
+    top: 40px; left: 32px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--mag);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-shadow: 0 0 8px var(--mag);
+  }
+  .section-num strong { color: var(--cyan); text-shadow: 0 0 8px var(--cyan); }
+
+  /* Chapter 01 */
+  .chapter {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 80px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-top: 60px;
+  }
+  .chapter-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--dim);
+    border-top: 1px solid var(--mag);
+    padding-top: 18px;
+    position: sticky;
+    top: 120px;
+    height: fit-content;
+    box-shadow: 0 -1px 12px rgba(255,43,214,0.4);
+  }
+  .chapter-label strong {
+    display: block;
+    margin-top: 10px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--cyan);
+    text-transform: uppercase;
+    text-shadow: 0 0 10px var(--cyan);
+    letter-spacing: 0.04em;
+  }
+  .chapter-body {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(28px, 3.2vw, 48px);
+    line-height: 1.15;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    color: var(--ink);
+    text-shadow: 0 0 16px rgba(232,247,255,0.3);
+    max-width: 20ch;
+  }
+  .chapter-body em {
+    font-style: normal;
+    color: var(--mag);
+    text-shadow: 0 0 16px var(--mag), 0 0 32px rgba(255,43,214,0.5);
+  }
+  .chapter-details {
+    margin-top: 80px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .chapter-details > div {
+    padding: 32px 28px;
+    background: rgba(10,6,20,0.6);
+    border: 1px solid var(--line);
+    position: relative;
+    clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+    transition: all 0.3s;
+  }
+  .chapter-details > div:hover {
+    border-color: var(--mag);
+    box-shadow: 0 0 32px rgba(255,43,214,0.3), inset 0 0 24px rgba(255,43,214,0.06);
+  }
+  .chapter-details .mono { color: var(--cyan); display: block; margin-bottom: 14px; text-shadow: 0 0 6px rgba(0,240,255,0.6); }
+  .chapter-details h4 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--lime);
+    text-shadow: 0 0 10px var(--lime);
+    margin-bottom: 12px;
+    letter-spacing: 0.03em;
+  }
+  .chapter-details p { font-size: 15px; color: var(--ink); opacity: 0.8; line-height: 1.55; }
+
+  /* Solutions */
+  .solutions-wrap { max-width: 1400px; margin: 0 auto; padding-top: 60px; }
+  .solutions-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(44px, 7vw, 120px);
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 0.95;
+    margin-bottom: 60px;
+    letter-spacing: 0.01em;
+    color: var(--ink);
+    text-shadow: 0 0 20px rgba(232,247,255,0.3);
+  }
+  .solutions-title em { font-style: normal; color: var(--cyan); text-shadow: 0 0 20px var(--cyan), 0 0 40px rgba(0,240,255,0.6); }
+
+  .solutions-table { width: 100%; border-collapse: collapse; }
+  .solutions-table tr {
+    border-top: 1px solid var(--line);
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .solutions-table tr:last-child { border-bottom: 1px solid var(--line); }
+  .solutions-table tr:hover {
+    background: rgba(255,43,214,0.06);
+    box-shadow: inset 0 0 32px rgba(255,43,214,0.1);
+  }
+  .solutions-table td { padding: 28px 16px; vertical-align: top; }
+  .sol-num {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--mag);
+    text-shadow: 0 0 8px var(--mag);
+    width: 60px;
+    padding-top: 34px !important;
+  }
+  .sol-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 28px;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: var(--cyan);
+    text-shadow: 0 0 14px var(--cyan);
+    width: 22%;
+  }
+  .sol-name em { font-style: normal; color: var(--mag); text-shadow: 0 0 10px var(--mag); }
+  .sol-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--lime);
+    text-shadow: 0 0 6px var(--lime);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    width: 18%;
+    padding-top: 34px !important;
+  }
+  .sol-desc {
+    font-size: 14px;
+    color: var(--ink);
+    opacity: 0.78;
+    line-height: 1.6;
+    max-width: 640px;
+  }
+  .sol-arrow {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 24px;
+    color: var(--mag);
+    text-align: right;
+    width: 40px;
+    text-shadow: 0 0 10px var(--mag);
+  }
+
+  /* Big numbers */
+  .bignums {
+    padding: 140px 32px;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+    z-index: 2;
+    background: radial-gradient(ellipse 80% 50% at 50% 50%, rgba(255,43,214,0.08), transparent 70%);
+  }
+  .bignums-inner { max-width: 1400px; margin: 0 auto; }
+  .bignums h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(32px, 4vw, 56px);
+    font-weight: 900;
+    text-transform: uppercase;
+    color: var(--cyan);
+    text-shadow: 0 0 14px var(--cyan);
+    margin-bottom: 60px;
+    letter-spacing: 0.04em;
+  }
+  .bignums-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .bignum {
+    padding: 40px 28px;
+    background: rgba(10,6,20,0.7);
+    border: 1px solid var(--line);
+    border-top: 2px solid var(--mag);
+    position: relative;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 18px), calc(100% - 18px) 100%, 0 100%);
+    transition: all 0.3s;
+  }
+  .bignum:hover {
+    border-color: var(--cyan);
+    box-shadow: 0 0 36px rgba(0,240,255,0.3), inset 0 0 32px rgba(0,240,255,0.08);
+  }
+  .bignum-val {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 84px;
+    font-weight: 900;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 18px;
+    text-shadow: 0 0 24px rgba(232,247,255,0.4), 0 0 48px rgba(0,240,255,0.3);
+  }
+  .bignum-val em { font-style: normal; color: var(--mag); text-shadow: 0 0 16px var(--mag); }
+  .bignum-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--dim);
+    line-height: 1.6;
+  }
+  .bignum-label strong {
+    display: block;
+    color: var(--lime);
+    text-shadow: 0 0 8px var(--lime);
+    font-weight: 700;
+    margin-bottom: 6px;
+    font-size: 12px;
+  }
+
+  /* Retail */
+  .retail-wrap { max-width: 1400px; margin: 0 auto; padding-top: 60px; }
+  .retail-intro { margin-bottom: 60px; display: grid; grid-template-columns: 1fr 2fr; gap: 80px; align-items: start; }
+  .retail-headline {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(36px, 5.5vw, 88px);
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 1;
+    color: var(--ink);
+    text-shadow: 0 0 20px rgba(232,247,255,0.3);
+    letter-spacing: 0.01em;
+  }
+  .retail-headline em { font-style: normal; color: var(--lime); text-shadow: 0 0 18px var(--lime); }
+  .retail-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+  .retail-image {
+    position: relative;
+    border: 1px solid var(--mag);
+    box-shadow: 0 0 40px rgba(255,43,214,0.35);
+    overflow: hidden;
+    clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
+  }
+  .retail-image img {
+    width: 100%;
+    filter: hue-rotate(280deg) saturate(1.4) contrast(1.1) brightness(0.8);
+    mix-blend-mode: screen;
+  }
+  .retail-image::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(255,43,214,0.2), rgba(0,240,255,0.15));
+    pointer-events: none;
+  }
+  .retail-image-tag {
+    position: absolute;
+    bottom: 24px; left: 24px;
+    background: rgba(5,2,10,0.9);
+    border: 1px solid var(--cyan);
+    padding: 14px 20px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    z-index: 2;
+    box-shadow: 0 0 20px rgba(0,240,255,0.4);
+  }
+  .retail-image-tag strong {
+    display: block;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 24px;
+    color: var(--cyan);
+    text-shadow: 0 0 10px var(--cyan);
+    font-weight: 900;
+    margin-bottom: 4px;
+  }
+  .retail-list { display: flex; flex-direction: column; gap: 20px; }
+  .retail-entry {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 20px;
+    padding: 24px 24px;
+    background: rgba(10,6,20,0.6);
+    border-left: 2px solid var(--cyan);
+    transition: all 0.3s;
+  }
+  .retail-entry:hover {
+    border-left-color: var(--mag);
+    background: rgba(255,43,214,0.06);
+    box-shadow: 0 0 24px rgba(255,43,214,0.2);
+  }
+  .r-idx { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--mag); text-shadow: 0 0 6px var(--mag); }
+  .r-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--cyan);
+    text-shadow: 0 0 8px var(--cyan);
+    margin-bottom: 8px;
+  }
+  .r-desc { font-size: 14px; color: var(--ink); opacity: 0.8; line-height: 1.55; }
+
+  /* Results archive */
+  .results-wrap { max-width: 1400px; margin: 0 auto; padding-top: 60px; }
+  .results-head {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 60px;
+    margin-bottom: 60px;
+    align-items: end;
+  }
+  .results-head h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(44px, 7vw, 110px);
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 0.95;
+    color: var(--ink);
+    text-shadow: 0 0 20px rgba(232,247,255,0.3);
+    letter-spacing: 0.01em;
+  }
+  .results-head h2 em { font-style: normal; color: var(--mag); text-shadow: 0 0 20px var(--mag); }
+  .results-head p { font-size: 16px; color: var(--ink); opacity: 0.75; line-height: 1.6; }
+  .results-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .result {
+    padding: 36px 32px;
+    background: rgba(10,6,20,0.7);
+    border: 1px solid var(--line);
+    position: relative;
+    clip-path: polygon(18px 0, 100% 0, 100% calc(100% - 18px), calc(100% - 18px) 100%, 0 100%, 0 18px);
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .result:hover {
+    border-color: var(--mag);
+    box-shadow: 0 0 32px rgba(255,43,214,0.3);
+    transform: translateY(-2px);
+  }
+  .result-year {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--lime);
+    text-shadow: 0 0 6px var(--lime);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .result-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--cyan);
+    text-shadow: 0 0 10px var(--cyan);
+    margin-bottom: 12px;
+  }
+  .result-desc { font-size: 14px; color: var(--ink); opacity: 0.8; line-height: 1.55; }
+  .result-arrow {
+    position: absolute;
+    top: 36px; right: 32px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 22px;
+    color: var(--mag);
+    text-shadow: 0 0 8px var(--mag);
+  }
+
+  /* Careers */
+  .careers-wrap { max-width: 1400px; margin: 0 auto; padding-top: 60px; }
+  .careers-head {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 60px;
+    margin-bottom: 60px;
+    align-items: end;
+  }
+  .careers-head h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(44px, 7vw, 110px);
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 0.95;
+    color: var(--ink);
+    text-shadow: 0 0 20px rgba(232,247,255,0.3);
+  }
+  .careers-head h2 em { font-style: normal; color: var(--lime); text-shadow: 0 0 20px var(--lime); }
+  .careers-head p { font-size: 16px; color: var(--ink); opacity: 0.75; line-height: 1.6; }
+  .careers-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 40px; align-items: start; }
+  .careers-stats { display: flex; flex-direction: column; gap: 16px; }
+  .careers-stat {
+    padding: 28px;
+    background: rgba(10,6,20,0.6);
+    border: 1px solid var(--line);
+    border-left: 2px solid var(--mag);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--dim);
+    line-height: 1.6;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .careers-stat strong {
+    display: block;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 56px;
+    font-weight: 900;
+    color: var(--cyan);
+    text-shadow: 0 0 14px var(--cyan);
+    margin: 8px 0;
+    line-height: 1;
+  }
+  .careers-stat em { font-style: normal; color: var(--mag); text-shadow: 0 0 10px var(--mag); }
+  .careers-jobs h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 18px;
+    color: var(--lime);
+    text-shadow: 0 0 10px var(--lime);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    letter-spacing: 0.06em;
+  }
+  .careers-jobs-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+  .career-job {
+    display: grid;
+    grid-template-columns: 60px 1fr 40px;
+    align-items: center;
+    padding: 22px 24px;
+    background: rgba(10,6,20,0.7);
+    border: 1px solid var(--line);
+    transition: all 0.3s;
+  }
+  .career-job:hover {
+    border-color: var(--cyan);
+    box-shadow: 0 0 24px rgba(0,240,255,0.3);
+  }
+  .career-job-num { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--mag); text-shadow: 0 0 6px var(--mag); }
+  .career-job-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+  .career-job-title small {
+    display: block;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--dim);
+    font-weight: 400;
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .career-job-arrow { font-family: 'Orbitron', sans-serif; font-size: 20px; color: var(--cyan); text-align: right; text-shadow: 0 0 8px var(--cyan); }
+  .careers-apply {
+    padding: 28px;
+    background: rgba(255,43,214,0.06);
+    border: 1px solid var(--mag);
+    box-shadow: 0 0 24px rgba(255,43,214,0.2), inset 0 0 24px rgba(255,43,214,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .careers-apply-text { font-size: 15px; color: var(--ink); max-width: 40ch; }
+  .careers-apply a {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    color: var(--lime);
+    text-shadow: 0 0 10px var(--lime);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+  }
+
+  /* Contact */
+  .contact {
+    padding: 140px 32px;
+    position: relative;
+    z-index: 2;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,240,255,0.08), transparent 70%);
+    border-bottom: 1px solid var(--line);
+  }
+  .contact-inner { max-width: 1400px; margin: 0 auto; }
+  .contact-head {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(50px, 8vw, 140px);
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 0.95;
+    color: var(--ink);
+    text-shadow: 0 0 24px rgba(232,247,255,0.4);
+    margin-bottom: 80px;
+    letter-spacing: 0.01em;
+  }
+  .contact-head em { font-style: normal; color: var(--cyan); text-shadow: 0 0 24px var(--cyan), 0 0 48px rgba(0,240,255,0.6); }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 60px;
+  }
+  .contact-col {
+    padding: 32px;
+    background: rgba(10,6,20,0.6);
+    border: 1px solid var(--line);
+    border-top: 2px solid var(--cyan);
+  }
+  .contact-col h4 {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--mag);
+    text-shadow: 0 0 8px var(--mag);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: 18px;
+  }
+  .contact-col p {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 18px;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  .contact-col a {
+    color: var(--cyan);
+    text-shadow: 0 0 8px rgba(0,240,255,0.6);
+    transition: all 0.2s;
+  }
+  .contact-col a:hover { color: var(--lime); text-shadow: 0 0 10px var(--lime); }
+  .contact-col small {
+    display: block;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--dim);
+    margin-top: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .contact-map {
+    position: relative;
+    height: 360px;
+    border: 1px solid var(--mag);
+    box-shadow: 0 0 32px rgba(255,43,214,0.3);
+    overflow: hidden;
+    margin-bottom: 60px;
+  }
+  .contact-map iframe {
+    width: 100%; height: 100%; border: 0;
+    filter: invert(0.92) hue-rotate(180deg) saturate(0.8) contrast(1.2);
+  }
+  .contact-map-tag {
+    position: absolute;
+    top: 20px; left: 20px;
+    z-index: 2;
+    background: rgba(5,2,10,0.92);
+    border: 1px solid var(--cyan);
+    padding: 12px 18px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--cyan);
+    text-shadow: 0 0 6px var(--cyan);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    box-shadow: 0 0 16px rgba(0,240,255,0.4);
+  }
+  .contact-cta {
+    padding: 40px;
+    background: linear-gradient(135deg, rgba(255,43,214,0.12), rgba(0,240,255,0.08));
+    border: 1px solid var(--mag);
+    box-shadow: 0 0 40px rgba(255,43,214,0.25);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    clip-path: polygon(24px 0, 100% 0, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0 100%, 0 24px);
+  }
+  .contact-cta-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ink);
+    text-transform: uppercase;
+    max-width: 30ch;
+    letter-spacing: 0.02em;
+  }
+  .contact-cta a {
+    display: inline-flex;
+    gap: 16px;
+    align-items: center;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px;
+    font-weight: 900;
+    color: var(--lime);
+    text-shadow: 0 0 12px var(--lime);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 18px 28px;
+    background: rgba(0,0,0,0.5);
+    border: 1px solid var(--lime);
+    box-shadow: 0 0 24px rgba(198,255,0,0.4);
+    transition: all 0.2s;
+  }
+  .contact-cta a:hover { background: var(--lime); color: #000; text-shadow: none; }
+
+  /* Footer */
+  footer { padding: 80px 32px 40px; background: var(--bg-2); border-top: 1px solid var(--line); position: relative; z-index: 2; }
+  .foot-inner { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1fr 2fr; gap: 40px; align-items: start; }
+  .foot-mark {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 120px;
+    font-weight: 900;
+    color: var(--cyan);
+    text-shadow: 0 0 30px var(--cyan), 0 0 60px rgba(0,240,255,0.5);
+    line-height: 0.8;
+    letter-spacing: -0.02em;
+  }
+  .foot-mark em { color: var(--mag); text-shadow: 0 0 30px var(--mag); font-style: normal; }
+  .foot-meta {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--dim);
+    line-height: 1.8;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .foot-meta strong {
+    display: block;
+    font-family: 'Orbitron', sans-serif;
+    color: var(--lime);
+    text-shadow: 0 0 10px var(--lime);
+    font-size: 18px;
+    margin: 8px 0;
+  }
+  .foot-bot {
+    max-width: 1400px;
+    margin: 60px auto 0;
+    padding-top: 30px;
+    border-top: 1px dashed var(--line-mag);
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--dim);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+  }
+
+  /* Reveal */
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s, transform 0.7s; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* Responsive */
+  @media (max-width: 960px) {
+    .topbar-mid { display: none; }
+    .topbar.is-open .topbar-mid {
+      display: flex;
+      position: absolute;
+      top: 100%;
+      left: 0; right: 0;
+      flex-direction: column;
+      background: rgba(5,2,10,0.95);
+      border: 1px solid var(--line);
+      padding: 20px;
+      gap: 16px;
+      margin-top: 4px;
+    }
+    .topbar-burger { display: inline-flex; align-items: center; justify-content: center; }
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-right { min-height: 420px; }
+    .hero-strip { grid-template-columns: repeat(2, 1fr); }
+    .chapter { grid-template-columns: 1fr; gap: 32px; }
+    .chapter-label { position: static; }
+    .chapter-details { grid-template-columns: 1fr; }
+    .bignums-grid { grid-template-columns: repeat(2, 1fr); }
+    .retail-intro { grid-template-columns: 1fr; gap: 32px; }
+    .retail-layout { grid-template-columns: 1fr; gap: 32px; }
+    .results-head { grid-template-columns: 1fr; gap: 24px; }
+    .results-list { grid-template-columns: 1fr; }
+    .careers-head { grid-template-columns: 1fr; gap: 24px; }
+    .careers-grid { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .foot-inner { grid-template-columns: 1fr; }
+    .foot-mark { font-size: 72px; }
+    .solutions-table td { padding: 16px 8px; }
+    .sol-name { font-size: 20px; }
+    .sol-desc { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-aura"></div>
+
+<div class="topbar" id="topbar">
+  <a href="#top" class="topbar-left" aria-label="MANDS">MANDS</a>
+  <nav class="topbar-mid" id="topbar-nav" aria-label="Główna nawigacja">
+    <a href="#idx-01" data-i="nav.manifest">Manifest</a>
+    <a href="#idx-02" data-i="nav.methods">Metody</a>
+    <a href="#idx-03" data-i="nav.retail">Retail</a>
+    <a href="#idx-04" data-i="nav.archive">Archiwum</a>
+    <a href="#idx-05" data-i="nav.careers">Kariera</a>
+    <a href="#idx-06" data-i="nav.contact">Kontakt</a>
+  </nav>
+  <div class="topbar-end">
+    <a href="tel:+48713220686" class="topbar-right">+48 71 322 06 86</a>
+    <button type="button" class="topbar-lang" aria-label="Switch language / Zmień język">EN</button>
+    <button class="topbar-burger" type="button" aria-label="Otwórz menu" aria-controls="topbar-nav" aria-expanded="false"><span></span></button>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-tag" data-i="hero.tag">№ 001 <strong>Instytut Badawczy</strong> <span class="year">/ SYS.2005</span></div>
+      <h1 class="hero-display" data-i="hero.title">
+        <span class="line"><span class="glitch" data-text="Badania">Badania</span></span>
+        <span class="line"><span class="glitch" data-text="rynku">rynku</span></span>
+        <span class="line"><em>i opinii_</em></span>
+      </h1>
+      <p class="hero-sub" data-i="hero.sub">Polski instytut badawczy działający od <span class="serif">2005 roku</span>. Słuchamy, analizujemy i doradzamy — pomagamy znaleźć drogę do rynkowego sukcesu.</p>
+      <div class="hero-actions">
+        <a href="#idx-06" class="btn-neon">
+          <span data-i="hero.cta">Zamów badanie</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
+        </a>
+        <div class="hero-note">info@mands.pl · +48 71 322 06 86</div>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-dash">
+        <svg viewBox="0 0 460 540" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+          <text class="hd-label" x="0" y="18" data-i="dash.projects.label">// ZREALIZOWANE PROJEKTY · 2005—2024</text>
+          <text class="hd-val" x="0" y="58">4 600</text>
+          <text class="hd-label" x="110" y="58" data-i="dash.projects.note">projektów w 20 lat</text>
+
+          <line class="hd-grid" x1="0" y1="100" x2="460" y2="100"/>
+          <line class="hd-grid" x1="0" y1="140" x2="460" y2="140"/>
+          <line class="hd-grid" x1="0" y1="180" x2="460" y2="180"/>
+          <line class="hd-grid" x1="0" y1="220" x2="460" y2="220"/>
+          <line class="hd-axis" x1="0" y1="260" x2="460" y2="260"/>
+
+          <rect class="hd-bar" x="0"   y="249" width="16" height="11"/>
+          <rect class="hd-bar" x="23"  y="245" width="16" height="15"/>
+          <rect class="hd-bar" x="46"  y="242" width="16" height="18"/>
+          <rect class="hd-bar" x="69"  y="238" width="16" height="22"/>
+          <rect class="hd-bar" x="92"  y="239" width="16" height="21"/>
+          <rect class="hd-bar" x="115" y="234" width="16" height="26"/>
+          <rect class="hd-bar" x="138" y="228" width="16" height="32"/>
+          <rect class="hd-bar" x="161" y="223" width="16" height="37"/>
+          <rect class="hd-bar" x="184" y="217" width="16" height="43"/>
+          <rect class="hd-bar" x="207" y="210" width="16" height="50"/>
+          <rect class="hd-bar" x="230" y="203" width="16" height="57"/>
+          <rect class="hd-bar" x="253" y="196" width="16" height="64"/>
+          <rect class="hd-bar" x="276" y="188" width="16" height="72"/>
+          <rect class="hd-bar" x="299" y="181" width="16" height="79"/>
+          <rect class="hd-bar" x="322" y="169" width="16" height="91"/>
+          <rect class="hd-bar" x="345" y="178" width="16" height="82"/>
+          <rect class="hd-bar" x="368" y="155" width="16" height="105"/>
+          <rect class="hd-bar" x="391" y="126" width="16" height="134"/>
+          <rect class="hd-bar" x="414" y="94"  width="16" height="166"/>
+          <rect class="hd-bar-hl hd-pulse" x="437" y="80" width="16" height="180"/>
+
+          <text class="hd-val-sm" x="460" y="72" text-anchor="end">481</text>
+
+          <text class="hd-label" x="0"   y="278">2005</text>
+          <text class="hd-label" x="115" y="278">2010</text>
+          <text class="hd-label" x="230" y="278">2015</text>
+          <text class="hd-label" x="345" y="278">2020</text>
+          <text class="hd-label" x="446" y="278" text-anchor="end">2024</text>
+
+          <line class="hd-divider" x1="0" y1="304" x2="460" y2="304"/>
+
+          <text class="hd-label" x="0" y="328" data-i="dash.sample.label">// STRUKTURA PRÓBY · 2024</text>
+          <text class="hd-val-sm" x="460" y="328" text-anchor="end" data-i="dash.sample.value">540 000 wywiadów</text>
+
+          <rect class="hd-bar"    x="0"   y="346" width="173" height="38"/>
+          <text x="12"  y="370" class="hd-seg-val">38%</text>
+          <text x="12"  y="402" class="hd-seg-lbl">CATI</text>
+          <rect class="hd-bar"    x="175" y="346" width="123" height="38"/>
+          <text x="187" y="370" class="hd-seg-val">27%</text>
+          <text x="187" y="402" class="hd-seg-lbl">CAWI</text>
+          <rect class="hd-bar-hl" x="300" y="346" width="82"  height="38"/>
+          <text x="312" y="370" class="hd-seg-val hd-on-hl">18%</text>
+          <text x="312" y="402" class="hd-seg-lbl">MOBI</text>
+          <rect class="hd-bar"    x="384" y="346" width="41"  height="38"/>
+          <text x="389" y="370" class="hd-seg-val">9%</text>
+          <text x="389" y="402" class="hd-seg-lbl">F2F</text>
+          <rect class="hd-bar"    x="427" y="346" width="33"  height="38"/>
+          <text x="431" y="370" class="hd-seg-val">8%</text>
+          <text x="431" y="402" class="hd-seg-lbl">FGI</text>
+
+          <line class="hd-divider" x1="0" y1="432" x2="460" y2="432"/>
+
+          <text class="hd-label" x="0" y="456" data-i="dash.field.label">// SIATKA TERENOWA</text>
+          <text class="hd-val" x="0" y="500" style="font-size:30px;">400</text>
+          <text class="hd-label" x="90" y="492" data-i="dash.field.line1">ankieterów</text>
+          <text class="hd-label" x="90" y="506" data-i="dash.field.line2">w 16 województwach</text>
+          <text class="hd-label" x="0" y="530" data-i="dash.field.trainers">+ 10 trenerów regionalnych</text>
+
+          <text class="hd-label" x="252" y="456" data-i="dash.standards.label">// STANDARDY JAKOŚCI</text>
+          <g transform="translate(252,472)">
+            <rect x="0"   y="0" width="96" height="28" fill="none" stroke="#c6ff00" stroke-width="1"/>
+            <text x="48" y="19" text-anchor="middle" class="hd-chip">OFBOR</text>
+            <rect x="104" y="0" width="104" height="28" fill="none" stroke="#c6ff00" stroke-width="1"/>
+            <text x="156" y="19" text-anchor="middle" class="hd-chip">ESOMAR</text>
+          </g>
+          <text class="hd-label" x="252" y="530" data-i="dash.standards.note">członek od 2008</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-strip">
+    <div>
+      <span class="mono" data-i="strip.1.label">// 001 — DOŚWIADCZENIE</span>
+      <strong data-i="strip.1.val">20<em>+</em> lat</strong>
+    </div>
+    <div>
+      <span class="mono" data-i="strip.2.label">// 002 — ANKIETERZY</span>
+      <strong data-i="strip.2.val">400<em>+</em> w&nbsp;Polsce</strong>
+    </div>
+    <div>
+      <span class="mono" data-i="strip.3.label">// 003 — WYWIADY</span>
+      <strong data-i="strip.3.val">10<em>k</em> / tydzień</strong>
+    </div>
+    <div>
+      <span class="mono" data-i="strip.4.label">// 004 — STANDARDY</span>
+      <strong data-i="strip.4.val">OFBOR <em>·</em> ESOMAR</strong>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 01 -->
+<section id="idx-01" class="section">
+  <div class="section-num" data-i="sec01.num">§ <strong>01</strong> // MANIFEST</div>
+  <div class="chapter">
+    <div class="chapter-label" data-i="sec01.label">
+      Rozdział pierwszy
+      <strong>Kim jesteśmy</strong>
+    </div>
+    <div>
+      <p class="chapter-body reveal" data-i="sec01.body">Jesteśmy instytutem referencyjnym dla <em>sieci handlowych.</em> Stawiamy na indywidualne podejście — słuchamy, analizujemy, doradzamy.</p>
+      <div class="chapter-details reveal">
+        <div>
+          <span class="mono" data-i="sec01.d1.label">// 001 — PODEJŚCIE</span>
+          <h4 data-i="sec01.d1.h">Indywidualnie.</h4>
+          <p data-i="sec01.d1.p">Każdy klient otrzymuje wsparcie merytoryczne dopasowane do jego potrzeb — bez szablonów.</p>
+        </div>
+        <div>
+          <span class="mono" data-i="sec01.d2.label">// 002 — TECHNOLOGIA</span>
+          <h4 data-i="sec01.d2.h">Własne narzędzia.</h4>
+          <p data-i="sec01.d2.p">Teleinformatyczny system B2B integrujący sondażowanie, przetwarzanie danych i raportowanie.</p>
+        </div>
+        <div>
+          <span class="mono" data-i="sec01.d3.label">// 003 — ZESPÓŁ</span>
+          <h4 data-i="sec01.d3.h">Doświadczenie.</h4>
+          <p data-i="sec01.d3.p">Specjaliści z wieloletnim stażem. Praca zgodnie z Kodeksem ESOMAR i standardami PKJPA.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 02 — SOLUTIONS -->
+<section id="idx-02" class="section">
+  <div class="section-num" data-i="sec02.num">§ <strong>02</strong> // METODY BADAWCZE</div>
+  <div class="solutions-wrap">
+    <h2 class="solutions-title reveal" data-i="sec02.title">Pełna paleta<br>metod <em>badawczych_</em></h2>
+    <table class="solutions-table">
+      <tr class="reveal"><td class="sol-num">/01</td><td class="sol-name" data-i="m.cati.name">CATI<em>.</em></td><td class="sol-tag" data-i="m.cati.tag">Ilościowe · Telefon</td><td class="sol-desc" data-i="m.cati.desc">Computer-Assisted Telephone Interviewing. Tysiące wywiadów miesięcznie w badaniach sondażowych, społecznych, konsumenckich i B2B — w Polsce i za granicą. Własne studio we Wrocławiu od 2005 r., profesjonalne stanowiska, opieka doświadczonych supervisorów oraz praca zdalna w modelu Cati@Home. Szybka realizacja, szybkie opracowanie wyników, minimalizacja błędów, pełna kontrola nad projektem.</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/02</td><td class="sol-name" data-i="m.cawi.name">CAWI<em>.</em></td><td class="sol-tag" data-i="m.cawi.tag">Ilościowe · Online</td><td class="sol-desc" data-i="m.cawi.desc">Computer Assisted Web Interview — ankieta internetowa wypełniana samodzielnie. Realizujemy w oprogramowaniu CADAS CAWI, które łączy elementy organizacyjne, metodologiczne, kontrolne i informatyczne procesu badawczego. Klient partycypuje w projekcie: testuje kwestionariusz, na bieżąco podgląda wyniki i postęp badania. Pełne bezpieczeństwo — szyfrowany dostęp i podwójne szyfrowanie danych, łącznie z danymi teleadresowymi respondentów. Dla respondenta proces jest przystępny: bez instalacji dodatkowego oprogramowania, z możliwością przerwania i powrotu bez utraty odpowiedzi.</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/03</td><td class="sol-name" data-i="m.mobi.name">MOBI<em>.</em></td><td class="sol-tag" data-i="m.mobi.tag">Ilościowe · Tablet</td><td class="sol-desc" data-i="m.mobi.desc">Ewolucja tradycyjnych badań typu „papier-ołówek" do pełnoprawnych wywiadów wspomaganych komputerowo. Ankieter posługuje się tabletem dokładnie tak samo jak ankietą papierową, z możliwością wykorzystania multimediów i zaawansowanych technik wizualizacji pytań (m.in. drag & drop). Automatyczny zapis lokalizacji GPS oraz nagrywanie wywiadów ułatwia i przyspiesza kontrolę pracy ankieterów w terenie.</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/04</td><td class="sol-name" data-i="m.fgi.name">FGI<em>.</em></td><td class="sol-tag" data-i="m.fgi.tag">Jakościowe · Grupa</td><td class="sol-desc" data-i="m.fgi.desc">Focus Group Interviews — jedna z najpopularniejszych metod badań jakościowych. Dyskusja grupowa kontrolowana przez moderatora, prowadzona na podstawie wcześniej przygotowanego scenariusza. Stosowana do testowania nowych konceptów (logo, opakowania, reklamy) i badania zachowań konsumenckich; charakteryzuje się twórczym i inspirującym charakterem z możliwością pogłębionej analizy tematu. Przebieg wywiadu jest rejestrowany.</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/05</td><td class="sol-name" data-i="m.idi.name">IDI<em>.</em></td><td class="sol-tag" data-i="m.idi.tag">Jakościowe · Indywidualne</td><td class="sol-desc" data-i="m.idi.desc">Individual In-Depth Interview — druga najpopularniejsza metoda badań jakościowych. Rozmowa moderatora z respondentem w celu dotarcia do pożądanych informacji oraz poznania postaw, intencji i motywów działań badanego. Prowadzona według ustalonego scenariusza o charakterze otwartym; sprawdza się w sytuacjach z trudnym dostępem do grup badawczych lub przy tematach drażliwych. Przebieg zwykle jest rejestrowany.</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/06</td><td class="sol-name" data-i="m.fobo.name">FoBo<em>.</em></td><td class="sol-tag" data-i="m.fobo.tag">Jakościowe · Online</td><td class="sol-desc" data-i="m.fobo.desc">Focus Board — platforma do jakościowych badań online. Alternatywa dla metod tradycyjnych: wywiady indywidualne i grupowe prowadzone przez Internet, również w formie bezkontaktowej. Rekrutacja telefoniczna wg screenera, realizacja przez Zoom (z opcją tłumaczenia symultanicznego), transmisja na żywo przez YouTube do wskazanych odbiorców, nagrania audio-video i transkrypcje. Zakres współpracy od nadzoru technicznego po pełny projekt z rekrutacją, moderacją i raportem.</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/07</td><td class="sol-name" data-i="m.ms.name">Mystery Shopper<em>.</em></td><td class="sol-tag" data-i="m.ms.tag">Audyt · Retail & Usługi</td><td class="sol-desc" data-i="m.ms.desc">Tajemniczy klient — kilkuset audytorów w całej Polsce realizuje projekty audytowe dla sieci retailowych i usługowych. Weryfikacja standardów obsługi, ekspozycji materiałów POS i procedur sprzedażowych. Dostępny także jako komponent platformy PaaS.</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/08</td><td class="sol-name" data-i="m.paas.name">PaaS<em>.</em></td><td class="sol-tag" data-i="m.paas.tag">Technologia · SaaS</td><td class="sol-desc" data-i="m.paas.desc">Platform as a Service — rozwiązanie pozwalające wypożyczyć na określony czas dostęp do technologii i oprogramowania badawczego. Dedykowane firmom, które nie chcą inwestować w sprzęt lub potrzebują dostępu do narzędzi statystycznych tylko na czas konkretnego projektu. Badania obejmują CATI, CAPI, CAWI, MOBI oraz Mystery Shopper.</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/09</td><td class="sol-name" data-i="m.focus.name">Fokusownia<em>.</em></td><td class="sol-tag" data-i="m.focus.tag">Infrastruktura · Wrocław</td><td class="sol-desc" data-i="m.focus.desc">W pełni wyposażona fokusownia z podglądownią oraz oddzielnym pomieszczeniem dla tłumacza przy ul. Prusa we Wrocławiu. Pomoce dla moderatora (telewizor, rzutnik, flipchart), profesjonalny sprzęt audio z tłumaczeniem symultanicznym i jednoczesnym nagrywaniem A/V w dwóch wersjach językowych, video streaming grup fokusowych (opcjonalnie, w wersji oryginalnej lub z lektorem), bezprzewodowy Internet, poczęstunek dla respondentów. Studio przystosowane dla osób niepełnosprawnych.</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/10</td><td class="sol-name" data-i="m.std.name">Standardy<em>.</em></td><td class="sol-tag" data-i="m.std.tag">OFBOR · ESOMAR</td><td class="sol-desc" data-i="m.std.desc">Przestrzegamy norm jakości w procesie realizacji badań — pracujemy zgodnie ze standardami OFBOR, co daje klientowi gwarancję wysokiej jakości całego procesu badawczego i jest świadectwem dbałości o każdy jego element. Działamy również w oparciu o Kodeks ESOMAR.</td><td class="sol-arrow">↗</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- BIG NUMBERS -->
+<section class="bignums">
+  <div class="bignums-inner">
+    <h2 data-i="big.title">◆ MANDS // W LICZBACH</h2>
+    <div class="bignums-grid">
+      <div class="bignum reveal">
+        <div class="bignum-val" data-i="big.1.val">20<em>+</em></div>
+        <div class="bignum-label" data-i="big.1.label"><strong>Lat doświadczenia</strong>nieprzerwanie na rynku badań od 2005 roku</div>
+      </div>
+      <div class="bignum reveal">
+        <div class="bignum-val" data-i="big.2.val">400</div>
+        <div class="bignum-label" data-i="big.2.label"><strong>Ankieterów</strong>w całej Polsce, nadzorowanych przez trenerów regionalnych</div>
+      </div>
+      <div class="bignum reveal">
+        <div class="bignum-val" data-i="big.3.val">10<em>k</em></div>
+        <div class="bignum-label" data-i="big.3.label"><strong>Wywiadów</strong>tygodniowo w ramach kontroli dystrybucji materiałów</div>
+      </div>
+      <div class="bignum reveal">
+        <div class="bignum-val" data-i="big.4.val">10</div>
+        <div class="bignum-label" data-i="big.4.label"><strong>Trenerów regionalnych</strong>nadzorujących jakość pracy ankieterów w terenie</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 03 — RETAIL -->
+<section id="idx-03" class="section">
+  <div class="section-num" data-i="sec03.num">§ <strong>03</strong> // DLA SIECI HANDLOWYCH</div>
+  <div class="retail-wrap">
+    <div class="retail-intro">
+      <div class="chapter-label" data-i="sec03.label">
+        Rozdział trzeci
+        <strong>Retail <span class="amp">&</span> dystrybucja</strong>
+      </div>
+      <h2 class="retail-headline reveal" data-i="sec03.headline">Sprawdzamy, czy Twoje<br>gazetki <em>docierają do klientów_</em></h2>
+    </div>
+    <div class="retail-layout">
+      <div class="retail-image reveal">
+        <img src="../images/IMG_5254-e1455562945354.jpg" alt="Badania terenowe MANDS" />
+        <div class="retail-image-tag" data-i="sec03.tag">
+          <strong>10 000+</strong>
+          gospodarstw domowych / tydzień
+        </div>
+      </div>
+      <div class="retail-list">
+        <div class="retail-entry reveal">
+          <div class="r-idx">/01</div>
+          <div>
+            <div class="r-name" data-i="r.1.name">Distribution Check</div>
+            <div class="r-desc" data-i="r.1.desc">Kontrola dystrybucji materiałów reklamowych. Tygodniowo odwiedzamy ponad 10 tysięcy gospodarstw domowych sprawdzając, czy gazetki zostały dostarczone.</div>
+          </div>
+        </div>
+        <div class="retail-entry reveal">
+          <div class="r-idx">/02</div>
+          <div>
+            <div class="r-name" data-i="r.2.name">Exit Store</div>
+            <div class="r-desc" data-i="r.2.desc">Badanie na terenie sklepu z jego klientami — analiza wartości koszyka, częstotliwości zakupów. Rezultat: heatmapa obszarów atrakcyjnych finansowo.</div>
+          </div>
+        </div>
+        <div class="retail-entry reveal">
+          <div class="r-idx">/03</div>
+          <div>
+            <div class="r-name" data-i="r.3.name">Distribution Reporting System</div>
+            <div class="r-desc" data-i="r.3.desc">Webowe narzędzie SaaS do raportowania kolportażu. Obsługa SMS dla kolporterów, eksport CSV/XLSX, historia kampanii.</div>
+          </div>
+        </div>
+        <div class="retail-entry reveal">
+          <div class="r-idx">/04</div>
+          <div>
+            <div class="r-name" data-i="r.4.name">Call Distribution Check</div>
+            <div class="r-desc" data-i="r.4.desc">Telefoniczna kontrola dystrybucji gazetek. Około 10 tysięcy wywiadów w kluczowych lokalizacjach — realizowana zwykle raz na dwa lata.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 04 — RESULTS -->
+<section id="idx-04" class="section">
+  <div class="section-num" data-i="sec04.num">§ <strong>04</strong> // ARCHIWUM PUBLIKACJI</div>
+  <div class="results-wrap">
+    <div class="results-head">
+      <h2 class="reveal" data-i="sec04.title">Wybrane<br>publikacje <em><span class="amp">&</span> raporty_</em></h2>
+      <p class="reveal" data-i="sec04.sub">Dzielimy się wynikami wybranych badań — od skuteczności portali pracy w IT, przez infolinie hostingowe, po plany podróżnicze Polaków.</p>
+    </div>
+    <div class="results-list">
+      <div class="result reveal">
+        <div class="result-year" data-i="res.1.year">Anno 2022</div>
+        <div class="result-title" data-i="res.1.title">Portale z ogłoszeniami IT</div>
+        <div class="result-desc" data-i="res.1.desc">Trzecia edycja badania skuteczności portali pracy IT dla No Fluff Jobs — cztery stanowiska testowe metodą tajemniczego klienta.</div>
+        <div class="result-arrow">↗</div>
+      </div>
+      <div class="result reveal">
+        <div class="result-year" data-i="res.2.year">Anno 2021</div>
+        <div class="result-title" data-i="res.2.title">Infolinie firm hostingowych</div>
+        <div class="result-desc" data-i="res.2.desc">Badanie skuteczności obsługi klienta przeprowadzone wśród firm obsługujących co najmniej 10 000 domen.</div>
+        <div class="result-arrow">↗</div>
+      </div>
+      <div class="result reveal">
+        <div class="result-year" data-i="res.3.year">Anno 2020</div>
+        <div class="result-title" data-i="res.3.title">Plany podróżnicze Polaków</div>
+        <div class="result-desc" data-i="res.3.desc">Raport częściowy Ogólnopolskiego Badania Podróżników — wpływ pandemii na plany urlopowe i wybory kierunkowe.</div>
+        <div class="result-arrow">↗</div>
+      </div>
+      <div class="result reveal">
+        <div class="result-year" data-i="res.4.year">Metodologia</div>
+        <div class="result-title" data-i="res.4.title">Tajemniczy klient</div>
+        <div class="result-desc" data-i="res.4.desc">Kilkuset tajemniczych klientów w całej Polsce realizuje projekty audytowe — od retail przez gastronomię po usługi finansowe.</div>
+        <div class="result-arrow">↗</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAREERS -->
+<section id="idx-05" class="section">
+  <div class="section-num" data-i="sec05.num">§ <strong>05</strong> // KARIERA</div>
+  <div class="careers-wrap">
+    <div class="careers-head">
+      <h2 class="reveal" data-i="sec05.title">Dołącz do<br><em>zespołu_</em></h2>
+      <p class="reveal" data-i="sec05.sub">Instytut o pracowników merytorycznych oparty, rozszerzany siatką ankieterską i tajemniczymi klientami. Rekrutacja stała — CV przyjmujemy niezależnie od aktualnych ogłoszeń.</p>
+    </div>
+
+    <div class="careers-grid">
+      <div class="careers-stats reveal">
+        <div class="careers-stat" data-i="car.stat.1">
+          Zespół merytoryczny
+          <strong>20<em>+</em></strong>
+          analityków, projektantów badań, supervisorów
+        </div>
+        <div class="careers-stat" data-i="car.stat.2">
+          Siatka terenowa
+          <strong>400<em>+</em></strong>
+          ankieterów i kilkuset tajemniczych klientów
+        </div>
+        <div class="careers-stat" data-i="car.stat.3">
+          Zasięg
+          <strong>PL</strong>
+          cała Polska — 10 trenerów regionalnych
+        </div>
+      </div>
+
+      <div class="careers-jobs">
+        <h3 data-i="car.jobs.h">// AKTUALNIE POSZUKUJEMY</h3>
+        <div class="careers-jobs-list">
+          <a class="career-job reveal" href="mailto:rekrutacja@mands.pl?subject=Teleankieter%20CATI%20Wroc%C5%82aw">
+            <div class="career-job-num">/01</div>
+            <div class="career-job-title" data-i="car.job.1">Teleankieter · studio CATI Wrocław<small>Praca stacjonarna lub zdalna (Cati@Home)</small></div>
+            <div class="career-job-arrow">↗</div>
+          </a>
+          <a class="career-job reveal" href="mailto:rekrutacja@mands.pl?subject=Kontroler%20dystrybucji">
+            <div class="career-job-num">/02</div>
+            <div class="career-job-title" data-i="car.job.2">Kontroler dystrybucji materiałów reklamowych<small>Praca w terenie · cała Polska</small></div>
+            <div class="career-job-arrow">↗</div>
+          </a>
+          <a class="career-job reveal" href="mailto:rekrutacja@mands.pl?subject=Siatka%20ankieterska">
+            <div class="career-job-num">/03</div>
+            <div class="career-job-title" data-i="car.job.3">Siatka ankieterska & tajemniczy klienci<small>Rekrutacja ciągła · całe PL</small></div>
+            <div class="career-job-arrow">↗</div>
+          </a>
+        </div>
+
+        <div class="careers-apply reveal">
+          <div class="careers-apply-text" data-i="car.apply">Zainteresowany współpracą? Wyślij CV i kilka słów o sobie.</div>
+          <a href="mailto:rekrutacja@mands.pl">rekrutacja@mands.pl ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="idx-06" class="contact">
+  <div class="contact-inner">
+    <h2 class="contact-head" data-i="con.head">Porozmawiajmy<br>o <em>badaniu_</em></h2>
+
+    <div class="contact-grid">
+      <div class="contact-col">
+        <h4 data-i="con.1.h">// 001 — SIEDZIBA</h4>
+        <p data-i="con.1.p">ul. B. Prusa 1/48<br>50-319 Wrocław<br><small>NIP: PL8851557675</small></p>
+      </div>
+      <div class="contact-col">
+        <h4 data-i="con.2.h">// 002 — KONTAKT</h4>
+        <p data-i="con.2.p"><a href="mailto:info@mands.pl">info@mands.pl</a><br><a href="tel:+48713220686">+48 71 322 06 86</a><small>zwykle odpowiadamy w ciągu 24h</small></p>
+      </div>
+      <div class="contact-col">
+        <h4 data-i="con.3.h">// 003 — KARIERA</h4>
+        <p data-i="con.3.p"><a href="mailto:rekrutacja@mands.pl">rekrutacja@mands.pl</a><small>ankieterzy · tajemniczy klienci · merytoryka</small></p>
+      </div>
+    </div>
+
+    <div class="contact-map">
+      <div class="contact-map-tag">// MANDS · ul. Prusa 1/48, Wrocław</div>
+      <iframe
+        src="https://maps.google.com/maps?&q=Boles%C5%82awa+Prusa+1+%2C+Wroc%C5%82aw+50-319&output=embed&iwloc"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="MANDS — siedziba na mapie"></iframe>
+    </div>
+
+    <div class="contact-cta">
+      <div class="contact-cta-text" data-i="con.cta.text">Masz pytanie o projekt badawczy? Odezwij się.</div>
+      <a href="mailto:info@mands.pl">
+        <span data-i="con.cta.btn">Napisz do nas</span>
+        <span>↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-inner">
+    <div class="foot-mark">m<em class="amp">&</em>s</div>
+    <div class="foot-meta">
+      <div data-i="foot.1">// INSTYTUT BADAWCZY</div>
+      <strong data-i="foot.2">MANDS / WROCŁAW</strong>
+      <div>SYS.MMV · ONLINE</div>
+      <div>51.10°N · 17.03°E</div>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <div data-i="foot.bot.1">© 2026 MANDS — WSZYSTKIE PRAWA ZASTRZEŻONE</div>
+    <div data-i="foot.bot.2">BADANIA RYNKU I OPINII / MADE IN WROCŁAW</div>
+  </div>
+</footer>
+
+<script>
+  const EN = {
+    'nav.manifest': 'Manifesto',
+    'nav.methods': 'Methods',
+    'nav.retail': 'Retail',
+    'nav.archive': 'Archive',
+    'nav.careers': 'Careers',
+    'nav.contact': 'Contact',
+
+    'hero.tag': '№ 001 <strong>Research Institute</strong> <span class="year">/ SYS.2005</span>',
+    'hero.title': '<span class="line"><span class="glitch" data-text="Market">Market</span></span><span class="line"><span class="glitch" data-text="& opinion">& opinion</span></span><span class="line"><em>research_</em></span>',
+    'hero.sub': 'Polish research institute operating since <span class="serif">2005</span>. We listen, analyse and advise — helping you find the path to market success.',
+    'hero.cta': 'Commission a study',
+
+    'dash.projects.label': '// COMPLETED PROJECTS · 2005—2024',
+    'dash.projects.note': 'projects over 20 years',
+    'dash.sample.label': '// SAMPLE STRUCTURE · 2024',
+    'dash.sample.value': '540,000 interviews',
+    'dash.field.label': '// FIELD NETWORK',
+    'dash.field.line1': 'interviewers',
+    'dash.field.line2': 'across 16 regions',
+    'dash.field.trainers': '+ 10 regional trainers',
+    'dash.standards.label': '// QUALITY STANDARDS',
+    'dash.standards.note': 'member since 2008',
+
+    'strip.1.label': '// 001 — EXPERIENCE',
+    'strip.1.val': '20<em>+</em> years',
+    'strip.2.label': '// 002 — INTERVIEWERS',
+    'strip.2.val': '400<em>+</em> in&nbsp;Poland',
+    'strip.3.label': '// 003 — INTERVIEWS',
+    'strip.3.val': '10<em>k</em> / week',
+    'strip.4.label': '// 004 — STANDARDS',
+    'strip.4.val': 'OFBOR <em>·</em> ESOMAR',
+
+    'sec01.num': '§ <strong>01</strong> // MANIFESTO',
+    'sec01.label': 'Chapter one<strong>Who we are</strong>',
+    'sec01.body': 'We are a reference institute for <em>retail chains.</em> We rely on an individual approach — we listen, analyse and advise.',
+    'sec01.d1.label': '// 001 — APPROACH',
+    'sec01.d1.h': 'Individually.',
+    'sec01.d1.p': 'Every client receives substantive support tailored to their needs — no templates.',
+    'sec01.d2.label': '// 002 — TECHNOLOGY',
+    'sec01.d2.h': 'Proprietary tools.',
+    'sec01.d2.p': 'In-house B2B platform integrating surveying, data processing and reporting.',
+    'sec01.d3.label': '// 003 — TEAM',
+    'sec01.d3.h': 'Experience.',
+    'sec01.d3.p': 'Specialists with years of experience. Work in line with the ESOMAR Code and PKJPA standards.',
+
+    'sec02.num': '§ <strong>02</strong> // RESEARCH METHODS',
+    'sec02.title': 'A full palette<br>of <em>research methods_</em>',
+
+    'm.cati.name': 'CATI<em>.</em>',
+    'm.cati.tag': 'Quantitative · Phone',
+    'm.cati.desc': 'Computer-Assisted Telephone Interviewing. Thousands of interviews a month across opinion, social, consumer and B2B studies — in Poland and abroad. Our own Wrocław studio running since 2005, professional workstations, oversight by experienced supervisors and remote work in the Cati@Home model. Fast fieldwork, fast results, minimised error, full control over the project.',
+    'm.cawi.name': 'CAWI<em>.</em>',
+    'm.cawi.tag': 'Quantitative · Online',
+    'm.cawi.desc': 'Computer Assisted Web Interview — a self-completion online questionnaire. We run CAWI on CADAS CAWI software, which combines the organisational, methodological, control and IT layers of the research process. The client participates in the project: tests the questionnaire, and follows results and progress live. Full security — encrypted access and double encryption of data, including respondents\' contact details. For respondents the process is simple: no additional software to install, with the option to pause and resume without losing answers.',
+    'm.mobi.name': 'MOBI<em>.</em>',
+    'm.mobi.tag': 'Quantitative · Tablet',
+    'm.mobi.desc': 'An evolution of the traditional "paper-and-pencil" approach into fully computer-assisted interviewing. The interviewer uses a tablet exactly as a paper form, with the ability to embed multimedia and advanced question-display techniques (e.g. drag & drop). Automatic GPS capture and interview recording simplify and speed up field quality control.',
+    'm.fgi.name': 'FGI<em>.</em>',
+    'm.fgi.tag': 'Qualitative · Group',
+    'm.fgi.desc': 'Focus Group Interviews — one of the most popular qualitative methods. A moderator-led group discussion based on a prepared scenario. Used to test new concepts (logos, packaging, advertising) and to investigate consumer behaviour; creative and inspiring in nature, with room for in-depth analysis. Sessions are recorded.',
+    'm.idi.name': 'IDI<em>.</em>',
+    'm.idi.tag': 'Qualitative · Individual',
+    'm.idi.desc': 'Individual In-Depth Interview — the second most popular qualitative method. A conversation between moderator and respondent aimed at reaching the desired information and understanding attitudes, intentions and motives. Conducted to an open-format scenario; works well with hard-to-reach groups and sensitive topics. Sessions are typically recorded.',
+    'm.fobo.name': 'FoBo<em>.</em>',
+    'm.fobo.tag': 'Qualitative · Online',
+    'm.fobo.desc': 'Focus Board — a platform for online qualitative research. An alternative to traditional methods: individual and group interviews run over the internet, including contact-free. Phone recruitment by screener, delivery via Zoom (with simultaneous interpretation option), live YouTube streaming for stakeholders, audio-video recordings and transcripts. Scope ranges from technical supervision to a full project with recruitment, moderation and report.',
+    'm.ms.name': 'Mystery Shopper<em>.</em>',
+    'm.ms.tag': 'Audit · Retail & Services',
+    'm.ms.desc': 'Mystery Shopper — several hundred auditors across Poland deliver audit projects for retail and service networks. Verification of service standards, POS material display and sales procedures. Also available as a module of the PaaS platform.',
+    'm.paas.name': 'PaaS<em>.</em>',
+    'm.paas.tag': 'Technology · SaaS',
+    'm.paas.desc': 'Platform as a Service — lets you rent access to research technology and software for a defined period. Aimed at companies that prefer not to invest in equipment or need statistical tooling only for a specific project. Studies covered: CATI, CAPI, CAWI, MOBI and Mystery Shopper.',
+    'm.focus.name': 'Focus Suite<em>.</em>',
+    'm.focus.tag': 'Infrastructure · Wrocław',
+    'm.focus.desc': 'A fully equipped focus studio with an observation room and a separate booth for an interpreter, located on Prusa street in Wrocław. Moderator aids (TV, projector, flipchart), professional audio with simultaneous interpretation and simultaneous A/V recording in two language versions, video streaming of focus groups (optional, original or voice-over), wireless internet, refreshments for respondents. The studio is accessible for people with disabilities.',
+    'm.std.name': 'Standards<em>.</em>',
+    'm.std.tag': 'OFBOR · ESOMAR',
+    'm.std.desc': 'We adhere to quality norms across the research process — working in line with OFBOR standards, which guarantees the client a high quality of the whole research process and evidences care for every part of it. We also operate under the ESOMAR Code.',
+
+    'big.title': '◆ MANDS // IN NUMBERS',
+    'big.1.val': '20<em>+</em>',
+    'big.1.label': '<strong>Years of experience</strong>uninterrupted on the research market since 2005',
+    'big.2.val': '400',
+    'big.2.label': '<strong>Interviewers</strong>across Poland, supervised by regional trainers',
+    'big.3.val': '10<em>k</em>',
+    'big.3.label': '<strong>Interviews</strong>weekly as part of distribution control projects',
+    'big.4.val': '10',
+    'big.4.label': '<strong>Regional trainers</strong>overseeing the quality of fieldwork',
+
+    'sec03.num': '§ <strong>03</strong> // FOR RETAIL CHAINS',
+    'sec03.label': 'Chapter three<strong>Retail <span class="amp">&</span> distribution</strong>',
+    'sec03.headline': 'We check whether your<br>leaflets <em>reach customers_</em>',
+    'sec03.tag': '<strong>10,000+</strong>households / week',
+    'r.1.name': 'Distribution Check',
+    'r.1.desc': 'Control of advertising material distribution. Each week we visit more than 10,000 households to verify whether leaflets have been delivered.',
+    'r.2.name': 'Exit Store',
+    'r.2.desc': 'In-store research with actual shoppers — analysis of basket value and purchase frequency. Output: a heatmap of financially attractive catchment areas.',
+    'r.3.name': 'Distribution Reporting System',
+    'r.3.desc': 'A SaaS web tool for leaflet-distribution reporting. SMS handling for distributors, CSV/XLSX export, campaign history.',
+    'r.4.name': 'Call Distribution Check',
+    'r.4.desc': 'Phone-based leaflet distribution control. Around 10,000 interviews in key locations — typically run every two years.',
+
+    'sec04.num': '§ <strong>04</strong> // PUBLICATIONS ARCHIVE',
+    'sec04.title': 'Selected<br>publications <em><span class="amp">&</span> reports_</em>',
+    'sec04.sub': 'We share results from selected studies — from IT job-board effectiveness, through hosting-company hotlines, to Polish travellers\' plans.',
+    'res.1.year': 'Anno 2022',
+    'res.1.title': 'IT job boards',
+    'res.1.desc': 'Third edition of a study on the effectiveness of IT job boards for No Fluff Jobs — four test roles run via mystery shopper.',
+    'res.2.year': 'Anno 2021',
+    'res.2.title': 'Hosting-company hotlines',
+    'res.2.desc': 'A customer-service effectiveness study among companies managing at least 10,000 domains.',
+    'res.3.year': 'Anno 2020',
+    'res.3.title': 'Travel plans of Poles',
+    'res.3.desc': 'A partial report from the National Travellers Survey — the pandemic\'s impact on holiday plans and destination choices.',
+    'res.4.year': 'Methodology',
+    'res.4.title': 'Mystery shopper',
+    'res.4.desc': 'Several hundred mystery shoppers across Poland run audit projects — from retail through hospitality to financial services.',
+
+    'sec05.num': '§ <strong>05</strong> // CAREERS',
+    'sec05.title': 'Join the<br><em>team_</em>',
+    'sec05.sub': 'An institute built around a specialist core team, extended by an interviewer network and mystery shoppers. Recruitment is ongoing — we accept CVs regardless of current openings.',
+    'car.stat.1': 'Core team<strong>20<em>+</em></strong>analysts, study designers, supervisors',
+    'car.stat.2': 'Field network<strong>400<em>+</em></strong>interviewers and several hundred mystery shoppers',
+    'car.stat.3': 'Reach<strong>PL</strong>all of Poland — 10 regional trainers',
+    'car.jobs.h': '// CURRENTLY HIRING',
+    'car.job.1': 'Telephone interviewer · CATI studio Wrocław<small>On-site or remote (Cati@Home)</small>',
+    'car.job.2': 'Distribution controller (advertising materials)<small>Fieldwork · all of Poland</small>',
+    'car.job.3': 'Interviewer network & mystery shoppers<small>Ongoing recruitment · all of Poland</small>',
+    'car.apply': 'Interested in working together? Send us your CV and a few words about yourself.',
+
+    'con.head': 'Let\'s talk<br>about your <em>study_</em>',
+    'con.1.h': '// 001 — HEADQUARTERS',
+    'con.1.p': 'ul. B. Prusa 1/48<br>50-319 Wrocław, Poland<br><small>VAT: PL8851557675</small>',
+    'con.2.h': '// 002 — CONTACT',
+    'con.2.p': '<a href="mailto:info@mands.pl">info@mands.pl</a><br><a href="tel:+48713220686">+48 71 322 06 86</a><small>we usually reply within 24h</small>',
+    'con.3.h': '// 003 — CAREERS',
+    'con.3.p': '<a href="mailto:rekrutacja@mands.pl">rekrutacja@mands.pl</a><small>interviewers · mystery shoppers · core team</small>',
+    'con.cta.text': 'Got a research project in mind? Reach out.',
+    'con.cta.btn': 'Write to us',
+
+    'foot.1': '// RESEARCH INSTITUTE',
+    'foot.2': 'MANDS / WROCŁAW',
+    'foot.bot.1': '© 2026 MANDS — ALL RIGHTS RESERVED',
+    'foot.bot.2': 'MARKET & OPINION RESEARCH / MADE IN WROCŁAW'
+  };
+
+  (function () {
+    const btn = document.querySelector('.topbar-lang');
+    const nodes = document.querySelectorAll('[data-i]');
+    nodes.forEach(el => { el.dataset.pl = el.innerHTML; });
+
+    function setLang(lang) {
+      nodes.forEach(el => {
+        const key = el.getAttribute('data-i');
+        el.innerHTML = lang === 'en' ? (EN[key] || el.dataset.pl) : el.dataset.pl;
+      });
+      document.documentElement.lang = lang;
+      try { localStorage.setItem('mands-lang', lang); } catch (e) {}
+      if (btn) {
+        btn.textContent = lang === 'en' ? 'PL' : 'EN';
+      }
+    }
+
+    let initial = 'pl';
+    try { initial = localStorage.getItem('mands-lang') || 'pl'; } catch (e) {}
+    if (initial === 'en') setLang('en');
+
+    if (btn) {
+      btn.addEventListener('click', () => {
+        const next = (document.documentElement.lang === 'en') ? 'pl' : 'en';
+        setLang(next);
+      });
+    }
+  })();
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  (function () {
+    const topbar = document.getElementById('topbar');
+    const burger = topbar && topbar.querySelector('.topbar-burger');
+    const nav    = topbar && topbar.querySelector('.topbar-mid');
+    if (!topbar || !burger || !nav) return;
+    const close = () => { topbar.classList.remove('is-open'); burger.setAttribute('aria-expanded', 'false'); };
+    const open  = () => { topbar.classList.add('is-open'); burger.setAttribute('aria-expanded', 'true'); };
+    burger.addEventListener('click', () => { topbar.classList.contains('is-open') ? close() : open(); });
+    nav.addEventListener('click', (e) => { if (e.target.tagName === 'A') close(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+  })();
+
+  (function () {
+    const links = document.querySelectorAll('.topbar-mid a[href^="#"]');
+    if (!links.length) return;
+    const map = new Map();
+    links.forEach(a => {
+      const id = a.getAttribute('href').slice(1);
+      const sec = document.getElementById(id);
+      if (sec) map.set(sec, a);
+    });
+    const spy = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const link = map.get(entry.target);
+        if (!link) return;
+        if (entry.isIntersecting) {
+          links.forEach(l => l.classList.remove('is-active'));
+          link.classList.add('is-active');
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+    map.forEach((_, sec) => spy.observe(sec));
+  })();
+</script>
+</body>
+</html>

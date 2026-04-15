@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MANDS — Instytut Badań Rynku i Opinii · od 2005</title>
+<meta name="description" content="MANDS — polski instytut badawczy. Badania rynku, opinii, dystrybucji. CATI · CAWI · MOBI · FGI." />
+<link rel="icon" href="../images/cropped-logo-png-1-180x180.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Monoton&family=Rubik+Mono+One&family=DM+Serif+Display:ital@0;1&family=Shrikhand&family=Space+Mono:wght@400;700&family=DM+Serif+Text:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f4e9cf;
+    --cream-2: #ecdfbd;
+    --mustard: #d9a441;
+    --mustard-dk: #b5832a;
+    --orange: #c85a2a;
+    --orange-dk: #9b3e14;
+    --olive: #6b7a2c;
+    --olive-dk: #4a5620;
+    --brown: #4a2e1a;
+    --brown-dk: #2a1a0e;
+    --ink: #2a1a0e;
+    --paper: #f4e9cf;
+    --line: rgba(42,26,14,.25);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; background: var(--cream); }
+  body {
+    font-family: 'DM Serif Text', Georgia, serif;
+    color: var(--ink);
+    background: var(--cream);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+  .mono { font-family: 'Space Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: .12em; }
+  .groovy { font-family: 'Monoton', cursive; letter-spacing: .02em; }
+  .funky { font-family: 'Shrikhand', cursive; font-style: italic; }
+  .rubik { font-family: 'Rubik Mono One', sans-serif; }
+  .serif-d { font-family: 'DM Serif Display', Georgia, serif; }
+
+  ::selection { background: var(--mustard); color: var(--brown); }
+
+  /* paper + noise texture */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+    opacity: .18;
+    mix-blend-mode: multiply;
+    z-index: 1000;
+  }
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 60% 40% at 20% 0%, rgba(217,164,65,.18), transparent 60%),
+      radial-gradient(ellipse 50% 40% at 100% 100%, rgba(200,90,42,.12), transparent 60%);
+    z-index: 999;
+  }
+
+  /* TOPBAR */
+  .topbar {
+    position: fixed; top: 18px; left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 36px);
+    max-width: 1500px;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 22px 14px 26px;
+    background: var(--cream);
+    border: 3px solid var(--brown);
+    border-radius: 60px;
+    box-shadow: 5px 5px 0 var(--brown), 5px 5px 0 3px var(--orange);
+    color: var(--brown);
+  }
+  .topbar-left {
+    font-family: 'Monoton', cursive;
+    font-size: 26px;
+    color: var(--orange);
+    text-shadow: 2px 2px 0 var(--brown);
+    letter-spacing: .04em;
+  }
+  .topbar-mid { display: flex; gap: 22px; font-family: 'Space Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: .1em; font-weight: 700; }
+  .topbar-mid a {
+    position: relative;
+    padding: 8px 4px;
+    color: var(--brown);
+    transition: color .2s;
+  }
+  .topbar-mid a::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: 2px;
+    height: 3px;
+    background: var(--mustard);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .25s;
+  }
+  .topbar-mid a:hover::after, .topbar-mid a.is-active::after { transform: scaleX(1); }
+  .topbar-end { display: flex; align-items: center; gap: 10px; }
+  .topbar-right {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    padding: 8px 14px;
+    background: var(--olive);
+    color: var(--cream);
+    border-radius: 40px;
+  }
+  .topbar-lang {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    padding: 8px 13px;
+    border: 2px solid var(--brown);
+    border-radius: 40px;
+    background: var(--mustard);
+    color: var(--brown);
+    cursor: pointer;
+  }
+  .topbar-lang:hover { background: var(--orange); color: var(--cream); }
+  .topbar-burger {
+    display: none;
+    width: 40px; height: 40px;
+    border: 2px solid var(--brown);
+    background: var(--mustard);
+    border-radius: 50%;
+    cursor: pointer;
+    align-items: center; justify-content: center;
+  }
+  .topbar-burger span { position: relative; display: block; width: 18px; height: 2px; background: var(--brown); }
+  .topbar-burger span::before, .topbar-burger span::after { content: ''; position: absolute; left: 0; width: 18px; height: 2px; background: var(--brown); }
+  .topbar-burger span::before { top: -6px; }
+  .topbar-burger span::after  { top:  6px; }
+
+  section[id] { scroll-margin-top: 120px; }
+
+  /* HERO */
+  .hero {
+    padding: 150px 30px 40px;
+    position: relative;
+    min-height: 100svh;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 50% 60%, var(--cream-2), var(--cream) 70%);
+  }
+  /* sunburst */
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -20%; right: -20%;
+    width: 900px; height: 900px;
+    background: repeating-conic-gradient(
+      from 0deg at 50% 50%,
+      var(--mustard) 0deg 8deg,
+      transparent 8deg 16deg
+    );
+    opacity: .22;
+    border-radius: 50%;
+    -webkit-mask-image: radial-gradient(circle, black 20%, transparent 70%);
+            mask-image: radial-gradient(circle, black 20%, transparent 70%);
+    animation: spin 120s linear infinite;
+    pointer-events: none;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1.1fr .9fr;
+    gap: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-left { padding: 20px 10px 20px 30px; }
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    color: var(--brown);
+    background: var(--mustard);
+    padding: 8px 16px;
+    border: 2px solid var(--brown);
+    border-radius: 30px;
+    margin-bottom: 28px;
+    font-weight: 700;
+  }
+  .hero-tag strong { font-weight: 700; }
+  .hero-display {
+    font-family: 'Monoton', cursive;
+    font-size: clamp(54px, 9vw, 130px);
+    line-height: .95;
+    color: var(--orange);
+    text-shadow:
+      4px 4px 0 var(--brown),
+      8px 8px 0 var(--mustard);
+    letter-spacing: .01em;
+    margin-bottom: 34px;
+  }
+  .hero-display .line { display: block; }
+  .hero-display em {
+    font-style: normal;
+    font-family: 'Shrikhand', cursive;
+    color: var(--olive);
+    text-shadow: 3px 3px 0 var(--brown);
+    font-size: .78em;
+  }
+  .hero-sub {
+    font-family: 'DM Serif Text', serif;
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--brown);
+    max-width: 44ch;
+    margin-bottom: 32px;
+  }
+  .hero-sub .serif { font-style: italic; color: var(--orange-dk); font-weight: 700; }
+  .hero-actions { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
+  .arrow-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    font-family: 'Shrikhand', cursive;
+    font-size: 22px;
+    color: var(--cream);
+    background: var(--orange);
+    padding: 18px 34px;
+    border: 3px solid var(--brown);
+    border-radius: 60px;
+    box-shadow: 5px 5px 0 var(--brown);
+    transition: all .2s ease;
+  }
+  .arrow-link:hover { background: var(--olive); transform: translate(-2px,-2px); box-shadow: 7px 7px 0 var(--brown); }
+  .arrow-link svg { width: 20px; height: 20px; }
+  .hero-note { font-family: 'Space Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: var(--brown); opacity: .8; }
+
+  /* hero sticker / vinyl */
+  .hero-right {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 520px;
+  }
+  .vinyl {
+    position: relative;
+    width: min(480px, 90%);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background:
+      repeating-radial-gradient(circle at center, var(--brown-dk) 0 2px, var(--brown) 2px 4px);
+    border: 6px solid var(--brown);
+    box-shadow: 8px 8px 0 var(--mustard), 8px 8px 0 3px var(--brown);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: spin 30s linear infinite;
+  }
+  .vinyl-label {
+    width: 46%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--orange) 0%, var(--orange-dk) 100%);
+    border: 4px solid var(--brown);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: var(--cream);
+    text-align: center;
+    padding: 20px;
+    animation: spin 30s linear infinite reverse;
+  }
+  .vinyl-label .big { font-family: 'Monoton', cursive; font-size: clamp(28px, 4vw, 44px); line-height: 1; text-shadow: 2px 2px 0 var(--brown); }
+  .vinyl-label .sub { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: .2em; text-transform: uppercase; margin-top: 8px; }
+  .vinyl-label .mid { font-family: 'Shrikhand', cursive; font-size: clamp(14px, 1.8vw, 20px); margin-top: 6px; color: var(--mustard); }
+  .vinyl-hole { position: absolute; width: 16px; height: 16px; border-radius: 50%; background: var(--cream); border: 2px solid var(--brown); }
+
+  .badge {
+    position: absolute;
+    background: var(--mustard);
+    border: 3px solid var(--brown);
+    border-radius: 50%;
+    width: 140px; height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 12px;
+    font-family: 'Shrikhand', cursive;
+    color: var(--brown);
+    font-size: 14px;
+    line-height: 1.15;
+    box-shadow: 4px 4px 0 var(--brown);
+    transform: rotate(-12deg);
+  }
+  .badge-1 { top: 10px; right: 0; background: var(--olive); color: var(--cream); }
+  .badge-2 { bottom: 20px; left: -10px; background: var(--mustard); transform: rotate(8deg); }
+
+  /* hero strip */
+  .hero-strip {
+    margin: 60px auto 0;
+    max-width: 1400px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-strip > div {
+    padding: 22px 24px;
+    background: var(--cream);
+    border: 3px solid var(--brown);
+    border-radius: 24px;
+    box-shadow: 4px 4px 0 var(--orange);
+    transform: rotate(-0.5deg);
+  }
+  .hero-strip > div:nth-child(even) { transform: rotate(0.5deg); box-shadow: 4px 4px 0 var(--olive); }
+  .hero-strip .mono { color: var(--orange-dk); display: block; margin-bottom: 8px; font-weight: 700; }
+  .hero-strip strong {
+    display: block;
+    font-family: 'Rubik Mono One', sans-serif;
+    font-size: 22px;
+    color: var(--brown);
+  }
+  .hero-strip em { font-style: normal; color: var(--orange); font-family: 'Shrikhand', cursive; }
+
+  /* SECTION base */
+  .section {
+    padding: 130px 32px;
+    position: relative;
+    border-top: 4px dashed var(--brown);
+  }
+  .section-num {
+    position: absolute;
+    top: 42px; left: 40px;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--brown);
+    background: var(--mustard);
+    padding: 8px 18px;
+    border: 2px solid var(--brown);
+    border-radius: 30px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    font-weight: 700;
+    box-shadow: 3px 3px 0 var(--brown);
+  }
+  .section-num strong { font-weight: 700; }
+
+  /* SEC 01 MANIFEST */
+  .chapter { max-width: 1300px; margin: 0 auto; padding-top: 40px; }
+  .chapter-label {
+    font-family: 'Shrikhand', cursive;
+    font-size: 22px;
+    color: var(--olive);
+    margin-bottom: 30px;
+  }
+  .chapter-label strong {
+    display: block;
+    font-family: 'Monoton', cursive;
+    font-size: clamp(44px, 7vw, 90px);
+    color: var(--brown);
+    text-shadow: 4px 4px 0 var(--mustard);
+    margin-top: 12px;
+    line-height: .95;
+  }
+  .chapter-body {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(24px, 3vw, 42px);
+    line-height: 1.3;
+    color: var(--brown);
+    max-width: 22ch;
+    margin-bottom: 60px;
+  }
+  .chapter-body em {
+    font-style: italic;
+    color: var(--orange);
+  }
+  .chapter-details {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+  }
+  .chapter-details > div {
+    background: var(--cream-2);
+    border: 3px solid var(--brown);
+    border-radius: 24px;
+    padding: 30px;
+    box-shadow: 6px 6px 0 var(--orange);
+    position: relative;
+  }
+  .chapter-details > div:nth-child(2) { box-shadow: 6px 6px 0 var(--olive); }
+  .chapter-details > div:nth-child(3) { box-shadow: 6px 6px 0 var(--mustard); }
+  .chapter-details .mono { color: var(--orange-dk); display: block; margin-bottom: 14px; font-weight: 700; }
+  .chapter-details h4 {
+    font-family: 'Shrikhand', cursive;
+    font-size: 28px;
+    color: var(--brown);
+    margin-bottom: 12px;
+  }
+  .chapter-details p { font-size: 16px; color: var(--brown); line-height: 1.55; }
+
+  /* SEC 02 METHODS */
+  .solutions-wrap { max-width: 1300px; margin: 0 auto; padding-top: 40px; }
+  .solutions-title {
+    font-family: 'Monoton', cursive;
+    font-size: clamp(44px, 7vw, 100px);
+    line-height: .95;
+    color: var(--brown);
+    text-shadow: 5px 5px 0 var(--orange);
+    margin-bottom: 60px;
+  }
+  .solutions-title em {
+    font-style: normal;
+    font-family: 'Shrikhand', cursive;
+    color: var(--olive);
+    text-shadow: 4px 4px 0 var(--brown);
+  }
+  .solutions-table { width: 100%; border-collapse: separate; border-spacing: 0 14px; }
+  .solutions-table tr {
+    background: var(--cream-2);
+  }
+  .solutions-table tr:nth-child(even) { background: var(--cream); }
+  .solutions-table td {
+    padding: 24px 18px;
+    border-top: 3px solid var(--brown);
+    border-bottom: 3px solid var(--brown);
+    vertical-align: top;
+  }
+  .solutions-table td:first-child { border-left: 3px solid var(--brown); border-radius: 20px 0 0 20px; }
+  .solutions-table td:last-child { border-right: 3px solid var(--brown); border-radius: 0 20px 20px 0; }
+  .sol-num { font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; color: var(--orange); width: 60px; }
+  .sol-name {
+    font-family: 'Shrikhand', cursive;
+    font-size: 28px;
+    color: var(--brown);
+    width: 220px;
+  }
+  .sol-name em { font-style: normal; color: var(--orange); }
+  .sol-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--olive-dk);
+    width: 180px;
+    font-weight: 700;
+  }
+  .sol-desc {
+    font-family: 'DM Serif Text', serif;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--brown);
+  }
+  .sol-arrow {
+    font-family: 'Shrikhand', cursive;
+    font-size: 32px;
+    color: var(--orange);
+    width: 50px;
+    text-align: right;
+  }
+
+  /* BIGNUMS */
+  .bignums {
+    padding: 130px 32px;
+    background: var(--brown);
+    color: var(--cream);
+    position: relative;
+    overflow: hidden;
+    border-top: 4px solid var(--orange);
+    border-bottom: 4px solid var(--orange);
+  }
+  .bignums::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-conic-gradient(
+      from 45deg at 50% 50%,
+      rgba(217,164,65,.08) 0deg 10deg,
+      transparent 10deg 20deg
+    );
+    pointer-events: none;
+  }
+  .bignums-inner { max-width: 1300px; margin: 0 auto; position: relative; }
+  .bignums h2 {
+    font-family: 'Monoton', cursive;
+    font-size: clamp(36px, 5vw, 64px);
+    color: var(--mustard);
+    text-shadow: 4px 4px 0 var(--orange-dk);
+    margin-bottom: 60px;
+  }
+  .bignums-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .bignum {
+    background: var(--cream);
+    color: var(--brown);
+    border: 3px solid var(--mustard);
+    border-radius: 24px;
+    padding: 32px 26px;
+    box-shadow: 6px 6px 0 var(--orange);
+    transform: rotate(-1deg);
+  }
+  .bignum:nth-child(even) { transform: rotate(1deg); box-shadow: 6px 6px 0 var(--olive); }
+  .bignum-val {
+    font-family: 'Rubik Mono One', sans-serif;
+    font-size: clamp(54px, 7vw, 88px);
+    line-height: 1;
+    color: var(--orange);
+    margin-bottom: 18px;
+  }
+  .bignum-val em { font-style: normal; color: var(--olive); font-family: 'Shrikhand', cursive; }
+  .bignum-label { font-size: 14px; line-height: 1.5; }
+  .bignum-label strong { display: block; font-family: 'Shrikhand', cursive; font-size: 20px; color: var(--brown); margin-bottom: 6px; }
+
+  /* SEC 03 RETAIL */
+  .retail-wrap { max-width: 1300px; margin: 0 auto; padding-top: 40px; }
+  .retail-intro { margin-bottom: 60px; }
+  .retail-headline {
+    font-family: 'Monoton', cursive;
+    font-size: clamp(40px, 6vw, 86px);
+    line-height: .98;
+    color: var(--brown);
+    text-shadow: 4px 4px 0 var(--mustard);
+    margin-top: 20px;
+  }
+  .retail-headline em {
+    font-style: normal;
+    font-family: 'Shrikhand', cursive;
+    color: var(--orange);
+    text-shadow: 3px 3px 0 var(--brown);
+  }
+  .retail-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+  .retail-image {
+    position: relative;
+    border: 4px solid var(--brown);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 8px 8px 0 var(--orange);
+    background: var(--cream-2);
+  }
+  .retail-image img { filter: sepia(.35) saturate(1.1) contrast(.95); }
+  .retail-image-tag {
+    position: absolute;
+    bottom: 20px; left: 20px;
+    background: var(--mustard);
+    border: 3px solid var(--brown);
+    padding: 14px 20px;
+    border-radius: 20px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--brown);
+    font-weight: 700;
+    box-shadow: 3px 3px 0 var(--brown);
+  }
+  .retail-image-tag strong { display: block; font-family: 'Rubik Mono One', sans-serif; font-size: 26px; margin-bottom: 4px; }
+  .retail-list { display: flex; flex-direction: column; gap: 18px; }
+  .retail-entry {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 16px;
+    padding: 22px 26px;
+    background: var(--cream-2);
+    border: 3px solid var(--brown);
+    border-radius: 20px;
+    box-shadow: 5px 5px 0 var(--olive);
+  }
+  .retail-entry:nth-child(even) { box-shadow: 5px 5px 0 var(--mustard); }
+  .r-idx { font-family: 'Rubik Mono One', sans-serif; font-size: 22px; color: var(--orange); }
+  .r-name { font-family: 'Shrikhand', cursive; font-size: 22px; color: var(--brown); margin-bottom: 6px; }
+  .r-desc { font-size: 14px; line-height: 1.55; color: var(--brown); }
+
+  /* SEC 04 RESULTS */
+  .results-wrap { max-width: 1300px; margin: 0 auto; padding-top: 40px; }
+  .results-head { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 60px; align-items: end; }
+  .results-head h2 {
+    font-family: 'Monoton', cursive;
+    font-size: clamp(44px, 7vw, 100px);
+    line-height: .95;
+    color: var(--brown);
+    text-shadow: 5px 5px 0 var(--orange);
+  }
+  .results-head h2 em {
+    font-style: normal;
+    font-family: 'Shrikhand', cursive;
+    color: var(--olive);
+    text-shadow: 4px 4px 0 var(--brown);
+  }
+  .results-head p { font-size: 18px; color: var(--brown); line-height: 1.55; }
+  .results-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .result {
+    background: var(--cream-2);
+    border: 3px solid var(--brown);
+    border-radius: 24px;
+    padding: 30px;
+    box-shadow: 6px 6px 0 var(--mustard);
+    position: relative;
+    transition: transform .2s;
+  }
+  .result:nth-child(even) { box-shadow: 6px 6px 0 var(--olive); }
+  .result:hover { transform: translate(-3px,-3px); }
+  .result-year {
+    font-family: 'Shrikhand', cursive;
+    font-size: 18px;
+    color: var(--orange);
+    margin-bottom: 14px;
+  }
+  .result-title {
+    font-family: 'Monoton', cursive;
+    font-size: 28px;
+    color: var(--brown);
+    margin-bottom: 14px;
+    line-height: 1.1;
+  }
+  .result-desc { font-size: 14px; line-height: 1.55; color: var(--brown); }
+  .result-arrow {
+    position: absolute;
+    top: 24px; right: 26px;
+    font-family: 'Shrikhand', cursive;
+    font-size: 30px;
+    color: var(--orange);
+  }
+
+  /* SEC 05 CAREERS */
+  .careers-wrap { max-width: 1300px; margin: 0 auto; padding-top: 40px; }
+  .careers-head { margin-bottom: 60px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: end; }
+  .careers-head h2 {
+    font-family: 'Monoton', cursive;
+    font-size: clamp(54px, 8vw, 120px);
+    line-height: .92;
+    color: var(--brown);
+    text-shadow: 5px 5px 0 var(--orange);
+  }
+  .careers-head h2 em {
+    font-style: normal;
+    font-family: 'Shrikhand', cursive;
+    color: var(--olive);
+    text-shadow: 4px 4px 0 var(--brown);
+  }
+  .careers-head p { font-size: 18px; color: var(--brown); line-height: 1.55; }
+  .careers-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 40px; }
+  .careers-stats { display: flex; flex-direction: column; gap: 20px; }
+  .careers-stat {
+    background: var(--mustard);
+    border: 3px solid var(--brown);
+    border-radius: 20px;
+    padding: 26px;
+    box-shadow: 5px 5px 0 var(--brown);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--brown);
+    font-weight: 700;
+  }
+  .careers-stat strong {
+    display: block;
+    font-family: 'Rubik Mono One', sans-serif;
+    font-size: 54px;
+    color: var(--orange-dk);
+    margin: 10px 0;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .careers-stat em { font-style: normal; color: var(--olive-dk); font-family: 'Shrikhand', cursive; }
+  .careers-jobs h3 {
+    font-family: 'Shrikhand', cursive;
+    font-size: 26px;
+    color: var(--brown);
+    margin-bottom: 22px;
+  }
+  .careers-jobs-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 30px; }
+  .career-job {
+    display: grid;
+    grid-template-columns: 60px 1fr 50px;
+    align-items: center;
+    gap: 16px;
+    padding: 22px 26px;
+    background: var(--cream-2);
+    border: 3px solid var(--brown);
+    border-radius: 20px;
+    box-shadow: 5px 5px 0 var(--orange);
+    transition: transform .2s;
+  }
+  .career-job:hover { transform: translate(-2px,-2px); box-shadow: 7px 7px 0 var(--orange); }
+  .career-job-num { font-family: 'Rubik Mono One', sans-serif; font-size: 20px; color: var(--orange); }
+  .career-job-title { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--brown); }
+  .career-job-title small { display: block; font-family: 'Space Mono', monospace; font-size: 10px; color: var(--olive-dk); text-transform: uppercase; letter-spacing: .1em; margin-top: 6px; font-weight: 700; }
+  .career-job-arrow { font-family: 'Shrikhand', cursive; font-size: 28px; color: var(--orange); text-align: right; }
+  .careers-apply {
+    background: var(--olive);
+    color: var(--cream);
+    border: 3px solid var(--brown);
+    border-radius: 20px;
+    padding: 26px;
+    box-shadow: 5px 5px 0 var(--brown);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .careers-apply-text { font-family: 'DM Serif Display', serif; font-size: 18px; max-width: 45ch; }
+  .careers-apply a {
+    font-family: 'Shrikhand', cursive;
+    font-size: 20px;
+    padding: 12px 22px;
+    background: var(--mustard);
+    color: var(--brown);
+    border: 3px solid var(--brown);
+    border-radius: 40px;
+    box-shadow: 3px 3px 0 var(--brown);
+  }
+
+  /* CONTACT */
+  .contact {
+    padding: 130px 32px;
+    background: var(--olive);
+    color: var(--cream);
+    border-top: 4px dashed var(--mustard);
+    position: relative;
+    overflow: hidden;
+  }
+  .contact::before {
+    content: '';
+    position: absolute;
+    bottom: -30%; left: -10%;
+    width: 800px; height: 800px;
+    background: repeating-conic-gradient(from 0deg at 50% 50%, var(--mustard) 0 6deg, transparent 6deg 12deg);
+    opacity: .1;
+    border-radius: 50%;
+    -webkit-mask-image: radial-gradient(circle, black 20%, transparent 70%);
+            mask-image: radial-gradient(circle, black 20%, transparent 70%);
+    animation: spin 160s linear infinite;
+    pointer-events: none;
+  }
+  .contact-inner { max-width: 1300px; margin: 0 auto; position: relative; }
+  .contact-head {
+    font-family: 'Monoton', cursive;
+    font-size: clamp(54px, 8vw, 120px);
+    line-height: .92;
+    color: var(--cream);
+    text-shadow: 5px 5px 0 var(--brown), 10px 10px 0 var(--orange);
+    margin-bottom: 70px;
+  }
+  .contact-head em {
+    font-style: normal;
+    font-family: 'Shrikhand', cursive;
+    color: var(--mustard);
+    text-shadow: 4px 4px 0 var(--brown);
+  }
+  .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 50px; }
+  .contact-col {
+    background: var(--cream);
+    color: var(--brown);
+    border: 3px solid var(--brown);
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow: 6px 6px 0 var(--mustard);
+  }
+  .contact-col h4 {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--orange-dk);
+    margin-bottom: 14px;
+    font-weight: 700;
+  }
+  .contact-col p { font-family: 'DM Serif Display', serif; font-size: 20px; line-height: 1.5; }
+  .contact-col p small { display: block; font-family: 'Space Mono', monospace; font-size: 10px; margin-top: 8px; text-transform: uppercase; color: var(--olive-dk); letter-spacing: .08em; font-weight: 700; }
+  .contact-col a { color: var(--orange); border-bottom: 2px dashed var(--orange); }
+  .contact-map {
+    position: relative;
+    height: 360px;
+    border: 4px solid var(--brown);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 8px 8px 0 var(--mustard);
+    margin-bottom: 40px;
+    background: var(--cream-2);
+  }
+  .contact-map iframe { width: 100%; height: 100%; border: 0; filter: sepia(.6) saturate(.85) hue-rotate(-10deg) contrast(.95); }
+  .contact-map-tag {
+    position: absolute;
+    top: 18px; left: 18px;
+    background: var(--mustard);
+    color: var(--brown);
+    padding: 10px 18px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    border: 2px solid var(--brown);
+    border-radius: 20px;
+    z-index: 2;
+    font-weight: 700;
+    box-shadow: 3px 3px 0 var(--brown);
+  }
+  .contact-cta {
+    background: var(--mustard);
+    border: 3px solid var(--brown);
+    border-radius: 24px;
+    padding: 32px 40px;
+    box-shadow: 6px 6px 0 var(--brown);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+    color: var(--brown);
+  }
+  .contact-cta-text { font-family: 'DM Serif Display', serif; font-size: 24px; max-width: 45ch; }
+  .contact-cta a {
+    display: inline-flex;
+    gap: 12px;
+    align-items: center;
+    font-family: 'Shrikhand', cursive;
+    font-size: 22px;
+    padding: 16px 30px;
+    background: var(--orange);
+    color: var(--cream);
+    border: 3px solid var(--brown);
+    border-radius: 60px;
+    box-shadow: 4px 4px 0 var(--brown);
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--brown-dk);
+    color: var(--cream);
+    padding: 60px 32px 30px;
+    border-top: 4px solid var(--orange);
+  }
+  .foot-inner {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+    padding-bottom: 40px;
+    border-bottom: 2px dashed var(--mustard);
+  }
+  .foot-mark {
+    font-family: 'Monoton', cursive;
+    font-size: clamp(80px, 14vw, 180px);
+    color: var(--orange);
+    text-shadow: 6px 6px 0 var(--mustard);
+    line-height: 1;
+  }
+  .foot-mark em { font-style: normal; font-family: 'Shrikhand', cursive; color: var(--mustard); }
+  .foot-meta { font-family: 'Space Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; line-height: 1.8; }
+  .foot-meta strong { display: block; font-family: 'Monoton', cursive; font-size: 28px; color: var(--mustard); margin: 8px 0; letter-spacing: .04em; }
+  .foot-bot {
+    max-width: 1300px;
+    margin: 30px auto 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    opacity: .7;
+  }
+
+  /* reveal */
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity .8s, transform .8s; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* RESPONSIVE */
+  @media (max-width: 960px) {
+    .topbar-mid { display: none; }
+    .topbar.is-open .topbar-mid { display: flex; position: absolute; top: 70px; left: 0; right: 0; flex-direction: column; background: var(--cream); border: 3px solid var(--brown); border-radius: 20px; padding: 20px; gap: 14px; }
+    .topbar-burger { display: inline-flex; }
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-strip { grid-template-columns: repeat(2, 1fr); }
+    .chapter-details { grid-template-columns: 1fr; }
+    .solutions-table, .solutions-table tbody, .solutions-table tr, .solutions-table td { display: block; width: 100%; }
+    .solutions-table td { border: none; padding: 6px 20px; }
+    .solutions-table tr { padding: 20px; margin-bottom: 18px; border: 3px solid var(--brown); border-radius: 20px; box-shadow: 5px 5px 0 var(--orange); }
+    .bignums-grid { grid-template-columns: repeat(2, 1fr); }
+    .retail-layout, .results-list, .results-head, .careers-grid, .careers-head, .contact-grid { grid-template-columns: 1fr; }
+    .foot-inner { grid-template-columns: 1fr; }
+    .foot-bot { flex-direction: column; }
+  }
+  @media (max-width: 560px) {
+    .hero-strip { grid-template-columns: 1fr; }
+    .bignums-grid { grid-template-columns: 1fr; }
+    .hero { padding: 130px 20px 40px; }
+    .section { padding: 100px 20px; }
+    .badge { width: 110px; height: 110px; font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar" id="topbar">
+  <a href="#top" class="topbar-left" aria-label="MANDS — strona główna">MANDS</a>
+  <nav class="topbar-mid" id="topbar-nav" aria-label="Główna nawigacja">
+    <a href="#idx-01" data-i="nav.manifest">Manifest</a>
+    <a href="#idx-02" data-i="nav.methods">Metody</a>
+    <a href="#idx-03" data-i="nav.retail">Retail</a>
+    <a href="#idx-04" data-i="nav.archive">Archiwum</a>
+    <a href="#idx-05" data-i="nav.careers">Kariera</a>
+    <a href="#idx-06" data-i="nav.contact">Kontakt</a>
+  </nav>
+  <div class="topbar-end">
+    <a href="tel:+48713220686" class="topbar-right">+48 71 322 06 86</a>
+    <button type="button" class="topbar-lang" aria-label="Switch language">EN</button>
+    <button class="topbar-burger" type="button" aria-label="Menu" aria-controls="topbar-nav" aria-expanded="false"><span></span></button>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-tag" data-i="hero.tag">№ 001 <strong>Instytut Badawczy</strong> · est. 2005</div>
+      <h1 class="hero-display" data-i="hero.title">
+        <span class="line">Badania</span>
+        <span class="line">rynku</span>
+        <span class="line"><em>i opinii.</em></span>
+      </h1>
+      <p class="hero-sub" data-i="hero.sub">Polski instytut badawczy działający od <span class="serif">2005 roku</span>. Słuchamy, analizujemy i doradzamy — pomagamy znaleźć drogę do rynkowego sukcesu.</p>
+      <div class="hero-actions">
+        <a href="#idx-06" class="arrow-link">
+          <span data-i="hero.cta">Zamów badanie</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
+        </a>
+        <div class="hero-note">info@mands.pl · +48 71 322 06 86</div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="vinyl">
+        <div class="vinyl-label">
+          <div class="big">MANDS</div>
+          <div class="mid">since '05</div>
+          <div class="sub">long play / side A</div>
+        </div>
+        <div class="vinyl-hole"></div>
+      </div>
+      <div class="badge badge-1">20+<br>lat na<br>rynku</div>
+      <div class="badge badge-2">ESOMAR<br>&amp;<br>OFBOR</div>
+    </div>
+  </div>
+
+  <div class="hero-strip">
+    <div>
+      <span class="mono" data-i="strip.1.label">/ 001 — Doświadczenie</span>
+      <strong data-i="strip.1.val">20<em>+</em> lat</strong>
+    </div>
+    <div>
+      <span class="mono" data-i="strip.2.label">/ 002 — Ankieterzy</span>
+      <strong data-i="strip.2.val">400<em>+</em> w Polsce</strong>
+    </div>
+    <div>
+      <span class="mono" data-i="strip.3.label">/ 003 — Wywiady</span>
+      <strong data-i="strip.3.val">10<em>k</em> / tydzień</strong>
+    </div>
+    <div>
+      <span class="mono" data-i="strip.4.label">/ 004 — Standardy</span>
+      <strong data-i="strip.4.val">OFBOR <em>·</em> ESOMAR</strong>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 01 — ABOUT -->
+<section id="idx-01" class="section">
+  <div class="section-num" data-i="sec01.num">§ <strong>01</strong> / Manifest</div>
+  <div class="chapter">
+    <div class="chapter-label" data-i="sec01.label">
+      Rozdział pierwszy
+      <strong>Kim jesteśmy</strong>
+    </div>
+    <p class="chapter-body reveal" data-i="sec01.body">Jesteśmy instytutem referencyjnym dla <em>sieci handlowych.</em> Stawiamy na indywidualne podejście — słuchamy, analizujemy, doradzamy.</p>
+    <div class="chapter-details">
+      <div class="reveal">
+        <span class="mono" data-i="sec01.d1.label">/ 001 — Podejście</span>
+        <h4 data-i="sec01.d1.h">Indywidualnie.</h4>
+        <p data-i="sec01.d1.p">Każdy klient otrzymuje wsparcie merytoryczne dopasowane do jego potrzeb — bez szablonów.</p>
+      </div>
+      <div class="reveal">
+        <span class="mono" data-i="sec01.d2.label">/ 002 — Technologia</span>
+        <h4 data-i="sec01.d2.h">Własne narzędzia.</h4>
+        <p data-i="sec01.d2.p">Teleinformatyczny system B2B integrujący sondażowanie, przetwarzanie danych i raportowanie.</p>
+      </div>
+      <div class="reveal">
+        <span class="mono" data-i="sec01.d3.label">/ 003 — Zespół</span>
+        <h4 data-i="sec01.d3.h">Doświadczenie.</h4>
+        <p data-i="sec01.d3.p">Specjaliści z wieloletnim stażem. Praca zgodnie z Kodeksem ESOMAR i standardami PKJPA.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 02 — SOLUTIONS -->
+<section id="idx-02" class="section">
+  <div class="section-num" data-i="sec02.num">§ <strong>02</strong> / Metody badawcze</div>
+  <div class="solutions-wrap">
+    <h2 class="solutions-title reveal" data-i="sec02.title">Pełna paleta<br>metod <em>badawczych.</em></h2>
+    <table class="solutions-table">
+      <tr class="reveal"><td class="sol-num">/01</td><td class="sol-name" data-i="m.cati.name">CATI<em>.</em></td><td class="sol-tag" data-i="m.cati.tag">Ilościowe · Telefon</td><td class="sol-desc" data-i="m.cati.desc">Computer-Assisted Telephone Interviewing. Tysiące wywiadów miesięcznie w badaniach sondażowych, społecznych, konsumenckich i B2B — w Polsce i za granicą. Własne studio we Wrocławiu od 2005 r., profesjonalne stanowiska, opieka doświadczonych supervisorów oraz praca zdalna w modelu Cati@Home. Szybka realizacja, szybkie opracowanie wyników, minimalizacja błędów, pełna kontrola nad projektem.</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/02</td><td class="sol-name" data-i="m.cawi.name">CAWI<em>.</em></td><td class="sol-tag" data-i="m.cawi.tag">Ilościowe · Online</td><td class="sol-desc" data-i="m.cawi.desc">Computer Assisted Web Interview — ankieta internetowa wypełniana samodzielnie. Realizujemy w oprogramowaniu CADAS CAWI, które łączy elementy organizacyjne, metodologiczne, kontrolne i informatyczne procesu badawczego. Klient partycypuje w projekcie: testuje kwestionariusz, na bieżąco podgląda wyniki i postęp badania. Pełne bezpieczeństwo — szyfrowany dostęp i podwójne szyfrowanie danych, łącznie z danymi teleadresowymi respondentów. Dla respondenta proces jest przystępny: bez instalacji dodatkowego oprogramowania, z możliwością przerwania i powrotu bez utraty odpowiedzi.</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/03</td><td class="sol-name" data-i="m.mobi.name">MOBI<em>.</em></td><td class="sol-tag" data-i="m.mobi.tag">Ilościowe · Tablet</td><td class="sol-desc" data-i="m.mobi.desc">Ewolucja tradycyjnych badań typu „papier-ołówek" do pełnoprawnych wywiadów wspomaganych komputerowo. Ankieter posługuje się tabletem dokładnie tak samo jak ankietą papierową, z możliwością wykorzystania multimediów i zaawansowanych technik wizualizacji pytań (m.in. drag & drop). Automatyczny zapis lokalizacji GPS oraz nagrywanie wywiadów ułatwia i przyspiesza kontrolę pracy ankieterów w terenie.</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/04</td><td class="sol-name" data-i="m.fgi.name">FGI<em>.</em></td><td class="sol-tag" data-i="m.fgi.tag">Jakościowe · Grupa</td><td class="sol-desc" data-i="m.fgi.desc">Focus Group Interviews — jedna z najpopularniejszych metod badań jakościowych. Dyskusja grupowa kontrolowana przez moderatora, prowadzona na podstawie wcześniej przygotowanego scenariusza. Stosowana do testowania nowych konceptów (logo, opakowania, reklamy) i badania zachowań konsumenckich; charakteryzuje się twórczym i inspirującym charakterem z możliwością pogłębionej analizy tematu. Przebieg wywiadu jest rejestrowany.</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/05</td><td class="sol-name" data-i="m.idi.name">IDI<em>.</em></td><td class="sol-tag" data-i="m.idi.tag">Jakościowe · Indywidualne</td><td class="sol-desc" data-i="m.idi.desc">Individual In-Depth Interview — druga najpopularniejsza metoda badań jakościowych. Rozmowa moderatora z respondentem w celu dotarcia do pożądanych informacji oraz poznania postaw, intencji i motywów działań badanego. Prowadzona według ustalonego scenariusza o charakterze otwartym; sprawdza się w sytuacjach z trudnym dostępem do grup badawczych lub przy tematach drażliwych. Przebieg zwykle jest rejestrowany.</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/06</td><td class="sol-name" data-i="m.fobo.name">FoBo<em>.</em></td><td class="sol-tag" data-i="m.fobo.tag">Jakościowe · Online</td><td class="sol-desc" data-i="m.fobo.desc">Focus Board — platforma do jakościowych badań online. Alternatywa dla metod tradycyjnych: wywiady indywidualne i grupowe prowadzone przez Internet, również w formie bezkontaktowej. Rekrutacja telefoniczna wg screenera, realizacja przez Zoom (z opcją tłumaczenia symultanicznego), transmisja na żywo przez YouTube do wskazanych odbiorców, nagrania audio-video i transkrypcje. Zakres współpracy od nadzoru technicznego po pełny projekt z rekrutacją, moderacją i raportem.</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/07</td><td class="sol-name" data-i="m.ms.name">Mystery Shopper<em>.</em></td><td class="sol-tag" data-i="m.ms.tag">Audyt · Retail & Usługi</td><td class="sol-desc" data-i="m.ms.desc">Tajemniczy klient — kilkuset audytorów w całej Polsce realizuje projekty audytowe dla sieci retailowych i usługowych. Weryfikacja standardów obsługi, ekspozycji materiałów POS i procedur sprzedażowych. Dostępny także jako komponent platformy PaaS.</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/08</td><td class="sol-name" data-i="m.paas.name">PaaS<em>.</em></td><td class="sol-tag" data-i="m.paas.tag">Technologia · SaaS</td><td class="sol-desc" data-i="m.paas.desc">Platform as a Service — rozwiązanie pozwalające wypożyczyć na określony czas dostęp do technologii i oprogramowania badawczego. Dedykowane firmom, które nie chcą inwestować w sprzęt lub potrzebują dostępu do narzędzi statystycznych tylko na czas konkretnego projektu. Badania obejmują CATI, CAPI, CAWI, MOBI oraz Mystery Shopper.</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/09</td><td class="sol-name" data-i="m.focus.name">Fokusownia<em>.</em></td><td class="sol-tag" data-i="m.focus.tag">Infrastruktura · Wrocław</td><td class="sol-desc" data-i="m.focus.desc">W pełni wyposażona fokusownia z podglądownią oraz oddzielnym pomieszczeniem dla tłumacza przy ul. Prusa we Wrocławiu. Pomoce dla moderatora (telewizor, rzutnik, flipchart), profesjonalny sprzęt audio z tłumaczeniem symultanicznym i jednoczesnym nagrywaniem A/V w dwóch wersjach językowych, video streaming grup fokusowych (opcjonalnie, w wersji oryginalnej lub z lektorem), bezprzewodowy Internet, poczęstunek dla respondentów. Studio przystosowane dla osób niepełnosprawnych.</td><td class="sol-arrow">↗</td></tr>
+      <tr class="reveal"><td class="sol-num">/10</td><td class="sol-name" data-i="m.std.name">Standardy<em>.</em></td><td class="sol-tag" data-i="m.std.tag">OFBOR · ESOMAR</td><td class="sol-desc" data-i="m.std.desc">Przestrzegamy norm jakości w procesie realizacji badań — pracujemy zgodnie ze standardami OFBOR, co daje klientowi gwarancję wysokiej jakości całego procesu badawczego i jest świadectwem dbałości o każdy jego element. Działamy również w oparciu o Kodeks ESOMAR.</td><td class="sol-arrow">↗</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- BIG NUMBERS -->
+<section class="bignums">
+  <div class="bignums-inner">
+    <h2 data-i="big.title">◆ Liczby MANDS / w liczbach</h2>
+    <div class="bignums-grid">
+      <div class="bignum reveal">
+        <div class="bignum-val" data-i="big.1.val">20<em>+</em></div>
+        <div class="bignum-label" data-i="big.1.label"><strong>Lat doświadczenia</strong>nieprzerwanie na rynku badań od 2005 roku</div>
+      </div>
+      <div class="bignum reveal">
+        <div class="bignum-val" data-i="big.2.val">400</div>
+        <div class="bignum-label" data-i="big.2.label"><strong>Ankieterów</strong>w całej Polsce, nadzorowanych przez trenerów regionalnych</div>
+      </div>
+      <div class="bignum reveal">
+        <div class="bignum-val" data-i="big.3.val">10<em>k</em></div>
+        <div class="bignum-label" data-i="big.3.label"><strong>Wywiadów</strong>tygodniowo w ramach kontroli dystrybucji materiałów</div>
+      </div>
+      <div class="bignum reveal">
+        <div class="bignum-val" data-i="big.4.val">10</div>
+        <div class="bignum-label" data-i="big.4.label"><strong>Trenerów regionalnych</strong>nadzorujących jakość pracy ankieterów w terenie</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 03 — RETAIL -->
+<section id="idx-03" class="section">
+  <div class="section-num" data-i="sec03.num">§ <strong>03</strong> / Dla sieci handlowych</div>
+  <div class="retail-wrap">
+    <div class="retail-intro">
+      <div class="chapter-label" data-i="sec03.label">
+        Rozdział trzeci
+        <strong>Retail & dystrybucja</strong>
+      </div>
+      <h2 class="retail-headline reveal" data-i="sec03.headline">Sprawdzamy, czy Twoje<br>gazetki <em>docierają do klientów.</em></h2>
+    </div>
+    <div class="retail-layout">
+      <div class="retail-image reveal">
+        <img src="../images/IMG_5254-e1455562945354.jpg" alt="Badania terenowe MANDS" />
+        <div class="retail-image-tag" data-i="sec03.tag">
+          <strong>10 000+</strong>
+          gospodarstw domowych / tydzień
+        </div>
+      </div>
+      <div class="retail-list">
+        <div class="retail-entry reveal">
+          <div class="r-idx">/01</div>
+          <div>
+            <div class="r-name" data-i="r.1.name">Distribution Check</div>
+            <div class="r-desc" data-i="r.1.desc">Kontrola dystrybucji materiałów reklamowych. Tygodniowo odwiedzamy ponad 10 tysięcy gospodarstw domowych sprawdzając, czy gazetki zostały dostarczone.</div>
+          </div>
+        </div>
+        <div class="retail-entry reveal">
+          <div class="r-idx">/02</div>
+          <div>
+            <div class="r-name" data-i="r.2.name">Exit Store</div>
+            <div class="r-desc" data-i="r.2.desc">Badanie na terenie sklepu z jego klientami — analiza wartości koszyka, częstotliwości zakupów. Rezultat: heatmapa obszarów atrakcyjnych finansowo.</div>
+          </div>
+        </div>
+        <div class="retail-entry reveal">
+          <div class="r-idx">/03</div>
+          <div>
+            <div class="r-name" data-i="r.3.name">Distribution Reporting System</div>
+            <div class="r-desc" data-i="r.3.desc">Webowe narzędzie SaaS do raportowania kolportażu. Obsługa SMS dla kolporterów, eksport CSV/XLSX, historia kampanii.</div>
+          </div>
+        </div>
+        <div class="retail-entry reveal">
+          <div class="r-idx">/04</div>
+          <div>
+            <div class="r-name" data-i="r.4.name">Call Distribution Check</div>
+            <div class="r-desc" data-i="r.4.desc">Telefoniczna kontrola dystrybucji gazetek. Około 10 tysięcy wywiadów w kluczowych lokalizacjach — realizowana zwykle raz na dwa lata.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 04 — RESULTS -->
+<section id="idx-04" class="section">
+  <div class="section-num" data-i="sec04.num">§ <strong>04</strong> / Archiwum publikacji</div>
+  <div class="results-wrap">
+    <div class="results-head">
+      <h2 class="reveal" data-i="sec04.title">Wybrane<br>publikacje <em>& raporty.</em></h2>
+      <p class="reveal" data-i="sec04.sub">Dzielimy się wynikami wybranych badań — od skuteczności portali pracy w IT, przez infolinie hostingowe, po plany podróżnicze Polaków.</p>
+    </div>
+    <div class="results-list">
+      <div class="result reveal">
+        <div class="result-year" data-i="res.1.year">Anno 2022</div>
+        <div class="result-title" data-i="res.1.title">Portale z ogłoszeniami IT</div>
+        <div class="result-desc" data-i="res.1.desc">Trzecia edycja badania skuteczności portali pracy IT dla No Fluff Jobs — cztery stanowiska testowe metodą tajemniczego klienta.</div>
+        <div class="result-arrow">↗</div>
+      </div>
+      <div class="result reveal">
+        <div class="result-year" data-i="res.2.year">Anno 2021</div>
+        <div class="result-title" data-i="res.2.title">Infolinie firm hostingowych</div>
+        <div class="result-desc" data-i="res.2.desc">Badanie skuteczności obsługi klienta przeprowadzone wśród firm obsługujących co najmniej 10 000 domen.</div>
+        <div class="result-arrow">↗</div>
+      </div>
+      <div class="result reveal">
+        <div class="result-year" data-i="res.3.year">Anno 2020</div>
+        <div class="result-title" data-i="res.3.title">Plany podróżnicze Polaków</div>
+        <div class="result-desc" data-i="res.3.desc">Raport częściowy Ogólnopolskiego Badania Podróżników — wpływ pandemii na plany urlopowe i wybory kierunkowe.</div>
+        <div class="result-arrow">↗</div>
+      </div>
+      <div class="result reveal">
+        <div class="result-year" data-i="res.4.year">Metodologia</div>
+        <div class="result-title" data-i="res.4.title">Tajemniczy klient</div>
+        <div class="result-desc" data-i="res.4.desc">Kilkuset tajemniczych klientów w całej Polsce realizuje projekty audytowe — od retail przez gastronomię po usługi finansowe.</div>
+        <div class="result-arrow">↗</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAREERS -->
+<section id="idx-05" class="section">
+  <div class="section-num" data-i="sec05.num">§ <strong>05</strong> / Kariera</div>
+  <div class="careers-wrap">
+    <div class="careers-head">
+      <h2 class="reveal" data-i="sec05.title">Dołącz do<br><em>zespołu.</em></h2>
+      <p class="reveal" data-i="sec05.sub">Instytut o pracowników merytorycznych oparty, rozszerzany siatką ankieterską i tajemniczymi klientami. Rekrutacja stała — CV przyjmujemy niezależnie od aktualnych ogłoszeń.</p>
+    </div>
+
+    <div class="careers-grid">
+      <div class="careers-stats">
+        <div class="careers-stat reveal" data-i="car.stat.1">
+          Zespół merytoryczny
+          <strong>20<em>+</em></strong>
+          analityków, projektantów badań, supervisorów
+        </div>
+        <div class="careers-stat reveal" data-i="car.stat.2">
+          Siatka terenowa
+          <strong>400<em>+</em></strong>
+          ankieterów i kilkuset tajemniczych klientów
+        </div>
+        <div class="careers-stat reveal" data-i="car.stat.3">
+          Zasięg
+          <strong>PL</strong>
+          cała Polska — 10 trenerów regionalnych
+        </div>
+      </div>
+
+      <div class="careers-jobs">
+        <h3 data-i="car.jobs.h">/ Aktualnie poszukujemy</h3>
+        <div class="careers-jobs-list">
+          <a class="career-job reveal" href="mailto:rekrutacja@mands.pl?subject=Teleankieter%20CATI%20Wroc%C5%82aw">
+            <div class="career-job-num">/01</div>
+            <div class="career-job-title" data-i="car.job.1">Teleankieter · studio CATI Wrocław<small>Praca stacjonarna lub zdalna (Cati@Home)</small></div>
+            <div class="career-job-arrow">↗</div>
+          </a>
+          <a class="career-job reveal" href="mailto:rekrutacja@mands.pl?subject=Kontroler%20dystrybucji">
+            <div class="career-job-num">/02</div>
+            <div class="career-job-title" data-i="car.job.2">Kontroler dystrybucji materiałów reklamowych<small>Praca w terenie · cała Polska</small></div>
+            <div class="career-job-arrow">↗</div>
+          </a>
+          <a class="career-job reveal" href="mailto:rekrutacja@mands.pl?subject=Siatka%20ankieterska">
+            <div class="career-job-num">/03</div>
+            <div class="career-job-title" data-i="car.job.3">Siatka ankieterska & tajemniczy klienci<small>Rekrutacja ciągła · całe PL</small></div>
+            <div class="career-job-arrow">↗</div>
+          </a>
+        </div>
+
+        <div class="careers-apply reveal">
+          <div class="careers-apply-text" data-i="car.apply">Zainteresowany współpracą? Wyślij CV i kilka słów o sobie.</div>
+          <a href="mailto:rekrutacja@mands.pl">rekrutacja@mands.pl ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="idx-06" class="contact">
+  <div class="contact-inner">
+    <h2 class="contact-head" data-i="con.head">Porozmawiajmy<br>o <em>badaniu.</em></h2>
+
+    <div class="contact-grid">
+      <div class="contact-col">
+        <h4 data-i="con.1.h">/ 001 — Siedziba</h4>
+        <p data-i="con.1.p">ul. B. Prusa 1/48<br>50-319 Wrocław<br><small>NIP: PL8851557675</small></p>
+      </div>
+      <div class="contact-col">
+        <h4 data-i="con.2.h">/ 002 — Kontakt</h4>
+        <p data-i="con.2.p"><a href="mailto:info@mands.pl">info@mands.pl</a><br><a href="tel:+48713220686">+48 71 322 06 86</a><small>zwykle odpowiadamy w ciągu 24h</small></p>
+      </div>
+      <div class="contact-col">
+        <h4 data-i="con.3.h">/ 003 — Kariera</h4>
+        <p data-i="con.3.p"><a href="mailto:rekrutacja@mands.pl">rekrutacja@mands.pl</a><small>ankieterzy · tajemniczy klienci · merytoryka</small></p>
+      </div>
+    </div>
+
+    <div class="contact-map">
+      <div class="contact-map-tag">MANDS · ul. Prusa 1/48, Wrocław</div>
+      <iframe
+        src="https://maps.google.com/maps?&q=Boles%C5%82awa+Prusa+1+%2C+Wroc%C5%82aw+50-319&output=embed&iwloc"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="MANDS — siedziba na mapie"></iframe>
+    </div>
+
+    <div class="contact-cta">
+      <div class="contact-cta-text" data-i="con.cta.text">Masz pytanie o projekt badawczy? Odezwij się.</div>
+      <a href="mailto:info@mands.pl">
+        <span data-i="con.cta.btn">Napisz do nas</span>
+        <span>↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-inner">
+    <div class="foot-mark">m<em>&</em>s</div>
+    <div class="foot-meta">
+      <div data-i="foot.1">Instytut Badawczy</div>
+      <strong data-i="foot.2">MANDS / Wrocław</strong>
+      <div>est. MMV</div>
+      <div>51.10°N · 17.03°E</div>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <div data-i="foot.bot.1">© 2026 MANDS — Wszystkie prawa zastrzeżone</div>
+    <div data-i="foot.bot.2">Badania rynku i opinii / Made in Wrocław</div>
+  </div>
+</footer>
+
+<script>
+  const EN = {
+    'nav.manifest': 'Manifesto', 'nav.methods': 'Methods', 'nav.retail': 'Retail',
+    'nav.archive': 'Archive', 'nav.careers': 'Careers', 'nav.contact': 'Contact',
+    'hero.tag': '№ 001 <strong>Research Institute</strong> · est. 2005',
+    'hero.title': '<span class="line">Market</span><span class="line">& opinion</span><span class="line"><em>research.</em></span>',
+    'hero.sub': 'Polish research institute operating since <span class="serif">2005</span>. We listen, analyse and advise — helping you find the path to market success.',
+    'hero.cta': 'Commission a study',
+    'strip.1.label': '/ 001 — Experience', 'strip.1.val': '20<em>+</em> years',
+    'strip.2.label': '/ 002 — Interviewers', 'strip.2.val': '400<em>+</em> in Poland',
+    'strip.3.label': '/ 003 — Interviews', 'strip.3.val': '10<em>k</em> / week',
+    'strip.4.label': '/ 004 — Standards', 'strip.4.val': 'OFBOR <em>·</em> ESOMAR',
+    'sec01.num': '§ <strong>01</strong> / Manifesto',
+    'sec01.label': 'Chapter one<strong>Who we are</strong>',
+    'sec01.body': 'We are a reference institute for <em>retail chains.</em> We rely on an individual approach — we listen, analyse and advise.',
+    'sec01.d1.label': '/ 001 — Approach', 'sec01.d1.h': 'Individually.', 'sec01.d1.p': 'Every client receives substantive support tailored to their needs — no templates.',
+    'sec01.d2.label': '/ 002 — Technology', 'sec01.d2.h': 'Proprietary tools.', 'sec01.d2.p': 'In-house B2B platform integrating surveying, data processing and reporting.',
+    'sec01.d3.label': '/ 003 — Team', 'sec01.d3.h': 'Experience.', 'sec01.d3.p': 'Specialists with years of experience. Work in line with the ESOMAR Code and PKJPA standards.',
+    'sec02.num': '§ <strong>02</strong> / Research methods',
+    'sec02.title': 'A full palette<br>of <em>research methods.</em>',
+    'm.cati.name': 'CATI<em>.</em>', 'm.cati.tag': 'Quantitative · Phone',
+    'm.cati.desc': 'Computer-Assisted Telephone Interviewing. Thousands of interviews a month across opinion, social, consumer and B2B studies — in Poland and abroad. Our own Wrocław studio running since 2005, professional workstations, oversight by experienced supervisors and remote work in the Cati@Home model. Fast fieldwork, fast results, minimised error, full control over the project.',
+    'm.cawi.name': 'CAWI<em>.</em>', 'm.cawi.tag': 'Quantitative · Online',
+    'm.cawi.desc': 'Computer Assisted Web Interview — a self-completion online questionnaire. We run CAWI on CADAS CAWI software, which combines the organisational, methodological, control and IT layers of the research process. The client participates in the project: tests the questionnaire, and follows results and progress live. Full security — encrypted access and double encryption of data. For respondents the process is simple: no additional software to install, with the option to pause and resume without losing answers.',
+    'm.mobi.name': 'MOBI<em>.</em>', 'm.mobi.tag': 'Quantitative · Tablet',
+    'm.mobi.desc': 'An evolution of the traditional paper-and-pencil approach into fully computer-assisted interviewing. The interviewer uses a tablet exactly as a paper form, with the ability to embed multimedia and advanced question-display techniques. Automatic GPS capture and interview recording simplify field quality control.',
+    'm.fgi.name': 'FGI<em>.</em>', 'm.fgi.tag': 'Qualitative · Group',
+    'm.fgi.desc': 'Focus Group Interviews — one of the most popular qualitative methods. A moderator-led group discussion based on a prepared scenario. Used to test new concepts and to investigate consumer behaviour; creative and inspiring, with room for in-depth analysis. Sessions are recorded.',
+    'm.idi.name': 'IDI<em>.</em>', 'm.idi.tag': 'Qualitative · Individual',
+    'm.idi.desc': 'Individual In-Depth Interview — the second most popular qualitative method. A conversation between moderator and respondent aimed at understanding attitudes, intentions and motives. Works well with hard-to-reach groups and sensitive topics. Sessions are typically recorded.',
+    'm.fobo.name': 'FoBo<em>.</em>', 'm.fobo.tag': 'Qualitative · Online',
+    'm.fobo.desc': 'Focus Board — a platform for online qualitative research. Individual and group interviews run over the internet, including contact-free. Phone recruitment, Zoom delivery with simultaneous interpretation, live YouTube streaming, audio-video recordings and transcripts. Scope ranges from technical supervision to a full project with recruitment, moderation and report.',
+    'm.ms.name': 'Mystery Shopper<em>.</em>', 'm.ms.tag': 'Audit · Retail & Services',
+    'm.ms.desc': 'Mystery Shopper — several hundred auditors across Poland deliver audit projects for retail and service networks. Verification of service standards, POS material display and sales procedures. Also available as a module of the PaaS platform.',
+    'm.paas.name': 'PaaS<em>.</em>', 'm.paas.tag': 'Technology · SaaS',
+    'm.paas.desc': 'Platform as a Service — lets you rent access to research technology and software for a defined period. Aimed at companies that prefer not to invest in equipment or need statistical tooling only for a specific project. Studies covered: CATI, CAPI, CAWI, MOBI and Mystery Shopper.',
+    'm.focus.name': 'Focus Suite<em>.</em>', 'm.focus.tag': 'Infrastructure · Wrocław',
+    'm.focus.desc': 'A fully equipped focus studio with an observation room and a separate booth for an interpreter, in Wrocław. Moderator aids, professional audio with simultaneous interpretation and A/V recording in two languages, video streaming of focus groups, wireless internet. Accessible for people with disabilities.',
+    'm.std.name': 'Standards<em>.</em>', 'm.std.tag': 'OFBOR · ESOMAR',
+    'm.std.desc': 'We adhere to quality norms across the research process — working in line with OFBOR standards, guaranteeing the client high quality. We also operate under the ESOMAR Code.',
+    'big.title': '◆ MANDS in numbers',
+    'big.1.val': '20<em>+</em>', 'big.1.label': '<strong>Years of experience</strong>uninterrupted on the research market since 2005',
+    'big.2.val': '400', 'big.2.label': '<strong>Interviewers</strong>across Poland, supervised by regional trainers',
+    'big.3.val': '10<em>k</em>', 'big.3.label': '<strong>Interviews</strong>weekly as part of distribution control projects',
+    'big.4.val': '10', 'big.4.label': '<strong>Regional trainers</strong>overseeing the quality of fieldwork',
+    'sec03.num': '§ <strong>03</strong> / For retail chains',
+    'sec03.label': 'Chapter three<strong>Retail & distribution</strong>',
+    'sec03.headline': 'We check whether your<br>leaflets <em>reach customers.</em>',
+    'sec03.tag': '<strong>10,000+</strong>households / week',
+    'r.1.name': 'Distribution Check', 'r.1.desc': 'Control of advertising material distribution. Each week we visit more than 10,000 households to verify whether leaflets have been delivered.',
+    'r.2.name': 'Exit Store', 'r.2.desc': 'In-store research with actual shoppers — analysis of basket value and purchase frequency. Output: a heatmap of financially attractive catchment areas.',
+    'r.3.name': 'Distribution Reporting System', 'r.3.desc': 'A SaaS web tool for leaflet-distribution reporting. SMS handling for distributors, CSV/XLSX export, campaign history.',
+    'r.4.name': 'Call Distribution Check', 'r.4.desc': 'Phone-based leaflet distribution control. Around 10,000 interviews in key locations — typically run every two years.',
+    'sec04.num': '§ <strong>04</strong> / Publications archive',
+    'sec04.title': 'Selected<br>publications <em>& reports.</em>',
+    'sec04.sub': 'We share results from selected studies — from IT job-board effectiveness, through hosting-company hotlines, to Polish travellers plans.',
+    'res.1.year': 'Anno 2022', 'res.1.title': 'IT job boards', 'res.1.desc': 'Third edition of a study on the effectiveness of IT job boards for No Fluff Jobs — four test roles run via mystery shopper.',
+    'res.2.year': 'Anno 2021', 'res.2.title': 'Hosting-company hotlines', 'res.2.desc': 'A customer-service effectiveness study among companies managing at least 10,000 domains.',
+    'res.3.year': 'Anno 2020', 'res.3.title': 'Travel plans of Poles', 'res.3.desc': 'A partial report from the National Travellers Survey — the pandemic impact on holiday plans.',
+    'res.4.year': 'Methodology', 'res.4.title': 'Mystery shopper', 'res.4.desc': 'Several hundred mystery shoppers across Poland run audit projects — from retail through hospitality to financial services.',
+    'sec05.num': '§ <strong>05</strong> / Careers',
+    'sec05.title': 'Join the<br><em>team.</em>',
+    'sec05.sub': 'An institute built around a specialist core team, extended by an interviewer network and mystery shoppers. Recruitment is ongoing — we accept CVs regardless of current openings.',
+    'car.stat.1': 'Core team<strong>20<em>+</em></strong>analysts, study designers, supervisors',
+    'car.stat.2': 'Field network<strong>400<em>+</em></strong>interviewers and several hundred mystery shoppers',
+    'car.stat.3': 'Reach<strong>PL</strong>all of Poland — 10 regional trainers',
+    'car.jobs.h': '/ Currently hiring',
+    'car.job.1': 'Telephone interviewer · CATI studio Wrocław<small>On-site or remote (Cati@Home)</small>',
+    'car.job.2': 'Distribution controller (advertising materials)<small>Fieldwork · all of Poland</small>',
+    'car.job.3': 'Interviewer network & mystery shoppers<small>Ongoing recruitment · all of Poland</small>',
+    'car.apply': 'Interested in working together? Send us your CV and a few words about yourself.',
+    'con.head': "Let's talk<br>about your <em>study.</em>",
+    'con.1.h': '/ 001 — Headquarters', 'con.1.p': 'ul. B. Prusa 1/48<br>50-319 Wrocław, Poland<br><small>VAT: PL8851557675</small>',
+    'con.2.h': '/ 002 — Contact', 'con.2.p': '<a href="mailto:info@mands.pl">info@mands.pl</a><br><a href="tel:+48713220686">+48 71 322 06 86</a><small>we usually reply within 24h</small>',
+    'con.3.h': '/ 003 — Careers', 'con.3.p': '<a href="mailto:rekrutacja@mands.pl">rekrutacja@mands.pl</a><small>interviewers · mystery shoppers · core team</small>',
+    'con.cta.text': 'Got a research project in mind? Reach out.', 'con.cta.btn': 'Write to us',
+    'foot.1': 'Research Institute', 'foot.2': 'MANDS / Wrocław',
+    'foot.bot.1': '© 2026 MANDS — All rights reserved', 'foot.bot.2': 'Market & opinion research / Made in Wrocław'
+  };
+
+  (function () {
+    const btn = document.querySelector('.topbar-lang');
+    const nodes = document.querySelectorAll('[data-i]');
+    nodes.forEach(el => { el.dataset.pl = el.innerHTML; });
+    function setLang(lang) {
+      nodes.forEach(el => {
+        const key = el.getAttribute('data-i');
+        el.innerHTML = lang === 'en' ? (EN[key] || el.dataset.pl) : el.dataset.pl;
+      });
+      document.documentElement.lang = lang;
+      try { localStorage.setItem('mands-lang', lang); } catch (e) {}
+      if (btn) btn.textContent = lang === 'en' ? 'PL' : 'EN';
+    }
+    let initial = 'pl';
+    try { initial = localStorage.getItem('mands-lang') || 'pl'; } catch (e) {}
+    if (initial === 'en') setLang('en');
+    if (btn) btn.addEventListener('click', () => {
+      const next = (document.documentElement.lang === 'en') ? 'pl' : 'en';
+      setLang(next);
+    });
+  })();
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  (function () {
+    const topbar = document.getElementById('topbar');
+    const burger = topbar && topbar.querySelector('.topbar-burger');
+    const nav    = topbar && topbar.querySelector('.topbar-mid');
+    if (!topbar || !burger || !nav) return;
+    const close = () => { topbar.classList.remove('is-open'); burger.setAttribute('aria-expanded', 'false'); };
+    const open  = () => { topbar.classList.add('is-open');    burger.setAttribute('aria-expanded', 'true'); };
+    burger.addEventListener('click', () => { topbar.classList.contains('is-open') ? close() : open(); });
+    nav.addEventListener('click', (e) => { if (e.target.tagName === 'A') close(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+  })();
+
+  (function () {
+    const links = document.querySelectorAll('.topbar-mid a[href^="#"]');
+    if (!links.length) return;
+    const map = new Map();
+    links.forEach(a => {
+      const id = a.getAttribute('href').slice(1);
+      const sec = document.getElementById(id);
+      if (sec) map.set(sec, a);
+    });
+    const spy = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const link = map.get(entry.target);
+        if (!link) return;
+        if (entry.isIntersecting) {
+          links.forEach(l => l.classList.remove('is-active'));
+          link.classList.add('is-active');
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+    map.forEach((_, sec) => spy.observe(sec));
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MANDS — indeks wersji</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;700;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f2ea;
+    --ink: #0f0f0c;
+    --gray: #6b6b65;
+    --line: rgba(15,15,12,.14);
+    --accent: #8bb820;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { background: var(--bg); }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    padding: 64px 32px 96px;
+    line-height: 1.5;
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; }
+  header {
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 24px;
+    margin-bottom: 48px;
+  }
+  h1 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 900;
+    font-size: clamp(40px, 6vw, 72px);
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  h1 em {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--gray);
+  }
+  .sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gray);
+    margin-top: 16px;
+  }
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 28px;
+    letter-spacing: -0.02em;
+    margin: 56px 0 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line);
+  }
+  .num { color: var(--accent); font-family: 'JetBrains Mono', monospace; font-size: 14px; margin-right: 10px; vertical-align: 4px; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px;
+  }
+  a.card {
+    display: block;
+    padding: 20px 22px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    color: var(--ink);
+    text-decoration: none;
+    transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+  }
+  a.card:hover {
+    transform: translateY(-2px);
+    border-color: var(--ink);
+    box-shadow: 0 8px 24px rgba(15,15,12,.08);
+  }
+  .card .v {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .card .t {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+  .card .d {
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--gray);
+  }
+  footer {
+    margin-top: 80px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--gray);
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>MANDS <em>— indeks wersji</em></h1>
+      <div class="sub">Prototypy stron · mands/</div>
+    </header>
+
+    <h2><span class="num">—</span>Wersje bazowe</h2>
+    <div class="grid">
+      <a class="card" href="v3/index.html">
+        <div class="v">v3</div>
+        <div class="t">Edytorska (bazowa)</div>
+        <div class="d">Oryginalny layout — typografia Fraunces, paleta paper/ink/green.</div>
+      </a>
+      <a class="card" href="v4/index.html">
+        <div class="v">v4</div>
+        <div class="t">Iteracja v4</div>
+        <div class="d">Kolejna wersja bazowa.</div>
+      </a>
+    </div>
+
+    <h2><span class="num">v5</span>Warianty stylistyczne</h2>
+    <div class="grid">
+      <a class="card" href="v5.1/index.html">
+        <div class="v">v5.1</div>
+        <div class="t">Minimalist</div>
+        <div class="d">Dużo whitespace, ograniczona paleta, typografia w roli głównej.</div>
+      </a>
+      <a class="card" href="v5.2/index.html">
+        <div class="v">v5.2</div>
+        <div class="t">Brutalism</div>
+        <div class="d">Surowy HTML, Courier, ostre kontrasty, żółto-czarno-białe bloki.</div>
+      </a>
+      <a class="card" href="v5.3/index.html">
+        <div class="v">v5.3</div>
+        <div class="t">Neumorphism</div>
+        <div class="d">Miękkie wytłoczenia, podwójne cienie, monochromatyczna baza.</div>
+      </a>
+      <a class="card" href="v5.4/index.html">
+        <div class="v">v5.4</div>
+        <div class="t">Glassmorphism</div>
+        <div class="d">Mrożone szkło, backdrop-blur, kolorowe gradienty w tle.</div>
+      </a>
+      <a class="card" href="v5.5/index.html">
+        <div class="v">v5.5</div>
+        <div class="t">Material Design</div>
+        <div class="d">Google Material 3 — elevation, Roboto, FAB, zaokrąglenia.</div>
+      </a>
+      <a class="card" href="v5.6/index.html">
+        <div class="v">v5.6</div>
+        <div class="t">Flat Design</div>
+        <div class="d">Płaskie, bez cieni, jaskrawa paleta Flat UI.</div>
+      </a>
+      <a class="card" href="v5.7/index.html">
+        <div class="v">v5.7</div>
+        <div class="t">Skeuomorphism</div>
+        <div class="d">Skóra, papier, mosiądz, filc — tekstury i gradienty jak w iOS 6.</div>
+      </a>
+      <a class="card" href="v5.8/index.html">
+        <div class="v">v5.8</div>
+        <div class="t">Dark Mode</div>
+        <div class="d">Czarne tło, elektryczna limonka, subtelne poświaty.</div>
+      </a>
+      <a class="card" href="v5.9/index.html">
+        <div class="v">v5.9</div>
+        <div class="t">Retro / Vintage</div>
+        <div class="d">Musztarda, spalony pomarańcz, winyl, naklejki, sunburst.</div>
+      </a>
+      <a class="card" href="v5.10/index.html">
+        <div class="v">v5.10</div>
+        <div class="t">Y2K / Cybercore</div>
+        <div class="d">Chrom, holografia, Orbitron, VT323, brokaty i bąbelki.</div>
+      </a>
+      <a class="card" href="v5.11/index.html">
+        <div class="v">v5.11</div>
+        <div class="t">Memphis</div>
+        <div class="d">Zygzaki, konfetti, lata 80., bold clashing colors.</div>
+      </a>
+      <a class="card" href="v5.12/index.html">
+        <div class="v">v5.12</div>
+        <div class="t">Swiss / International</div>
+        <div class="d">Siatka 12 kolumn, Helvetica, czerwony akcent, Müller-Brockmann.</div>
+      </a>
+      <a class="card" href="v5.13/index.html">
+        <div class="v">v5.13</div>
+        <div class="t">Illustrative</div>
+        <div class="d">Inline SVG, ręcznie rysowane sceny, pastele, Caveat.</div>
+      </a>
+      <a class="card" href="v5.14/index.html">
+        <div class="v">v5.14</div>
+        <div class="t">3D & Immersive</div>
+        <div class="d">CSS 3D transforms, Three.js, parallax mouse-tilt, aurora.</div>
+      </a>
+      <a class="card" href="v5.15/index.html">
+        <div class="v">v5.15</div>
+        <div class="t">Editorial / Magazine</div>
+        <div class="d">CSS columns, drop caps, pull quotes, layout jak w magazynie.</div>
+      </a>
+      <a class="card" href="v5.16/index.html">
+        <div class="v">v5.16</div>
+        <div class="t">Single Page / Long Scroll</div>
+        <div class="d">Scroll-snap, 100vh sekcje, IntersectionObserver reveals.</div>
+      </a>
+      <a class="card" href="v5.17/index.html">
+        <div class="v">v5.17</div>
+        <div class="t">Asymmetric / Broken Grid</div>
+        <div class="d">Niezrównoważona siatka, rotacje, offsety, nakładanie warstw.</div>
+      </a>
+      <a class="card" href="v5.18/index.html">
+        <div class="v">v5.18</div>
+        <div class="t">Cyberpunk / Neon</div>
+        <div class="d">Neon magenta/cyjan/lime, glitch, scanlines, HUD, Blade Runner.</div>
+      </a>
+    </div>
+
+    <footer>MANDS · indeks prototypów · v3 → v5.18</footer>
+  </div>
+</body>
+</html>
