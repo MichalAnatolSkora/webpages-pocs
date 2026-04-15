@@ -886,21 +886,28 @@
 
   /* ============== RESPONSIVE ============== */
   @media (max-width: 960px) {
-    .topbar { grid-template-columns: auto auto; gap: 10px; padding: 14px 20px; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 14px 20px; }
     .topbar-mid { display: none; }
-    .hero { padding: 100px 20px 40px; gap: 20px 12px; }
-    .hero-tag { grid-column: 1 / -1; }
-    .hero-title { grid-column: 1 / -1; font-size: clamp(48px, 16vw, 90px); }
+    .topbar-right { display: none; }
+    .hero { padding: 100px 20px 40px; gap: 20px 12px; grid-template-rows: auto; }
+    .hero-tag { grid-column: 1 / -1; grid-row: auto; }
+    .hero-title { grid-column: 1 / -1; grid-row: auto; font-size: clamp(48px, 16vw, 90px); }
     .hero-title .l2 { margin-left: 10vw; }
-    .hero-sub { grid-column: 1 / -1; padding-left: 16px; }
-    .hero-card { grid-column: 1 / -1; margin-top: 20px; }
-    .hero-cta { grid-column: 1 / -1; }
+    .hero-sub { grid-column: 1 / -1; grid-row: auto; padding-left: 16px; }
+    .hero-card { grid-column: 1 / -1; grid-row: auto; margin-top: 20px; transform: none; }
+    .hero-cta { grid-column: 1 / -1; grid-row: auto; }
     .hero-rot { display: none; }
     .hero-strip { grid-template-columns: 1fr 1fr; }
     .hero-strip > div { padding: 14px !important; transform: none !important; text-align: left !important; }
     .section { grid-template-columns: 1fr; padding: 80px 20px; }
     .section-num { writing-mode: horizontal-tb; transform: none; grid-column: 1; grid-row: auto; padding-top: 0; }
     .s01-label, .s01-body, .s01-details, .s03-label, .s03-headline, .retail-image, .retail-list, .s02-title, .methods, .s04-title, .s04-sub, .results, .s05-title, .s05-sub, .careers-stats, .careers-jobs, .contact-head, .contact-grid, .contact-map, .contact-cta { grid-column: 1 / -1; }
+    .contact-head { font-size: clamp(40px, 12vw, 72px); overflow-wrap: anywhere; }
+    .contact-head em { margin-left: 0; }
+    h1, h2, .hero-title { overflow-wrap: anywhere; }
+    .retail-image { transform: none; margin-top: 20px; }
+    .retail-image-tag { right: 0; bottom: -20px; transform: rotate(2deg); max-width: 180px; }
+    body { overflow-x: hidden; }
     .s01-details, .results, .contact-grid { grid-template-columns: 1fr; }
     .s01-details > div, .result, .contact-col { transform: none !important; }
     .method { grid-template-columns: 1fr; padding-left: 0 !important; gap: 8px; }

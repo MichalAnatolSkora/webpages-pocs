@@ -185,17 +185,18 @@
 
   .hero-inner {
     position: relative; z-index: 2;
-    display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: 60px;
     width: 100%;
     max-width: 1500px;
     margin: 0 auto;
-    align-items: center;
     flex: 1;
     transform-style: preserve-3d;
   }
-  .hero-left { transform: translateZ(40px); }
+  .hero-left {
+    position: relative; z-index: 3;
+    transform: translateZ(40px);
+    max-width: 640px;
+    padding-top: 20px;
+  }
   .hero-tag {
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px; text-transform: uppercase; letter-spacing: .16em;
@@ -265,11 +266,14 @@
 
   /* Hero right: floating 3D cards */
   .hero-right {
-    position: relative;
-    min-height: 560px;
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
     transform-style: preserve-3d;
-    transform: rotateY(-14deg) rotateX(6deg);
+    transform: rotateY(-10deg) rotateX(4deg);
   }
+  .hero-right .float-card { pointer-events: auto; }
   .float-card {
     position: absolute;
     border-radius: 20px;
@@ -292,10 +296,10 @@
     -webkit-mask-composite: xor; mask-composite: exclude;
     pointer-events: none;
   }
-  .fc-1 { top: 0; left: 0; width: 62%; transform: translateZ(80px) rotateY(-4deg); animation-delay: 0s; }
-  .fc-2 { top: 20%; right: 0; width: 48%; transform: translateZ(140px) rotateY(8deg); animation-delay: -2s; }
-  .fc-3 { bottom: 18%; left: 8%; width: 54%; transform: translateZ(40px) rotateY(-2deg); animation-delay: -4s; }
-  .fc-4 { bottom: 0; right: 4%; width: 46%; transform: translateZ(110px) rotateY(6deg); animation-delay: -6s; }
+  .fc-1 { top: 2%;    right: 2%;  width: 30%; transform: translateZ(100px) rotateY(-6deg); animation-delay: 0s;  }
+  .fc-2 { top: 38%;   right: 12%; width: 24%; transform: translateZ(160px) rotateY(10deg); animation-delay: -2s; }
+  .fc-3 { bottom: 6%; right: 2%;  width: 26%; transform: translateZ(60px)  rotateY(-3deg); animation-delay: -4s; }
+  .fc-4 { bottom: 4%; left: 38%;  width: 22%; transform: translateZ(120px) rotateY(4deg);  animation-delay: -6s; }
 
   @keyframes bob {
     0%, 100% { translate: 0 0; }
