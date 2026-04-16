@@ -7,532 +7,1096 @@
 <link rel="icon" href="../images/cropped-logo-png-1-180x180.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0a0a;
-    --ink: #f5f0e8;
-    --mute: rgba(245,240,232,0.55);
-    --line: rgba(245,240,232,0.12);
+    --bg: #0c0c0f;
+    --bg-2: #141418;
+    --ink: #f3ece0;
+    --mute: rgba(243,236,224,0.55);
+    --dim: rgba(243,236,224,0.3);
+    --line: rgba(243,236,224,0.12);
+    --line-2: rgba(243,236,224,0.06);
     --accent: #ff4a1c;
-    --accent-2: #4affb5;
+    --accent-2: #f0c66a;
+    --accent-3: #7fd9c6;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Space Grotesk', -apple-system, sans-serif;
     background: var(--bg);
     color: var(--ink);
     line-height: 1.6;
     overflow-x: hidden;
+    font-weight: 400;
   }
   a { color: inherit; text-decoration: none; }
-  .wrap { max-width: 1400px; margin: 0 auto; padding: 0 40px; position: relative; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .serif { font-family: 'Instrument Serif', serif; }
+  .wrap { max-width: 1440px; margin: 0 auto; padding: 0 48px; position: relative; }
 
-  /* Scroll progress bar */
+  /* ===== FIXED UI LAYER ===== */
   .scroll-progress {
     position: fixed; top: 0; left: 0; right: 0;
     height: 2px; z-index: 1000;
-    background: transparent;
+    background: var(--line-2);
   }
-  .scroll-progress .bar {
-    height: 100%; width: 0;
-    background: var(--accent);
-    transition: width 0.05s linear;
-  }
+  .scroll-progress .bar { height: 100%; width: 0; background: var(--accent); transition: width 0.08s linear; }
 
-  /* Nav */
-  header.nav {
-    position: fixed; top: 24px; left: 50%; transform: translateX(-50%);
-    z-index: 100;
-    padding: 12px 20px;
-    background: rgba(10,10,10,0.7);
-    backdrop-filter: blur(20px);
+  .fixed-ui {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 90;
+  }
+  .fixed-ui > * { pointer-events: auto; }
+
+  .nav {
+    position: absolute;
+    top: 24px; left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 22px;
+    background: rgba(12,12,15,0.7);
+    backdrop-filter: blur(24px);
     border: 1px solid var(--line);
     border-radius: 999px;
     display: flex; gap: 28px; align-items: center;
+    transition: transform .4s cubic-bezier(.2,.8,.2,1), opacity .4s;
   }
-  .brand {
-    font-family: 'Instrument Serif', serif;
-    font-size: 20px;
-    letter-spacing: 0;
-  }
-  nav ul { display: flex; gap: 20px; list-style: none; font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute); }
-  nav a:hover { color: var(--ink); }
-  .lang-btn {
-    padding: 6px 12px; background: transparent; color: var(--ink);
+  .nav.hidden { transform: translateX(-50%) translateY(-120%); opacity: 0; }
+  .nav .brand { font-family: 'Instrument Serif', serif; font-size: 20px; letter-spacing: 0; }
+  .nav .brand em { font-style: italic; color: var(--accent); }
+  .nav ul { display: flex; gap: 20px; list-style: none; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute); }
+  .nav a:hover { color: var(--ink); }
+  .nav .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent-3); animation: blink 2s ease-in-out infinite; }
+  @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+  .nav .lang {
+    padding: 6px 14px; background: transparent; color: var(--ink);
     border: 1px solid var(--line); border-radius: 999px; cursor: pointer;
-    font: inherit; font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.14em;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em;
   }
+  .nav .lang:hover { border-color: var(--accent); color: var(--accent); }
 
-  /* Marquee */
-  .marquee {
-    padding: 16px 0;
-    overflow: hidden;
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-    white-space: nowrap;
-    font-family: 'Instrument Serif', serif;
-    font-size: 24px;
-    background: var(--bg);
-  }
-  .marquee-track {
-    display: inline-block;
-    animation: marquee 30s linear infinite;
-  }
-  .marquee-track span { margin-right: 48px; }
-  .marquee-track span em { color: var(--accent); font-style: italic; }
-  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-
-  .section-label {
-    font-family: 'Space Mono', monospace;
-    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 24px; display: block;
-  }
-  .section-label::before { content: '● '; }
-
-  /* Hero */
-  .hero {
-    min-height: 100vh;
-    padding: 160px 0 100px;
-    display: flex; flex-direction: column; justify-content: center;
-    position: relative;
-  }
-  .hero h1 {
-    font-family: 'Instrument Serif', serif;
-    font-weight: 400;
-    font-size: clamp(80px, 15vw, 240px);
-    line-height: 0.95;
-    letter-spacing: -0.04em;
-  }
-  .hero h1 em { font-style: italic; color: var(--accent); }
-  .hero .w {
-    display: block;
-    opacity: 0;
-    transform: translateY(60px);
-    animation: rise 1.2s cubic-bezier(.2,.8,.2,1) forwards;
-  }
-  .hero .w:nth-child(2) { animation-delay: 0.15s; padding-left: 8%; }
-  .hero .w:nth-child(3) { animation-delay: 0.3s; padding-left: 4%; }
-  .hero .w:nth-child(4) { animation-delay: 0.45s; padding-left: 12%; }
-  @keyframes rise {
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .hero .scroll-hint {
+  .corner-tr {
     position: absolute;
-    bottom: 40px; left: 40px;
-    font-family: 'Space Mono', monospace;
-    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--mute);
-    animation: pulse 2s ease-in-out infinite;
-  }
-  @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
-  .hero .meta-row {
-    position: absolute;
-    bottom: 40px; right: 40px;
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    top: 24px; right: 48px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
     color: var(--mute);
     text-align: right;
     line-height: 1.8;
   }
-  .hero .meta-row b { color: var(--ink); }
+  .corner-tr b { color: var(--ink); }
 
-  /* Sticky sections */
-  section { padding: 140px 0; border-bottom: 1px solid var(--line); position: relative; }
-
-  h2 {
-    font-family: 'Instrument Serif', serif;
-    font-weight: 400;
-    font-size: clamp(48px, 8vw, 120px);
-    line-height: 1;
-    letter-spacing: -0.03em;
-    margin-bottom: 48px;
-    max-width: 16ch;
-  }
-  h2 em { font-style: italic; color: var(--accent); }
-
-  /* Scroll reveal */
-  .reveal {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 1s ease, transform 1s cubic-bezier(.2,.8,.2,1);
-  }
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Pin manifest */
-  .manifest {
-    position: relative;
-  }
-  .manifest-sticky {
-    position: sticky;
-    top: 120px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: start;
-  }
-  .manifest .left p.lead {
-    font-family: 'Instrument Serif', serif;
-    font-size: clamp(32px, 4vw, 56px);
-    line-height: 1.15;
-    font-weight: 400;
-    max-width: 18ch;
-  }
-  .manifest .left p.lead em { font-style: italic; color: var(--accent); }
-
-  .pillars {
-    display: flex; flex-direction: column; gap: 36px;
-  }
-  .pillar { padding: 28px 0; border-top: 1px solid var(--line); }
-  .pillar .n { font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 0.16em; color: var(--accent); text-transform: uppercase; }
-  .pillar h4 { font-family: 'Instrument Serif', serif; font-size: 36px; font-weight: 400; margin: 14px 0 10px; }
-  .pillar p { font-size: 15px; color: var(--mute); max-width: 40ch; }
-
-  /* Horizontal marquee headings */
-  .h-marquee {
-    padding: 60px 0;
-    overflow: hidden;
-    white-space: nowrap;
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-  }
-  .h-marquee .track {
-    display: inline-block;
-    font-family: 'Instrument Serif', serif;
-    font-size: clamp(60px, 12vw, 180px);
-    font-style: italic;
-    color: var(--accent);
-    animation: marquee 25s linear infinite;
-  }
-  .h-marquee .track span { margin-right: 60px; color: var(--ink); font-style: normal; }
-
-  /* Methods sticky */
-  .methods { padding: 160px 0; }
-  .methods-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
-  .methods-title { position: sticky; top: 120px; }
-  .methods-title h2 { margin-bottom: 16px; }
-  .methods-title p { font-size: 16px; color: var(--mute); max-width: 36ch; }
-  .m-list .m {
-    padding: 40px 0;
-    border-top: 1px solid var(--line);
-    display: grid;
-    grid-template-columns: 50px 1fr 24px;
-    gap: 24px;
-    align-items: baseline;
-    transition: padding .4s cubic-bezier(.2,.8,.2,1);
-  }
-  .m-list .m:last-child { border-bottom: 1px solid var(--line); }
-  .m-list .m:hover { padding-left: 24px; }
-  .m .n { font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 0.12em; color: var(--accent); }
-  .m .name { font-family: 'Instrument Serif', serif; font-size: clamp(32px, 3.5vw, 56px); font-weight: 400; line-height: 1; letter-spacing: -0.01em; }
-  .m .name small { display: block; font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 400; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mute); margin-top: 10px; }
-  .m .d { font-size: 14px; color: var(--mute); line-height: 1.7; max-width: 60ch; grid-column: 2; margin-top: 8px; }
-  .m .a { font-size: 20px; color: var(--mute); transition: transform .3s; }
-  .m:hover .a { transform: translateX(8px); color: var(--accent); }
-
-  /* Counter bigumbs with animated numbers */
-  .counters {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
-    padding: 64px 0;
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-  }
-  .counter { padding: 0 32px; border-left: 1px solid var(--line); }
-  .counter:first-child { border-left: none; padding-left: 0; }
-  .counter .v {
-    font-family: 'Instrument Serif', serif;
-    font-size: clamp(64px, 8vw, 120px);
-    line-height: 1;
-    letter-spacing: -0.03em;
-    background: linear-gradient(180deg, var(--ink), var(--accent));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-  .counter .t { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; margin-top: 16px; color: var(--mute); }
-
-  /* Retail — parallax layered */
-  .retail-parallax {
-    position: relative;
-    padding: 160px 0;
-    overflow: hidden;
-  }
-  .retail-huge-bg {
+  .corner-bl {
     position: absolute;
-    font-family: 'Instrument Serif', serif;
-    font-style: italic;
-    font-size: clamp(240px, 35vw, 560px);
-    color: var(--accent);
-    opacity: 0.12;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-    line-height: 1;
-    white-space: nowrap;
-    letter-spacing: -0.04em;
-  }
-  .retail-content { position: relative; z-index: 2; max-width: 900px; }
-  .retail-list .r {
-    padding: 28px 0;
-    border-top: 1px solid var(--line);
-    display: grid; grid-template-columns: 60px 1fr 1fr 24px;
-    gap: 32px; align-items: baseline;
-  }
-  .retail-list .r:last-child { border-bottom: 1px solid var(--line); }
-  .retail-list .idx { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.14em; color: var(--accent); }
-  .retail-list h4 { font-family: 'Instrument Serif', serif; font-size: 28px; font-weight: 400; letter-spacing: -0.01em; }
-  .retail-list p { font-size: 14px; color: var(--mute); }
-  .retail-list .a { color: var(--mute); text-align: right; }
-
-  /* Contact */
-  .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; padding-top: 40px; border-top: 1px solid var(--line); }
-  .c-card h4 { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
-  .c-card p { font-family: 'Instrument Serif', serif; font-size: 24px; line-height: 1.5; font-weight: 400; }
-  .c-card a { border-bottom: 1px solid var(--line); }
-  .c-card a:hover { border-color: var(--accent); color: var(--accent); }
-
-  /* Big CTA marquee-like */
-  .cta-huge {
-    padding: 120px 40px;
-    text-align: center;
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-  }
-  .cta-huge h3 {
-    font-family: 'Instrument Serif', serif;
-    font-size: clamp(56px, 10vw, 140px);
-    font-weight: 400;
-    line-height: 1;
-    letter-spacing: -0.03em;
-  }
-  .cta-huge h3 em { font-style: italic; color: var(--accent); }
-  .cta-huge .btn-big {
-    display: inline-block;
-    margin-top: 48px;
-    padding: 20px 36px;
-    border: 1px solid var(--ink);
-    border-radius: 999px;
-    font-family: 'Space Mono', monospace;
-    font-size: 13px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    transition: background .3s, color .3s, transform .3s;
-  }
-  .cta-huge .btn-big:hover { background: var(--accent); border-color: var(--accent); color: var(--bg); transform: scale(1.05); }
-
-  footer {
-    padding: 48px 0;
-    font-family: 'Space Mono', monospace;
-    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    bottom: 24px; left: 48px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
     color: var(--mute);
   }
-  .foot-grid { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
-  .foot-grid b { color: var(--ink); font-family: 'Instrument Serif', serif; font-size: 16px; font-style: italic; letter-spacing: 0; text-transform: none; }
+  .corner-bl .counter-val {
+    color: var(--accent);
+    display: inline-block; min-width: 48px;
+  }
+  .corner-br {
+    position: absolute;
+    bottom: 24px; right: 48px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--mute);
+    display: flex; gap: 10px; align-items: center;
+  }
+  .corner-br .time { color: var(--ink); }
 
-  @media (max-width: 900px) {
-    .wrap { padding: 0 20px; }
-    header.nav { width: calc(100% - 24px); padding: 8px 14px; }
-    nav ul { display: none; }
-    .manifest-sticky, .methods-wrap { grid-template-columns: 1fr; }
-    .manifest-sticky, .methods-title { position: relative; top: 0; }
-    .counters, .contact-grid { grid-template-columns: 1fr 1fr; }
-    .counter { border-left: none; border-top: 1px solid var(--line); padding: 24px 0; }
-    .counter:first-child { border-top: none; }
-    .retail-list .r { grid-template-columns: 1fr; }
+  /* ===== CUSTOM CURSOR ===== */
+  .cursor {
+    position: fixed;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: difference;
+    transform: translate(-50%, -50%);
+    transition: width .3s, height .3s;
+  }
+  .cursor.hover { width: 60px; height: 60px; }
+  @media (hover: none) { .cursor { display: none; } }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 180px 0 120px;
+    position: relative;
+  }
+  .hero .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--mute);
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeIn 1s .3s forwards;
+  }
+  .hero .tag b { color: var(--accent); }
+
+  h1.display {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: clamp(80px, 14vw, 240px);
+    line-height: 0.88;
+    letter-spacing: -0.04em;
+  }
+  h1.display em { font-style: italic; color: var(--accent); }
+  h1.display .line { display: block; overflow: hidden; }
+  h1.display .line > span {
+    display: inline-block;
+    transform: translateY(110%) rotate(4deg);
+    animation: rise-word 1.4s cubic-bezier(.2,.85,.15,1) forwards;
+  }
+  h1.display .line:nth-child(1) > span { animation-delay: .1s; }
+  h1.display .line:nth-child(2) > span { animation-delay: .25s; padding-left: 6vw; }
+  h1.display .line:nth-child(3) > span { animation-delay: .4s; padding-left: 2vw; }
+  @keyframes rise-word {
+    to { transform: translateY(0) rotate(0); }
+  }
+  @keyframes fadeIn { to { opacity: 1; } }
+
+  .hero .under-meta {
+    margin-top: 72px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr 1fr;
+    gap: 48px;
+    opacity: 0;
+    animation: fadeIn 1s 1.2s forwards;
+  }
+  .hero .under-meta p { font-size: 16px; max-width: 38ch; color: var(--ink); }
+  .hero .under-meta .cell .k {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--mute);
+    margin-bottom: 12px;
+    display: block;
+  }
+  .hero .under-meta .cell .v {
+    font-family: 'Instrument Serif', serif;
+    font-size: 32px; letter-spacing: -0.02em;
+  }
+  .hero .under-meta .cell .v em { font-style: italic; color: var(--accent); }
+
+  .scroll-hint {
+    position: absolute;
+    left: 48px; bottom: 80px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--mute);
+    display: flex; align-items: center; gap: 12px;
+    opacity: 0;
+    animation: fadeIn 1s 1.5s forwards;
+  }
+  .scroll-hint .line {
+    display: inline-block; width: 40px; height: 1px;
+    background: var(--mute);
+    position: relative; overflow: hidden;
+  }
+  .scroll-hint .line::after {
+    content: ''; position: absolute; inset: 0;
+    background: var(--accent);
+    animation: lineSlide 2.2s ease-in-out infinite;
+  }
+  @keyframes lineSlide {
+    0% { transform: translateX(-100%); }
+    50% { transform: translateX(0); }
+    100% { transform: translateX(100%); }
+  }
+
+  /* ===== MARQUEES ===== */
+  .marquee {
+    padding: 32px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: var(--bg);
+    position: relative;
+  }
+  .marquee-track {
+    display: inline-block;
+    animation: marquee 35s linear infinite;
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(48px, 7vw, 108px);
+    font-style: italic;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+  .marquee-track span { padding: 0 32px; }
+  .marquee-track .sep { font-family: 'Space Grotesk', sans-serif; font-style: normal; color: var(--accent); font-size: 0.4em; vertical-align: middle; font-weight: 600; }
+  .marquee-track .italic { color: var(--accent); }
+  .marquee-track .outline {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--ink);
+    font-style: normal;
+  }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  .marquee.reverse .marquee-track { animation: marquee-rev 40s linear infinite; }
+  @keyframes marquee-rev { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+
+  /* ===== PINNED TWIN ===== */
+  .pinned-twin {
+    position: relative;
+  }
+  .pinned-twin .pin-track {
+    height: 300vh;
+    position: relative;
+  }
+  .pinned-twin .pin-stage {
+    position: sticky; top: 0;
+    height: 100vh;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  .pinned-twin .pin-left {
+    padding: 80px 64px;
+    display: flex; flex-direction: column; justify-content: center;
+    border-right: 1px solid var(--line);
+    position: relative;
+  }
+  .pinned-twin .pin-left .counter {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.2em;
+    color: var(--accent);
+    margin-bottom: 24px;
+  }
+  .pinned-twin .pin-left h2 {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: clamp(52px, 6vw, 92px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 28px;
+  }
+  .pinned-twin .pin-left h2 em { font-style: italic; color: var(--accent); }
+  .pinned-twin .pin-left p {
+    font-size: 17px; color: var(--mute); max-width: 40ch;
+  }
+  .pinned-twin .pin-right {
+    position: relative;
+    overflow: hidden;
+  }
+  .pin-slide {
+    position: absolute;
+    inset: 0;
+    padding: 80px 64px;
+    display: flex; flex-direction: column; justify-content: center;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity .6s, transform .6s cubic-bezier(.2,.8,.2,1);
+  }
+  .pin-slide.active { opacity: 1; transform: translateY(0); }
+  .pin-slide .n { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.2em; color: var(--mute); margin-bottom: 20px; }
+  .pin-slide h3 { font-family: 'Instrument Serif', serif; font-weight: 400; font-size: clamp(44px, 5vw, 72px); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 20px; }
+  .pin-slide h3 em { font-style: italic; color: var(--accent); }
+  .pin-slide p { font-size: 16px; color: var(--mute); max-width: 42ch; }
+  .pin-progress {
+    position: absolute;
+    right: 48px; top: 50%;
+    transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .pin-progress .dot {
+    width: 3px; height: 40px;
+    background: var(--line);
+    transition: background .3s;
+  }
+  .pin-progress .dot.active { background: var(--accent); }
+
+  /* ===== HORIZONTAL METHODS ===== */
+  .h-methods {
+    position: relative;
+    background: var(--bg);
+  }
+  .h-methods .sticky-wrap {
+    position: sticky; top: 0;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+  .h-methods .h-header {
+    position: absolute;
+    top: 48px; left: 48px;
+    z-index: 5;
+    pointer-events: none;
+  }
+  .h-methods .h-header .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .h-methods .h-header h2 {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: clamp(40px, 5vw, 68px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    max-width: 14ch;
+  }
+  .h-methods .h-header h2 em { font-style: italic; color: var(--accent); }
+
+  .h-methods .h-footer {
+    position: absolute;
+    bottom: 32px; left: 48px; right: 48px;
+    display: flex; justify-content: space-between; align-items: center;
+    z-index: 5;
+    pointer-events: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--mute);
+  }
+  .h-methods .h-footer .h-progress {
+    flex: 1; max-width: 360px; margin: 0 32px;
+    height: 1px;
+    background: var(--line);
+    position: relative;
+  }
+  .h-methods .h-footer .h-progress .fill {
+    position: absolute; inset: 0;
+    background: var(--accent);
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: transform .1s linear;
+  }
+
+  .h-track {
+    display: flex;
+    gap: 32px;
+    padding: 0 48px 0 48px;
+    will-change: transform;
+  }
+  .h-card {
+    flex: 0 0 420px;
+    height: 520px;
+    padding: 40px 36px;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    transition: border-color .3s, transform .3s;
+  }
+  .h-card:hover { border-color: var(--accent); transform: translateY(-6px); }
+  .h-card::before {
+    content: '';
+    position: absolute;
+    inset: auto -20% -40% auto;
+    width: 280px; height: 280px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+    opacity: 0.08;
+    transition: opacity .4s;
+  }
+  .h-card:hover::before { opacity: 0.2; }
+  .h-card:nth-child(2n)::before { background: radial-gradient(circle, var(--accent-2) 0%, transparent 70%); }
+  .h-card:nth-child(3n)::before { background: radial-gradient(circle, var(--accent-3) 0%, transparent 70%); }
+
+  .h-card .top .n {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.18em;
+    color: var(--accent);
+  }
+  .h-card .top h3 {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: 72px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-top: 48px;
+  }
+  .h-card .top .sub {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--mute);
+    margin-top: 14px;
+  }
+  .h-card .bottom p {
+    font-size: 14px; color: var(--mute); line-height: 1.7;
+    max-width: 32ch;
+    margin-bottom: 20px;
+  }
+  .h-card .bottom .arrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink);
+    transition: gap .3s, color .3s;
+  }
+  .h-card:hover .bottom .arrow { gap: 18px; color: var(--accent); }
+
+  /* ===== SPLIT METRIC ===== */
+  .split {
+    padding: 180px 0;
+    position: relative;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .split-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 0; }
+  .split-cell {
+    padding: 32px 0 32px 32px;
+    border-left: 1px solid var(--line);
+    position: relative;
+  }
+  .split-cell:first-child { border-left: none; padding-left: 0; }
+  .split-cell .k {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--mute);
+    margin-bottom: 32px;
+  }
+  .split-cell .v {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: clamp(80px, 10vw, 160px);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    display: flex; align-items: baseline; gap: 4px;
+  }
+  .split-cell .v em { font-style: italic; font-size: 0.5em; color: var(--accent); }
+  .split-cell .d {
+    font-size: 14px;
+    color: var(--mute);
+    margin-top: 20px;
+    max-width: 24ch;
+  }
+
+  /* ===== RETAIL — word carousel ===== */
+  .retail {
+    padding: 180px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .retail .big-bg {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: clamp(280px, 40vw, 680px);
+    line-height: 0.9;
+    letter-spacing: -0.05em;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--line);
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 0;
+    will-change: transform;
+  }
+  .retail .content {
+    position: relative;
+    z-index: 2;
+    max-width: 980px;
+  }
+  .retail .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+  }
+  .retail h2 {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: clamp(56px, 8vw, 120px);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    max-width: 14ch;
+    margin-bottom: 64px;
+  }
+  .retail h2 em { font-style: italic; color: var(--accent); }
+  .retail .r-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+  .retail .r {
+    padding: 32px 24px 32px 0;
+    border-left: 1px solid var(--line);
+    position: relative;
+    transition: padding .3s;
+  }
+  .retail .r:first-child { border-left: none; padding-left: 0; }
+  .retail .r:not(:first-child) { padding-left: 24px; }
+  .retail .r:hover { background: rgba(243,236,224,0.03); }
+  .retail .r .idx {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.2em;
+    color: var(--accent);
+    margin-bottom: 20px;
+    display: block;
+  }
+  .retail .r h4 {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    margin-bottom: 16px;
+  }
+  .retail .r p { font-size: 13px; color: var(--mute); }
+
+  /* ===== CONTACT CTA MEGA ===== */
+  .cta-mega {
+    padding: 180px 0 120px;
+    text-align: center;
+    position: relative;
+    border-top: 1px solid var(--line);
+  }
+  .cta-mega .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 32px;
+  }
+  .cta-mega h3 {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: clamp(64px, 11vw, 180px);
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+  }
+  .cta-mega h3 em { font-style: italic; color: var(--accent); }
+  .cta-mega .email-btn {
+    display: inline-block;
+    margin-top: 64px;
+    padding: 22px 44px;
+    border: 1px solid var(--ink);
+    border-radius: 999px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase;
+    transition: background .3s, color .3s, border-color .3s, transform .3s;
+  }
+  .cta-mega .email-btn:hover { background: var(--accent); border-color: var(--accent); color: var(--bg); transform: scale(1.04); }
+
+  .cta-mega .sub-cta {
+    margin-top: 40px;
+    display: flex; justify-content: center; gap: 48px; flex-wrap: wrap;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--mute);
+  }
+  .cta-mega .sub-cta a { border-bottom: 1px solid var(--line); padding-bottom: 4px; }
+  .cta-mega .sub-cta a:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* ===== FOOTER ===== */
+  footer {
+    padding: 48px 0;
+    border-top: 1px solid var(--line);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--mute);
+  }
+  .foot-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px; align-items: end; }
+  .foot-grid .brand-xl {
+    font-family: 'Instrument Serif', serif;
+    font-size: 72px;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    text-transform: none;
+  }
+  .foot-grid .brand-xl em { font-style: italic; color: var(--accent); }
+  .foot-grid .col b { color: var(--ink); }
+  .foot-grid .col { line-height: 2; }
+  .foot-grid .col a:hover { color: var(--accent); }
+
+  /* Reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease, transform 1s cubic-bezier(.2,.8,.2,1);
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* Split text word reveal */
+  .words .word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .6s ease, transform .6s cubic-bezier(.2,.8,.2,1);
+  }
+  .words.visible .word { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 1000px) {
+    .wrap { padding: 0 24px; }
+    .nav ul { display: none; }
+    .corner-tr { font-size: 9px; right: 24px; }
+    .corner-bl, .corner-br { left: 24px; right: 24px; font-size: 9px; }
+    .hero .under-meta { grid-template-columns: 1fr 1fr; gap: 24px; }
+    .pinned-twin .pin-stage { grid-template-columns: 1fr; }
+    .pinned-twin .pin-left { border-right: none; border-bottom: 1px solid var(--line); padding: 40px 24px; height: 50vh; }
+    .pinned-twin .pin-right { height: 50vh; }
+    .pin-slide { padding: 40px 24px; }
+    .h-methods .h-header { left: 24px; top: 24px; }
+    .h-methods .h-footer { left: 24px; right: 24px; bottom: 24px; }
+    .h-card { flex-basis: 320px; height: 440px; padding: 28px 24px; }
+    .h-card .top h3 { font-size: 56px; }
+    .split-grid { grid-template-columns: 1fr 1fr; }
+    .split-cell { border-left: none; border-top: 1px solid var(--line); padding: 24px 0 0; margin-top: 24px; }
+    .split-cell:first-child { border-top: none; margin-top: 0; }
+    .retail .r-grid { grid-template-columns: 1fr 1fr; }
+    .retail .r { border-left: none; border-top: 1px solid var(--line); padding: 24px 0; }
+    .foot-grid { grid-template-columns: 1fr; }
+    .foot-grid .brand-xl { font-size: 48px; }
   }
 </style>
 </head>
 <body>
 
 <div class="scroll-progress"><div class="bar" id="scroll-bar"></div></div>
+<div class="cursor" id="cursor"></div>
 
-<header class="nav">
-  <div class="brand">MANDS</div>
-  <nav><ul>
-    <li><a href="#manifest">Manifest</a></li>
-    <li><a href="#methods">Metody</a></li>
-    <li><a href="#retail">Retail</a></li>
-    <li><a href="#contact">Kontakt</a></li>
-  </ul></nav>
-  <button class="lang-btn">EN</button>
-</header>
+<div class="fixed-ui">
+  <header class="nav" id="nav">
+    <span class="dot"></span>
+    <div class="brand">MANDS <em>—</em> 2005</div>
+    <nav><ul>
+      <li><a href="#manifest" data-hover>Manifest</a></li>
+      <li><a href="#methods" data-hover>Metody</a></li>
+      <li><a href="#retail" data-hover>Retail</a></li>
+      <li><a href="#contact" data-hover>Kontakt</a></li>
+    </ul></nav>
+    <button class="lang" data-hover>PL / EN</button>
+  </header>
 
+  <div class="corner-tr">
+    <b>51.10°N · 17.03°E</b><br>
+    Wrocław / instytut<br>
+    badawczy od MMV
+  </div>
+
+  <div class="corner-bl">
+    SCROLL&nbsp; <span class="counter-val" id="scroll-pct">00%</span>&nbsp; /&nbsp;100%
+  </div>
+
+  <div class="corner-br">
+    <span class="time" id="clock">00:00:00</span>
+    <span>CET</span>
+    <span class="dot" style="width:5px;height:5px;border-radius:50%;background:var(--accent-3);display:inline-block;animation:blink 2s infinite;"></span>
+  </div>
+</div>
+
+<!-- ===== HERO ===== -->
 <section class="hero">
   <div class="wrap">
-    <h1>
-      <span class="w">Badania</span>
-      <span class="w">rynku</span>
-      <span class="w">& <em>opinii.</em></span>
-      <span class="w" style="font-size:0.35em;letter-spacing:0.02em;font-style:italic;color:rgba(245,240,232,0.5);margin-top:32px;">od MMV ↓</span>
+    <div class="tag">№ 001 <b>●</b> Instytut Badawczy <b>●</b> est. 2005</div>
+    <h1 class="display">
+      <span class="line"><span>Badania</span></span>
+      <span class="line"><span>rynku &amp;</span></span>
+      <span class="line"><span><em>opinii.</em></span></span>
     </h1>
-    <div class="scroll-hint">↓ SCROLL</div>
-    <div class="meta-row">
-      <b>MANDS</b> / Instytut Badawczy<br>
-      51.10°N · 17.03°E<br>
-      Wrocław · est. 2005
+    <div class="under-meta">
+      <p>Polski instytut badawczy działający od 2005 roku. Słuchamy, analizujemy, doradzamy — pomagamy znaleźć drogę do rynkowego sukcesu.</p>
+      <div class="cell"><span class="k">/ 001 Doświadczenie</span><div class="v"><em>20+</em> lat</div></div>
+      <div class="cell"><span class="k">/ 002 Ankieterzy</span><div class="v">400<em>+</em></div></div>
+      <div class="cell"><span class="k">/ 003 Wywiady</span><div class="v">10k<em>/tydz.</em></div></div>
     </div>
   </div>
+  <div class="scroll-hint"><span class="line"></span> Scroll to explore</div>
 </section>
 
+<!-- ===== MARQUEE 1 ===== -->
 <div class="marquee">
   <div class="marquee-track">
-    <span>CATI <em>·</em> CAWI <em>·</em> MOBI <em>·</em> FGI <em>·</em> IDI <em>·</em> FoBo <em>·</em> Mystery Shopper <em>·</em> PaaS <em>·</em></span>
-    <span>CATI <em>·</em> CAWI <em>·</em> MOBI <em>·</em> FGI <em>·</em> IDI <em>·</em> FoBo <em>·</em> Mystery Shopper <em>·</em> PaaS <em>·</em></span>
+    <span>CATI <span class="sep">✦</span></span>
+    <span class="italic">CAWI</span>
+    <span class="sep">✦</span>
+    <span class="outline">MOBI</span>
+    <span class="sep">✦</span>
+    <span>FGI <span class="sep">✦</span></span>
+    <span class="italic">IDI</span>
+    <span class="sep">✦</span>
+    <span class="outline">FoBo</span>
+    <span class="sep">✦</span>
+    <span>Mystery Shopper <span class="sep">✦</span></span>
+    <span class="italic">PaaS</span>
+    <span class="sep">✦</span>
+    <!-- duplicate for seamless loop -->
+    <span>CATI <span class="sep">✦</span></span>
+    <span class="italic">CAWI</span>
+    <span class="sep">✦</span>
+    <span class="outline">MOBI</span>
+    <span class="sep">✦</span>
+    <span>FGI <span class="sep">✦</span></span>
+    <span class="italic">IDI</span>
+    <span class="sep">✦</span>
+    <span class="outline">FoBo</span>
+    <span class="sep">✦</span>
+    <span>Mystery Shopper <span class="sep">✦</span></span>
+    <span class="italic">PaaS</span>
+    <span class="sep">✦</span>
   </div>
 </div>
 
-<section id="manifest" class="manifest">
+<!-- ===== MANIFEST — PINNED TWIN ===== -->
+<section id="manifest" class="pinned-twin">
+  <div class="pin-track">
+    <div class="pin-stage">
+      <div class="pin-left">
+        <div class="counter">§ 01 <span style="color:var(--mute)">— Manifest</span></div>
+        <h2>Jesteśmy instytutem <em>referencyjnym</em>.</h2>
+        <p>Dla polskich sieci handlowych od 2005 roku. Słuchamy, analizujemy, doradzamy. Bez szablonów.</p>
+        <div class="pin-progress" id="pin-progress">
+          <div class="dot active"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+      </div>
+      <div class="pin-right" id="pin-right">
+        <div class="pin-slide active">
+          <div class="n">/ 001 — PODEJŚCIE</div>
+          <h3>Indywidualnie, <em>bez szablonów</em>.</h3>
+          <p>Każdy klient otrzymuje wsparcie merytoryczne dopasowane do jego potrzeb — brief, projekt, analiza, rekomendacje.</p>
+        </div>
+        <div class="pin-slide">
+          <div class="n">/ 002 — TECHNOLOGIA</div>
+          <h3>Własne <em>narzędzia</em>.</h3>
+          <p>Teleinformatyczny system B2B integrujący sondażowanie, przetwarzanie danych i raportowanie. CADAS, DRS, platforma PaaS.</p>
+        </div>
+        <div class="pin-slide">
+          <div class="n">/ 003 — ZESPÓŁ</div>
+          <h3>Doświadczenie <em>merytoryczne</em>.</h3>
+          <p>20+ lat na rynku. Specjaliści, kodeks ESOMAR, standardy PKJPA, współpraca z OFBOR.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MARQUEE 2 ===== -->
+<div class="marquee reverse">
+  <div class="marquee-track">
+    <span class="italic">Słuchamy</span>
+    <span class="sep">●</span>
+    <span class="outline">analizujemy</span>
+    <span class="sep">●</span>
+    <span>doradzamy.</span>
+    <span class="sep">●</span>
+    <span class="italic">Słuchamy</span>
+    <span class="sep">●</span>
+    <span class="outline">analizujemy</span>
+    <span class="sep">●</span>
+    <span>doradzamy.</span>
+    <span class="sep">●</span>
+    <span class="italic">Słuchamy</span>
+    <span class="sep">●</span>
+    <span class="outline">analizujemy</span>
+    <span class="sep">●</span>
+    <span>doradzamy.</span>
+    <span class="sep">●</span>
+  </div>
+</div>
+
+<!-- ===== HORIZONTAL METHODS ===== -->
+<section id="methods" class="h-methods">
+  <div style="height: 300vh;" id="h-methods-track">
+    <div class="sticky-wrap">
+      <div class="h-header">
+        <div class="tag">§ 02 — Metody</div>
+        <h2>Pełna paleta<br><em>metod badawczych</em>.</h2>
+      </div>
+      <div class="h-track" id="h-track">
+        <div class="h-card" data-hover>
+          <div class="top"><div class="n">/ 01</div><h3>CATI</h3><span class="sub">Ilościowe · Telefon</span></div>
+          <div class="bottom"><p>Computer-Assisted Telephone Interviewing. Studio Wrocław od 2005 r., model Cati@Home.</p><a class="arrow" href="#">Poznaj →</a></div>
+        </div>
+        <div class="h-card" data-hover>
+          <div class="top"><div class="n">/ 02</div><h3>CAWI</h3><span class="sub">Ilościowe · Online</span></div>
+          <div class="bottom"><p>Ankieta internetowa w CADAS CAWI. Klient podgląda wyniki, podwójne szyfrowanie.</p><a class="arrow" href="#">Poznaj →</a></div>
+        </div>
+        <div class="h-card" data-hover>
+          <div class="top"><div class="n">/ 03</div><h3>MOBI</h3><span class="sub">Ilościowe · Tablet</span></div>
+          <div class="bottom"><p>Wywiady wspomagane tabletem — multimedia, drag & drop, GPS, nagrywanie.</p><a class="arrow" href="#">Poznaj →</a></div>
+        </div>
+        <div class="h-card" data-hover>
+          <div class="top"><div class="n">/ 04</div><h3>FGI</h3><span class="sub">Jakościowe · Grupa</span></div>
+          <div class="bottom"><p>Focus Group Interviews — testy logo, opakowań, reklam, zachowań konsumenckich.</p><a class="arrow" href="#">Poznaj →</a></div>
+        </div>
+        <div class="h-card" data-hover>
+          <div class="top"><div class="n">/ 05</div><h3>IDI</h3><span class="sub">Jakościowe · 1 na 1</span></div>
+          <div class="bottom"><p>Individual In-Depth Interview — rozmowa pogłębiona, tematy drażliwe, motywy.</p><a class="arrow" href="#">Poznaj →</a></div>
+        </div>
+        <div class="h-card" data-hover>
+          <div class="top"><div class="n">/ 06</div><h3>FoBo</h3><span class="sub">Focus Board · Online</span></div>
+          <div class="bottom"><p>Focus Board — wywiady grupowe online przez Zoom, streaming A/V, transkrypcje.</p><a class="arrow" href="#">Poznaj →</a></div>
+        </div>
+        <div class="h-card" data-hover>
+          <div class="top"><div class="n">/ 07</div><h3>Mystery</h3><span class="sub">Audyt · Retail</span></div>
+          <div class="bottom"><p>Tajemniczy klient — kilkuset audytorów w Polsce, weryfikacja standardów obsługi.</p><a class="arrow" href="#">Poznaj →</a></div>
+        </div>
+        <div class="h-card" data-hover>
+          <div class="top"><div class="n">/ 08</div><h3>PaaS</h3><span class="sub">Technologia · SaaS</span></div>
+          <div class="bottom"><p>Platform as a Service — wynajem technologii badawczej: CATI, CAWI, MOBI, Mystery.</p><a class="arrow" href="#">Poznaj →</a></div>
+        </div>
+      </div>
+      <div class="h-footer">
+        <div><b style="color:var(--ink)">08 metod</b> / ↔ przewiń</div>
+        <div class="h-progress"><div class="fill" id="h-fill"></div></div>
+        <div><span id="h-idx">01</span> / 08</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SPLIT METRIC ===== -->
+<section class="split">
   <div class="wrap">
-    <div class="manifest-sticky">
-      <div class="left reveal">
-        <span class="section-label">§ 01 — Manifest</span>
-        <p class="lead">Jesteśmy instytutem referencyjnym dla <em>sieci handlowych</em> — słuchamy, analizujemy, doradzamy.</p>
-      </div>
-      <div class="pillars">
-        <div class="pillar reveal"><span class="n">/ 001</span><h4>Indywidualnie</h4><p>Każdy klient otrzymuje wsparcie merytoryczne dopasowane do jego potrzeb — bez szablonów.</p></div>
-        <div class="pillar reveal"><span class="n">/ 002</span><h4>Narzędzia</h4><p>Teleinformatyczny system B2B integrujący sondażowanie, dane i raportowanie.</p></div>
-        <div class="pillar reveal"><span class="n">/ 003</span><h4>Zespół</h4><p>Specjaliści z wieloletnim stażem. Kodeks ESOMAR, standardy PKJPA.</p></div>
-      </div>
+    <div style="font-family:'JetBrains Mono', monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:48px;">◆ &nbsp; MANDS w liczbach</div>
+    <div class="split-grid">
+      <div class="split-cell reveal"><div class="k">/ 001 — Doświadczenie</div><div class="v" data-target="20">0<em>+</em></div><div class="d">Lat nieprzerwanie na rynku badań od 2005.</div></div>
+      <div class="split-cell reveal"><div class="k">/ 002 — Ankieterzy</div><div class="v" data-target="400">0</div><div class="d">W całej Polsce, nadzorowanych przez trenerów regionalnych.</div></div>
+      <div class="split-cell reveal"><div class="k">/ 003 — Wywiady</div><div class="v" data-target="10000">0<em>k</em></div><div class="d">Tygodniowo w ramach kontroli dystrybucji.</div></div>
+      <div class="split-cell reveal"><div class="k">/ 004 — Trenerzy</div><div class="v" data-target="10">0</div><div class="d">Regionalnych supervisorów w terenie.</div></div>
     </div>
   </div>
 </section>
 
-<div class="h-marquee">
-  <div class="track">
-    <span>Metody badawcze</span> <em>w pełnej palecie</em>
-    <span>Metody badawcze</span> <em>w pełnej palecie</em>
+<!-- ===== RETAIL ===== -->
+<section id="retail" class="retail">
+  <div class="big-bg" id="retail-bg">10&nbsp;000+</div>
+  <div class="wrap content">
+    <div class="tag">§ 03 — Retail &amp; dystrybucja</div>
+    <h2 class="reveal">Sprawdzamy, czy gazetki <em>docierają</em>.</h2>
+    <div class="r-grid">
+      <div class="r reveal"><span class="idx">/ 01</span><h4>Distribution<br>Check</h4><p>Kontrola dystrybucji materiałów reklamowych. 10 000+ gospodarstw tygodniowo.</p></div>
+      <div class="r reveal"><span class="idx">/ 02</span><h4>Exit<br>Store</h4><p>Analiza wartości koszyka, heatmapa obszarów atrakcyjnych finansowo.</p></div>
+      <div class="r reveal"><span class="idx">/ 03</span><h4>DRS<br>SaaS</h4><p>Webowe narzędzie do raportowania kolportażu, obsługa SMS, eksport CSV/XLSX.</p></div>
+      <div class="r reveal"><span class="idx">/ 04</span><h4>Call<br>Distribution</h4><p>Telefoniczna kontrola dystrybucji — ok. 10 tys. wywiadów w kluczowych miejscach.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MARQUEE 3 ===== -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span class="italic">Zamów badanie</span>
+    <span class="sep">→</span>
+    <span class="outline">info@mands.pl</span>
+    <span class="sep">→</span>
+    <span>+48 71 322 06 86</span>
+    <span class="sep">→</span>
+    <span class="italic">Zamów badanie</span>
+    <span class="sep">→</span>
+    <span class="outline">info@mands.pl</span>
+    <span class="sep">→</span>
+    <span>+48 71 322 06 86</span>
+    <span class="sep">→</span>
+    <span class="italic">Zamów badanie</span>
+    <span class="sep">→</span>
+    <span class="outline">info@mands.pl</span>
+    <span class="sep">→</span>
+    <span>+48 71 322 06 86</span>
+    <span class="sep">→</span>
   </div>
 </div>
 
-<section id="methods" class="methods">
+<!-- ===== CTA MEGA ===== -->
+<section id="contact" class="cta-mega">
   <div class="wrap">
-    <div class="methods-wrap">
-      <div class="methods-title reveal">
-        <span class="section-label">§ 02 — Metody</span>
-        <h2>Pełna paleta <em>metod</em>.</h2>
-        <p>Ilościowe, jakościowe, audyty — wszystko w jednym miejscu, z własną infrastrukturą i zespołem merytorycznym.</p>
-      </div>
-      <div class="m-list">
-        <div class="m reveal"><div class="n">/01</div><div><div class="name">CATI<small>Ilościowe · Telefon</small></div><div class="d">Computer-Assisted Telephone Interviewing. Studio Wrocław od 2005 r., opieka supervisorów, model Cati@Home.</div></div><div class="a">↗</div></div>
-        <div class="m reveal"><div class="n">/02</div><div><div class="name">CAWI<small>Ilościowe · Online</small></div><div class="d">Ankieta internetowa w CADAS CAWI. Klient podgląda wyniki, podwójne szyfrowanie danych.</div></div><div class="a">↗</div></div>
-        <div class="m reveal"><div class="n">/03</div><div><div class="name">MOBI<small>Ilościowe · Tablet</small></div><div class="d">Wywiady wspomagane tabletem — multimedia, drag & drop, GPS, nagrywanie.</div></div><div class="a">↗</div></div>
-        <div class="m reveal"><div class="n">/04</div><div><div class="name">FGI<small>Jakościowe · Grupa</small></div><div class="d">Focus Group Interviews — testy logo, opakowań, reklam, zachowań konsumenckich.</div></div><div class="a">↗</div></div>
-        <div class="m reveal"><div class="n">/05</div><div><div class="name">IDI<small>Jakościowe · 1 na 1</small></div><div class="d">Individual In-Depth Interview — rozmowa pogłębiona, tematy drażliwe, motywy działań.</div></div><div class="a">↗</div></div>
-        <div class="m reveal"><div class="n">/06</div><div><div class="name">Mystery<small>Audyt · Retail</small></div><div class="d">Tajemniczy klient — kilkuset audytorów w Polsce, weryfikacja standardów obsługi.</div></div><div class="a">↗</div></div>
-      </div>
+    <div class="tag">§ 06 — Kontakt</div>
+    <h3 class="words reveal">
+      <span class="word">Porozmawiajmy&nbsp;</span>
+      <span class="word">o&nbsp;</span>
+      <span class="word"><em>badaniu.</em></span>
+    </h3>
+    <a href="mailto:info@mands.pl" class="email-btn" data-hover>info@mands.pl →</a>
+    <div class="sub-cta">
+      <a href="tel:+48713220686" data-hover>+48 71 322 06 86</a>
+      <a href="mailto:rekrutacja@mands.pl" data-hover>rekrutacja@mands.pl</a>
+      <span>ul. B. Prusa 1/48 · 50-319 Wrocław</span>
     </div>
   </div>
 </section>
-
-<div class="counters">
-  <div class="counter reveal"><div class="v" data-target="20">0</div><div class="t">Lat doświadczenia</div></div>
-  <div class="counter reveal"><div class="v" data-target="400">0</div><div class="t">Ankieterów</div></div>
-  <div class="counter reveal"><div class="v" data-target="10000">0</div><div class="t">Wywiadów / tydz.</div></div>
-  <div class="counter reveal"><div class="v" data-target="10">0</div><div class="t">Trenerów regionalnych</div></div>
-</div>
-
-<section id="retail" class="retail-parallax">
-  <div class="retail-huge-bg" id="retail-bg">10k+</div>
-  <div class="wrap retail-content">
-    <span class="section-label">§ 03 — Retail</span>
-    <h2 class="reveal">Czy gazetki <em>docierają</em>?</h2>
-    <div class="retail-list">
-      <div class="r reveal"><div class="idx">/01</div><h4>Distribution Check</h4><p>Kontrola dystrybucji materiałów reklamowych. Ponad 10 tysięcy gospodarstw tygodniowo.</p><div class="a">↗</div></div>
-      <div class="r reveal"><div class="idx">/02</div><h4>Exit Store</h4><p>Analiza koszyka, heatmapa atrakcyjnych obszarów.</p><div class="a">↗</div></div>
-      <div class="r reveal"><div class="idx">/03</div><h4>DRS</h4><p>SaaS do raportowania kolportażu, SMS, CSV, XLSX.</p><div class="a">↗</div></div>
-      <div class="r reveal"><div class="idx">/04</div><h4>Call Distribution</h4><p>Telefoniczna kontrola — 10 tys. wywiadów.</p><div class="a">↗</div></div>
-    </div>
-  </div>
-</section>
-
-<section id="contact">
-  <div class="wrap">
-    <span class="section-label">§ 06 — Kontakt</span>
-    <h2 class="reveal">Porozmawiajmy o <em>badaniu</em>.</h2>
-    <div class="contact-grid">
-      <div class="c-card reveal"><h4>/ 001 — Siedziba</h4><p>ul. B. Prusa 1/48<br>50-319 Wrocław</p></div>
-      <div class="c-card reveal"><h4>/ 002 — Kontakt</h4><p><a href="mailto:info@mands.pl">info@mands.pl</a><br><a href="tel:+48713220686">+48 71 322 06 86</a></p></div>
-      <div class="c-card reveal"><h4>/ 003 — Kariera</h4><p><a href="mailto:rekrutacja@mands.pl">rekrutacja@mands.pl</a></p></div>
-    </div>
-  </div>
-</section>
-
-<div class="cta-huge">
-  <h3>Zamów <em>badanie</em>.<br>Odpowiemy w 24h.</h3>
-  <a href="mailto:info@mands.pl" class="btn-big">info@mands.pl →</a>
-</div>
 
 <footer>
   <div class="wrap">
     <div class="foot-grid">
-      <div><b>M & S</b> · Instytut Badawczy · Wrocław</div>
-      <div>© 2026 MANDS · 51.10°N · 17.03°E</div>
+      <div class="brand-xl">M <em>&</em> S</div>
+      <div class="col">
+        <b>Instytut Badawczy</b><br>
+        ul. B. Prusa 1/48<br>
+        50-319 Wrocław<br>
+        NIP: PL8851557675
+      </div>
+      <div class="col">
+        <b>© 2026 MANDS</b><br>
+        OFBOR · ESOMAR · PKJPA<br>
+        <a href="#top">↑ Powrót na górę</a>
+      </div>
     </div>
   </div>
 </footer>
 
 <script>
+(() => {
   // Scroll progress
   const bar = document.getElementById('scroll-bar');
-  window.addEventListener('scroll', () => {
+  const pct = document.getElementById('scroll-pct');
+  const nav = document.getElementById('nav');
+  let lastScroll = 0;
+
+  const onScroll = () => {
     const h = document.documentElement;
-    const scrolled = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
-    bar.style.width = scrolled + '%';
-  });
+    const scrolled = h.scrollTop;
+    const total = h.scrollHeight - h.clientHeight;
+    const percent = (scrolled / total) * 100;
+    bar.style.width = percent + '%';
+    pct.textContent = String(Math.round(percent)).padStart(2, '0') + '%';
+
+    if (scrolled > lastScroll && scrolled > 200) nav.classList.add('hidden');
+    else nav.classList.remove('hidden');
+    lastScroll = scrolled;
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // Clock
+  const clock = document.getElementById('clock');
+  const tick = () => {
+    const d = new Date();
+    clock.textContent = [d.getHours(), d.getMinutes(), d.getSeconds()]
+      .map(n => String(n).padStart(2, '0')).join(':');
+  };
+  tick();
+  setInterval(tick, 1000);
+
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  if (matchMedia('(hover: hover)').matches) {
+    let cx = 0, cy = 0, tx = 0, ty = 0;
+    window.addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; });
+    const loop = () => {
+      cx += (tx - cx) * 0.2;
+      cy += (ty - cy) * 0.2;
+      cursor.style.left = cx + 'px';
+      cursor.style.top = cy + 'px';
+      requestAnimationFrame(loop);
+    };
+    loop();
+    document.querySelectorAll('[data-hover], a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+    });
+  }
 
   // Reveal on scroll
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        io.unobserve(e.target);
-      }
+      if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
     });
   }, { threshold: 0.15 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
+  // Word-by-word hero is pure CSS; re-trigger on contact heading using transition delays
+  document.querySelectorAll('.words').forEach(el => {
+    el.querySelectorAll('.word').forEach((w, i) => {
+      w.style.transitionDelay = (i * 0.1) + 's';
+    });
+  });
+
   // Animated counters
-  const counterIO = new IntersectionObserver((entries) => {
+  const countIO = new IntersectionObserver((entries) => {
     entries.forEach(e => {
-      if (e.isIntersecting) {
-        const el = e.target;
-        const target = parseInt(el.dataset.target);
-        let current = 0;
-        const step = Math.max(1, Math.floor(target / 60));
-        const tick = () => {
-          current += step;
-          if (current >= target) {
-            el.textContent = target >= 10000 ? '10k+' : (target + (target === 20 ? '+' : ''));
-          } else {
-            el.textContent = current >= 10000 ? Math.floor(current/1000) + 'k' : current;
-            requestAnimationFrame(tick);
-          }
-        };
-        tick();
-        counterIO.unobserve(el);
-      }
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      const target = parseInt(el.dataset.target, 10);
+      const em = el.querySelector('em');
+      const suffix = em ? em.outerHTML : '';
+      const dur = 1600;
+      const start = performance.now();
+      const step = (now) => {
+        const t = Math.min(1, (now - start) / dur);
+        const eased = 1 - Math.pow(1 - t, 3);
+        let current = Math.floor(target * eased);
+        let display;
+        if (target >= 1000) display = (current / 1000).toFixed(0) + (current >= 1000 ? '' : '');
+        else display = current;
+        if (target === 10000) display = Math.floor(current / 1000);
+        el.innerHTML = display + suffix;
+        if (t < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+      countIO.unobserve(el);
     });
   }, { threshold: 0.5 });
-  document.querySelectorAll('.counter .v').forEach(el => counterIO.observe(el));
+  document.querySelectorAll('.split-cell .v').forEach(el => countIO.observe(el));
 
-  // Retail parallax bg
+  // Pinned twin — scroll-linked slide switcher
+  const pinWrap = document.querySelector('.pinned-twin .pin-track');
+  const slides = document.querySelectorAll('.pin-slide');
+  const dots = document.querySelectorAll('.pin-progress .dot');
+  if (pinWrap && slides.length) {
+    window.addEventListener('scroll', () => {
+      const rect = pinWrap.getBoundingClientRect();
+      const top = rect.top;
+      const height = rect.height - window.innerHeight;
+      if (top > 0 || rect.bottom < window.innerHeight) return;
+      const progress = Math.min(1, Math.max(0, -top / height));
+      const active = Math.min(slides.length - 1, Math.floor(progress * slides.length));
+      slides.forEach((s, i) => s.classList.toggle('active', i === active));
+      dots.forEach((d, i) => d.classList.toggle('active', i === active));
+    }, { passive: true });
+  }
+
+  // Horizontal methods — map vertical scroll to horizontal translate
+  const hSection = document.getElementById('h-methods-track');
+  const hTrack = document.getElementById('h-track');
+  const hFill = document.getElementById('h-fill');
+  const hIdx = document.getElementById('h-idx');
+  if (hSection && hTrack) {
+    const cards = hTrack.querySelectorAll('.h-card');
+    const computeMax = () => {
+      const trackWidth = hTrack.scrollWidth;
+      const viewportWidth = window.innerWidth;
+      return Math.max(0, trackWidth - viewportWidth + 96);
+    };
+    let maxTranslate = computeMax();
+    window.addEventListener('resize', () => { maxTranslate = computeMax(); });
+    window.addEventListener('scroll', () => {
+      const rect = hSection.getBoundingClientRect();
+      if (rect.top > 0 || rect.bottom < window.innerHeight) return;
+      const scrolled = -rect.top;
+      const total = rect.height - window.innerHeight;
+      const progress = Math.min(1, Math.max(0, scrolled / total));
+      hTrack.style.transform = `translateX(${-progress * maxTranslate}px)`;
+      if (hFill) hFill.style.transform = `scaleX(${progress})`;
+      if (hIdx) {
+        const active = Math.min(cards.length, Math.max(1, Math.round(progress * (cards.length - 1)) + 1));
+        hIdx.textContent = String(active).padStart(2, '0');
+      }
+    }, { passive: true });
+  }
+
+  // Retail background parallax
   const retailBg = document.getElementById('retail-bg');
-  window.addEventListener('scroll', () => {
-    if (!retailBg) return;
-    const rect = retailBg.parentElement.getBoundingClientRect();
-    const visible = rect.top < window.innerHeight && rect.bottom > 0;
-    if (visible) {
+  if (retailBg) {
+    window.addEventListener('scroll', () => {
+      const rect = retailBg.parentElement.getBoundingClientRect();
+      if (rect.top > window.innerHeight || rect.bottom < 0) return;
       const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
-      retailBg.style.transform = `translate(-50%, -50%) translateX(${(progress - 0.5) * 200}px)`;
-    }
-  });
+      retailBg.style.transform = `translate(calc(-50% + ${(progress - 0.5) * 400}px), -50%)`;
+    }, { passive: true });
+  }
+
+  // Initial call
+  onScroll();
+})();
 </script>
 
 </body>
