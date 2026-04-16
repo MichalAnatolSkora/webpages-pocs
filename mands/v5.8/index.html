@@ -253,7 +253,7 @@
     border: 1px solid var(--border);
     border-radius: var(--r-lg);
     padding: 32px;
-    min-height: 520px;
+    min-height: clamp(320px, 50vh, 520px);
     box-shadow: 0 30px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.04);
     overflow: hidden;
   }
@@ -1222,6 +1222,26 @@
     .sol-name, .sol-tag { display: none; }
     .solutions-table td { padding: 18px 10px; }
   }
+@media (max-width: 640px){ .sol-name, .sol-tag{ display: table-cell !important; padding: 8px 4px !important; font-size: 11px !important; } }
+@media (max-width: 480px){ .mono{ font-size: 10px !important; letter-spacing: 0.06em !important; } }
+
+/* --- a11y & mobile polish --- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+@media (max-width: 480px) {
+  a.btn, button, .btn, .btn-primary, .btn-tonal, .btn-filled, .btn-outline,
+  .topbar a, nav a, [role="button"] {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
 </style>
 </head>
 <body>

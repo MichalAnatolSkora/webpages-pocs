@@ -1060,6 +1060,25 @@
     .topbar { width: calc(100% - 24px); padding: 10px 14px; }
     .topbar-right { display: none; }
   }
+@media (max-width: 960px){ table thead{ position: sticky; top: 0; background: var(--bg, #fff); } }
+
+/* --- a11y & mobile polish --- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+@media (max-width: 480px) {
+  a.btn, button, .btn, .btn-primary, .btn-tonal, .btn-filled, .btn-outline,
+  .topbar a, nav a, [role="button"] {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
 </style>
 </head>
 <body>

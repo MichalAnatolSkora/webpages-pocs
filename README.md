@@ -22,3 +22,15 @@ A collection of webpage proof-of-concepts exploring different website styles.
 16. **Single Page / Long Scroll** — Entire experience on one scrollable page, often with parallax and scroll animations.
 17. **Asymmetric Layouts** — Broken grids and off-balance compositions for a dynamic, modern feel.
 18. **Cyberpunk / Neon** — Dark backgrounds with neon accents, glitch effects, and futuristic typography.
+19. **Claymorphism** — Soft, pastel 3D elements imitating clay or plasticine; puffy, rounded, and colorful.
+20. **Bento Grid** — Modular tile-based layouts with cards of varying sizes, inspired by Japanese bento boxes (popularized by Apple, Linear, Vercel).
+21. **Maximalism** — The opposite of minimalism: saturated colors, layered elements, dense compositions, and controlled chaos.
+22. **Aurora / Gradient Mesh** — Soft, blurred mesh gradients used as hero backgrounds (Stripe, Linear-style).
+23. **Big Typography / Type-driven** — Oversized typography as the main compositional element, replacing imagery.
+24. **Anti-Design** — Intentionally breaks UX rules with crooked grids and deliberate "mistakes"; related to but distinct from Brutalism.
+25. **Isometric Design** — Illustrations and layouts built in isometric projection, common in SaaS marketing pages.
+26. **Organic / Blob Shapes** — Fluid, rounded SVG shapes as the dominant visual motif.
+27. **Hand-drawn / Sketch** — Hand-drawn lines and notebook-style aesthetics; more sketchy than Illustrative.
+28. **Risograph / Print-effect** — Halftone patterns, misregistered CMYK colors, and printed-paper textures.
+29. **Monochrome** — A single color with its shades and tints driving the entire palette.
+30. **Kinetic / Scroll-driven** — Motion and scrollytelling as the primary storytelling medium.

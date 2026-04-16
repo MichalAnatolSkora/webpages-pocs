@@ -52,7 +52,7 @@
     position: fixed; inset: 0;
     pointer-events: none;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
-    opacity: .18;
+    opacity: .12;
     mix-blend-mode: multiply;
     z-index: 1000;
   }
@@ -68,7 +68,7 @@
 
   /* TOPBAR */
   .topbar {
-    position: fixed; top: 18px; left: 50%;
+    position: fixed; top: max(18px, env(safe-area-inset-top)); left: 50%;
     transform: translateX(-50%);
     width: calc(100% - 36px);
     max-width: 1500px;
@@ -920,6 +920,25 @@
     .section { padding: 100px 20px; }
     .badge { width: 110px; height: 110px; font-size: 12px; }
   }
+@media (max-width: 480px){ .hero-tag{ font-size: 14px !important; } }
+
+/* --- a11y & mobile polish --- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+@media (max-width: 480px) {
+  a.btn, button, .btn, .btn-primary, .btn-tonal, .btn-filled, .btn-outline,
+  .topbar a, nav a, [role="button"] {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
 </style>
 </head>
 <body>

@@ -18,7 +18,7 @@
     --glass: rgba(255,255,255,.08);
     --glass-2: rgba(255,255,255,.12);
     --glass-dark: rgba(10,3,32,.35);
-    --border: rgba(255,255,255,.18);
+    --border: rgba(255,255,255,.32);
     --border-strong: rgba(255,255,255,.32);
     --accent: #b4ff3a;
     --accent-2: #00e5ff;
@@ -277,7 +277,7 @@
 
   .hero-display {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(52px, 7.2vw, 118px);
+    font-size: clamp(34px, 7.2vw, 118px);
     line-height: 0.9;
     letter-spacing: -0.045em;
     font-weight: 700;
@@ -1252,6 +1252,28 @@
     .foot-inner { padding: 28px; flex-direction: column; align-items: flex-start; }
     .foot-meta { text-align: left; }
     .foot-mark { font-size: 60px; }
+  }
+
+  /* --- a11y & mobile polish --- */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+  @media (max-width: 768px) {
+    .orb { display: none !important; }
+    body::before { animation: none !important; }
+  }
+  @media (max-width: 480px) {
+    a.btn, button, .btn, .btn-primary, .btn-tonal, .btn-filled, .btn-outline,
+    .topbar a, nav a, [role="button"] {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+    }
   }
 </style>
 </head>

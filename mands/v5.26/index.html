@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MANDS — Organic / Blob</title>
+<link rel="icon" href="../images/cropped-logo-png-1-180x180.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fdf6ec;
+    --bg-2: #fbe8d5;
+    --ink: #2a1a10;
+    --mute: #7a5d48;
+    --mint: #9cd4b5;
+    --peach: #ffb48a;
+    --coral: #ff8a7a;
+    --butter: #ffe079;
+    --sage: #c0d9b0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    overflow-x: hidden;
+    position: relative;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* Background blobs */
+  .blob {
+    position: absolute;
+    z-index: 0;
+    opacity: 0.55;
+    filter: blur(2px);
+    animation: morph 14s ease-in-out infinite alternate;
+  }
+  @keyframes morph {
+    0%   { border-radius: 42% 58% 65% 35% / 40% 55% 45% 60%; transform: scale(1); }
+    50%  { border-radius: 58% 42% 35% 65% / 60% 40% 55% 45%; transform: scale(1.08); }
+    100% { border-radius: 50% 50% 58% 42% / 45% 60% 40% 55%; transform: scale(0.96); }
+  }
+
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 1; }
+
+  header.nav {
+    position: sticky; top: 20px; z-index: 50;
+    margin: 20px auto 0;
+    max-width: 1200px;
+    padding: 14px 24px;
+    background: rgba(253,246,236,0.85);
+    backdrop-filter: blur(16px);
+    border-radius: 999px;
+    display: flex; justify-content: space-between; align-items: center;
+    border: 1px solid rgba(42,26,16,0.08);
+  }
+  .brand {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+  }
+  .brand em { font-style: italic; color: var(--coral); }
+  nav ul { display: flex; gap: 24px; list-style: none; font-size: 14px; color: var(--mute); font-weight: 500; }
+  nav a:hover { color: var(--ink); }
+  .lang-btn {
+    padding: 8px 16px; font: inherit; font-size: 12px; font-weight: 600;
+    background: var(--mint); color: var(--ink); border: none; border-radius: 999px; cursor: pointer;
+  }
+
+  .hero {
+    position: relative;
+    padding: 120px 0 140px;
+  }
+  .hero .blob-1 {
+    width: 520px; height: 520px;
+    background: var(--mint);
+    top: -60px; right: -100px;
+  }
+  .hero .blob-2 {
+    width: 400px; height: 400px;
+    background: var(--peach);
+    bottom: -80px; left: -80px;
+    animation-delay: -6s;
+  }
+  .hero .blob-3 {
+    width: 220px; height: 220px;
+    background: var(--butter);
+    top: 280px; left: 45%;
+    animation-delay: -3s;
+    opacity: 0.7;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center; gap: 10px;
+    background: var(--butter);
+    padding: 10px 20px;
+    border-radius: 999px;
+    font-size: 13px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    margin-bottom: 32px;
+  }
+  .eyebrow::before { content: '✿'; color: var(--coral); font-size: 16px; }
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(60px, 10vw, 140px);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    max-width: 14ch;
+    margin-bottom: 32px;
+  }
+  h1 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--coral);
+    position: relative;
+    display: inline-block;
+  }
+  h1 em::after {
+    content: '';
+    position: absolute;
+    left: -8px; right: -8px; top: -4px; bottom: -4px;
+    background: var(--butter);
+    border-radius: 45% 55% 55% 45% / 50% 50% 50% 50%;
+    z-index: -1;
+    opacity: 0.6;
+  }
+  .hero p {
+    font-size: 20px;
+    color: var(--mute);
+    max-width: 50ch;
+    margin-bottom: 40px;
+  }
+  .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn {
+    display: inline-block;
+    padding: 18px 32px;
+    background: var(--ink); color: var(--bg);
+    border-radius: 999px;
+    font-weight: 600;
+    transition: transform .25s;
+  }
+  .btn:hover { transform: scale(1.04); }
+  .btn.alt { background: var(--coral); color: var(--bg); }
+  .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--ink); }
+
+  section {
+    padding: 140px 0;
+    position: relative;
+  }
+  .eyebrow-alt {
+    display: inline-block;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--coral);
+    margin-bottom: 18px;
+  }
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: clamp(44px, 6vw, 88px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    max-width: 18ch;
+    margin-bottom: 48px;
+  }
+  h2 em { font-style: italic; font-weight: 400; color: var(--coral); }
+
+  .manifest {
+    background: var(--peach);
+    border-radius: 80px 40px 80px 40px / 60px 80px 60px 80px;
+    padding: 100px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .manifest::before {
+    content: '';
+    position: absolute;
+    right: -120px; top: -80px;
+    width: 400px; height: 400px;
+    background: var(--butter);
+    border-radius: 50% 50% 55% 45% / 50% 45% 55% 50%;
+    opacity: 0.7;
+    animation: morph 14s ease-in-out infinite alternate;
+  }
+  .pillars {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
+    position: relative; z-index: 1;
+  }
+  .pillar {
+    padding: 36px;
+    background: var(--bg);
+    border-radius: 40px 20px 40px 20px / 30px 40px 30px 40px;
+  }
+  .pillar:nth-child(2) { background: var(--mint); border-radius: 20px 40px 20px 40px / 40px 30px 40px 30px; }
+  .pillar:nth-child(3) { background: var(--butter); }
+  .pillar .n {
+    display: inline-block;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 24px;
+    color: var(--coral);
+    margin-bottom: 10px;
+  }
+  .pillar h4 { font-family: 'Fraunces', serif; font-size: 28px; font-weight: 700; margin-bottom: 12px; }
+  .pillar p { font-size: 15px; color: var(--mute); }
+
+  .methods-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 28px;
+  }
+  .method {
+    padding: 40px 32px;
+    background: var(--bg-2);
+    border-radius: 60% 40% 40% 60% / 45% 55% 45% 55%;
+    text-align: center;
+    transition: border-radius .6s, transform .25s;
+    min-height: 320px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .method:hover {
+    border-radius: 40% 60% 60% 40% / 55% 45% 55% 45%;
+    transform: translateY(-6px);
+  }
+  .method:nth-child(2) { background: var(--mint); border-radius: 45% 55% 55% 45% / 60% 40% 60% 40%; }
+  .method:nth-child(3) { background: var(--butter); border-radius: 55% 45% 45% 55% / 40% 60% 40% 60%; }
+  .method:nth-child(4) { background: var(--coral); color: var(--bg); border-radius: 50% 50% 40% 60% / 55% 45% 55% 45%; }
+  .method:nth-child(5) { background: var(--sage); border-radius: 60% 40% 55% 45% / 50% 50% 45% 55%; }
+  .method:nth-child(6) { background: var(--peach); border-radius: 40% 60% 50% 50% / 45% 55% 60% 40%; }
+  .method .sub { display: block; font-family: 'Fraunces', serif; font-style: italic; font-size: 16px; margin-bottom: 8px; }
+  .method h3 { font-family: 'Fraunces', serif; font-size: 34px; font-weight: 800; letter-spacing: -0.01em; margin-bottom: 12px; }
+  .method p { font-size: 14px; opacity: 0.85; }
+
+  .bignums-wrap {
+    background: var(--mint);
+    border-radius: 80px 40px 80px 40px / 60px 80px 60px 80px;
+    padding: 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .bignums-wrap::before {
+    content: '';
+    position: absolute;
+    left: -100px; bottom: -100px;
+    width: 300px; height: 300px;
+    background: var(--sage);
+    border-radius: 50%;
+    animation: morph 14s ease-in-out infinite alternate;
+  }
+  .bn-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; position: relative; z-index: 1; }
+  .bn { text-align: center; }
+  .bn .v { font-family: 'Fraunces', serif; font-size: clamp(60px, 7vw, 104px); font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
+  .bn .t { font-weight: 600; margin-top: 8px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.1em; }
+  .bn .d { font-size: 13px; color: var(--mute); margin-top: 6px; }
+
+  .retail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+  .retail-hero {
+    aspect-ratio: 1/1;
+    max-width: 480px;
+    background: var(--coral);
+    border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
+    display: grid; place-items: center;
+    color: var(--bg);
+    text-align: center;
+    padding: 40px;
+    animation: morph 14s ease-in-out infinite alternate;
+  }
+  .retail-hero .big {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(80px, 10vw, 140px);
+    font-weight: 800;
+    line-height: 0.9;
+  }
+  .retail-hero small { display: block; font-size: 16px; margin-top: 20px; font-style: italic; opacity: 0.9; }
+  .retail-list { display: flex; flex-direction: column; gap: 16px; }
+  .r-item {
+    padding: 24px 28px;
+    background: var(--bg-2);
+    border-radius: 30px;
+    display: grid; grid-template-columns: 48px 1fr; gap: 20px;
+    align-items: center;
+  }
+  .r-item .idx {
+    width: 48px; height: 48px;
+    background: var(--butter);
+    border-radius: 50%;
+    display: grid; place-items: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+  }
+  .r-item:nth-child(2) .idx { background: var(--mint); }
+  .r-item:nth-child(3) .idx { background: var(--peach); }
+  .r-item:nth-child(4) .idx { background: var(--coral); color: white; }
+  .r-item h4 { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+  .r-item p { font-size: 13px; color: var(--mute); }
+
+  .contact-wrap {
+    background: var(--ink); color: var(--bg);
+    border-radius: 80px 40px 80px 40px / 60px 80px 60px 80px;
+    padding: 100px 80px;
+    position: relative; overflow: hidden;
+  }
+  .contact-wrap::before, .contact-wrap::after {
+    content: ''; position: absolute;
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0.4;
+  }
+  .contact-wrap::before {
+    width: 300px; height: 300px;
+    top: -100px; right: -80px;
+    background: var(--coral);
+  }
+  .contact-wrap::after {
+    width: 250px; height: 250px;
+    bottom: -100px; left: 10%;
+    background: var(--mint);
+  }
+  .contact-wrap h2 { color: var(--bg); position: relative; }
+  .contact-wrap h2 em { color: var(--butter); }
+  .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; position: relative; }
+  .c-card {
+    padding: 32px;
+    background: rgba(253,246,236,0.08);
+    border: 1px solid rgba(253,246,236,0.18);
+    border-radius: 30px 15px 30px 15px / 20px 30px 20px 30px;
+    backdrop-filter: blur(10px);
+  }
+  .c-card h4 { font-family: 'Fraunces', serif; font-style: italic; font-size: 20px; color: var(--butter); margin-bottom: 14px; }
+  .c-card p { font-size: 15px; line-height: 1.8; }
+  .c-card a { border-bottom: 1px solid rgba(253,246,236,0.3); font-weight: 500; }
+
+  footer {
+    padding: 60px 0;
+    text-align: center;
+    font-size: 14px; color: var(--mute);
+  }
+  footer b { font-family: 'Fraunces', serif; font-style: italic; color: var(--ink); font-weight: 800; }
+
+  @media (max-width: 900px) {
+    nav ul { display: none; }
+    .manifest, .bignums-wrap, .contact-wrap { padding: 60px 32px; border-radius: 40px; }
+    .pillars, .bn-grid, .contact-grid { grid-template-columns: 1fr; }
+    .retail-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="brand">Mands <em>&</em> co.</div>
+  <nav><ul>
+    <li><a href="#manifest">Manifest</a></li>
+    <li><a href="#methods">Metody</a></li>
+    <li><a href="#retail">Retail</a></li>
+    <li><a href="#contact">Kontakt</a></li>
+  </ul></nav>
+  <button class="lang-btn">EN ✿</button>
+</header>
+
+<section class="hero">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="wrap">
+    <span class="eyebrow">Instytut Badawczy · est. 2005</span>
+    <h1>Badania rynku <em>& opinii</em><br>z sercem.</h1>
+    <p>Polski instytut badawczy działający od 2005 roku. Słuchamy, analizujemy i doradzamy — pomagamy znaleźć drogę do rynkowego sukcesu.</p>
+    <div class="hero-cta">
+      <a href="#contact" class="btn">Zamów badanie →</a>
+      <a href="#methods" class="btn alt">Poznaj metody</a>
+    </div>
+  </div>
+</section>
+
+<section id="manifest">
+  <div class="wrap">
+    <div class="manifest">
+      <span class="eyebrow-alt">§ 01 — Manifest</span>
+      <h2>Jesteśmy instytutem referencyjnym dla <em>sieci handlowych</em>.</h2>
+      <div class="pillars">
+        <div class="pillar"><span class="n">/ 001</span><h4>Indywidualnie</h4><p>Każdy klient otrzymuje wsparcie merytoryczne dopasowane do jego potrzeb — bez szablonów.</p></div>
+        <div class="pillar"><span class="n">/ 002</span><h4>Własne narzędzia</h4><p>Teleinformatyczny system B2B integrujący sondażowanie, dane i raportowanie.</p></div>
+        <div class="pillar"><span class="n">/ 003</span><h4>Doświadczenie</h4><p>Specjaliści z wieloletnim stażem. Kodeks ESOMAR, standardy PKJPA.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="methods">
+  <div class="wrap">
+    <span class="eyebrow-alt">§ 02 — Metody</span>
+    <h2>Pełna paleta metod <em>badawczych</em>.</h2>
+    <div class="methods-grid">
+      <div class="method"><span class="sub">ilościowe</span><h3>CATI</h3><p>Wywiady telefoniczne, studio Wrocław od 2005 r.</p></div>
+      <div class="method"><span class="sub">online</span><h3>CAWI</h3><p>Ankieta internetowa, podwójne szyfrowanie danych.</p></div>
+      <div class="method"><span class="sub">tablet</span><h3>MOBI</h3><p>Wywiady z GPS, multimediami, drag & drop.</p></div>
+      <div class="method"><span class="sub">grupa</span><h3>FGI</h3><p>Focus Group Interviews — testy logo, opakowań, reklam.</p></div>
+      <div class="method"><span class="sub">1 na 1</span><h3>IDI</h3><p>Individual In-Depth Interview — tematy drażliwe.</p></div>
+      <div class="method"><span class="sub">audyt</span><h3>Mystery</h3><p>Tajemniczy klient — kilkuset audytorów w Polsce.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="bignums-wrap">
+      <span class="eyebrow-alt">w liczbach</span>
+      <h2>MANDS <em>w liczbach</em>.</h2>
+      <div class="bn-grid">
+        <div class="bn"><div class="v">20+</div><div class="t">Lat</div><div class="d">Od 2005.</div></div>
+        <div class="bn"><div class="v">400</div><div class="t">Ankieterów</div><div class="d">W całej PL.</div></div>
+        <div class="bn"><div class="v">10k</div><div class="t">Wywiadów</div><div class="d">Tygodniowo.</div></div>
+        <div class="bn"><div class="v">10</div><div class="t">Trenerów</div><div class="d">Regionalnych.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="retail">
+  <div class="wrap">
+    <span class="eyebrow-alt">§ 03 — Retail</span>
+    <h2>Gazetki <em>docierają</em> do klientów?</h2>
+    <div class="retail-grid" style="margin-top:48px;">
+      <div class="retail-hero">
+        <div>
+          <div class="big">10k+</div>
+          <small>gospodarstw domowych / tydzień</small>
+        </div>
+      </div>
+      <div class="retail-list">
+        <div class="r-item"><div class="idx">01</div><div><h4>Distribution Check</h4><p>Kontrola dystrybucji materiałów reklamowych.</p></div></div>
+        <div class="r-item"><div class="idx">02</div><div><h4>Exit Store</h4><p>Analiza koszyka, heatmapa obszarów atrakcyjnych.</p></div></div>
+        <div class="r-item"><div class="idx">03</div><div><h4>DRS</h4><p>SaaS do raportowania kolportażu z obsługą SMS.</p></div></div>
+        <div class="r-item"><div class="idx">04</div><div><h4>Call Distribution</h4><p>Telefoniczna kontrola — 10k wywiadów.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="contact-wrap">
+      <span class="eyebrow-alt" style="color:var(--butter)">§ 06 — Kontakt</span>
+      <h2>Porozmawiajmy o <em>badaniu</em>.</h2>
+      <div class="contact-grid">
+        <div class="c-card"><h4>Siedziba</h4><p>ul. B. Prusa 1/48<br>50-319 Wrocław<br>NIP: PL8851557675</p></div>
+        <div class="c-card"><h4>Kontakt</h4><p><a href="mailto:info@mands.pl">info@mands.pl</a><br><a href="tel:+48713220686">+48 71 322 06 86</a></p></div>
+        <div class="c-card"><h4>Kariera</h4><p><a href="mailto:rekrutacja@mands.pl">rekrutacja@mands.pl</a></p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <b>M & S</b> · Instytut Badawczy · Wrocław · © 2026 MANDS
+  </div>
+</footer>
+
+</body>
+</html>

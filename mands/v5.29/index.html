@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MANDS — Monochrome</title>
+<link rel="icon" href="../images/cropped-logo-png-1-180x180.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* Monochrome — single hue (deep teal/petrol) with tints and shades only */
+  :root {
+    --h-100: #dfe9e8;
+    --h-200: #b5c8c6;
+    --h-300: #7f9d9a;
+    --h-400: #4d7a76;
+    --h-500: #2a5b57;
+    --h-600: #1a423f;
+    --h-700: #0f2e2c;
+    --h-800: #061816;
+    --ink: var(--h-700);
+    --bg: var(--h-100);
+    --mute: var(--h-400);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-weight: 400;
+    line-height: 1.6;
+  }
+  a { color: inherit; text-decoration: none; }
+  ::selection { background: var(--h-700); color: var(--h-100); }
+
+  .mono-font { font-family: 'IBM Plex Mono', monospace; }
+
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+
+  /* TOP BAR */
+  .topbar {
+    background: var(--h-700);
+    color: var(--h-200);
+    padding: 10px 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .topbar .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .topbar b { color: var(--h-100); }
+
+  header.nav {
+    padding: 24px 0;
+    border-bottom: 1px solid var(--h-300);
+    position: sticky; top: 0; z-index: 50;
+    background: var(--bg);
+  }
+  .nav-inner { display: flex; justify-content: space-between; align-items: center; }
+  .brand {
+    font-weight: 700; letter-spacing: 0.2em; font-size: 14px;
+  }
+  .brand::before { content: '▣'; color: var(--h-500); margin-right: 8px; }
+  nav ul { display: flex; gap: 28px; list-style: none; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mute); }
+  nav a:hover { color: var(--ink); }
+  .lang { padding: 8px 14px; border: 1px solid var(--h-300); background: transparent; font: inherit; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.15em; color: var(--mute); cursor: pointer; }
+  .lang:hover { border-color: var(--ink); color: var(--ink); }
+
+  section { padding: 140px 0; border-bottom: 1px solid var(--h-200); }
+
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--mute);
+    text-transform: uppercase;
+    margin-bottom: 40px;
+    display: block;
+  }
+  .eyebrow b { color: var(--ink); font-weight: 500; }
+
+  h1 {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 300;
+    font-size: clamp(64px, 10vw, 140px);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    margin-bottom: 48px;
+  }
+  h1 em { font-style: normal; color: var(--h-400); font-weight: 300; }
+
+  .hero p {
+    font-size: 19px;
+    color: var(--h-600);
+    max-width: 52ch;
+    margin-bottom: 40px;
+  }
+  .hero-cta { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-block;
+    padding: 16px 28px;
+    font-size: 13px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 500;
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    background: transparent;
+    transition: background .2s, color .2s;
+  }
+  .btn:hover { background: var(--ink); color: var(--h-100); }
+  .btn.filled { background: var(--ink); color: var(--h-100); }
+  .btn.filled:hover { background: var(--h-500); border-color: var(--h-500); }
+
+  .strip {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    margin-top: 80px;
+    padding-top: 40px;
+    border-top: 1px solid var(--h-200);
+  }
+  .strip .item { padding-right: 24px; border-right: 1px solid var(--h-200); }
+  .strip .item:last-child { border-right: none; }
+  .strip .k {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--mute);
+    margin-bottom: 14px;
+    display: block;
+  }
+  .strip .v { font-size: 36px; font-weight: 300; letter-spacing: -0.02em; line-height: 1; }
+
+  h2 {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 300;
+    font-size: clamp(44px, 6vw, 88px);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 56px;
+    max-width: 18ch;
+  }
+  h2 em { font-style: normal; color: var(--h-400); font-weight: 300; }
+
+  /* Manifest */
+  .manifest-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 80px; }
+  .side .num { font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.16em; color: var(--mute); text-transform: uppercase; }
+  .side h3 { margin-top: 20px; font-size: 26px; font-weight: 400; }
+  .lead { font-size: clamp(28px, 3vw, 44px); font-weight: 300; line-height: 1.25; letter-spacing: -0.02em; margin-bottom: 64px; max-width: 22ch; }
+  .lead em { font-style: normal; border-bottom: 1px solid var(--ink); }
+
+  .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; padding-top: 40px; border-top: 1px solid var(--h-200); }
+  .pillar .n { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mute); }
+  .pillar h4 { font-size: 22px; font-weight: 500; margin: 18px 0 12px; }
+  .pillar p { font-size: 14px; color: var(--h-600); }
+
+  /* Methods — ASCII-style list */
+  .methods .m {
+    display: grid;
+    grid-template-columns: 80px 1fr 2fr 24px;
+    gap: 48px;
+    padding: 40px 0;
+    border-top: 1px solid var(--h-200);
+    align-items: baseline;
+    transition: background .25s, padding .25s;
+  }
+  .methods .m:last-child { border-bottom: 1px solid var(--h-200); }
+  .methods .m:hover { background: var(--h-200); padding-left: 16px; padding-right: 16px; }
+  .m .n { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--mute); letter-spacing: 0.12em; }
+  .m .name { font-size: 30px; font-weight: 400; letter-spacing: -0.015em; }
+  .m .name small { display: block; margin-top: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mute); }
+  .m .desc { font-size: 14px; color: var(--h-600); line-height: 1.7; max-width: 60ch; }
+  .m .arrow { font-size: 18px; color: var(--mute); text-align: right; }
+
+  /* Bignums — bar chart style */
+  .bignums {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+  .bn {
+    padding: 40px 32px;
+    border-left: 1px solid var(--h-200);
+    position: relative;
+  }
+  .bn:first-child { border-left: none; padding-left: 0; }
+  .bn .v { font-size: clamp(60px, 7vw, 104px); font-weight: 300; line-height: 1; letter-spacing: -0.03em; margin-bottom: 20px; }
+  .bn .bar {
+    height: 6px;
+    background: var(--h-700);
+    margin-bottom: 16px;
+  }
+  .bn:nth-child(1) .bar { width: 100%; }
+  .bn:nth-child(2) .bar { width: 80%; background: var(--h-500); }
+  .bn:nth-child(3) .bar { width: 65%; background: var(--h-400); }
+  .bn:nth-child(4) .bar { width: 40%; background: var(--h-300); }
+  .bn .t { font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px; }
+  .bn .d { font-size: 13px; color: var(--h-600); }
+
+  /* Retail */
+  .retail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+  .retail-mono {
+    padding: 64px 48px;
+    background: var(--h-700);
+    color: var(--h-100);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .retail-mono .huge {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 300;
+    font-size: clamp(80px, 10vw, 140px);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+  }
+  .retail-mono small { display: block; font-size: 11px; letter-spacing: 0.18em; margin-top: 20px; text-transform: uppercase; color: var(--h-300); }
+  .retail-mono .meta { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--h-400); font-size: 11px; letter-spacing: 0.12em; color: var(--h-300); }
+
+  .retail-list .r { padding: 28px 0; border-top: 1px solid var(--h-200); display: grid; grid-template-columns: 60px 1fr; gap: 20px; }
+  .retail-list .r:last-child { border-bottom: 1px solid var(--h-200); }
+  .retail-list .idx { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.14em; color: var(--mute); }
+  .retail-list h4 { font-size: 20px; font-weight: 500; margin-bottom: 6px; }
+  .retail-list p { font-size: 14px; color: var(--h-600); }
+
+  /* Contact */
+  .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; padding-top: 32px; border-top: 1px solid var(--h-200); }
+  .c-card h4 { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mute); margin-bottom: 18px; }
+  .c-card p { font-size: 16px; line-height: 1.8; }
+  .c-card a { border-bottom: 1px solid var(--h-300); }
+  .c-card a:hover { border-color: var(--ink); }
+
+  footer {
+    padding: 60px 0 40px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--mute);
+  }
+  .foot-grid { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+  .foot-grid b { color: var(--ink); font-weight: 500; }
+
+  @media (max-width: 900px) {
+    .wrap { padding: 0 24px; }
+    section { padding: 80px 0; }
+    nav ul { display: none; }
+    .strip, .manifest-grid, .pillars, .retail-grid, .contact-grid, .bignums { grid-template-columns: 1fr; }
+    .strip .item { border-right: none; border-bottom: 1px solid var(--h-200); padding-bottom: 24px; }
+    .bn { border-left: none; border-top: 1px solid var(--h-200); padding: 24px 0; }
+    .bn:first-child { border-top: none; }
+    .methods .m { grid-template-columns: 1fr; gap: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <div><b>MANDS</b> · Instytut Badawczy · est. MMV</div>
+    <div>51.10°N · 17.03°E · Wrocław PL</div>
+    <div>OFBOR · ESOMAR · PKJPA</div>
+  </div>
+</div>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <div class="brand">MANDS</div>
+    <nav><ul>
+      <li><a href="#manifest">Manifest</a></li>
+      <li><a href="#methods">Metody</a></li>
+      <li><a href="#retail">Retail</a></li>
+      <li><a href="#contact">Kontakt</a></li>
+    </ul></nav>
+    <button class="lang">EN</button>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="wrap">
+    <span class="eyebrow">№ 001 &nbsp;·&nbsp; <b>Instytut Badawczy</b> &nbsp;·&nbsp; est. 2005</span>
+    <h1>Badania rynku<br><em>& opinii.</em></h1>
+    <p>Polski instytut badawczy działający od 2005 roku. Słuchamy, analizujemy i doradzamy — pomagamy znaleźć drogę do rynkowego sukcesu.</p>
+    <div class="hero-cta">
+      <a href="#contact" class="btn filled">Zamów badanie →</a>
+      <a href="#methods" class="btn">Poznaj metody</a>
+      <small class="mono-font" style="font-size:11px;letter-spacing:0.14em;color:var(--mute);text-transform:uppercase;margin-left:8px;">odpowiadamy w 24h</small>
+    </div>
+    <div class="strip">
+      <div class="item"><span class="k">/ 001 Doświadczenie</span><div class="v">20+ lat</div></div>
+      <div class="item"><span class="k">/ 002 Ankieterzy</span><div class="v">400+</div></div>
+      <div class="item"><span class="k">/ 003 Wywiady</span><div class="v">10k / tydz.</div></div>
+      <div class="item"><span class="k">/ 004 Standardy</span><div class="v">OFBOR</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="manifest">
+  <div class="wrap">
+    <span class="eyebrow">§ <b>01</b> &nbsp;/&nbsp; Manifest &nbsp;—&nbsp; Kim jesteśmy</span>
+    <div class="manifest-grid">
+      <div class="side">
+        <div class="num">Rozdział pierwszy</div>
+        <h3>Kim jesteśmy</h3>
+      </div>
+      <div>
+        <p class="lead">Jesteśmy instytutem referencyjnym dla <em>sieci handlowych</em>. Słuchamy, analizujemy, doradzamy.</p>
+        <div class="pillars">
+          <div class="pillar"><div class="n">/ 001 Podejście</div><h4>Indywidualnie.</h4><p>Każdy klient otrzymuje wsparcie merytoryczne dopasowane do jego potrzeb — bez szablonów.</p></div>
+          <div class="pillar"><div class="n">/ 002 Technologia</div><h4>Własne narzędzia.</h4><p>Teleinformatyczny system B2B integrujący sondażowanie, dane i raportowanie.</p></div>
+          <div class="pillar"><div class="n">/ 003 Zespół</div><h4>Doświadczenie.</h4><p>Specjaliści z wieloletnim stażem. Kodeks ESOMAR, standardy PKJPA.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="methods" class="methods">
+  <div class="wrap">
+    <span class="eyebrow">§ <b>02</b> &nbsp;/&nbsp; Metody badawcze</span>
+    <h2>Pełna paleta <em>metod badawczych</em>.</h2>
+    <div class="m"><div class="n">/01</div><div class="name">CATI.<small>Ilościowe · Telefon</small></div><div class="desc">Computer-Assisted Telephone Interviewing. Studio we Wrocławiu od 2005 r., opieka supervisorów, model Cati@Home.</div><div class="arrow">↗</div></div>
+    <div class="m"><div class="n">/02</div><div class="name">CAWI.<small>Ilościowe · Online</small></div><div class="desc">Ankieta internetowa w CADAS CAWI. Klient podgląda wyniki, podwójne szyfrowanie danych.</div><div class="arrow">↗</div></div>
+    <div class="m"><div class="n">/03</div><div class="name">MOBI.<small>Ilościowe · Tablet</small></div><div class="desc">Wywiady wspomagane tabletem — multimedia, drag & drop, GPS, nagrywanie audio-video.</div><div class="arrow">↗</div></div>
+    <div class="m"><div class="n">/04</div><div class="name">FGI.<small>Jakościowe · Grupa</small></div><div class="desc">Focus Group Interviews — testy logo, opakowań, reklam, zachowań konsumenckich.</div><div class="arrow">↗</div></div>
+    <div class="m"><div class="n">/05</div><div class="name">IDI.<small>Jakościowe · Indywidualne</small></div><div class="desc">Individual In-Depth Interview — rozmowa pogłębiona, tematy drażliwe, motywy działań.</div><div class="arrow">↗</div></div>
+    <div class="m"><div class="n">/06</div><div class="name">Mystery Shopper.<small>Audyt · Retail</small></div><div class="desc">Tajemniczy klient — kilkuset audytorów w Polsce, weryfikacja standardów obsługi i POS.</div><div class="arrow">↗</div></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="eyebrow">◆ &nbsp; Liczby MANDS / w liczbach</span>
+    <div class="bignums">
+      <div class="bn"><div class="v">20+</div><div class="bar"></div><div class="t">Lat doświadczenia</div><div class="d">Nieprzerwanie od 2005.</div></div>
+      <div class="bn"><div class="v">400</div><div class="bar"></div><div class="t">Ankieterów</div><div class="d">W całej Polsce.</div></div>
+      <div class="bn"><div class="v">10k</div><div class="bar"></div><div class="t">Wywiadów</div><div class="d">Tygodniowo.</div></div>
+      <div class="bn"><div class="v">10</div><div class="bar"></div><div class="t">Trenerów</div><div class="d">Regionalnych.</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="retail">
+  <div class="wrap">
+    <span class="eyebrow">§ <b>03</b> &nbsp;/&nbsp; Retail & dystrybucja</span>
+    <h2>Sprawdzamy, czy Twoje gazetki <em>docierają</em>.</h2>
+    <div class="retail-grid">
+      <div class="retail-mono">
+        <div class="huge">10 000+</div>
+        <small>gospodarstw domowych / tydzień</small>
+        <div class="meta">DISTRIBUTION CHECK · EXIT STORE · DRS · CALL DISTRIBUTION</div>
+      </div>
+      <div class="retail-list">
+        <div class="r"><div class="idx">/01</div><div><h4>Distribution Check</h4><p>Kontrola dystrybucji materiałów reklamowych. Ponad 10 tysięcy gospodarstw tygodniowo.</p></div></div>
+        <div class="r"><div class="idx">/02</div><div><h4>Exit Store</h4><p>Analiza wartości koszyka, częstotliwości zakupów. Heatmapa obszarów.</p></div></div>
+        <div class="r"><div class="idx">/03</div><div><h4>DRS</h4><p>SaaS do raportowania kolportażu. SMS, eksport CSV/XLSX.</p></div></div>
+        <div class="r"><div class="idx">/04</div><div><h4>Call Distribution</h4><p>Telefoniczna kontrola — 10 tys. wywiadów w kluczowych lokalizacjach.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <span class="eyebrow">§ <b>06</b> &nbsp;/&nbsp; Kontakt</span>
+    <h2>Porozmawiajmy o <em>badaniu</em>.</h2>
+    <div class="contact-grid">
+      <div class="c-card"><h4>/ 001 — Siedziba</h4><p>ul. B. Prusa 1/48<br>50-319 Wrocław<br><small style="color:var(--mute)">NIP: PL8851557675</small></p></div>
+      <div class="c-card"><h4>/ 002 — Kontakt</h4><p><a href="mailto:info@mands.pl">info@mands.pl</a><br><a href="tel:+48713220686">+48 71 322 06 86</a></p></div>
+      <div class="c-card"><h4>/ 003 — Kariera</h4><p><a href="mailto:rekrutacja@mands.pl">rekrutacja@mands.pl</a></p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div><b>M & S</b> · INSTYTUT BADAWCZY · WROCŁAW</div>
+      <div>© 2026 MANDS · 51.10°N · 17.03°E</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

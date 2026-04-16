@@ -172,7 +172,11 @@
     padding: 10px;
     border: 4px solid #000;
     overflow-x: auto;
+    max-width: 100%;
     line-height: 1.15;
+  }
+  @media (max-width: 640px) {
+    .ascii-bars { font-size: 9px; line-height: 1.2; }
   }
   .hero-right .struct {
     display: flex;
@@ -690,7 +694,7 @@
   }
   .foot-mark {
     font-family: "Times New Roman", serif;
-    font-size: 120px;
+    font-size: clamp(56px, 14vw, 120px);
     font-weight: 900;
     line-height: 0.8;
     letter-spacing: -6px;
@@ -732,6 +736,24 @@
     .sol-table, .sol-table tbody, .sol-table tr, .sol-table td { display: block; width: 100%; }
     .sol-table td { border-right: 0; border-bottom: 2px dashed #000; }
     .foot-mark { font-size: 72px; }
+
+  /* --- a11y & mobile polish --- */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+  @media (max-width: 480px) {
+    a.btn, button, .btn, .btn-primary, .btn-tonal, .btn-filled, .btn-outline,
+    .topbar a, nav a, [role="button"] {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+    }
+  }
     .topbar nav { order: 3; width: 100%; }
   }
 </style>

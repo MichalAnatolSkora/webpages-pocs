@@ -65,7 +65,7 @@
   .topbar {
     position: fixed; top: 18px; left: 50%;
     transform: translateX(-50%);
-    width: calc(100% - 40px);
+    width: calc(100% - 24px);
     max-width: 1400px;
     z-index: 100;
     display: flex;
@@ -915,6 +915,32 @@
   }
   @media (max-width: 720px) {
     .topbar { padding: 8px 10px 8px 18px; }
+  }
+  @media (max-width: 720px) {
+    section, [id] { scroll-margin-top: 90px !important; }
+  }
+  @media (max-width: 380px) {
+    .topbar { width: calc(100% - 16px); left: 8px; transform: none; }
+  }
+
+  /* --- a11y & mobile polish --- */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+  @media (max-width: 480px) {
+    a.btn, button, .btn, .btn-primary, .btn-tonal, .btn-filled, .btn-outline,
+    .topbar a, nav a, [role="button"] {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+    }
+  }
+  @media (max-width: 720px) {
     .topbar-left { padding: 8px 14px; font-size: 15px; }
     .topbar-mid { display: none; position: absolute; top: 70px; left: 0; right: 0; flex-direction: column; background: var(--bg); border-radius: var(--r); padding: 16px; box-shadow: 8px 8px 20px var(--shadow-dark), -8px -8px 20px var(--shadow-light); }
     .topbar.is-open .topbar-mid { display: flex; }

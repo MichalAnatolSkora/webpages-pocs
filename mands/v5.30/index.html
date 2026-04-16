@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MANDS — Kinetic / Scroll-driven</title>
+<link rel="icon" href="../images/cropped-logo-png-1-180x180.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --ink: #f5f0e8;
+    --mute: rgba(245,240,232,0.55);
+    --line: rgba(245,240,232,0.12);
+    --accent: #ff4a1c;
+    --accent-2: #4affb5;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Space Grotesk', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: 1400px; margin: 0 auto; padding: 0 40px; position: relative; }
+
+  /* Scroll progress bar */
+  .scroll-progress {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: 2px; z-index: 1000;
+    background: transparent;
+  }
+  .scroll-progress .bar {
+    height: 100%; width: 0;
+    background: var(--accent);
+    transition: width 0.05s linear;
+  }
+
+  /* Nav */
+  header.nav {
+    position: fixed; top: 24px; left: 50%; transform: translateX(-50%);
+    z-index: 100;
+    padding: 12px 20px;
+    background: rgba(10,10,10,0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    display: flex; gap: 28px; align-items: center;
+  }
+  .brand {
+    font-family: 'Instrument Serif', serif;
+    font-size: 20px;
+    letter-spacing: 0;
+  }
+  nav ul { display: flex; gap: 20px; list-style: none; font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute); }
+  nav a:hover { color: var(--ink); }
+  .lang-btn {
+    padding: 6px 12px; background: transparent; color: var(--ink);
+    border: 1px solid var(--line); border-radius: 999px; cursor: pointer;
+    font: inherit; font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.14em;
+  }
+
+  /* Marquee */
+  .marquee {
+    padding: 16px 0;
+    overflow: hidden;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+    font-family: 'Instrument Serif', serif;
+    font-size: 24px;
+    background: var(--bg);
+  }
+  .marquee-track {
+    display: inline-block;
+    animation: marquee 30s linear infinite;
+  }
+  .marquee-track span { margin-right: 48px; }
+  .marquee-track span em { color: var(--accent); font-style: italic; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px; display: block;
+  }
+  .section-label::before { content: '● '; }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh;
+    padding: 160px 0 100px;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative;
+  }
+  .hero h1 {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: clamp(80px, 15vw, 240px);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+  }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero .w {
+    display: block;
+    opacity: 0;
+    transform: translateY(60px);
+    animation: rise 1.2s cubic-bezier(.2,.8,.2,1) forwards;
+  }
+  .hero .w:nth-child(2) { animation-delay: 0.15s; padding-left: 8%; }
+  .hero .w:nth-child(3) { animation-delay: 0.3s; padding-left: 4%; }
+  .hero .w:nth-child(4) { animation-delay: 0.45s; padding-left: 12%; }
+  @keyframes rise {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero .scroll-hint {
+    position: absolute;
+    bottom: 40px; left: 40px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--mute);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+  .hero .meta-row {
+    position: absolute;
+    bottom: 40px; right: 40px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--mute);
+    text-align: right;
+    line-height: 1.8;
+  }
+  .hero .meta-row b { color: var(--ink); }
+
+  /* Sticky sections */
+  section { padding: 140px 0; border-bottom: 1px solid var(--line); position: relative; }
+
+  h2 {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: clamp(48px, 8vw, 120px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 48px;
+    max-width: 16ch;
+  }
+  h2 em { font-style: italic; color: var(--accent); }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1s ease, transform 1s cubic-bezier(.2,.8,.2,1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Pin manifest */
+  .manifest {
+    position: relative;
+  }
+  .manifest-sticky {
+    position: sticky;
+    top: 120px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .manifest .left p.lead {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(32px, 4vw, 56px);
+    line-height: 1.15;
+    font-weight: 400;
+    max-width: 18ch;
+  }
+  .manifest .left p.lead em { font-style: italic; color: var(--accent); }
+
+  .pillars {
+    display: flex; flex-direction: column; gap: 36px;
+  }
+  .pillar { padding: 28px 0; border-top: 1px solid var(--line); }
+  .pillar .n { font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 0.16em; color: var(--accent); text-transform: uppercase; }
+  .pillar h4 { font-family: 'Instrument Serif', serif; font-size: 36px; font-weight: 400; margin: 14px 0 10px; }
+  .pillar p { font-size: 15px; color: var(--mute); max-width: 40ch; }
+
+  /* Horizontal marquee headings */
+  .h-marquee {
+    padding: 60px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .h-marquee .track {
+    display: inline-block;
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(60px, 12vw, 180px);
+    font-style: italic;
+    color: var(--accent);
+    animation: marquee 25s linear infinite;
+  }
+  .h-marquee .track span { margin-right: 60px; color: var(--ink); font-style: normal; }
+
+  /* Methods sticky */
+  .methods { padding: 160px 0; }
+  .methods-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+  .methods-title { position: sticky; top: 120px; }
+  .methods-title h2 { margin-bottom: 16px; }
+  .methods-title p { font-size: 16px; color: var(--mute); max-width: 36ch; }
+  .m-list .m {
+    padding: 40px 0;
+    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 50px 1fr 24px;
+    gap: 24px;
+    align-items: baseline;
+    transition: padding .4s cubic-bezier(.2,.8,.2,1);
+  }
+  .m-list .m:last-child { border-bottom: 1px solid var(--line); }
+  .m-list .m:hover { padding-left: 24px; }
+  .m .n { font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 0.12em; color: var(--accent); }
+  .m .name { font-family: 'Instrument Serif', serif; font-size: clamp(32px, 3.5vw, 56px); font-weight: 400; line-height: 1; letter-spacing: -0.01em; }
+  .m .name small { display: block; font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 400; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mute); margin-top: 10px; }
+  .m .d { font-size: 14px; color: var(--mute); line-height: 1.7; max-width: 60ch; grid-column: 2; margin-top: 8px; }
+  .m .a { font-size: 20px; color: var(--mute); transition: transform .3s; }
+  .m:hover .a { transform: translateX(8px); color: var(--accent); }
+
+  /* Counter bigumbs with animated numbers */
+  .counters {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    padding: 64px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .counter { padding: 0 32px; border-left: 1px solid var(--line); }
+  .counter:first-child { border-left: none; padding-left: 0; }
+  .counter .v {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(64px, 8vw, 120px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    background: linear-gradient(180deg, var(--ink), var(--accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .counter .t { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; margin-top: 16px; color: var(--mute); }
+
+  /* Retail — parallax layered */
+  .retail-parallax {
+    position: relative;
+    padding: 160px 0;
+    overflow: hidden;
+  }
+  .retail-huge-bg {
+    position: absolute;
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: clamp(240px, 35vw, 560px);
+    color: var(--accent);
+    opacity: 0.12;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    line-height: 1;
+    white-space: nowrap;
+    letter-spacing: -0.04em;
+  }
+  .retail-content { position: relative; z-index: 2; max-width: 900px; }
+  .retail-list .r {
+    padding: 28px 0;
+    border-top: 1px solid var(--line);
+    display: grid; grid-template-columns: 60px 1fr 1fr 24px;
+    gap: 32px; align-items: baseline;
+  }
+  .retail-list .r:last-child { border-bottom: 1px solid var(--line); }
+  .retail-list .idx { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.14em; color: var(--accent); }
+  .retail-list h4 { font-family: 'Instrument Serif', serif; font-size: 28px; font-weight: 400; letter-spacing: -0.01em; }
+  .retail-list p { font-size: 14px; color: var(--mute); }
+  .retail-list .a { color: var(--mute); text-align: right; }
+
+  /* Contact */
+  .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; padding-top: 40px; border-top: 1px solid var(--line); }
+  .c-card h4 { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
+  .c-card p { font-family: 'Instrument Serif', serif; font-size: 24px; line-height: 1.5; font-weight: 400; }
+  .c-card a { border-bottom: 1px solid var(--line); }
+  .c-card a:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* Big CTA marquee-like */
+  .cta-huge {
+    padding: 120px 40px;
+    text-align: center;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .cta-huge h3 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(56px, 10vw, 140px);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+  .cta-huge h3 em { font-style: italic; color: var(--accent); }
+  .cta-huge .btn-big {
+    display: inline-block;
+    margin-top: 48px;
+    padding: 20px 36px;
+    border: 1px solid var(--ink);
+    border-radius: 999px;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    transition: background .3s, color .3s, transform .3s;
+  }
+  .cta-huge .btn-big:hover { background: var(--accent); border-color: var(--accent); color: var(--bg); transform: scale(1.05); }
+
+  footer {
+    padding: 48px 0;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--mute);
+  }
+  .foot-grid { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+  .foot-grid b { color: var(--ink); font-family: 'Instrument Serif', serif; font-size: 16px; font-style: italic; letter-spacing: 0; text-transform: none; }
+
+  @media (max-width: 900px) {
+    .wrap { padding: 0 20px; }
+    header.nav { width: calc(100% - 24px); padding: 8px 14px; }
+    nav ul { display: none; }
+    .manifest-sticky, .methods-wrap { grid-template-columns: 1fr; }
+    .manifest-sticky, .methods-title { position: relative; top: 0; }
+    .counters, .contact-grid { grid-template-columns: 1fr 1fr; }
+    .counter { border-left: none; border-top: 1px solid var(--line); padding: 24px 0; }
+    .counter:first-child { border-top: none; }
+    .retail-list .r { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="scroll-progress"><div class="bar" id="scroll-bar"></div></div>
+
+<header class="nav">
+  <div class="brand">MANDS</div>
+  <nav><ul>
+    <li><a href="#manifest">Manifest</a></li>
+    <li><a href="#methods">Metody</a></li>
+    <li><a href="#retail">Retail</a></li>
+    <li><a href="#contact">Kontakt</a></li>
+  </ul></nav>
+  <button class="lang-btn">EN</button>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <h1>
+      <span class="w">Badania</span>
+      <span class="w">rynku</span>
+      <span class="w">& <em>opinii.</em></span>
+      <span class="w" style="font-size:0.35em;letter-spacing:0.02em;font-style:italic;color:rgba(245,240,232,0.5);margin-top:32px;">od MMV ↓</span>
+    </h1>
+    <div class="scroll-hint">↓ SCROLL</div>
+    <div class="meta-row">
+      <b>MANDS</b> / Instytut Badawczy<br>
+      51.10°N · 17.03°E<br>
+      Wrocław · est. 2005
+    </div>
+  </div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span>CATI <em>·</em> CAWI <em>·</em> MOBI <em>·</em> FGI <em>·</em> IDI <em>·</em> FoBo <em>·</em> Mystery Shopper <em>·</em> PaaS <em>·</em></span>
+    <span>CATI <em>·</em> CAWI <em>·</em> MOBI <em>·</em> FGI <em>·</em> IDI <em>·</em> FoBo <em>·</em> Mystery Shopper <em>·</em> PaaS <em>·</em></span>
+  </div>
+</div>
+
+<section id="manifest" class="manifest">
+  <div class="wrap">
+    <div class="manifest-sticky">
+      <div class="left reveal">
+        <span class="section-label">§ 01 — Manifest</span>
+        <p class="lead">Jesteśmy instytutem referencyjnym dla <em>sieci handlowych</em> — słuchamy, analizujemy, doradzamy.</p>
+      </div>
+      <div class="pillars">
+        <div class="pillar reveal"><span class="n">/ 001</span><h4>Indywidualnie</h4><p>Każdy klient otrzymuje wsparcie merytoryczne dopasowane do jego potrzeb — bez szablonów.</p></div>
+        <div class="pillar reveal"><span class="n">/ 002</span><h4>Narzędzia</h4><p>Teleinformatyczny system B2B integrujący sondażowanie, dane i raportowanie.</p></div>
+        <div class="pillar reveal"><span class="n">/ 003</span><h4>Zespół</h4><p>Specjaliści z wieloletnim stażem. Kodeks ESOMAR, standardy PKJPA.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="h-marquee">
+  <div class="track">
+    <span>Metody badawcze</span> <em>w pełnej palecie</em>
+    <span>Metody badawcze</span> <em>w pełnej palecie</em>
+  </div>
+</div>
+
+<section id="methods" class="methods">
+  <div class="wrap">
+    <div class="methods-wrap">
+      <div class="methods-title reveal">
+        <span class="section-label">§ 02 — Metody</span>
+        <h2>Pełna paleta <em>metod</em>.</h2>
+        <p>Ilościowe, jakościowe, audyty — wszystko w jednym miejscu, z własną infrastrukturą i zespołem merytorycznym.</p>
+      </div>
+      <div class="m-list">
+        <div class="m reveal"><div class="n">/01</div><div><div class="name">CATI<small>Ilościowe · Telefon</small></div><div class="d">Computer-Assisted Telephone Interviewing. Studio Wrocław od 2005 r., opieka supervisorów, model Cati@Home.</div></div><div class="a">↗</div></div>
+        <div class="m reveal"><div class="n">/02</div><div><div class="name">CAWI<small>Ilościowe · Online</small></div><div class="d">Ankieta internetowa w CADAS CAWI. Klient podgląda wyniki, podwójne szyfrowanie danych.</div></div><div class="a">↗</div></div>
+        <div class="m reveal"><div class="n">/03</div><div><div class="name">MOBI<small>Ilościowe · Tablet</small></div><div class="d">Wywiady wspomagane tabletem — multimedia, drag & drop, GPS, nagrywanie.</div></div><div class="a">↗</div></div>
+        <div class="m reveal"><div class="n">/04</div><div><div class="name">FGI<small>Jakościowe · Grupa</small></div><div class="d">Focus Group Interviews — testy logo, opakowań, reklam, zachowań konsumenckich.</div></div><div class="a">↗</div></div>
+        <div class="m reveal"><div class="n">/05</div><div><div class="name">IDI<small>Jakościowe · 1 na 1</small></div><div class="d">Individual In-Depth Interview — rozmowa pogłębiona, tematy drażliwe, motywy działań.</div></div><div class="a">↗</div></div>
+        <div class="m reveal"><div class="n">/06</div><div><div class="name">Mystery<small>Audyt · Retail</small></div><div class="d">Tajemniczy klient — kilkuset audytorów w Polsce, weryfikacja standardów obsługi.</div></div><div class="a">↗</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="counters">
+  <div class="counter reveal"><div class="v" data-target="20">0</div><div class="t">Lat doświadczenia</div></div>
+  <div class="counter reveal"><div class="v" data-target="400">0</div><div class="t">Ankieterów</div></div>
+  <div class="counter reveal"><div class="v" data-target="10000">0</div><div class="t">Wywiadów / tydz.</div></div>
+  <div class="counter reveal"><div class="v" data-target="10">0</div><div class="t">Trenerów regionalnych</div></div>
+</div>
+
+<section id="retail" class="retail-parallax">
+  <div class="retail-huge-bg" id="retail-bg">10k+</div>
+  <div class="wrap retail-content">
+    <span class="section-label">§ 03 — Retail</span>
+    <h2 class="reveal">Czy gazetki <em>docierają</em>?</h2>
+    <div class="retail-list">
+      <div class="r reveal"><div class="idx">/01</div><h4>Distribution Check</h4><p>Kontrola dystrybucji materiałów reklamowych. Ponad 10 tysięcy gospodarstw tygodniowo.</p><div class="a">↗</div></div>
+      <div class="r reveal"><div class="idx">/02</div><h4>Exit Store</h4><p>Analiza koszyka, heatmapa atrakcyjnych obszarów.</p><div class="a">↗</div></div>
+      <div class="r reveal"><div class="idx">/03</div><h4>DRS</h4><p>SaaS do raportowania kolportażu, SMS, CSV, XLSX.</p><div class="a">↗</div></div>
+      <div class="r reveal"><div class="idx">/04</div><h4>Call Distribution</h4><p>Telefoniczna kontrola — 10 tys. wywiadów.</p><div class="a">↗</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <span class="section-label">§ 06 — Kontakt</span>
+    <h2 class="reveal">Porozmawiajmy o <em>badaniu</em>.</h2>
+    <div class="contact-grid">
+      <div class="c-card reveal"><h4>/ 001 — Siedziba</h4><p>ul. B. Prusa 1/48<br>50-319 Wrocław</p></div>
+      <div class="c-card reveal"><h4>/ 002 — Kontakt</h4><p><a href="mailto:info@mands.pl">info@mands.pl</a><br><a href="tel:+48713220686">+48 71 322 06 86</a></p></div>
+      <div class="c-card reveal"><h4>/ 003 — Kariera</h4><p><a href="mailto:rekrutacja@mands.pl">rekrutacja@mands.pl</a></p></div>
+    </div>
+  </div>
+</section>
+
+<div class="cta-huge">
+  <h3>Zamów <em>badanie</em>.<br>Odpowiemy w 24h.</h3>
+  <a href="mailto:info@mands.pl" class="btn-big">info@mands.pl →</a>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div><b>M & S</b> · Instytut Badawczy · Wrocław</div>
+      <div>© 2026 MANDS · 51.10°N · 17.03°E</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Scroll progress
+  const bar = document.getElementById('scroll-bar');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const scrolled = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+    bar.style.width = scrolled + '%';
+  });
+
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Animated counters
+  const counterIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const el = e.target;
+        const target = parseInt(el.dataset.target);
+        let current = 0;
+        const step = Math.max(1, Math.floor(target / 60));
+        const tick = () => {
+          current += step;
+          if (current >= target) {
+            el.textContent = target >= 10000 ? '10k+' : (target + (target === 20 ? '+' : ''));
+          } else {
+            el.textContent = current >= 10000 ? Math.floor(current/1000) + 'k' : current;
+            requestAnimationFrame(tick);
+          }
+        };
+        tick();
+        counterIO.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.counter .v').forEach(el => counterIO.observe(el));
+
+  // Retail parallax bg
+  const retailBg = document.getElementById('retail-bg');
+  window.addEventListener('scroll', () => {
+    if (!retailBg) return;
+    const rect = retailBg.parentElement.getBoundingClientRect();
+    const visible = rect.top < window.innerHeight && rect.bottom > 0;
+    if (visible) {
+      const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+      retailBg.style.transform = `translate(-50%, -50%) translateX(${(progress - 0.5) * 200}px)`;
+    }
+  });
+</script>
+
+</body>
+</html>

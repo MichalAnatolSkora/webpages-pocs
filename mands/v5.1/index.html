@@ -468,6 +468,26 @@
     .foot-grid { grid-template-columns: 1fr; text-align: left; }
     .foot-meta { text-align: left; }
   }
+  @media (max-width: 768px) { .hero-meta { grid-template-columns: 1fr !important; } .strip { grid-template-columns: 1fr 1fr !important; } }
+
+  /* --- a11y & mobile polish --- */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+  @media (max-width: 480px) {
+    a.btn, button, .btn, .btn-primary, .btn-tonal, .btn-filled, .btn-outline,
+    .topbar a, nav a, [role="button"] {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+    }
+  }
+  @media (max-width: 480px){ .btn{ padding: 16px 24px; } }
 </style>
 </head>
 <body>

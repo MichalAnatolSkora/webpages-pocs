@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MANDS — Risograph</title>
+<link rel="icon" href="../images/cropped-logo-png-1-180x180.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700;900&family=Fraunces:wght@400;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f4eedb;
+    --ink: #1a1a1a;
+    --riso-red: #ff4938;
+    --riso-blue: #3f6ac6;
+    --riso-yellow: #ffca28;
+    --riso-teal: #2ea499;
+    --riso-pink: #ff6eb4;
+    --line: rgba(26,26,26,0.9);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Work Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.55;
+    position: relative;
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* Halftone + paper grain overlay */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; pointer-events: none; z-index: 100;
+    background-image:
+      radial-gradient(rgba(0,0,0,0.25) 1px, transparent 1px),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/></svg>");
+    background-size: 4px 4px, 200px 200px;
+    opacity: 0.08;
+    mix-blend-mode: multiply;
+  }
+
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 40px; position: relative; }
+
+  header.nav {
+    padding: 24px 0;
+    border-bottom: 3px solid var(--ink);
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+  }
+  .brand {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 28px;
+    position: relative;
+  }
+  .brand::after {
+    content: 'MANDS';
+    position: absolute; left: 3px; top: 3px;
+    color: var(--riso-red);
+    mix-blend-mode: multiply;
+    z-index: -1;
+  }
+  nav ul { display: flex; gap: 24px; list-style: none; font-size: 14px; text-transform: uppercase; letter-spacing: 0.14em; font-weight: 600; }
+  nav a:hover { color: var(--riso-red); }
+  .lang { padding: 8px 14px; border: 2px solid var(--ink); background: var(--riso-yellow); color: var(--ink); font: inherit; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em; cursor: pointer; }
+
+  section { padding: 100px 0; border-bottom: 3px solid var(--ink); position: relative; }
+
+  /* HERO */
+  .hero { position: relative; overflow: hidden; padding: 140px 0 120px; }
+  .hero .circle-r {
+    position: absolute;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: var(--riso-red);
+    right: -100px; top: -80px;
+    mix-blend-mode: multiply;
+    z-index: 1;
+    /* halftone fill */
+    background-image:
+      radial-gradient(circle, transparent 1px, var(--riso-red) 1.5px),
+      radial-gradient(circle, transparent 1px, var(--riso-red) 1.5px);
+    background-size: 6px 6px;
+  }
+  .hero .circle-b {
+    position: absolute;
+    width: 360px; height: 360px;
+    border-radius: 50%;
+    background: var(--riso-blue);
+    right: 140px; top: 40px;
+    mix-blend-mode: multiply;
+    z-index: 1;
+    opacity: 0.92;
+  }
+  .hero .circle-y {
+    position: absolute;
+    width: 260px; height: 260px;
+    border-radius: 50%;
+    background: var(--riso-yellow);
+    left: 50%; top: 280px;
+    mix-blend-mode: multiply;
+    z-index: 0;
+    transform: translateX(-50%);
+  }
+  .eyebrow {
+    display: inline-block;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    background: var(--riso-yellow);
+    border: 2px solid var(--ink);
+    box-shadow: 4px 4px 0 var(--ink);
+    margin-bottom: 40px;
+    position: relative; z-index: 2;
+  }
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: clamp(64px, 11vw, 160px);
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 2;
+    text-transform: uppercase;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--riso-red);
+    font-weight: 400;
+    position: relative;
+  }
+  /* misregistration effect */
+  h1 em::after {
+    content: 'Opinii';
+    position: absolute;
+    left: 4px; top: 4px;
+    color: var(--riso-blue);
+    z-index: -1;
+    mix-blend-mode: multiply;
+  }
+  .hero p {
+    font-size: 19px;
+    max-width: 50ch;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 2;
+    font-weight: 500;
+  }
+  .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; position: relative; z-index: 2; }
+  .btn {
+    display: inline-block;
+    padding: 18px 30px;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    border: 3px solid var(--ink);
+    background: var(--riso-red);
+    color: var(--paper);
+    box-shadow: 6px 6px 0 var(--ink);
+    transition: transform .15s, box-shadow .15s;
+  }
+  .btn:hover { transform: translate(-3px, -3px); box-shadow: 9px 9px 0 var(--ink); }
+  .btn.alt { background: var(--riso-blue); }
+  .btn.ghost { background: var(--paper); color: var(--ink); }
+
+  .strip {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    margin-top: 60px;
+    border: 3px solid var(--ink);
+    background: var(--paper);
+    position: relative; z-index: 2;
+  }
+  .strip .item { padding: 28px; border-right: 3px solid var(--ink); }
+  .strip .item:last-child { border-right: none; }
+  .strip .k { font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; font-weight: 700; margin-bottom: 10px; }
+  .strip .v { font-family: 'Fraunces', serif; font-weight: 900; font-size: 44px; line-height: 1; }
+  .strip .item:nth-child(1) .v { color: var(--riso-red); }
+  .strip .item:nth-child(2) .v { color: var(--riso-blue); }
+  .strip .item:nth-child(3) .v { color: var(--riso-teal); }
+  .strip .item:nth-child(4) .v { color: var(--riso-red); }
+
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: clamp(42px, 6vw, 88px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+  }
+  h2 em { font-style: italic; color: var(--riso-red); font-weight: 400; }
+
+  .section-label {
+    display: inline-block;
+    font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.16em;
+    padding: 6px 12px;
+    background: var(--ink); color: var(--paper);
+    margin-bottom: 24px;
+  }
+
+  /* Manifest */
+  .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 3px solid var(--ink); }
+  .pillar {
+    padding: 32px;
+    border-right: 3px solid var(--ink);
+    position: relative;
+  }
+  .pillar:last-child { border-right: none; }
+  .pillar:nth-child(1) { background: var(--riso-yellow); }
+  .pillar:nth-child(2) { background: var(--paper); }
+  .pillar:nth-child(3) { background: var(--riso-pink); color: var(--ink); }
+  .pillar .n { font-size: 11px; text-transform: uppercase; letter-spacing: 0.16em; font-weight: 700; margin-bottom: 12px; }
+  .pillar h4 { font-family: 'Fraunces', serif; font-size: 30px; font-weight: 900; margin-bottom: 12px; }
+  .pillar p { font-size: 15px; }
+
+  /* Methods */
+  .methods-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; border: 3px solid var(--ink); }
+  .m {
+    padding: 32px;
+    border-right: 3px solid var(--ink);
+    border-bottom: 3px solid var(--ink);
+    display: flex; flex-direction: column; gap: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+  .m:nth-child(2n) { border-right: none; }
+  .m:nth-last-child(-n+2) { border-bottom: none; }
+  .m::before {
+    content: '';
+    position: absolute;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    top: -30px; right: -30px;
+    mix-blend-mode: multiply;
+  }
+  .m:nth-child(1)::before { background: var(--riso-red); }
+  .m:nth-child(2)::before { background: var(--riso-blue); }
+  .m:nth-child(3)::before { background: var(--riso-yellow); }
+  .m:nth-child(4)::before { background: var(--riso-teal); }
+  .m:nth-child(5)::before { background: var(--riso-pink); }
+  .m:nth-child(6)::before { background: var(--riso-red); }
+  .m .n { font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; }
+  .m h3 { font-family: 'Fraunces', serif; font-size: 48px; font-weight: 900; line-height: 1; text-transform: uppercase; }
+  .m .tag { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--riso-red); }
+  .m p { font-size: 14px; max-width: 48ch; }
+
+  /* Bignums */
+  .bignums { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .bn {
+    padding: 32px;
+    border: 3px solid var(--ink);
+    position: relative;
+  }
+  .bn:nth-child(1) { background: var(--riso-red); color: var(--paper); }
+  .bn:nth-child(2) { background: var(--riso-yellow); }
+  .bn:nth-child(3) { background: var(--riso-blue); color: var(--paper); }
+  .bn:nth-child(4) { background: var(--riso-pink); color: var(--ink); }
+  .bn .v { font-family: 'Fraunces', serif; font-weight: 900; font-size: 80px; line-height: 1; letter-spacing: -0.03em; }
+  .bn .t { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; margin-top: 10px; }
+  .bn .d { font-size: 13px; margin-top: 6px; }
+
+  /* Retail */
+  .retail-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 0; border: 3px solid var(--ink); }
+  .retail-big {
+    padding: 48px;
+    background: var(--riso-teal); color: var(--paper);
+    border-right: 3px solid var(--ink);
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .retail-big .huge {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: clamp(80px, 10vw, 140px);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+  }
+  .retail-big .huge em { font-style: italic; color: var(--riso-yellow); font-weight: 400; }
+  .retail-big small { display: block; font-size: 14px; text-transform: uppercase; letter-spacing: 0.14em; margin-top: 16px; font-weight: 700; }
+  .retail-big::after {
+    content: '';
+    position: absolute;
+    width: 280px; height: 280px;
+    border-radius: 50%;
+    background: var(--riso-red);
+    right: -60px; top: -80px;
+    mix-blend-mode: multiply;
+  }
+  .retail-list { display: grid; grid-template-rows: repeat(4, 1fr); }
+  .r-item {
+    padding: 20px 24px;
+    border-bottom: 2px solid var(--ink);
+    display: grid; grid-template-columns: 40px 1fr;
+    gap: 16px; align-items: center;
+  }
+  .r-item:last-child { border-bottom: none; }
+  .r-item .idx { font-family: 'Fraunces', serif; font-weight: 900; font-size: 28px; color: var(--riso-red); }
+  .r-item h4 { font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+  .r-item p { font-size: 13px; margin-top: 2px; }
+
+  /* Contact */
+  .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .c-card {
+    padding: 32px;
+    border: 3px solid var(--ink);
+    background: var(--paper);
+  }
+  .c-card:nth-child(1) { background: var(--riso-yellow); }
+  .c-card:nth-child(2) { background: var(--riso-pink); }
+  .c-card:nth-child(3) { background: var(--paper); }
+  .c-card h4 {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 24px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+  .c-card p { font-size: 15px; line-height: 1.7; }
+  .c-card a { border-bottom: 2px solid var(--ink); font-weight: 600; }
+
+  footer {
+    padding: 40px 0;
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+    font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em;
+  }
+  footer b { font-family: 'Fraunces', serif; font-size: 16px; font-weight: 900; color: var(--riso-red); letter-spacing: 0; }
+
+  @media (max-width: 900px) {
+    .hero { padding: 80px 0; }
+    nav ul { display: none; }
+    .strip, .pillars, .methods-grid, .retail-grid, .bignums, .contact-grid { grid-template-columns: 1fr; }
+    .strip .item, .pillar, .m { border-right: none; border-bottom: 3px solid var(--ink); }
+    .strip .item:last-child, .pillar:last-child { border-bottom: none; }
+    .m { border-right: none; }
+    .retail-big { border-right: none; border-bottom: 3px solid var(--ink); }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="nav">
+    <div class="brand">MANDS</div>
+    <nav><ul>
+      <li><a href="#manifest">Manifest</a></li>
+      <li><a href="#methods">Metody</a></li>
+      <li><a href="#retail">Retail</a></li>
+      <li><a href="#contact">Kontakt</a></li>
+    </ul></nav>
+    <button class="lang">EN / PL</button>
+  </header>
+</div>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="circle-r"></div>
+    <div class="circle-b"></div>
+    <div class="circle-y"></div>
+    <span class="eyebrow">№ 001 · Instytut Badawczy · est. 2005</span>
+    <h1>Badania<br>rynku<br>& <em>Opinii</em>.</h1>
+    <p>Polski instytut badawczy. Słuchamy, analizujemy, doradzamy — pomagamy znaleźć drogę do rynkowego sukcesu. Bez szablonów, z charakterem.</p>
+    <div class="hero-cta">
+      <a href="#contact" class="btn">Zamów badanie →</a>
+      <a href="#methods" class="btn alt">Poznaj metody</a>
+    </div>
+    <div class="strip">
+      <div class="item"><div class="k">Doświadczenie</div><div class="v">20+</div></div>
+      <div class="item"><div class="k">Ankieterzy</div><div class="v">400+</div></div>
+      <div class="item"><div class="k">Wywiady / tydzień</div><div class="v">10k</div></div>
+      <div class="item"><div class="k">Zasięg</div><div class="v">PL</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="manifest">
+  <div class="wrap">
+    <span class="section-label">§ 01 · Manifest</span>
+    <h2>Kim <em>jesteśmy</em>.</h2>
+    <p style="font-size:19px;max-width:60ch;margin-bottom:40px;">Jesteśmy instytutem referencyjnym dla sieci handlowych. Stawiamy na indywidualne podejście — słuchamy, analizujemy, doradzamy.</p>
+    <div class="pillars">
+      <div class="pillar"><div class="n">/ 001</div><h4>Indywidualnie</h4><p>Każdy klient otrzymuje wsparcie merytoryczne dopasowane do jego potrzeb — bez szablonów.</p></div>
+      <div class="pillar"><div class="n">/ 002</div><h4>Narzędzia</h4><p>Teleinformatyczny system B2B integrujący sondażowanie, dane i raportowanie.</p></div>
+      <div class="pillar"><div class="n">/ 003</div><h4>Zespół</h4><p>Specjaliści z wieloletnim stażem. Kodeks ESOMAR, standardy PKJPA.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="methods">
+  <div class="wrap">
+    <span class="section-label">§ 02 · Metody</span>
+    <h2>Pełna <em>paleta</em>.</h2>
+    <div class="methods-grid">
+      <div class="m"><div class="n">/ 01</div><h3>CATI</h3><span class="tag">Ilościowe · Telefon</span><p>Computer-Assisted Telephone Interviewing. Studio Wrocław od 2005 r., model Cati@Home.</p></div>
+      <div class="m"><div class="n">/ 02</div><h3>CAWI</h3><span class="tag">Ilościowe · Online</span><p>Ankieta internetowa w CADAS CAWI. Podwójne szyfrowanie danych.</p></div>
+      <div class="m"><div class="n">/ 03</div><h3>MOBI</h3><span class="tag">Ilościowe · Tablet</span><p>Wywiady z GPS, drag & drop, nagrywaniem audio-video.</p></div>
+      <div class="m"><div class="n">/ 04</div><h3>FGI</h3><span class="tag">Jakościowe · Grupa</span><p>Focus Group Interviews — testy logo, opakowań, reklam.</p></div>
+      <div class="m"><div class="n">/ 05</div><h3>IDI</h3><span class="tag">Jakościowe · 1 na 1</span><p>Individual In-Depth Interview — rozmowa pogłębiona.</p></div>
+      <div class="m"><div class="n">/ 06</div><h3>Mystery</h3><span class="tag">Audyt · Retail</span><p>Tajemniczy klient — kilkuset audytorów w Polsce.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="section-label">w liczbach</span>
+    <h2>MANDS <em>w liczbach</em>.</h2>
+    <div class="bignums">
+      <div class="bn"><div class="v">20+</div><div class="t">Lat</div><div class="d">od 2005 r.</div></div>
+      <div class="bn"><div class="v">400</div><div class="t">Ankieterów</div><div class="d">w całej PL.</div></div>
+      <div class="bn"><div class="v">10k</div><div class="t">Wywiadów</div><div class="d">tygodniowo.</div></div>
+      <div class="bn"><div class="v">10</div><div class="t">Trenerów</div><div class="d">regionalnych.</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="retail">
+  <div class="wrap">
+    <span class="section-label">§ 03 · Retail</span>
+    <h2>Gazetki <em>docierają</em>?</h2>
+    <div class="retail-grid">
+      <div class="retail-big">
+        <div class="huge">10<em>k+</em></div>
+        <small>gospodarstw domowych / tydzień</small>
+      </div>
+      <div class="retail-list">
+        <div class="r-item"><div class="idx">01</div><div><h4>Distribution Check</h4><p>Kontrola dystrybucji materiałów reklamowych.</p></div></div>
+        <div class="r-item"><div class="idx">02</div><div><h4>Exit Store</h4><p>Analiza koszyka, heatmapa obszarów.</p></div></div>
+        <div class="r-item"><div class="idx">03</div><div><h4>DRS</h4><p>SaaS do raportowania kolportażu.</p></div></div>
+        <div class="r-item"><div class="idx">04</div><div><h4>Call Distribution</h4><p>Telefoniczna kontrola — 10k wywiadów.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <span class="section-label">§ 06 · Kontakt</span>
+    <h2>Napisz <em>lub</em> zadzwoń.</h2>
+    <div class="contact-grid">
+      <div class="c-card"><h4>Siedziba</h4><p>ul. B. Prusa 1/48<br>50-319 Wrocław<br>NIP: PL8851557675</p></div>
+      <div class="c-card"><h4>Kontakt</h4><p><a href="mailto:info@mands.pl">info@mands.pl</a><br><a href="tel:+48713220686">+48 71 322 06 86</a></p></div>
+      <div class="c-card"><h4>Kariera</h4><p><a href="mailto:rekrutacja@mands.pl">rekrutacja@mands.pl</a></p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;width:100%;">
+    <div><b>M & S</b> · Instytut Badawczy · Wrocław</div>
+    <div>© 2026 MANDS · OFBOR · ESOMAR</div>
+  </div>
+</footer>
+
+</body>
+</html>

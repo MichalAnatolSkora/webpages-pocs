@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MANDS — Claymorphism</title>
+<link rel="icon" href="../images/cropped-logo-png-1-180x180.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f0e7ff;
+    --ink: #3a2d6b;
+    --mute: #7a6da8;
+    --accent: #ff9ebb;
+    --accent-2: #a8e6ff;
+    --accent-3: #ffd98a;
+    --clay: #ffffff;
+    --shadow-out: 10px 10px 30px #d2c5ec, -10px -10px 30px #ffffff;
+    --shadow-in: inset 6px 6px 12px #d2c5ec, inset -6px -6px 12px #ffffff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Quicksand', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-weight: 500;
+    line-height: 1.6;
+    padding: 32px;
+    min-height: 100vh;
+  }
+  .wrap { max-width: 1200px; margin: 0 auto; }
+  a { color: inherit; text-decoration: none; }
+
+  .clay {
+    background: var(--clay);
+    border-radius: 36px;
+    box-shadow: var(--shadow-out);
+    padding: 40px;
+  }
+  .clay-inset {
+    background: var(--bg);
+    border-radius: 28px;
+    box-shadow: var(--shadow-in);
+    padding: 28px;
+  }
+
+  header.nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 36px;
+    background: var(--clay);
+    border-radius: 999px;
+    box-shadow: var(--shadow-out);
+    margin-bottom: 40px;
+  }
+  .brand { font-weight: 700; letter-spacing: 0.12em; font-size: 18px; }
+  nav ul { display: flex; gap: 8px; list-style: none; }
+  nav a {
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-size: 14px;
+    transition: all .2s;
+  }
+  nav a:hover { background: var(--bg); box-shadow: var(--shadow-in); }
+  .lang-btn {
+    padding: 12px 20px; border: none; font: inherit; font-weight: 600;
+    background: var(--accent); color: #fff; border-radius: 999px;
+    box-shadow: 8px 8px 20px #e08cac, -4px -4px 14px #ffbfd3;
+    cursor: pointer;
+  }
+
+  .hero { margin-bottom: 40px; padding: 80px 60px; }
+  .hero-tag {
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--accent-3);
+    border-radius: 999px;
+    box-shadow: 6px 6px 16px #e5bf77, -4px -4px 12px #fff3c1;
+    font-size: 13px; font-weight: 600;
+    margin-bottom: 32px;
+  }
+  h1 {
+    font-size: clamp(48px, 7vw, 96px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 40px;
+  }
+  h1 .pill {
+    display: inline-block;
+    padding: 4px 28px;
+    background: var(--accent-2);
+    border-radius: 999px;
+    box-shadow: 8px 8px 22px #7cc5e0, -6px -6px 18px #d2f2ff;
+    margin: 0 8px;
+  }
+  .hero p { font-size: 18px; max-width: 52ch; color: var(--mute); margin-bottom: 40px; }
+  .hero-ctas { display: flex; gap: 20px; flex-wrap: wrap; }
+  .btn {
+    display: inline-block;
+    padding: 20px 36px;
+    background: var(--ink);
+    color: #fff;
+    border-radius: 999px;
+    font-weight: 600;
+    box-shadow: 10px 10px 24px #1f184d, -4px -4px 16px #5b448f;
+    transition: transform .2s;
+  }
+  .btn:hover { transform: translateY(-3px); }
+  .btn.alt {
+    background: var(--clay); color: var(--ink);
+    box-shadow: var(--shadow-out);
+  }
+
+  .strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-bottom: 48px; }
+  .stat {
+    text-align: center;
+    padding: 32px 20px;
+  }
+  .stat .v { font-size: 40px; font-weight: 700; color: var(--ink); }
+  .stat .k { font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--mute); margin-top: 6px; }
+
+  section { margin-bottom: 48px; }
+  h2 {
+    font-size: 40px; font-weight: 700; margin-bottom: 28px;
+    letter-spacing: -0.01em;
+  }
+  .eyebrow {
+    display: inline-block; padding: 8px 18px;
+    background: var(--accent-2); border-radius: 999px;
+    font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+    font-weight: 700; margin-bottom: 20px;
+    box-shadow: 4px 4px 12px #7cc5e0, -3px -3px 10px #d2f2ff;
+  }
+
+  .method-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+  }
+  .method-card {
+    padding: 32px;
+    border-radius: 30px;
+    background: var(--clay);
+    box-shadow: var(--shadow-out);
+    transition: transform .25s;
+  }
+  .method-card:hover { transform: translateY(-4px); }
+  .method-card .icon {
+    width: 64px; height: 64px; border-radius: 20px;
+    display: grid; place-items: center;
+    font-weight: 700; font-size: 22px; color: #fff;
+    margin-bottom: 20px;
+    background: var(--accent);
+    box-shadow: 6px 6px 14px #e08cac, -4px -4px 12px #ffbfd3;
+  }
+  .method-card:nth-child(3n+2) .icon { background: var(--accent-2); color: var(--ink); box-shadow: 6px 6px 14px #7cc5e0, -4px -4px 12px #d2f2ff; }
+  .method-card:nth-child(3n+3) .icon { background: var(--accent-3); color: var(--ink); box-shadow: 6px 6px 14px #e5bf77, -4px -4px 12px #fff3c1; }
+  .method-card h3 { font-size: 22px; margin-bottom: 8px; }
+  .method-card p { font-size: 14px; color: var(--mute); }
+
+  .bignums {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+  .big {
+    padding: 36px; text-align: center;
+    border-radius: 30px; background: var(--clay);
+    box-shadow: var(--shadow-out);
+  }
+  .big .v { font-size: 56px; font-weight: 700; color: var(--accent); }
+  .big:nth-child(2) .v { color: var(--accent-2); }
+  .big:nth-child(3) .v { color: var(--accent-3); }
+  .big:nth-child(4) .v { color: var(--ink); }
+  .big .t { font-size: 14px; font-weight: 600; margin-top: 8px; }
+  .big .d { font-size: 12px; color: var(--mute); margin-top: 8px; }
+
+  .retail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .retail-list { display: flex; flex-direction: column; gap: 16px; }
+  .retail-item {
+    padding: 24px;
+    border-radius: 22px;
+    background: var(--clay);
+    box-shadow: var(--shadow-out);
+  }
+  .retail-item h4 { font-size: 18px; margin-bottom: 6px; }
+  .retail-item p { font-size: 14px; color: var(--mute); }
+
+  .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .contact-card { padding: 28px; border-radius: 24px; background: var(--clay); box-shadow: var(--shadow-out); }
+  .contact-card h4 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--mute); margin-bottom: 12px; }
+  .contact-card a { border-bottom: 2px solid var(--accent); padding-bottom: 2px; font-weight: 600; }
+
+  footer {
+    margin-top: 48px;
+    padding: 40px 60px;
+    border-radius: 30px;
+    background: var(--clay);
+    box-shadow: var(--shadow-out);
+    display: flex; justify-content: space-between; flex-wrap: wrap;
+    gap: 16px;
+    font-size: 14px; color: var(--mute);
+  }
+
+  @media (max-width: 900px) {
+    body { padding: 16px; }
+    nav ul { display: none; }
+    .hero { padding: 48px 24px; }
+    .strip, .bignums, .contact-grid { grid-template-columns: 1fr 1fr; }
+    .retail-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="nav">
+    <div class="brand">◉ MANDS</div>
+    <nav><ul>
+      <li><a href="#manifest">Manifest</a></li>
+      <li><a href="#methods">Metody</a></li>
+      <li><a href="#retail">Retail</a></li>
+      <li><a href="#contact">Kontakt</a></li>
+    </ul></nav>
+    <button type="button" class="lang-btn">EN</button>
+  </header>
+
+  <section class="hero clay">
+    <span class="hero-tag">● Instytut Badawczy · est. 2005</span>
+    <h1>Badania rynku <span class="pill">&</span> opinii w miękkim wydaniu.</h1>
+    <p>Polski instytut badawczy działający od 2005 roku. Słuchamy, analizujemy i doradzamy — pomagamy znaleźć drogę do rynkowego sukcesu.</p>
+    <div class="hero-ctas">
+      <a href="#contact" class="btn">Zamów badanie →</a>
+      <a href="#methods" class="btn alt">Poznaj metody</a>
+    </div>
+  </section>
+
+  <div class="strip">
+    <div class="clay stat"><div class="v">20+</div><div class="k">Lat</div></div>
+    <div class="clay stat"><div class="v">400+</div><div class="k">Ankieterów</div></div>
+    <div class="clay stat"><div class="v">10k</div><div class="k">Wywiadów / tydz.</div></div>
+    <div class="clay stat"><div class="v">PL</div><div class="k">Cała Polska</div></div>
+  </div>
+
+  <section id="manifest" class="clay">
+    <span class="eyebrow">§ 01 · Manifest</span>
+    <h2>Jesteśmy instytutem referencyjnym dla sieci handlowych.</h2>
+    <p style="font-size:18px;color:var(--mute);max-width:60ch;">Stawiamy na indywidualne podejście — słuchamy, analizujemy, doradzamy. Każdy klient otrzymuje wsparcie merytoryczne dopasowane do jego potrzeb, bez szablonów.</p>
+  </section>
+
+  <section id="methods">
+    <span class="eyebrow">§ 02 · Metody</span>
+    <h2>Pełna paleta metod badawczych.</h2>
+    <div class="method-grid">
+      <div class="method-card"><div class="icon">01</div><h3>CATI</h3><p>Ilościowe wywiady telefoniczne. Własne studio we Wrocławiu od 2005 r.</p></div>
+      <div class="method-card"><div class="icon">02</div><h3>CAWI</h3><p>Ankiety online w oprogramowaniu CADAS. Podwójne szyfrowanie danych.</p></div>
+      <div class="method-card"><div class="icon">03</div><h3>MOBI</h3><p>Wywiady tabletowe z GPS i nagrywaniem. Drag & drop, multimedia.</p></div>
+      <div class="method-card"><div class="icon">04</div><h3>FGI</h3><p>Zogniskowane wywiady grupowe. Testy logo, opakowań, reklam.</p></div>
+      <div class="method-card"><div class="icon">05</div><h3>IDI</h3><p>Wywiady pogłębione indywidualne. Tematy drażliwe, postawy, motywy.</p></div>
+      <div class="method-card"><div class="icon">06</div><h3>Mystery Shopper</h3><p>Tajemniczy klient — kilkuset audytorów w całej Polsce.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="bignums">
+      <div class="big"><div class="v">20+</div><div class="t">Lat doświadczenia</div><div class="d">Nieprzerwanie od 2005.</div></div>
+      <div class="big"><div class="v">400</div><div class="t">Ankieterów</div><div class="d">W całej Polsce.</div></div>
+      <div class="big"><div class="v">10k</div><div class="t">Wywiadów</div><div class="d">Tygodniowo.</div></div>
+      <div class="big"><div class="v">10</div><div class="t">Trenerów</div><div class="d">Regionalnych.</div></div>
+    </div>
+  </section>
+
+  <section id="retail" class="clay">
+    <span class="eyebrow">§ 03 · Retail</span>
+    <h2>Sprawdzamy, czy Twoje gazetki docierają do klientów.</h2>
+    <div class="retail-grid" style="margin-top:28px;">
+      <div class="clay-inset">
+        <div style="font-size:64px;font-weight:700;color:var(--accent);">10 000+</div>
+        <div style="margin-top:8px;color:var(--mute);">gospodarstw domowych / tydzień</div>
+      </div>
+      <div class="retail-list">
+        <div class="retail-item"><h4>/ 01 Distribution Check</h4><p>Kontrola dystrybucji materiałów reklamowych.</p></div>
+        <div class="retail-item"><h4>/ 02 Exit Store</h4><p>Analiza wartości koszyka i częstotliwości zakupów.</p></div>
+        <div class="retail-item"><h4>/ 03 DRS</h4><p>Narzędzie SaaS do raportowania kolportażu.</p></div>
+        <div class="retail-item"><h4>/ 04 Call Distribution</h4><p>Telefoniczna kontrola dystrybucji gazetek.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="clay">
+    <span class="eyebrow">§ 06 · Kontakt</span>
+    <h2>Porozmawiajmy o badaniu.</h2>
+    <div class="contact-grid" style="margin-top:28px;">
+      <div class="contact-card">
+        <h4>Siedziba</h4>
+        <p>ul. B. Prusa 1/48<br>50-319 Wrocław</p>
+      </div>
+      <div class="contact-card">
+        <h4>Kontakt</h4>
+        <p><a href="mailto:info@mands.pl">info@mands.pl</a><br><a href="tel:+48713220686">+48 71 322 06 86</a></p>
+      </div>
+      <div class="contact-card">
+        <h4>Kariera</h4>
+        <p><a href="mailto:rekrutacja@mands.pl">rekrutacja@mands.pl</a></p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div><b>M & S</b> · Instytut Badawczy · Wrocław</div>
+    <div>© 2026 MANDS</div>
+  </footer>
+</div>
+</body>
+</html>

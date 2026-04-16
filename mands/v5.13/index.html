@@ -809,6 +809,26 @@
     .section { padding: 80px 20px; }
     .hero { padding: 120px 20px 60px; }
   }
+
+/* --- a11y & mobile polish --- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+@media (max-width: 480px) {
+  a.btn, button, .btn, .btn-primary, .btn-tonal, .btn-filled, .btn-outline,
+  .btn-neon, .topbar a, nav a, [role="button"] {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
+@media (max-width: 960px) and (min-width: 681px){ .hero-strip{ grid-template-columns: repeat(2, 1fr) !important; } }
+@media (max-width: 960px){ .hero-card{ box-shadow: 4px 4px 0 var(--accent) !important; max-width: calc(100% - 8px); } }
 </style>
 </head>
 <body>

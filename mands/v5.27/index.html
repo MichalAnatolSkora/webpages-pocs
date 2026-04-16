@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MANDS — Hand-drawn / Sketch</title>
+<link rel="icon" href="../images/cropped-logo-png-1-180x180.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Gloock&family=Patrick+Hand&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #fdfaf0;
+    --paper-dark: #f4efe0;
+    --ink: #1f1a13;
+    --mute: #5c554a;
+    --red: #d94545;
+    --blue: #3a6ea8;
+    --yellow: #f4c430;
+    --green: #6a8e4e;
+    --line: #1f1a13;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Patrick Hand', cursive;
+    background: var(--paper);
+    background-image:
+      repeating-linear-gradient(0deg, transparent 0 33px, rgba(60,90,160,0.12) 33px 34px),
+      linear-gradient(to right, transparent 0 64px, rgba(217,69,69,0.35) 64px 65px, transparent 65px 100%);
+    color: var(--ink);
+    font-size: 18px;
+    line-height: 1.7;
+    padding: 0;
+  }
+  a { color: inherit; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 80px; }
+  @media (max-width: 700px) { .wrap { padding: 0 24px; } }
+
+  /* Scribble underline helper */
+  .scribble {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 12'><path d='M2 7 Q 20 1, 40 6 T 80 5 T 118 7' stroke='%23d94545' stroke-width='2.5' fill='none' stroke-linecap='round'/></svg>");
+    background-repeat: no-repeat;
+    background-position: left 100%;
+    background-size: 100% 10px;
+    padding-bottom: 8px;
+  }
+
+  header.nav {
+    padding: 24px 0;
+    border-bottom: 2px dashed var(--ink);
+    margin-bottom: 40px;
+  }
+  .nav-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+  .brand {
+    font-family: 'Caveat', cursive;
+    font-size: 42px; font-weight: 700;
+    transform: rotate(-2deg);
+  }
+  .brand .amp { color: var(--red); }
+  nav ul { display: flex; gap: 20px; list-style: none; font-family: 'Caveat', cursive; font-size: 24px; }
+  nav a { padding: 2px 8px; transition: background .15s; }
+  nav a:hover { background: var(--yellow); }
+  .lang-btn {
+    font-family: 'Caveat', cursive;
+    font-size: 22px; font-weight: 700;
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    padding: 4px 16px;
+    transform: rotate(2deg);
+    cursor: pointer;
+    border-radius: 14px 4px 14px 4px;
+  }
+
+  section { padding: 60px 0; }
+
+  .hero { padding: 40px 0 80px; position: relative; }
+  .hero .doodle-arrow {
+    position: absolute;
+    top: 60px; right: 100px;
+    font-family: 'Caveat', cursive;
+    font-size: 28px;
+    color: var(--red);
+    transform: rotate(-12deg);
+  }
+  .hero .doodle-arrow svg { display: block; width: 140px; height: 80px; margin-top: 6px; }
+  h1 {
+    font-family: 'Gloock', serif;
+    font-weight: 400;
+    font-size: clamp(60px, 9vw, 120px);
+    line-height: 1;
+    letter-spacing: -0.01em;
+    margin-bottom: 32px;
+  }
+  h1 .hand { font-family: 'Caveat', cursive; font-weight: 700; color: var(--red); display: inline-block; transform: rotate(-2deg); margin-left: 8px; }
+  h1 .amp { font-family: 'Shadows Into Light', cursive; color: var(--blue); font-size: 1.1em; }
+  h1 .under { position: relative; display: inline-block; }
+  h1 .under::after {
+    content: '';
+    position: absolute; left: -4%; right: -4%; bottom: 4%;
+    height: 14px;
+    background: var(--yellow);
+    z-index: -1;
+  }
+  .hero-lead {
+    font-size: 22px;
+    max-width: 52ch;
+    margin-bottom: 32px;
+    position: relative;
+  }
+  .hero-lead::before {
+    content: '"';
+    font-family: 'Gloock', serif;
+    font-size: 80px;
+    color: var(--red);
+    position: absolute;
+    left: -60px; top: -20px;
+    line-height: 1;
+  }
+  .hero-ctas { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
+  .btn {
+    display: inline-block;
+    padding: 14px 26px;
+    font-family: 'Caveat', cursive;
+    font-size: 26px; font-weight: 700;
+    background: var(--ink); color: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: 22px 6px 22px 6px;
+    transform: rotate(-1deg);
+    text-decoration: none;
+    box-shadow: 4px 4px 0 var(--red);
+    transition: transform .15s, box-shadow .15s;
+  }
+  .btn:hover { transform: rotate(-1deg) translate(-2px, -2px); box-shadow: 6px 6px 0 var(--red); }
+  .btn.alt { background: var(--yellow); color: var(--ink); box-shadow: 4px 4px 0 var(--ink); transform: rotate(1deg); }
+
+  .strip {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+    padding: 40px 0;
+    border-top: 2px dashed var(--ink);
+    border-bottom: 2px dashed var(--ink);
+  }
+  .strip .item { text-align: center; transform: rotate(-0.5deg); }
+  .strip .item:nth-child(2) { transform: rotate(0.8deg); }
+  .strip .item:nth-child(3) { transform: rotate(-1deg); }
+  .strip .item:nth-child(4) { transform: rotate(0.4deg); }
+  .strip .v {
+    font-family: 'Gloock', serif;
+    font-size: 56px;
+    line-height: 1;
+  }
+  .strip .v.red { color: var(--red); }
+  .strip .v.blue { color: var(--blue); }
+  .strip .v.green { color: var(--green); }
+  .strip .k { font-family: 'Caveat', cursive; font-size: 22px; color: var(--mute); margin-top: 8px; }
+
+  h2 {
+    font-family: 'Gloock', serif;
+    font-weight: 400;
+    font-size: clamp(42px, 6vw, 76px);
+    line-height: 1.05;
+    margin-bottom: 32px;
+  }
+  h2 .hand { font-family: 'Caveat', cursive; color: var(--red); }
+  .eyebrow {
+    font-family: 'Caveat', cursive;
+    font-size: 28px;
+    color: var(--red);
+    transform: rotate(-2deg);
+    display: inline-block;
+    margin-bottom: 12px;
+  }
+
+  .note {
+    display: inline-block;
+    background: var(--yellow);
+    padding: 10px 16px;
+    border: 2px solid var(--ink);
+    border-radius: 4px;
+    transform: rotate(-1.5deg);
+    box-shadow: 4px 4px 0 var(--ink);
+    font-family: 'Caveat', cursive;
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+
+  .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 32px; }
+  .pillar {
+    padding: 24px;
+    border: 2px solid var(--ink);
+    border-radius: 20px 4px 20px 4px;
+    background: var(--paper);
+    position: relative;
+  }
+  .pillar:nth-child(1) { transform: rotate(-1deg); background: #fff9dd; }
+  .pillar:nth-child(2) { transform: rotate(0.8deg); background: #ddecff; }
+  .pillar:nth-child(3) { transform: rotate(-0.5deg); background: #ddf0dc; }
+  .pillar .tape {
+    position: absolute;
+    top: -16px; left: 30px;
+    width: 70px; height: 20px;
+    background: rgba(244, 196, 48, 0.6);
+    border: 1px dashed rgba(0,0,0,0.15);
+    transform: rotate(-4deg);
+  }
+  .pillar h4 {
+    font-family: 'Caveat', cursive;
+    font-size: 30px; font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .pillar p { font-size: 17px; }
+
+  .methods-list { display: flex; flex-direction: column; gap: 0; }
+  .m {
+    padding: 32px 0;
+    border-top: 2px dashed var(--ink);
+    display: grid;
+    grid-template-columns: 80px 1fr 24px;
+    gap: 32px;
+    align-items: baseline;
+  }
+  .m:last-child { border-bottom: 2px dashed var(--ink); }
+  .m .n {
+    font-family: 'Caveat', cursive;
+    font-size: 48px;
+    color: var(--red);
+    line-height: 1;
+    transform: rotate(-4deg);
+  }
+  .m .name {
+    font-family: 'Gloock', serif;
+    font-size: 36px;
+  }
+  .m .name small {
+    display: block;
+    font-family: 'Caveat', cursive;
+    font-size: 20px;
+    color: var(--mute);
+    margin-top: 4px;
+  }
+  .m .desc { font-size: 17px; max-width: 60ch; margin-top: 8px; }
+  .m .arrow {
+    font-family: 'Caveat', cursive;
+    font-size: 32px;
+    color: var(--red);
+  }
+
+  .bignums { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; margin-top: 32px; }
+  .bn {
+    padding: 24px;
+    border: 2px solid var(--ink);
+    background: var(--paper);
+    border-radius: 24px 6px 24px 6px;
+  }
+  .bn:nth-child(1) { transform: rotate(-1.5deg); background: #fff9dd; }
+  .bn:nth-child(2) { transform: rotate(1deg); background: #ffdddd; }
+  .bn:nth-child(3) { transform: rotate(-0.8deg); background: #ddecff; }
+  .bn:nth-child(4) { transform: rotate(1.5deg); background: #ddf0dc; }
+  .bn .v {
+    font-family: 'Gloock', serif;
+    font-size: 72px;
+    line-height: 1;
+  }
+  .bn .t { font-family: 'Caveat', cursive; font-size: 26px; margin-top: 6px; }
+  .bn .d { font-size: 14px; color: var(--mute); }
+
+  .retail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+  .retail-big {
+    padding: 40px;
+    border: 3px solid var(--ink);
+    background: var(--paper);
+    text-align: center;
+    transform: rotate(-1.5deg);
+    box-shadow: 8px 8px 0 var(--red);
+    border-radius: 24px 6px 24px 6px;
+  }
+  .retail-big .huge {
+    font-family: 'Gloock', serif;
+    font-size: 120px;
+    line-height: 0.9;
+    color: var(--red);
+  }
+  .retail-big small { font-family: 'Caveat', cursive; font-size: 24px; display: block; margin-top: 16px; }
+
+  .retail-list .r { padding: 18px 0; border-top: 1px dashed var(--ink); display: grid; grid-template-columns: 70px 1fr; gap: 16px; }
+  .retail-list .r:last-child { border-bottom: 1px dashed var(--ink); }
+  .retail-list .idx { font-family: 'Caveat', cursive; font-size: 28px; color: var(--red); transform: rotate(-3deg); }
+  .retail-list h4 { font-family: 'Caveat', cursive; font-size: 26px; }
+  .retail-list p { font-size: 16px; }
+
+  .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .c-card {
+    padding: 28px;
+    border: 2px solid var(--ink);
+    background: var(--paper);
+    border-radius: 20px 4px 20px 4px;
+    position: relative;
+  }
+  .c-card:nth-child(1) { transform: rotate(-1deg); background: #fff9dd; }
+  .c-card:nth-child(2) { transform: rotate(1deg); background: #ddecff; }
+  .c-card:nth-child(3) { transform: rotate(-0.5deg); background: #ffdddd; }
+  .c-card .tape { position: absolute; top: -14px; right: 24px; width: 80px; height: 20px; background: rgba(60,90,160,0.25); transform: rotate(6deg); border: 1px dashed rgba(0,0,0,0.15); }
+  .c-card h4 { font-family: 'Caveat', cursive; font-size: 28px; margin-bottom: 10px; color: var(--red); }
+  .c-card p { font-size: 18px; line-height: 1.7; }
+  .c-card a { text-decoration: underline wavy var(--red); }
+
+  footer {
+    padding: 40px 0 60px;
+    border-top: 2px dashed var(--ink);
+    margin-top: 60px;
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+    font-family: 'Caveat', cursive;
+    font-size: 22px;
+  }
+  footer b { color: var(--red); }
+
+  @media (max-width: 800px) {
+    .hero .doodle-arrow { display: none; }
+    .strip, .bignums, .pillars, .contact-grid { grid-template-columns: 1fr 1fr; }
+    .retail-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="nav">
+    <div class="nav-inner">
+      <div class="brand">mands <span class="amp">&</span> co.</div>
+      <nav><ul>
+        <li><a href="#manifest">manifest</a></li>
+        <li><a href="#methods">metody</a></li>
+        <li><a href="#retail">retail</a></li>
+        <li><a href="#contact">kontakt</a></li>
+      </ul></nav>
+      <button class="lang-btn">EN / PL</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="doodle-arrow">
+      tu zacznij! ↓
+      <svg viewBox="0 0 140 80" fill="none">
+        <path d="M10 10 Q 60 40, 80 50 T 125 65" stroke="#d94545" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="4 4"/>
+        <path d="M120 55 L 128 66 L 115 68" stroke="#d94545" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <span class="note">✎ Instytut Badawczy · est. 2005</span>
+    <h1>Badania <span class="under">rynku</span><br><span class="amp">&</span> opinii <span class="hand">— od 2005!</span></h1>
+    <p class="hero-lead">Polski instytut badawczy. Słuchamy, analizujemy, doradzamy — pomagamy znaleźć drogę do rynkowego sukcesu. Bez szablonów.</p>
+    <div class="hero-ctas">
+      <a href="#contact" class="btn">zamów badanie →</a>
+      <a href="#methods" class="btn alt">poznaj metody ✎</a>
+    </div>
+  </section>
+
+  <div class="strip">
+    <div class="item"><div class="v red">20+</div><div class="k">lat doświadczenia</div></div>
+    <div class="item"><div class="v blue">400</div><div class="k">ankieterów</div></div>
+    <div class="item"><div class="v green">10k</div><div class="k">wywiadów / tydzień</div></div>
+    <div class="item"><div class="v">PL</div><div class="k">cała Polska</div></div>
+  </div>
+
+  <section id="manifest">
+    <span class="eyebrow">§ 01 — manifest ~</span>
+    <h2>Kim <span class="hand">jesteśmy?</span></h2>
+    <p style="font-size:22px;max-width:58ch;">Jesteśmy instytutem referencyjnym dla <span class="scribble">sieci handlowych</span>. Stawiamy na indywidualne podejście — słuchamy, analizujemy, doradzamy.</p>
+    <div class="pillars">
+      <div class="pillar"><div class="tape"></div><h4>001 · indywidualnie</h4><p>Każdy klient dostaje wsparcie merytoryczne dopasowane do jego potrzeb — bez szablonów.</p></div>
+      <div class="pillar"><div class="tape"></div><h4>002 · narzędzia</h4><p>Teleinformatyczny system B2B integrujący sondażowanie, dane i raportowanie.</p></div>
+      <div class="pillar"><div class="tape"></div><h4>003 · zespół</h4><p>Specjaliści z wieloletnim stażem. Kodeks ESOMAR, standardy PKJPA.</p></div>
+    </div>
+  </section>
+
+  <section id="methods">
+    <span class="eyebrow">§ 02 — metody ~</span>
+    <h2>Pełna paleta <span class="hand">metod badawczych.</span></h2>
+    <div class="methods-list">
+      <div class="m"><div class="n">/01</div><div><div class="name">CATI<small>ilościowe · telefon</small></div><div class="desc">Computer-Assisted Telephone Interviewing. Własne studio we Wrocławiu od 2005 r., opieka supervisorów, model Cati@Home.</div></div><div class="arrow">↗</div></div>
+      <div class="m"><div class="n">/02</div><div><div class="name">CAWI<small>ilościowe · online</small></div><div class="desc">Ankieta internetowa w CADAS CAWI. Klient podgląda wyniki na bieżąco, podwójne szyfrowanie danych.</div></div><div class="arrow">↗</div></div>
+      <div class="m"><div class="n">/03</div><div><div class="name">MOBI<small>ilościowe · tablet</small></div><div class="desc">Wywiady wspomagane tabletem — multimedia, drag & drop, GPS, nagrywanie audio.</div></div><div class="arrow">↗</div></div>
+      <div class="m"><div class="n">/04</div><div><div class="name">FGI<small>jakościowe · grupa</small></div><div class="desc">Focus Group Interviews — testy logo, opakowań, reklam, zachowań konsumenckich.</div></div><div class="arrow">↗</div></div>
+      <div class="m"><div class="n">/05</div><div><div class="name">IDI<small>jakościowe · 1 na 1</small></div><div class="desc">Individual In-Depth Interview — rozmowa pogłębiona, tematy drażliwe, motywy działań.</div></div><div class="arrow">↗</div></div>
+      <div class="m"><div class="n">/06</div><div><div class="name">Mystery Shopper<small>audyt</small></div><div class="desc">Tajemniczy klient — kilkuset audytorów w Polsce, weryfikacja standardów obsługi.</div></div><div class="arrow">↗</div></div>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">§ w liczbach ~</span>
+    <h2>MANDS <span class="hand">w liczbach.</span></h2>
+    <div class="bignums">
+      <div class="bn"><div class="v">20+</div><div class="t">lat</div><div class="d">od 2005 r.</div></div>
+      <div class="bn"><div class="v">400</div><div class="t">ankieterów</div><div class="d">w całej PL.</div></div>
+      <div class="bn"><div class="v">10k</div><div class="t">wywiadów</div><div class="d">tygodniowo.</div></div>
+      <div class="bn"><div class="v">10</div><div class="t">trenerów</div><div class="d">regionalnych.</div></div>
+    </div>
+  </section>
+
+  <section id="retail">
+    <span class="eyebrow">§ 03 — retail ~</span>
+    <h2>Gazetki <span class="hand">docierają?</span></h2>
+    <div class="retail-grid" style="margin-top:32px;">
+      <div class="retail-big">
+        <div class="huge">10k+</div>
+        <small>gospodarstw domowych / tydzień</small>
+      </div>
+      <div class="retail-list">
+        <div class="r"><div class="idx">/01</div><div><h4>Distribution Check</h4><p>Kontrola dystrybucji materiałów reklamowych.</p></div></div>
+        <div class="r"><div class="idx">/02</div><div><h4>Exit Store</h4><p>Analiza koszyka, heatmapa atrakcyjnych obszarów.</p></div></div>
+        <div class="r"><div class="idx">/03</div><div><h4>DRS</h4><p>SaaS do raportowania kolportażu z obsługą SMS.</p></div></div>
+        <div class="r"><div class="idx">/04</div><div><h4>Call Distribution</h4><p>Telefoniczna kontrola — 10k wywiadów.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <span class="eyebrow">§ 06 — kontakt ~</span>
+    <h2>Porozmawiajmy o <span class="hand">badaniu.</span></h2>
+    <div class="contact-grid" style="margin-top:32px;">
+      <div class="c-card"><div class="tape"></div><h4>siedziba</h4><p>ul. B. Prusa 1/48<br>50-319 Wrocław<br>NIP: PL8851557675</p></div>
+      <div class="c-card"><div class="tape"></div><h4>kontakt</h4><p><a href="mailto:info@mands.pl">info@mands.pl</a><br><a href="tel:+48713220686">+48 71 322 06 86</a></p></div>
+      <div class="c-card"><div class="tape"></div><h4>kariera</h4><p><a href="mailto:rekrutacja@mands.pl">rekrutacja@mands.pl</a></p></div>
+    </div>
+  </section>
+
+  <footer>
+    <div><b>m. & s.</b> · instytut badawczy · Wrocław</div>
+    <div>© 2026 MANDS ✎</div>
+  </footer>
+
+</div>
+
+</body>
+</html>

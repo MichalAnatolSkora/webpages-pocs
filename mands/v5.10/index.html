@@ -56,6 +56,7 @@
       radial-gradient(2px 2px at 92% 88%, #fff, transparent 50%),
       radial-gradient(1.5px 1.5px at 15% 73%, #fff, transparent 50%);
     animation: twinkle 3.5s ease-in-out infinite;
+    will-change: opacity, transform;
   }
   @keyframes twinkle {
     0%, 100% { opacity: .4; }
@@ -1219,6 +1220,25 @@
     .foot-inner { flex-direction: column; text-align: center; }
     .foot-meta { text-align: center; }
   }
+@media (max-width: 480px){ /* VT323 mobile */ [class*="mono"], [class*="term"]{ font-size: clamp(12px, 4vw, 18px) !important; } }
+
+/* --- a11y & mobile polish --- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+@media (max-width: 480px) {
+  a.btn, button, .btn, .btn-primary, .btn-tonal, .btn-filled, .btn-outline,
+  .topbar a, nav a, [role="button"] {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
 </style>
 </head>
 <body>

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MANDS — Anti-Design</title>
+<link rel="icon" href="../images/cropped-logo-png-1-180x180.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Times+New+Roman&family=Comic+Neue:wght@400;700&family=Major+Mono+Display&family=Bungee&family=Redacted+Script&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #eae7de;
+    --ink: #111;
+    --red: #e8262d;
+    --blue: #1e4cff;
+    --green: #07a84b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Times New Roman', serif;
+    background: var(--bg);
+    color: var(--ink);
+    position: relative;
+    min-height: 100vh;
+    padding: 20px;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(0,0,0,0.035) 0 1px, transparent 1px 24px),
+      repeating-linear-gradient(90deg, rgba(0,0,0,0.035) 0 1px, transparent 1px 24px);
+    pointer-events: none; z-index: 0;
+  }
+  a { color: inherit; }
+
+  .nav {
+    display: flex; gap: 16px; flex-wrap: wrap; align-items: baseline;
+    padding: 12px; margin-bottom: 40px;
+    border: 1px solid var(--ink);
+    background: var(--bg);
+    position: relative; z-index: 1;
+    transform: rotate(-0.4deg);
+  }
+  .brand {
+    font-family: 'Major Mono Display', monospace;
+    font-size: 32px;
+    color: var(--red);
+  }
+  .nav a {
+    font-family: 'Comic Neue', sans-serif;
+    font-weight: 700;
+    padding: 4px 8px;
+    text-decoration: underline wavy var(--red);
+  }
+  .nav a:nth-child(odd) { background: var(--ink); color: var(--bg); text-decoration: none; transform: rotate(2deg); display: inline-block; }
+  .nav .pull { margin-left: auto; font-family: 'Bungee', sans-serif; font-size: 11px; background: var(--red); color: white; padding: 6px 10px; transform: rotate(-3deg); }
+
+  .hero {
+    position: relative;
+    padding: 40px 20px 80px;
+    z-index: 1;
+  }
+  .hero .sticker {
+    position: absolute;
+    top: 10px; right: 30px;
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    background: var(--red); color: white;
+    font-family: 'Bungee', sans-serif;
+    display: grid; place-items: center;
+    text-align: center;
+    font-size: 14px; line-height: 1.1;
+    padding: 16px;
+    transform: rotate(18deg);
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+  h1 {
+    font-family: 'Times New Roman', serif;
+    font-size: clamp(64px, 12vw, 160px);
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    margin-bottom: 24px;
+  }
+  h1 .up { text-transform: uppercase; }
+  h1 .comic { font-family: 'Comic Neue', cursive; font-size: 0.6em; color: var(--blue); display: inline-block; transform: rotate(-4deg); }
+  h1 .mono { font-family: 'Major Mono Display', monospace; font-size: 0.5em; letter-spacing: -0.05em; }
+  h1 .strike { text-decoration: line-through var(--red); text-decoration-thickness: 8px; }
+  h1 .hl { background: yellow; padding: 0 6px; }
+  h1 .amp {
+    display: inline-block;
+    font-family: 'Bungee', sans-serif;
+    color: var(--green);
+    transform: rotate(-12deg);
+    vertical-align: middle;
+    margin: 0 6px;
+  }
+
+  .lead {
+    font-family: 'Comic Neue', sans-serif;
+    font-size: 22px;
+    max-width: 48ch;
+    margin: 40px 0 32px -20px;
+    padding: 16px 20px;
+    background: white;
+    border: 2px solid var(--ink);
+    transform: rotate(1.2deg);
+    position: relative;
+  }
+  .lead::before {
+    content: 'NOTATKA ⚠';
+    position: absolute;
+    top: -18px; left: 20px;
+    background: var(--red); color: white;
+    padding: 2px 10px;
+    font-family: 'Bungee', sans-serif;
+    font-size: 12px;
+    transform: rotate(-3deg);
+  }
+  .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn {
+    display: inline-block;
+    padding: 14px 24px;
+    font: inherit;
+    font-weight: 700;
+    border: 3px solid var(--ink);
+    background: yellow;
+    text-decoration: none;
+    transform: rotate(-1deg);
+  }
+  .btn:nth-child(2) { background: var(--blue); color: white; transform: rotate(2deg); font-family: 'Comic Neue', sans-serif; }
+
+  section { position: relative; z-index: 1; padding: 80px 20px; border-top: 1px dashed var(--ink); }
+  .num { font-family: 'Major Mono Display', monospace; font-size: 13px; color: var(--red); display: block; margin-bottom: 8px; }
+  h2 {
+    font-size: 72px;
+    font-weight: 900;
+    line-height: 0.95;
+    margin-bottom: 40px;
+    letter-spacing: -0.03em;
+  }
+  h2 .flip { display: inline-block; transform: scale(-1, 1); }
+  h2 .c { color: var(--green); font-family: 'Comic Neue', sans-serif; font-style: italic; }
+
+  .manifest-grid { display: grid; grid-template-columns: 2fr 3fr; gap: 40px; }
+  .pillar {
+    padding: 20px; margin-bottom: 12px;
+    border: 2px solid var(--ink);
+    background: white;
+  }
+  .pillar:nth-child(1) { transform: rotate(-0.8deg) translateX(20px); background: #ffe9a8; }
+  .pillar:nth-child(2) { transform: rotate(0.5deg) translateX(-10px); background: #cfe0ff; }
+  .pillar:nth-child(3) { transform: rotate(-0.3deg) translateX(30px); background: #d4f2d4; }
+  .pillar h4 {
+    font-family: 'Comic Neue', sans-serif;
+    font-size: 22px; margin-bottom: 6px;
+  }
+  .pillar p { font-family: 'Times New Roman', serif; font-size: 15px; }
+
+  .methods-col {
+    columns: 2 300px;
+    column-gap: 40px;
+    column-rule: 1px solid var(--ink);
+  }
+  .m-item {
+    break-inside: avoid;
+    margin-bottom: 28px;
+    padding: 14px;
+    border: 2px solid var(--ink);
+    background: white;
+    display: inline-block;
+    width: 100%;
+  }
+  .m-item:nth-child(odd) { background: #ffe3e3; transform: rotate(-0.5deg); }
+  .m-item:nth-child(even) { background: #e3e9ff; transform: rotate(0.5deg); font-family: 'Comic Neue', sans-serif; }
+  .m-item:nth-child(3n) { background: #e3ffe9; }
+  .m-item .tag {
+    display: inline-block; font-family: 'Bungee', sans-serif; font-size: 11px;
+    padding: 2px 8px; background: var(--ink); color: white;
+    margin-bottom: 8px;
+  }
+  .m-item h3 { font-size: 28px; font-weight: 900; }
+  .m-item p { font-size: 14px; margin-top: 6px; }
+
+  .bignums { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .bn {
+    padding: 18px;
+    border: 3px solid var(--ink);
+    background: white;
+  }
+  .bn:nth-child(1) { transform: rotate(-2deg); background: #ffcf52; }
+  .bn:nth-child(2) { transform: rotate(1.5deg) translateY(12px); background: #ff6868; color: white; }
+  .bn:nth-child(3) { transform: rotate(-1deg) translateY(-8px); background: #2ec4b6; color: white; font-family: 'Comic Neue', sans-serif; }
+  .bn:nth-child(4) { transform: rotate(2deg); background: #ff95c8; }
+  .bn .v { font-family: 'Bungee', sans-serif; font-size: 64px; line-height: 1; }
+  .bn .t { font-size: 14px; font-weight: 700; margin-top: 8px; }
+  .bn .d { font-size: 12px; margin-top: 6px; }
+
+  .retail {
+    background: var(--ink); color: var(--bg);
+    border: 3px solid var(--ink);
+    transform: rotate(-0.3deg);
+  }
+  .retail h2 .c { color: yellow; }
+  .retail-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 40px; }
+  .retail .huge {
+    font-family: 'Bungee', sans-serif;
+    font-size: 120px;
+    color: var(--red);
+    line-height: 0.9;
+    transform: rotate(-3deg);
+  }
+  .retail .huge small { display: block; font-family: 'Comic Neue', sans-serif; font-size: 14px; color: var(--bg); margin-top: 12px; transform: rotate(3deg); }
+  .r-list { display: flex; flex-direction: column; gap: 14px; }
+  .r-it {
+    padding: 16px;
+    background: var(--bg); color: var(--ink);
+    border: 2px solid var(--bg);
+  }
+  .r-it:nth-child(odd) { transform: rotate(-0.5deg); }
+  .r-it:nth-child(even) { transform: rotate(0.5deg) translateX(12px); font-family: 'Comic Neue', sans-serif; }
+  .r-it h4 { font-size: 18px; font-weight: 900; }
+  .r-it p { font-size: 13px; margin-top: 4px; }
+
+  .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .c-box {
+    padding: 24px;
+    border: 3px dashed var(--ink);
+    background: white;
+  }
+  .c-box:nth-child(1) { transform: rotate(-1.5deg); background: #fff7d6; }
+  .c-box:nth-child(2) { transform: rotate(1deg); background: #d6eaff; font-family: 'Comic Neue', sans-serif; }
+  .c-box:nth-child(3) { transform: rotate(-0.5deg); background: #ffe0ea; }
+  .c-box h4 { font-family: 'Major Mono Display', monospace; font-size: 14px; margin-bottom: 10px; color: var(--red); }
+  .c-box p { font-size: 16px; line-height: 1.6; }
+  .c-box a { text-decoration: underline wavy var(--blue); }
+
+  footer {
+    margin-top: 40px;
+    padding: 24px;
+    border-top: 3px double var(--ink);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    font-family: 'Major Mono Display', monospace;
+    font-size: 13px;
+  }
+  footer .sig { font-family: 'Redacted Script', cursive; font-size: 20px; color: var(--red); }
+
+  @media (max-width: 800px) {
+    .hero .sticker { top: auto; bottom: -30px; right: 10px; }
+    .manifest-grid, .retail-grid, .contact-grid, .bignums { grid-template-columns: 1fr; }
+    .methods-col { columns: 1; }
+    h1 { font-size: 56px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="brand">mands.</div>
+  <a href="#manifest">manifest</a>
+  <a href="#methods">METODY</a>
+  <a href="#retail">retail?</a>
+  <a href="#contact">KONTAKT!!!</a>
+  <span class="pull">est. 2OO5 ⚠</span>
+</div>
+
+<section class="hero">
+  <div class="sticker">CATI!<br>CAWI!<br>MOBI!<br>FGI!</div>
+  <h1>
+    <span class="up">Bada</span><span class="comic">nia</span><br>
+    <span class="mono">rynku</span>
+    <span class="amp">&</span>
+    <span class="hl">opinii</span><br>
+    <span class="up strike">od 1999</span>
+    <span class="comic">od 2005.</span>
+  </h1>
+  <p class="lead">Polski instytut badawczy. Słuchamy, analizujemy, doradzamy — bez szablonów, bez formalizmu, bez bullshitu. Badania rynku, opinii, dystrybucji dla sieci handlowych.</p>
+  <div class="hero-ctas">
+    <a href="#contact" class="btn">ZAMÓW BADANIE →</a>
+    <a href="#methods" class="btn">zobacz metody (?)</a>
+  </div>
+</section>
+
+<section id="manifest">
+  <span class="num">§ 01 / Manifest</span>
+  <h2>KIM <span class="c">jesteśmy</span> <span class="flip">?</span></h2>
+  <div class="manifest-grid">
+    <p style="font-size:26px;line-height:1.3;font-family:'Times New Roman';"><em>"Jesteśmy instytutem referencyjnym dla sieci handlowych. Stawiamy na indywidualne podejście — słuchamy, analizujemy, doradzamy."</em></p>
+    <div>
+      <div class="pillar"><h4>001 / indywidualnie</h4><p>Każdy klient otrzymuje wsparcie merytoryczne dopasowane do jego potrzeb — bez szablonów.</p></div>
+      <div class="pillar"><h4>002 / własne narzędzia</h4><p>Teleinformatyczny system B2B integrujący sondażowanie, dane i raportowanie.</p></div>
+      <div class="pillar"><h4>003 / doświadczenie</h4><p>Specjaliści z wieloletnim stażem. Kodeks ESOMAR, standardy PKJPA.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="methods">
+  <span class="num">§ 02 / Metody (niewyliczalne!)</span>
+  <h2>METODY <span class="c">badawcze</span></h2>
+  <div class="methods-col">
+    <div class="m-item"><span class="tag">01 CATI</span><h3>Telefon.</h3><p>Własne studio we Wrocławiu od 2005 r. Model Cati@Home. Tysiące wywiadów miesięcznie.</p></div>
+    <div class="m-item"><span class="tag">02 CAWI</span><h3>Online.</h3><p>Ankieta w CADAS CAWI. Klient podgląda wyniki na bieżąco. Podwójne szyfrowanie.</p></div>
+    <div class="m-item"><span class="tag">03 MOBI</span><h3>Tablet!</h3><p>Wywiady z GPS, nagrywaniem, drag & drop. Ewolucja papier-ołówek.</p></div>
+    <div class="m-item"><span class="tag">04 FGI</span><h3>Grupa.</h3><p>Focus Group Interviews. Testy logo, opakowań, reklam.</p></div>
+    <div class="m-item"><span class="tag">05 IDI</span><h3>1 na 1.</h3><p>Individual In-Depth Interview. Tematy drażliwe. Postawy. Motywy.</p></div>
+    <div class="m-item"><span class="tag">06 FoBo</span><h3>Focus Board.</h3><p>Wywiady online przez Zoom. Rekrutacja telefoniczna wg screenera.</p></div>
+    <div class="m-item"><span class="tag">07 Mystery</span><h3>Tajemniczy klient.</h3><p>Kilkuset audytorów w Polsce. Retail, usługi, gastronomia.</p></div>
+    <div class="m-item"><span class="tag">08 PaaS</span><h3>Platforma.</h3><p>Wynajem technologii badawczej. CATI, CAPI, CAWI, MOBI, Mystery.</p></div>
+  </div>
+</section>
+
+<section>
+  <span class="num">§ w liczbach (może być?)</span>
+  <h2>MANDS <span class="c">w liczbach</span></h2>
+  <div class="bignums">
+    <div class="bn"><div class="v">20+</div><div class="t">LAT</div><div class="d">Od 2005 r.</div></div>
+    <div class="bn"><div class="v">400</div><div class="t">ANKIETERÓW</div><div class="d">W całej PL.</div></div>
+    <div class="bn"><div class="v">10k</div><div class="t">WYWIADÓW</div><div class="d">Tygodniowo.</div></div>
+    <div class="bn"><div class="v">10</div><div class="t">TRENERÓW</div><div class="d">Regionalnych.</div></div>
+  </div>
+</section>
+
+<section id="retail" class="retail">
+  <span class="num" style="color:yellow;">§ 03 / Retail — czy gazetki docierają???</span>
+  <h2>GAZET<span class="c">ki.</span></h2>
+  <div class="retail-grid">
+    <div class="huge">10k+<small>gospodarstw / tydzień</small></div>
+    <div class="r-list">
+      <div class="r-it"><h4>/ 01 Distribution Check</h4><p>Kontrola dystrybucji materiałów reklamowych.</p></div>
+      <div class="r-it"><h4>/ 02 Exit Store</h4><p>Analiza wartości koszyka, heatmapa obszarów.</p></div>
+      <div class="r-it"><h4>/ 03 DRS</h4><p>SaaS do raportowania kolportażu.</p></div>
+      <div class="r-it"><h4>/ 04 Call Distribution</h4><p>Telefoniczna kontrola — 10k wywiadów.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <span class="num">§ 06 / Kontakt — napisz lub zadzwoń</span>
+  <h2>PIS<span class="c">zmy.</span></h2>
+  <div class="contact-grid">
+    <div class="c-box"><h4>// Siedziba</h4><p>ul. B. Prusa 1/48<br>50-319 Wrocław<br>NIP: PL8851557675</p></div>
+    <div class="c-box"><h4>// Kontakt</h4><p><a href="mailto:info@mands.pl">info@mands.pl</a><br><a href="tel:+48713220686">+48 71 322 06 86</a></p></div>
+    <div class="c-box"><h4>// Kariera</h4><p><a href="mailto:rekrutacja@mands.pl">rekrutacja@mands.pl</a></p></div>
+  </div>
+</section>
+
+<footer>
+  <div>© 2026 MANDS — WROCŁAW</div>
+  <div class="sig">m. & s.</div>
+  <div>est. 2005 · OFBOR · ESOMAR</div>
+</footer>
+
+</body>
+</html>
