@@ -1246,16 +1246,29 @@ footer {
 
     .ig-card-inner {
         grid-template-columns: 1fr;
-        gap: 36px;
-        padding: 32px;
+        gap: 28px;
+        padding: 24px;
+        min-width: 0;
     }
 
     .ig-left {
         max-width: none;
+        min-width: 0;
     }
 
     .ig-visual {
         justify-content: center;
+        min-width: 0;
+    }
+
+    .ig-embed {
+        max-width: 100%;
+    }
+
+    .ig-embed .instagram-media,
+    .ig-embed iframe {
+        min-width: 0 !important;
+        max-width: 100% !important;
     }
 
     .ig-mock {
