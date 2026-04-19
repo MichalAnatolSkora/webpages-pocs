@@ -1126,6 +1126,32 @@ footer {
 
 /* MOBILE */
 @media (max-width: 768px) {
+    .container {
+        padding: 0 20px;
+    }
+
+    .nav-inner {
+        gap: 12px;
+    }
+
+    .nav-right {
+        gap: 8px;
+    }
+
+    .logo-sub {
+        display: none;
+    }
+
+    .nav-logo {
+        font-size: 1.2rem;
+    }
+
+    .lang-switch {
+        padding: 4px 8px;
+        font-size: 0.68rem;
+        gap: 4px;
+    }
+
     .nav-phone-text {
         display: none;
     }
