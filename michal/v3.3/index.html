@@ -57,7 +57,7 @@
                 <span class="logo-text">StableTech<span class="logo-sub">FOR BUSINESS</span></span>
             </a>
             <div class="nav-right">
-                <button class="lang-switch" id="lang-toggle">PL</button>
+                <button class="lang-switch" id="lang-toggle" aria-label="Switch language"><span class="lang-opt" data-lang="en">EN</span><span class="lang-sep" aria-hidden="true">·</span><span class="lang-opt" data-lang="pl">PL</span></button>
                 <a href="https://www.instagram.com/stabletech4b/" target="_blank" rel="noopener" class="nav-ig" aria-label="Instagram @stabletech4b">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
                 </a>
@@ -379,7 +379,9 @@
             lang = l;
             localStorage.setItem('lang', l);
             document.documentElement.lang = l;
-            toggle.textContent = l === 'en' ? 'PL' : 'EN';
+            toggle.querySelectorAll('.lang-opt').forEach(opt => {
+                opt.classList.toggle('active', opt.dataset.lang === l);
+            });
             document.querySelectorAll('[data-pl][data-en]').forEach(el => {
                 el.textContent = el.getAttribute('data-' + l);
             });
@@ -411,6 +413,12 @@
         }, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
 
         document.querySelectorAll('.anim').forEach(el => observer.observe(el));
+
+        // Nav shadow on scroll
+        const navEl = document.querySelector('nav');
+        const updateNav = () => navEl.classList.toggle('scrolled', window.scrollY > 20);
+        updateNav();
+        window.addEventListener('scroll', updateNav, { passive: true });
 
         // Start hero animations
         function startHero() {

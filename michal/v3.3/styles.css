@@ -56,7 +56,13 @@ nav {
     background: rgba(245, 244, 239, 0.88);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid rgba(20, 20, 19, 0.06);
+    transition: box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+nav.scrolled {
+    background: rgba(245, 244, 239, 0.94);
+    box-shadow: 0 1px 0 rgba(20, 20, 19, 0.04), 0 8px 24px -16px rgba(20, 20, 19, 0.12);
 }
 
 body {
@@ -114,11 +120,28 @@ body {
     border-radius: 4px;
     border: 1px solid var(--border);
     transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    letter-spacing: 0.02em;
 }
 
 .lang-switch:hover {
-    color: var(--text);
     border-color: var(--border-strong);
+}
+
+.lang-opt {
+    transition: color 0.2s ease;
+}
+
+.lang-opt.active {
+    color: var(--text);
+    font-weight: 600;
+}
+
+.lang-sep {
+    color: var(--border-strong);
+    font-weight: 400;
 }
 
 .nav-ig {
@@ -128,20 +151,22 @@ body {
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    color: #fff;
-    background: linear-gradient(135deg, #833AB4 0%, #C13584 30%, #E1306C 55%, #F56040 78%, #F77737 100%);
+    color: var(--accent);
+    background: transparent;
+    border: 1px solid var(--border);
     text-decoration: none;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 0 4px 12px -4px rgba(193, 53, 132, 0.5);
+    transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
 }
 
 .nav-ig:hover {
+    color: var(--accent-hover);
+    border-color: var(--accent);
+    background: var(--accent-light);
     transform: translateY(-1px);
-    box-shadow: 0 8px 18px -4px rgba(193, 53, 132, 0.6);
 }
 
 .nav-ig:focus-visible {
-    outline: 2px solid var(--text);
+    outline: 2px solid var(--accent);
     outline-offset: 3px;
 }
 
@@ -546,7 +571,7 @@ header h1 .accent {
 
 /* INSTAGRAM */
 .instagram {
-    padding: 80px 0 0;
+    padding: 80px 0;
 }
 
 .ig-card {
@@ -686,6 +711,21 @@ header h1 .accent {
 .ig-visual {
     display: flex;
     justify-content: flex-end;
+}
+
+.ig-embed {
+    width: 100%;
+    max-width: 340px;
+    display: flex;
+    justify-content: center;
+}
+
+.ig-embed .instagram-media {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ig-card:hover .ig-embed .instagram-media {
+    transform: translateY(-3px);
 }
 
 .ig-mock {
@@ -838,13 +878,14 @@ header h1 .accent {
 /* CONTACT */
 .contact {
     padding: 80px 0;
+    background: var(--bg-alt);
 }
 
 .contact-card {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 64px;
-    background: var(--bg-alt);
+    background: var(--bg);
     border: 1px solid var(--border);
     border-radius: 4px;
     padding: 48px;
@@ -1174,7 +1215,7 @@ footer {
     }
 
     .instagram {
-        padding: 56px 0 0;
+        padding: 56px 0;
     }
 
     .ig-card-inner {

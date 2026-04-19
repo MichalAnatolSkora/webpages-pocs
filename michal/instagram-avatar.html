@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>StableTech — Instagram Assets</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: #fafafa;
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+    color: #1a1a1a;
+    min-height: 100%;
+  }
+
+  body {
+    padding: 48px 40px 80px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+  }
+  .subtitle {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 48px;
+  }
+
+  .asset {
+    margin-bottom: 56px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid #ececec;
+  }
+  .asset:last-child { border-bottom: 0; }
+
+  .asset-header {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 8px;
+  }
+  .asset h2 {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+  .badge-primary { background: #C2410C; color: #FFF7ED; }
+  .badge-neutral { background: #e5e5e5; color: #555; }
+  .asset-desc {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 24px;
+    max-width: 600px;
+  }
+
+  .asset-row {
+    display: flex;
+    gap: 36px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .main-canvas {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .main-canvas:hover { transform: translateY(-2px); }
+  .main-canvas::after {
+    content: 'Kliknij aby pobrać JPG';
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.6);
+    color: white;
+    font-size: 11px;
+    padding: 6px 12px;
+    border-radius: 12px;
+    opacity: 0;
+    transition: opacity 0.2s;
+    white-space: nowrap;
+  }
+  .main-canvas:hover::after { opacity: 1; }
+
+  .circle-guide {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px dashed rgba(255,255,255,0.22);
+    pointer-events: none;
+  }
+
+  /* Square avatar 1:1 */
+  .canvas-square {
+    width: 360px;
+    height: 360px;
+  }
+  /* Post cover 4:5 (IG feed optimal) */
+  .canvas-post {
+    width: 360px;
+    height: 450px;
+  }
+
+  /* Variant backgrounds */
+  .bg-v1 {
+    background: radial-gradient(circle at 30% 25%, #EA580C 0%, #C2410C 45%, #9A3412 100%);
+  }
+  .bg-v1::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 70% 75%, rgba(255, 237, 213, 0.12) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .bg-dark {
+    background: #0a0a0a;
+  }
+  .bg-dark::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(234, 88, 12, 0.22) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .bg-post {
+    background: linear-gradient(160deg, #EA580C 0%, #C2410C 45%, #7C2D12 100%);
+  }
+  .bg-post::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 80% 20%, rgba(255, 237, 213, 0.14) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .mark-wrap {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .mark-wrap svg { filter: drop-shadow(0 8px 24px rgba(0,0,0,0.25)); }
+  .mark-wrap.glow svg { filter: drop-shadow(0 0 36px rgba(234, 88, 12, 0.55)); }
+
+  /* Post cover layout */
+  .post-layout {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 48px 44px;
+  }
+  .post-mark { width: 96px; height: 96px; }
+  .post-text h3 {
+    font-size: 44px;
+    font-weight: 700;
+    color: #FFF7ED;
+    letter-spacing: -1px;
+    line-height: 1.05;
+    margin-bottom: 10px;
+  }
+  .post-text p {
+    color: #FED7AA;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  /* IG size previews column */
+  .previews {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 20px 24px;
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #ececec;
+  }
+  .previews-title {
+    font-size: 11px;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .preview-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .preview-size-label {
+    font-size: 11px;
+    color: #999;
+    width: 58px;
+  }
+  .preview-avatar {
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+
+<h1>StableTech — Instagram Assets</h1>
+<p class="subtitle">Po krytyku designu: avatar, mikro-wariant, story cover, post template. Kliknij aby pobrać JPG 1080×1080 (1080×1350 dla posta).</p>
+
+<!-- ASSET 1: Main avatar (recommended) -->
+<div class="asset">
+  <div class="asset-header">
+    <h2>Avatar profilowy</h2>
+    <span class="badge badge-primary">Rekomendowany</span>
+  </div>
+  <p class="asset-desc">Główne zdjęcie profilowe. Czytelne we wszystkich rozmiarach (32–110px), wyróżnia się pomarańczowym kolorem w feedzie.</p>
+  <div class="asset-row">
+    <div class="main-canvas canvas-square bg-v1" data-export="avatar-main">
+      <div class="mark-wrap" data-mark="full-light" data-scale="0.72"></div>
+      <div class="circle-guide"></div>
+    </div>
+    <div class="previews">
+      <div class="previews-title">Podgląd w IG</div>
+      <div class="preview-row">
+        <span class="preview-size-label">32px</span>
+        <div class="preview-avatar bg-v1" style="width:32px;height:32px;">
+          <div class="mark-wrap" data-mark="full-light" data-scale="0.72"></div>
+        </div>
+        <span style="font-size:12px;color:#999;">feed, komentarze</span>
+      </div>
+      <div class="preview-row">
+        <span class="preview-size-label">40px</span>
+        <div class="preview-avatar bg-v1" style="width:40px;height:40px;">
+          <div class="mark-wrap" data-mark="full-light" data-scale="0.72"></div>
+        </div>
+        <span style="font-size:12px;color:#999;">reakcje na stories</span>
+      </div>
+      <div class="preview-row">
+        <span class="preview-size-label">56px</span>
+        <div class="preview-avatar bg-v1" style="width:56px;height:56px;">
+          <div class="mark-wrap" data-mark="full-light" data-scale="0.72"></div>
+        </div>
+        <span style="font-size:12px;color:#999;">search, DM</span>
+      </div>
+      <div class="preview-row">
+        <span class="preview-size-label">110px</span>
+        <div class="preview-avatar bg-v1" style="width:110px;height:110px;">
+          <div class="mark-wrap" data-mark="full-light" data-scale="0.72"></div>
+        </div>
+        <span style="font-size:12px;color:#999;">profil (desktop)</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ASSET 2: Simplified for micro -->
+<div class="asset">
+  <div class="asset-header">
+    <h2>Avatar mikro</h2>
+    <span class="badge badge-neutral">Zapasowy</span>
+  </div>
+  <p class="asset-desc">Uproszczona wersja — 2 najjaśniejsze rzędy. Użyj jeśli statystyki IG pokazują, że >70% wyświetleń to feed/komentarze (32–40px).</p>
+  <div class="asset-row">
+    <div class="main-canvas canvas-square bg-v1" data-export="avatar-micro">
+      <div class="mark-wrap" data-mark="simplified-light" data-scale="0.68"></div>
+      <div class="circle-guide"></div>
+    </div>
+    <div class="previews">
+      <div class="previews-title">Porównanie przy 32px</div>
+      <div class="preview-row">
+        <span class="preview-size-label">Pełny</span>
+        <div class="preview-avatar bg-v1" style="width:32px;height:32px;">
+          <div class="mark-wrap" data-mark="full-light" data-scale="0.72"></div>
+        </div>
+      </div>
+      <div class="preview-row">
+        <span class="preview-size-label">Mikro</span>
+        <div class="preview-avatar bg-v1" style="width:32px;height:32px;">
+          <div class="mark-wrap" data-mark="simplified-light" data-scale="0.68"></div>
+        </div>
+        <span style="font-size:12px;color:#666;">— wyraźniejsze</span>
+      </div>
+      <div class="preview-row" style="margin-top:12px;">
+        <span class="preview-size-label">110px</span>
+        <div class="preview-avatar bg-v1" style="width:110px;height:110px;">
+          <div class="mark-wrap" data-mark="simplified-light" data-scale="0.68"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ASSET 3: Story Highlight Cover -->
+<div class="asset">
+  <div class="asset-header">
+    <h2>Story Highlight Cover</h2>
+    <span class="badge badge-neutral">Do serii storiesów</span>
+  </div>
+  <p class="asset-desc">Ciemny wariant na covery highlightów (np. "Projekty", "O nas", "Kontakt"). Przy 64px+ dark glow daje spójny, klimatyczny look zachowaniem brand-u.</p>
+  <div class="asset-row">
+    <div class="main-canvas canvas-square bg-dark" data-export="story-cover">
+      <div class="mark-wrap glow" data-mark="full-orange" data-scale="0.6"></div>
+      <div class="circle-guide"></div>
+    </div>
+    <div class="previews">
+      <div class="previews-title">Podgląd w IG</div>
+      <div class="preview-row">
+        <span class="preview-size-label">64px</span>
+        <div class="preview-avatar bg-dark" style="width:64px;height:64px;">
+          <div class="mark-wrap glow" data-mark="full-orange" data-scale="0.6"></div>
+        </div>
+        <span style="font-size:12px;color:#999;">highlight w profilu</span>
+      </div>
+      <div class="preview-row">
+        <span class="preview-size-label">90px</span>
+        <div class="preview-avatar bg-dark" style="width:90px;height:90px;">
+          <div class="mark-wrap glow" data-mark="full-orange" data-scale="0.6"></div>
+        </div>
+        <span style="font-size:12px;color:#999;">highlight rozwinięty</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ASSET 4: Post cover template -->
+<div class="asset">
+  <div class="asset-header">
+    <h2>Post cover — pierwszy slajd</h2>
+    <span class="badge badge-neutral">Szablon 4:5</span>
+  </div>
+  <p class="asset-desc">Format 1080×1350 (optymalny dla feeda IG). Tu jest miejsce na tekst — tutaj "StableTech" może być duży i czytelny. Podmień nagłówek pod konkretny post.</p>
+  <div class="asset-row">
+    <div class="main-canvas canvas-post bg-post" data-export="post-cover">
+      <div class="post-layout">
+        <div class="post-mark mark-wrap" style="position:static;width:96px;height:96px;" data-mark="full-light" data-scale="1"></div>
+        <div class="post-text">
+          <h3>StableTech</h3>
+          <p>IT Systems · Implementations</p>
+        </div>
+      </div>
+    </div>
+    <div class="previews">
+      <div class="previews-title">Info</div>
+      <p style="font-size:13px;color:#555;max-width:260px;line-height:1.5;">
+        Ten szablon jest gotowy do wielokrotnego użycia — zmień nagłówek w HTML (<code style="background:#f0f0f0;padding:2px 6px;border-radius:4px;font-size:12px;">&lt;h3&gt;</code>) na treść nowego posta. Logo i branding zostają spójne.
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // SVG definitions
+  const svgFullLight = `<svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="21" width="5.5" height="3.5" rx="0.7" fill="#FFF7ED"/><rect x="9.5" y="21" width="9" height="3.5" rx="0.7" fill="#FFF7ED"/><rect x="19.5" y="21" width="5.5" height="3.5" rx="0.7" fill="#FFF7ED"/><rect x="3" y="16.5" width="9" height="3.5" rx="0.7" fill="#FFF7ED"/><rect x="13" y="16.5" width="5.5" height="3.5" rx="0.7" fill="#FFF7ED"/><rect x="19.5" y="16.5" width="5.5" height="3.5" rx="0.7" fill="#FFF7ED"/><rect x="3" y="12" width="5.5" height="3.5" rx="0.7" fill="#FFF7ED" opacity="0.85"/><rect x="9.5" y="12" width="5.5" height="3.5" rx="0.7" fill="#FFF7ED" opacity="0.85"/><rect x="16" y="12" width="9" height="3.5" rx="0.7" fill="#FFF7ED" opacity="0.7"/><rect x="3" y="7.5" width="9" height="3.5" rx="0.7" fill="#FFF7ED" opacity="0.45"/><rect x="13" y="7.5" width="5.5" height="3.5" rx="0.7" fill="#FFF7ED" opacity="0.35"/><rect x="3" y="3" width="5.5" height="3.5" rx="0.7" fill="#FFF7ED" opacity="0.18"/></svg>`;
+
+  const svgFullOrange = svgFullLight.replace(/#FFF7ED/g, '#EA580C');
+
+  // Simplified: only bottom 2 rows, full opacity — bold for micro sizes
+  const svgSimpleLight = `<svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="19" width="6.5" height="4.5" rx="0.9" fill="#FFF7ED"/><rect x="10.5" y="19" width="10" height="4.5" rx="0.9" fill="#FFF7ED"/><rect x="21.5" y="19" width="3.5" height="4.5" rx="0.9" fill="#FFF7ED"/><rect x="3" y="13.5" width="10" height="4.5" rx="0.9" fill="#FFF7ED"/><rect x="14" y="13.5" width="6.5" height="4.5" rx="0.9" fill="#FFF7ED"/><rect x="21.5" y="13.5" width="3.5" height="4.5" rx="0.9" fill="#FFF7ED" opacity="0.6"/><rect x="3" y="8" width="6.5" height="4.5" rx="0.9" fill="#FFF7ED" opacity="0.4"/><rect x="10.5" y="8" width="3.5" height="4.5" rx="0.9" fill="#FFF7ED" opacity="0.25"/></svg>`;
+
+  const markMap = {
+    'full-light': svgFullLight,
+    'full-orange': svgFullOrange,
+    'simplified-light': svgSimpleLight
+  };
+
+  // Inject SVGs
+  document.querySelectorAll('[data-mark]').forEach(el => {
+    const key = el.dataset.mark;
+    const scale = parseFloat(el.dataset.scale) || 0.72;
+    el.innerHTML = markMap[key];
+    const svg = el.querySelector('svg');
+    if (el.classList.contains('post-mark')) {
+      svg.style.width = '100%';
+      svg.style.height = '100%';
+    } else {
+      svg.style.width = (scale * 100) + '%';
+      svg.style.height = (scale * 100) + '%';
+    }
+  });
+
+  // Export
+  async function exportCanvas(el, filename) {
+    const isPost = el.classList.contains('canvas-post');
+    const w = 1080;
+    const h = isPost ? 1350 : 1080;
+    const canvas = document.createElement('canvas');
+    canvas.width = w; canvas.height = h;
+    const ctx = canvas.getContext('2d');
+
+    // Background
+    if (el.classList.contains('bg-v1')) {
+      const g = ctx.createRadialGradient(w*0.3, h*0.25, 0, w*0.3, h*0.25, Math.max(w, h));
+      g.addColorStop(0, '#EA580C');
+      g.addColorStop(0.45, '#C2410C');
+      g.addColorStop(1, '#9A3412');
+      ctx.fillStyle = g;
+      ctx.fillRect(0,0,w,h);
+      // Highlight overlay
+      const g2 = ctx.createRadialGradient(w*0.7, h*0.75, 0, w*0.7, h*0.75, w*0.6);
+      g2.addColorStop(0, 'rgba(255,237,213,0.12)');
+      g2.addColorStop(1, 'rgba(255,237,213,0)');
+      ctx.fillStyle = g2; ctx.fillRect(0,0,w,h);
+    } else if (el.classList.contains('bg-dark')) {
+      ctx.fillStyle = '#0a0a0a';
+      ctx.fillRect(0,0,w,h);
+      const g = ctx.createRadialGradient(w/2, h/2, 0, w/2, h/2, w*0.6);
+      g.addColorStop(0, 'rgba(234,88,12,0.28)');
+      g.addColorStop(1, 'rgba(234,88,12,0)');
+      ctx.fillStyle = g;
+      ctx.fillRect(0,0,w,h);
+    } else if (el.classList.contains('bg-post')) {
+      const g = ctx.createLinearGradient(0, 0, w, h);
+      g.addColorStop(0, '#EA580C');
+      g.addColorStop(0.45, '#C2410C');
+      g.addColorStop(1, '#7C2D12');
+      ctx.fillStyle = g;
+      ctx.fillRect(0,0,w,h);
+      const g2 = ctx.createRadialGradient(w*0.8, h*0.2, 0, w*0.8, h*0.2, w*0.7);
+      g2.addColorStop(0, 'rgba(255,237,213,0.14)');
+      g2.addColorStop(1, 'rgba(255,237,213,0)');
+      ctx.fillStyle = g2; ctx.fillRect(0,0,w,h);
+    }
+
+    if (isPost) {
+      // Post layout: mark top-left, title bottom
+      const markSize = w * 0.18;
+      const padX = w * 0.1;
+      const padY = h * 0.08;
+      await drawSvgToCtx(ctx, svgFullLight, padX, padY, markSize, markSize);
+
+      ctx.fillStyle = '#FFF7ED';
+      ctx.textBaseline = 'alphabetic';
+      ctx.textAlign = 'left';
+      ctx.font = '700 132px -apple-system, BlinkMacSystemFont, "Inter", "DM Sans", sans-serif';
+      ctx.fillText('StableTech', padX, h - padY - 60);
+
+      ctx.fillStyle = '#FED7AA';
+      ctx.font = '500 42px -apple-system, BlinkMacSystemFont, "Inter", sans-serif';
+      ctx.letterSpacing = '3px';
+      ctx.fillText('IT SYSTEMS · IMPLEMENTATIONS', padX, h - padY);
+    } else {
+      // Square: mark centered
+      const exportType = el.dataset.export;
+      let mark, scale;
+      if (exportType === 'avatar-main') { mark = svgFullLight; scale = 0.72; }
+      else if (exportType === 'avatar-micro') { mark = svgSimpleLight; scale = 0.68; }
+      else if (exportType === 'story-cover') { mark = svgFullOrange; scale = 0.6; }
+
+      const markSize = w * scale;
+      const x = (w - markSize) / 2;
+      const y = (h - markSize) / 2;
+
+      if (exportType === 'story-cover') {
+        ctx.shadowColor = 'rgba(234,88,12,0.55)';
+        ctx.shadowBlur = 60;
+      }
+      await drawSvgToCtx(ctx, mark, x, y, markSize, markSize);
+      ctx.shadowBlur = 0;
+    }
+
+    canvas.toBlob((blob) => {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      a.click();
+    }, 'image/jpeg', 0.95);
+  }
+
+  function drawSvgToCtx(ctx, svgStr, x, y, w, h) {
+    return new Promise((resolve, reject) => {
+      const blob = new Blob([svgStr], {type: 'image/svg+xml;charset=utf-8'});
+      const url = URL.createObjectURL(blob);
+      const img = new Image();
+      img.onload = () => {
+        ctx.drawImage(img, x, y, w, h);
+        URL.revokeObjectURL(url);
+        resolve();
+      };
+      img.onerror = reject;
+      img.src = url;
+    });
+  }
+
+  document.querySelectorAll('.main-canvas').forEach(c => {
+    c.addEventListener('click', () => {
+      const name = c.dataset.export;
+      exportCanvas(c, `stabletech-${name}.jpg`);
+    });
+  });
+</script>
+
+</body>
+</html>
