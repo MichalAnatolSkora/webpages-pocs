@@ -1149,7 +1149,7 @@
   </div>
   <div class="split-grid">
     <div class="split-item">
-      <video muted autoplay loop playsinline preload="auto"
+      <video muted loop playsinline preload="metadata"
              poster="../media/WhatsApp Image 2026-04-20 at 21.54.44.jpeg">
         <source src="../media/WhatsApp Video 2026-04-20 at 21.54.46.mp4" type="video/mp4">
       </video>
@@ -1161,7 +1161,7 @@
       </div>
     </div>
     <div class="split-item">
-      <video muted autoplay loop playsinline preload="auto"
+      <video muted loop playsinline preload="metadata"
              poster="../media/WhatsApp Image 2026-04-20 at 21.54.48 (5).jpeg">
         <source src="../media/WhatsApp Video 2026-04-20 at 21.54.50.mp4" type="video/mp4">
       </video>
@@ -1180,7 +1180,7 @@
   <div class="label mono">Sygnatura ruchu</div>
   <div class="mask-wrap">
     <div class="mask-stage">
-      <video muted autoplay loop playsinline preload="auto">
+      <video muted loop playsinline preload="metadata">
         <source src="../media/WhatsApp Video 2026-04-20 at 21.54.50.mp4" type="video/mp4">
       </video>
       <svg viewBox="0 0 1200 500" preserveAspectRatio="xMidYMid slice" aria-label="W ruchu — fragment sesji">
@@ -1214,7 +1214,7 @@
   </div>
   <div class="sticky-grid">
     <div class="sticky-visual">
-      <video muted autoplay loop playsinline preload="auto"
+      <video muted loop playsinline preload="metadata"
              poster="../media/poster-22.55.44-5s.jpg">
         <source src="../media/WhatsApp Video 2026-04-20 at 22.55.44.mp4" type="video/mp4">
       </video>
@@ -1340,7 +1340,7 @@
   </div>
   <div class="reels-scroll" id="reelsScroll">
     <div class="reel">
-      <video muted autoplay loop playsinline preload="auto" poster="../media/poster-22.55.44-5s.jpg">
+      <video muted loop playsinline preload="metadata" poster="../media/poster-22.55.44-5s.jpg">
         <source src="../media/WhatsApp Video 2026-04-20 at 22.55.44.mp4" type="video/mp4">
       </video>
       <div class="reel-overlay"></div>
@@ -1351,7 +1351,7 @@
       </div>
     </div>
     <div class="reel">
-      <video muted autoplay loop playsinline preload="auto">
+      <video muted loop playsinline preload="metadata">
         <source src="../media/WhatsApp Video 2026-04-20 at 21.54.46.mp4" type="video/mp4">
       </video>
       <div class="reel-overlay"></div>
@@ -1362,7 +1362,7 @@
       </div>
     </div>
     <div class="reel">
-      <video muted autoplay loop playsinline preload="auto">
+      <video muted loop playsinline preload="metadata">
         <source src="../media/WhatsApp Video 2026-04-20 at 21.54.50.mp4" type="video/mp4">
       </video>
       <div class="reel-overlay"></div>
@@ -1554,7 +1554,7 @@
 
 <!-- CTA FINAL with video bg -->
 <section class="cta-final" id="rezerwacja">
-  <video muted autoplay loop playsinline preload="auto">
+  <video muted loop playsinline preload="metadata">
     <source src="../media/WhatsApp Video 2026-04-20 at 21.54.50.mp4" type="video/mp4">
   </video>
   <div class="container-narrow">
@@ -1718,8 +1718,10 @@
     reelsScroll.scrollBy({ left: 320, behavior: 'smooth' });
   });
 
-  // Aggressive iOS-friendly autoplay handling.
+  // iOS-friendly autoplay: ONLY hero plays on load; others lazy via IntersectionObserver.
+  // iOS Safari is more permissive when only 1 video tries autoplay at a time.
   const videos = document.querySelectorAll('video');
+  const heroEl = document.getElementById('heroVideo');
 
   function tryPlay(v) {
     v.muted = true;
@@ -1731,31 +1733,38 @@
     if (p && typeof p.catch === 'function') p.catch(() => {});
   }
 
-  videos.forEach(v => {
-    tryPlay(v);
-    v.addEventListener('loadedmetadata', () => tryPlay(v));
-    v.addEventListener('canplay', () => tryPlay(v));
-  });
+  // Kick hero immediately + on any ready event.
+  if (heroEl) {
+    tryPlay(heroEl);
+    heroEl.addEventListener('loadedmetadata', () => tryPlay(heroEl));
+    heroEl.addEventListener('canplay', () => tryPlay(heroEl));
+  }
 
-  // IntersectionObserver: play only when visible (iOS limits concurrent videos).
+  // IntersectionObserver: play videos only when visible (and pause others).
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) tryPlay(e.target);
         else e.target.pause();
       });
-    }, { threshold: 0.15 });
+    }, { threshold: 0.2 });
     videos.forEach(v => io.observe(v));
   }
 
-  // First user interaction — iOS Low Power Mode fallback.
+  // First user interaction — unlocks iOS autoplay policy.
   ['touchstart', 'click', 'scroll'].forEach(ev => {
-    window.addEventListener(ev, () => videos.forEach(tryPlay), { once: true, passive: true });
+    window.addEventListener(ev, () => {
+      videos.forEach(v => {
+        const r = v.getBoundingClientRect();
+        // Only kick videos in/near viewport
+        if (r.bottom > -200 && r.top < window.innerHeight + 200) tryPlay(v);
+      });
+    }, { once: true, passive: true });
   });
 
-  // Re-kick when tab becomes visible (iOS pauses background videos).
+  // Re-kick hero when tab becomes visible (iOS pauses background videos).
   document.addEventListener('visibilitychange', () => {
-    if (!document.hidden) videos.forEach(tryPlay);
+    if (!document.hidden && heroEl) tryPlay(heroEl);
   });
 
   // Tap-to-play fallback (iOS Low Power Mode / autoplay block).
