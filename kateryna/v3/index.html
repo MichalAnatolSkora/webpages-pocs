@@ -156,7 +156,7 @@
   .cinema-content {
     position: absolute;
     left: 0; right: 0; bottom: 0;
-    padding: 0 60px 72px;
+    padding: 0 60px 128px;
     z-index: 4;
   }
   .cinema-eyebrow {
@@ -215,35 +215,32 @@
   .btn-arrow { transition: transform 0.2s; }
   .btn:hover .btn-arrow { transform: translateX(3px); }
 
-  .cinema-controls {
+  .cinema-footer {
     position: absolute;
-    bottom: 72px; right: 60px;
-    display: flex; gap: 10px;
+    bottom: 48px; left: 60px; right: 60px;
+    display: flex; align-items: center; gap: 16px;
     z-index: 4;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: rgba(250, 247, 242, 0.75);
+  }
+  .cinema-controls {
+    display: flex; gap: 8px;
+    margin-left: 8px;
   }
   .cinema-btn {
     background: rgba(26, 22, 20, 0.55);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(250, 247, 242, 0.25);
     color: var(--cream);
-    width: 48px; height: 48px;
+    width: 40px; height: 40px;
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
     cursor: pointer;
     transition: background 0.2s;
   }
   .cinema-btn:hover { background: rgba(26, 22, 20, 0.85); }
-  .cinema-btn svg { width: 18px; height: 18px; }
-
-  .cinema-timeline {
-    position: absolute;
-    bottom: 52px; left: 60px; right: 60px;
-    display: flex; align-items: center; gap: 14px;
-    z-index: 3;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.72rem;
-    color: rgba(250, 247, 242, 0.65);
-  }
+  .cinema-btn svg { width: 16px; height: 16px; }
   .timeline-bar {
     flex: 1; height: 2px;
     background: rgba(250, 247, 242, 0.18);
@@ -265,11 +262,12 @@
 
   @media (max-width: 900px) {
     .cinema-frame { inset: 20px 14px; }
-    .cinema-content { padding: 0 28px 64px; }
+    .cinema-content { padding: 0 28px 110px; }
     .cinema-corners::before, .cinema-corners::after,
     .cinema-corners-bottom::before, .cinema-corners-bottom::after { display: none; }
-    .cinema-controls { right: 20px; bottom: 68px; }
-    .cinema-timeline { left: 28px; right: 28px; bottom: 40px; font-size: 0.65rem; }
+    .cinema-footer { left: 24px; right: 24px; bottom: 32px; gap: 10px; font-size: 0.62rem; }
+    .cinema-btn { width: 34px; height: 34px; }
+    .cinema-btn svg { width: 14px; height: 14px; }
     .cinema-hud { display: none; }
     .cinema h1 { font-size: clamp(2.5rem, 11vw, 4rem); }
   }
@@ -322,7 +320,7 @@
   .split-meta {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.78rem;
-    color: rgba(250, 247, 242, 0.55);
+    color: rgba(250, 247, 242, 0.75);
     letter-spacing: 0.1em;
     text-transform: uppercase;
     text-align: right;
@@ -418,17 +416,6 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 28px;
-  }
-  .mask-title {
-    font-family: 'Fraunces', serif;
-    font-weight: 900;
-    font-size: clamp(5rem, 19vw, 18rem);
-    line-height: 0.86;
-    letter-spacing: -0.045em;
-    text-transform: uppercase;
-    color: var(--ink);
-    background-image: url('../media/WhatsApp Video 2026-04-20 at 21.54.46.mp4');
-    position: relative;
   }
   .mask-stage {
     position: relative;
@@ -931,26 +918,25 @@
       </div>
     </div>
 
-    <div class="cinema-timeline mono">
+    <div class="cinema-footer mono">
       <span id="tcCurrent">00:00</span>
       <div class="timeline-bar"></div>
       <span>00:14</span>
-    </div>
-
-    <div class="cinema-controls">
-      <button class="cinema-btn" id="soundToggle" aria-label="Włącz dźwięk">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
-          <line x1="23" y1="9" x2="17" y2="15"></line>
-          <line x1="17" y1="9" x2="23" y2="15"></line>
-        </svg>
-      </button>
-      <button class="cinema-btn" id="playToggle" aria-label="Pauza">
-        <svg viewBox="0 0 24 24" fill="currentColor">
-          <rect x="6" y="5" width="4" height="14"/>
-          <rect x="14" y="5" width="4" height="14"/>
-        </svg>
-      </button>
+      <div class="cinema-controls">
+        <button class="cinema-btn" id="soundToggle" aria-label="Włącz dźwięk">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
+            <line x1="23" y1="9" x2="17" y2="15"></line>
+            <line x1="17" y1="9" x2="23" y2="15"></line>
+          </svg>
+        </button>
+        <button class="cinema-btn" id="playToggle" aria-label="Pauza">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <rect x="6" y="5" width="4" height="14"/>
+            <rect x="14" y="5" width="4" height="14"/>
+          </svg>
+        </button>
+      </div>
     </div>
   </div>
 </section>
@@ -979,8 +965,8 @@
 <section class="split">
   <div class="split-header">
     <div>
-      <span class="section-eyebrow">02 · Dwa tryby pracy</span>
-      <h2>Gabinet <em>albo</em> dojazd — Ty wybierasz.</h2>
+      <span class="section-eyebrow">Dwa światy</span>
+      <h2>Sport <em>i</em> cisza — ta sama dokładność.</h2>
     </div>
     <div class="split-meta">
       <div>SHOT 01 · WRO 2026</div>
@@ -1017,21 +1003,21 @@
 
 <!-- VIDEO IN TEXT MASK -->
 <section class="video-headline">
-  <div class="label mono">03 · Sygnatura ruchu</div>
+  <div class="label mono">Sygnatura ruchu</div>
   <div class="mask-wrap">
     <div class="mask-stage">
       <video autoplay muted loop playsinline>
         <source src="../media/WhatsApp Video 2026-04-20 at 21.54.50.mp4" type="video/mp4">
       </video>
-      <svg viewBox="0 0 1200 500" preserveAspectRatio="xMidYMid slice">
+      <svg viewBox="0 0 1200 500" preserveAspectRatio="xMidYMid slice" aria-label="W ruchu — fragment sesji">
         <defs>
           <mask id="cutText">
             <rect width="100%" height="100%" fill="white"/>
-            <text x="50%" y="54%" text-anchor="middle"
+            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central"
                   font-family="Fraunces, serif"
-                  font-size="360"
+                  font-size="320"
                   font-weight="400"
-                  letter-spacing="-12"
+                  letter-spacing="-10"
                   fill="black">W RUCHU</text>
           </mask>
         </defs>
@@ -1049,7 +1035,7 @@
 <!-- STICKY VIDEO + SERVICES -->
 <section class="sticky-section" id="uslugi">
   <div class="sticky-header">
-    <span class="section-eyebrow">04 · Zakres usług</span>
+    <span class="section-eyebrow">Zakres usług</span>
     <h2>Masaż dobrany <em class="italic-accent">do Twojego ciała</em></h2>
   </div>
   <div class="sticky-grid">
@@ -1137,7 +1123,7 @@
 <!-- MODES -->
 <section class="modes">
   <div class="modes-header">
-    <span class="section-eyebrow">05 · Jak chcesz się spotkać</span>
+    <span class="section-eyebrow">Jak chcesz się spotkać</span>
     <h2>Dwie formy, <em class="italic-accent">jedna jakość</em></h2>
   </div>
   <div class="modes-grid">
@@ -1170,7 +1156,7 @@
 <section class="reels" id="reels">
   <div class="reels-header">
     <div>
-      <span class="section-eyebrow">06 · Reels · Z pracy</span>
+      <span class="section-eyebrow">Reels · Z pracy</span>
       <h2>Nagrania <em>z gabinetu i eventów</em></h2>
     </div>
     <div class="reels-nav">
@@ -1268,30 +1254,30 @@
       </div>
     </div>
     <div class="about-content">
-      <span class="section-eyebrow">07 · O mnie</span>
+      <span class="section-eyebrow">O mnie</span>
       <h2>Kateryna <em>Donajska</em></h2>
       <p>
-        Jestem fizjoterapeutką i masażystką. Od 7 lat pracuję z ludźmi, którzy chcą albo pozbyć się bólu, albo po prostu odpocząć od świata. Jedno nie wyklucza drugiego.
+        Nazywam się Kateryna Donajska. Jestem technikiem masażystą i od trzech lat prowadzę własną działalność — głównie mobilnie, z dojazdem do klienta we Wrocławiu, Jelcz-Laskowicach i okolicach.
       </p>
       <p>
-        Zaczynałam od masażu klasycznego, dziś łączę terapię manualną, pracę z tkanką głęboką, bańki, IASTM i kinesiotaping. Regularnie jeżdżę na szkolenia — anatomia palpacyjna, terapia czaszkowo-krzyżowa, metoda McKenziego. Pracuję też na eventach biegowych jako fizjoterapeutka punktu regeneracji.
+        Łączę masaż klasyczny, sportowy i leczniczy z terapią manualną, bańkami, IASTM i kinesiotapingiem. Obsługuję też punkty regeneracji na zawodach biegowych oraz prowadzę szkolenia dla masażystów w Centrum Edukacji Biznesu. Wykształcenie technika usług kosmetycznych i technika sterylizacji medycznej przekłada się na wysokie standardy higieny.
       </p>
       <div class="credentials">
         <div class="credential">
-          <strong>Dyplom</strong>
-          <span>Fizjoterapia, mgr</span>
+          <strong>Zawód</strong>
+          <span>Technik masażysta</span>
         </div>
         <div class="credential">
-          <strong>Certyfikaty</strong>
-          <span>Terapia manualna, IASTM, Kinesiotaping FMT</span>
+          <strong>Wykształcenie</strong>
+          <span>Technik usług kosmetycznych · sterylizacja medyczna</span>
         </div>
         <div class="credential">
           <strong>Doświadczenie</strong>
-          <span>7 lat praktyki, 2000+ klientów</span>
+          <span>3 lata praktyki, mobilnie</span>
         </div>
         <div class="credential">
-          <strong>Specjalizacja</strong>
-          <span>Fizjoterapia sportowa, terapia bólu</span>
+          <strong>Szkolenia</strong>
+          <span>Kurs „Masaż z dojazdem" · CEB Wrocław</span>
         </div>
       </div>
     </div>
@@ -1301,7 +1287,7 @@
 <!-- TESTIMONIALS -->
 <section class="testimonials" id="opinie">
   <div class="testimonials-header">
-    <span class="section-eyebrow">08 · Opinie klientów</span>
+    <span class="section-eyebrow">Opinie klientów</span>
     <h2>Co mówią <em class="italic-accent">ci, którzy wrócili</em></h2>
   </div>
   <div class="testimonial-grid">
@@ -1350,7 +1336,7 @@
 <!-- FAQ -->
 <section class="faq" id="faq">
   <div class="faq-header">
-    <span class="section-eyebrow">09 · FAQ</span>
+    <span class="section-eyebrow">FAQ</span>
     <h2>Najczęściej <em class="italic-accent">zadawane pytania</em></h2>
   </div>
   <div class="faq-list">
