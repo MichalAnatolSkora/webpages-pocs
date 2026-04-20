@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Michał Skóra — StableTech</title>
+    <meta name="description" content="Solo senior developer. 14+ years, banking background. Payment integrations, smart cameras, 3D terrain, AI. Based in Poland.">
+    <meta name="theme-color" content="#171613">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='16' fill='%23171613'/><text x='16' y='23' font-family='Georgia,serif' font-style='italic' font-weight='700' font-size='20' text-anchor='middle' fill='%23E8D9C2'>M</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,600;1,9..144,700;1,9..144,900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <div class="container nav-inner">
+            <a href="#" class="nav-logo" id="logo-link">
+                <span class="logo-mono">M/S</span>
+                <span class="logo-name">Michał Skóra</span>
+            </a>
+            <div class="nav-right">
+                <button class="lang-switch" id="lang-toggle" aria-label="Switch language"><span class="lang-opt" data-lang="en">EN</span><span class="lang-sep">·</span><span class="lang-opt" data-lang="pl">PL</span></button>
+                <a href="#work" class="nav-link" data-pl="Praca" data-en="Work">Work</a>
+                <a href="#contact" class="nav-link nav-cta" data-pl="Kontakt" data-en="Contact">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-photo" aria-hidden="true">
+            <img src="photo.jpg" alt="">
+            <div class="hero-photo-grade"></div>
+        </div>
+        <div class="hero-inner">
+            <div class="hero-badge anim-load">
+                <span class="badge-dot"></span>
+                <span data-pl="Solo studio · od 2012" data-en="Solo studio · since 2012">Solo studio · since 2012</span>
+            </div>
+            <h1 class="hero-title anim-load">
+                <span class="hero-word" data-pl="Michał" data-en="Michał">Michał</span>
+                <span class="hero-word hero-word-italic" data-pl="Skóra" data-en="Skóra">Skóra</span>
+            </h1>
+            <p class="hero-kicker anim-load" data-pl="Solo developer. 14+ lat. Z bankowości do małych firm — wdrażam systemy IT, które nie umierają w produkcji." data-en="Solo developer. 14+ years. From banking to small business — I build IT systems that don't die in production.">Solo developer. 14+ years. From banking to small business — I build IT systems that don't die in production.</p>
+            <div class="hero-actions anim-load">
+                <a href="#contact" class="btn btn-primary" data-pl="Porozmawiajmy" data-en="Let's talk">Let's talk</a>
+                <a href="#work" class="btn btn-ghost" data-pl="Zobacz pracę" data-en="See the work">See the work</a>
+            </div>
+        </div>
+        <div class="hero-meta">
+            <span class="hero-meta-l" data-pl="StableTech · Wrocław, PL" data-en="StableTech · Wrocław, PL">StableTech · Wrocław, PL</span>
+            <span class="hero-meta-r"><a href="tel:+48505533851">+48 505 533 851</a></span>
+        </div>
+    </header>
+
+    <main>
+        <section class="intro">
+            <div class="container">
+                <div class="intro-grid">
+                    <div class="intro-label">
+                        <span class="lbl" data-pl="Kim jestem" data-en="About">About</span>
+                        <span class="year">— 01</span>
+                    </div>
+                    <div class="intro-body">
+                        <p class="intro-lead" data-pl="Przez lata pracowałem w dużych projektach bankowych — na systemach, w których błąd kosztuje. Teraz pod marką StableTech robię to samo dla mniejszych firm: szybko, 1 na 1, bez korporacyjnego procesu." data-en="I spent years on large banking projects — the kind of systems where a bug costs money. Now under StableTech I bring that same discipline to smaller companies — fast, 1-on-1, no corporate process.">I spent years on large banking projects — the kind of systems where a bug costs money. Now under StableTech I bring that same discipline to smaller companies — fast, 1-on-1, no corporate process.</p>
+                        <p class="intro-secondary" data-pl="Interesuje mnie bezpieczeństwo AI — szczególnie prompt injection i stabilność wdrożeń produkcyjnych." data-en="Currently deep into AI security — prompt injection and keeping production deployments stable.">Currently deep into AI security — prompt injection and keeping production deployments stable.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="work" id="work">
+            <div class="container">
+                <div class="sec-head">
+                    <div class="sec-head-left">
+                        <span class="lbl" data-pl="Usługi" data-en="Services">Services</span>
+                        <span class="year">— 02</span>
+                    </div>
+                    <h2 class="sec-title"><span data-pl="Sześć obszarów," data-en="Six areas,">Six areas,</span> <em data-pl="jeden developer." data-en="one developer.">one developer.</em></h2>
+                </div>
+
+                <div class="work-grid">
+                    <a href="https://github.com/MichalAnatolSkora/payments-library" target="_blank" rel="noopener" class="work-item">
+                        <div class="work-num">01</div>
+                        <h3 data-pl="Integracje płatności" data-en="Payment integrations">Payment integrations</h3>
+                        <p data-pl="Stripe, PayU, Przelewy24. Biblioteka open-source." data-en="Stripe, PayU, Przelewy24. Open-source library.">Stripe, PayU, Przelewy24. Open-source library.</p>
+                        <span class="work-link">Open Source →</span>
+                    </a>
+                    <a href="https://github.com/MichalAnatolSkora/yolo-on-rpi5-hailo10h" target="_blank" rel="noopener" class="work-item">
+                        <div class="work-num">02</div>
+                        <h3 data-pl="Smart kamery" data-en="Smart cameras">Smart cameras</h3>
+                        <p data-pl="Detekcja obiektów na Raspberry Pi 5 + Hailo 10H. Real-time." data-en="Object detection on Raspberry Pi 5 + Hailo 10H. Real-time.">Object detection on Raspberry Pi 5 + Hailo 10H. Real-time.</p>
+                        <span class="work-link">Open Source →</span>
+                    </a>
+                    <a href="https://halastulecia.s3.eu-central-1.amazonaws.com/index.html" target="_blank" rel="noopener" class="work-item">
+                        <div class="work-num">03</div>
+                        <h3 data-pl="Model 3D terenu z drona" data-en="3D terrain from drone">3D terrain from drone</h3>
+                        <p data-pl="Zdjęcia z drona → interaktywny model 3D w przeglądarce." data-en="Drone photos → interactive 3D browser model.">Drone photos → interactive 3D browser model.</p>
+                        <span class="work-link">Live Demo →</span>
+                    </a>
+                    <div class="work-item work-soon">
+                        <div class="work-num">04</div>
+                        <h3 data-pl="OCR dokumentów" data-en="Document OCR">Document OCR</h3>
+                        <p data-pl="Pipeline do ekstrakcji danych z dokumentów." data-en="Pipeline for extracting data from documents.">Pipeline for extracting data from documents.</p>
+                        <span class="work-link work-link-muted" data-pl="Wkrótce" data-en="Coming soon">Coming soon</span>
+                    </div>
+                    <div class="work-item work-soon">
+                        <div class="work-num">05</div>
+                        <h3 data-pl="Integracja LLM" data-en="LLM integration">LLM integration</h3>
+                        <p data-pl="Ollama, Qwen — modele lokalnie lub w chmurze." data-en="Ollama, Qwen — local or cloud deployment.">Ollama, Qwen — local or cloud deployment.</p>
+                        <span class="work-link work-link-muted" data-pl="Wkrótce" data-en="Coming soon">Coming soon</span>
+                    </div>
+                    <div class="work-item work-soon">
+                        <div class="work-num">06</div>
+                        <h3>AI voice agent</h3>
+                        <p data-pl="Głosowy asystent AI dopasowany do biznesu." data-en="AI voice assistant tailored to the business.">AI voice assistant tailored to the business.</p>
+                        <span class="work-link work-link-muted" data-pl="Wkrótce" data-en="Coming soon">Coming soon</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="quote-sec">
+            <div class="container">
+                <figure class="pull-quote">
+                    <blockquote>
+                        <p data-pl="„Duże projekty bankowe nauczyły mnie jednego: system musi działać w poniedziałek rano, kiedy klient próbuje zapłacić. Reszta to rozmowa.”" data-en="“Large banking projects taught me one thing: the system has to work on Monday morning when the client tries to pay. Everything else is just talk.”">&ldquo;Large banking projects taught me one thing: the system has to work on Monday morning when the client tries to pay. Everything else is just talk.&rdquo;</p>
+                    </blockquote>
+                    <figcaption>
+                        <span class="quote-name">Michał Skóra</span>
+                        <span class="quote-role" data-pl="Założyciel, StableTech" data-en="Founder, StableTech">Founder, StableTech</span>
+                    </figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section class="process">
+            <div class="container">
+                <div class="sec-head">
+                    <div class="sec-head-left">
+                        <span class="lbl" data-pl="Proces" data-en="Process">Process</span>
+                        <span class="year">— 03</span>
+                    </div>
+                    <h2 class="sec-title"><span data-pl="Od pomysłu" data-en="From idea">From idea</span> <em data-pl="do produkcji." data-en="to production.">to production.</em></h2>
+                </div>
+                <ol class="process-list">
+                    <li>
+                        <div class="pr-n">01</div>
+                        <div class="pr-body">
+                            <h4 data-pl="Telefon lub email" data-en="Call or email">Call or email</h4>
+                            <p data-pl="Opisz pomysł — odpowiadam w 24h." data-en="Describe the idea — I reply within 24h.">Describe the idea — I reply within 24h.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="pr-n">02</div>
+                        <div class="pr-body">
+                            <h4 data-pl="Zakres i wycena" data-en="Scope & estimate">Scope & estimate</h4>
+                            <p data-pl="Poznaję problem. Wycena w 48h." data-en="I learn your problem. Estimate in 48h.">I learn your problem. Estimate in 48h.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="pr-n">03</div>
+                        <div class="pr-body">
+                            <h4>Proof of concept</h4>
+                            <p data-pl="Działający prototyp zanim podpiszemy większy scope." data-en="Working prototype before we sign a bigger scope.">Working prototype before we sign a bigger scope.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="pr-n">04</div>
+                        <div class="pr-body">
+                            <h4 data-pl="Realizacja" data-en="Build & deploy">Build & deploy</h4>
+                            <p data-pl="Kod, testy, produkcja." data-en="Code, tests, production.">Code, tests, production.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="pr-n">05</div>
+                        <div class="pr-body">
+                            <h4 data-pl="Iteracja" data-en="Iterate">Iterate</h4>
+                            <p data-pl="Feedback, poprawki, kolejne wersje." data-en="Feedback, fixes, next versions.">Feedback, fixes, next versions.</p>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="contact" id="contact">
+            <div class="container contact-grid">
+                <div class="contact-left">
+                    <div class="sec-head-left">
+                        <span class="lbl lbl-light" data-pl="Kontakt" data-en="Contact">Contact</span>
+                        <span class="year year-light">— 04</span>
+                    </div>
+                    <h2 class="contact-title"><span data-pl="Masz projekt?" data-en="Got a project?">Got a project?</span><br><em data-pl="Napisz." data-en="Write to me.">Write to me.</em></h2>
+                    <p class="contact-sub" data-pl="Odpowiadam w ciągu 24h. Bez pośredników." data-en="I reply within 24h. Direct, no middlemen.">I reply within 24h. Direct, no middlemen.</p>
+                </div>
+                <div class="contact-right">
+                    <a href="tel:+48505533851" class="contact-big">+48 505 533 851</a>
+                    <a href="mailto:michal.anatol.skora@gmail.com" class="contact-big contact-big-sub">michal.anatol.skora@gmail.com</a>
+                    <div class="contact-socials">
+                        <a href="https://github.com/MichalAnatolSkora" target="_blank" rel="noopener">GitHub</a>
+                        <span class="dot">·</span>
+                        <a href="https://www.instagram.com/stabletech4b/" target="_blank" rel="noopener">Instagram</a>
+                    </div>
+                    <div class="contact-legal">
+                        <p>StableTech Michał Skóra</p>
+                        <p>NIP 8961645191 · REGON 540063442</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-inner">
+            <span>© 2026 Michał Skóra / StableTech</span>
+            <span class="footer-loc" data-pl="Zbudowano w PL" data-en="Made in PL">Made in PL</span>
+        </div>
+    </footer>
+
+    <script>
+        const start = 2012;
+        const years = new Date().getFullYear() - start;
+
+        let lang = localStorage.getItem('lang') || 'en';
+        const toggle = document.getElementById('lang-toggle');
+
+        function setLang(l) {
+            lang = l;
+            localStorage.setItem('lang', l);
+            document.documentElement.lang = l;
+            toggle.querySelectorAll('.lang-opt').forEach(opt => {
+                opt.classList.toggle('active', opt.dataset.lang === l);
+            });
+            document.querySelectorAll('[data-pl][data-en]').forEach(el => {
+                el.textContent = el.getAttribute('data-' + l);
+            });
+        }
+        toggle.addEventListener('click', () => setLang(lang === 'en' ? 'pl' : 'en'));
+        setLang(lang);
+
+        document.getElementById('logo-link').addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        const navEl = document.querySelector('nav');
+        const updateNav = () => navEl.classList.toggle('scrolled', window.scrollY > 40);
+        updateNav();
+        window.addEventListener('scroll', updateNav, { passive: true });
+
+        // Stagger hero load
+        window.addEventListener('load', () => {
+            document.querySelectorAll('.anim-load').forEach((el, i) => {
+                setTimeout(() => el.classList.add('revealed'), i * 140);
+            });
+        });
+    </script>
+</body>
+</html>

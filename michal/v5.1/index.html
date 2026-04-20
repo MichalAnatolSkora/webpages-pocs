@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>stabletech — michał skóra</title>
+    <meta name="description" content="Solo senior developer, 14+ years, banking background. Payment integrations, smart cameras, 3D terrain, AI. Based in Poland.">
+    <meta name="theme-color" content="#FAFAF7">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1A1A'/><text x='16' y='22' font-family='ui-monospace,monospace' font-weight='700' font-size='18' text-anchor='middle' fill='%2300B86B'>&gt;_</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <div class="container nav-inner">
+            <a href="#" class="nav-logo" id="logo-link">
+                <span class="logo-mark">&gt;_</span>
+                <span class="logo-text">stabletech<span class="logo-cursor">▊</span></span>
+            </a>
+            <div class="nav-right">
+                <button class="lang-switch" id="lang-toggle" aria-label="Switch language"><span class="lang-opt" data-lang="en">en</span><span class="lang-sep">/</span><span class="lang-opt" data-lang="pl">pl</span></button>
+                <a href="https://www.instagram.com/stabletech4b/" target="_blank" rel="noopener" class="nav-link">instagram</a>
+                <a href="https://github.com/MichalAnatolSkora" target="_blank" rel="noopener" class="nav-link">github</a>
+                <a href="tel:+48505533851" class="nav-link nav-link-accent">+48 505 533 851</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container doc">
+
+            <section class="doc-section doc-head">
+                <div class="prompt"><span class="prompt-user">michal@stabletech</span>:<span class="prompt-path">~</span>$ cat README.md</div>
+                <h1 class="doc-h1"># stabletech</h1>
+                <p class="doc-tagline" data-pl="> Solo senior developer. 14+ lat. Background z bankowości. Buduję systemy IT dla firm w Polsce." data-en="> Solo senior developer. 14+ years. Banking background. I build IT systems for companies in Poland.">&gt; Solo senior developer. 14+ years. Banking background. I build IT systems for companies in Poland.</p>
+                <div class="doc-meta">
+                    <span class="tag tag-green">active</span>
+                    <span class="tag">solo</span>
+                    <span class="tag">PL</span>
+                    <span class="tag">est. 2012</span>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 class="doc-h2">## what I build</h2>
+                <div class="services">
+                    <a href="https://github.com/MichalAnatolSkora/payments-library" target="_blank" rel="noopener" class="service">
+                        <div class="service-head">
+                            <span class="service-id">[01]</span>
+                            <span class="service-status status-active">● shipped</span>
+                        </div>
+                        <h3 data-pl="payment integrations" data-en="payment integrations">payment integrations</h3>
+                        <p data-pl="Stripe, PayU, Przelewy24. Biblioteka open-source." data-en="Stripe, PayU, Przelewy24. Open-source library.">Stripe, PayU, Przelewy24. Open-source library.</p>
+                        <div class="service-foot">
+                            <span class="kv"><span class="k">repo</span> <span class="v">payments-library</span></span>
+                            <span class="kv"><span class="k">lang</span> <span class="v">C#, .NET</span></span>
+                        </div>
+                    </a>
+                    <a href="https://github.com/MichalAnatolSkora/yolo-on-rpi5-hailo10h" target="_blank" rel="noopener" class="service">
+                        <div class="service-head">
+                            <span class="service-id">[02]</span>
+                            <span class="service-status status-active">● shipped</span>
+                        </div>
+                        <h3 data-pl="smart cameras" data-en="smart cameras">smart cameras</h3>
+                        <p data-pl="YOLO na Raspberry Pi 5 + Hailo 10H. Real-time detekcja." data-en="YOLO on Raspberry Pi 5 + Hailo 10H. Real-time detection.">YOLO on Raspberry Pi 5 + Hailo 10H. Real-time detection.</p>
+                        <div class="service-foot">
+                            <span class="kv"><span class="k">repo</span> <span class="v">yolo-on-rpi5-hailo10h</span></span>
+                            <span class="kv"><span class="k">lang</span> <span class="v">Python</span></span>
+                        </div>
+                    </a>
+                    <a href="https://halastulecia.s3.eu-central-1.amazonaws.com/index.html" target="_blank" rel="noopener" class="service">
+                        <div class="service-head">
+                            <span class="service-id">[03]</span>
+                            <span class="service-status status-active">● live</span>
+                        </div>
+                        <h3 data-pl="3D terrain z drona" data-en="3D terrain from drone">3D terrain from drone</h3>
+                        <p data-pl="Zdjęcia z drona → interaktywny model 3D w przeglądarce. Live demo." data-en="Drone photos → interactive 3D browser model. Live demo.">Drone photos → interactive 3D browser model. Live demo.</p>
+                        <div class="service-foot">
+                            <span class="kv"><span class="k">stack</span> <span class="v">Three.js, S3</span></span>
+                            <span class="kv"><span class="k">cost</span> <span class="v">~$0.04/mo</span></span>
+                        </div>
+                    </a>
+                    <div class="service service-soon">
+                        <div class="service-head">
+                            <span class="service-id">[04]</span>
+                            <span class="service-status status-soon">○ planned</span>
+                        </div>
+                        <h3 data-pl="document OCR" data-en="document OCR">document OCR</h3>
+                        <p data-pl="Pipeline OCR do ekstrakcji danych z dokumentów." data-en="OCR pipeline for document data extraction.">OCR pipeline for document data extraction.</p>
+                    </div>
+                    <div class="service service-soon">
+                        <div class="service-head">
+                            <span class="service-id">[05]</span>
+                            <span class="service-status status-soon">○ planned</span>
+                        </div>
+                        <h3 data-pl="LLM integration" data-en="LLM integration">LLM integration</h3>
+                        <p data-pl="Ollama, Qwen — wdrożenie modeli lokalnie lub w chmurze." data-en="Ollama, Qwen — local or cloud model deployment.">Ollama, Qwen — local or cloud model deployment.</p>
+                    </div>
+                    <div class="service service-soon">
+                        <div class="service-head">
+                            <span class="service-id">[06]</span>
+                            <span class="service-status status-soon">○ planned</span>
+                        </div>
+                        <h3 data-pl="AI voice agent" data-en="AI voice agent">AI voice agent</h3>
+                        <p data-pl="Głosowy asystent AI, dopasowany do biznesu." data-en="AI-powered voice assistant, tailored to business.">AI-powered voice assistant, tailored to business.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="doc-section">
+                <h2 class="doc-h2">## stack</h2>
+                <pre class="code-block"><code><span class="c-comment"># production</span>
+<span class="c-key">runtime</span>    = <span class="c-str">["C#", ".NET", "Python"]</span>
+<span class="c-key">infra</span>      = <span class="c-str">["Docker", "Kubernetes", "AWS"]</span>
+<span class="c-key">data</span>       = <span class="c-str">["PostgreSQL", "MSSQL"]</span>
+<span class="c-key">auth</span>       = <span class="c-str">["Keycloak", "Clerk"]</span>
+<span class="c-key">edge</span>       = <span class="c-str">["Raspberry Pi 5", "Hailo 10H"]</span>
+
+<span class="c-comment"># interested in</span>
+<span class="c-key">ai</span>         = <span class="c-str">["Ollama", "Qwen", "prompt-injection defense"]</span></code></pre>
+            </section>
+
+            <section class="doc-section">
+                <h2 class="doc-h2">## process</h2>
+                <ol class="steps">
+                    <li><span class="step-k">01</span><span class="step-v"><strong data-pl="email/phone" data-en="email/phone">email/phone</strong> — <span data-pl="opisz pomysł, odpowiem w 24h" data-en="describe the idea, I'll reply in 24h">describe the idea, I'll reply in 24h</span></span></li>
+                    <li><span class="step-k">02</span><span class="step-v"><strong data-pl="scope & quote" data-en="scope & quote">scope & quote</strong> — <span data-pl="wycena w 48h" data-en="estimate in 48h">estimate in 48h</span></span></li>
+                    <li><span class="step-k">03</span><span class="step-v"><strong>proof of concept</strong> — <span data-pl="działający prototyp, weryfikacja kierunku" data-en="working prototype, direction validated">working prototype, direction validated</span></span></li>
+                    <li><span class="step-k">04</span><span class="step-v"><strong data-pl="build & ship" data-en="build & ship">build & ship</strong> — <span data-pl="kod, testy, deploy produkcyjny" data-en="code, tests, production deploy">code, tests, production deploy</span></span></li>
+                    <li><span class="step-k">05</span><span class="step-v"><strong data-pl="iterate" data-en="iterate">iterate</strong> — <span data-pl="feedback, poprawki, kolejne wersje" data-en="feedback, fixes, next releases">feedback, fixes, next releases</span></span></li>
+                </ol>
+            </section>
+
+            <section class="doc-section">
+                <h2 class="doc-h2">## about</h2>
+                <div class="about-row">
+                    <img src="photo.jpg" alt="Michał Skóra" class="about-pic" loading="lazy">
+                    <div class="about-body">
+                        <p><strong>Michał Skóra</strong> — <span data-pl="solo dev od 2012. Lata w dużych projektach bankowych, teraz pod marką StableTech buduję systemy IT dla mniejszych firm." data-en="solo dev since 2012. Years in large banking projects, now under StableTech I build IT systems for smaller companies.">solo dev since 2012. Years in large banking projects, now under StableTech I build IT systems for smaller companies.</span></p>
+                        <p data-pl="Interesuje mnie bezpieczeństwo AI (np. prompt injection) i stabilność wdrożeń produkcyjnych." data-en="Interested in AI security (prompt injection) and production deployment stability.">Interested in AI security (prompt injection) and production deployment stability.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="doc-section" id="contact">
+                <h2 class="doc-h2">## contact</h2>
+                <div class="contact-list">
+                    <a href="tel:+48505533851" class="contact-row">
+                        <span class="cr-k">phone</span>
+                        <span class="cr-v">+48 505 533 851</span>
+                    </a>
+                    <a href="mailto:michal.anatol.skora@gmail.com" class="contact-row">
+                        <span class="cr-k">email</span>
+                        <span class="cr-v">michal.anatol.skora@gmail.com</span>
+                    </a>
+                    <a href="https://github.com/MichalAnatolSkora" target="_blank" rel="noopener" class="contact-row">
+                        <span class="cr-k">github</span>
+                        <span class="cr-v">github.com/MichalAnatolSkora</span>
+                    </a>
+                    <a href="https://www.instagram.com/stabletech4b/" target="_blank" rel="noopener" class="contact-row">
+                        <span class="cr-k">instagram</span>
+                        <span class="cr-v">@stabletech4b</span>
+                    </a>
+                </div>
+                <pre class="code-block code-block-small"><code><span class="c-comment"># legal</span>
+<span class="c-key">legal_name</span>  = <span class="c-str">"StableTech Michał Skóra"</span>
+<span class="c-key">nip</span>         = <span class="c-str">"8961645191"</span>
+<span class="c-key">regon</span>       = <span class="c-str">"540063442"</span>
+<span class="c-key">country</span>     = <span class="c-str">"PL"</span></code></pre>
+            </section>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="container footer-inner">
+            <span>$ echo "© 2026 stabletech"</span>
+            <span class="footer-status">● online · 24h reply SLA</span>
+        </div>
+    </footer>
+
+    <script>
+        const start = 2012;
+        const years = new Date().getFullYear() - start;
+
+        let lang = localStorage.getItem('lang') || 'en';
+        const toggle = document.getElementById('lang-toggle');
+
+        function setLang(l) {
+            lang = l;
+            localStorage.setItem('lang', l);
+            document.documentElement.lang = l;
+            toggle.querySelectorAll('.lang-opt').forEach(opt => {
+                opt.classList.toggle('active', opt.dataset.lang === l);
+            });
+            document.querySelectorAll('[data-pl][data-en]').forEach(el => {
+                el.textContent = el.getAttribute('data-' + l);
+            });
+        }
+        toggle.addEventListener('click', () => setLang(lang === 'en' ? 'pl' : 'en'));
+        setLang(lang);
+
+        document.getElementById('logo-link').addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        const navEl = document.querySelector('nav');
+        const updateNav = () => navEl.classList.toggle('scrolled', window.scrollY > 20);
+        updateNav();
+        window.addEventListener('scroll', updateNav, { passive: true });
+    </script>
+</body>
+</html>
