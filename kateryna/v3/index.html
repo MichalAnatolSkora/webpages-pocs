@@ -879,9 +879,109 @@
     .marquee-track { animation-duration: 120s; }
     .split-item video, .reel:hover { transition: none; }
   }
+
+  /* ---------- LOADER ---------- */
+  .loader {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: var(--ink-deep);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+    transition: opacity 0.7s ease, visibility 0.7s;
+  }
+  .loader::before, .loader::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0;
+    height: 28px;
+    background: #000;
+    z-index: 1;
+    transition: height 0.9s cubic-bezier(.75,.02,.26,.97);
+  }
+  .loader::before { top: 0; }
+  .loader::after { bottom: 0; }
+  .loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .loader.hidden::before, .loader.hidden::after {
+    height: 50vh;
+  }
+  .loader-inner {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+  .loader-mark {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: rgba(250, 247, 242, 0.55);
+    margin-bottom: 22px;
+    display: inline-flex; align-items: center; gap: 10px;
+  }
+  .loader-mark .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #E74C3C;
+    animation: blink 1.4s ease-in-out infinite;
+  }
+  .loader-logo {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    color: var(--cream);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .loader-logo em {
+    font-style: italic;
+    color: var(--beige);
+  }
+  .loader-bar {
+    width: 220px;
+    height: 2px;
+    background: rgba(250, 247, 242, 0.12);
+    overflow: hidden;
+    margin: 34px auto 18px;
+    position: relative;
+  }
+  .loader-bar span {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 45%;
+    background: var(--beige);
+    animation: loader-slide 1.4s cubic-bezier(.7,.02,.26,1) infinite;
+  }
+  @keyframes loader-slide {
+    0%   { transform: translateX(-110%); }
+    55%  { transform: translateX(135%); }
+    100% { transform: translateX(135%); }
+  }
+  .loader-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(250, 247, 242, 0.5);
+  }
+  .loader-label .tc { color: var(--beige); }
 </style>
 </head>
 <body>
+
+<!-- LOADER -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-inner">
+    <div class="loader-mark mono"><span class="dot"></span> REC · PRZYGOTOWANIE UJĘCIA</div>
+    <div class="loader-logo">Kateryna <em>Donajska</em></div>
+    <div class="loader-bar"><span></span></div>
+    <div class="loader-label mono">Ładowanie · <span class="tc" id="loaderTc">00:00</span></div>
+  </div>
+</div>
 
 <nav id="mainNav">
   <div class="nav-inner">
@@ -1457,6 +1557,46 @@
 </a>
 
 <script>
+  // Loader: running timecode + fade out on ready.
+  (function() {
+    const loader = document.getElementById('loader');
+    const tc = document.getElementById('loaderTc');
+    const hero = document.getElementById('heroVideo');
+    const start = Date.now();
+    let hidden = false;
+
+    const tcInterval = setInterval(() => {
+      const ms = Date.now() - start;
+      const s = Math.floor(ms / 1000);
+      const cs = Math.floor((ms % 1000) / 10);
+      tc.textContent =
+        String(s).padStart(2, '0') + ':' +
+        String(cs).padStart(2, '0');
+    }, 50);
+
+    function hideLoader() {
+      if (hidden) return;
+      hidden = true;
+      clearInterval(tcInterval);
+      // Small delay to let last frame paint in and animation finish
+      setTimeout(() => loader.classList.add('hidden'), 220);
+      setTimeout(() => loader.remove(), 1400);
+    }
+
+    // Hide when hero video has enough to play
+    if (hero) {
+      if (hero.readyState >= 3) hideLoader();
+      else {
+        hero.addEventListener('canplay', hideLoader, { once: true });
+        hero.addEventListener('loadeddata', hideLoader, { once: true });
+      }
+    }
+    // Fallback: full window load
+    window.addEventListener('load', () => setTimeout(hideLoader, 150));
+    // Safety fallback: max 3s
+    setTimeout(hideLoader, 3000);
+  })();
+
   // Nav scroll state
   const nav = document.getElementById('mainNav');
   window.addEventListener('scroll', () => {

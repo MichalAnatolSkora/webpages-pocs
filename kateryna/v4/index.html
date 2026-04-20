@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kateryna Donajska — Sport Recovery | Masaż sportowy Wrocław</title>
+<meta name="description" content="Fizjoterapia sportowa i regeneracja po zawodach. Wrocław + dojazd. Punkt fizjo na evencie, masaż tkanek głębokich, kinesiotaping, taping sportowy.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --graphite: #0A0F1C;
+    --graphite-2: #111827;
+    --navy: #1E3A8A;
+    --blue: #3B82F6;
+    --lime: #A3E635;
+    --lime-bright: #BEF264;
+    --white: #FAFAFA;
+    --gray-400: #9CA3AF;
+    --gray-500: #6B7280;
+    --gray-700: #374151;
+    --gray-800: #1F2937;
+    --line: rgba(255, 255, 255, 0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--graphite);
+    color: var(--white);
+    line-height: 1.55;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--lime); color: var(--graphite); }
+
+  h1, h2, h3, h4 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.04;
+    text-transform: uppercase;
+  }
+  h1 { font-size: clamp(3rem, 8vw, 7rem); font-weight: 700; letter-spacing: -0.035em; }
+  h2 { font-size: clamp(2rem, 4.5vw, 3.5rem); }
+  h3 { font-size: clamp(1.15rem, 1.8vw, 1.4rem); letter-spacing: 0.02em; }
+
+  a { color: inherit; text-decoration: none; }
+
+  .mono { font-family: 'JetBrains Mono', monospace; letter-spacing: 0; }
+  .lime { color: var(--lime); }
+
+  .container { max-width: 1320px; margin: 0 auto; padding: 0 28px; }
+  .container-narrow { max-width: 920px; margin: 0 auto; padding: 0 28px; }
+
+  /* ---------- NAV ---------- */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    background: rgba(10, 15, 28, 0.7);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 28px; max-width: 1320px; margin: 0 auto;
+  }
+  .logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700; font-size: 0.95rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .logo-dot {
+    width: 8px; height: 8px;
+    background: var(--lime);
+    border-radius: 2px;
+    box-shadow: 0 0 12px var(--lime);
+  }
+  .logo em { color: var(--gray-400); font-style: normal; font-weight: 400; }
+  .nav-links { display: flex; gap: 32px; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 500; }
+  .nav-links a { color: var(--gray-400); transition: color 0.2s; }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta {
+    background: var(--lime); color: var(--graphite);
+    padding: 10px 20px; border-radius: 6px;
+    font-size: 0.78rem; font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: all 0.2s;
+  }
+  .nav-cta:hover { background: var(--lime-bright); transform: translateY(-1px); }
+  @media (max-width: 900px) { .nav-links { display: none; } }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    padding: 140px 0 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-tag-row {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 40px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: var(--gray-400);
+    text-transform: uppercase;
+  }
+  .hero-tag-row .dot {
+    width: 8px; height: 8px; background: var(--lime); border-radius: 50%;
+    animation: pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(163, 230, 53, 0.5); }
+    50% { opacity: 0.6; transform: scale(0.9); box-shadow: 0 0 0 8px rgba(163, 230, 53, 0); }
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .hero h1 { margin-bottom: 28px; }
+  .hero h1 .accent {
+    color: var(--lime);
+    text-shadow: 0 0 40px rgba(163, 230, 53, 0.3);
+  }
+  .hero h1 .stroke {
+    -webkit-text-stroke: 2px var(--white);
+    color: transparent;
+    font-style: italic;
+  }
+  .hero-lead {
+    font-size: 1.1rem;
+    color: var(--gray-400);
+    max-width: 520px;
+    margin-bottom: 44px;
+    line-height: 1.6;
+  }
+  .hero-cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 56px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 16px 24px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.82rem; font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .btn-primary { background: var(--lime); color: var(--graphite); }
+  .btn-primary:hover { background: var(--lime-bright); transform: translateY(-2px); box-shadow: 0 12px 30px rgba(163, 230, 53, 0.3); }
+  .btn-secondary { background: transparent; color: var(--white); border-color: var(--gray-700); }
+  .btn-secondary:hover { border-color: var(--white); }
+  .btn-arrow { transition: transform 0.2s; }
+  .btn:hover .btn-arrow { transform: translateX(4px); }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    padding-top: 40px;
+    border-top: 1px solid var(--line);
+  }
+  .hero-stat .num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2.6rem; font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    display: flex; align-items: baseline; gap: 4px;
+  }
+  .hero-stat .num .plus { color: var(--lime); font-size: 0.7em; }
+  .hero-stat .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-top: 8px;
+  }
+
+  .hero-visual {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--graphite-2);
+  }
+  .hero-visual img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    filter: contrast(1.05) saturate(0.95);
+  }
+  .hero-hud {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .hud-corner {
+    position: absolute;
+    width: 24px; height: 24px;
+    border-color: var(--lime);
+  }
+  .hud-corner.tl { top: 16px; left: 16px; border-top: 2px solid; border-left: 2px solid; }
+  .hud-corner.tr { top: 16px; right: 16px; border-top: 2px solid; border-right: 2px solid; }
+  .hud-corner.bl { bottom: 16px; left: 16px; border-bottom: 2px solid; border-left: 2px solid; }
+  .hud-corner.br { bottom: 16px; right: 16px; border-bottom: 2px solid; border-right: 2px solid; }
+  .hud-label {
+    position: absolute;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    color: var(--white);
+    text-transform: uppercase;
+  }
+  .hud-label.top { top: 20px; left: 50%; transform: translateX(-50%); color: var(--lime); }
+  .hud-label.bottom { bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(10, 15, 28, 0.6); padding: 6px 14px; border-radius: 3px; backdrop-filter: blur(8px); }
+
+  .hero-sticker {
+    position: absolute;
+    bottom: -24px; left: -24px;
+    background: var(--lime);
+    color: var(--graphite);
+    padding: 16px 18px;
+    border-radius: 4px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    line-height: 1.2;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    transform: rotate(-4deg);
+  }
+  .hero-sticker strong { display: block; font-size: 1.8rem; letter-spacing: -0.02em; margin-bottom: 2px; }
+
+  @media (max-width: 900px) {
+    .hero { padding: 100px 0 60px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+    .hero-stats { gap: 20px; }
+    .hero-stat .num { font-size: 2rem; }
+    .hero-sticker { left: 12px; bottom: -16px; padding: 12px 14px; }
+    .hero-sticker strong { font-size: 1.4rem; }
+  }
+
+  /* ---------- MARQUEE ---------- */
+  .marquee {
+    background: var(--lime);
+    color: var(--graphite);
+    padding: 18px 0;
+    overflow: hidden;
+    border-top: 1px solid rgba(0,0,0,0.2);
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+  }
+  .marquee-track {
+    display: flex;
+    white-space: nowrap;
+    animation: marquee 32s linear infinite;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .marquee-track span {
+    padding: 0 28px;
+    display: inline-flex; align-items: center; gap: 28px;
+  }
+  .marquee-track span::after {
+    content: '●';
+    font-size: 0.55em;
+    color: var(--graphite);
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ---------- PROTOCOLS ---------- */
+  .protocols { padding: 100px 0; background: var(--graphite); }
+  .section-header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 32px;
+    align-items: end;
+    margin-bottom: 64px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--line);
+  }
+  .section-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gray-500);
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 14px;
+  }
+  .section-eyebrow::before {
+    content: '';
+    width: 24px; height: 1px;
+    background: var(--lime);
+  }
+  .section-header h2 { max-width: 16ch; }
+  .section-header .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding-bottom: 6px;
+  }
+
+  .protocols-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .protocol {
+    background: var(--graphite);
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    transition: background 0.2s;
+    min-height: 340px;
+  }
+  .protocol:hover { background: var(--graphite-2); }
+  .protocol-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--lime);
+    letter-spacing: 0.1em;
+    margin-bottom: 18px;
+  }
+  .protocol h3 { margin-bottom: 12px; color: var(--white); }
+  .protocol p { color: var(--gray-400); font-size: 0.9rem; margin-bottom: 20px; flex: 1; }
+  .protocol-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between;
+  }
+  .protocol-meta .time { color: var(--lime); }
+  @media (max-width: 900px) { .protocols-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) { .protocols-grid { grid-template-columns: 1fr; } }
+
+  /* ---------- SERVICES ---------- */
+  .services { padding: 100px 0; background: var(--graphite-2); }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .service {
+    background: var(--graphite);
+    border: 1px solid var(--line);
+    padding: 32px 28px;
+    border-radius: 6px;
+    display: flex; flex-direction: column;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .service::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 2px;
+    background: var(--lime);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.3s;
+  }
+  .service:hover { border-color: var(--lime); }
+  .service:hover::before { transform: scaleX(1); }
+  .service-code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--gray-500);
+    letter-spacing: 0.1em;
+    margin-bottom: 18px;
+  }
+  .service h3 { font-size: 1.3rem; margin-bottom: 10px; }
+  .service-desc { color: var(--gray-400); font-size: 0.9rem; margin-bottom: 24px; flex: 1; }
+  .service-bottom {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding-top: 20px; border-top: 1px solid var(--line);
+  }
+  .service-price {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.8rem; font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .service-price small { font-size: 0.55em; color: var(--gray-500); margin-left: 4px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; }
+  .service-time { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--lime); }
+  @media (max-width: 900px) { .services-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) { .services-grid { grid-template-columns: 1fr; } }
+
+  /* ---------- EVENTS / FIELD ---------- */
+  .events { padding: 100px 0; background: var(--graphite); }
+  .events-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 2px;
+    grid-auto-rows: 260px;
+  }
+  .event-item {
+    position: relative;
+    overflow: hidden;
+    background: var(--graphite-2);
+  }
+  .event-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+    filter: contrast(1.05) saturate(0.92);
+  }
+  .event-item:hover img { transform: scale(1.05); }
+  .event-item.tall { grid-row: span 2; }
+  .event-item.wide { grid-column: span 2; }
+  .event-caption {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 18px 20px;
+    background: linear-gradient(180deg, transparent, rgba(10, 15, 28, 0.9));
+    color: var(--white);
+  }
+  .event-caption .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--lime);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .event-caption .title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.95rem; font-weight: 600;
+  }
+  @media (max-width: 900px) {
+    .events-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 220px; }
+    .event-item.tall { grid-row: span 1; }
+  }
+
+  /* ---------- TEAMS / MOBILE ---------- */
+  .teams {
+    padding: 100px 0;
+    background: linear-gradient(135deg, var(--graphite-2) 0%, var(--navy) 150%);
+    position: relative;
+    overflow: hidden;
+  }
+  .teams::before {
+    content: '';
+    position: absolute;
+    top: -50%; right: -20%;
+    width: 60%; height: 180%;
+    background: radial-gradient(ellipse, rgba(59, 130, 246, 0.2) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .teams-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 72px;
+    align-items: center;
+    position: relative;
+  }
+  .teams-content h2 { margin-bottom: 24px; }
+  .teams-content h2 .accent { color: var(--lime); }
+  .teams-content p { color: var(--gray-400); font-size: 1.05rem; margin-bottom: 16px; max-width: 520px; }
+  .teams-list { margin: 32px 0; list-style: none; }
+  .teams-list li {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.95rem;
+  }
+  .teams-list li::before {
+    content: '→';
+    color: var(--lime);
+    font-weight: bold;
+    flex-shrink: 0;
+  }
+  .teams-visual {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--graphite);
+  }
+  .teams-visual img { width: 100%; height: 100%; object-fit: cover; filter: contrast(1.05) saturate(0.9); }
+  .teams-visual-badge {
+    position: absolute;
+    top: 20px; right: 20px;
+    background: var(--lime); color: var(--graphite);
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .teams-visual-badge::before {
+    content: ''; width: 6px; height: 6px;
+    background: var(--graphite); border-radius: 50%;
+    animation: pulse 1.8s infinite;
+  }
+  @media (max-width: 900px) {
+    .teams-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about { padding: 100px 0; background: var(--graphite-2); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 72px;
+    align-items: center;
+  }
+  .about-visual {
+    aspect-ratio: 3 / 4;
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--graphite);
+  }
+  .about-visual img { width: 100%; height: 100%; object-fit: cover; object-position: center top; filter: contrast(1.05) saturate(0.9); }
+  .about-content h2 { margin-bottom: 28px; }
+  .about-content p { color: var(--gray-400); margin-bottom: 18px; font-size: 1.02rem; max-width: 520px; }
+  .creds {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-top: 40px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .cred {
+    background: var(--graphite);
+    padding: 22px 20px;
+  }
+  .cred-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--lime);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 8px;
+  }
+  .cred-value { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 1rem; }
+  @media (max-width: 900px) { .about-grid { grid-template-columns: 1fr; gap: 40px; } }
+
+  /* ---------- COURSE ---------- */
+  .course {
+    padding: 100px 0;
+    background: var(--graphite);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .course-box {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 48px;
+    align-items: center;
+    padding: 40px 48px;
+    border: 1px solid var(--lime);
+    border-radius: 6px;
+    background: linear-gradient(135deg, rgba(163, 230, 53, 0.05) 0%, transparent 60%);
+  }
+  .course-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--lime);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    padding: 6px 12px;
+    border: 1px solid var(--lime);
+    border-radius: 4px;
+  }
+  .course-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600; font-size: 1.35rem;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    margin-bottom: 6px;
+  }
+  .course-meta { color: var(--gray-400); font-size: 0.88rem; }
+  .course-meta .sep { color: var(--gray-700); margin: 0 10px; }
+  @media (max-width: 900px) {
+    .course-box { grid-template-columns: 1fr; gap: 20px; padding: 28px 24px; text-align: left; }
+  }
+
+  /* ---------- TESTIMONIALS ---------- */
+  .testimonials { padding: 100px 0; background: var(--graphite-2); }
+  .testimonial-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .t-card {
+    background: var(--graphite);
+    border: 1px solid var(--line);
+    padding: 30px 28px;
+    border-radius: 6px;
+  }
+  .t-rating {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--lime);
+    margin-bottom: 16px;
+    letter-spacing: 0.1em;
+  }
+  .t-quote {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.02rem; font-weight: 500;
+    line-height: 1.5;
+    color: var(--white);
+    margin-bottom: 22px;
+  }
+  .t-author {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 18px; border-top: 1px solid var(--line);
+  }
+  .t-author-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.92rem; font-weight: 600;
+  }
+  .t-author-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  @media (max-width: 900px) { .testimonial-grid { grid-template-columns: 1fr; } }
+
+  /* ---------- FAQ ---------- */
+  .faq { padding: 100px 0; background: var(--graphite); }
+  .faq-item {
+    border-bottom: 1px solid var(--line);
+  }
+  .faq-item summary {
+    padding: 26px 0;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.1rem; font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    list-style: none;
+    display: flex; justify-content: space-between; align-items: center;
+    transition: color 0.2s;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary:hover { color: var(--lime); }
+  .faq-item summary::after {
+    content: '+';
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.5rem;
+    color: var(--lime);
+    transition: transform 0.3s;
+  }
+  .faq-item[open] summary::after { transform: rotate(45deg); }
+  .faq-item p { padding: 0 0 26px; color: var(--gray-400); max-width: 640px; }
+
+  /* ---------- CTA FINAL ---------- */
+  .cta-final {
+    padding: 100px 0;
+    background: var(--lime);
+    color: var(--graphite);
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-final h2 {
+    color: var(--graphite);
+    font-size: clamp(2.5rem, 6vw, 5.5rem);
+    margin-bottom: 28px;
+  }
+  .cta-final h2 .stroke { -webkit-text-stroke: 2px var(--graphite); color: transparent; font-style: italic; }
+  .cta-final p { color: rgba(10, 15, 28, 0.75); max-width: 540px; margin: 0 auto 40px; font-size: 1.08rem; }
+  .cta-final-content { text-align: center; position: relative; }
+  .cta-final .btn-primary { background: var(--graphite); color: var(--lime); }
+  .cta-final .btn-primary:hover { background: #000; }
+  .cta-final .btn-secondary { border-color: var(--graphite); color: var(--graphite); }
+  .cta-final .btn-secondary:hover { background: var(--graphite); color: var(--lime); }
+
+  /* ---------- FOOTER ---------- */
+  footer { background: var(--graphite); color: var(--white); padding: 70px 0 30px; border-top: 1px solid var(--line); }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+  footer h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--lime);
+    margin-bottom: 18px;
+    font-weight: 500;
+  }
+  footer .logo { margin-bottom: 14px; font-size: 1.05rem; }
+  footer p { color: var(--gray-500); font-size: 0.88rem; }
+  footer ul { list-style: none; }
+  footer ul li { margin-bottom: 10px; font-size: 0.88rem; }
+  footer ul a { color: var(--gray-400); transition: color 0.2s; }
+  footer ul a:hover { color: var(--lime); }
+  .footer-bottom {
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between;
+    font-size: 0.78rem;
+    color: var(--gray-500);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.05em;
+  }
+  @media (max-width: 780px) {
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .footer-bottom { flex-direction: column; gap: 10px; }
+  }
+
+  /* ---------- WhatsApp float ---------- */
+  .whatsapp-float {
+    position: fixed; bottom: 24px; right: 24px;
+    width: 56px; height: 56px;
+    background: var(--lime); color: var(--graphite);
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 14px 30px rgba(163, 230, 53, 0.35);
+    z-index: 40;
+    transition: transform 0.2s;
+  }
+  .whatsapp-float:hover { transform: translateY(-2px); }
+  .whatsapp-float svg { width: 28px; height: 28px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <span class="logo-dot"></span>
+      Kateryna<em>/Recovery</em>
+    </a>
+    <div class="nav-links">
+      <a href="#protokoly">Protokoły</a>
+      <a href="#uslugi">Usługi</a>
+      <a href="#event">Event</a>
+      <a href="#kateryna">Kateryna</a>
+      <a href="#szkolenia">Szkolenia</a>
+    </div>
+    <a href="#rezerwacja" class="nav-cta">Umów · <span>→</span></a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-tag-row">
+      <span class="dot"></span>
+      <span>Sport Recovery / Wrocław</span>
+      <span>·</span>
+      <span>Sezon 2026 — zapisy otwarte</span>
+    </div>
+    <div class="hero-grid">
+      <div class="hero-text">
+        <h1>
+          Regeneracja<br>
+          <span class="stroke">to część</span><br>
+          <span class="accent">treningu.</span>
+        </h1>
+        <p class="hero-lead">
+          Masaż sportowy, taping, praca z powięzią, terapia narzędziowa. Pre-race, post-race, week-to-week. Gabinet we Wrocławiu i dojazd na Twój trening lub zawody.
+        </p>
+        <div class="hero-cta-row">
+          <a href="#rezerwacja" class="btn btn-primary">Zarezerwuj slot <span class="btn-arrow">→</span></a>
+          <a href="#protokoly" class="btn btn-secondary">Protokoły recovery</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="num">2000<span class="plus">+</span></div>
+            <div class="label">Zabiegów / 3 lata</div>
+          </div>
+          <div class="hero-stat">
+            <div class="num">20<span class="plus">+</span></div>
+            <div class="label">Eventów · punkty fizjo</div>
+          </div>
+          <div class="hero-stat">
+            <div class="num">4.9<span class="plus">★</span></div>
+            <div class="label">Booksy / Google</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <img src="../media/WhatsApp Image 2026-04-20 at 21.54.44.jpeg" alt="Kateryna podczas pracy na evencie biegowym">
+        <div class="hero-hud">
+          <span class="hud-corner tl"></span>
+          <span class="hud-corner tr"></span>
+          <span class="hud-corner bl"></span>
+          <span class="hud-corner br"></span>
+          <div class="hud-label top">● REC · FIELD 01</div>
+          <div class="hud-label bottom">POST-RACE · 12:40</div>
+        </div>
+        <div class="hero-sticker">
+          <strong>−42%</strong>
+          DOMS po 48h
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Pre-race prep</span>
+    <span>Post-race flush</span>
+    <span>Deep tissue</span>
+    <span>Kinesiotaping</span>
+    <span>Bańki · IASTM</span>
+    <span>Mobilny punkt fizjo</span>
+    <span>Team recovery</span>
+    <span>Pre-race prep</span>
+    <span>Post-race flush</span>
+    <span>Deep tissue</span>
+    <span>Kinesiotaping</span>
+    <span>Bańki · IASTM</span>
+    <span>Mobilny punkt fizjo</span>
+    <span>Team recovery</span>
+  </div>
+</div>
+
+<!-- PROTOCOLS -->
+<section class="protocols" id="protokoly">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-eyebrow">01 / Protokoły</div>
+        <h2>Recovery dopasowane do fazy sezonu</h2>
+      </div>
+      <div class="tag">4 fazy · 1 plan</div>
+    </div>
+    <div class="protocols-grid">
+      <div class="protocol">
+        <div class="protocol-num">PHASE_01</div>
+        <h3>Build-up</h3>
+        <p>Tkanki głębokie + mobilność. Tydzień ciężkich objętości — rozluźnienie pasma biodrowo-piszczelowego, łydek, dolnego grzbietu. Bez forsowania.</p>
+        <div class="protocol-meta">
+          <span>Masaż głębokich</span>
+          <span class="time">60 MIN</span>
+        </div>
+      </div>
+      <div class="protocol">
+        <div class="protocol-num">PHASE_02</div>
+        <h3>Taper week</h3>
+        <p>7 dni przed zawodami — delikatniejszy dotyk, układ nerwowy w dół, krążenie limfy, sen. Zero „mocnego" masażu.</p>
+        <div class="protocol-meta">
+          <span>Relaksacyjny + taping</span>
+          <span class="time">75 MIN</span>
+        </div>
+      </div>
+      <div class="protocol">
+        <div class="protocol-num">PHASE_03</div>
+        <h3>Race-day</h3>
+        <p>Na miejscu zawodów — rozgrzewka tkankowa pre-start, pomoc przy skurczach, taping stabilizujący. Post-meta: flush, rozluźnienie.</p>
+        <div class="protocol-meta">
+          <span>Punkt fizjo mobilny</span>
+          <span class="time">10–20 MIN</span>
+        </div>
+      </div>
+      <div class="protocol">
+        <div class="protocol-num">PHASE_04</div>
+        <h3>Recovery block</h3>
+        <p>48–72h po starcie — bańki, IASTM, praca z punktami spustowymi. DOMS out, mobilność back. Plan regeneracji na kolejny cykl.</p>
+        <div class="protocol-meta">
+          <span>Bańki + IASTM</span>
+          <span class="time">45 MIN</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="uslugi">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-eyebrow">02 / Usługi</div>
+        <h2>Konkretne zabiegi. Konkretne ceny.</h2>
+      </div>
+      <div class="tag">Gabinet + dojazd</div>
+    </div>
+    <div class="services-grid">
+      <div class="service">
+        <div class="service-code">SVC_01</div>
+        <h3>Masaż sportowy</h3>
+        <p class="service-desc">Technika pod kontuzję / pod start. Pracuję z biegaczami, triathlonistami, kolarzami. Dopasowanie intensywności do fazy treningu.</p>
+        <div class="service-bottom">
+          <span class="service-price">220<small>ZŁ</small></span>
+          <span class="service-time">60 MIN</span>
+        </div>
+      </div>
+      <div class="service">
+        <div class="service-code">SVC_02</div>
+        <h3>Deep tissue</h3>
+        <p class="service-desc">Masaż tkanek głębokich. Blokady, pasma, triggery. Bez kompromisu z presją — dobry na tygodnie budujące.</p>
+        <div class="service-bottom">
+          <span class="service-price">240<small>ZŁ</small></span>
+          <span class="service-time">60 MIN</span>
+        </div>
+      </div>
+      <div class="service">
+        <div class="service-code">SVC_03</div>
+        <h3>Taping sportowy</h3>
+        <p class="service-desc">Kinesiotape / taping funkcjonalny. Stabilizacja, odciążenie, wsparcie propriocepcji. Dodatek do masażu lub osobno przed startem.</p>
+        <div class="service-bottom">
+          <span class="service-price">80<small>ZŁ</small></span>
+          <span class="service-time">15 MIN</span>
+        </div>
+      </div>
+      <div class="service">
+        <div class="service-code">SVC_04</div>
+        <h3>Bańki + IASTM</h3>
+        <p class="service-desc">Terapia narzędziowa. Bańki próżniowe, gua sha, narzędzia stalowe. Powięź, blizny po urazie, przewlekłe napięcia.</p>
+        <div class="service-bottom">
+          <span class="service-price">200<small>ZŁ</small></span>
+          <span class="service-time">45 MIN</span>
+        </div>
+      </div>
+      <div class="service">
+        <div class="service-code">SVC_05</div>
+        <h3>Relaksacyjny</h3>
+        <p class="service-desc">Taper-week i off-season. Niższa intensywność, praca z układem nerwowym. Regeneracja umysłu = regeneracja ciała.</p>
+        <div class="service-bottom">
+          <span class="service-price">180<small>ZŁ</small></span>
+          <span class="service-time">60 MIN</span>
+        </div>
+      </div>
+      <div class="service">
+        <div class="service-code">SVC_06</div>
+        <h3>Terapia manualna</h3>
+        <p class="service-desc">Dla tych, u których „masaż już nie działa". Techniki czaszkowo-krzyżowe, praca z przeponą, powięzią głęboką.</p>
+        <div class="service-bottom">
+          <span class="service-price">260<small>ZŁ</small></span>
+          <span class="service-time">75 MIN</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EVENTS -->
+<section class="events" id="event">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-eyebrow">03 / Z pola</div>
+        <h2>Punkty fizjo na Twoich zawodach</h2>
+      </div>
+      <div class="tag">Sezon 2025 · 20+ eventów</div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="events-grid">
+      <div class="event-item tall">
+        <img src="../media/WhatsApp Image 2026-04-20 at 21.54.44.jpeg" alt="Zabieg na evencie biegowym">
+        <div class="event-caption">
+          <div class="tag">FIELD · BIEG · POST-RACE</div>
+          <div class="title">Punkt fizjo / strefa mety</div>
+        </div>
+      </div>
+      <div class="event-item">
+        <img src="../media/WhatsApp Image 2026-04-20 at 21.54.44 (1).jpeg" alt="Praca nad łydkami">
+        <div class="event-caption">
+          <div class="tag">TECHNIKA · ŁYDKI</div>
+          <div class="title">Flush po biegu</div>
+        </div>
+      </div>
+      <div class="event-item">
+        <img src="../media/WhatsApp Image 2026-04-20 at 21.54.45 (1).jpeg" alt="Bieżące zawody">
+        <div class="event-caption">
+          <div class="tag">STREFA · REGENERACJA</div>
+          <div class="title">Bazowa pomoc biegaczom</div>
+        </div>
+      </div>
+      <div class="event-item wide">
+        <img src="../media/WhatsApp Image 2026-04-20 at 21.54.44 (2).jpeg" alt="Masaż sportowy stopy">
+        <div class="event-caption">
+          <div class="tag">POST-RACE · 30 MIN OD METY</div>
+          <div class="title">Regeneracja tkanek miękkich</div>
+        </div>
+      </div>
+      <div class="event-item">
+        <img src="../media/WhatsApp Image 2026-04-20 at 21.54.45.jpeg" alt="Zawodnik na stole">
+        <div class="event-caption">
+          <div class="tag">PROTOKÓŁ · SKURCZ</div>
+          <div class="title">Interwencja na zawodach</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAMS -->
+<section class="teams">
+  <div class="container">
+    <div class="teams-grid">
+      <div class="teams-content">
+        <div class="section-eyebrow">04 / Team recovery</div>
+        <h2>Przyjedziemy na Twój <span class="accent">klub, obóz, zawody.</span></h2>
+        <p>Mobilny punkt fizjo dla klubów biegowych, triathlonowych, CrossFit. Rozbijamy stoły, pracujemy w bloku — od pre-start'u po post-race flush.</p>
+        <ul class="teams-list">
+          <li>Punkt regeneracji podczas biegów i zawodów (namiot + 2 stoły)</li>
+          <li>Pakiety na obóz: 3–7 dni × 10 zawodników</li>
+          <li>Profilaktyka przed sezonem — przegląd całej drużyny</li>
+          <li>Faktury na klub / sponsoring aktywności</li>
+        </ul>
+        <div class="hero-cta-row">
+          <a href="#rezerwacja" class="btn btn-primary">Zapytaj o ofertę <span class="btn-arrow">→</span></a>
+        </div>
+      </div>
+      <div class="teams-visual">
+        <img src="../media/WhatsApp Image 2026-04-20 at 21.54.48.jpeg" alt="Praca Kateryny na evencie">
+        <div class="teams-visual-badge">LIVE · FIELD UNIT</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="kateryna">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-visual">
+        <img src="../media/WhatsApp Image 2026-04-20 at 21.54.48 (6).jpeg" alt="Kateryna w gabinecie">
+      </div>
+      <div class="about-content">
+        <div class="section-eyebrow">05 / Kateryna</div>
+        <h2>Fizjo, która <span class="lime">biega, myśli i pracuje z ciężarówką sprzętu.</span></h2>
+        <p>Technik usług kosmetycznych, technik sterylizacji medycznej. 3 lata pracy w gabinecie + w terenie. Setki starterów, tysiące godzin na stołach.</p>
+        <p>Na co dzień pracuję z biegaczami, ale też z ludźmi po kontuzjach i z przewlekłym bólem. Prowadzę też szkolenia z masażu mobilnego — kurs „Masaż z dojazdem do klienta" w Centrum Edukacji Biznesu.</p>
+        <div class="creds">
+          <div class="cred">
+            <div class="cred-label">EDUKACJA</div>
+            <div class="cred-value">Technik usług kosmetycznych</div>
+          </div>
+          <div class="cred">
+            <div class="cred-label">CERT</div>
+            <div class="cred-value">Technik sterylizacji medycznej</div>
+          </div>
+          <div class="cred">
+            <div class="cred-label">SPECJALIZACJA</div>
+            <div class="cred-value">Masaż sportowy + terapia manualna</div>
+          </div>
+          <div class="cred">
+            <div class="cred-label">SZKOLENIA</div>
+            <div class="cred-value">IASTM, Kinesiotaping FMT, anatomia palpacyjna</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COURSE -->
+<section class="course" id="szkolenia">
+  <div class="container">
+    <div class="course-box">
+      <span class="course-tag">dla masażystów</span>
+      <div>
+        <div class="course-title">Kurs — Masaż z dojazdem do klienta</div>
+        <div class="course-meta">
+          Centrum Edukacji Biznesu · Wrocław
+          <span class="sep">·</span>
+          10h stacjonarnie
+          <span class="sep">·</span>
+          Ograniczona liczba miejsc
+        </div>
+      </div>
+      <a href="https://centrumedukacjibiznesu.pl/index.php/2026/04/09/masaz-z-dojazdem-do-klienta/" target="_blank" rel="noopener" class="btn btn-primary">Zobacz kurs <span class="btn-arrow">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-eyebrow">06 / Z pola</div>
+        <h2>Co mówią ci, którzy biegają dalej.</h2>
+      </div>
+      <div class="tag">Booksy + Google · 4.9 / 5</div>
+    </div>
+    <div class="testimonial-grid">
+      <div class="t-card">
+        <div class="t-rating">★★★★★</div>
+        <blockquote class="t-quote">„Po półmaratonie ledwo chodziłam. 45 min u Kateryny i następnego dnia byłam na rowerze. Konkret, zero spa-bułkowatości."</blockquote>
+        <div class="t-author">
+          <span class="t-author-name">Anna K.</span>
+          <span class="t-author-meta">BIEG · SUB 1:45</span>
+        </div>
+      </div>
+      <div class="t-card">
+        <div class="t-rating">★★★★★</div>
+        <blockquote class="t-quote">„Pracuje jak zegarek. Pre-race taping, post-race flush, plan na tydzień. Kilka PB w sezonie to nie przypadek."</blockquote>
+        <div class="t-author">
+          <span class="t-author-name">Marek P.</span>
+          <span class="t-author-meta">TRIATHLON</span>
+        </div>
+      </div>
+      <div class="t-card">
+        <div class="t-rating">★★★★★</div>
+        <blockquote class="t-quote">„Pojechała z nami na obóz. 10 zawodników, 5 dni, 60 masaży. Wszyscy po obozie w lepszym stanie niż przed."</blockquote>
+        <div class="t-author">
+          <span class="t-author-name">Klub Biegowy Wrocław</span>
+          <span class="t-author-meta">TEAM · OBÓZ</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="container-narrow">
+    <div class="section-header" style="grid-template-columns: 1fr; text-align: left;">
+      <div>
+        <div class="section-eyebrow">07 / FAQ</div>
+        <h2>Pytania przed pierwszym startem.</h2>
+      </div>
+    </div>
+    <details class="faq-item">
+      <summary>Kiedy umówić masaż przed zawodami?</summary>
+      <p>Najmocniejszy masaż (tkanek głębokich) → 5–7 dni przed zawodami, żeby tkanki zdążyły się ułożyć. W tygodniu startu — delikatny masaż relaksacyjny + taping. Dzień przed — tylko rozruszanie, nic „ciężkiego".</p>
+    </details>
+    <details class="faq-item">
+      <summary>Post-race — kiedy pierwszy masaż?</summary>
+      <p>Bezpośrednio po mecie — flush (10–20 min) na miejscu, jeśli jesteśmy w strefie regeneracji. Pełny masaż → 24–48h po starcie, kiedy stan zapalny opadnie.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Co z kontuzją w trakcie sezonu?</summary>
+      <p>Nie leczę „na siłę". Rozpoznajemy co to: napięciowe czy strukturalne. Przy strukturalnych odsyłam do ortopedy / fizjoterapeuty z uprawnieniami rehabilitacji. Masażem wspomagam proces, nie zastępuję diagnostyki.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Dojazd — na trening, zawody, klub?</summary>
+      <p>Tak. Wrocław + 15 km gratis, poza 2 zł/km. Na zawody i obozy — ofertujemy osobno (stół, rolka, sprzęt, praca w bloku). Team deals dla klubów.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Faktura, sponsoring klubu?</summary>
+      <p>Tak — faktury VAT dla firm i klubów sportowych. Możliwość długofalowej współpracy z drużyną / sekcją.</p>
+    </details>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-final" id="rezerwacja">
+  <div class="container-narrow">
+    <div class="cta-final-content">
+      <h2>Pierwszy <span class="stroke">slot</span> w tym tygodniu.</h2>
+      <p>BLIK, gotówka, przelew. Umów przez WhatsApp — średni czas odpowiedzi poniżej 30 minut.</p>
+      <div class="hero-cta-row" style="justify-content: center;">
+        <a href="https://wa.me/48123456789" class="btn btn-primary">WhatsApp · +48 123 456 789</a>
+        <a href="tel:+48123456789" class="btn btn-secondary">Zadzwoń</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="#" class="logo" style="margin-bottom: 14px;">
+          <span class="logo-dot"></span>
+          Kateryna<em>/Recovery</em>
+        </a>
+        <p>Masaż sportowy i recovery dla biegaczy, triathlonistów i sportowców — Wrocław, dojazd w okolicy.</p>
+      </div>
+      <div>
+        <h4>Kontakt</h4>
+        <ul>
+          <li><a href="tel:+48123456789">+48 123 456 789</a></li>
+          <li><a href="mailto:kontakt@kateryna-recovery.pl">kontakt@kateryna-recovery.pl</a></li>
+          <li><a href="https://wa.me/48123456789">WhatsApp</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Gabinet</h4>
+        <ul>
+          <li>ul. Świdnicka 12/4</li>
+          <li>50-068 Wrocław</li>
+          <li>Pn–Sb · 9:00–20:00</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Więcej</h4>
+        <ul>
+          <li><a href="../v1/">v1 · Warm Minimal</a></li>
+          <li><a href="../v2/">v2 · Cinematic</a></li>
+          <li><a href="https://www.instagram.com/masaz_wroclaw_pl/">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 KATERYNA DONAJSKA · SPORT RECOVERY · ALL RIGHTS RESERVED</span>
+      <span>V4 / SPORT</span>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/48123456789" class="whatsapp-float" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+</a>
+
+<script>
+  // Animated hero stat counters
+  const counters = document.querySelectorAll('.hero-stat .num');
+  const animate = (el) => {
+    const target = el.firstChild;
+    const finalText = target.textContent;
+    const finalNum = parseFloat(finalText);
+    if (isNaN(finalNum)) return;
+    let start = 0;
+    const duration = 1400;
+    const startTime = performance.now();
+    const tick = (now) => {
+      const p = Math.min((now - startTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      const val = finalNum * eased;
+      target.textContent = finalNum >= 10 ? Math.round(val) : val.toFixed(1);
+      if (p < 1) requestAnimationFrame(tick);
+      else target.textContent = finalText;
+    };
+    requestAnimationFrame(tick);
+  };
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { animate(e.target); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(c => io.observe(c));
+</script>
+
+</body>
+</html>
