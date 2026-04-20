@@ -1,0 +1,1723 @@
+<!--
+  Droga Nowoczesnego Mężczyzny — landing page (prototyp)
+  Alternatywne H1:
+  1. Mężczyźni potrzebują innych mężczyzn.
+  2. Wyjdź z cienia. Stań wśród swoich.
+  3. Droga, którą idzie się razem.
+-->
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Droga Nowoczesnego Mężczyzny — wspólnota dla mężczyzn</title>
+<meta name="description" content="Wspólnota mężczyzn, którzy wychodzą z cienia ekranu w las, na strzelnicę, do rozmowy. Wyprawy, trening, spotkania. Dla zwykłych, pracujących facetów." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          forest:  '#2A3A2E',
+          forestDk:'#1F2B22',
+          charcoal:'#1A1A1A',
+          paper:   '#F2EEE6',
+          paperDk: '#E6E0D2',
+          ember:   '#C8621A',
+          emberDk: '#A44F13',
+        },
+        fontFamily: {
+          serif: ['Fraunces', 'Georgia', 'serif'],
+          sans:  ['Inter', 'system-ui', 'sans-serif'],
+        },
+        letterSpacing: {
+          tightest: '-0.035em',
+        }
+      }
+    }
+  }
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background-color: #F2EEE6;
+    color: #1A1A1A;
+    -webkit-font-smoothing: antialiased;
+  }
+  .font-serif { font-family: 'Fraunces', Georgia, serif; }
+
+  /* Ziarnista tekstura — subtelny overlay */
+  .grain::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.08;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+  .grain-light::before {
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+  }
+
+  /* Hero — wektorowa noc, gradient + gwiazdy */
+  .hero-bg {
+    background:
+      radial-gradient(ellipse 60% 18% at 50% 96%, rgba(200,98,26,0.35) 0%, rgba(200,98,26,0) 100%),
+      radial-gradient(ellipse 40% 10% at 50% 100%, rgba(232,122,44,0.55) 0%, rgba(200,98,26,0) 100%),
+      linear-gradient(180deg, #0B1012 0%, #121A18 50%, #1A1A1A 100%);
+  }
+  /* Migotanie gwiazd */
+  @keyframes twinkle {
+    0%,100% { opacity: 0.9; }
+    50%     { opacity: 0.35; }
+  }
+  .twinkle { animation: twinkle 4s ease-in-out infinite; }
+  .twinkle-2 { animation: twinkle 6s ease-in-out infinite 1s; }
+  .twinkle-3 { animation: twinkle 5s ease-in-out infinite 2s; }
+
+  /* Ember glow — pulsowanie ognia */
+  @keyframes emberPulse {
+    0%,100% { opacity: 0.85; transform: scale(1); }
+    50%     { opacity: 1;    transform: scale(1.04); }
+  }
+  .ember-pulse { animation: emberPulse 2.6s ease-in-out infinite; transform-origin: center bottom; }
+
+  /* Topograficzny pattern — delikatne linie mapy, tło dekoracyjne */
+  .topo-dark {
+    background-image:
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='800' viewBox='0 0 800 800' fill='none'><g stroke='%23F2EEE6' stroke-width='0.8' opacity='0.08'><path d='M0,440 Q200,360 400,400 T800,380'/><path d='M0,480 Q200,410 400,450 T800,440'/><path d='M0,520 Q200,460 400,500 T800,500'/><path d='M0,560 Q200,510 400,550 T800,560'/><path d='M0,600 Q200,560 400,600 T800,620'/><path d='M0,640 Q200,610 400,650 T800,680'/><ellipse cx='300' cy='260' rx='180' ry='110'/><ellipse cx='300' cy='260' rx='130' ry='70'/><ellipse cx='300' cy='260' rx='80' ry='40'/><ellipse cx='620' cy='140' rx='120' ry='70'/><ellipse cx='620' cy='140' rx='70' ry='35'/></g></svg>");
+    background-size: 800px 800px;
+  }
+  .topo-light {
+    background-image:
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='800' viewBox='0 0 800 800' fill='none'><g stroke='%232A3A2E' stroke-width='0.8' opacity='0.08'><path d='M0,440 Q200,360 400,400 T800,380'/><path d='M0,480 Q200,410 400,450 T800,440'/><path d='M0,520 Q200,460 400,500 T800,500'/><path d='M0,560 Q200,510 400,550 T800,560'/><path d='M0,600 Q200,560 400,600 T800,620'/><path d='M0,640 Q200,610 400,650 T800,680'/><ellipse cx='300' cy='260' rx='180' ry='110'/><ellipse cx='300' cy='260' rx='130' ry='70'/><ellipse cx='300' cy='260' rx='80' ry='40'/><ellipse cx='620' cy='140' rx='120' ry='70'/><ellipse cx='620' cy='140' rx='70' ry='35'/></g></svg>");
+    background-size: 800px 800px;
+  }
+
+  /* Eyebrow line — cienkie kreski po bokach tekstu */
+  .eyebrow-line {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.85rem;
+  }
+  .eyebrow-line::before,
+  .eyebrow-line::after {
+    content: "";
+    width: 28px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.45;
+  }
+
+  /* Flame flicker (logo) */
+  @keyframes flicker {
+    0%,100% { opacity: 1; transform: scaleY(1); }
+    50%     { opacity: 0.92; transform: scaleY(1.04); }
+  }
+  .flame-svg { animation: flicker 2.4s ease-in-out infinite; transform-origin: center bottom; }
+
+  /* Ornament divider — dekoracyjna pozioma linia ze środkiem */
+  .ornament-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: inherit;
+  }
+  .ornament-divider::before,
+  .ornament-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.2;
+  }
+
+  /* Placeholder image helper — ciemne, ciepłe, bez "stock-photo uśmiechów" */
+  .img-ph {
+    background: linear-gradient(145deg,#2A3A2E 0%, #1F2B22 60%, #121912 100%);
+  }
+
+  /* Fade-in on scroll */
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 700ms ease-out, transform 700ms ease-out;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Sticky nav — tło po scrollu */
+  .nav-solid {
+    background-color: rgba(26,26,26,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(242,238,230,0.08);
+  }
+
+  /* Link underline */
+  .link-u {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 250ms ease;
+  }
+  .link-u:hover { background-size: 100% 1px; }
+
+  /* Form focus */
+  .field:focus {
+    outline: none;
+    border-color: #C8621A;
+    box-shadow: 0 0 0 3px rgba(200,98,26,0.2);
+  }
+
+  /* Selekcja */
+  ::selection { background: #C8621A; color: #F2EEE6; }
+</style>
+</head>
+
+<body class="antialiased">
+
+<!-- ============ NAV ============ -->
+<header id="nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 text-paper">
+  <div class="max-w-6xl mx-auto px-5 md:px-8 flex items-center justify-between h-16 md:h-20">
+    <a href="#top" class="flex items-center gap-3 font-serif text-lg md:text-xl tracking-tightest">
+      <span class="relative inline-flex items-center justify-center w-9 h-9 rounded-full border border-paper/60">
+        <svg class="flame-svg" width="16" height="20" viewBox="0 0 24 28" fill="none" aria-hidden="true">
+          <path d="M12 2 C 13 7, 18 9, 18 15 C 18 21, 14 26, 12 26 C 10 26, 6 21, 6 15 C 6 11, 9 10, 10 6 C 10.5 4, 11 3, 12 2 Z" fill="#C8621A"/>
+          <path d="M12 10 C 12.5 13, 15 14, 15 17 C 15 20, 13 23, 12 23 C 11 23, 9 20, 9 17 C 9 15, 10.5 14, 11 12 Z" fill="#F2EEE6" opacity="0.9"/>
+        </svg>
+      </span>
+      <span class="hidden sm:inline">Droga Nowoczesnego Mężczyzny</span>
+      <span class="sm:hidden">DNM</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-8 text-sm">
+      <a href="#manifest" class="link-u">Manifest</a>
+      <a href="#co-robimy" class="link-u">Co robimy</a>
+      <a href="#wydarzenia" class="link-u">Wydarzenia</a>
+      <a href="#bracia" class="link-u">Bracia</a>
+      <a href="#faq" class="link-u">FAQ</a>
+      <a href="#dolacz" class="inline-block px-4 py-2 bg-ember hover:bg-emberDk transition-colors rounded-sm text-paper">Dołącz</a>
+    </nav>
+    <button id="menuBtn" aria-label="Otwórz menu" class="md:hidden p-2 -mr-2">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+  <!-- Mobile menu -->
+  <div id="mobileMenu" class="md:hidden hidden bg-charcoal/95 backdrop-blur border-t border-paper/10">
+    <nav class="max-w-6xl mx-auto px-5 py-5 flex flex-col gap-4 text-base">
+      <a href="#manifest" class="py-1">Manifest</a>
+      <a href="#co-robimy" class="py-1">Co robimy</a>
+      <a href="#wydarzenia" class="py-1">Wydarzenia</a>
+      <a href="#bracia" class="py-1">Bracia</a>
+      <a href="#faq" class="py-1">FAQ</a>
+      <a href="#dolacz" class="inline-block mt-2 px-4 py-3 bg-ember hover:bg-emberDk rounded-sm text-center">Dołącz do wspólnoty</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section id="top" class="relative min-h-[100svh] hero-bg grain flex items-end overflow-hidden">
+  <!-- Gwiazdy -->
+  <svg class="absolute inset-0 w-full h-full z-0 pointer-events-none" aria-hidden="true" preserveAspectRatio="none" viewBox="0 0 1920 1080">
+    <g fill="#F2EEE6">
+      <circle class="twinkle"   cx="140"  cy="120" r="1.2"/>
+      <circle class="twinkle-2" cx="280"  cy="80"  r="0.8"/>
+      <circle class="twinkle-3" cx="410"  cy="200" r="1.4"/>
+      <circle class="twinkle"   cx="560"  cy="110" r="0.9"/>
+      <circle class="twinkle-2" cx="690"  cy="60"  r="1.1"/>
+      <circle class="twinkle-3" cx="820"  cy="180" r="0.7"/>
+      <circle class="twinkle"   cx="960"  cy="90"  r="1.3"/>
+      <circle class="twinkle-2" cx="1100" cy="140" r="0.9"/>
+      <circle class="twinkle-3" cx="1240" cy="70"  r="1.1"/>
+      <circle class="twinkle"   cx="1380" cy="150" r="0.8"/>
+      <circle class="twinkle-2" cx="1520" cy="110" r="1.2"/>
+      <circle class="twinkle-3" cx="1660" cy="80"  r="0.9"/>
+      <circle class="twinkle"   cx="1800" cy="180" r="1.0"/>
+      <circle class="twinkle-2" cx="200"  cy="280" r="0.7"/>
+      <circle class="twinkle-3" cx="500"  cy="320" r="0.8"/>
+      <circle class="twinkle"   cx="890"  cy="300" r="1.0"/>
+      <circle class="twinkle-2" cx="1300" cy="260" r="0.9"/>
+      <circle class="twinkle-3" cx="1700" cy="330" r="0.8"/>
+      <!-- Konstelacja (Wielki Wóz, subtelnie) -->
+      <g opacity="0.85">
+        <circle cx="620" cy="210" r="1.4"/>
+        <circle cx="680" cy="200" r="1.4"/>
+        <circle cx="740" cy="210" r="1.4"/>
+        <circle cx="800" cy="230" r="1.4"/>
+        <circle cx="770" cy="270" r="1.4"/>
+        <circle cx="720" cy="280" r="1.4"/>
+        <circle cx="680" cy="260" r="1.4"/>
+      </g>
+      <g stroke="#F2EEE6" stroke-width="0.4" opacity="0.35" fill="none">
+        <path d="M620,210 L680,200 L740,210 L800,230 L770,270 L720,280 L680,260 L740,210"/>
+      </g>
+    </g>
+    <!-- Księżyc z poświatą -->
+    <g>
+      <circle cx="1560" cy="180" r="42" fill="#F2EEE6" opacity="0.08"/>
+      <circle cx="1560" cy="180" r="28" fill="#F2EEE6" opacity="0.15"/>
+      <circle cx="1560" cy="180" r="18" fill="#F2EEE6" opacity="0.75"/>
+    </g>
+  </svg>
+
+  <!-- Scena: grupa przy ognisku (sylwety) -->
+  <svg class="absolute bottom-[90px] md:bottom-[130px] left-1/2 -translate-x-1/2 w-[620px] md:w-[820px] max-w-[95%] h-auto z-10 pointer-events-none" viewBox="0 0 820 260" fill="none" aria-hidden="true">
+    <!-- Poświata ogniska -->
+    <ellipse class="ember-pulse" cx="410" cy="230" rx="260" ry="60" fill="#C8621A" opacity="0.25"/>
+    <ellipse class="ember-pulse" cx="410" cy="230" rx="150" ry="35" fill="#C8621A" opacity="0.45"/>
+
+    <!-- Sylwetki mężczyzn wokół ogniska, widok z boku, sitting cross-legged -->
+    <g fill="#050908">
+      <!-- 1. Siedzący po lewej, bokiem (profil, lekko pochylony do ognia) -->
+      <g transform="translate(150 240)">
+        <!-- głowa (lekko owalna) -->
+        <ellipse cx="0" cy="-62" rx="8" ry="9"/>
+        <!-- szyja -->
+        <rect x="-3" y="-55" width="6" height="5"/>
+        <!-- tors pochylony do przodu (bokiem) -->
+        <path d="M-8,-50 C-12,-35 -10,-20 -4,-12 L10,-12 C14,-18 16,-32 12,-48 C8,-55 0,-56 -6,-52 Z"/>
+        <!-- ramię/przedramię opierające się na kolanie -->
+        <path d="M8,-40 C16,-38 22,-30 24,-20 L20,-16 L18,-22 C16,-26 12,-28 10,-28 Z"/>
+        <!-- noga skrzyżowana -->
+        <path d="M-10,-14 C-4,-8 6,-4 16,-2 L22,0 L22,4 L-12,4 Z"/>
+        <!-- stopa -->
+        <ellipse cx="20" cy="2" rx="5" ry="2"/>
+      </g>
+
+      <!-- 2. Siedzący, widok lekko od tyłu, obejmujący kolana -->
+      <g transform="translate(245 240)">
+        <ellipse cx="0" cy="-66" rx="9" ry="10"/>
+        <rect x="-3.5" y="-58" width="7" height="5"/>
+        <!-- plecy lekko zaokrąglone -->
+        <path d="M-10,-52 C-14,-40 -14,-22 -10,-12 L10,-12 C14,-22 14,-40 10,-52 C6,-58 -6,-58 -10,-52 Z"/>
+        <!-- ramiona spoczywające na kolanach -->
+        <path d="M-9,-38 C-12,-32 -12,-22 -9,-14 L-3,-14 L-4,-20 C-5,-26 -5,-32 -6,-36 Z"/>
+        <path d="M9,-38 C12,-32 12,-22 9,-14 L3,-14 L4,-20 C5,-26 5,-32 6,-36 Z"/>
+        <!-- kolana zgięte do góry -->
+        <path d="M-10,-14 C-8,-6 -4,-2 0,-2 C4,-2 8,-6 10,-14 L10,0 L-10,0 Z"/>
+      </g>
+
+      <!-- 3. Siedzący bliżej ognia, bokiem w prawą stronę -->
+      <g transform="translate(340 240)">
+        <ellipse cx="0" cy="-62" rx="8" ry="9"/>
+        <rect x="-3" y="-55" width="6" height="5"/>
+        <!-- tors bokiem -->
+        <path d="M-14,-50 C-12,-36 -8,-22 -4,-12 L10,-12 C14,-22 16,-36 8,-50 C4,-56 -10,-56 -14,-50 Z"/>
+        <!-- ręka trzymająca kij/patyk -->
+        <path d="M2,-40 C10,-38 18,-30 24,-18 L22,-14 L20,-18 C14,-24 6,-28 0,-28 Z"/>
+        <line x1="22" y1="-20" x2="44" y2="-40" stroke="#050908" stroke-width="1.4"/>
+        <!-- nogi skrzyżowane -->
+        <path d="M-12,-14 C-4,-6 8,-4 16,-2 L22,0 L22,4 L-14,4 Z"/>
+      </g>
+
+      <!-- 4. STOJĄCY po prawej, ręka w kieszeni, kubek w drugiej -->
+      <g transform="translate(578 240)">
+        <ellipse cx="0" cy="-108" rx="8.5" ry="10"/>
+        <rect x="-3.5" y="-100" width="7" height="6"/>
+        <!-- tors (lekko szeroki w ramionach) -->
+        <path d="M-12,-96 C-14,-90 -14,-80 -13,-70 L13,-70 C14,-80 14,-90 12,-96 C8,-100 -8,-100 -12,-96 Z"/>
+        <!-- ramiona / tułów w dół -->
+        <path d="M-13,-72 C-13,-50 -11,-30 -9,-14 L9,-14 C11,-30 13,-50 13,-72 Z"/>
+        <!-- lewa ręka w kieszeni (przy biodrze) -->
+        <path d="M-13,-68 C-18,-56 -18,-42 -14,-30 L-9,-30 L-9,-42 C-9,-52 -9,-60 -9,-66 Z"/>
+        <!-- prawa ręka z kubkiem -->
+        <path d="M13,-68 C16,-56 17,-46 15,-38 L9,-38 L9,-50 C9,-56 9,-62 9,-66 Z"/>
+        <!-- kubek (emaliowany) -->
+        <g transform="translate(12 -38)">
+          <rect x="0" y="0" width="10" height="9" rx="1" fill="#050908"/>
+          <path d="M10,2 C14,2 14,7 10,7" fill="none" stroke="#050908" stroke-width="1.2"/>
+          <!-- para unosząca się -->
+          <path d="M3,-2 C4,-6 2,-10 4,-14" fill="none" stroke="#F2EEE6" stroke-width="0.6" opacity="0.4"/>
+          <path d="M7,-2 C8,-6 6,-10 8,-14" fill="none" stroke="#F2EEE6" stroke-width="0.6" opacity="0.3"/>
+        </g>
+        <!-- nogi -->
+        <path d="M-9,-14 L-10,4 L-2,4 L-1,-14 Z"/>
+        <path d="M1,-14 L2,4 L10,4 L9,-14 Z"/>
+        <!-- buty -->
+        <ellipse cx="-6" cy="5" rx="6" ry="2"/>
+        <ellipse cx="6"  cy="5" rx="6" ry="2"/>
+      </g>
+
+      <!-- 5. Siedzący po prawej, twarzą do ognia (widok od boku-tyłu) -->
+      <g transform="translate(690 240)">
+        <ellipse cx="0" cy="-62" rx="8" ry="9"/>
+        <rect x="-3" y="-55" width="6" height="5"/>
+        <path d="M-14,-50 C-14,-36 -12,-22 -8,-12 L10,-12 C14,-22 14,-36 10,-50 C6,-56 -10,-56 -14,-50 Z"/>
+        <!-- ręce opuszczone wzdłuż -->
+        <path d="M-12,-44 C-16,-32 -16,-22 -12,-14 L-8,-14 L-8,-28 C-8,-34 -10,-40 -10,-42 Z"/>
+        <!-- nogi skrzyżowane -->
+        <path d="M-10,-14 C-4,-8 6,-4 14,-2 L20,0 L20,4 L-12,4 Z"/>
+      </g>
+    </g>
+
+    <!-- Ognisko — poprawione drewno i płomień -->
+    <g>
+      <!-- Kamienie wokół ogniska -->
+      <g fill="#1F1815">
+        <ellipse cx="378" cy="238" rx="7" ry="3.5"/>
+        <ellipse cx="394" cy="243" rx="6" ry="3"/>
+        <ellipse cx="430" cy="243" rx="7" ry="3.5"/>
+        <ellipse cx="446" cy="238" rx="6" ry="3"/>
+      </g>
+      <!-- Drewno — dwa polana skrzyżowane -->
+      <g>
+        <!-- główne polano -->
+        <path d="M380,234 L442,224 L446,232 L384,242 Z" fill="#2A1F14"/>
+        <path d="M380,234 L442,224 L442,226 L380,236 Z" fill="#4A3A25" opacity="0.7"/>
+        <!-- słoje na końcach -->
+        <ellipse cx="382" cy="237" rx="3" ry="4" fill="#6B4A2B" opacity="0.6"/>
+        <ellipse cx="444" cy="226" rx="3" ry="4" fill="#6B4A2B" opacity="0.6"/>
+        <!-- drugie polano, krzyżujące -->
+        <path d="M388,244 L436,232 L440,238 L392,250 Z" fill="#1A1208"/>
+        <ellipse cx="390" cy="246" rx="2.5" ry="3" fill="#C8621A" opacity="0.7"/>
+      </g>
+      <!-- Płomień — wielowarstwowy -->
+      <g>
+        <!-- zewnętrzna aura pomarańczowa -->
+        <path d="M410,225 C422,208 430,202 432,188 C434,180 430,174 425,170 C432,174 440,180 442,194 C444,208 438,220 432,226 C424,230 416,230 410,225 Z" fill="#C8621A" opacity="0.9"/>
+        <!-- środkowa warstwa jasna -->
+        <path d="M412,222 C420,210 425,205 426,194 C427,188 425,184 422,180 C427,184 432,190 433,200 C434,212 430,220 425,224 C420,226 415,226 412,222 Z" fill="#E87A2C"/>
+        <!-- najjaśniejsza końcówka -->
+        <path d="M416,218 C420,210 423,206 424,198 C425,193 423,190 421,187 C424,190 427,195 427,202 C427,212 422,218 420,220 C418,220 416,220 416,218 Z" fill="#F8C878"/>
+        <!-- biała poświata -->
+        <path d="M420,215 C421,210 423,208 423,202 C423,198 422,196 421,194 C423,196 424,200 424,205 C424,210 422,215 421,215 Z" fill="#F2EEE6" opacity="0.9"/>
+      </g>
+      <!-- Iskry -->
+      <g fill="#F2EEE6">
+        <circle cx="425" cy="165" r="1.2" opacity="0.8"/>
+        <circle cx="405" cy="150" r="1"   opacity="0.6"/>
+        <circle cx="440" cy="140" r="1.4" opacity="0.7"/>
+        <circle cx="415" cy="120" r="1"   opacity="0.45"/>
+        <circle cx="395" cy="100" r="1.2" opacity="0.35"/>
+      </g>
+      <g fill="#C8621A">
+        <circle cx="432" cy="175" r="1" opacity="0.9"/>
+        <circle cx="408" cy="160" r="0.8" opacity="0.7"/>
+      </g>
+    </g>
+  </svg>
+  <div class="relative z-10 max-w-6xl mx-auto px-5 md:px-8 pb-20 pt-36 md:pt-40 text-paper w-full">
+    <p class="eyebrow-line uppercase tracking-[0.3em] text-xs md:text-sm text-paper/70 mb-6 reveal">Wspólnota mężczyzn</p>
+    <h1 class="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[0.95] tracking-tightest max-w-4xl reveal">
+      Mężczyźni potrzebują<br/>
+      <span class="italic text-paperDk">innych mężczyzn.</span>
+    </h1>
+    <p class="mt-8 max-w-xl text-lg md:text-xl text-paper/80 leading-relaxed reveal">
+      Miejsce dla zwykłych, pracujących facetów, którzy mają dość siedzenia w czterech ścianach. Las, ogień, rozmowa, wysiłek. Razem.
+    </p>
+    <div class="mt-10 flex flex-col sm:flex-row gap-4 reveal">
+      <a href="#dolacz" class="inline-flex items-center justify-center px-7 py-4 bg-ember hover:bg-emberDk transition-colors text-paper font-medium rounded-sm">
+        Dołącz do wspólnoty
+      </a>
+      <a href="#wydarzenia" class="inline-flex items-center justify-center px-7 py-4 border border-paper/40 hover:bg-paper/10 transition-colors text-paper font-medium rounded-sm">
+        Zobacz najbliższe wydarzenia
+      </a>
+    </div>
+  </div>
+  <!-- Scroll hint -->
+  <div class="absolute bottom-24 md:bottom-28 left-1/2 -translate-x-1/2 z-20 text-paper/50 text-xs tracking-widest uppercase hidden md:block">
+    Przewiń
+  </div>
+
+  <!-- Horyzont — góry i sosny, sylwety -->
+  <svg class="absolute bottom-0 left-0 right-0 w-full h-[90px] md:h-[130px] z-10 pointer-events-none" viewBox="0 0 1920 140" preserveAspectRatio="none" fill="none" aria-hidden="true">
+    <!-- Dalsze góry -->
+    <path d="M0,140 L0,95 L120,72 L220,85 L320,55 L430,80 L540,62 L650,88 L770,50 L880,78 L990,68 L1100,88 L1210,58 L1320,80 L1430,65 L1540,85 L1660,55 L1770,78 L1880,65 L1920,80 L1920,140 Z" fill="#1F2B22"/>
+    <!-- Bliższy rząd sosen -->
+    <g fill="#121912">
+      <polygon points="80,110 75,85 72,78 76,76 72,68 78,60 84,68 80,76 84,78 81,85 86,110"/>
+      <polygon points="180,112 175,90 172,82 176,80 172,73 178,65 184,73 180,80 184,82 181,90 186,112"/>
+      <polygon points="260,115 256,92 253,84 257,82 253,75 259,67 265,75 261,82 265,84 262,92 266,115"/>
+      <polygon points="360,112 355,90 352,82 356,80 352,72 358,62 364,72 360,80 364,82 361,90 366,112"/>
+      <polygon points="500,115 495,88 492,80 496,78 492,70 498,60 504,70 500,78 504,80 501,88 506,115"/>
+      <polygon points="620,118 615,95 612,87 616,85 612,78 618,70 624,78 620,85 624,87 621,95 626,118"/>
+      <polygon points="740,114 735,90 732,82 736,80 732,72 738,62 744,72 740,80 744,82 741,90 746,114"/>
+      <polygon points="870,118 865,95 862,87 866,85 862,76 868,66 874,76 870,85 874,87 871,95 876,118"/>
+      <polygon points="1000,116 995,92 992,84 996,82 992,74 998,64 1004,74 1000,82 1004,84 1001,92 1006,116"/>
+      <polygon points="1120,118 1115,94 1112,86 1116,84 1112,76 1118,66 1124,76 1120,84 1124,86 1121,94 1126,118"/>
+      <polygon points="1260,116 1255,90 1252,82 1256,80 1252,72 1258,62 1264,72 1260,80 1264,82 1261,90 1266,116"/>
+      <polygon points="1400,114 1395,88 1392,80 1396,78 1392,70 1398,60 1404,70 1400,78 1404,80 1401,88 1406,114"/>
+      <polygon points="1540,118 1535,92 1532,84 1536,82 1532,74 1538,64 1544,74 1540,82 1544,84 1541,92 1546,118"/>
+      <polygon points="1680,116 1675,92 1672,84 1676,82 1672,74 1678,64 1684,74 1680,82 1684,84 1681,92 1686,116"/>
+      <polygon points="1820,118 1815,95 1812,87 1816,85 1812,77 1818,67 1824,77 1820,85 1824,87 1821,95 1826,118"/>
+    </g>
+    <!-- Przednia linia lasu -->
+    <path d="M0,140 L0,120 L1920,120 L1920,140 Z" fill="#0B100C"/>
+  </svg>
+</section>
+
+<!-- ============ MANIFEST ============ -->
+<section id="manifest" class="relative py-24 md:py-36 bg-paper grain grain-light">
+  <div class="relative z-10 max-w-3xl mx-auto px-5 md:px-8">
+    <p class="eyebrow-line uppercase tracking-[0.3em] text-xs text-charcoal/60 mb-6 reveal">O co tu chodzi</p>
+    <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl leading-[1.05] tracking-tightest mb-10 reveal">
+      Nigdy nie byliśmy bardziej podłączeni i bardziej samotni naraz.
+    </h2>
+    <div class="space-y-6 text-lg md:text-xl leading-relaxed text-charcoal/85">
+      <p class="reveal">
+        Pracujesz. Wracasz. Płacisz rachunki. Spotykasz tych samych ludzi w pracy i w rodzinie. Kiedy ostatni raz rozmawiałeś z innym facetem o czymś, co naprawdę cię dotyka — bez żartu, bez maski, bez telefonu w ręku?
+      </p>
+      <p class="reveal">
+        Wielu z nas nie rozmawiało od lat. Nie dlatego, że jest słabe. Dlatego, że nie ma gdzie i z kim. Ojcowie, mężowie, single — wszyscy w tej samej łódce, każdy wiosłuje sam.
+      </p>
+      <p class="reveal">
+        DNM nie jest terapią, coachingiem ani klubem „prawdziwych mężczyzn”. Nie obiecujemy, że zmienimy ci życie w 30 dni. Obiecujemy jedno: las, ognisko, wysiłek i ludzi, którzy stają obok ciebie, bo sami tego potrzebują.
+      </p>
+      <p class="reveal font-serif italic text-2xl md:text-3xl text-forest leading-snug pt-4">
+        Wierzymy w to, co robi się rękami, nogami i słowem, które kosztuje.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MOMENTY / MOOD GALLERY ============ -->
+<section id="momenty" class="relative bg-charcoal text-paper grain topo-dark py-24 md:py-32">
+  <div class="relative z-10 max-w-6xl mx-auto px-5 md:px-8">
+    <div class="max-w-2xl mb-12 md:mb-16">
+      <p class="eyebrow-line uppercase tracking-[0.3em] text-xs text-paper/60 mb-5 reveal">Momenty</p>
+      <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl leading-[1.05] tracking-tightest reveal">
+        Tak to wygląda, kiedy telefon zostaje w plecaku.
+      </h2>
+      <p class="mt-5 text-lg text-paper/70 reveal">
+        Faceci, którzy w tygodniu prowadzą firmy, projekty i dzieci — w piątek wieczorem siadają tu, gdzie słychać ogień.
+      </p>
+    </div>
+
+    <!-- Asymetryczny grid 6 kadrów -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+      <!-- Big tile: grupa przy ognisku -->
+      <figure class="reveal aspect-[3/4] overflow-hidden md:row-span-2 md:col-span-2 md:aspect-auto relative bg-gradient-to-b from-[#0B1012] to-[#1A1A1A]">
+        <svg class="absolute inset-0 w-full h-full" viewBox="0 0 400 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <!-- Gwiazdy -->
+          <g fill="#F2EEE6">
+            <circle class="twinkle"   cx="60"  cy="60" r="1"/>
+            <circle class="twinkle-2" cx="130" cy="40" r="0.8"/>
+            <circle class="twinkle-3" cx="200" cy="80" r="1.2"/>
+            <circle class="twinkle"   cx="280" cy="50" r="0.9"/>
+            <circle class="twinkle-2" cx="340" cy="90" r="1"/>
+            <circle class="twinkle-3" cx="90" cy="130" r="0.7"/>
+            <circle class="twinkle"   cx="250" cy="140" r="0.9"/>
+            <circle class="twinkle-2" cx="370" cy="160" r="0.8"/>
+          </g>
+          <!-- Księżyc -->
+          <circle cx="330" cy="70" r="22" fill="#F2EEE6" opacity="0.1"/>
+          <circle cx="330" cy="70" r="12" fill="#F2EEE6" opacity="0.55"/>
+
+          <!-- Góry -->
+          <path d="M0,280 L60,230 L120,260 L180,210 L240,250 L300,220 L360,255 L400,240 L400,320 L0,320 Z" fill="#121A18"/>
+          <!-- Las -->
+          <g fill="#0A0F0C">
+            <polygon points="20,320 12,260 8,250 14,247 10,236 20,220 30,236 26,247 32,250 28,260 38,320"/>
+            <polygon points="70,325 62,260 58,248 64,245 60,234 70,216 80,234 76,245 82,248 78,260 88,325"/>
+            <polygon points="340,325 332,260 328,248 334,245 330,234 340,216 350,234 346,245 352,248 348,260 358,325"/>
+            <polygon points="380,320 372,260 368,250 374,247 370,236 380,220 390,236 386,247 392,250 388,260 398,320"/>
+          </g>
+
+          <!-- Ognisko — poświata -->
+          <ellipse class="ember-pulse" cx="200" cy="480" rx="180" ry="55" fill="#C8621A" opacity="0.25"/>
+          <ellipse class="ember-pulse" cx="200" cy="480" rx="110" ry="32" fill="#C8621A" opacity="0.45"/>
+
+          <!-- Sylwetki wokół ogniska -->
+          <g fill="#050908">
+            <!-- 1. Lewa, oddalona, bokiem -->
+            <g transform="translate(102 500)">
+              <ellipse cx="0" cy="-76" rx="10" ry="11"/>
+              <rect x="-4" y="-67" width="8" height="7"/>
+              <path d="M-14,-60 C-14,-42 -10,-24 -4,-12 L12,-12 C18,-24 18,-42 14,-60 C8,-68 -8,-68 -14,-60 Z"/>
+              <path d="M10,-48 C18,-46 24,-36 28,-24 L24,-20 L22,-26 C18,-32 12,-34 10,-34 Z"/>
+              <path d="M-14,-14 C-4,-6 10,-2 22,0 L28,0 L28,4 L-16,4 Z"/>
+            </g>
+            <!-- 2. Lewa bliżej, plecami, obejmuje kolana -->
+            <g transform="translate(170 502)">
+              <ellipse cx="0" cy="-78" rx="10" ry="11"/>
+              <rect x="-4" y="-68" width="8" height="6"/>
+              <path d="M-12,-62 C-16,-48 -16,-28 -12,-14 L12,-14 C16,-28 16,-48 12,-62 C6,-68 -6,-68 -12,-62 Z"/>
+              <path d="M-11,-44 C-14,-36 -14,-24 -10,-16 L-4,-16 L-5,-22 C-6,-30 -6,-38 -7,-42 Z"/>
+              <path d="M11,-44 C14,-36 14,-24 10,-16 L4,-16 L5,-22 C6,-30 6,-38 7,-42 Z"/>
+              <path d="M-12,-16 C-10,-6 -4,-2 0,-2 C4,-2 10,-6 12,-16 L12,0 L-12,0 Z"/>
+            </g>
+            <!-- 3. Prawa bliżej, bokiem z patykiem -->
+            <g transform="translate(240 502)">
+              <ellipse cx="0" cy="-78" rx="10" ry="11"/>
+              <rect x="-4" y="-68" width="8" height="6"/>
+              <path d="M-16,-62 C-14,-44 -8,-26 -4,-14 L12,-14 C16,-26 18,-44 10,-62 C6,-68 -12,-68 -16,-62 Z"/>
+              <path d="M2,-50 C12,-48 22,-38 28,-24 L26,-20 L24,-24 C18,-30 8,-36 0,-36 Z"/>
+              <line x1="26" y1="-26" x2="60" y2="-54" stroke="#050908" stroke-width="2"/>
+              <path d="M-14,-16 C-4,-8 10,-4 20,-2 L26,0 L26,4 L-16,4 Z"/>
+            </g>
+            <!-- 4. Prawa oddalona -->
+            <g transform="translate(316 500)">
+              <ellipse cx="0" cy="-76" rx="10" ry="11"/>
+              <rect x="-4" y="-67" width="8" height="7"/>
+              <path d="M-14,-60 C-14,-42 -12,-24 -8,-12 L12,-12 C16,-24 16,-42 12,-60 C6,-68 -10,-68 -14,-60 Z"/>
+              <path d="M-14,-48 C-20,-36 -20,-24 -14,-16 L-8,-16 L-8,-34 C-8,-40 -10,-44 -11,-46 Z"/>
+              <path d="M-12,-14 C-4,-6 10,-2 20,0 L24,0 L24,4 L-14,4 Z"/>
+            </g>
+          </g>
+
+          <!-- Ognisko — kamienie + drewno + wielowarstwowy płomień -->
+          <g>
+            <g fill="#1F1815">
+              <ellipse cx="168" cy="490" rx="10" ry="5"/>
+              <ellipse cx="188" cy="498" rx="8"  ry="4"/>
+              <ellipse cx="214" cy="498" rx="10" ry="5"/>
+              <ellipse cx="234" cy="490" rx="8"  ry="4"/>
+            </g>
+            <g>
+              <path d="M172,486 L230,472 L234,482 L176,496 Z" fill="#2A1F14"/>
+              <path d="M172,486 L230,472 L230,474 L172,488 Z" fill="#4A3A25" opacity="0.7"/>
+              <ellipse cx="174" cy="490" rx="4" ry="5" fill="#6B4A2B" opacity="0.6"/>
+              <ellipse cx="232" cy="474" rx="4" ry="5" fill="#6B4A2B" opacity="0.6"/>
+              <path d="M180,496 L226,482 L230,490 L184,504 Z" fill="#1A1208"/>
+              <ellipse cx="182" cy="499" rx="3" ry="4" fill="#C8621A" opacity="0.8"/>
+            </g>
+            <g>
+              <path d="M200,478 C214,456 222,448 224,430 C226,422 222,414 218,410 C226,414 236,422 238,436 C240,452 234,468 226,476 C218,482 208,482 200,478 Z" fill="#C8621A"/>
+              <path d="M204,472 C214,458 220,452 222,440 C223,434 221,430 218,426 C223,430 230,436 231,446 C232,458 228,468 222,472 C216,474 210,474 204,472 Z" fill="#E87A2C"/>
+              <path d="M210,466 C216,456 220,452 220,444 C220,440 218,436 216,434 C220,436 223,440 223,448 C223,456 219,464 217,466 C215,466 212,466 210,466 Z" fill="#F8C878"/>
+              <path d="M214,460 C216,454 218,452 218,446 C218,442 216,440 216,440 C218,440 220,444 220,448 C220,454 218,460 217,460 Z" fill="#F2EEE6" opacity="0.9"/>
+            </g>
+          </g>
+
+          <!-- Iskry -->
+          <g fill="#F2EEE6">
+            <circle cx="220" cy="400" r="1.2" opacity="0.8"/>
+            <circle cx="195" cy="370" r="1" opacity="0.55"/>
+            <circle cx="240" cy="340" r="1.4" opacity="0.7"/>
+            <circle cx="180" cy="310" r="0.9" opacity="0.45"/>
+            <circle cx="215" cy="270" r="1.1" opacity="0.35"/>
+            <circle cx="250" cy="230" r="0.8" opacity="0.25"/>
+          </g>
+        </svg>
+      </figure>
+
+      <!-- Zegarek -->
+      <figure class="reveal aspect-square overflow-hidden relative bg-gradient-to-b from-[#1F2B22] to-[#0B1012]">
+        <svg class="absolute inset-0 w-full h-full" viewBox="0 0 200 200" aria-hidden="true">
+          <!-- Pasek skórzany -->
+          <rect x="80"  y="8"  width="40" height="40" rx="2" fill="#6B4A2B"/>
+          <rect x="80" y="152" width="40" height="40" rx="2" fill="#6B4A2B"/>
+          <!-- Stebnówka -->
+          <g stroke="#F2EEE6" stroke-width="0.4" stroke-dasharray="2 2" opacity="0.5" fill="none">
+            <line x1="85"  y1="12" x2="85"  y2="44"/>
+            <line x1="115" y1="12" x2="115" y2="44"/>
+            <line x1="85"  y1="156" x2="85"  y2="188"/>
+            <line x1="115" y1="156" x2="115" y2="188"/>
+          </g>
+          <!-- Koperta zewnętrzna z lugs (uszami) -->
+          <path d="M76,46 L80,40 L120,40 L124,46 L124,52 Q140,60 148,80 Q156,100 148,120 Q140,140 124,148 L124,154 L120,160 L80,160 L76,154 L76,148 Q60,140 52,120 Q44,100 52,80 Q60,60 76,52 Z" fill="#2A2A2A"/>
+          <!-- Bezel zewnętrzny -->
+          <circle cx="100" cy="100" r="56" fill="#1A1A1A"/>
+          <circle cx="100" cy="100" r="56" fill="none" stroke="#C0C0C0" stroke-width="1.5"/>
+          <circle cx="100" cy="100" r="54" fill="none" stroke="#F2EEE6" stroke-width="0.4" opacity="0.5"/>
+          <!-- Bezel wewnętrzny z nacięciami -->
+          <g stroke="#888" stroke-width="0.4">
+            <line x1="100" y1="44" x2="100" y2="47"/>
+            <line x1="156" y1="100" x2="153" y2="100"/>
+            <line x1="100" y1="156" x2="100" y2="153"/>
+            <line x1="44" y1="100" x2="47" y2="100"/>
+            <line x1="140" y1="60" x2="138" y2="62"/>
+            <line x1="140" y1="140" x2="138" y2="138"/>
+            <line x1="60" y1="140" x2="62" y2="138"/>
+            <line x1="60" y1="60" x2="62" y2="62"/>
+          </g>
+          <!-- Tarcza -->
+          <circle cx="100" cy="100" r="48" fill="#0F1412"/>
+          <circle cx="100" cy="100" r="48" fill="none" stroke="#F2EEE6" stroke-width="0.5" opacity="0.25"/>
+          <!-- Korona z ochraniaczami -->
+          <path d="M152,92 L154,92 L156,94 L156,106 L154,108 L152,108 Z" fill="#2A2A2A"/>
+          <rect x="156" y="94" width="6" height="12" fill="#C0C0C0"/>
+          <rect x="157" y="96" width="4" height="1.5" fill="#888"/>
+          <rect x="157" y="100" width="4" height="1.5" fill="#888"/>
+          <rect x="157" y="104" width="4" height="1.5" fill="#888"/>
+
+          <!-- Pasek Minuta -->
+          <g stroke="#F2EEE6" stroke-width="0.4" opacity="0.5">
+            <circle cx="100" cy="100" r="44" fill="none"/>
+          </g>
+          <!-- Główne indeksy godzinowe (12, 3, 6, 9) -->
+          <g fill="#F2EEE6">
+            <rect x="98"  y="58"  width="4" height="10" rx="1"/>
+            <rect x="132" y="98"  width="10" height="4" rx="1"/>
+            <rect x="98"  y="132" width="4"  height="10" rx="1"/>
+            <rect x="58"  y="98"  width="10" height="4"  rx="1"/>
+          </g>
+          <!-- Indeksy co godzinę (okrągłe) -->
+          <g fill="#F2EEE6" opacity="0.85">
+            <circle cx="120" cy="65" r="1.8"/>
+            <circle cx="135" cy="80" r="1.8"/>
+            <circle cx="135" cy="120" r="1.8"/>
+            <circle cx="120" cy="135" r="1.8"/>
+            <circle cx="80" cy="135" r="1.8"/>
+            <circle cx="65" cy="120" r="1.8"/>
+            <circle cx="65" cy="80" r="1.8"/>
+            <circle cx="80" cy="65" r="1.8"/>
+          </g>
+
+          <!-- Subdial — wskaźnik sekund (godzina 6) -->
+          <g>
+            <circle cx="100" cy="122" r="10" fill="#0A0E0C" stroke="#F2EEE6" stroke-width="0.5" opacity="0.7"/>
+            <g fill="#F2EEE6" opacity="0.7">
+              <circle cx="100" cy="114" r="0.6"/>
+              <circle cx="108" cy="122" r="0.6"/>
+              <circle cx="100" cy="130" r="0.6"/>
+              <circle cx="92"  cy="122" r="0.6"/>
+            </g>
+            <line x1="100" y1="122" x2="105" y2="120" stroke="#C8621A" stroke-width="1"/>
+            <circle cx="100" cy="122" r="1" fill="#C8621A"/>
+          </g>
+
+          <!-- Datownik (okienko daty, godzina 3) -->
+          <rect x="128" y="96" width="14" height="9" fill="#F2EEE6"/>
+          <rect x="128" y="96" width="14" height="9" fill="none" stroke="#1A1A1A" stroke-width="0.4"/>
+          <text x="135" y="103" font-family="Inter, sans-serif" font-size="7" font-weight="600" fill="#1A1A1A" text-anchor="middle">24</text>
+
+          <!-- Logo/brand name -->
+          <text x="100" y="85" font-family="Fraunces, serif" font-size="4.5" fill="#F2EEE6" text-anchor="middle" opacity="0.8" letter-spacing="1">DNM</text>
+          <text x="100" y="118" font-family="Inter, sans-serif" font-size="3" fill="#F2EEE6" text-anchor="middle" opacity="0.5" letter-spacing="2">AUTOMATIC</text>
+
+          <!-- Wskazówki -->
+          <!-- Godzinowa (grubsza, krótsza) -->
+          <path d="M99,100 L100,74 L101,100 Z" fill="#F2EEE6"/>
+          <path d="M98,100 L98,75 L102,75 L102,100 Z" fill="#F2EEE6"/>
+          <!-- Minutowa (cienka, dłuższa) -->
+          <path d="M99,100 L100,62 L101,100 Z" fill="#F2EEE6"/>
+          <!-- Sekundowa (ember, cienka) -->
+          <line x1="100" y1="100" x2="100" y2="140" stroke="#C8621A" stroke-width="1" stroke-linecap="round"/>
+          <circle cx="100" cy="100" r="2.5" fill="#C8621A"/>
+          <circle cx="100" cy="100" r="1" fill="#1A1A1A"/>
+
+          <!-- Luminova poświata -->
+          <circle cx="100" cy="100" r="48" fill="#C8621A" opacity="0.03"/>
+        </svg>
+      </figure>
+
+      <!-- Szklanka whisky -->
+      <figure class="reveal aspect-square overflow-hidden relative bg-gradient-to-b from-[#1A1A1A] to-[#0B1012]">
+        <svg class="absolute inset-0 w-full h-full" viewBox="0 0 200 200" aria-hidden="true">
+          <!-- Poświata -->
+          <ellipse cx="100" cy="160" rx="80" ry="18" fill="#C8621A" opacity="0.15"/>
+          <!-- Szklanka tumbler -->
+          <g transform="translate(62 58)">
+            <!-- ścianki -->
+            <path d="M0,0 L76,0 L70,90 L6,90 Z" fill="#C8621A" opacity="0.28"/>
+            <!-- whisky -->
+            <path d="M4,48 L72,48 L70,90 L6,90 Z" fill="#C8621A" opacity="0.75"/>
+            <!-- powierzchnia cieczy -->
+            <ellipse cx="38" cy="48" rx="34" ry="3" fill="#E87A2C" opacity="0.9"/>
+            <!-- kontur szkła -->
+            <path d="M0,0 L76,0 L70,90 L6,90 Z" fill="none" stroke="#F2EEE6" stroke-width="1.5" opacity="0.85"/>
+            <!-- grube dno -->
+            <ellipse cx="38" cy="88" rx="32" ry="3" fill="none" stroke="#F2EEE6" stroke-width="1" opacity="0.6"/>
+            <!-- Kostki lodu — 3D -->
+            <g>
+              <!-- Kostka 1 (lewa, na dnie) -->
+              <g transform="translate(14 36)">
+                <polygon points="0,4 8,0 18,0 18,14 10,18 0,18" fill="#F2EEE6" opacity="0.55"/>
+                <polygon points="0,4 8,0 18,0 10,4" fill="#F2EEE6" opacity="0.85"/>
+                <polygon points="10,4 18,0 18,14 10,18" fill="#F2EEE6" opacity="0.35"/>
+                <polygon points="0,4 10,4 10,18 0,18" fill="#F2EEE6" opacity="0.7"/>
+              </g>
+              <!-- Kostka 2 (środek, większa) -->
+              <g transform="translate(28 32)">
+                <polygon points="0,5 10,0 22,0 22,18 12,22 0,22" fill="#F2EEE6" opacity="0.6"/>
+                <polygon points="0,5 10,0 22,0 12,5" fill="#F2EEE6" opacity="0.9"/>
+                <polygon points="12,5 22,0 22,18 12,22" fill="#F2EEE6" opacity="0.4"/>
+                <polygon points="0,5 12,5 12,22 0,22" fill="#F2EEE6" opacity="0.75"/>
+                <line x1="12" y1="5" x2="12" y2="22" stroke="#F2EEE6" stroke-width="0.4" opacity="0.6"/>
+              </g>
+              <!-- Kostka 3 (prawa) -->
+              <g transform="translate(52 34)">
+                <polygon points="0,4 8,0 18,0 18,14 10,18 0,18" fill="#F2EEE6" opacity="0.55"/>
+                <polygon points="0,4 8,0 18,0 10,4" fill="#F2EEE6" opacity="0.85"/>
+                <polygon points="10,4 18,0 18,14 10,18" fill="#F2EEE6" opacity="0.35"/>
+                <polygon points="0,4 10,4 10,18 0,18" fill="#F2EEE6" opacity="0.7"/>
+              </g>
+            </g>
+            <!-- refleksy -->
+            <path d="M4,4 L4,28" stroke="#F2EEE6" stroke-width="1.5" opacity="0.85"/>
+            <path d="M72,4 L72,20" stroke="#F2EEE6" stroke-width="1" opacity="0.55"/>
+          </g>
+        </svg>
+      </figure>
+
+      <!-- Buty skórzane -->
+      <figure class="reveal aspect-square overflow-hidden relative bg-gradient-to-b from-[#2A3A2E] to-[#121912]">
+        <svg class="absolute inset-0 w-full h-full" viewBox="0 0 200 200" aria-hidden="true">
+          <!-- But trekkingowy, widok z boku -->
+          <g transform="translate(18 88)">
+            <!-- cholewka -->
+            <path d="M0,40 C0,25 5,15 20,12 L45,8 C55,6 65,0 78,0 L128,0 C140,0 146,8 146,18 L146,40 Z" fill="#6B4A2B"/>
+            <!-- cień i detal skóry -->
+            <path d="M10,18 L18,16 L24,22 L14,24 Z" fill="#8A6138" opacity="0.8"/>
+            <path d="M50,12 C60,10 70,8 78,4 L130,4 C140,4 144,10 144,18 L144,22 L78,22 C70,22 60,24 50,26 Z" fill="#4A331E"/>
+            <!-- język -->
+            <path d="M40,14 L40,30 L60,30 L55,14 Z" fill="#8A6138"/>
+            <!-- sznurowadła -->
+            <g stroke="#2A1F10" stroke-width="2" fill="none" stroke-linecap="round">
+              <path d="M30,20 L70,14"/>
+              <path d="M28,28 L72,22"/>
+              <path d="M32,36 L68,30"/>
+            </g>
+            <g fill="#C8621A">
+              <circle cx="30" cy="20" r="1.5"/>
+              <circle cx="70" cy="14" r="1.5"/>
+              <circle cx="28" cy="28" r="1.5"/>
+              <circle cx="72" cy="22" r="1.5"/>
+              <circle cx="32" cy="36" r="1.5"/>
+              <circle cx="68" cy="30" r="1.5"/>
+            </g>
+            <!-- Podeszwa -->
+            <path d="M-4,40 L150,40 L148,52 L145,55 L5,55 L2,52 Z" fill="#1A1A1A"/>
+            <!-- Bieżnik -->
+            <g fill="#2A2118">
+              <rect x="6"   y="46" width="6" height="5"/>
+              <rect x="20"  y="46" width="6" height="5"/>
+              <rect x="34"  y="46" width="6" height="5"/>
+              <rect x="48"  y="46" width="6" height="5"/>
+              <rect x="62"  y="46" width="6" height="5"/>
+              <rect x="76"  y="46" width="6" height="5"/>
+              <rect x="90"  y="46" width="6" height="5"/>
+              <rect x="104" y="46" width="6" height="5"/>
+              <rect x="118" y="46" width="6" height="5"/>
+              <rect x="132" y="46" width="6" height="5"/>
+            </g>
+            <!-- Zszycia -->
+            <path d="M78,22 L146,22" stroke="#2A1F10" stroke-width="0.6" stroke-dasharray="2 2" fill="none"/>
+          </g>
+          <!-- Cień -->
+          <ellipse cx="100" cy="168" rx="80" ry="5" fill="#000" opacity="0.4"/>
+        </svg>
+      </figure>
+
+      <!-- Iskry -->
+      <figure class="reveal aspect-square overflow-hidden relative bg-gradient-to-b from-[#0B1012] to-[#1A1A1A]">
+        <svg class="absolute inset-0 w-full h-full" viewBox="0 0 200 200" aria-hidden="true">
+          <!-- Poświata dolna -->
+          <ellipse class="ember-pulse" cx="100" cy="180" rx="90" ry="28" fill="#C8621A" opacity="0.4"/>
+          <!-- Węgle -->
+          <g>
+            <ellipse cx="100" cy="175" rx="55" ry="8" fill="#1A1A1A"/>
+            <ellipse cx="85"  cy="170" rx="16" ry="8" fill="#C8621A" opacity="0.9"/>
+            <ellipse cx="115" cy="172" rx="14" ry="7" fill="#E87A2C" opacity="0.95"/>
+            <ellipse cx="130" cy="174" rx="8"  ry="5" fill="#C8621A" opacity="0.8"/>
+            <ellipse cx="72"  cy="173" rx="9"  ry="5" fill="#C8621A" opacity="0.7"/>
+          </g>
+          <!-- Płomyki -->
+          <g>
+            <path d="M90,160 C92,150 98,142 96,130 C102,142 108,148 106,160 Z" fill="#C8621A"/>
+            <path d="M108,162 C110,155 114,150 113,142 C118,150 122,155 121,162 Z" fill="#E87A2C"/>
+          </g>
+          <!-- Iskry unoszące się -->
+          <g fill="#F2EEE6">
+            <circle cx="60"  cy="140" r="1.4" opacity="0.85"/>
+            <circle cx="75"  cy="110" r="1" opacity="0.7"/>
+            <circle cx="95"  cy="85"  r="1.3" opacity="0.6"/>
+            <circle cx="110" cy="60"  r="1.1" opacity="0.5"/>
+            <circle cx="125" cy="95"  r="1.4" opacity="0.75"/>
+            <circle cx="140" cy="120" r="1" opacity="0.65"/>
+            <circle cx="145" cy="70"  r="0.9" opacity="0.4"/>
+            <circle cx="85"  cy="40"  r="1.2" opacity="0.3"/>
+            <circle cx="115" cy="30"  r="1" opacity="0.25"/>
+            <circle cx="65"  cy="75"  r="1.1" opacity="0.55"/>
+          </g>
+          <!-- Iskry kolor ognia -->
+          <g fill="#C8621A">
+            <circle cx="102" cy="130" r="1.2" opacity="0.9"/>
+            <circle cx="88"  cy="100" r="1"   opacity="0.75"/>
+            <circle cx="118" cy="120" r="1.3" opacity="0.8"/>
+          </g>
+        </svg>
+      </figure>
+    </div>
+
+    <p class="reveal mt-10 text-sm text-paper/50 italic max-w-xl">
+      Nie udajemy prostaczków ani survivalowców. Większość z nas pracuje w garniturze. Tu po prostu zdejmujemy go na weekend.
+    </p>
+  </div>
+</section>
+
+<!-- ============ CO ROBIMY (4 PILLARS) ============ -->
+<section id="co-robimy" class="relative py-24 md:py-32 bg-forest text-paper grain topo-dark">
+  <div class="relative z-10 max-w-6xl mx-auto px-5 md:px-8">
+    <div class="max-w-2xl mb-16 md:mb-20">
+      <p class="eyebrow-line uppercase tracking-[0.3em] text-xs text-paper/60 mb-5 reveal">Co robimy</p>
+      <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl leading-[1.05] tracking-tightest reveal">
+        Cztery rzeczy. Konkretnie. Regularnie.
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8 md:gap-12">
+      <!-- Pillar 1 -->
+      <div class="reveal border-t border-paper/15 pt-8">
+        <div class="flex items-start gap-5">
+          <svg class="flex-shrink-0 mt-1 text-ember" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+            <path d="M12 3 L6 14 L12 12 L18 14 Z"/>
+            <path d="M5 20 L19 20"/>
+            <path d="M9 17 C 10 15, 14 15, 15 17"/>
+          </svg>
+          <div>
+            <h3 class="font-serif text-2xl md:text-3xl mb-3 tracking-tightest">Wyprawy w las</h3>
+            <p class="text-paper/80 leading-relaxed">
+              Weekendowe wyjazdy pod namiot, bushcraft, survival w rozsądnej dawce. Ogień, nóż, mapa, ciepła herbata o świcie. Nie wyczyn — obecność.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pillar 2 -->
+      <div class="reveal border-t border-paper/15 pt-8">
+        <div class="flex items-start gap-5">
+          <svg class="flex-shrink-0 mt-1 text-ember" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+            <circle cx="12" cy="12" r="9"/>
+            <circle cx="12" cy="12" r="5"/>
+            <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
+            <path d="M12 2 L12 5 M12 19 L12 22 M2 12 L5 12 M19 12 L22 12"/>
+          </svg>
+          <div>
+            <h3 class="font-serif text-2xl md:text-3xl mb-3 tracking-tightest">Trening i strzelectwo</h3>
+            <p class="text-paper/80 leading-relaxed">
+              Wspólne treningi siłowe i biegowe, dni na strzelnicy pod okiem instruktorów. Ciało, skupienie, odpowiedzialność za broń i za siebie.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pillar 3 -->
+      <div class="reveal border-t border-paper/15 pt-8">
+        <div class="flex items-start gap-5">
+          <svg class="flex-shrink-0 mt-1 text-ember" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+            <circle cx="8" cy="10" r="2.5"/>
+            <circle cx="16" cy="10" r="2.5"/>
+            <path d="M3 20 C 4 16, 7 15, 8 15 C 9 15, 11 16, 12 17 C 13 16, 15 15, 16 15 C 17 15, 20 16, 21 20"/>
+          </svg>
+          <div>
+            <h3 class="font-serif text-2xl md:text-3xl mb-3 tracking-tightest">Spotkania i rozmowy</h3>
+            <p class="text-paper/80 leading-relaxed">
+              Lokalne kręgi w kilkunastu miastach — raz w miesiącu siadamy i mówimy prosto z mostu. Bez coacha, bez rundki „co u ciebie dobrego”. Konkret.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pillar 4 -->
+      <div class="reveal border-t border-paper/15 pt-8">
+        <div class="flex items-start gap-5">
+          <svg class="flex-shrink-0 mt-1 text-ember" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+            <path d="M3 20 L9 8 L13 15 L17 10 L21 20 Z"/>
+            <circle cx="17" cy="5" r="1.2" fill="currentColor"/>
+          </svg>
+          <div>
+            <h3 class="font-serif text-2xl md:text-3xl mb-3 tracking-tightest">Wyjazdy zagraniczne</h3>
+            <p class="text-paper/80 leading-relaxed">
+              Raz, dwa razy w roku dłuższa wyprawa — Bałkany, Skandynawia, góry Gruzji. Tydzień bez zasięgu, z plecakiem i ludźmi, którym ufasz.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DLA KOGO / NIE DLA KOGO ============ -->
+<section class="relative py-24 md:py-32 bg-paper grain grain-light">
+  <div class="relative z-10 max-w-6xl mx-auto px-5 md:px-8">
+    <div class="max-w-2xl mb-14">
+      <p class="eyebrow-line uppercase tracking-[0.3em] text-xs text-charcoal/60 mb-5 reveal">Dla kogo to jest</p>
+      <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl leading-[1.05] tracking-tightest reveal">
+        Powiemy wprost, kto tu pasuje.
+      </h2>
+      <p class="mt-5 text-lg text-charcoal/70 reveal">
+        Jesteśmy selektywni nie z dumy, tylko z szacunku do twojego czasu.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8 md:gap-12">
+      <!-- TAK -->
+      <div class="reveal bg-white/60 border-l-4 border-forest p-8 md:p-10">
+        <h3 class="font-serif text-2xl md:text-3xl mb-6 tracking-tightest text-forest">To jest dla ciebie, jeśli…</h3>
+        <ul class="space-y-4 text-charcoal/85">
+          <li class="flex gap-3"><span class="text-forest font-bold mt-0.5">—</span><span>Masz 28–50 lat, pracujesz, a weekendy mijają ci przez ekran.</span></li>
+          <li class="flex gap-3"><span class="text-forest font-bold mt-0.5">—</span><span>Czujesz, że od lat nie miałeś prawdziwego kumpla.</span></li>
+          <li class="flex gap-3"><span class="text-forest font-bold mt-0.5">—</span><span>Lubisz las, ruch, rzeczy robione rękami.</span></li>
+          <li class="flex gap-3"><span class="text-forest font-bold mt-0.5">—</span><span>Potrafisz słuchać i nie musisz mieć zawsze racji.</span></li>
+          <li class="flex gap-3"><span class="text-forest font-bold mt-0.5">—</span><span>Szukasz kolegów do działania, nie do narzekania przy piwie.</span></li>
+        </ul>
+      </div>
+
+      <!-- NIE -->
+      <div class="reveal bg-white/60 border-l-4 border-ember p-8 md:p-10">
+        <h3 class="font-serif text-2xl md:text-3xl mb-6 tracking-tightest text-ember">To nie jest dla ciebie, jeśli…</h3>
+        <ul class="space-y-4 text-charcoal/85">
+          <li class="flex gap-3"><span class="text-ember font-bold mt-0.5">—</span><span>Szukasz kółka politycznego albo religijnego.</span></li>
+          <li class="flex gap-3"><span class="text-ember font-bold mt-0.5">—</span><span>Chcesz „podrywać laski” albo ścigać się na testosteron.</span></li>
+          <li class="flex gap-3"><span class="text-ember font-bold mt-0.5">—</span><span>Szukasz terapeuty — mamy szacunek do tej pracy, ale to nie my.</span></li>
+          <li class="flex gap-3"><span class="text-ember font-bold mt-0.5">—</span><span>Nie masz ochoty czasem wstać z kanapy i wyjść w deszcz.</span></li>
+          <li class="flex gap-3"><span class="text-ember font-bold mt-0.5">—</span><span>Chcesz coacha, który powie ci, że jesteś wyjątkowy.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ JAK TO DZIAŁA ============ -->
+<section class="relative py-24 md:py-32 bg-charcoal text-paper grain">
+  <div class="relative z-10 max-w-6xl mx-auto px-5 md:px-8">
+    <div class="max-w-2xl mb-16">
+      <p class="eyebrow-line uppercase tracking-[0.3em] text-xs text-paper/60 mb-5 reveal">Jak to działa</p>
+      <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl leading-[1.05] tracking-tightest reveal">
+        Trzy kroki. Nic skomplikowanego.
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-[1fr_auto_1fr_auto_1fr] gap-10 md:gap-6 items-start">
+      <div class="reveal relative pl-4 md:pl-0">
+        <div class="font-serif text-7xl md:text-8xl text-ember/40 leading-none mb-4">01</div>
+        <h3 class="font-serif text-2xl md:text-3xl mb-3 tracking-tightest">Dołącz</h3>
+        <p class="text-paper/75 leading-relaxed">
+          Zostawiasz imię, miasto i krótkie „dlaczego”. Dostajesz dostęp do forum i kontakt do lidera najbliższego kręgu.
+        </p>
+      </div>
+
+      <!-- Arrow connector 1 -->
+      <div class="reveal hidden md:flex items-center justify-center pt-16 text-ember/60" aria-hidden="true">
+        <svg width="96" height="32" viewBox="0 0 120 32" fill="none">
+          <path d="M0 16 Q 40 4, 60 16 T 110 16" stroke="currentColor" stroke-width="1.2" stroke-dasharray="3 4" fill="none"/>
+          <path d="M100 10 L112 16 L100 22" stroke="currentColor" stroke-width="1.4" fill="none"/>
+        </svg>
+      </div>
+
+      <div class="reveal relative pl-4 md:pl-0">
+        <div class="font-serif text-7xl md:text-8xl text-ember/40 leading-none mb-4">02</div>
+        <h3 class="font-serif text-2xl md:text-3xl mb-3 tracking-tightest">Poznaj</h3>
+        <p class="text-paper/75 leading-relaxed">
+          Przychodzisz na pierwsze lokalne spotkanie. Bez opłat na start, bez rytuałów. Siadasz, słuchasz, mówisz tyle, ile chcesz.
+        </p>
+      </div>
+
+      <!-- Arrow connector 2 -->
+      <div class="reveal hidden md:flex items-center justify-center pt-16 text-ember/60" aria-hidden="true">
+        <svg width="96" height="32" viewBox="0 0 120 32" fill="none">
+          <path d="M0 16 Q 40 28, 60 16 T 110 16" stroke="currentColor" stroke-width="1.2" stroke-dasharray="3 4" fill="none"/>
+          <path d="M100 10 L112 16 L100 22" stroke="currentColor" stroke-width="1.4" fill="none"/>
+        </svg>
+      </div>
+
+      <div class="reveal relative pl-4 md:pl-0">
+        <div class="font-serif text-7xl md:text-8xl text-ember/40 leading-none mb-4">03</div>
+        <h3 class="font-serif text-2xl md:text-3xl mb-3 tracking-tightest">Działaj</h3>
+        <p class="text-paper/75 leading-relaxed">
+          Zapisujesz się na wyjazd, trening, strzelnicę albo wyprawę. Tyle, ile pasuje do twojego życia — nie odwrotnie.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NADCHODZĄCE WYDARZENIA ============ -->
+<section id="wydarzenia" class="relative py-24 md:py-32 bg-paper grain grain-light">
+  <div class="relative z-10 max-w-6xl mx-auto px-5 md:px-8">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
+      <div class="max-w-2xl">
+        <p class="eyebrow-line uppercase tracking-[0.3em] text-xs text-charcoal/60 mb-5 reveal">Nadchodzące wydarzenia</p>
+        <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl leading-[1.05] tracking-tightest reveal">
+          Kalendarz na najbliższe tygodnie.
+        </h2>
+      </div>
+      <a href="#" class="reveal text-sm uppercase tracking-widest text-forest border-b border-forest/40 pb-1 hover:border-forest self-start">Zobacz wszystkie →</a>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6 md:gap-8">
+      <!-- Event 1 -->
+      <article class="reveal group bg-white border border-charcoal/10 overflow-hidden flex flex-col">
+        <div class="aspect-[4/3] relative overflow-hidden bg-gradient-to-b from-[#1F2B22] to-[#0B1012]">
+          <svg class="absolute inset-0 w-full h-full" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <!-- Warstwa tylna — odległe góry -->
+            <path d="M0,180 L80,140 L160,170 L240,130 L320,165 L400,140 L400,300 L0,300 Z" fill="#1A2620" opacity="0.7"/>
+            <!-- Księżyc -->
+            <circle cx="320" cy="70" r="18" fill="#F2EEE6" opacity="0.15"/>
+            <circle cx="320" cy="70" r="10" fill="#F2EEE6" opacity="0.6"/>
+            <!-- Ścieżka -->
+            <path d="M190,300 Q200,260 180,230 Q165,200 200,175 Q230,155 220,130 Q215,112 240,100" stroke="#C8621A" stroke-width="2" stroke-dasharray="1 4" fill="none" opacity="0.55"/>
+            <!-- Sosny drobne — tło -->
+            <g fill="#0E1612">
+              <polygon points="30,240 22,200 17,190 23,187 19,176 28,160 37,176 33,187 39,190 34,200 26,240"/>
+              <polygon points="75,250 67,205 62,193 68,190 63,176 72,158 81,176 76,190 82,193 77,205 70,250"/>
+              <polygon points="120,235 113,200 108,190 114,187 110,178 118,162 126,178 122,187 128,190 123,200 116,235"/>
+              <polygon points="370,250 361,200 356,188 362,185 357,172 366,153 375,172 370,185 376,188 371,200 364,250"/>
+            </g>
+            <!-- Sosny grubsze — pierwszy plan -->
+            <g fill="#050908">
+              <polygon points="50,300 36,230 28,215 37,211 30,192 45,168 60,192 53,211 62,215 54,230 65,300"/>
+              <polygon points="340,300 325,225 318,210 327,206 320,188 335,162 350,188 343,206 352,210 345,225 355,300"/>
+            </g>
+            <!-- Postać turystyczna z plecakiem -->
+            <g transform="translate(212 186)">
+              <!-- Plecak (za postacią) -->
+              <path d="M-6,0 C-10,2 -11,8 -11,14 L-11,26 C-11,30 -9,32 -6,33 L6,33 C9,32 11,30 11,26 L11,14 C11,8 10,2 6,0 Z" fill="#8A4512"/>
+              <!-- Pasek plecaka na wierzchu -->
+              <rect x="-8" y="8" width="16" height="2" fill="#5A2E0C"/>
+              <rect x="-8" y="20" width="16" height="1.5" fill="#5A2E0C" opacity="0.8"/>
+              <!-- Mata zwinięta na plecaku -->
+              <rect x="-10" y="-3" width="20" height="4" rx="2" fill="#6B3A10"/>
+              <!-- Głowa -->
+              <circle cx="0" cy="-4" r="4" fill="#F2EEE6"/>
+              <!-- Czapka -->
+              <path d="M-4,-5 C-4,-8 4,-8 4,-5 L5,-3 L-5,-3 Z" fill="#2A3A2E"/>
+              <rect x="-5" y="-4" width="10" height="1" fill="#1A1A1A"/>
+              <!-- Tors (kurtka) -->
+              <path d="M-5,0 L5,0 L7,4 L6,20 L-6,20 L-7,4 Z" fill="#C8621A"/>
+              <!-- Ramiona/ręce trzymające kijki -->
+              <path d="M-5,3 L-9,10 L-10,16" stroke="#C8621A" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+              <path d="M5,3 L9,10 L10,16" stroke="#C8621A" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+              <!-- Nogi -->
+              <rect x="-5" y="20" width="4" height="16" fill="#2A3A2E"/>
+              <rect x="1"  y="20" width="4" height="16" fill="#2A3A2E"/>
+              <!-- Buty -->
+              <ellipse cx="-3" cy="36" rx="3" ry="1.5" fill="#1A1A1A"/>
+              <ellipse cx="3"  cy="36" rx="3" ry="1.5" fill="#1A1A1A"/>
+              <!-- Kijki trekkingowe -->
+              <line x1="-10" y1="16" x2="-16" y2="42" stroke="#F2EEE6" stroke-width="1" opacity="0.8" stroke-linecap="round"/>
+              <line x1="10"  y1="16" x2="16"  y2="42" stroke="#F2EEE6" stroke-width="1" opacity="0.8" stroke-linecap="round"/>
+              <!-- Uchwyty kijków -->
+              <rect x="-11" y="14" width="2" height="4" fill="#1A1A1A"/>
+              <rect x="9"   y="14" width="2" height="4" fill="#1A1A1A"/>
+            </g>
+            <!-- Mgła -->
+            <ellipse cx="120" cy="210" rx="140" ry="16" fill="#F2EEE6" opacity="0.05"/>
+            <ellipse cx="300" cy="225" rx="120" ry="12" fill="#F2EEE6" opacity="0.05"/>
+          </svg>
+          <span class="absolute top-4 left-4 bg-forest text-paper text-xs uppercase tracking-widest px-3 py-1 z-10">Las</span>
+        </div>
+        <div class="p-6 flex flex-col flex-1">
+          <time class="text-sm text-charcoal/60 uppercase tracking-widest">16–18 maja 2026</time>
+          <h3 class="font-serif text-2xl mt-2 mb-3 tracking-tightest">Bieszczady — weekend pod namiotem</h3>
+          <p class="text-charcoal/75 leading-relaxed flex-1">
+            Trzy dni, plecak, ognisko, cisza. Dla nowych i starych. Ograniczona liczba miejsc.
+          </p>
+          <a href="#" class="mt-5 inline-block text-ember font-medium border-b border-ember/40 hover:border-ember pb-0.5 self-start">Zapisz się →</a>
+        </div>
+      </article>
+
+      <!-- Event 2 -->
+      <article class="reveal group bg-white border border-charcoal/10 overflow-hidden flex flex-col">
+        <div class="aspect-[4/3] relative overflow-hidden bg-gradient-to-b from-[#2A3A2E] to-[#121912]">
+          <svg class="absolute inset-0 w-full h-full" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <!-- Tarcza — kręgi -->
+            <g transform="translate(265 150)">
+              <circle r="95" fill="none" stroke="#F2EEE6" stroke-width="1.2" opacity="0.12"/>
+              <circle r="75" fill="none" stroke="#F2EEE6" stroke-width="1.2" opacity="0.2"/>
+              <circle r="58" fill="none" stroke="#F2EEE6" stroke-width="1.4" opacity="0.35"/>
+              <circle r="42" fill="none" stroke="#F2EEE6" stroke-width="1.4" opacity="0.55"/>
+              <circle r="28" fill="#F2EEE6" opacity="0.08" stroke="#F2EEE6" stroke-width="1.4" stroke-opacity="0.8"/>
+              <circle r="14" fill="#C8621A" opacity="0.9"/>
+              <circle r="6"  fill="#1A1A1A"/>
+              <!-- Przestrzelenia -->
+              <circle cx="-2" cy="-3" r="2" fill="#1A1A1A"/>
+              <circle cx="8" cy="4" r="2" fill="#1A1A1A"/>
+              <circle cx="-6" cy="7" r="2" fill="#1A1A1A"/>
+              <!-- Krzyżyk celu -->
+              <line x1="-110" y1="0" x2="-98" y2="0" stroke="#F2EEE6" stroke-width="0.8" opacity="0.35"/>
+              <line x1="98"  y1="0" x2="110" y2="0" stroke="#F2EEE6" stroke-width="0.8" opacity="0.35"/>
+              <line x1="0" y1="-110" x2="0" y2="-98" stroke="#F2EEE6" stroke-width="0.8" opacity="0.35"/>
+              <line x1="0" y1="98" x2="0" y2="110" stroke="#F2EEE6" stroke-width="0.8" opacity="0.35"/>
+            </g>
+
+            <!-- Pistolet — realistyczna sylweta, widok z boku, lewy dolny róg -->
+            <g transform="translate(28 218)">
+              <!-- Zamek/slide (górna część) -->
+              <path d="M4,10 L90,10 L94,14 L94,22 L90,26 L4,26 L0,22 L0,14 Z" fill="#E8E4D8" opacity="0.92"/>
+              <!-- Rama/chwyt -->
+              <path d="M18,26 L70,26 L70,32 L64,38 C62,46 56,56 54,62 L26,62 L22,54 L18,44 L18,32 Z" fill="#D0CCC0" opacity="0.92"/>
+              <!-- Kabłąk spustu -->
+              <path d="M38,32 L58,32 L60,40 C60,46 56,50 50,50 L46,50 C42,50 38,46 38,40 Z" fill="#0F1412"/>
+              <!-- Spust -->
+              <path d="M44,36 C44,42 47,46 49,46 L49,42 C49,38 47,36 44,36 Z" fill="#D0CCC0"/>
+              <!-- Kurek -->
+              <path d="M4,10 L4,4 L12,2 L14,10 Z" fill="#E8E4D8" opacity="0.92"/>
+              <!-- Celownik tylny -->
+              <rect x="8" y="6" width="4" height="4" fill="#1A1A1A"/>
+              <!-- Muszka -->
+              <rect x="84" y="6" width="3" height="4" fill="#1A1A1A"/>
+              <!-- Wylot lufy -->
+              <circle cx="90" cy="18" r="2.5" fill="#050908"/>
+              <!-- Linie na zamku (decoration/serrations) -->
+              <g stroke="#8A8678" stroke-width="0.6" opacity="0.7">
+                <line x1="6"  y1="12" x2="6"  y2="24"/>
+                <line x1="9"  y1="12" x2="9"  y2="24"/>
+                <line x1="12" y1="12" x2="12" y2="24"/>
+                <line x1="82" y1="12" x2="82" y2="24"/>
+                <line x1="85" y1="12" x2="85" y2="24"/>
+              </g>
+              <!-- Tekstura chwytu (kropki) -->
+              <g fill="#8A8678" opacity="0.5">
+                <circle cx="28" cy="42" r="0.8"/><circle cx="32" cy="42" r="0.8"/><circle cx="36" cy="42" r="0.8"/>
+                <circle cx="28" cy="46" r="0.8"/><circle cx="32" cy="46" r="0.8"/><circle cx="36" cy="46" r="0.8"/>
+                <circle cx="28" cy="50" r="0.8"/><circle cx="32" cy="50" r="0.8"/><circle cx="36" cy="50" r="0.8"/>
+                <circle cx="28" cy="54" r="0.8"/><circle cx="32" cy="54" r="0.8"/><circle cx="36" cy="54" r="0.8"/>
+              </g>
+              <!-- Magazynek (dolna krawędź) -->
+              <rect x="28" y="58" width="24" height="6" fill="#1A1A1A"/>
+            </g>
+
+            <!-- Łuski mosiężne — realistyczne walce -->
+            <g transform="translate(80 275)">
+              <g transform="rotate(25)">
+                <rect x="0" y="-4" width="16" height="8" rx="1" fill="#C8621A"/>
+                <rect x="0" y="-4" width="16" height="8" rx="1" fill="url(#brass1)"/>
+                <rect x="0" y="-4" width="3"  height="8" fill="#8A4512"/>
+                <ellipse cx="0" cy="0" rx="1.2" ry="4" fill="#5A2E0C"/>
+                <circle cx="0" cy="0" r="1" fill="#1A1A1A"/>
+              </g>
+            </g>
+            <g transform="translate(110 282)">
+              <g transform="rotate(-20)">
+                <rect x="0" y="-4" width="14" height="7" rx="1" fill="#C8621A"/>
+                <rect x="0" y="-4" width="3"  height="7" fill="#8A4512"/>
+                <ellipse cx="0" cy="-0.5" rx="1" ry="3.5" fill="#5A2E0C"/>
+                <circle cx="0" cy="-0.5" r="0.8" fill="#1A1A1A"/>
+              </g>
+            </g>
+            <g transform="translate(140 278)">
+              <g transform="rotate(45)">
+                <rect x="0" y="-4" width="15" height="7.5" rx="1" fill="#C8621A"/>
+                <rect x="0" y="-4" width="3"  height="7.5" fill="#8A4512"/>
+                <ellipse cx="0" cy="-0.25" rx="1.1" ry="3.75" fill="#5A2E0C"/>
+                <circle cx="0" cy="-0.25" r="0.9" fill="#1A1A1A"/>
+              </g>
+            </g>
+
+            <defs>
+              <linearGradient id="brass1" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%"  stop-color="#E8A352"/>
+                <stop offset="50%" stop-color="#C8621A"/>
+                <stop offset="100%" stop-color="#8A4512"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="absolute top-4 left-4 bg-charcoal text-paper text-xs uppercase tracking-widest px-3 py-1 z-10">Strzelnica</span>
+        </div>
+        <div class="p-6 flex flex-col flex-1">
+          <time class="text-sm text-charcoal/60 uppercase tracking-widest">23 maja 2026 · Warszawa</time>
+          <h3 class="font-serif text-2xl mt-2 mb-3 tracking-tightest">Dzień na strzelnicy — poziom podstawowy</h3>
+          <p class="text-charcoal/75 leading-relaxed flex-1">
+            Bezpieczeństwo, pistolet, karabin. Licencjonowany instruktor, sprzęt na miejscu. Dla początkujących.
+          </p>
+          <a href="#" class="mt-5 inline-block text-ember font-medium border-b border-ember/40 hover:border-ember pb-0.5 self-start">Zapisz się →</a>
+        </div>
+      </article>
+
+      <!-- Event 3 -->
+      <article class="reveal group bg-white border border-charcoal/10 overflow-hidden flex flex-col">
+        <div class="aspect-[4/3] relative overflow-hidden bg-gradient-to-b from-[#1A1A1A] to-[#0B1012]">
+          <svg class="absolute inset-0 w-full h-full" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <!-- Ciepły blask świecy -->
+            <radialGradient id="candleGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#C8621A" stop-opacity="0.5"/>
+              <stop offset="100%" stop-color="#C8621A" stop-opacity="0"/>
+            </radialGradient>
+            <circle cx="200" cy="110" r="160" fill="url(#candleGlow)"/>
+
+            <!-- Stół — linia -->
+            <line x1="0" y1="220" x2="400" y2="220" stroke="#F2EEE6" stroke-width="0.6" opacity="0.2"/>
+
+            <!-- Szklanka lewa -->
+            <g transform="translate(90 170)">
+              <path d="M0,0 L36,0 L32,48 L4,48 Z" fill="#C8621A" opacity="0.25"/>
+              <path d="M0,0 L36,0 L32,48 L4,48 Z" fill="none" stroke="#F2EEE6" stroke-width="1.2" opacity="0.8"/>
+              <path d="M4,30 L32,30" stroke="#C8621A" stroke-width="14" opacity="0.7"/>
+              <!-- Kostka lodu -->
+              <rect x="10" y="18" width="8" height="8" fill="#F2EEE6" opacity="0.4"/>
+              <rect x="19" y="22" width="7" height="7" fill="#F2EEE6" opacity="0.3"/>
+            </g>
+
+            <!-- Świeca środkowa -->
+            <g transform="translate(195 130)">
+              <!-- podstawa świecy -->
+              <rect x="-5" y="30" width="10" height="60" fill="#F2EEE6" opacity="0.9"/>
+              <rect x="-6" y="86" width="12" height="4" fill="#1A1A1A" opacity="0.4"/>
+              <!-- knot -->
+              <line x1="0" y1="28" x2="0" y2="34" stroke="#1A1A1A" stroke-width="1"/>
+              <!-- płomień -->
+              <path d="M0,8 C3,14 5,18 5,22 C5,27 2,30 0,30 C-2,30 -5,27 -5,22 C-5,18 -3,14 0,8 Z" fill="#C8621A"/>
+              <path d="M0,14 C2,18 3,20 3,23 C3,26 1,28 0,28 C-1,28 -3,26 -3,23 C-3,20 -2,18 0,14 Z" fill="#F2EEE6" opacity="0.85"/>
+            </g>
+
+            <!-- Szklanka prawa -->
+            <g transform="translate(274 170)">
+              <path d="M0,0 L36,0 L32,48 L4,48 Z" fill="#C8621A" opacity="0.25"/>
+              <path d="M0,0 L36,0 L32,48 L4,48 Z" fill="none" stroke="#F2EEE6" stroke-width="1.2" opacity="0.8"/>
+              <path d="M4,34 L32,34" stroke="#C8621A" stroke-width="10" opacity="0.7"/>
+              <rect x="12" y="24" width="7" height="7" fill="#F2EEE6" opacity="0.4"/>
+            </g>
+
+            <!-- Butelka whisky -->
+            <g transform="translate(170 70)">
+              <!-- Kapsel -->
+              <rect x="-5" y="0" width="10" height="6" fill="#1A1A1A" stroke="#F2EEE6" stroke-width="0.6" opacity="0.85"/>
+              <!-- Szyjka -->
+              <path d="M-4,6 L4,6 L5,16 L-5,16 Z" fill="#3A1F08" stroke="#F2EEE6" stroke-width="0.5" opacity="0.85"/>
+              <!-- Ramię butelki (przejście szyjka-korpus) -->
+              <path d="M-5,16 C-9,18 -11,22 -11,26 L-11,32 L11,32 L11,26 C11,22 9,18 5,16 Z" fill="#3A1F08" stroke="#F2EEE6" stroke-width="0.5" opacity="0.85"/>
+              <!-- Korpus -->
+              <rect x="-11" y="32" width="22" height="58" rx="1" fill="#3A1F08" stroke="#F2EEE6" stroke-width="0.5" opacity="0.85"/>
+              <!-- Płyn w butelce (amber) -->
+              <path d="M-10,34 L10,34 L10,89 L-10,89 Z" fill="#C8621A" opacity="0.55"/>
+              <!-- Górna linia płynu -->
+              <line x1="-10" y1="40" x2="10" y2="40" stroke="#E87A2C" stroke-width="0.6" opacity="0.8"/>
+              <!-- Etykieta kremowa -->
+              <rect x="-10" y="48" width="20" height="24" fill="#F2EEE6" opacity="0.95"/>
+              <!-- Obramowanie etykiety -->
+              <rect x="-10" y="48" width="20" height="24" fill="none" stroke="#1A1A1A" stroke-width="0.4" opacity="0.4"/>
+              <!-- Tekst etykiety (linie imitujące napisy) -->
+              <g fill="#1A1A1A" opacity="0.6">
+                <rect x="-7" y="52" width="14" height="1"/>
+                <rect x="-5" y="56" width="10" height="1.5"/>
+                <rect x="-7" y="60" width="14" height="0.8"/>
+                <rect x="-6" y="64" width="12" height="0.8"/>
+                <rect x="-4" y="68" width="8"  height="1"/>
+              </g>
+              <!-- Refleks na szkle -->
+              <path d="M-9,20 L-9,88" stroke="#F2EEE6" stroke-width="1.4" opacity="0.5"/>
+              <path d="M9,36 L9,44" stroke="#F2EEE6" stroke-width="0.8" opacity="0.4"/>
+            </g>
+
+            <!-- Dymek nad świecą -->
+            <g stroke="#F2EEE6" stroke-width="0.6" opacity="0.25" fill="none">
+              <path d="M195,128 Q200,110 192,92 Q186,78 196,62"/>
+            </g>
+          </svg>
+          <span class="absolute top-4 left-4 bg-ember text-paper text-xs uppercase tracking-widest px-3 py-1 z-10">Spotkanie</span>
+        </div>
+        <div class="p-6 flex flex-col flex-1">
+          <time class="text-sm text-charcoal/60 uppercase tracking-widest">4 czerwca 2026 · Kraków</time>
+          <h3 class="font-serif text-2xl mt-2 mb-3 tracking-tightest">Krąg miesiąca — „Ojcostwo bez podręcznika”</h3>
+          <p class="text-charcoal/75 leading-relaxed flex-1">
+            Dwie godziny rozmowy o tym, jak być ojcem, którego samemu się nie miało. Wejście na zapisy.
+          </p>
+          <a href="#" class="mt-5 inline-block text-ember font-medium border-b border-ember/40 hover:border-ember pb-0.5 self-start">Zapisz się →</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS — GŁOSY BRACI ============ -->
+<section id="bracia" class="relative py-24 md:py-32 bg-forestDk text-paper grain">
+  <div class="relative z-10 max-w-6xl mx-auto px-5 md:px-8">
+    <div class="max-w-2xl mb-16">
+      <p class="eyebrow-line uppercase tracking-[0.3em] text-xs text-paper/60 mb-5 reveal">Głosy braci</p>
+      <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl leading-[1.05] tracking-tightest reveal">
+        Tak to wygląda od środka.
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8 md:gap-12">
+      <!-- T1 -->
+      <figure class="reveal border-t border-paper/15 pt-8">
+        <blockquote class="font-serif text-xl md:text-2xl leading-snug text-paper/90 tracking-tightest">
+          „Przez trzy lata po rozwodzie nie zadzwoniłem do nikogo, kto nie był moim klientem. Pierwszy wyjazd w las był niezręczny. Drugi już nie. Dzisiaj mam pięciu facetów, do których zadzwonię o trzeciej w nocy.”
+        </blockquote>
+        <figcaption class="mt-5 text-sm text-paper/60 uppercase tracking-widest">
+          Marek, 42 · Wrocław
+        </figcaption>
+      </figure>
+
+      <!-- T2 -->
+      <figure class="reveal border-t border-paper/15 pt-8">
+        <blockquote class="font-serif text-xl md:text-2xl leading-snug text-paper/90 tracking-tightest">
+          „Bałem się, że to będzie jakiś krąg męski z bębnami. Nie jest. To jest krąg facetów, którzy mówią wprost, co ich boli, i idą z tym zrobić coś pożytecznego. Wracam do domu lepszym mężem.”
+        </blockquote>
+        <figcaption class="mt-5 text-sm text-paper/60 uppercase tracking-widest">
+          Tomek, 36 · Poznań
+        </figcaption>
+      </figure>
+
+      <!-- T3 -->
+      <figure class="reveal border-t border-paper/15 pt-8">
+        <blockquote class="font-serif text-xl md:text-2xl leading-snug text-paper/90 tracking-tightest">
+          „Jestem introwertykiem. Myślałem, że to nie dla mnie. Okazało się, że tu nikt cię nie ciągnie za język. Można siedzieć przy ogniu i nic nie mówić — i to jest OK.”
+        </blockquote>
+        <figcaption class="mt-5 text-sm text-paper/60 uppercase tracking-widest">
+          Piotr, 31 · Gdańsk
+        </figcaption>
+      </figure>
+
+      <!-- T4 -->
+      <figure class="reveal border-t border-paper/15 pt-8">
+        <blockquote class="font-serif text-xl md:text-2xl leading-snug text-paper/90 tracking-tightest">
+          „Wyjazd do Gruzji. Tydzień bez telefonu, osiem godzin marszu dziennie, wieczorem chacza i rozmowa. Wróciłem spokojniejszy niż po jakichkolwiek wakacjach w życiu.”
+        </blockquote>
+        <figcaption class="mt-5 text-sm text-paper/60 uppercase tracking-widest">
+          Kuba, 48 · Łódź
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq" class="relative py-24 md:py-32 bg-paper grain grain-light">
+  <div class="relative z-10 max-w-3xl mx-auto px-5 md:px-8">
+    <div class="mb-14">
+      <p class="eyebrow-line uppercase tracking-[0.3em] text-xs text-charcoal/60 mb-5 reveal">Najczęstsze pytania</p>
+      <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl leading-[1.05] tracking-tightest reveal">
+        Zanim zapytasz.
+      </h2>
+    </div>
+
+    <div class="divide-y divide-charcoal/15 border-t border-b border-charcoal/15">
+      <details class="group reveal">
+        <summary class="flex items-center justify-between py-6 cursor-pointer list-none">
+          <span class="font-serif text-xl md:text-2xl tracking-tightest pr-4">Czy muszę być w formie?</span>
+          <span class="text-ember text-2xl font-light group-open:rotate-45 transition-transform">+</span>
+        </summary>
+        <p class="pb-6 text-charcoal/80 leading-relaxed">
+          Nie. Większość z nas zaczynała z brzuchem, zadyszką i kolanem po kontuzji sprzed dekady. Przy każdym wydarzeniu piszemy wprost, jaki poziom wysiłku cię czeka. Masz wybór.
+        </p>
+      </details>
+
+      <details class="group reveal">
+        <summary class="flex items-center justify-between py-6 cursor-pointer list-none">
+          <span class="font-serif text-xl md:text-2xl tracking-tightest pr-4">Ile to kosztuje?</span>
+          <span class="text-ember text-2xl font-light group-open:rotate-45 transition-transform">+</span>
+        </summary>
+        <p class="pb-6 text-charcoal/80 leading-relaxed">
+          Dostęp do wspólnoty i lokalnych spotkań — bezpłatnie. Wyjazdy i strzelnicę finansujesz sam, po kosztach (noclegi, paliwo, instruktor, amunicja). Bez marży. Bez członkostwa premium.
+        </p>
+      </details>
+
+      <details class="group reveal">
+        <summary class="flex items-center justify-between py-6 cursor-pointer list-none">
+          <span class="font-serif text-xl md:text-2xl tracking-tightest pr-4">Czy to sekta, religia albo polityka?</span>
+          <span class="text-ember text-2xl font-light group-open:rotate-45 transition-transform">+</span>
+        </summary>
+        <p class="pb-6 text-charcoal/80 leading-relaxed">
+          Nie. Nie mamy guru, doktryny ani partii. Wiara i poglądy to twoja sprawa — na spotkaniach zostawiamy je przed drzwiami, żeby rozmowa była możliwa.
+        </p>
+      </details>
+
+      <details class="group reveal">
+        <summary class="flex items-center justify-between py-6 cursor-pointer list-none">
+          <span class="font-serif text-xl md:text-2xl tracking-tightest pr-4">Jak często są spotkania?</span>
+          <span class="text-ember text-2xl font-light group-open:rotate-45 transition-transform">+</span>
+        </summary>
+        <p class="pb-6 text-charcoal/80 leading-relaxed">
+          Lokalny krąg — raz w miesiącu. Trening lub strzelnica — w zależności od miasta, co 2–4 tygodnie. Wyprawa w las — raz na kwartał. Wyjazd zagraniczny — dwa razy w roku.
+        </p>
+      </details>
+
+      <details class="group reveal">
+        <summary class="flex items-center justify-between py-6 cursor-pointer list-none">
+          <span class="font-serif text-xl md:text-2xl tracking-tightest pr-4">Czy muszę jeździć daleko?</span>
+          <span class="text-ember text-2xl font-light group-open:rotate-45 transition-transform">+</span>
+        </summary>
+        <p class="pb-6 text-charcoal/80 leading-relaxed">
+          Mamy kręgi w kilkunastu miastach — Warszawa, Kraków, Wrocław, Poznań, Gdańsk, Katowice, Lublin, Rzeszów, Białystok i dalej. Jeśli w twoim mieście jeszcze nas nie ma — napisz, pomożemy założyć.
+        </p>
+      </details>
+
+      <details class="group reveal">
+        <summary class="flex items-center justify-between py-6 cursor-pointer list-none">
+          <span class="font-serif text-xl md:text-2xl tracking-tightest pr-4">Co jeśli jestem introwertykiem?</span>
+          <span class="text-ember text-2xl font-light group-open:rotate-45 transition-transform">+</span>
+        </summary>
+        <p class="pb-6 text-charcoal/80 leading-relaxed">
+          Tym lepiej. Połowa z nas to introwertycy. Nikt cię nie zmusi do mówienia — a cisza przy ogniu też jest rozmową. Jeśli „networking” brzmi dla ciebie jak choroba, jesteś u siebie.
+        </p>
+      </details>
+
+      <details class="group reveal">
+        <summary class="flex items-center justify-between py-6 cursor-pointer list-none">
+          <span class="font-serif text-xl md:text-2xl tracking-tightest pr-4">Mam żonę i dzieci — czy to nie kradnie im czasu?</span>
+          <span class="text-ember text-2xl font-light group-open:rotate-45 transition-transform">+</span>
+        </summary>
+        <p class="pb-6 text-charcoal/80 leading-relaxed">
+          Odwrotnie. Większość naszych żon mówi, że wracamy z wyjazdów spokojniejsi, bardziej obecni. Raz w miesiącu wieczór, raz na kwartał weekend — to nie kradzież, to inwestycja w relację.
+        </p>
+      </details>
+
+      <details class="group reveal">
+        <summary class="flex items-center justify-between py-6 cursor-pointer list-none">
+          <span class="font-serif text-xl md:text-2xl tracking-tightest pr-4">Nigdy nie trzymałem broni. Dam radę na strzelnicy?</span>
+          <span class="text-ember text-2xl font-light group-open:rotate-45 transition-transform">+</span>
+        </summary>
+        <p class="pb-6 text-charcoal/80 leading-relaxed">
+          Tak. Dni strzeleckie zaczynamy od zera — bezpieczeństwo, obsługa broni, pierwsze strzały pod okiem instruktora. Nie musisz niczego posiadać ani umieć wcześniej.
+        </p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section id="dolacz" class="relative py-24 md:py-36 bg-charcoal text-paper grain overflow-hidden">
+  <div class="absolute inset-0 opacity-90">
+    <svg class="w-full h-full" viewBox="0 0 1920 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <!-- Niebo — subtelny gradient w SVG -->
+      <defs>
+        <linearGradient id="ctaSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#2A3A2E" stop-opacity="0"/>
+          <stop offset="50%" stop-color="#1A1A1A" stop-opacity="0.3"/>
+          <stop offset="100%" stop-color="#1A1A1A" stop-opacity="1"/>
+        </linearGradient>
+        <linearGradient id="ctaMountain1" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#2F3E35"/>
+          <stop offset="100%" stop-color="#1A241E"/>
+        </linearGradient>
+        <linearGradient id="ctaMountain2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#1F2B22"/>
+          <stop offset="100%" stop-color="#121A14"/>
+        </linearGradient>
+        <linearGradient id="ctaMountain3" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#0E1410"/>
+          <stop offset="100%" stop-color="#050908"/>
+        </linearGradient>
+      </defs>
+      <rect width="1920" height="1000" fill="url(#ctaSky)"/>
+
+      <!-- Słońce/księżyc -->
+      <circle cx="1400" cy="320" r="90" fill="#C8621A" opacity="0.25"/>
+      <circle cx="1400" cy="320" r="60" fill="#C8621A" opacity="0.5"/>
+      <circle cx="1400" cy="320" r="38" fill="#E87A2C" opacity="0.8"/>
+
+      <!-- Najdalsze góry -->
+      <path d="M0,560 L120,420 L240,500 L360,380 L480,460 L600,360 L720,450 L840,380 L960,430 L1080,360 L1200,440 L1320,370 L1440,420 L1560,380 L1680,440 L1800,400 L1920,450 L1920,1000 L0,1000 Z" fill="url(#ctaMountain1)" opacity="0.75"/>
+
+      <!-- Środkowe góry -->
+      <path d="M0,660 L100,560 L220,630 L340,520 L460,610 L580,500 L700,590 L820,490 L940,580 L1060,500 L1180,590 L1300,520 L1420,600 L1540,530 L1660,600 L1780,540 L1920,610 L1920,1000 L0,1000 Z" fill="url(#ctaMountain2)"/>
+      <!-- Czapy śniegu -->
+      <g fill="#F2EEE6" opacity="0.4">
+        <path d="M340,520 L352,530 L344,540 L336,532 Z"/>
+        <path d="M580,500 L592,512 L584,522 L572,514 Z"/>
+        <path d="M820,490 L832,504 L822,514 L810,502 Z"/>
+        <path d="M1060,500 L1072,512 L1062,522 L1050,512 Z"/>
+        <path d="M1300,520 L1312,532 L1302,542 L1290,532 Z"/>
+      </g>
+
+      <!-- Najbliższe wzgórza + las -->
+      <path d="M0,780 L140,720 L280,780 L420,700 L560,780 L700,710 L840,780 L980,720 L1120,780 L1260,700 L1400,780 L1540,720 L1680,780 L1820,730 L1920,790 L1920,1000 L0,1000 Z" fill="url(#ctaMountain3)"/>
+
+      <!-- Sosny na pierwszym planie -->
+      <g fill="#050908">
+        <polygon points="80,900 68,810 60,795 70,790 62,770 82,740 100,770 92,790 102,795 92,810 100,900"/>
+        <polygon points="240,920 228,820 220,805 230,800 222,778 240,748 258,778 250,800 260,805 250,820 258,920"/>
+        <polygon points="420,910 408,815 400,800 410,795 402,775 420,745 438,775 430,795 440,800 430,815 438,910"/>
+        <polygon points="600,920 588,820 580,805 590,800 582,778 600,748 618,778 610,800 620,805 610,820 618,920"/>
+        <polygon points="800,915 788,820 780,805 790,800 782,778 800,748 818,778 810,800 820,805 810,820 818,915"/>
+        <polygon points="1000,920 988,820 980,805 990,800 982,778 1000,748 1018,778 1010,800 1020,805 1010,820 1018,920"/>
+        <polygon points="1220,915 1208,820 1200,805 1210,800 1202,778 1220,748 1238,778 1230,800 1240,805 1230,820 1238,915"/>
+        <polygon points="1440,910 1428,815 1420,800 1430,795 1422,775 1440,745 1458,775 1450,795 1460,800 1450,815 1458,910"/>
+        <polygon points="1640,920 1628,820 1620,805 1630,800 1622,778 1640,748 1658,778 1650,800 1660,805 1650,820 1658,920"/>
+        <polygon points="1830,915 1818,820 1810,805 1820,800 1812,778 1830,748 1848,778 1840,800 1850,805 1840,820 1848,915"/>
+      </g>
+
+      <!-- Mgła -->
+      <ellipse cx="500"  cy="780" rx="500" ry="40" fill="#F2EEE6" opacity="0.08"/>
+      <ellipse cx="1400" cy="790" rx="500" ry="35" fill="#F2EEE6" opacity="0.06"/>
+    </svg>
+    <div class="absolute inset-0 bg-gradient-to-b from-charcoal/30 via-charcoal/60 to-charcoal"></div>
+  </div>
+
+  <div class="relative z-10 max-w-3xl mx-auto px-5 md:px-8 text-center">
+    <p class="eyebrow-line uppercase tracking-[0.3em] text-xs text-paper/60 mb-6 reveal">Jeden krok</p>
+    <h2 class="font-serif text-4xl md:text-6xl lg:text-7xl leading-[1.02] tracking-tightest mb-6 reveal">
+      Zrób pierwszy krok.
+    </h2>
+    <p class="text-lg md:text-xl text-paper/80 max-w-xl mx-auto mb-12 reveal">
+      Bez zobowiązań, bez opłat. Dostaniesz zaproszenie na najbliższe spotkanie w twoim mieście.
+    </p>
+
+    <form id="joinForm" class="reveal max-w-xl mx-auto text-left space-y-4" novalidate>
+      <div>
+        <label for="imie" class="block text-xs uppercase tracking-widest text-paper/60 mb-2">Imię</label>
+        <input id="imie" name="imie" type="text" required autocomplete="given-name"
+          class="field w-full bg-transparent border border-paper/25 px-4 py-3 text-paper placeholder-paper/40 rounded-sm"
+          placeholder="Jak masz na imię?" />
+        <p data-error-for="imie" class="hidden text-ember text-sm mt-1">Podaj imię.</p>
+      </div>
+      <div>
+        <label for="email" class="block text-xs uppercase tracking-widest text-paper/60 mb-2">E-mail</label>
+        <input id="email" name="email" type="email" required autocomplete="email"
+          class="field w-full bg-transparent border border-paper/25 px-4 py-3 text-paper placeholder-paper/40 rounded-sm"
+          placeholder="twoj@email.pl" />
+        <p data-error-for="email" class="hidden text-ember text-sm mt-1">Podaj poprawny adres e-mail.</p>
+      </div>
+      <div>
+        <label for="miasto" class="block text-xs uppercase tracking-widest text-paper/60 mb-2">Miasto</label>
+        <input id="miasto" name="miasto" type="text" required autocomplete="address-level2"
+          class="field w-full bg-transparent border border-paper/25 px-4 py-3 text-paper placeholder-paper/40 rounded-sm"
+          placeholder="np. Kraków" />
+        <p data-error-for="miasto" class="hidden text-ember text-sm mt-1">Podaj miasto.</p>
+      </div>
+
+      <label class="flex items-start gap-3 text-sm text-paper/70 pt-2">
+        <input id="zgoda" name="zgoda" type="checkbox" required class="mt-1 accent-ember" />
+        <span>Zgadzam się na kontakt w sprawie najbliższego spotkania i przeczytałem <a href="#" class="underline hover:text-paper">politykę prywatności</a>.</span>
+      </label>
+      <p data-error-for="zgoda" class="hidden text-ember text-sm mt-1">Zaznacz zgodę.</p>
+
+      <button type="submit" class="w-full mt-4 px-7 py-4 bg-ember hover:bg-emberDk transition-colors text-paper font-medium rounded-sm text-base">
+        Dołącz do wspólnoty
+      </button>
+
+      <p id="formSuccess" class="hidden text-center text-paper bg-forest/60 border border-paper/20 px-4 py-3 rounded-sm mt-4">
+        Dzięki. Lider twojego kręgu odezwie się w ciągu kilku dni.
+      </p>
+    </form>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="relative bg-charcoal text-paper/70 border-t border-paper/10 overflow-hidden">
+  <!-- Ornament: róża wiatrów, duża, w tle -->
+  <svg class="absolute -right-20 -bottom-20 w-[380px] h-[380px] text-paper/5 pointer-events-none" viewBox="0 0 200 200" fill="none" aria-hidden="true">
+    <g stroke="currentColor" stroke-width="0.6" fill="none">
+      <circle cx="100" cy="100" r="92"/>
+      <circle cx="100" cy="100" r="72"/>
+      <circle cx="100" cy="100" r="48"/>
+      <circle cx="100" cy="100" r="6"/>
+    </g>
+    <g fill="currentColor">
+      <!-- N, E, S, W (duże ramiona) -->
+      <polygon points="100,8 106,100 100,92 94,100" opacity="0.9"/>
+      <polygon points="192,100 100,106 108,100 100,94" opacity="0.6"/>
+      <polygon points="100,192 94,100 100,108 106,100" opacity="0.6"/>
+      <polygon points="8,100 100,94 92,100 100,106" opacity="0.6"/>
+      <!-- NE, SE, SW, NW (mniejsze) -->
+      <polygon points="165,35 104,96 100,100 96,96" opacity="0.4"/>
+      <polygon points="165,165 104,104 100,100 96,104" opacity="0.4"/>
+      <polygon points="35,165 96,104 100,100 104,104" opacity="0.4"/>
+      <polygon points="35,35 96,96 100,100 104,96" opacity="0.4"/>
+    </g>
+    <g fill="currentColor" font-family="Fraunces, serif" font-size="9" text-anchor="middle" opacity="0.7">
+      <text x="100" y="6">N</text>
+      <text x="198" y="103">E</text>
+      <text x="100" y="200">S</text>
+      <text x="3" y="103">W</text>
+    </g>
+  </svg>
+
+  <div class="relative z-10 max-w-6xl mx-auto px-5 md:px-8 py-14 grid md:grid-cols-3 gap-10">
+    <div>
+      <div class="flex items-center gap-3 font-serif text-lg tracking-tightest text-paper">
+        <span class="relative inline-flex items-center justify-center w-9 h-9 rounded-full border border-paper/60">
+          <svg class="flame-svg" width="16" height="20" viewBox="0 0 24 28" fill="none" aria-hidden="true">
+            <path d="M12 2 C 13 7, 18 9, 18 15 C 18 21, 14 26, 12 26 C 10 26, 6 21, 6 15 C 6 11, 9 10, 10 6 C 10.5 4, 11 3, 12 2 Z" fill="#C8621A"/>
+            <path d="M12 10 C 12.5 13, 15 14, 15 17 C 15 20, 13 23, 12 23 C 11 23, 9 20, 9 17 C 9 15, 10.5 14, 11 12 Z" fill="#F2EEE6" opacity="0.9"/>
+          </svg>
+        </span>
+        <span>Droga Nowoczesnego Mężczyzny</span>
+      </div>
+      <p class="mt-4 text-sm leading-relaxed">
+        Wspólnota mężczyzn, którzy wychodzą z cienia ekranu. Polska, od 2023.
+      </p>
+    </div>
+
+    <div class="text-sm">
+      <p class="uppercase tracking-widest text-xs text-paper/50 mb-4">Nawigacja</p>
+      <ul class="space-y-2">
+        <li><a href="#manifest" class="link-u">Manifest</a></li>
+        <li><a href="#co-robimy" class="link-u">Co robimy</a></li>
+        <li><a href="#wydarzenia" class="link-u">Wydarzenia</a></li>
+        <li><a href="#faq" class="link-u">FAQ</a></li>
+        <li><a href="#dolacz" class="link-u">Dołącz</a></li>
+      </ul>
+    </div>
+
+    <div class="text-sm">
+      <p class="uppercase tracking-widest text-xs text-paper/50 mb-4">Kontakt & media</p>
+      <ul class="space-y-2">
+        <li><a href="mailto:bracia@dnm.pl" class="link-u">bracia@dnm.pl</a></li>
+        <li><a href="#" class="link-u">Instagram</a></li>
+        <li><a href="#" class="link-u">YouTube</a></li>
+        <li><a href="#" class="link-u">Forum wspólnoty</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="relative z-10 border-t border-paper/10">
+    <div class="max-w-6xl mx-auto px-5 md:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-paper/50">
+      <p>© 2026 Droga Nowoczesnego Mężczyzny. Wszystkie prawa zastrzeżone.</p>
+      <div class="flex gap-6">
+        <a href="#" class="hover:text-paper">Regulamin</a>
+        <a href="#" class="hover:text-paper">Polityka prywatności</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ SCRIPTS ============ -->
+<script>
+  // Sticky nav — ciemne tło po scrollu
+  const nav = document.getElementById('nav');
+  const onScroll = () => {
+    if (window.scrollY > 40) nav.classList.add('nav-solid');
+    else nav.classList.remove('nav-solid');
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Mobile menu
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  menuBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    mobileMenu.classList.add('hidden');
+  }));
+
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('is-visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Form validation
+  const form = document.getElementById('joinForm');
+  const showErr = (name, show) => {
+    const el = form.querySelector(`[data-error-for="${name}"]`);
+    if (el) el.classList.toggle('hidden', !show);
+  };
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const imie = form.imie.value.trim();
+    const email = form.email.value.trim();
+    const miasto = form.miasto.value.trim();
+    const zgoda = form.zgoda.checked;
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+    const errors = {
+      imie:   imie.length < 2,
+      email:  !emailOk,
+      miasto: miasto.length < 2,
+      zgoda:  !zgoda,
+    };
+    Object.entries(errors).forEach(([k, v]) => showErr(k, v));
+
+    if (Object.values(errors).some(Boolean)) return;
+
+    document.getElementById('formSuccess').classList.remove('hidden');
+    form.querySelector('button[type="submit"]').disabled = true;
+    form.reset();
+  });
+</script>
+
+</body>
+</html>

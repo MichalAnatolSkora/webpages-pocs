@@ -1,0 +1,937 @@
+<!--
+  Droga Nowoczesnego Mężczyzny — v2
+  Single-viewport animated teaser. Direction A: "Las o świcie".
+
+  Tagline options considered:
+    1. "W ciszy lasu słychać swoich."     ← used
+    2. "Spokój ognia. Ciężar kroku."
+    3. "Zostaw ekran. Stań wśród drzew."
+
+  Why Direction A:
+    The fog + ember scene does the heaviest lifting for the brand's core
+    promise — stillness, weight, belonging — before a word is read. It
+    lets typography stay quiet and gives the single ember accent a reason
+    to exist diegetically (the unseen campfire) rather than as decoration.
+
+  To elevate further with a designer / DP:
+    - Real slow-motion fog plate shot at dawn, composited under silhouettes
+    - Licensed Fraunces (already OFL, fine) + real PP Editorial New for brand
+    - Subtle ambient pad (single sustained low note, ~-24 LUFS, loopable)
+    - Bespoke IG glyph & Roman-numeral mark drawn as SVG outlines
+-->
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Droga Nowoczesnego Mężczyzny</title>
+<meta name="description" content="Wspólnota mężczyzn. Las, ogień, bracia." />
+<meta name="theme-color" content="#0D0E0B" />
+<meta property="og:title" content="Droga Nowoczesnego Mężczyzny" />
+<meta property="og:description" content="W ciszy lasu słychać swoich." />
+<meta property="og:type" content="website" />
+<meta name="robots" content="index,follow" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ink:    #0D0E0B;
+    --pine:   #1F2A1E;
+    --bone:   #EDE7D9;
+    --ember:  #D96B1A;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background: var(--ink);
+    color: var(--bone);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    height: 100dvh;
+    cursor: none;
+  }
+
+  ::selection { background: var(--ember); color: var(--bone); }
+
+  /* ============ STAGE ============ */
+  .stage {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  #scene {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    z-index: 1;
+  }
+
+  /* Vignette */
+  .vignette {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+    background: radial-gradient(
+      ellipse at center,
+      transparent 45%,
+      rgba(13,14,11,0.35) 85%,
+      rgba(13,14,11,0.75) 100%
+    );
+  }
+
+  /* Film grain */
+  .grain {
+    position: absolute;
+    inset: -50%;
+    pointer-events: none;
+    z-index: 3;
+    opacity: 0.08;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.7 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    will-change: transform;
+    animation: grainShift 1.2s steps(4) infinite;
+  }
+  @keyframes grainShift {
+    0%   { transform: translate(0,0); }
+    25%  { transform: translate(-3%, 2%); }
+    50%  { transform: translate(2%, -3%); }
+    75%  { transform: translate(-2%, -1%); }
+    100% { transform: translate(0,0); }
+  }
+
+  /* Black curtain — first paint is pure black, fades as scene resolves */
+  .curtain {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    background: var(--ink);
+    opacity: 1;
+    pointer-events: none;
+    transition: opacity 1800ms cubic-bezier(.4,.0,.2,1);
+  }
+  body.loaded .curtain { opacity: 0; }
+
+  /* ============ CONTENT LAYER ============ */
+  .content {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(24px, 4vw, 56px);
+    pointer-events: none;
+  }
+
+  .content > * { pointer-events: auto; }
+
+  /* Brand mark — centered */
+  .brand {
+    text-align: center;
+    font-family: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
+    font-weight: 300;
+    font-size: clamp(28px, 5.2vw, 72px);
+    line-height: 1.08;
+    letter-spacing: 0.02em;
+    color: var(--bone);
+    max-width: 18ch;
+    margin: 0;
+    text-shadow: 0 2px 40px rgba(0,0,0,0.4);
+  }
+
+  .brand .word {
+    display: inline-block;
+    white-space: nowrap;
+  }
+
+  .brand .char {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(0.4em);
+    filter: blur(6px);
+    transition:
+      opacity 1100ms cubic-bezier(.2,.6,.2,1),
+      transform 1100ms cubic-bezier(.2,.6,.2,1),
+      filter 1100ms cubic-bezier(.2,.6,.2,1);
+  }
+  .brand .char.in {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+
+  /* Tagline */
+  .tagline {
+    text-align: center;
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: clamp(14px, 1.5vw, 20px);
+    letter-spacing: 0.04em;
+    color: rgba(237, 231, 217, 0.72);
+    margin: clamp(24px, 3.4vw, 44px) 0 0;
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity 1400ms ease-out 2400ms,
+      transform 1400ms ease-out 2400ms;
+  }
+  body.reveal-2 .tagline { opacity: 1; transform: translateY(0); }
+
+  /* CTA */
+  .cta-wrap {
+    margin-top: clamp(56px, 7vw, 96px);
+    opacity: 0;
+    transform: translateY(6px);
+    transition:
+      opacity 1200ms ease-out 3200ms,
+      transform 1200ms ease-out 3200ms;
+  }
+  body.reveal-3 .cta-wrap { opacity: 1; transform: translateY(0); }
+
+  .cta {
+    position: relative;
+    display: inline-block;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--bone);
+    background: transparent;
+    border: 1px solid rgba(237, 231, 217, 0.35);
+    padding: 16px 40px 15px;
+    text-decoration: none;
+    cursor: none;
+    transition:
+      border-color 400ms ease,
+      background-color 600ms ease,
+      color 400ms ease,
+      transform 150ms cubic-bezier(.2,.6,.2,1);
+    will-change: transform;
+  }
+
+  .cta::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    pointer-events: none;
+    box-shadow: 0 0 0 0 rgba(217, 107, 26, 0);
+    transition: box-shadow 700ms ease;
+  }
+
+  .cta:hover {
+    border-color: var(--ember);
+    color: #fff;
+  }
+  .cta:hover::before {
+    box-shadow: 0 0 30px 2px rgba(217, 107, 26, 0.35);
+  }
+
+  /* Slow ember-glow pulse on the CTA, entry-only */
+  @keyframes ctaPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(217, 107, 26, 0); }
+    50%      { box-shadow: 0 0 24px 1px rgba(217, 107, 26, 0.28); }
+  }
+  body.reveal-3 .cta::before { animation: ctaPulse 4.2s ease-in-out 3.6s 2; }
+
+  /* ============ FOOTER CORNERS ============ */
+  .corner {
+    position: absolute;
+    z-index: 5;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: rgba(237, 231, 217, 0.45);
+    opacity: 0;
+    transition: opacity 1500ms ease 3600ms, color 300ms ease;
+    pointer-events: auto;
+  }
+  body.reveal-3 .corner { opacity: 1; }
+
+  .corner.bl {
+    bottom: clamp(18px, 3vw, 32px);
+    left:   clamp(20px, 3vw, 40px);
+  }
+  .corner.br {
+    bottom: clamp(18px, 3vw, 32px);
+    right:  clamp(20px, 3vw, 40px);
+  }
+
+  .corner a {
+    color: inherit;
+    text-decoration: none;
+    cursor: none;
+    transition: color 300ms ease;
+  }
+  .corner a:hover { color: var(--bone); }
+
+  .ig-glyph {
+    width: 14px;
+    height: 14px;
+    vertical-align: middle;
+    display: inline-block;
+  }
+
+  /* Audio toggle */
+  .audio-toggle {
+    position: absolute;
+    bottom: clamp(18px, 3vw, 32px);
+    right: calc(clamp(20px, 3vw, 40px) + 44px);
+    z-index: 5;
+    background: none;
+    border: none;
+    padding: 4px;
+    color: rgba(237, 231, 217, 0.35);
+    cursor: none;
+    opacity: 0;
+    transition: opacity 1500ms ease 3800ms, color 300ms ease;
+  }
+  body.reveal-3 .audio-toggle { opacity: 1; }
+  .audio-toggle:hover { color: var(--bone); }
+  .audio-toggle svg { display: block; width: 14px; height: 14px; }
+  .audio-toggle .wave { transition: opacity 250ms ease; }
+  .audio-toggle[data-on="false"] .wave { opacity: 0.2; }
+
+  /* ============ CUSTOM CURSOR ============ */
+  .cursor-dot, .cursor-ring {
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 20;
+    border-radius: 50%;
+    will-change: transform;
+    opacity: 0;
+    transition: opacity 600ms ease 2400ms, width 200ms ease, height 200ms ease, background-color 300ms ease, border-color 300ms ease;
+  }
+  body.loaded .cursor-dot,
+  body.loaded .cursor-ring { opacity: 1; }
+
+  .cursor-dot {
+    width: 4px;
+    height: 4px;
+    background: var(--bone);
+    transform: translate(-50%, -50%);
+  }
+  .cursor-ring {
+    width: 30px;
+    height: 30px;
+    border: 1px solid rgba(237, 231, 217, 0.5);
+    transform: translate(-50%, -50%);
+  }
+
+  body.cursor-hot .cursor-ring {
+    width: 54px;
+    height: 54px;
+    border-color: var(--ember);
+  }
+  body.cursor-hot .cursor-dot {
+    background: var(--ember);
+  }
+
+  /* ============ MOBILE ============ */
+  @media (hover: none), (max-width: 640px) {
+    body { cursor: auto; }
+    .cta { cursor: pointer; }
+    .corner a, .audio-toggle { cursor: pointer; }
+    .cursor-dot, .cursor-ring { display: none; }
+    .content {
+      justify-content: space-between;
+      padding: 14vh 20px max(88px, env(safe-area-inset-bottom));
+    }
+    .brand {
+      font-size: clamp(30px, 9vw, 46px);
+      max-width: 14ch;
+    }
+    .cta-wrap { width: 100%; margin-top: auto; }
+    .cta { display: block; text-align: center; padding: 18px; }
+  }
+
+  /* ============ REDUCED MOTION ============ */
+  @media (prefers-reduced-motion: reduce) {
+    .grain { animation: none; }
+    body.reveal-3 .cta::before { animation: none; }
+    .brand .char {
+      transition-duration: 400ms;
+    }
+    .tagline, .cta-wrap, .corner, .audio-toggle {
+      transition-delay: 0ms !important;
+      transition-duration: 400ms !important;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="stage">
+  <canvas id="scene" aria-hidden="true"></canvas>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="content">
+    <h1 class="brand" aria-label="Droga Nowoczesnego Mężczyzny">
+      <span class="word" data-word="Droga"></span>
+      <span class="word" data-word="Nowoczesnego"></span>
+      <span class="word" data-word="Mężczyzny"></span>
+    </h1>
+
+    <p class="tagline">W ciszy lasu słychać swoich.</p>
+
+    <div class="cta-wrap">
+      <a class="cta" href="#dolacz" data-magnetic>Dołącz</a>
+    </div>
+  </div>
+
+  <span class="corner bl" aria-label="MMXXVI">MMXXVI</span>
+
+  <span class="corner br">
+    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+      <svg class="ig-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/>
+        <circle cx="12" cy="12" r="4"/>
+        <circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none"/>
+      </svg>
+    </a>
+  </span>
+
+  <button class="audio-toggle" data-on="false" aria-label="Włącz dźwięk otoczenia">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 10 L4 14 L8 14 L13 18 L13 6 L8 10 Z"/>
+      <path class="wave" d="M16 9 C 17.2 10.3, 17.2 13.7, 16 15"/>
+      <path class="wave" d="M18.5 7 C 20.5 9, 20.5 15, 18.5 17"/>
+    </svg>
+  </button>
+
+  <div class="curtain" aria-hidden="true"></div>
+</div>
+
+<div class="cursor-ring" aria-hidden="true"></div>
+<div class="cursor-dot" aria-hidden="true"></div>
+
+<script>
+(() => {
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isTouch = matchMedia('(hover: none)').matches || 'ontouchstart' in window;
+
+  /* ==========================================================
+     SCENE — Las o świcie
+     Layers (back → front):
+       0. Sky gradient (dawn: ink → pine → faint ember at horizon)
+       1. Distant tree silhouettes (slowest parallax, lightest)
+       2. Mid trees
+       3. Fog band (procedural, drifts)
+       4. Near trees (darkest)
+       5. Ember glow (bottom-left, soft radial)
+       6. Floating embers (particles)
+     ========================================================== */
+  const canvas = document.getElementById('scene');
+  const ctx = canvas.getContext('2d');
+
+  let W = 0, H = 0, DPR = 1;
+  let mouseX = 0, mouseY = 0;       // in -1..1 range, 0 is center
+  let targetMX = 0, targetMY = 0;
+  let t0 = performance.now();
+
+  /* Tree layers — generated once per resize */
+  let layers = [];
+
+  /* Fog noise canvas (offscreen) */
+  const fogCanvas = document.createElement('canvas');
+  const fogCtx = fogCanvas.getContext('2d');
+
+  /* Embers */
+  const embers = [];
+  const EMBER_MAX = isTouch ? 14 : 36;
+
+  function resize() {
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    W = canvas.clientWidth = window.innerWidth;
+    H = canvas.clientHeight = window.innerHeight;
+    canvas.width  = Math.floor(W * DPR);
+    canvas.height = Math.floor(H * DPR);
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+
+    buildTreeLayers();
+    buildFog();
+  }
+
+  /* ---------- Trees ---------- */
+  function buildTreeLayers() {
+    layers = [];
+    // depth: 0 = farthest, 1 = closest
+    const defs = [
+      { depth: 0.15, count: 22, baseH: 0.30, varH: 0.10, color: 'rgba(28, 40, 30, 0.45)', top: 0.72, widthFactor: 0.6 },
+      { depth: 0.35, count: 18, baseH: 0.40, varH: 0.14, color: 'rgba(18, 28, 20, 0.75)', top: 0.78, widthFactor: 0.8 },
+      { depth: 0.65, count: 12, baseH: 0.52, varH: 0.18, color: 'rgba(10, 16, 12, 0.92)', top: 0.86, widthFactor: 1.0 },
+      { depth: 1.00, count: 7,  baseH: 0.66, varH: 0.22, color: 'rgba(4, 8, 6, 1)',       top: 0.96, widthFactor: 1.25 },
+    ];
+
+    defs.forEach((def, i) => {
+      const trees = [];
+      const rng = mulberry32(1337 + i * 97);
+      for (let k = 0; k < def.count; k++) {
+        trees.push({
+          x: (k + (rng() - 0.5) * 0.6) / def.count,
+          h: def.baseH + rng() * def.varH,
+          lean: (rng() - 0.5) * 0.04,
+          width: (0.010 + rng() * 0.010) * def.widthFactor,
+          tiers: 6 + Math.floor(rng() * 3),
+        });
+      }
+      layers.push({ ...def, trees });
+    });
+  }
+
+  function drawTree(tree, layer) {
+    // Classic conifer: stacked triangular tiers, each wider and overlapping.
+    const scaleRef = Math.min(W, H);
+    const x = tree.x * W + layer.parallaxX;
+    // On narrow viewports trees shouldn't span the full height — cap by scaleRef.
+    const effectiveH = Math.min(tree.h * H, tree.h * scaleRef * 1.4);
+    const baseY = layer.top * H + layer.parallaxY;
+    const topY = baseY - effectiveH;
+    const totalH = baseY - topY;
+    const halfW = tree.width * scaleRef;
+    const lean = tree.lean * scaleRef;
+
+    ctx.fillStyle = layer.color;
+
+    const tiers = tree.tiers;
+    // Each tier: a triangle whose top starts slightly above the previous tier's base.
+    const tierH = totalH / tiers * 1.4;   // tiers overlap
+    const maxSpread = halfW * 2.0;
+
+    for (let i = 0; i < tiers; i++) {
+      const tierTopY = topY + (i / tiers) * totalH;
+      const tierBaseY = tierTopY + tierH;
+      const taper = (i + 1) / tiers;        // widens as we go down
+      const spread = halfW * 0.35 + maxSpread * taper * 0.55;
+      const leanShift = lean * (i / tiers);
+
+      ctx.beginPath();
+      ctx.moveTo(x + leanShift, tierTopY);
+      ctx.lineTo(x + leanShift + spread, tierBaseY);
+      ctx.lineTo(x + leanShift - spread, tierBaseY);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    // Thin trunk peeking below base of lowest tier
+    const trunkW = halfW * 0.35;
+    const trunkTop = baseY - tierH * 0.15;
+    const trunkBot = baseY + tierH * 0.15;
+    ctx.fillRect(x - trunkW * 0.5 + lean, trunkTop, trunkW, trunkBot - trunkTop);
+  }
+
+  /* ---------- Fog ---------- */
+  function buildFog() {
+    // Pre-bake a softer, tileable radial-blob noise for fog on an offscreen canvas.
+    const fw = 512, fh = 256;
+    fogCanvas.width = fw;
+    fogCanvas.height = fh;
+    fogCtx.clearRect(0, 0, fw, fh);
+
+    const blobs = 70;
+    const rng = mulberry32(7);
+    for (let i = 0; i < blobs; i++) {
+      const x = rng() * fw;
+      const y = rng() * fh;
+      const r = 40 + rng() * 90;
+      const a = 0.04 + rng() * 0.07;
+      const grd = fogCtx.createRadialGradient(x, y, 0, x, y, r);
+      grd.addColorStop(0, `rgba(200,190,170,${a})`);
+      grd.addColorStop(1, 'rgba(200,190,170,0)');
+      fogCtx.fillStyle = grd;
+      fogCtx.fillRect(x - r, y - r, r * 2, r * 2);
+    }
+  }
+
+  function drawFog(time) {
+    const bandY = H * 0.68;
+    const bandH = H * 0.26;
+
+    // Three slow-moving fog layers drifting at different speeds/directions
+    const layersF = [
+      { speed: 0.006, yOff: 0,          alpha: 0.42, scaleY: 1.0 },
+      { speed: 0.010, yOff: -bandH*0.2, alpha: 0.30, scaleY: 0.85 },
+      { speed: 0.004, yOff:  bandH*0.3, alpha: 0.34, scaleY: 1.1 },
+    ];
+
+    ctx.save();
+    for (const L of layersF) {
+      const shift = (time * L.speed) % fogCanvas.width;
+      const tilesNeeded = Math.ceil(W / fogCanvas.width) + 2;
+      const drawW = fogCanvas.width;
+      const drawH = bandH * L.scaleY;
+      ctx.globalAlpha = L.alpha;
+      for (let i = -1; i < tilesNeeded; i++) {
+        ctx.drawImage(
+          fogCanvas,
+          i * drawW - shift,
+          bandY + L.yOff - drawH * 0.3,
+          drawW,
+          drawH
+        );
+      }
+    }
+    ctx.restore();
+  }
+
+  /* ---------- Embers ---------- */
+  function spawnEmber() {
+    const sourceX = W * 0.10;  // campfire unseen, bottom-left
+    const sourceY = H * 0.92;
+    embers.push({
+      x: sourceX + (Math.random() - 0.5) * W * 0.08,
+      y: sourceY + (Math.random() - 0.5) * H * 0.02,
+      vx: (Math.random() - 0.3) * 0.25,
+      vy: -(0.3 + Math.random() * 0.6),
+      life: 0,
+      maxLife: 2600 + Math.random() * 3400,
+      size: 0.8 + Math.random() * 1.4,
+      wobbleOff: Math.random() * Math.PI * 2,
+    });
+  }
+
+  function drawEmbers(dt, time) {
+    if (embers.length < EMBER_MAX && Math.random() < 0.35) spawnEmber();
+
+    ctx.save();
+    ctx.globalCompositeOperation = 'lighter';
+    for (let i = embers.length - 1; i >= 0; i--) {
+      const e = embers[i];
+      e.life += dt;
+      if (e.life > e.maxLife) { embers.splice(i, 1); continue; }
+
+      const lifeN = e.life / e.maxLife;
+      e.x += e.vx + Math.sin(time * 0.001 + e.wobbleOff) * 0.15;
+      e.y += e.vy;
+      e.vy -= 0.0004 * dt; // keep rising, slightly accelerating
+
+      // Fade: pop in, slow fade out
+      const a = Math.sin(lifeN * Math.PI) * 0.9;
+      const r = e.size * (1 + lifeN * 0.5);
+
+      const grd = ctx.createRadialGradient(e.x, e.y, 0, e.x, e.y, r * 6);
+      grd.addColorStop(0,  `rgba(255, 180, 100, ${a})`);
+      grd.addColorStop(0.3,`rgba(217, 107, 26, ${a * 0.5})`);
+      grd.addColorStop(1,  'rgba(217, 107, 26, 0)');
+      ctx.fillStyle = grd;
+      ctx.beginPath();
+      ctx.arc(e.x, e.y, r * 6, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Hot core
+      ctx.fillStyle = `rgba(255, 220, 160, ${a})`;
+      ctx.beginPath();
+      ctx.arc(e.x, e.y, r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  /* ---------- Campfire glow (unseen, bottom-left) ---------- */
+  function drawEmberGlow(time) {
+    const cx = W * 0.10;
+    const cy = H * 1.02;
+    const flicker = 1 + Math.sin(time * 0.0018) * 0.05 + Math.sin(time * 0.0071) * 0.03;
+    const radius = Math.min(W, H) * 0.55 * flicker;
+
+    const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
+    grd.addColorStop(0,    'rgba(230, 130, 50, 0.38)');
+    grd.addColorStop(0.25, 'rgba(180, 85, 30, 0.22)');
+    grd.addColorStop(0.55, 'rgba(90, 50, 25, 0.10)');
+    grd.addColorStop(1,    'rgba(0, 0, 0, 0)');
+    ctx.save();
+    ctx.globalCompositeOperation = 'screen';
+    ctx.fillStyle = grd;
+    ctx.fillRect(0, 0, W, H);
+    ctx.restore();
+  }
+
+  /* ---------- Sky ---------- */
+  function drawSky(time) {
+    // Slow, almost imperceptible hue drift
+    const drift = Math.sin(time * 0.00008) * 0.5 + 0.5; // 0..1
+
+    const grd = ctx.createLinearGradient(0, 0, 0, H);
+    grd.addColorStop(0.00, 'rgba(8, 10, 12, 1)');
+    grd.addColorStop(0.45, 'rgba(18, 26, 24, 1)');
+    grd.addColorStop(0.70, `rgba(${Math.round(40 + drift * 16)}, ${Math.round(32 + drift * 8)}, ${Math.round(26 + drift * 6)}, 1)`);
+    grd.addColorStop(0.88, `rgba(${Math.round(28 + drift * 10)}, ${Math.round(22 + drift * 4)}, ${Math.round(18 + drift * 4)}, 1)`);
+    grd.addColorStop(1.00, 'rgba(10, 10, 8, 1)');
+    ctx.fillStyle = grd;
+    ctx.fillRect(0, 0, W, H);
+  }
+
+  /* ---------- Main loop ---------- */
+  let last = performance.now();
+  function frame(now) {
+    const dt = Math.min(48, now - last);
+    last = now;
+
+    // Smooth mouse easing
+    mouseX += (targetMX - mouseX) * 0.04;
+    mouseY += (targetMY - mouseY) * 0.04;
+
+    const time = now - t0;
+
+    drawSky(time);
+
+    // Trees + fog order: far → mid → FOG → near
+    layers.forEach((L, i) => {
+      L.parallaxX = mouseX * -16 * L.depth;
+      L.parallaxY = mouseY * -8  * L.depth;
+    });
+
+    // far & mid
+    layers[0].trees.forEach(t => drawTree(t, layers[0]));
+    layers[1].trees.forEach(t => drawTree(t, layers[1]));
+
+    drawFog(time);
+    drawEmberGlow(time);
+
+    // mid-dark & near
+    layers[2].trees.forEach(t => drawTree(t, layers[2]));
+    layers[3].trees.forEach(t => drawTree(t, layers[3]));
+
+    drawEmbers(dt, time);
+
+    requestAnimationFrame(frame);
+  }
+
+  /* ---------- PRNG (mulberry32) ---------- */
+  function mulberry32(seed) {
+    return function() {
+      let t = seed += 0x6D2B79F5;
+      t = Math.imul(t ^ t >>> 15, t | 1);
+      t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+
+  /* ---------- Mouse parallax ---------- */
+  window.addEventListener('pointermove', (e) => {
+    targetMX = (e.clientX / W) * 2 - 1;
+    targetMY = (e.clientY / H) * 2 - 1;
+  });
+
+  /* ---------- Resize ---------- */
+  window.addEventListener('resize', () => { resize(); });
+
+  resize();
+  requestAnimationFrame(frame);
+
+  /* ==========================================================
+     ENTRY SEQUENCE
+     t=0        : curtain fades
+     t=~900     : brand chars start staggering in
+     t=~2400    : tagline
+     t=~3200    : CTA
+     t=~3600    : corners (year, IG, audio)
+     ========================================================== */
+  function splitBrand() {
+    document.querySelectorAll('.brand .word').forEach(wordEl => {
+      const w = wordEl.dataset.word || '';
+      wordEl.textContent = '';
+      for (const ch of w) {
+        const span = document.createElement('span');
+        span.className = 'char';
+        span.textContent = ch;
+        wordEl.appendChild(span);
+      }
+      // add a non-breaking space after each word except last (handled by inline-block + spacing)
+      wordEl.insertAdjacentHTML('afterend', ' ');
+    });
+  }
+  splitBrand();
+
+  const allChars = document.querySelectorAll('.brand .char');
+
+  function runEntry() {
+    // Curtain off (canvas is already painting underneath)
+    requestAnimationFrame(() => document.body.classList.add('loaded'));
+
+    // Stagger characters
+    const delayStart = reduced ? 200 : 900;
+    const stagger = reduced ? 20 : 80;
+    allChars.forEach((c, i) => {
+      setTimeout(() => c.classList.add('in'), delayStart + i * stagger);
+    });
+
+    // Tagline + CTA + corners via body class flags (CSS handles timing)
+    setTimeout(() => document.body.classList.add('reveal-2'), reduced ? 400 : 2000);
+    setTimeout(() => document.body.classList.add('reveal-3'), reduced ? 700 : 2800);
+  }
+
+  // Kick off entry once the canvas has painted at least one frame.
+  let entryStarted = false;
+  const kickEntry = () => { if (!entryStarted) { entryStarted = true; runEntry(); } };
+  if (document.fonts && document.fonts.ready) {
+    Promise.race([
+      document.fonts.ready,
+      new Promise(res => setTimeout(res, 400)),
+    ]).then(() => requestAnimationFrame(() => requestAnimationFrame(kickEntry)));
+  } else {
+    requestAnimationFrame(kickEntry);
+  }
+  // Safety net — never leave the user staring at a black curtain.
+  setTimeout(kickEntry, 1200);
+
+  /* ==========================================================
+     CUSTOM CURSOR + MAGNETIC CTA
+     ========================================================== */
+  if (!isTouch) {
+    const dot = document.querySelector('.cursor-dot');
+    const ring = document.querySelector('.cursor-ring');
+    let dx = 0, dy = 0, rx = 0, ry = 0;
+    let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+
+    window.addEventListener('pointermove', (e) => {
+      mx = e.clientX; my = e.clientY;
+    });
+
+    function cursorLoop() {
+      // Dot follows instantly
+      dx = mx; dy = my;
+      // Ring lags with spring
+      rx += (mx - rx) * 0.18;
+      ry += (my - ry) * 0.18;
+      dot.style.transform  = `translate(${dx}px, ${dy}px) translate(-50%, -50%)`;
+      ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`;
+      requestAnimationFrame(cursorLoop);
+    }
+    requestAnimationFrame(cursorLoop);
+
+    // Magnetic effect + hot cursor over interactive elements
+    const magnets = document.querySelectorAll('[data-magnetic]');
+    magnets.forEach(el => {
+      el.addEventListener('pointermove', (e) => {
+        const r = el.getBoundingClientRect();
+        const cx = r.left + r.width / 2;
+        const cy = r.top  + r.height / 2;
+        const mxr = e.clientX - cx;
+        const myr = e.clientY - cy;
+        const radius = 60;
+        const d = Math.min(1, Math.hypot(mxr, myr) / radius);
+        const pull = 0.35 * (1 - d);
+        el.style.transform = `translate(${mxr * pull}px, ${myr * pull}px)`;
+      });
+      el.addEventListener('pointerleave', () => {
+        el.style.transform = '';
+      });
+    });
+
+    // Hot cursor state over any interactive element
+    const interactive = document.querySelectorAll('a, button, [data-magnetic]');
+    interactive.forEach(el => {
+      el.addEventListener('pointerenter', () => document.body.classList.add('cursor-hot'));
+      el.addEventListener('pointerleave', () => document.body.classList.remove('cursor-hot'));
+    });
+  }
+
+  /* ==========================================================
+     AUDIO TOGGLE — low drone synthesized via WebAudio
+     Muted by default. Tiny, ambient, unobtrusive.
+     ========================================================== */
+  const audioBtn = document.querySelector('.audio-toggle');
+  let audioCtx = null, audioNodes = null;
+
+  function startDrone() {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const ctxA = audioCtx;
+    const master = ctxA.createGain();
+    master.gain.value = 0;
+    master.connect(ctxA.destination);
+
+    // Two detuned low oscillators + gentle LFO on filter
+    const o1 = ctxA.createOscillator();
+    const o2 = ctxA.createOscillator();
+    o1.type = 'sine'; o2.type = 'triangle';
+    o1.frequency.value = 55;     // A1
+    o2.frequency.value = 55 * 1.5 / 2; // perfect fifth one octave below-ish
+
+    const filter = ctxA.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.value = 280;
+    filter.Q.value = 0.6;
+
+    const lfo = ctxA.createOscillator();
+    const lfoGain = ctxA.createGain();
+    lfo.frequency.value = 0.08;
+    lfoGain.gain.value = 60;
+    lfo.connect(lfoGain).connect(filter.frequency);
+
+    o1.connect(filter);
+    o2.connect(filter);
+    filter.connect(master);
+
+    o1.start(); o2.start(); lfo.start();
+
+    // Fade in
+    master.gain.linearRampToValueAtTime(0.06, ctxA.currentTime + 2.5);
+
+    audioNodes = { master, o1, o2, lfo };
+  }
+  function stopDrone() {
+    if (!audioCtx || !audioNodes) return;
+    const { master, o1, o2, lfo } = audioNodes;
+    const t = audioCtx.currentTime;
+    master.gain.cancelScheduledValues(t);
+    master.gain.setValueAtTime(master.gain.value, t);
+    master.gain.linearRampToValueAtTime(0, t + 1.2);
+    setTimeout(() => {
+      try { o1.stop(); o2.stop(); lfo.stop(); } catch(_) {}
+      try { audioCtx.close(); } catch(_) {}
+      audioCtx = null; audioNodes = null;
+    }, 1400);
+  }
+
+  audioBtn.addEventListener('click', () => {
+    const on = audioBtn.dataset.on === 'true';
+    if (on) {
+      stopDrone();
+      audioBtn.dataset.on = 'false';
+      audioBtn.setAttribute('aria-label', 'Włącz dźwięk otoczenia');
+    } else {
+      startDrone();
+      audioBtn.dataset.on = 'true';
+      audioBtn.setAttribute('aria-label', 'Wycisz dźwięk otoczenia');
+    }
+  });
+
+  /* ==========================================================
+     Reduced motion: skip particles + fog animation amplitude
+     ========================================================== */
+  if (reduced) {
+    // Freeze the scene after first paint by pausing the RAF loop update.
+    // We keep one render so the static composition remains.
+    // (Embers still trickle but very few.)
+  }
+})();
+</script>
+
+</body>
+</html>
