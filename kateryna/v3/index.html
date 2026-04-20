@@ -969,9 +969,67 @@
     color: rgba(250, 247, 242, 0.5);
   }
   .loader-label .tc { color: var(--beige); }
+
+  /* ---------- TAP-TO-PLAY fallback (iOS autoplay blocked) ---------- */
+  .tap-to-play {
+    position: fixed;
+    inset: 0;
+    z-index: 150;
+    background: rgba(14, 12, 10, 0.6);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: center; justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .tap-to-play.visible { display: flex; opacity: 1; }
+  .tap-to-play-inner {
+    text-align: center;
+    color: var(--cream);
+  }
+  .tap-to-play-btn {
+    width: 92px; height: 92px;
+    border-radius: 50%;
+    background: var(--cream);
+    color: var(--ink);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 24px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    transition: transform 0.2s;
+  }
+  .tap-to-play:hover .tap-to-play-btn,
+  .tap-to-play:active .tap-to-play-btn { transform: scale(0.95); }
+  .tap-to-play-btn svg { width: 32px; height: 32px; margin-left: 4px; }
+  .tap-to-play-label {
+    font-family: 'Fraunces', serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    font-weight: 300;
+    letter-spacing: -0.01em;
+  }
+  .tap-to-play-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(250, 247, 242, 0.55);
+    margin-top: 10px;
+  }
 </style>
 </head>
 <body>
+
+<!-- TAP-TO-PLAY FALLBACK (iOS autoplay block) -->
+<div class="tap-to-play" id="tapToPlay" role="button" aria-label="Odtwórz wideo">
+  <div class="tap-to-play-inner">
+    <div class="tap-to-play-btn">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+    </div>
+    <div class="tap-to-play-label">Dotknij, aby odtworzyć</div>
+    <div class="tap-to-play-sub">auto-play zablokowany</div>
+  </div>
+</div>
 
 <!-- LOADER -->
 <div class="loader" id="loader" aria-hidden="true">
@@ -1581,6 +1639,22 @@
       // Small delay to let last frame paint in and animation finish
       setTimeout(() => loader.classList.add('hidden'), 220);
       setTimeout(() => loader.remove(), 1400);
+      // After loader, forcibly retry play on hero + check if iOS blocked it
+      setTimeout(() => {
+        document.querySelectorAll('video').forEach(v => {
+          v.muted = true;
+          v.playsInline = true;
+          const p = v.play();
+          if (p && typeof p.catch === 'function') p.catch(() => {});
+        });
+      }, 350);
+      // If after 900ms hero still paused → iOS blocked autoplay. Show tap fallback.
+      setTimeout(() => {
+        if (hero && hero.paused && hero.readyState >= 2) {
+          const tap = document.getElementById('tapToPlay');
+          if (tap) tap.classList.add('visible');
+        }
+      }, 900);
     }
 
     // Hide when hero video has enough to play
@@ -1683,6 +1757,16 @@
   document.addEventListener('visibilitychange', () => {
     if (!document.hidden) videos.forEach(tryPlay);
   });
+
+  // Tap-to-play fallback (iOS Low Power Mode / autoplay block).
+  const tap = document.getElementById('tapToPlay');
+  if (tap) {
+    tap.addEventListener('click', () => {
+      videos.forEach(tryPlay);
+      tap.classList.remove('visible');
+      setTimeout(() => { tap.style.display = 'none'; }, 500);
+    }, { once: true });
+  }
 </script>
 
 </body>
