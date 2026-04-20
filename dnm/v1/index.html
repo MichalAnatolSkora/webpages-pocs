@@ -1,0 +1,783 @@
+<!--
+  Droga Nowoczesnego Mężczyzny — landing page (prototyp)
+  Alternatywne H1:
+  1. Mężczyźni potrzebują innych mężczyzn.
+  2. Wyjdź z cienia. Stań wśród swoich.
+  3. Droga, którą idzie się razem.
+-->
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Droga Nowoczesnego Mężczyzny — wspólnota dla mężczyzn</title>
+<meta name="description" content="Wspólnota mężczyzn, którzy wychodzą z cienia ekranu w las, na strzelnicę, do rozmowy. Wyprawy, trening, spotkania. Dla zwykłych, pracujących facetów." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          forest:  '#2A3A2E',
+          forestDk:'#1F2B22',
+          charcoal:'#1A1A1A',
+          paper:   '#F2EEE6',
+          paperDk: '#E6E0D2',
+          ember:   '#C8621A',
+          emberDk: '#A44F13',
+        },
+        fontFamily: {
+          serif: ['Fraunces', 'Georgia', 'serif'],
+          sans:  ['Inter', 'system-ui', 'sans-serif'],
+        },
+        letterSpacing: {
+          tightest: '-0.035em',
+        }
+      }
+    }
+  }
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background-color: #F2EEE6;
+    color: #1A1A1A;
+    -webkit-font-smoothing: antialiased;
+  }
+  .font-serif { font-family: 'Fraunces', Georgia, serif; }
+
+  /* Ziarnista tekstura — subtelny overlay */
+  .grain::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.08;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+  .grain-light::before {
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+  }
+
+  /* Hero — grupa mężczyzn przy ognisku, noc */
+  .hero-bg {
+    background:
+      linear-gradient(180deg, rgba(26,26,26,0.55) 0%, rgba(26,26,26,0.75) 60%, rgba(26,26,26,0.92) 100%),
+      url('https://loremflickr.com/1920/1200/bonfire,night') center/cover no-repeat;
+  }
+  .mood-img { filter: brightness(0.95) saturate(0.9) contrast(1.05); }
+
+  /* Placeholder image helper — ciemne, ciepłe, bez "stock-photo uśmiechów" */
+  .img-ph {
+    background: linear-gradient(145deg,#2A3A2E 0%, #1F2B22 60%, #121912 100%);
+  }
+
+  /* Fade-in on scroll */
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 700ms ease-out, transform 700ms ease-out;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Sticky nav — tło po scrollu */
+  .nav-solid {
+    background-color: rgba(26,26,26,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(242,238,230,0.08);
+  }
+
+  /* Link underline */
+  .link-u {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 250ms ease;
+  }
+  .link-u:hover { background-size: 100% 1px; }
+
+  /* Form focus */
+  .field:focus {
+    outline: none;
+    border-color: #C8621A;
+    box-shadow: 0 0 0 3px rgba(200,98,26,0.2);
+  }
+
+  /* Selekcja */
+  ::selection { background: #C8621A; color: #F2EEE6; }
+</style>
+</head>
+
+<body class="antialiased">
+
+<!-- ============ NAV ============ -->
+<header id="nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 text-paper">
+  <div class="max-w-6xl mx-auto px-5 md:px-8 flex items-center justify-between h-16 md:h-20">
+    <a href="#top" class="flex items-center gap-3 font-serif text-lg md:text-xl tracking-tightest">
+      <span class="inline-block w-8 h-8 rounded-full border border-paper/60 flex items-center justify-center text-sm">DNM</span>
+      <span class="hidden sm:inline">Droga Nowoczesnego Mężczyzny</span>
+      <span class="sm:hidden">DNM</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-8 text-sm">
+      <a href="#manifest" class="link-u">Manifest</a>
+      <a href="#co-robimy" class="link-u">Co robimy</a>
+      <a href="#wydarzenia" class="link-u">Wydarzenia</a>
+      <a href="#bracia" class="link-u">Bracia</a>
+      <a href="#faq" class="link-u">FAQ</a>
+      <a href="#dolacz" class="inline-block px-4 py-2 bg-ember hover:bg-emberDk transition-colors rounded-sm text-paper">Dołącz</a>
+    </nav>
+    <button id="menuBtn" aria-label="Otwórz menu" class="md:hidden p-2 -mr-2">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+  <!-- Mobile menu -->
+  <div id="mobileMenu" class="md:hidden hidden bg-charcoal/95 backdrop-blur border-t border-paper/10">
+    <nav class="max-w-6xl mx-auto px-5 py-5 flex flex-col gap-4 text-base">
+      <a href="#manifest" class="py-1">Manifest</a>
+      <a href="#co-robimy" class="py-1">Co robimy</a>
+      <a href="#wydarzenia" class="py-1">Wydarzenia</a>
+      <a href="#bracia" class="py-1">Bracia</a>
+      <a href="#faq" class="py-1">FAQ</a>
+      <a href="#dolacz" class="inline-block mt-2 px-4 py-3 bg-ember hover:bg-emberDk rounded-sm text-center">Dołącz do wspólnoty</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section id="top" class="relative min-h-[100svh] hero-bg grain flex items-end">
+  <div class="relative z-10 max-w-6xl mx-auto px-5 md:px-8 pb-20 pt-36 md:pt-40 text-paper w-full">
+    <p class="uppercase tracking-[0.3em] text-xs md:text-sm text-paper/70 mb-6 reveal">Wspólnota mężczyzn</p>
+    <h1 class="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[0.95] tracking-tightest max-w-4xl reveal">
+      Mężczyźni potrzebują<br/>
+      <span class="italic text-paperDk">innych mężczyzn.</span>
+    </h1>
+    <p class="mt-8 max-w-xl text-lg md:text-xl text-paper/80 leading-relaxed reveal">
+      Miejsce dla zwykłych, pracujących facetów, którzy mają dość siedzenia w czterech ścianach. Las, ogień, rozmowa, wysiłek. Razem.
+    </p>
+    <div class="mt-10 flex flex-col sm:flex-row gap-4 reveal">
+      <a href="#dolacz" class="inline-flex items-center justify-center px-7 py-4 bg-ember hover:bg-emberDk transition-colors text-paper font-medium rounded-sm">
+        Dołącz do wspólnoty
+      </a>
+      <a href="#wydarzenia" class="inline-flex items-center justify-center px-7 py-4 border border-paper/40 hover:bg-paper/10 transition-colors text-paper font-medium rounded-sm">
+        Zobacz najbliższe wydarzenia
+      </a>
+    </div>
+  </div>
+  <!-- Scroll hint -->
+  <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 text-paper/50 text-xs tracking-widest uppercase hidden md:block">
+    Przewiń
+  </div>
+</section>
+
+<!-- ============ MANIFEST ============ -->
+<section id="manifest" class="relative py-24 md:py-36 bg-paper grain grain-light">
+  <div class="relative z-10 max-w-3xl mx-auto px-5 md:px-8">
+    <p class="uppercase tracking-[0.3em] text-xs text-charcoal/60 mb-6 reveal">O co tu chodzi</p>
+    <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl leading-[1.05] tracking-tightest mb-10 reveal">
+      Nigdy nie byliśmy bardziej podłączeni i bardziej samotni naraz.
+    </h2>
+    <div class="space-y-6 text-lg md:text-xl leading-relaxed text-charcoal/85">
+      <p class="reveal">
+        Pracujesz. Wracasz. Płacisz rachunki. Spotykasz tych samych ludzi w pracy i w rodzinie. Kiedy ostatni raz rozmawiałeś z innym facetem o czymś, co naprawdę cię dotyka — bez żartu, bez maski, bez telefonu w ręku?
+      </p>
+      <p class="reveal">
+        Wielu z nas nie rozmawiało od lat. Nie dlatego, że jest słabe. Dlatego, że nie ma gdzie i z kim. Ojcowie, mężowie, single — wszyscy w tej samej łódce, każdy wiosłuje sam.
+      </p>
+      <p class="reveal">
+        DNM nie jest terapią, coachingiem ani klubem „prawdziwych mężczyzn”. Nie obiecujemy, że zmienimy ci życie w 30 dni. Obiecujemy jedno: las, ognisko, wysiłek i ludzi, którzy stają obok ciebie, bo sami tego potrzebują.
+      </p>
+      <p class="reveal font-serif italic text-2xl md:text-3xl text-forest leading-snug pt-4">
+        Wierzymy w to, co robi się rękami, nogami i słowem, które kosztuje.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MOMENTY / MOOD GALLERY ============ -->
+<section id="momenty" class="relative bg-charcoal text-paper grain py-24 md:py-32">
+  <div class="relative z-10 max-w-6xl mx-auto px-5 md:px-8">
+    <div class="max-w-2xl mb-12 md:mb-16">
+      <p class="uppercase tracking-[0.3em] text-xs text-paper/60 mb-5 reveal">Momenty</p>
+      <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl leading-[1.05] tracking-tightest reveal">
+        Tak to wygląda, kiedy telefon zostaje w plecaku.
+      </h2>
+      <p class="mt-5 text-lg text-paper/70 reveal">
+        Faceci, którzy w tygodniu prowadzą firmy, projekty i dzieci — w piątek wieczorem siadają tu, gdzie słychać ogień.
+      </p>
+    </div>
+
+    <!-- Asymetryczny grid 6 kadrów -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+      <figure class="reveal aspect-[3/4] overflow-hidden img-ph md:row-span-2 md:col-span-2 md:aspect-auto">
+        <img src="https://loremflickr.com/1200/1200/campfire,group" alt="Grupa mężczyzn siedząca wokół ogniska nocą" class="mood-img w-full h-full object-cover" />
+      </figure>
+      <figure class="reveal aspect-square overflow-hidden img-ph">
+        <img src="https://loremflickr.com/600/600/watch" alt="Zegarek na ręce w skórzanym pasku, detal" class="mood-img w-full h-full object-cover" />
+      </figure>
+      <figure class="reveal aspect-square overflow-hidden img-ph">
+        <img src="https://loremflickr.com/600/600/whisky,glass" alt="Szklanka whisky w dłoni przy ogniu" class="mood-img w-full h-full object-cover" />
+      </figure>
+      <figure class="reveal aspect-square overflow-hidden img-ph">
+        <img src="https://loremflickr.com/600/600/boots,leather" alt="Skórzane buty trekkingowe przy ognisku" class="mood-img w-full h-full object-cover" />
+      </figure>
+      <figure class="reveal aspect-square overflow-hidden img-ph">
+        <img src="https://loremflickr.com/600/600/sparks,fire" alt="Iskry unoszące się nad ogniem nocą" class="mood-img w-full h-full object-cover" />
+      </figure>
+    </div>
+
+    <p class="reveal mt-10 text-sm text-paper/50 italic max-w-xl">
+      Nie udajemy prostaczków ani survivalowców. Większość z nas pracuje w garniturze. Tu po prostu zdejmujemy go na weekend.
+    </p>
+  </div>
+</section>
+
+<!-- ============ CO ROBIMY (4 PILLARS) ============ -->
+<section id="co-robimy" class="relative py-24 md:py-32 bg-forest text-paper grain">
+  <div class="relative z-10 max-w-6xl mx-auto px-5 md:px-8">
+    <div class="max-w-2xl mb-16 md:mb-20">
+      <p class="uppercase tracking-[0.3em] text-xs text-paper/60 mb-5 reveal">Co robimy</p>
+      <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl leading-[1.05] tracking-tightest reveal">
+        Cztery rzeczy. Konkretnie. Regularnie.
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8 md:gap-12">
+      <!-- Pillar 1 -->
+      <div class="reveal border-t border-paper/15 pt-8">
+        <div class="flex items-start gap-5">
+          <svg class="flex-shrink-0 mt-1 text-ember" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+            <path d="M12 3 L6 14 L12 12 L18 14 Z"/>
+            <path d="M5 20 L19 20"/>
+            <path d="M9 17 C 10 15, 14 15, 15 17"/>
+          </svg>
+          <div>
+            <h3 class="font-serif text-2xl md:text-3xl mb-3 tracking-tightest">Wyprawy w las</h3>
+            <p class="text-paper/80 leading-relaxed">
+              Weekendowe wyjazdy pod namiot, bushcraft, survival w rozsądnej dawce. Ogień, nóż, mapa, ciepła herbata o świcie. Nie wyczyn — obecność.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pillar 2 -->
+      <div class="reveal border-t border-paper/15 pt-8">
+        <div class="flex items-start gap-5">
+          <svg class="flex-shrink-0 mt-1 text-ember" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+            <circle cx="12" cy="12" r="9"/>
+            <circle cx="12" cy="12" r="5"/>
+            <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
+            <path d="M12 2 L12 5 M12 19 L12 22 M2 12 L5 12 M19 12 L22 12"/>
+          </svg>
+          <div>
+            <h3 class="font-serif text-2xl md:text-3xl mb-3 tracking-tightest">Trening i strzelectwo</h3>
+            <p class="text-paper/80 leading-relaxed">
+              Wspólne treningi siłowe i biegowe, dni na strzelnicy pod okiem instruktorów. Ciało, skupienie, odpowiedzialność za broń i za siebie.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pillar 3 -->
+      <div class="reveal border-t border-paper/15 pt-8">
+        <div class="flex items-start gap-5">
+          <svg class="flex-shrink-0 mt-1 text-ember" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+            <circle cx="8" cy="10" r="2.5"/>
+            <circle cx="16" cy="10" r="2.5"/>
+            <path d="M3 20 C 4 16, 7 15, 8 15 C 9 15, 11 16, 12 17 C 13 16, 15 15, 16 15 C 17 15, 20 16, 21 20"/>
+          </svg>
+          <div>
+            <h3 class="font-serif text-2xl md:text-3xl mb-3 tracking-tightest">Spotkania i rozmowy</h3>
+            <p class="text-paper/80 leading-relaxed">
+              Lokalne kręgi w kilkunastu miastach — raz w miesiącu siadamy i mówimy prosto z mostu. Bez coacha, bez rundki „co u ciebie dobrego”. Konkret.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pillar 4 -->
+      <div class="reveal border-t border-paper/15 pt-8">
+        <div class="flex items-start gap-5">
+          <svg class="flex-shrink-0 mt-1 text-ember" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+            <path d="M3 20 L9 8 L13 15 L17 10 L21 20 Z"/>
+            <circle cx="17" cy="5" r="1.2" fill="currentColor"/>
+          </svg>
+          <div>
+            <h3 class="font-serif text-2xl md:text-3xl mb-3 tracking-tightest">Wyjazdy zagraniczne</h3>
+            <p class="text-paper/80 leading-relaxed">
+              Raz, dwa razy w roku dłuższa wyprawa — Bałkany, Skandynawia, góry Gruzji. Tydzień bez zasięgu, z plecakiem i ludźmi, którym ufasz.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DLA KOGO / NIE DLA KOGO ============ -->
+<section class="relative py-24 md:py-32 bg-paper grain grain-light">
+  <div class="relative z-10 max-w-6xl mx-auto px-5 md:px-8">
+    <div class="max-w-2xl mb-14">
+      <p class="uppercase tracking-[0.3em] text-xs text-charcoal/60 mb-5 reveal">Dla kogo to jest</p>
+      <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl leading-[1.05] tracking-tightest reveal">
+        Powiemy wprost, kto tu pasuje.
+      </h2>
+      <p class="mt-5 text-lg text-charcoal/70 reveal">
+        Jesteśmy selektywni nie z dumy, tylko z szacunku do twojego czasu.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8 md:gap-12">
+      <!-- TAK -->
+      <div class="reveal bg-white/60 border-l-4 border-forest p-8 md:p-10">
+        <h3 class="font-serif text-2xl md:text-3xl mb-6 tracking-tightest text-forest">To jest dla ciebie, jeśli…</h3>
+        <ul class="space-y-4 text-charcoal/85">
+          <li class="flex gap-3"><span class="text-forest font-bold mt-0.5">—</span><span>Masz 28–50 lat, pracujesz, a weekendy mijają ci przez ekran.</span></li>
+          <li class="flex gap-3"><span class="text-forest font-bold mt-0.5">—</span><span>Czujesz, że od lat nie miałeś prawdziwego kumpla.</span></li>
+          <li class="flex gap-3"><span class="text-forest font-bold mt-0.5">—</span><span>Lubisz las, ruch, rzeczy robione rękami.</span></li>
+          <li class="flex gap-3"><span class="text-forest font-bold mt-0.5">—</span><span>Potrafisz słuchać i nie musisz mieć zawsze racji.</span></li>
+          <li class="flex gap-3"><span class="text-forest font-bold mt-0.5">—</span><span>Szukasz kolegów do działania, nie do narzekania przy piwie.</span></li>
+        </ul>
+      </div>
+
+      <!-- NIE -->
+      <div class="reveal bg-white/60 border-l-4 border-ember p-8 md:p-10">
+        <h3 class="font-serif text-2xl md:text-3xl mb-6 tracking-tightest text-ember">To nie jest dla ciebie, jeśli…</h3>
+        <ul class="space-y-4 text-charcoal/85">
+          <li class="flex gap-3"><span class="text-ember font-bold mt-0.5">—</span><span>Szukasz kółka politycznego albo religijnego.</span></li>
+          <li class="flex gap-3"><span class="text-ember font-bold mt-0.5">—</span><span>Chcesz „podrywać laski” albo ścigać się na testosteron.</span></li>
+          <li class="flex gap-3"><span class="text-ember font-bold mt-0.5">—</span><span>Szukasz terapeuty — mamy szacunek do tej pracy, ale to nie my.</span></li>
+          <li class="flex gap-3"><span class="text-ember font-bold mt-0.5">—</span><span>Nie masz ochoty czasem wstać z kanapy i wyjść w deszcz.</span></li>
+          <li class="flex gap-3"><span class="text-ember font-bold mt-0.5">—</span><span>Chcesz coacha, który powie ci, że jesteś wyjątkowy.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ JAK TO DZIAŁA ============ -->
+<section class="relative py-24 md:py-32 bg-charcoal text-paper grain">
+  <div class="relative z-10 max-w-6xl mx-auto px-5 md:px-8">
+    <div class="max-w-2xl mb-16">
+      <p class="uppercase tracking-[0.3em] text-xs text-paper/60 mb-5 reveal">Jak to działa</p>
+      <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl leading-[1.05] tracking-tightest reveal">
+        Trzy kroki. Nic skomplikowanego.
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-10 md:gap-6">
+      <div class="reveal relative pl-4 md:pl-0">
+        <div class="font-serif text-7xl md:text-8xl text-ember/40 leading-none mb-4">01</div>
+        <h3 class="font-serif text-2xl md:text-3xl mb-3 tracking-tightest">Dołącz</h3>
+        <p class="text-paper/75 leading-relaxed">
+          Zostawiasz imię, miasto i krótkie „dlaczego”. Dostajesz dostęp do forum i kontakt do lidera najbliższego kręgu.
+        </p>
+      </div>
+      <div class="reveal relative pl-4 md:pl-0">
+        <div class="font-serif text-7xl md:text-8xl text-ember/40 leading-none mb-4">02</div>
+        <h3 class="font-serif text-2xl md:text-3xl mb-3 tracking-tightest">Poznaj</h3>
+        <p class="text-paper/75 leading-relaxed">
+          Przychodzisz na pierwsze lokalne spotkanie. Bez opłat na start, bez rytuałów. Siadasz, słuchasz, mówisz tyle, ile chcesz.
+        </p>
+      </div>
+      <div class="reveal relative pl-4 md:pl-0">
+        <div class="font-serif text-7xl md:text-8xl text-ember/40 leading-none mb-4">03</div>
+        <h3 class="font-serif text-2xl md:text-3xl mb-3 tracking-tightest">Działaj</h3>
+        <p class="text-paper/75 leading-relaxed">
+          Zapisujesz się na wyjazd, trening, strzelnicę albo wyprawę. Tyle, ile pasuje do twojego życia — nie odwrotnie.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NADCHODZĄCE WYDARZENIA ============ -->
+<section id="wydarzenia" class="relative py-24 md:py-32 bg-paper grain grain-light">
+  <div class="relative z-10 max-w-6xl mx-auto px-5 md:px-8">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
+      <div class="max-w-2xl">
+        <p class="uppercase tracking-[0.3em] text-xs text-charcoal/60 mb-5 reveal">Nadchodzące wydarzenia</p>
+        <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl leading-[1.05] tracking-tightest reveal">
+          Kalendarz na najbliższe tygodnie.
+        </h2>
+      </div>
+      <a href="#" class="reveal text-sm uppercase tracking-widest text-forest border-b border-forest/40 pb-1 hover:border-forest self-start">Zobacz wszystkie →</a>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6 md:gap-8">
+      <!-- Event 1 -->
+      <article class="reveal group bg-white border border-charcoal/10 overflow-hidden flex flex-col">
+        <div class="aspect-[4/3] img-ph relative overflow-hidden">
+          <img src="https://loremflickr.com/800/600/forest,hike" alt="Grupa mężczyzn na szlaku w lesie, plecaki, mgła" class="mood-img w-full h-full object-cover opacity-95 group-hover:scale-[1.02] transition-transform duration-700" />
+          <span class="absolute top-4 left-4 bg-forest text-paper text-xs uppercase tracking-widest px-3 py-1">Las</span>
+        </div>
+        <div class="p-6 flex flex-col flex-1">
+          <time class="text-sm text-charcoal/60 uppercase tracking-widest">16–18 maja 2026</time>
+          <h3 class="font-serif text-2xl mt-2 mb-3 tracking-tightest">Bieszczady — weekend pod namiotem</h3>
+          <p class="text-charcoal/75 leading-relaxed flex-1">
+            Trzy dni, plecak, ognisko, cisza. Dla nowych i starych. Ograniczona liczba miejsc.
+          </p>
+          <a href="#" class="mt-5 inline-block text-ember font-medium border-b border-ember/40 hover:border-ember pb-0.5 self-start">Zapisz się →</a>
+        </div>
+      </article>
+
+      <!-- Event 2 -->
+      <article class="reveal group bg-white border border-charcoal/10 overflow-hidden flex flex-col">
+        <div class="aspect-[4/3] img-ph relative overflow-hidden">
+          <img src="https://loremflickr.com/800/600/rifle" alt="Mężczyzna na strzelnicy, stanowisko strzeleckie" class="mood-img w-full h-full object-cover opacity-95 group-hover:scale-[1.02] transition-transform duration-700" />
+          <span class="absolute top-4 left-4 bg-charcoal text-paper text-xs uppercase tracking-widest px-3 py-1">Strzelnica</span>
+        </div>
+        <div class="p-6 flex flex-col flex-1">
+          <time class="text-sm text-charcoal/60 uppercase tracking-widest">23 maja 2026 · Warszawa</time>
+          <h3 class="font-serif text-2xl mt-2 mb-3 tracking-tightest">Dzień na strzelnicy — poziom podstawowy</h3>
+          <p class="text-charcoal/75 leading-relaxed flex-1">
+            Bezpieczeństwo, pistolet, karabin. Licencjonowany instruktor, sprzęt na miejscu. Dla początkujących.
+          </p>
+          <a href="#" class="mt-5 inline-block text-ember font-medium border-b border-ember/40 hover:border-ember pb-0.5 self-start">Zapisz się →</a>
+        </div>
+      </article>
+
+      <!-- Event 3 -->
+      <article class="reveal group bg-white border border-charcoal/10 overflow-hidden flex flex-col">
+        <div class="aspect-[4/3] img-ph relative overflow-hidden">
+          <img src="https://loremflickr.com/800/600/whisky,bar" alt="Mężczyźni w kręgu, wieczór, szklanki whisky na stole" class="mood-img w-full h-full object-cover opacity-95 group-hover:scale-[1.02] transition-transform duration-700" />
+          <span class="absolute top-4 left-4 bg-ember text-paper text-xs uppercase tracking-widest px-3 py-1">Spotkanie</span>
+        </div>
+        <div class="p-6 flex flex-col flex-1">
+          <time class="text-sm text-charcoal/60 uppercase tracking-widest">4 czerwca 2026 · Kraków</time>
+          <h3 class="font-serif text-2xl mt-2 mb-3 tracking-tightest">Krąg miesiąca — „Ojcostwo bez podręcznika”</h3>
+          <p class="text-charcoal/75 leading-relaxed flex-1">
+            Dwie godziny rozmowy o tym, jak być ojcem, którego samemu się nie miało. Wejście na zapisy.
+          </p>
+          <a href="#" class="mt-5 inline-block text-ember font-medium border-b border-ember/40 hover:border-ember pb-0.5 self-start">Zapisz się →</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS — GŁOSY BRACI ============ -->
+<section id="bracia" class="relative py-24 md:py-32 bg-forestDk text-paper grain">
+  <div class="relative z-10 max-w-6xl mx-auto px-5 md:px-8">
+    <div class="max-w-2xl mb-16">
+      <p class="uppercase tracking-[0.3em] text-xs text-paper/60 mb-5 reveal">Głosy braci</p>
+      <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl leading-[1.05] tracking-tightest reveal">
+        Tak to wygląda od środka.
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8 md:gap-12">
+      <!-- T1 -->
+      <figure class="reveal border-t border-paper/15 pt-8">
+        <blockquote class="font-serif text-xl md:text-2xl leading-snug text-paper/90 tracking-tightest">
+          „Przez trzy lata po rozwodzie nie zadzwoniłem do nikogo, kto nie był moim klientem. Pierwszy wyjazd w las był niezręczny. Drugi już nie. Dzisiaj mam pięciu facetów, do których zadzwonię o trzeciej w nocy.”
+        </blockquote>
+        <figcaption class="mt-5 text-sm text-paper/60 uppercase tracking-widest">
+          Marek, 42 · Wrocław
+        </figcaption>
+      </figure>
+
+      <!-- T2 -->
+      <figure class="reveal border-t border-paper/15 pt-8">
+        <blockquote class="font-serif text-xl md:text-2xl leading-snug text-paper/90 tracking-tightest">
+          „Bałem się, że to będzie jakiś krąg męski z bębnami. Nie jest. To jest krąg facetów, którzy mówią wprost, co ich boli, i idą z tym zrobić coś pożytecznego. Wracam do domu lepszym mężem.”
+        </blockquote>
+        <figcaption class="mt-5 text-sm text-paper/60 uppercase tracking-widest">
+          Tomek, 36 · Poznań
+        </figcaption>
+      </figure>
+
+      <!-- T3 -->
+      <figure class="reveal border-t border-paper/15 pt-8">
+        <blockquote class="font-serif text-xl md:text-2xl leading-snug text-paper/90 tracking-tightest">
+          „Jestem introwertykiem. Myślałem, że to nie dla mnie. Okazało się, że tu nikt cię nie ciągnie za język. Można siedzieć przy ogniu i nic nie mówić — i to jest OK.”
+        </blockquote>
+        <figcaption class="mt-5 text-sm text-paper/60 uppercase tracking-widest">
+          Piotr, 31 · Gdańsk
+        </figcaption>
+      </figure>
+
+      <!-- T4 -->
+      <figure class="reveal border-t border-paper/15 pt-8">
+        <blockquote class="font-serif text-xl md:text-2xl leading-snug text-paper/90 tracking-tightest">
+          „Wyjazd do Gruzji. Tydzień bez telefonu, osiem godzin marszu dziennie, wieczorem chacza i rozmowa. Wróciłem spokojniejszy niż po jakichkolwiek wakacjach w życiu.”
+        </blockquote>
+        <figcaption class="mt-5 text-sm text-paper/60 uppercase tracking-widest">
+          Kuba, 48 · Łódź
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq" class="relative py-24 md:py-32 bg-paper grain grain-light">
+  <div class="relative z-10 max-w-3xl mx-auto px-5 md:px-8">
+    <div class="mb-14">
+      <p class="uppercase tracking-[0.3em] text-xs text-charcoal/60 mb-5 reveal">Najczęstsze pytania</p>
+      <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl leading-[1.05] tracking-tightest reveal">
+        Zanim zapytasz.
+      </h2>
+    </div>
+
+    <div class="divide-y divide-charcoal/15 border-t border-b border-charcoal/15">
+      <details class="group reveal">
+        <summary class="flex items-center justify-between py-6 cursor-pointer list-none">
+          <span class="font-serif text-xl md:text-2xl tracking-tightest pr-4">Czy muszę być w formie?</span>
+          <span class="text-ember text-2xl font-light group-open:rotate-45 transition-transform">+</span>
+        </summary>
+        <p class="pb-6 text-charcoal/80 leading-relaxed">
+          Nie. Większość z nas zaczynała z brzuchem, zadyszką i kolanem po kontuzji sprzed dekady. Przy każdym wydarzeniu piszemy wprost, jaki poziom wysiłku cię czeka. Masz wybór.
+        </p>
+      </details>
+
+      <details class="group reveal">
+        <summary class="flex items-center justify-between py-6 cursor-pointer list-none">
+          <span class="font-serif text-xl md:text-2xl tracking-tightest pr-4">Ile to kosztuje?</span>
+          <span class="text-ember text-2xl font-light group-open:rotate-45 transition-transform">+</span>
+        </summary>
+        <p class="pb-6 text-charcoal/80 leading-relaxed">
+          Dostęp do wspólnoty i lokalnych spotkań — bezpłatnie. Wyjazdy i strzelnicę finansujesz sam, po kosztach (noclegi, paliwo, instruktor, amunicja). Bez marży. Bez członkostwa premium.
+        </p>
+      </details>
+
+      <details class="group reveal">
+        <summary class="flex items-center justify-between py-6 cursor-pointer list-none">
+          <span class="font-serif text-xl md:text-2xl tracking-tightest pr-4">Czy to sekta, religia albo polityka?</span>
+          <span class="text-ember text-2xl font-light group-open:rotate-45 transition-transform">+</span>
+        </summary>
+        <p class="pb-6 text-charcoal/80 leading-relaxed">
+          Nie. Nie mamy guru, doktryny ani partii. Wiara i poglądy to twoja sprawa — na spotkaniach zostawiamy je przed drzwiami, żeby rozmowa była możliwa.
+        </p>
+      </details>
+
+      <details class="group reveal">
+        <summary class="flex items-center justify-between py-6 cursor-pointer list-none">
+          <span class="font-serif text-xl md:text-2xl tracking-tightest pr-4">Jak często są spotkania?</span>
+          <span class="text-ember text-2xl font-light group-open:rotate-45 transition-transform">+</span>
+        </summary>
+        <p class="pb-6 text-charcoal/80 leading-relaxed">
+          Lokalny krąg — raz w miesiącu. Trening lub strzelnica — w zależności od miasta, co 2–4 tygodnie. Wyprawa w las — raz na kwartał. Wyjazd zagraniczny — dwa razy w roku.
+        </p>
+      </details>
+
+      <details class="group reveal">
+        <summary class="flex items-center justify-between py-6 cursor-pointer list-none">
+          <span class="font-serif text-xl md:text-2xl tracking-tightest pr-4">Czy muszę jeździć daleko?</span>
+          <span class="text-ember text-2xl font-light group-open:rotate-45 transition-transform">+</span>
+        </summary>
+        <p class="pb-6 text-charcoal/80 leading-relaxed">
+          Mamy kręgi w kilkunastu miastach — Warszawa, Kraków, Wrocław, Poznań, Gdańsk, Katowice, Lublin, Rzeszów, Białystok i dalej. Jeśli w twoim mieście jeszcze nas nie ma — napisz, pomożemy założyć.
+        </p>
+      </details>
+
+      <details class="group reveal">
+        <summary class="flex items-center justify-between py-6 cursor-pointer list-none">
+          <span class="font-serif text-xl md:text-2xl tracking-tightest pr-4">Co jeśli jestem introwertykiem?</span>
+          <span class="text-ember text-2xl font-light group-open:rotate-45 transition-transform">+</span>
+        </summary>
+        <p class="pb-6 text-charcoal/80 leading-relaxed">
+          Tym lepiej. Połowa z nas to introwertycy. Nikt cię nie zmusi do mówienia — a cisza przy ogniu też jest rozmową. Jeśli „networking” brzmi dla ciebie jak choroba, jesteś u siebie.
+        </p>
+      </details>
+
+      <details class="group reveal">
+        <summary class="flex items-center justify-between py-6 cursor-pointer list-none">
+          <span class="font-serif text-xl md:text-2xl tracking-tightest pr-4">Mam żonę i dzieci — czy to nie kradnie im czasu?</span>
+          <span class="text-ember text-2xl font-light group-open:rotate-45 transition-transform">+</span>
+        </summary>
+        <p class="pb-6 text-charcoal/80 leading-relaxed">
+          Odwrotnie. Większość naszych żon mówi, że wracamy z wyjazdów spokojniejsi, bardziej obecni. Raz w miesiącu wieczór, raz na kwartał weekend — to nie kradzież, to inwestycja w relację.
+        </p>
+      </details>
+
+      <details class="group reveal">
+        <summary class="flex items-center justify-between py-6 cursor-pointer list-none">
+          <span class="font-serif text-xl md:text-2xl tracking-tightest pr-4">Nigdy nie trzymałem broni. Dam radę na strzelnicy?</span>
+          <span class="text-ember text-2xl font-light group-open:rotate-45 transition-transform">+</span>
+        </summary>
+        <p class="pb-6 text-charcoal/80 leading-relaxed">
+          Tak. Dni strzeleckie zaczynamy od zera — bezpieczeństwo, obsługa broni, pierwsze strzały pod okiem instruktora. Nie musisz niczego posiadać ani umieć wcześniej.
+        </p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section id="dolacz" class="relative py-24 md:py-36 bg-charcoal text-paper grain overflow-hidden">
+  <div class="absolute inset-0 opacity-40">
+    <img src="https://loremflickr.com/1920/1000/mountain,fog" alt="" aria-hidden="true" class="w-full h-full object-cover" />
+    <div class="absolute inset-0 bg-gradient-to-b from-charcoal/70 via-charcoal/85 to-charcoal"></div>
+  </div>
+
+  <div class="relative z-10 max-w-3xl mx-auto px-5 md:px-8 text-center">
+    <p class="uppercase tracking-[0.3em] text-xs text-paper/60 mb-6 reveal">Jeden krok</p>
+    <h2 class="font-serif text-4xl md:text-6xl lg:text-7xl leading-[1.02] tracking-tightest mb-6 reveal">
+      Zrób pierwszy krok.
+    </h2>
+    <p class="text-lg md:text-xl text-paper/80 max-w-xl mx-auto mb-12 reveal">
+      Bez zobowiązań, bez opłat. Dostaniesz zaproszenie na najbliższe spotkanie w twoim mieście.
+    </p>
+
+    <form id="joinForm" class="reveal max-w-xl mx-auto text-left space-y-4" novalidate>
+      <div>
+        <label for="imie" class="block text-xs uppercase tracking-widest text-paper/60 mb-2">Imię</label>
+        <input id="imie" name="imie" type="text" required autocomplete="given-name"
+          class="field w-full bg-transparent border border-paper/25 px-4 py-3 text-paper placeholder-paper/40 rounded-sm"
+          placeholder="Jak masz na imię?" />
+        <p data-error-for="imie" class="hidden text-ember text-sm mt-1">Podaj imię.</p>
+      </div>
+      <div>
+        <label for="email" class="block text-xs uppercase tracking-widest text-paper/60 mb-2">E-mail</label>
+        <input id="email" name="email" type="email" required autocomplete="email"
+          class="field w-full bg-transparent border border-paper/25 px-4 py-3 text-paper placeholder-paper/40 rounded-sm"
+          placeholder="twoj@email.pl" />
+        <p data-error-for="email" class="hidden text-ember text-sm mt-1">Podaj poprawny adres e-mail.</p>
+      </div>
+      <div>
+        <label for="miasto" class="block text-xs uppercase tracking-widest text-paper/60 mb-2">Miasto</label>
+        <input id="miasto" name="miasto" type="text" required autocomplete="address-level2"
+          class="field w-full bg-transparent border border-paper/25 px-4 py-3 text-paper placeholder-paper/40 rounded-sm"
+          placeholder="np. Kraków" />
+        <p data-error-for="miasto" class="hidden text-ember text-sm mt-1">Podaj miasto.</p>
+      </div>
+
+      <label class="flex items-start gap-3 text-sm text-paper/70 pt-2">
+        <input id="zgoda" name="zgoda" type="checkbox" required class="mt-1 accent-ember" />
+        <span>Zgadzam się na kontakt w sprawie najbliższego spotkania i przeczytałem <a href="#" class="underline hover:text-paper">politykę prywatności</a>.</span>
+      </label>
+      <p data-error-for="zgoda" class="hidden text-ember text-sm mt-1">Zaznacz zgodę.</p>
+
+      <button type="submit" class="w-full mt-4 px-7 py-4 bg-ember hover:bg-emberDk transition-colors text-paper font-medium rounded-sm text-base">
+        Dołącz do wspólnoty
+      </button>
+
+      <p id="formSuccess" class="hidden text-center text-paper bg-forest/60 border border-paper/20 px-4 py-3 rounded-sm mt-4">
+        Dzięki. Lider twojego kręgu odezwie się w ciągu kilku dni.
+      </p>
+    </form>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="bg-charcoal text-paper/70 border-t border-paper/10">
+  <div class="max-w-6xl mx-auto px-5 md:px-8 py-14 grid md:grid-cols-3 gap-10">
+    <div>
+      <div class="flex items-center gap-3 font-serif text-lg tracking-tightest text-paper">
+        <span class="inline-block w-8 h-8 rounded-full border border-paper/60 flex items-center justify-center text-sm">DNM</span>
+        <span>Droga Nowoczesnego Mężczyzny</span>
+      </div>
+      <p class="mt-4 text-sm leading-relaxed">
+        Wspólnota mężczyzn, którzy wychodzą z cienia ekranu. Polska, od 2023.
+      </p>
+    </div>
+
+    <div class="text-sm">
+      <p class="uppercase tracking-widest text-xs text-paper/50 mb-4">Nawigacja</p>
+      <ul class="space-y-2">
+        <li><a href="#manifest" class="link-u">Manifest</a></li>
+        <li><a href="#co-robimy" class="link-u">Co robimy</a></li>
+        <li><a href="#wydarzenia" class="link-u">Wydarzenia</a></li>
+        <li><a href="#faq" class="link-u">FAQ</a></li>
+        <li><a href="#dolacz" class="link-u">Dołącz</a></li>
+      </ul>
+    </div>
+
+    <div class="text-sm">
+      <p class="uppercase tracking-widest text-xs text-paper/50 mb-4">Kontakt & media</p>
+      <ul class="space-y-2">
+        <li><a href="mailto:bracia@dnm.pl" class="link-u">bracia@dnm.pl</a></li>
+        <li><a href="#" class="link-u">Instagram</a></li>
+        <li><a href="#" class="link-u">YouTube</a></li>
+        <li><a href="#" class="link-u">Forum wspólnoty</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-paper/10">
+    <div class="max-w-6xl mx-auto px-5 md:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-paper/50">
+      <p>© 2026 Droga Nowoczesnego Mężczyzny. Wszystkie prawa zastrzeżone.</p>
+      <div class="flex gap-6">
+        <a href="#" class="hover:text-paper">Regulamin</a>
+        <a href="#" class="hover:text-paper">Polityka prywatności</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ SCRIPTS ============ -->
+<script>
+  // Sticky nav — ciemne tło po scrollu
+  const nav = document.getElementById('nav');
+  const onScroll = () => {
+    if (window.scrollY > 40) nav.classList.add('nav-solid');
+    else nav.classList.remove('nav-solid');
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Mobile menu
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  menuBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    mobileMenu.classList.add('hidden');
+  }));
+
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('is-visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Form validation
+  const form = document.getElementById('joinForm');
+  const showErr = (name, show) => {
+    const el = form.querySelector(`[data-error-for="${name}"]`);
+    if (el) el.classList.toggle('hidden', !show);
+  };
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const imie = form.imie.value.trim();
+    const email = form.email.value.trim();
+    const miasto = form.miasto.value.trim();
+    const zgoda = form.zgoda.checked;
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+    const errors = {
+      imie:   imie.length < 2,
+      email:  !emailOk,
+      miasto: miasto.length < 2,
+      zgoda:  !zgoda,
+    };
+    Object.entries(errors).forEach(([k, v]) => showErr(k, v));
+
+    if (Object.values(errors).some(Boolean)) return;
+
+    document.getElementById('formSuccess').classList.remove('hidden');
+    form.querySelector('button[type="submit"]').disabled = true;
+    form.reset();
+  });
+</script>
+
+</body>
+</html>
