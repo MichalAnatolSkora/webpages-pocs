@@ -82,7 +82,12 @@
   .nav-cta:hover { background: var(--forest); color: var(--cream); }
   nav.scrolled .nav-cta { background: var(--forest); color: var(--cream); }
   nav.scrolled .nav-cta:hover { background: var(--ink); }
-  @media (max-width: 780px) { .nav-links { display: none; } }
+  @media (max-width: 780px) {
+    .nav-links { display: none; }
+    .nav-inner { padding: 14px 16px; }
+    .logo { font-size: 1.1rem; }
+    .nav-cta { padding: 8px 14px; font-size: 0.8rem; }
+  }
 
   /* ---------- CINEMA HERO ---------- */
   .cinema {
@@ -109,13 +114,17 @@
   }
   .cinema-bars-top, .cinema-bars-bottom {
     position: absolute; left: 0; right: 0;
-    height: 80px;
-    background: linear-gradient(180deg, rgba(0,0,0,0.75), rgba(0,0,0,0));
     z-index: 2;
     pointer-events: none;
   }
-  .cinema-bars-top { top: 0; }
-  .cinema-bars-bottom { bottom: 0; transform: scaleY(-1); height: 280px; background: linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,0.9)); }
+  .cinema-bars-top {
+    top: 0; height: 140px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 100%);
+  }
+  .cinema-bars-bottom {
+    bottom: 0; height: 62%;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 55%, rgba(0,0,0,0.92) 100%);
+  }
 
   .cinema-hud {
     position: absolute;
@@ -860,8 +869,9 @@
   .section-header p { color: var(--ink-muted); font-size: 1.1rem; }
 
   @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
     html { scroll-behavior: auto; }
+    .marquee-track { animation-duration: 120s; }
+    .split-item video, .reel:hover { transition: none; }
   }
 </style>
 </head>
@@ -1486,6 +1496,22 @@
   });
   document.getElementById('reelNext').addEventListener('click', () => {
     reelsScroll.scrollBy({ left: 320, behavior: 'smooth' });
+  });
+
+  // iOS Safari sometimes refuses autoplay even with muted+playsinline.
+  // Force-kick all videos on load and on first user interaction.
+  function kickVideos() {
+    document.querySelectorAll('video').forEach(v => {
+      v.muted = true;
+      v.playsInline = true;
+      const p = v.play();
+      if (p && typeof p.catch === 'function') p.catch(() => {});
+    });
+  }
+  kickVideos();
+  window.addEventListener('load', kickVideos);
+  ['touchstart', 'click', 'scroll'].forEach(ev => {
+    window.addEventListener(ev, kickVideos, { once: true, passive: true });
   });
 </script>
 

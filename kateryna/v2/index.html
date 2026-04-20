@@ -223,6 +223,33 @@
   }
   .hero-sound-toggle:hover { background: rgba(26, 22, 20, 0.85); opacity: 1; }
 
+  .hero-play-overlay {
+    position: absolute;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(26, 22, 20, 0.35);
+    cursor: pointer;
+    z-index: 3;
+    border: none;
+    color: var(--cream);
+    transition: background 0.2s;
+  }
+  .hero-play-overlay.visible { display: flex; }
+  .hero-play-overlay:hover { background: rgba(26, 22, 20, 0.5); }
+  .hero-play-overlay-circle {
+    width: 72px; height: 72px;
+    background: rgba(250, 247, 242, 0.95);
+    color: var(--ink);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+    transition: transform 0.2s;
+  }
+  .hero-play-overlay:hover .hero-play-overlay-circle { transform: scale(1.08); }
+  .hero-play-overlay svg { width: 26px; height: 26px; margin-left: 3px; }
+
   @media (max-width: 780px) {
     .hero-meta { gap: 24px; }
     .hero-meta-item strong { font-size: 1.6rem; }
@@ -569,11 +596,16 @@
         </div>
       </div>
       <div class="hero-video-wrap">
-        <video class="hero-video" id="heroVideo" autoplay muted loop playsinline aria-hidden="true"
+        <video class="hero-video" id="heroVideo" autoplay muted loop playsinline preload="metadata" aria-hidden="true"
                poster="../media/WhatsApp Image 2026-04-20 at 21.54.48 (5).jpeg">
           <source src="../media/WhatsApp Video 2026-04-20 at 21.54.46.mp4" type="video/mp4">
         </video>
         <div class="hero-video-overlay"></div>
+        <button class="hero-play-overlay" id="playOverlay" aria-label="Odtwórz wideo">
+          <span class="hero-play-overlay-circle">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+          </span>
+        </button>
         <button class="hero-sound-toggle" id="soundToggle" aria-label="Włącz dźwięk">🔇</button>
       </div>
     </div>
@@ -944,8 +976,32 @@
 
   const video = document.getElementById('heroVideo');
   const toggle = document.getElementById('soundToggle');
+  const playOverlay = document.getElementById('playOverlay');
+
+  // iOS autoplay fallback — if video still paused after a moment, show play button
+  // (iOS Low Power Mode blocks autoplay even for muted+playsinline videos)
+  const checkAutoplay = () => {
+    if (video.paused) {
+      video.play().catch(() => { playOverlay.classList.add('visible'); });
+    }
+  };
+  if (video.readyState >= 2) {
+    checkAutoplay();
+  } else {
+    video.addEventListener('loadeddata', checkAutoplay, { once: true });
+  }
+  // Safety net: after 1.5s if still paused, show overlay
+  setTimeout(() => { if (video.paused) playOverlay.classList.add('visible'); }, 1500);
+
+  video.addEventListener('playing', () => playOverlay.classList.remove('visible'));
+
+  playOverlay.addEventListener('click', () => {
+    video.play().then(() => playOverlay.classList.remove('visible')).catch(() => {});
+  });
+
   toggle.addEventListener('click', () => {
     video.muted = !video.muted;
+    if (video.paused) video.play().catch(() => {});
     toggle.textContent = video.muted ? '🔇' : '🔊';
   });
 </script>
