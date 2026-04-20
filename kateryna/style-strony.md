@@ -2,6 +2,8 @@
 
 Kontekst: Kateryna Donajska ([@masaz_wroclaw_pl](https://www.instagram.com/masaz_wroclaw_pl/)) — fizjoterapia, masaż leczniczy i sportowy, kinesiotaping, terapia manualna. Obsługa na miejscu (gabinet) oraz z dojazdem do klienta.
 
+Dodatkowo — drugi wątek działalności: **prowadzenie szkoleń** dla masażystów (kurs „Masaż z dojazdem do klienta" w Centrum Edukacji Biznesu, Wrocław, 10h stacjonarnie — [link](https://centrumedukacjibiznesu.pl/index.php/2026/04/09/masaz-z-dojazdem-do-klienta/)). Pełny opis: [opis-kateryny.md](opis-kateryny.md).
+
 ## 1. Kierunki stylistyczne (do wyboru)
 
 ### A. Spa & Wellness (ciepły, kobiecy, premium)
@@ -47,12 +49,13 @@ Kontekst: Kateryna Donajska ([@masaz_wroclaw_pl](https://www.instagram.com/masaz
 2. **Zaufanie** — liczby (lata doświadczenia, liczba klientów), logotypy certyfikatów, gwiazdki z Google / Booksy.
 3. **Usługi** — karty z cenami, czasem, krótkim opisem (masaż klasyczny, sportowy, leczniczy, relaksacyjny, tkanek głębokich, kinesiotaping, bańki, terapia manualna).
 4. **Dojazd vs gabinet** — wyraźne porównanie (ikony, mapa zasięgu dojazdu, dopłata za km, adres gabinetu z Google Maps).
-5. **O mnie / Kateryna** — zdjęcie, historia, wykształcenie, certyfikaty (materiał ze szkoleń idealny).
+5. **O mnie / Kateryna** — zdjęcie, historia, wykształcenie (technik usług kosmetycznych + technik sterylizacji medycznej), 3 lata doświadczenia, certyfikaty (materiał ze szkoleń idealny).
 6. **Galeria / reels** — osadzone reels z Instagrama, zdjęcia z pracy.
 7. **Opinie** — karuzela z Google / Booksy / FB.
 8. **FAQ** — czy trzeba się rozbierać, co przynieść, czas trwania, formy płatności, dojazd — koszt.
 9. **Rezerwacja** — Booksy embed lub własny formularz + WhatsApp / telefon.
-10. **Kontakt + footer** — telefon, Instagram, mapa, NIP, regulamin, polityka prywatności.
+10. **Szkolenia** (opcjonalna sekcja / podstrona) — kurs „Masaż z dojazdem do klienta" (10h, Wrocław, Centrum Edukacji Biznesu), CTA do zapisu / kontaktu. Osobna ścieżka dla masażystów-kursantów, wizualnie odseparowana od oferty dla klientów końcowych.
+11. **Kontakt + footer** — telefon, Instagram, mapa, NIP, regulamin, polityka prywatności.
 
 ### UX / konwersja
 - **Sticky CTA** („Zadzwoń” / „Umów masaż”) na mobile.
