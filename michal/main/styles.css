@@ -1010,12 +1010,15 @@ footer {
 
 /* Blinking cursor after heading */
 .typewriter::after {
-    content: '▎';
+    content: '';
     display: inline-block;
-    color: var(--accent);
-    font-weight: 300;
+    width: 0.08em;
+    height: 0.85em;
+    background: var(--accent);
+    vertical-align: baseline;
+    transform: translateY(0.05em);
     animation: cursorBlink 0.8s ease-in-out infinite;
-    margin-left: 2px;
+    margin-left: 0.08em;
     opacity: 0;
     transition: opacity 0.3s ease;
 }

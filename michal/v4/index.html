@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StableTech Michał Skóra — IT Systems Implementation</title>
+    <meta name="description" content="We design, build and deploy IT systems for your business. Payment integrations, smart cameras, 3D terrain models, AI solutions. Fast, no red tape.">
+    <meta name="theme-color" content="#0B0418">
+    <link rel="canonical" href="https://stabletech4b.com/">
+    <meta property="og:title" content="StableTech — IT Systems Implementation">
+    <meta property="og:description" content="We design, build and deploy IT systems for your business. Payment integrations, smart cameras, AI solutions.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://stabletech4b.com/">
+    <meta property="og:image" content="https://stabletech4b.com/photo.jpg">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="pl_PL">
+    <meta property="og:site_name" content="StableTech For Business">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%23FF2D95'/><stop offset='.5' stop-color='%23FF8A3D'/><stop offset='1' stop-color='%2300E5FF'/></linearGradient></defs><rect width='32' height='32' rx='7' fill='%230B0418'/><text x='16' y='23' font-family='Arial Black,sans-serif' font-weight='900' font-size='20' font-style='italic' text-anchor='middle' fill='url(%23g)'>S</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;1,700;1,800;1,900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="grain" aria-hidden="true"></div>
+    <div class="scanlines" aria-hidden="true"></div>
+
+    <nav>
+        <div class="container nav-inner">
+            <a href="#" class="nav-logo" id="logo-link">
+                <span class="logo-mark" aria-hidden="true">
+                    <span class="logo-s">S</span>
+                </span>
+                <span class="logo-text"><em>Stable</em>Tech<span class="logo-sub">for business</span></span>
+            </a>
+            <div class="nav-right">
+                <button class="lang-switch" id="lang-toggle" aria-label="Switch language"><span class="lang-opt" data-lang="en">EN</span><span class="lang-sep" aria-hidden="true">/</span><span class="lang-opt" data-lang="pl">PL</span></button>
+                <a href="https://www.instagram.com/stabletech4b/" target="_blank" rel="noopener" class="nav-ig" aria-label="Instagram @stabletech4b">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                </a>
+                <a href="tel:+48505533851" class="nav-phone" aria-label="Call +48 505 533 851"><svg class="nav-phone-icon" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span class="nav-phone-text">+48 505 533 851</span></a>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <div class="hero-bg" aria-hidden="true">
+            <div class="hero-sun"></div>
+            <div class="hero-grid"></div>
+            <div class="hero-palms">
+                <svg class="palm palm-l" viewBox="0 0 140 220" aria-hidden="true">
+                    <g fill="#05010E">
+                        <path d="M70 220 Q66 150 72 90 Q74 70 78 55 L72 55 Q66 80 64 120 Q62 160 64 220 Z"/>
+                        <path d="M72 60 Q40 30 5 35 Q35 45 60 65 Z"/>
+                        <path d="M74 58 Q110 20 140 30 Q110 48 80 68 Z"/>
+                        <path d="M70 62 Q50 20 30 5 Q55 35 68 70 Z"/>
+                        <path d="M78 60 Q100 20 125 5 Q98 45 84 72 Z"/>
+                        <path d="M70 64 Q20 55 0 80 Q35 72 66 76 Z"/>
+                        <path d="M80 62 Q125 55 140 85 Q110 70 82 78 Z"/>
+                    </g>
+                </svg>
+                <svg class="palm palm-r" viewBox="0 0 140 220" aria-hidden="true">
+                    <g fill="#05010E">
+                        <path d="M70 220 Q74 150 68 90 Q66 70 62 55 L68 55 Q74 80 76 120 Q78 160 76 220 Z"/>
+                        <path d="M68 60 Q100 30 135 35 Q105 45 80 65 Z"/>
+                        <path d="M66 58 Q30 20 0 30 Q30 48 60 68 Z"/>
+                        <path d="M70 62 Q90 20 110 5 Q85 35 72 70 Z"/>
+                        <path d="M62 60 Q40 20 15 5 Q42 45 56 72 Z"/>
+                        <path d="M70 64 Q120 55 140 80 Q105 72 74 76 Z"/>
+                        <path d="M60 62 Q15 55 0 85 Q30 70 58 78 Z"/>
+                    </g>
+                </svg>
+            </div>
+        </div>
+        <div class="container hero-content">
+            <div class="hero-label anim-load" data-pl="// Wdrożenia systemów IT" data-en="// IT systems implementation">// IT systems implementation</div>
+            <h1 id="hero-heading" class="anim-load typewriter"></h1>
+            <div class="hero-bottom anim-load">
+                <p class="hero-sub" data-pl="Od pomysłu do działającego systemu na produkcji. Szybko, bez zbędnych procesów, z doświadczeniem w bankowości i e-commerce." data-en="From idea to production-ready system. Fast, no red tape, with experience in banking and e-commerce.">From idea to production-ready system. Fast, no red tape, with experience in banking and e-commerce.</p>
+                <a href="#contact" class="hero-cta" data-pl="Porozmawiajmy ▸" data-en="Get in touch ▸">Get in touch ▸</a>
+            </div>
+            <div class="hero-stack anim-load">
+                <span><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" width="14" height="14" alt="C#"> C#</span>
+                <span><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="14" height="14" alt="Python"> Python</span>
+                <span><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" width="14" height="14" alt="Docker"> Docker</span>
+                <span><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" width="14" height="14" alt="AWS"> AWS</span>
+                <span><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg" width="14" height="14" alt="Kubernetes"> Kubernetes</span>
+                <span><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-plain.svg" width="14" height="14" alt="MSSQL"> MSSQL</span>
+                <span><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" width="14" height="14" alt="PostgreSQL"> PostgreSQL</span>
+                <span><img src="https://cdn.simpleicons.org/keycloak/FF2D95" width="14" height="14" alt="Keycloak"> Keycloak</span>
+                <span><img src="https://cdn.simpleicons.org/clerk/00E5FF" width="14" height="14" alt="Clerk"> Clerk</span>
+            </div>
+        </div>
+        <div class="ticker" aria-hidden="true">
+            <div class="ticker-track">
+                <span>★ Vice City Systems</span><span>◆ Payments</span><span>★ Smart Cameras</span><span>◆ AI Voice Agents</span><span>★ 3D Terrain</span><span>◆ OCR</span><span>★ LLM Integration</span><span>◆ Banking Grade</span><span>★ Vice City Systems</span><span>◆ Payments</span><span>★ Smart Cameras</span><span>◆ AI Voice Agents</span><span>★ 3D Terrain</span><span>◆ OCR</span><span>★ LLM Integration</span><span>◆ Banking Grade</span>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="what-we-do">
+            <div class="container">
+                <div class="section-label anim" data-pl="// Co robimy" data-en="// What we do">// What we do</div>
+                <h2 class="section-title anim" data-pl="Sześć linii biznesu. Jeden developer." data-en="Six lines of business. One operator."><em>Six</em> lines of business. <em>One</em> operator.</h2>
+                <div class="capabilities anim">
+                    <a href="https://github.com/MichalAnatolSkora/payments-library" target="_blank" rel="noopener" class="capability capability-link">
+                        <div class="cap-num">01</div>
+                        <div class="cap-icon" aria-hidden="true">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                        </div>
+                        <h3 data-pl="Integracje płatności" data-en="Payment integrations">Payment integrations</h3>
+                        <p data-pl="Podłączenie systemów płatności do Twojej aplikacji. Stripe, PayU, przelewy24." data-en="Connecting payment systems to your app. Stripe, PayU, Przelewy24.">Connecting payment systems to your app. Stripe, PayU, Przelewy24.</p>
+                        <span class="cap-link">
+                            <span class="badge badge-neon">Open Source</span>
+                            <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M5 15L15 5M15 5H8M15 5V12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </span>
+                    </a>
+                    <a href="https://github.com/MichalAnatolSkora/yolo-on-rpi5-hailo10h" target="_blank" rel="noopener" class="capability capability-link">
+                        <div class="cap-num">02</div>
+                        <div class="cap-icon" aria-hidden="true">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                        </div>
+                        <h3 data-pl="Smart kamery" data-en="Smart cameras">Smart cameras</h3>
+                        <p data-pl="Systemy monitoringu z analizą obrazu w czasie rzeczywistym." data-en="Monitoring systems with real-time image analysis.">Monitoring systems with real-time image analysis.</p>
+                        <span class="cap-link">
+                            <span class="badge badge-neon">Open Source</span>
+                            <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M5 15L15 5M15 5H8M15 5V12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </span>
+                    </a>
+                    <a href="https://halastulecia.s3.eu-central-1.amazonaws.com/index.html" target="_blank" rel="noopener" class="capability capability-link">
+                        <div class="cap-num">03</div>
+                        <div class="cap-icon" aria-hidden="true">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                        </div>
+                        <h3 data-pl="Model 3D terenu z drona" data-en="3D terrain model from drone">3D terrain model from drone</h3>
+                        <p data-pl="Przetwarzanie zdjęć z drona w interaktywny model 3D terenu, osadzony na stronie www." data-en="Processing drone photos into an interactive 3D terrain model, embedded on a website.">Processing drone photos into an interactive 3D terrain model, embedded on a website.</p>
+                        <span class="cap-link">
+                            <span class="badge badge-neon">Demo</span>
+                            <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M5 15L15 5M15 5H8M15 5V12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </span>
+                    </a>
+                    <div class="capability">
+                        <div class="cap-num">04</div>
+                        <div class="cap-icon" aria-hidden="true">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                        </div>
+                        <h3 data-pl="Skanowanie dokumentów z OCR" data-en="Scanning documents with OCR">Scanning documents with OCR</h3>
+                        <p data-pl="Automatyczne rozpoznawanie tekstu z dokumentów. Ekstrakcja danych, digitalizacja." data-en="Automatic text recognition from documents. Data extraction, digitization.">Automatic text recognition from documents. Data extraction, digitization.</p>
+                        <span class="badge badge-muted" data-pl="Wkrótce" data-en="Coming soon">Coming soon</span>
+                    </div>
+                    <div class="capability">
+                        <div class="cap-num">05</div>
+                        <div class="cap-icon" aria-hidden="true">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                        </div>
+                        <h3 data-pl="Integracja LLM" data-en="LLM integration">LLM integration</h3>
+                        <p data-pl="Wdrożenie modeli językowych (Ollama, Qwen) do Twojego projektu." data-en="Integrating language models (Ollama, Qwen) into your project.">Integrating language models (Ollama, Qwen) into your project.</p>
+                        <span class="badge badge-muted" data-pl="Wkrótce" data-en="Coming soon">Coming soon</span>
+                    </div>
+                    <div class="capability">
+                        <div class="cap-num">06</div>
+                        <div class="cap-icon" aria-hidden="true">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+                        </div>
+                        <h3>AI Voice Agent</h3>
+                        <p data-pl="Głosowy asystent AI dopasowany do Twojego biznesu." data-en="AI-powered voice assistant tailored to your business.">AI-powered voice assistant tailored to your business.</p>
+                        <span class="badge badge-muted" data-pl="Wkrótce" data-en="Coming soon">Coming soon</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="process">
+            <div class="container">
+                <div class="section-label anim" data-pl="// Proces" data-en="// Process">// Process</div>
+                <h2 class="section-title anim" data-pl="Od pomysłu do wdrożenia" data-en="From idea to deployment"><em>From idea</em> to deployment</h2>
+                <div class="process-steps anim">
+                    <div class="step step-cta">
+                        <div class="step-num">01</div>
+                        <h3 data-pl="Zadzwoń lub napisz" data-en="Call or email">Call or email</h3>
+                        <p data-pl="Opisz swój pomysł — odezwę się w 24h." data-en="Tell me about your idea — I'll reply within 24h.">Tell me about your idea — I'll reply within 24h.</p>
+                        <div class="step-contact">
+                            <a href="tel:+48505533851" class="step-contact-pill" title="+48 505 533 851">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                            </a>
+                            <a href="mailto:michal.anatol.skora@gmail.com" class="step-contact-pill" title="michal.anatol.skora@gmail.com">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">02</div>
+                        <h3 data-pl="Kontakt i wycena" data-en="Scope & estimate">Scope & estimate</h3>
+                        <p data-pl="Poznaję Twój problem. Daję wycenę w 48h." data-en="I learn your problem. Estimate within 48h.">I learn your problem. Estimate within 48h.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">03</div>
+                        <h3>Proof of concept</h3>
+                        <p data-pl="Działający prototyp, żebyś zobaczył kierunek." data-en="Working prototype to validate direction.">Working prototype to validate direction.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">04</div>
+                        <h3 data-pl="Realizacja" data-en="Build & deploy">Build & deploy</h3>
+                        <p data-pl="Koduję, testuję, wdrażam na produkcję." data-en="I code, test, ship to production.">I code, test, ship to production.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">05</div>
+                        <h3 data-pl="Iteracja" data-en="Iterate">Iterate</h3>
+                        <p data-pl="Feedback, poprawki, kolejne wersje." data-en="Feedback, fixes, next versions.">Feedback, fixes, next versions.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="about">
+            <div class="container about-grid">
+                <div class="about-photo anim">
+                    <img src="photo.jpg" alt="Michał Skóra" loading="lazy" decoding="async">
+                    <div class="about-photo-glow" aria-hidden="true"></div>
+                    <div class="about-photo-tag">WANTED · SOLO DEV</div>
+                </div>
+                <div class="about-text anim">
+                    <div class="section-label" data-pl="// Kim jestem" data-en="// Who I am">// Who I am</div>
+                    <h2 class="about-name"><em>Michał</em> Skóra</h2>
+                    <p><span data-pl="Solo developer z ponad" data-en="Solo developer with over">Solo developer with over</span> <strong><span id="years-counter"></span> <span data-pl="lat doświadczenia" data-en="years of experience">years of experience</span></strong>. <span data-pl="Doświadczenie z dużych projektów bankowych. Pod StableTech buduję systemy IT — szybko, sprawnie, bez korpo." data-en="Background in large banking projects. Under StableTech I build IT systems — fast, lean, no corporate overhead.">Background in large banking projects. Under StableTech I build IT systems — fast, lean, no corporate overhead.</span></p>
+                    <p class="about-p2"><span data-pl="Interesuję się sztuczną inteligencją — szczególnie bezpieczeństwem (np. prompt injection) i stabilnością wdrożeń produkcyjnych." data-en="Interested in AI — especially security topics like prompt injection and keeping production deployments stable.">Interested in AI — especially security topics like prompt injection and keeping production deployments stable.</span></p>
+                </div>
+            </div>
+        </section>
+
+        <section class="instagram">
+            <div class="container">
+                <div class="ig-card anim">
+                    <div class="ig-card-inner">
+                        <div class="ig-left">
+                            <div class="section-label">// Instagram</div>
+                            <h2 class="ig-heading" data-pl="Zajrzyj na Instagram" data-en="Catch the build in motion"><em>Catch</em> the build in motion</h2>
+                            <p class="ig-desc" data-pl="Projekty na żywo, kulisy wdrożeń, eksperymenty z AI i kamerami — w rolkach i postach." data-en="Live projects, deployment behind-the-scenes, AI & smart-camera experiments — in reels and posts.">Live projects, deployment behind-the-scenes, AI & smart-camera experiments — in reels and posts.</p>
+                            <a href="https://instagram.com/stabletech4b" target="_blank" rel="noopener" class="ig-cta">
+                                <span class="ig-cta-glyph" aria-hidden="true">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                                </span>
+                                <span class="ig-cta-handle">@stabletech4b</span>
+                                <span class="ig-cta-arrow" aria-hidden="true">▸</span>
+                            </a>
+                        </div>
+                        <div class="ig-visual">
+                            <div class="ig-embed">
+                                <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/DXUjnvYobdr/?utm_source=ig_embed&utm_campaign=loading" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:14px; box-shadow:0 12px 30px -14px rgba(0,0,0,0.6); margin: 0; max-width:340px; min-width:280px; padding:0; width:100%;">
+                                    <a href="https://www.instagram.com/p/DXUjnvYobdr/?utm_source=ig_embed&utm_campaign=loading" target="_blank" rel="noopener">View this reel on Instagram</a>
+                                </blockquote>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact" id="contact">
+            <div class="container">
+                <div class="contact-card anim">
+                    <div class="contact-left">
+                        <div class="section-label" data-pl="// Kontakt" data-en="// Contact">// Contact</div>
+                        <h2 data-pl="Masz system do wdrożenia?" data-en="Got a system to build?"><em>Got a system</em><br>to build?</h2>
+                        <p data-pl="Opisz mi swój projekt — odezwę się w ciągu 24h." data-en="Describe your project — I'll get back within 24h.">Describe your project — I'll get back within 24h.</p>
+                    </div>
+                    <div class="contact-right">
+                        <a href="tel:+48505533851" class="contact-link contact-link-primary">+48 505 533 851</a>
+                        <a href="mailto:michal.anatol.skora@gmail.com" class="contact-link">michal.anatol.skora@gmail.com</a>
+                        <a href="https://github.com/MichalAnatolSkora" target="_blank" rel="noopener" class="contact-link">github.com/MichalAnatolSkora</a>
+                        <a href="https://www.instagram.com/stabletech4b/" target="_blank" rel="noopener" class="contact-link contact-link-ig">instagram.com/stabletech4b</a>
+                        <div class="contact-legal">
+                            <p>StableTech Michał Skóra</p>
+                            <p>NIP: 8961645191 · REGON: 540063442</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-inner">
+            <span>© 2026 StableTech Michał Skóra</span>
+            <span class="footer-tag">Built in Vice City mode</span>
+        </div>
+    </footer>
+
+    <script>
+        const start = 2012;
+        const years = new Date().getFullYear() - start;
+        document.getElementById('years-counter').textContent = years + '+';
+
+        let lang = localStorage.getItem('lang') || 'en';
+        const toggle = document.getElementById('lang-toggle');
+
+        const headingData = {
+            en: [
+                { words: 'I design, build & deploy', cls: '' },
+                { br: true },
+                { words: 'software systems', cls: 'accent' },
+                { br: true },
+                { words: 'for your business.', cls: '' }
+            ],
+            pl: [
+                { words: 'Projektuję, buduję i wdrażam', cls: '' },
+                { br: true },
+                { words: 'systemy informatyczne', cls: 'accent' },
+                { br: true },
+                { words: 'dla Twojego biznesu.', cls: '' }
+            ]
+        };
+
+        function buildHeadingHTML(l) {
+            const h = document.getElementById('hero-heading');
+            h.innerHTML = '';
+            h.classList.remove('typing', 'done');
+            const lines = headingData[l];
+            lines.forEach(line => {
+                if (line.br) { h.appendChild(document.createElement('br')); return; }
+                line.words.split(' ').forEach(w => {
+                    const span = document.createElement('span');
+                    span.className = 'word' + (line.cls ? ' ' + line.cls : '');
+                    span.textContent = w;
+                    h.appendChild(span);
+                });
+            });
+        }
+
+        function typeHeading(callback) {
+            const h = document.getElementById('hero-heading');
+            const words = h.querySelectorAll('.word');
+            h.classList.add('typing');
+            let i = 0;
+            function showNext() {
+                if (i >= words.length) {
+                    h.classList.remove('typing');
+                    h.classList.add('done');
+                    if (callback) callback();
+                    return;
+                }
+                words[i].classList.add('visible');
+                i++;
+                const pause = Math.random() < 0.2 ? 180 + Math.random() * 100 : 60 + Math.random() * 50;
+                setTimeout(showNext, pause);
+            }
+            showNext();
+        }
+
+        function setLang(l, animate) {
+            lang = l;
+            localStorage.setItem('lang', l);
+            document.documentElement.lang = l;
+            toggle.querySelectorAll('.lang-opt').forEach(opt => {
+                opt.classList.toggle('active', opt.dataset.lang === l);
+            });
+            document.querySelectorAll('[data-pl][data-en]').forEach(el => {
+                el.textContent = el.getAttribute('data-' + l);
+            });
+            buildHeadingHTML(l);
+            if (animate) {
+                typeHeading();
+            } else {
+                document.querySelectorAll('#hero-heading .word').forEach(w => w.classList.add('visible'));
+                document.getElementById('hero-heading').classList.add('done');
+            }
+        }
+
+        toggle.addEventListener('click', () => setLang(lang === 'en' ? 'pl' : 'en', true));
+
+        document.getElementById('logo-link').addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
+
+        document.querySelectorAll('.anim').forEach(el => observer.observe(el));
+
+        const navEl = document.querySelector('nav');
+        const updateNav = () => navEl.classList.toggle('scrolled', window.scrollY > 20);
+        updateNav();
+        window.addEventListener('scroll', updateNav, { passive: true });
+
+        function startHero() {
+            buildHeadingHTML(lang);
+            const loads = document.querySelectorAll('.anim-load');
+            loads.forEach((el, i) => {
+                setTimeout(() => {
+                    el.classList.add('revealed');
+                    if (i === 1) {
+                        setTimeout(() => typeHeading(), 100);
+                    }
+                }, i * 150);
+            });
+        }
+
+        setLang(lang, false);
+
+        if (document.readyState === 'complete') {
+            startHero();
+        } else {
+            window.addEventListener('load', startHero);
+        }
+    </script>
+    <script async src="https://www.instagram.com/embed.js"></script>
+</body>
+</html>
