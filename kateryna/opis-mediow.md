@@ -1,6 +1,6 @@
 # Opis zdjęć — Kateryna
 
-Folder [media/](media/) zawiera 15 zdjęć oraz 2 wideo z 20.04.2026.
+Folder [media/](media/) zawiera 15 zdjęć oraz 3 wideo z 20.04.2026, plus klatki poster do wideo.
 
 ## Co widać na zdjęciach
 
@@ -40,8 +40,14 @@ Seria zdjęć wykonanych na świeżym powietrzu, w słoneczny dzień, pod namiot
 
 ## Wideo
 
-- **WhatsApp Video 2026-04-20 at 21.54.46.mp4** (~2.5 MB)
-- **WhatsApp Video 2026-04-20 at 21.54.50.mp4** (~2.7 MB)
+- **WhatsApp Video 2026-04-20 at 21.54.46.mp4** (~2.5 MB, poziome) — fragment sesji na evencie biegowym.
+- **WhatsApp Video 2026-04-20 at 21.54.50.mp4** (~2.7 MB, poziome) — fragment sesji z gabinetu / pracy narzędziowej.
+- **WhatsApp Video 2026-04-20 at 22.55.44.mp4** (~3.9 MB, pionowe 576×1024, 19 s, 30 fps) — sesja w gabinecie: klientka (blond włosy związane w kok) leży twarzą w dół na skórzanym stole, Kateryna nalewa olejek / maść (żółto-kremowa konsystencja) z małego słoiczka na opuszek palca nad plecami klientki. Na przedramieniu terapeutki widoczny tatuaż. Kadr z góry, stonowane światło — atmosfera kameralnego gabinetu. Świetny jako główne wideo mobilne / do reelsa.
+
+### Postery (klatki z wideo)
+
+- **poster-22.55.44-5s.jpg** — klatka z 5. sekundy wideo 22.55.44: moment nalewania olejku na palec. Używany jako poster dla wideo w sekcji sticky/reels.
+- **poster-22.55.44.jpg** — alternatywna klatka (z początku), ciemniejsza.
 
 ## Wnioski
 
