@@ -62,7 +62,7 @@
     letter-spacing: -0.01em;
     line-height: 1.12;
   }
-  h1 { font-size: clamp(2.6rem, 6vw, 4.8rem); font-weight: 800; }
+  h1 { font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 800; }
   h2 { font-size: clamp(2rem, 4vw, 3rem); }
   h3 { font-size: clamp(1.25rem, 1.8vw, 1.55rem); font-weight: 700; }
   em { font-style: italic; color: var(--terracotta-deep); font-weight: 600; }
@@ -130,6 +130,21 @@
   }
   .nav-links a:hover::after { transform: scaleX(1); }
 
+  /* Nav CTA button — główne konwersyjne działanie */
+  .nav-links a.nav-cta-btn {
+    padding: 10px 20px;
+    background: var(--terracotta);
+    color: var(--cream);
+    border-radius: 12px;
+    box-shadow: 0 6px 14px -6px rgba(181,95,50,0.45);
+    transition: transform 0.25s ease, background 0.25s ease;
+  }
+  .nav-links a.nav-cta-btn:hover {
+    background: var(--terracotta-deep);
+    transform: translateY(-1px);
+  }
+  .nav-links a.nav-cta-btn::after { display: none; }
+
   /* Mobile menu toggle — widoczny tylko na wąskich ekranach */
   .nav-toggle {
     display: none;
@@ -175,7 +190,7 @@
     grid-template-columns: 1fr 1.05fr;
     align-items: center;
     gap: 50px;
-    padding: 150px 28px 110px;
+    padding: 120px 28px 90px;
     max-width: 1240px; margin: 0 auto;
     position: relative;
     z-index: 2;
@@ -203,7 +218,7 @@
   }
   .hero-kicker svg { width: 22px; height: 22px; }
 
-  .hero h1 { margin-bottom: 28px; max-width: 14ch; }
+  .hero h1 { margin-bottom: 24px; max-width: 16ch; }
   .hero h1 .highlight {
     position: relative;
     display: inline-block;
@@ -224,9 +239,9 @@
   }
 
   .hero-lede {
-    font-size: 1.12rem;
-    max-width: 46ch;
-    margin-bottom: 38px;
+    font-size: 1.05rem;
+    max-width: 48ch;
+    margin-bottom: 28px;
     color: var(--ink-soft);
   }
 
@@ -740,7 +755,7 @@
     min-height: 40px;
   }
   .waitlist-form input[type="email"]::placeholder {
-    color: rgba(58,40,23,0.4);
+    color: rgba(58,40,23,0.6);
     font-style: italic;
   }
   .waitlist-form button {
@@ -818,7 +833,7 @@
     content: '';
     position: absolute;
     top: 0; left: 0; bottom: 0;
-    width: 68%;
+    width: 75%;
     background: linear-gradient(90deg, var(--honey), var(--terracotta));
     border-radius: 999px;
     animation: progressFill 1.8s cubic-bezier(.2,.7,.2,1) forwards;
@@ -1091,7 +1106,7 @@
       <a href="#tactile">Jak wygląda</a>
       <a href="#craft">Jak budujemy</a>
       <a href="#testimonials">Lista oczekujących</a>
-      <a href="#final">Dołącz</a>
+      <a href="#final" class="nav-cta-btn">Dołącz na listę</a>
     </div>
   </div>
 </nav>
@@ -1101,13 +1116,12 @@
   <div class="hero-text">
     <span class="soon-badge">
       <span class="dot"></span>
-      Wkrótce · Premiera wiosną 2026
+      Wkrótce · Premiera w maju 2026
     </span>
-    <h1>Piszemy bajkę, w której bohaterem zostaje <span class="highlight">Twoje dziecko.</span></h1>
+    <h1>Piszemy bajkę, w której bohaterem jest <span class="highlight">Twoje dziecko.</span></h1>
     <p class="hero-lede">
-      <span class="dropcap">P</span>racujemy nad czymś, czego nigdy wcześniej nie było w tej formie — ręcznie ilustrowaną książką,
-      w której to ono ratuje zaczarowany ogród, przyjaźni się z lisem i zasypia pod rozgwieżdżonym niebem.
-      Zapisz się na listę oczekujących — pierwsze sto osób otrzyma 50% zniżki na egzemplarz premierowy.
+      Ręcznie ilustrowana książka, w której to ono ratuje zaczarowany ogród i zasypia pod rozgwieżdżonym niebem.
+      Zapisz się — pierwsze 100 osób otrzyma 50% zniżki.
     </p>
 
     <form class="waitlist-form" onsubmit="event.preventDefault(); this.querySelector('button').innerHTML = '✓ &nbsp; Jesteś na liście'; this.querySelector('button').disabled = true; this.querySelector('input').disabled = true;">
@@ -1136,7 +1150,7 @@
     <div class="hero-meta">
       <span class="meta-item"><span class="meta-dot"></span>Twarda oprawa + PDF</span>
       <span class="meta-item"><span class="meta-dot"></span>Ręczne ilustracje</span>
-      <span class="meta-item"><span class="meta-dot"></span>Premiera: wiosna 2026</span>
+      <span class="meta-item"><span class="meta-dot"></span>Premiera: maj 2026</span>
     </div>
   </div>
 
