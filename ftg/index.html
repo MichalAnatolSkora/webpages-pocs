@@ -179,6 +179,33 @@
   }
   .card:hover .arrow { transform: translateX(5px); }
 
+  /* Sub-card — podwersja przywiązana do rodzica (np. v6.1 pod v6) */
+  .card.sub {
+    padding: 24px 24px 22px 32px;
+    background: #FBF4E5;
+    border-style: dashed;
+  }
+  .card.sub::after {
+    /* pionowa "gałązka" po lewej — wizualne połączenie z rodzicem */
+    content: '';
+    position: absolute;
+    left: 14px; top: 24px; bottom: 24px;
+    width: 2px;
+    background: var(--accent, var(--clay));
+    opacity: 0.45;
+    border-radius: 2px;
+  }
+  .card.sub h2 { font-size: 1.3rem; }
+  .card.sub p { font-size: 0.88rem; margin-bottom: 18px; }
+  .card.sub .tag {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1rem;
+    transform: none;
+  }
+  .card.sub .tag::before { content: '↳ '; color: var(--accent, var(--clay)); }
+
   /* per-kartę akcenty kolorystyczne (ciepły jeden accent, w spójnej rodzinie) */
   .card.v1  { --accent: #D97742; }  /* terakota klasyczna */
   .card.v2  { --accent: #B87652; }  /* glina (moja wersja) */
@@ -354,6 +381,19 @@
       </div>
       <div class="foot">
         <span class="fonts">Playfair · Nunito · Kalam</span>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a href="v6.1/index.html" class="card v6 sub">
+      <div class="meta">
+        <span class="tag">po design-critique</span>
+        <span class="num">v6.1</span>
+      </div>
+      <h2>Storybook — <em>fixy</em></h2>
+      <p>Ta sama estetyka, poprawki kontrastu (AA), uproszczony CTA, mniej ornamentów w cytatach, hero bez wymuszonych łamań i hamburger menu na mobile.</p>
+      <div class="foot">
+        <span class="fonts">+ lepszy kontrast & mobile nav</span>
         <span class="arrow">→</span>
       </div>
     </a>
