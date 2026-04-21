@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bajka o Twoim dziecku — oprawne w płótno wydanie autorskie</title>
+<meta name="description" content="Antykwariatowa, ręcznie dopieszczona księga, w której Twoje dziecko zostaje bohaterem opowieści. Twarda oprawa, złocone zdobienia, papier czerpany.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IM+Fell+English:ital@0;1&family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Paleta antykwariatu */
+    --cream:     #F0E6D2;   /* papier leciwy, bazowe tło */
+    --cream-hi:  #F6EEDC;   /* niesplamiona karta */
+    --cream-lo:  #E4D5B7;   /* przybrudzony róg strony */
+    --gold:      #C9A961;   /* złocenie introligatorskie */
+    --gold-dim:  #9C8043;   /* oksydowane złoto */
+    --burgundy:  #6B2737;   /* skóra cielęca w kolorze wina */
+    --burgundy-dk:#4A1824;
+    --prussian:  #2D4A3E;   /* pruski zielony */
+    --ink:       #1C140C;   /* inkaust głęboki */
+    --ink-soft:  #3A2A1A;
+    --ink-mute:  #6B5640;   /* drobny druk */
+    --line:      #B7A07A;   /* linia introligatora */
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'EB Garamond', 'Cormorant Garamond', Georgia, serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.72;
+    color: var(--ink);
+    background: var(--cream);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Faktura leciwego papieru — plamki i ziarno */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 1;
+    opacity: 0.55;
+    mix-blend-mode: multiply;
+    background-image:
+      radial-gradient(circle at 12% 18%, rgba(107,39,55,0.05) 0 1.2px, transparent 1.6px),
+      radial-gradient(circle at 73% 42%, rgba(28,20,12,0.06) 0 1px, transparent 1.2px),
+      radial-gradient(circle at 38% 78%, rgba(156,128,67,0.05) 0 1.1px, transparent 1.4px),
+      radial-gradient(circle at 88% 90%, rgba(28,20,12,0.04) 0 0.9px, transparent 1.2px);
+    background-size: 9px 9px, 13px 13px, 17px 17px, 11px 11px;
+  }
+
+  /* Pożółkłe rogi — winiety na brzegach okna */
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 1;
+    background:
+      radial-gradient(ellipse at 0% 0%, rgba(107,39,55,0.12), transparent 35%),
+      radial-gradient(ellipse at 100% 0%, rgba(156,128,67,0.10), transparent 35%),
+      radial-gradient(ellipse at 0% 100%, rgba(156,128,67,0.10), transparent 35%),
+      radial-gradient(ellipse at 100% 100%, rgba(107,39,55,0.12), transparent 35%);
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Cormorant Garamond', 'EB Garamond', serif;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: 0.005em;
+    line-height: 1.14;
+  }
+  h1 { font-size: clamp(2.8rem, 7vw, 5.6rem); font-weight: 500; }
+  h2 { font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 500; }
+  h3 { font-size: clamp(1.3rem, 2vw, 1.7rem); font-weight: 500; }
+
+  em, .ital { font-style: italic; color: var(--burgundy); }
+
+  p { max-width: 62ch; color: var(--ink-soft); }
+
+  a { color: inherit; text-decoration: none; }
+
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 2; }
+  .narrow { max-width: 780px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 2; }
+
+  /* ---------- Małe kapitaliki i liczby rzymskie ---------- */
+  .smallcaps {
+    font-variant-caps: small-caps;
+    font-feature-settings: "smcp", "c2sc";
+    letter-spacing: 0.16em;
+    text-transform: lowercase;
+    font-weight: 500;
+  }
+  .roman {
+    font-family: 'IM Fell English', 'EB Garamond', serif;
+    font-style: italic;
+    color: var(--gold-dim);
+    letter-spacing: 0.06em;
+  }
+
+  /* ---------- Ornament centralny — fleuron ---------- */
+  .fleuron {
+    display: flex; align-items: center; justify-content: center;
+    gap: 22px;
+    color: var(--gold);
+    margin: 0 auto;
+  }
+  .fleuron svg { overflow: visible; }
+  .fleuron .rule {
+    flex: 0 1 120px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold) 40%, var(--gold) 60%, transparent);
+  }
+
+  /* ---------- NAWIGACJA ---------- */
+  nav {
+    position: absolute; top: 0; left: 0; right: 0; z-index: 30;
+    padding: 28px 32px;
+  }
+  .nav-inner {
+    max-width: 1180px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: baseline;
+  }
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.55rem; font-weight: 600;
+    color: var(--burgundy);
+    letter-spacing: 0.02em;
+  }
+  .logo .amp {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    color: var(--gold-dim);
+    font-weight: 400;
+    margin: 0 4px;
+  }
+  .logo .est {
+    display: block;
+    font-family: 'IM Fell English', serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.25em;
+    color: var(--gold-dim);
+    font-style: italic;
+    margin-top: 2px;
+  }
+  .nav-links {
+    display: flex; gap: 38px;
+    font-size: 0.78rem;
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .nav-links a {
+    color: var(--ink-soft);
+    position: relative;
+    padding-bottom: 4px;
+    transition: color 0.4s;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute; left: 50%; bottom: 0;
+    width: 0; height: 1px;
+    background: var(--gold);
+    transition: width 0.4s, left 0.4s;
+  }
+  .nav-links a:hover { color: var(--burgundy); }
+  .nav-links a:hover::after { width: 100%; left: 0; }
+  @media (max-width: 760px) { .nav-links { display: none; } }
+
+  /* ============================================================
+     1. HERO — KARTA TYTUŁOWA
+     ============================================================ */
+  .hero {
+    min-height: 100vh;
+    padding: 140px 32px 100px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; z-index: 2;
+  }
+  .title-page {
+    max-width: 780px;
+    width: 100%;
+    padding: 72px 80px 64px;
+    text-align: center;
+    position: relative;
+    background:
+      linear-gradient(180deg, rgba(246,238,220,0.6) 0%, rgba(240,230,210,0.35) 100%);
+  }
+
+  /* Ozdobna rama — podwójna linia ze zdobieniami w rogach */
+  .title-page::before,
+  .title-page::after {
+    content: '';
+    position: absolute;
+    pointer-events: none;
+  }
+  .title-page::before {
+    inset: 0;
+    border: 1px solid var(--gold);
+  }
+  .title-page::after {
+    inset: 10px;
+    border: 1px solid var(--gold-dim);
+    opacity: 0.55;
+  }
+
+  /* Zdobniki rogów — nakładki SVG */
+  .corner {
+    position: absolute;
+    width: 64px; height: 64px;
+    color: var(--gold);
+    z-index: 3;
+  }
+  .corner.tl { top: -6px; left: -6px; }
+  .corner.tr { top: -6px; right: -6px; transform: scaleX(-1); }
+  .corner.bl { bottom: -6px; left: -6px; transform: scaleY(-1); }
+  .corner.br { bottom: -6px; right: -6px; transform: scale(-1, -1); }
+
+  .kicker {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 0.86rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 34px;
+    display: block;
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    color: var(--burgundy);
+  }
+  .hero h1 .line1 {
+    display: block;
+    font-size: 0.48em;
+    letter-spacing: 0.14em;
+    font-variant-caps: small-caps;
+    color: var(--ink-soft);
+    margin-bottom: 18px;
+    font-weight: 500;
+  }
+  .hero h1 .line2 {
+    display: block;
+    font-style: italic;
+    font-weight: 400;
+  }
+  .hero h1 .child {
+    display: block;
+    font-family: 'Playfair Display', 'Cormorant Garamond', serif;
+    font-weight: 700;
+    font-style: normal;
+    color: var(--burgundy-dk);
+    font-size: 1.1em;
+    letter-spacing: 0.01em;
+    margin: 10px 0 8px;
+    position: relative;
+  }
+  .hero h1 .child::before,
+  .hero h1 .child::after {
+    content: '\2014';
+    color: var(--gold);
+    margin: 0 18px;
+    font-weight: 400;
+    font-style: normal;
+  }
+  .hero h1 .line3 {
+    display: block;
+    font-size: 0.42em;
+    letter-spacing: 0.18em;
+    font-variant-caps: small-caps;
+    color: var(--ink-soft);
+    margin-top: 14px;
+    font-weight: 500;
+  }
+
+  .hero-divider {
+    margin: 40px auto 34px;
+  }
+
+  .hero-lede {
+    font-family: 'EB Garamond', serif;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--ink-soft);
+    max-width: 52ch;
+    margin: 0 auto 44px;
+    font-style: italic;
+  }
+  .hero-lede .drop {
+    float: left;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4.2rem;
+    line-height: 0.84;
+    font-weight: 700;
+    color: var(--burgundy);
+    padding: 8px 12px 0 0;
+    font-style: normal;
+    text-shadow:
+      1px 1px 0 var(--gold),
+      2px 2px 0 rgba(201,169,97,0.3);
+  }
+
+  /* CTA z narożnymi ozdobnikami */
+  .cta-frame {
+    display: inline-block;
+    position: relative;
+    padding: 14px 22px;
+  }
+  .cta-frame .bracket {
+    position: absolute;
+    width: 22px; height: 22px;
+    color: var(--gold);
+  }
+  .cta-frame .bracket.tl { top: 0; left: 0; }
+  .cta-frame .bracket.tr { top: 0; right: 0; transform: scaleX(-1); }
+  .cta-frame .bracket.bl { bottom: 0; left: 0; transform: scaleY(-1); }
+  .cta-frame .bracket.br { bottom: 0; right: 0; transform: scale(-1, -1); }
+
+  .cta {
+    display: inline-block;
+    font-family: 'Cormorant Garamond', serif;
+    font-variant-caps: small-caps;
+    letter-spacing: 0.2em;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 14px 38px;
+    background: var(--burgundy);
+    color: var(--cream-hi);
+    border: 1px solid var(--gold);
+    box-shadow: inset 0 0 0 3px var(--burgundy), inset 0 0 0 4px var(--gold-dim);
+    transition: background 0.5s, color 0.5s, letter-spacing 0.5s;
+    cursor: pointer;
+  }
+  .cta:hover {
+    background: var(--burgundy-dk);
+    letter-spacing: 0.24em;
+  }
+
+  .imprint {
+    margin-top: 56px;
+    padding-top: 34px;
+    border-top: 1px solid var(--line);
+    font-family: 'IM Fell English', serif;
+    font-size: 0.78rem;
+    color: var(--ink-mute);
+    letter-spacing: 0.1em;
+    line-height: 1.9;
+    font-style: italic;
+  }
+  .imprint .pub {
+    display: block;
+    font-variant-caps: small-caps;
+    font-size: 0.72rem;
+    letter-spacing: 0.26em;
+    color: var(--gold-dim);
+    font-style: normal;
+    margin-bottom: 8px;
+  }
+  .imprint .sep { color: var(--gold); margin: 0 10px; }
+
+  @media (max-width: 760px) {
+    .title-page { padding: 56px 28px 46px; }
+    .hero-lede .drop { font-size: 3.2rem; }
+    .hero h1 .child::before, .hero h1 .child::after { margin: 0 8px; }
+  }
+
+  /* ============================================================
+     Przekładka ornamentalna między sekcjami
+     ============================================================ */
+  .divider {
+    padding: 60px 0;
+    text-align: center;
+  }
+  .divider-inner {
+    display: inline-flex;
+    align-items: center;
+    gap: 24px;
+    color: var(--gold);
+  }
+
+  /* ============================================================
+     2. TACTILE — Egzemplarz oprawny
+     ============================================================ */
+  .tactile {
+    padding: 60px 0 100px;
+    position: relative;
+  }
+  .section-head {
+    text-align: center;
+    margin-bottom: 72px;
+  }
+  .section-head .roman-num {
+    display: block;
+    font-family: 'IM Fell English', serif;
+    font-size: 1rem;
+    letter-spacing: 0.3em;
+    color: var(--gold-dim);
+    margin-bottom: 14px;
+  }
+  .section-head h2 {
+    color: var(--burgundy);
+    margin-bottom: 18px;
+  }
+  .section-head h2 em { color: var(--ink); font-weight: 400; }
+  .section-head .subtitle {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 0.94rem;
+    letter-spacing: 0.08em;
+    color: var(--ink-mute);
+    margin: 0 auto;
+    max-width: 46ch;
+  }
+
+  .tactile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.05fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  /* Książka — oprawa skórzana z tłoczeniem */
+  .tome-stage {
+    position: relative;
+    display: flex; justify-content: center;
+    perspective: 1600px;
+  }
+  .tome-stage::after {
+    content: '';
+    position: absolute;
+    left: 15%; right: 15%; bottom: -24px;
+    height: 30px;
+    background: radial-gradient(ellipse at center, rgba(28,20,12,0.38), transparent 70%);
+    filter: blur(6px);
+  }
+
+  .tome {
+    width: min(360px, 86%);
+    aspect-ratio: 3/4.3;
+    position: relative;
+    transform: rotateY(-14deg) rotateX(3deg);
+    transform-style: preserve-3d;
+    background:
+      radial-gradient(ellipse at 30% 22%, rgba(255,220,180,0.06), transparent 50%),
+      linear-gradient(135deg, #7D2D3E 0%, #5A1E2C 55%, #3E121C 100%);
+    box-shadow:
+      inset 3px 0 0 rgba(0,0,0,0.35),
+      inset -2px 0 12px rgba(0,0,0,0.2),
+      inset 0 0 60px rgba(0,0,0,0.3),
+      0 24px 40px -14px rgba(28,20,12,0.55);
+    padding: 42px 34px;
+    display: flex; flex-direction: column;
+    color: var(--gold);
+  }
+
+  /* Grzbiet */
+  .tome::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0; width: 18px;
+    background:
+      linear-gradient(90deg,
+        rgba(0,0,0,0.5) 0%,
+        rgba(0,0,0,0.25) 50%,
+        transparent 100%);
+  }
+  /* Złocone pasy górny i dolny */
+  .tome::after {
+    content: '';
+    position: absolute; left: 22px; right: 14px;
+    height: 1px;
+    top: 24px;
+    background: linear-gradient(90deg, transparent, var(--gold) 20%, var(--gold) 80%, transparent);
+    box-shadow: 0 480px 0 0 var(--gold-dim);
+    opacity: 0.85;
+  }
+
+  .tome-inner-frame {
+    position: absolute; inset: 22px 16px 22px 28px;
+    border: 1px double var(--gold);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .tome-crest {
+    margin: 6px auto 20px;
+    color: var(--gold);
+    opacity: 0.9;
+  }
+  .tome-label {
+    text-align: center;
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .tome-title {
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 1.5rem;
+    font-style: italic;
+    color: var(--gold);
+    line-height: 1.3;
+    letter-spacing: 0.02em;
+    margin-bottom: 12px;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.4);
+  }
+  .tome-hero {
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 2.1rem;
+    color: #E8CB86;
+    letter-spacing: 0.04em;
+    margin-bottom: 8px;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.5), 0 0 10px rgba(201,169,97,0.3);
+  }
+  .tome-hero-sub {
+    text-align: center;
+    font-family: 'IM Fell English', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.24em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: auto;
+  }
+  .tome-foot {
+    margin-top: auto;
+    text-align: center;
+  }
+  .tome-ornament {
+    color: var(--gold);
+    opacity: 0.7;
+    margin: 0 auto 12px;
+  }
+  .tome-publisher {
+    font-family: 'IM Fell English', serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.26em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+  }
+  .tome-year {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 0.74rem;
+    color: var(--gold-dim);
+    letter-spacing: 0.14em;
+    margin-top: 2px;
+  }
+
+  .tactile-copy h2 {
+    color: var(--burgundy);
+    margin-bottom: 24px;
+  }
+  .tactile-copy h2 em { color: var(--ink); font-weight: 400; }
+  .tactile-copy p + p { margin-top: 18px; }
+  .tactile-copy .spec-list {
+    list-style: none;
+    margin-top: 32px;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+  }
+  .tactile-copy .spec-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px dotted var(--line);
+    font-family: 'EB Garamond', serif;
+    font-size: 0.95rem;
+  }
+  .tactile-copy .spec-list li .k {
+    font-variant-caps: small-caps;
+    letter-spacing: 0.12em;
+    color: var(--ink-mute);
+    font-weight: 500;
+  }
+  .tactile-copy .spec-list li .v {
+    font-style: italic;
+    color: var(--ink);
+  }
+
+  @media (max-width: 900px) {
+    .tactile-grid { grid-template-columns: 1fr; gap: 60px; }
+  }
+
+  /* ============================================================
+     3. CRAFT — Trzy etapy
+     ============================================================ */
+  .craft {
+    padding: 40px 0 100px;
+  }
+  .craft-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 60px;
+    margin-top: 40px;
+    position: relative;
+  }
+  .craft-steps::before {
+    /* cienka linia łącząca etapy */
+    content: '';
+    position: absolute;
+    top: 100px;
+    left: 18%; right: 18%;
+    height: 1px;
+    background: repeating-linear-gradient(90deg,
+      var(--gold-dim) 0 4px,
+      transparent 4px 10px);
+    opacity: 0.55;
+    z-index: 0;
+  }
+  .craft-step {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+  .cameo {
+    width: 160px; height: 200px;
+    margin: 0 auto 32px;
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--cream-hi);
+    border-radius: 50% / 42%;
+    box-shadow:
+      inset 0 0 0 1px var(--gold),
+      inset 0 0 0 2px var(--cream-hi),
+      inset 0 0 0 3px var(--gold-dim),
+      0 6px 16px -8px rgba(28,20,12,0.35);
+  }
+  .cameo::before {
+    /* wewnętrzna ozdobna linia kreskowana */
+    content: '';
+    position: absolute; inset: 8px;
+    border-radius: 50% / 42%;
+    border: 1px dashed var(--gold);
+    opacity: 0.45;
+  }
+  .cameo svg {
+    width: 100px; height: 100px;
+    color: var(--burgundy-dk);
+  }
+  .cameo svg * {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.1;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .step-num {
+    display: inline-block;
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 0.84rem;
+    letter-spacing: 0.28em;
+    color: var(--gold-dim);
+    margin-bottom: 12px;
+  }
+  .craft-step h3 {
+    color: var(--burgundy);
+    font-style: italic;
+    margin-bottom: 14px;
+  }
+  .craft-step h3 em {
+    color: var(--ink);
+    font-style: normal;
+    font-variant-caps: small-caps;
+    font-size: 0.85em;
+    letter-spacing: 0.08em;
+  }
+  .craft-step p {
+    margin: 0 auto;
+    max-width: 34ch;
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  @media (max-width: 900px) {
+    .craft-steps { grid-template-columns: 1fr; gap: 50px; }
+    .craft-steps::before { display: none; }
+  }
+
+  /* ============================================================
+     4. TESTIMONIALS — Korespondencja
+     ============================================================ */
+  .letters {
+    padding: 40px 0 100px;
+    position: relative;
+  }
+  .letters-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 48px;
+    margin-top: 36px;
+  }
+  .letter {
+    position: relative;
+    padding: 42px 38px 58px;
+    background:
+      linear-gradient(180deg, rgba(246,238,220,0.92) 0%, rgba(228,213,183,0.7) 100%);
+    box-shadow:
+      0 2px 0 rgba(255,255,255,0.45) inset,
+      0 18px 40px -20px rgba(28,20,12,0.35),
+      0 3px 6px -2px rgba(28,20,12,0.2);
+  }
+  .letter::before {
+    /* podwójna ramka wewnętrzna */
+    content: '';
+    position: absolute; inset: 10px;
+    border: 1px solid var(--line);
+    pointer-events: none;
+    opacity: 0.7;
+  }
+  .letter::after {
+    /* pożółkłe rogi */
+    content: '';
+    position: absolute; inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse at 0% 0%, rgba(156,128,67,0.14), transparent 30%),
+      radial-gradient(ellipse at 100% 100%, rgba(107,39,55,0.1), transparent 30%);
+  }
+  .letter .salut {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 0.92rem;
+    color: var(--gold-dim);
+    margin-bottom: 18px;
+    letter-spacing: 0.02em;
+  }
+  .letter blockquote {
+    font-family: 'EB Garamond', serif;
+    font-size: 1.04rem;
+    line-height: 1.74;
+    font-style: italic;
+    color: var(--ink-soft);
+    margin: 0;
+    quotes: "\201E" "\201D";
+  }
+  .letter blockquote::before {
+    content: open-quote;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.4rem;
+    color: var(--gold);
+    line-height: 0;
+    vertical-align: -0.4em;
+    margin-right: 6px;
+  }
+  .letter .sig {
+    margin-top: 24px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--burgundy);
+    text-align: right;
+  }
+  .letter .sig::before {
+    content: '\2014 \00A0';
+    color: var(--gold-dim);
+  }
+  .letter .place {
+    display: block;
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    color: var(--ink-mute);
+    margin-top: 6px;
+    text-transform: uppercase;
+  }
+
+  /* Lakowa pieczęć */
+  .seal {
+    position: absolute;
+    bottom: -22px; right: 30px;
+    width: 62px; height: 62px;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 32% 28%, #A23446 0%, #6B2737 55%, #3E121C 100%);
+    box-shadow:
+      inset 0 1px 3px rgba(255,180,180,0.3),
+      inset 0 -2px 6px rgba(0,0,0,0.45),
+      0 6px 14px -4px rgba(107,39,55,0.55);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    color: rgba(240,220,200,0.85);
+    font-size: 1.1rem;
+    letter-spacing: 0.04em;
+    transform: rotate(-8deg);
+  }
+  .seal::before {
+    content: '';
+    position: absolute; inset: 6px;
+    border-radius: 50%;
+    border: 1px dashed rgba(240,220,200,0.35);
+  }
+
+  .letter:nth-child(1) { transform: rotate(-0.6deg); }
+  .letter:nth-child(2) { transform: rotate(0.4deg) translateY(22px); }
+  .letter:nth-child(3) { transform: rotate(-0.3deg) translateY(-10px); }
+
+  @media (max-width: 900px) {
+    .letters-grid { grid-template-columns: 1fr; gap: 44px; }
+    .letter:nth-child(n) { transform: none; }
+  }
+
+  /* ============================================================
+     5. FINAL CTA
+     ============================================================ */
+  .final {
+    padding: 120px 32px 140px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+  .final-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 72px 56px 64px;
+    position: relative;
+    background:
+      radial-gradient(ellipse at center, rgba(246,238,220,0.7), rgba(240,230,210,0.2));
+  }
+  .final-inner::before {
+    content: '';
+    position: absolute; inset: 0;
+    border-top: 1px solid var(--gold);
+    border-bottom: 1px solid var(--gold);
+    pointer-events: none;
+  }
+  .final-inner::after {
+    content: '';
+    position: absolute; inset: 6px 0;
+    border-top: 1px solid var(--gold-dim);
+    border-bottom: 1px solid var(--gold-dim);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .final .ornament-top {
+    color: var(--gold);
+    margin: 0 auto 28px;
+  }
+  .final .final-line {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(1.6rem, 2.9vw, 2.3rem);
+    line-height: 1.36;
+    color: var(--burgundy);
+    max-width: 24ch;
+    margin: 0 auto 44px;
+  }
+  .final .final-line em {
+    font-style: normal;
+    font-variant-caps: small-caps;
+    letter-spacing: 0.1em;
+    color: var(--ink);
+  }
+  .final .postscript {
+    margin-top: 32px;
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 0.88rem;
+    color: var(--ink-mute);
+    letter-spacing: 0.06em;
+  }
+
+  /* ============================================================
+     STOPKA — kolofon
+     ============================================================ */
+  footer.site-footer {
+    padding: 56px 32px 72px;
+    background: linear-gradient(180deg, var(--cream) 0%, var(--cream-lo) 100%);
+    border-top: 1px solid var(--line);
+    position: relative; z-index: 2;
+  }
+  .footer-ornament {
+    display: flex; justify-content: center;
+    margin-bottom: 28px;
+    color: var(--gold);
+  }
+  .footer-inner {
+    max-width: 1180px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: flex-start;
+    flex-wrap: wrap; gap: 24px;
+    font-family: 'EB Garamond', serif;
+    font-size: 0.88rem;
+    color: var(--ink-mute);
+  }
+  .colophon {
+    max-width: 420px;
+    font-style: italic;
+    line-height: 1.72;
+  }
+  .colophon strong {
+    font-variant-caps: small-caps;
+    letter-spacing: 0.14em;
+    color: var(--burgundy);
+    font-weight: 600;
+    font-style: normal;
+  }
+  .footer-links {
+    font-family: 'Cormorant Garamond', serif;
+    font-variant-caps: small-caps;
+    letter-spacing: 0.14em;
+    font-size: 0.82rem;
+  }
+  .footer-links a { margin-left: 22px; }
+  .footer-links a:hover { color: var(--burgundy); }
+  .footer-links a:first-child { margin-left: 0; }
+
+  /* ============================================================
+     Animacje — lekkie, dyskretne
+     ============================================================ */
+  @keyframes gild {
+    0%, 100% { opacity: 0.9; }
+    50% { opacity: 1; }
+  }
+  .fleuron svg, .tome-crest, .tome-ornament, .ornament-top { animation: gild 6s ease-in-out infinite; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      Antykwariat <span class="amp">&</span> Bajki
+      <span class="est">Oficyna prywatna · od roku MMXXIV</span>
+    </a>
+    <div class="nav-links">
+      <a href="#egzemplarz">Egzemplarz</a>
+      <a href="#rzemioslo">Rzemiosło</a>
+      <a href="#korespondencja">Listy</a>
+      <a href="#zamowienie">Zamówienie</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================================
+     1. HERO — Karta tytułowa (title page)
+     ============================================================ -->
+<section class="hero">
+  <div class="title-page">
+    <!-- Rogi tytułowej strony -->
+    <svg class="corner tl" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+      <path d="M4 4 L 28 4 M 4 4 L 4 28" stroke="currentColor" stroke-width="1"/>
+      <path d="M8 8 C 18 10, 24 16, 26 26" stroke="currentColor" stroke-width="0.9" fill="none"/>
+      <circle cx="8" cy="8" r="2" fill="currentColor"/>
+      <path d="M14 8 Q 18 8 20 12 Q 18 14 16 12 Q 14 10 14 8 Z" fill="currentColor" opacity="0.7"/>
+      <path d="M8 14 Q 8 18 12 20 Q 14 18 12 16 Q 10 14 8 14 Z" fill="currentColor" opacity="0.7"/>
+    </svg>
+    <svg class="corner tr" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+      <path d="M4 4 L 28 4 M 4 4 L 4 28" stroke="currentColor" stroke-width="1"/>
+      <path d="M8 8 C 18 10, 24 16, 26 26" stroke="currentColor" stroke-width="0.9" fill="none"/>
+      <circle cx="8" cy="8" r="2" fill="currentColor"/>
+      <path d="M14 8 Q 18 8 20 12 Q 18 14 16 12 Q 14 10 14 8 Z" fill="currentColor" opacity="0.7"/>
+      <path d="M8 14 Q 8 18 12 20 Q 14 18 12 16 Q 10 14 8 14 Z" fill="currentColor" opacity="0.7"/>
+    </svg>
+    <svg class="corner bl" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+      <path d="M4 4 L 28 4 M 4 4 L 4 28" stroke="currentColor" stroke-width="1"/>
+      <path d="M8 8 C 18 10, 24 16, 26 26" stroke="currentColor" stroke-width="0.9" fill="none"/>
+      <circle cx="8" cy="8" r="2" fill="currentColor"/>
+      <path d="M14 8 Q 18 8 20 12 Q 18 14 16 12 Q 14 10 14 8 Z" fill="currentColor" opacity="0.7"/>
+      <path d="M8 14 Q 8 18 12 20 Q 14 18 12 16 Q 10 14 8 14 Z" fill="currentColor" opacity="0.7"/>
+    </svg>
+    <svg class="corner br" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+      <path d="M4 4 L 28 4 M 4 4 L 4 28" stroke="currentColor" stroke-width="1"/>
+      <path d="M8 8 C 18 10, 24 16, 26 26" stroke="currentColor" stroke-width="0.9" fill="none"/>
+      <circle cx="8" cy="8" r="2" fill="currentColor"/>
+      <path d="M14 8 Q 18 8 20 12 Q 18 14 16 12 Q 14 10 14 8 Z" fill="currentColor" opacity="0.7"/>
+      <path d="M8 14 Q 8 18 12 20 Q 14 18 12 16 Q 10 14 8 14 Z" fill="currentColor" opacity="0.7"/>
+    </svg>
+
+    <span class="kicker">~ Wydanie autorskie &middot; na szlachetnym papierze ~</span>
+
+    <h1>
+      <span class="line1">Księga, w której bohaterem</span>
+      <span class="line2">zostaje</span>
+      <span class="child">Twoje dziecko</span>
+      <span class="line3">powieść o jego imieniu i rysach twarzy</span>
+    </h1>
+
+    <!-- Fleuron — ornament dzielący -->
+    <div class="fleuron hero-divider" aria-hidden="true">
+      <span class="rule"></span>
+      <svg width="72" height="22" viewBox="0 0 72 22" fill="currentColor">
+        <path d="M36 4 C 32 4, 28 8, 28 11 C 28 14, 32 18, 36 18 C 40 18, 44 14, 44 11 C 44 8, 40 4, 36 4 Z M 36 7 C 38 7, 41 9, 41 11 C 41 13, 38 15, 36 15 C 34 15, 31 13, 31 11 C 31 9, 34 7, 36 7 Z"/>
+        <path d="M28 11 C 22 9, 14 10, 6 6 C 10 11, 6 16, 16 14 C 22 13, 26 13, 28 11 Z"/>
+        <path d="M44 11 C 50 9, 58 10, 66 6 C 62 11, 66 16, 56 14 C 50 13, 46 13, 44 11 Z"/>
+        <circle cx="4" cy="11" r="1.4"/>
+        <circle cx="68" cy="11" r="1.4"/>
+      </svg>
+      <span class="rule"></span>
+    </div>
+
+    <p class="hero-lede">
+      <span class="drop">D</span>awno temu, w pewnej prywatnej oficynie, postanowiono drukować księgi,
+      w których dziecko czytelnika występuje pod własnym imieniem — ze swoim uśmiechem, z kosmykiem
+      nad uchem i zielonymi kaloszami. Otrzymujesz jeden egzemplarz, oprawny w płótno, z tłoczonym
+      na grzbiecie imieniem — pamiątkę, która przetrwa wieczory, ferie i lata szkolne.
+    </p>
+
+    <div class="cta-frame">
+      <svg class="bracket tl" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+        <path d="M1 10 L 1 1 L 10 1" stroke="currentColor" stroke-width="1"/>
+        <path d="M4 4 Q 8 4 8 8" stroke="currentColor" stroke-width="0.8" fill="none"/>
+      </svg>
+      <svg class="bracket tr" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+        <path d="M1 10 L 1 1 L 10 1" stroke="currentColor" stroke-width="1"/>
+        <path d="M4 4 Q 8 4 8 8" stroke="currentColor" stroke-width="0.8" fill="none"/>
+      </svg>
+      <svg class="bracket bl" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+        <path d="M1 10 L 1 1 L 10 1" stroke="currentColor" stroke-width="1"/>
+        <path d="M4 4 Q 8 4 8 8" stroke="currentColor" stroke-width="0.8" fill="none"/>
+      </svg>
+      <svg class="bracket br" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+        <path d="M1 10 L 1 1 L 10 1" stroke="currentColor" stroke-width="1"/>
+        <path d="M4 4 Q 8 4 8 8" stroke="currentColor" stroke-width="0.8" fill="none"/>
+      </svg>
+      <a href="#zamowienie" class="cta">Zamów egzemplarz</a>
+    </div>
+
+    <div class="imprint">
+      <span class="pub">Nakładem Oficyny Prywatnej</span>
+      Twarda oprawa &middot; papier czerpany
+      <span class="sep">&#10086;</span>
+      Złocone tłoczenie imienia
+      <span class="sep">&#10086;</span>
+      Wersja papierowa wraz z PDF
+    </div>
+  </div>
+</section>
+
+<!-- Przekładka ornamentalna -->
+<div class="divider" aria-hidden="true">
+  <div class="divider-inner">
+    <svg width="120" height="12" viewBox="0 0 120 12" fill="currentColor">
+      <path d="M60 1 C 50 1, 44 11, 34 11 C 24 11, 18 1, 8 1" fill="none" stroke="currentColor" stroke-width="0.8"/>
+      <circle cx="4" cy="6" r="1.5"/>
+    </svg>
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+      <path d="M10 2 L 12 8 L 18 10 L 12 12 L 10 18 L 8 12 L 2 10 L 8 8 Z"/>
+    </svg>
+    <svg width="120" height="12" viewBox="0 0 120 12" fill="currentColor">
+      <path d="M60 1 C 70 1, 76 11, 86 11 C 96 11, 102 1, 112 1" fill="none" stroke="currentColor" stroke-width="0.8"/>
+      <circle cx="116" cy="6" r="1.5"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ============================================================
+     2. TACTILE — Egzemplarz oprawny
+     ============================================================ -->
+<section class="tactile" id="egzemplarz">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="roman-num">~ CAPUT I ~</span>
+      <h2>Egzemplarz, który bierze się <em>w dłoń</em>.</h2>
+      <p class="subtitle">Ciężki jak należy, oprawny starannie, z namaszczeniem introligatorskim.</p>
+    </div>
+
+    <div class="tactile-grid">
+      <div class="tome-stage">
+        <div class="tome">
+          <div class="tome-inner-frame"></div>
+
+          <svg class="tome-crest" width="48" height="48" viewBox="0 0 48 48" fill="currentColor">
+            <path d="M24 4 L 28 14 L 38 16 L 30 24 L 32 34 L 24 29 L 16 34 L 18 24 L 10 16 L 20 14 Z" opacity="0.85"/>
+            <circle cx="24" cy="24" r="2" opacity="0.6"/>
+          </svg>
+
+          <div class="tome-label">Wydanie pierwsze &middot; MCMXXIV</div>
+
+          <div class="tome-title">Niezwykłe przypadki</div>
+
+          <div class="tome-hero">ZOSI</div>
+
+          <div class="tome-hero-sub">spisane ze zdjęcia &middot; MMXXVI</div>
+
+          <div class="tome-foot">
+            <svg class="tome-ornament" width="56" height="16" viewBox="0 0 56 16" fill="currentColor">
+              <path d="M28 2 C 22 2, 18 14, 8 14" fill="none" stroke="currentColor" stroke-width="0.8"/>
+              <path d="M28 2 C 34 2, 38 14, 48 14" fill="none" stroke="currentColor" stroke-width="0.8"/>
+              <circle cx="28" cy="8" r="1.8"/>
+            </svg>
+            <div class="tome-publisher">Antykwariat & Bajki</div>
+            <div class="tome-year">Oficyna Prywatna</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tactile-copy">
+        <h2>Płótno introligatorskie, papier <em>czerpany</em>, nić szyta.</h2>
+        <p>
+          Księgi nasze powstają powoli, w niewielkim nakładzie, pod palcami osoby, która wie, jak
+          pachnie dobry klej i jak powinien leżeć papier, gdy się go zegnie po raz pierwszy. Grzbiet
+          tłoczymy złotem — imię Twojego dziecka wyczuwalne jest opuszkami, zanim jeszcze otworzysz
+          okładkę.
+        </p>
+        <p>
+          Dwadzieścia cztery karty opowieści, na papierze o lekkiej żółtawej patynie, aby książka
+          od pierwszej strony wyglądała jak ta, którą znalazło się u babci na strychu, a nie ta,
+          którą wczoraj wydrukowano w maszynie.
+        </p>
+
+        <ul class="spec-list">
+          <li><span class="k">Oprawa</span><span class="v">Twarda, płócienna, ręcznie szyta</span></li>
+          <li><span class="k">Tłoczenie</span><span class="v">Złocone imię na grzbiecie i okładce</span></li>
+          <li><span class="k">Papier</span><span class="v">Czerpany, 120 g, kość słoniowa</span></li>
+          <li><span class="k">Objętość</span><span class="v">XXIV karty &middot; format A5+</span></li>
+          <li><span class="k">Waga</span><span class="v">480 gramów</span></li>
+          <li><span class="k">Dodatek</span><span class="v">Egzemplarz cyfrowy w PDF gratis</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Przekładka -->
+<div class="divider" aria-hidden="true">
+  <div class="divider-inner">
+    <svg width="140" height="14" viewBox="0 0 140 14" fill="currentColor">
+      <path d="M70 2 C 56 2, 48 12, 30 12 C 20 12, 14 8, 4 6" fill="none" stroke="currentColor" stroke-width="0.8"/>
+    </svg>
+    <svg width="28" height="20" viewBox="0 0 28 20" fill="currentColor">
+      <path d="M14 2 C 8 6, 6 12, 14 18 C 22 12, 20 6, 14 2 Z" opacity="0.9"/>
+      <circle cx="14" cy="10" r="2" fill="var(--cream)"/>
+    </svg>
+    <svg width="140" height="14" viewBox="0 0 140 14" fill="currentColor">
+      <path d="M70 2 C 84 2, 92 12, 110 12 C 120 12, 126 8, 136 6" fill="none" stroke="currentColor" stroke-width="0.8"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ============================================================
+     3. CRAFT — Trzy etapy
+     ============================================================ -->
+<section class="craft" id="rzemioslo">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="roman-num">~ CAPUT II ~</span>
+      <h2>O sposobie, w jaki <em>powstaje</em> portret.</h2>
+      <p class="subtitle">Trzy kroki, z czułością i uważnością rysownika portretów miniaturowych.</p>
+    </div>
+
+    <div class="craft-steps">
+      <div class="craft-step">
+        <div class="cameo">
+          <!-- szkic: dagerotyp / fotografia -->
+          <svg viewBox="0 0 100 100" aria-hidden="true">
+            <rect x="20" y="24" width="60" height="58" rx="2"/>
+            <rect x="26" y="30" width="48" height="42"/>
+            <circle cx="42" cy="46" r="4"/>
+            <path d="M26 66 L 40 54 L 52 62 L 66 50 L 74 56"/>
+            <path d="M30 76 L 70 76" opacity="0.5"/>
+            <!-- linie cieniowania / kreskowanie -->
+            <path d="M62 36 L 66 40 M 64 34 L 68 38 M 60 38 L 64 42" opacity="0.4"/>
+          </svg>
+        </div>
+        <span class="step-num">~ I ~</span>
+        <h3>Fotografia <em>powierzona</em></h3>
+        <p>Przesyłasz jedno, zwyczajne zdjęcie — takie, na którym dziecko jest sobą: w biegu, przy oknie, z kosmykiem spadającym na czoło.</p>
+      </div>
+
+      <div class="craft-step">
+        <div class="cameo">
+          <!-- szkic: oko / szkło powiększające nad twarzą -->
+          <svg viewBox="0 0 100 100" aria-hidden="true">
+            <circle cx="42" cy="42" r="20"/>
+            <path d="M58 58 L 74 74"/>
+            <path d="M74 74 L 80 80" stroke-width="1.4"/>
+            <!-- miniaturowa twarz w kole -->
+            <circle cx="36" cy="38" r="1" fill="currentColor"/>
+            <circle cx="48" cy="38" r="1" fill="currentColor"/>
+            <path d="M36 46 Q 42 50 48 46"/>
+            <!-- kreskowanie / rytowanie -->
+            <path d="M28 52 L 32 56 M 30 50 L 34 54 M 52 28 L 56 32 M 50 26 L 54 30" opacity="0.5"/>
+          </svg>
+        </div>
+        <span class="step-num">~ II ~</span>
+        <h3>Rysy <em>odczytane</em></h3>
+        <p>Nasz warsztat przygląda się twarzy tak, jak portrecista — notuje kształt oczu, linię nosa, ten charakterystyczny uśmiech Staszka czy Helenki.</p>
+      </div>
+
+      <div class="craft-step">
+        <div class="cameo">
+          <!-- szkic: pióro i tusz -->
+          <svg viewBox="0 0 100 100" aria-hidden="true">
+            <path d="M30 78 L 68 32"/>
+            <path d="M66 30 L 74 22 L 80 28 L 72 36 Z"/>
+            <path d="M28 80 Q 22 84 26 88 Q 30 86 30 78" />
+            <!-- kałamarz -->
+            <rect x="16" y="72" width="14" height="10" rx="1"/>
+            <path d="M22 72 L 22 68 L 26 68" opacity="0.6"/>
+            <!-- kreski atramentu -->
+            <path d="M40 66 L 44 70 M 48 58 L 52 62 M 56 50 L 60 54" opacity="0.5"/>
+          </svg>
+        </div>
+        <span class="step-num">~ III ~</span>
+        <h3>Ilustrator <em>wykańcza</em></h3>
+        <p>Nim karta trafi pod prasę drukarską, przechodzi przez oko ilustratora — dopowiedziana piórkiem, dociśnięta akwarelą, wolna od chłodu maszyny.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Przekładka -->
+<div class="divider" aria-hidden="true">
+  <div class="divider-inner">
+    <svg width="160" height="18" viewBox="0 0 160 18" fill="currentColor">
+      <path d="M80 3 C 60 3, 48 15, 20 15" fill="none" stroke="currentColor" stroke-width="0.8"/>
+      <path d="M20 15 L 12 9 M 20 15 L 12 17" fill="none" stroke="currentColor" stroke-width="0.7"/>
+      <path d="M80 3 C 100 3, 112 15, 140 15" fill="none" stroke="currentColor" stroke-width="0.8"/>
+      <path d="M140 15 L 148 9 M 140 15 L 148 17" fill="none" stroke="currentColor" stroke-width="0.7"/>
+      <circle cx="80" cy="9" r="2.2"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ============================================================
+     4. TESTIMONIALS — Korespondencja od Rodziców
+     ============================================================ -->
+<section class="letters" id="korespondencja">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="roman-num">~ CAPUT III ~</span>
+      <h2>Z <em>korespondencji</em> naszych Czytelników.</h2>
+      <p class="subtitle">Fragmenty listów, jakie otrzymujemy od rodziców, babć i ojców chrzestnych.</p>
+    </div>
+
+    <div class="letters-grid">
+      <article class="letter">
+        <div class="salut">Szanowna Oficyno,</div>
+        <blockquote>
+          Antek ma cztery lata i od tygodnia nosi tę księgę ze sobą do przedszkola — nauczycielka
+          prosiła, by zostawić ją w szatni, bo nie sposób z nią jeść zupy. Kiedy wieczorem mu czytam,
+          palcem wodzi po swoim imieniu na grzbiecie i mówi, że pachnie „jak u pradziadka na półce".
+          Nie ma chyba większego komplementu.
+        </blockquote>
+        <div class="sig">
+          Anna, matka Antka
+          <span class="place">Kraków, marzec</span>
+        </div>
+        <div class="seal" aria-hidden="true">A & B</div>
+      </article>
+
+      <article class="letter">
+        <div class="salut">Wielmożni Państwo,</div>
+        <blockquote>
+          Zamówiłam egzemplarz w prezencie gwiazdkowym dla wnuczki Helenki. Gdy rozwiązała wstążkę
+          i zobaczyła siebie między stronami, zamilkła — a Helenka rzadko milknie. Patrzyła długo,
+          potem uniosła oczy i spytała cicho: „babciu, a ja naprawdę tam jestem?". Myślę, że tę
+          książkę postawi kiedyś na półce swoich dzieci.
+        </blockquote>
+        <div class="sig">
+          Barbara, babka Helenki
+          <span class="place">Lwówek Śl., luty</span>
+        </div>
+        <div class="seal" aria-hidden="true">A & B</div>
+      </article>
+
+      <article class="letter">
+        <div class="salut">Dobrodzieje,</div>
+        <blockquote>
+          Byłem sceptyczny — obawiałem się, że ilustracje zatrącą chłodem maszynowego wydruku.
+          Otrzymałem wszakże tomik, w którym rozpoznałem mojego Stasia natychmiast: grzywkę, znamię
+          przy uchu, ten uśmiech, którego nie da się podrobić. Żona zapłakała nad trzecią kartą.
+          Warto było, i to nawet bardzo.
+        </blockquote>
+        <div class="sig">
+          Michał, ojciec Stasia
+          <span class="place">Toruń, styczeń</span>
+        </div>
+        <div class="seal" aria-hidden="true">A & B</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Przekładka -->
+<div class="divider" aria-hidden="true">
+  <div class="divider-inner">
+    <svg width="120" height="12" viewBox="0 0 120 12" fill="currentColor">
+      <path d="M60 1 C 50 1, 44 11, 34 11 C 24 11, 18 1, 8 1" fill="none" stroke="currentColor" stroke-width="0.8"/>
+      <circle cx="4" cy="6" r="1.5"/>
+    </svg>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2 L 14 9 L 22 12 L 14 15 L 12 22 L 10 15 L 2 12 L 10 9 Z" opacity="0.9"/>
+    </svg>
+    <svg width="120" height="12" viewBox="0 0 120 12" fill="currentColor">
+      <path d="M60 1 C 70 1, 76 11, 86 11 C 96 11, 102 1, 112 1" fill="none" stroke="currentColor" stroke-width="0.8"/>
+      <circle cx="116" cy="6" r="1.5"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ============================================================
+     5. FINAL — Jedno, proste wezwanie
+     ============================================================ -->
+<section class="final" id="zamowienie">
+  <div class="final-inner">
+    <svg class="ornament-top" width="90" height="22" viewBox="0 0 90 22" fill="currentColor" aria-hidden="true">
+      <path d="M45 4 C 40 4, 36 8, 36 11 C 36 14, 40 18, 45 18 C 50 18, 54 14, 54 11 C 54 8, 50 4, 45 4 Z" fill="none" stroke="currentColor" stroke-width="0.9"/>
+      <circle cx="45" cy="11" r="2"/>
+      <path d="M36 11 C 26 9, 14 14, 4 6" fill="none" stroke="currentColor" stroke-width="0.8"/>
+      <path d="M54 11 C 64 9, 76 14, 86 6" fill="none" stroke="currentColor" stroke-width="0.8"/>
+    </svg>
+
+    <p class="final-line">
+      Jedna fotografia, jedno imię &mdash; <em>pamiątka na pokolenia</em>.
+    </p>
+
+    <div class="cta-frame">
+      <svg class="bracket tl" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+        <path d="M1 10 L 1 1 L 10 1" stroke="currentColor" stroke-width="1"/>
+        <path d="M4 4 Q 8 4 8 8" stroke="currentColor" stroke-width="0.8" fill="none"/>
+      </svg>
+      <svg class="bracket tr" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+        <path d="M1 10 L 1 1 L 10 1" stroke="currentColor" stroke-width="1"/>
+        <path d="M4 4 Q 8 4 8 8" stroke="currentColor" stroke-width="0.8" fill="none"/>
+      </svg>
+      <svg class="bracket bl" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+        <path d="M1 10 L 1 1 L 10 1" stroke="currentColor" stroke-width="1"/>
+        <path d="M4 4 Q 8 4 8 8" stroke="currentColor" stroke-width="0.8" fill="none"/>
+      </svg>
+      <svg class="bracket br" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+        <path d="M1 10 L 1 1 L 10 1" stroke="currentColor" stroke-width="1"/>
+        <path d="M4 4 Q 8 4 8 8" stroke="currentColor" stroke-width="0.8" fill="none"/>
+      </svg>
+      <a href="#" class="cta">Rozpocznij zamówienie</a>
+    </div>
+
+    <div class="postscript">
+      &mdash; wysyłka listem poleconym w ciągu siedmiu dni roboczych &mdash;
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-ornament" aria-hidden="true">
+    <svg width="160" height="14" viewBox="0 0 160 14" fill="currentColor">
+      <path d="M80 2 C 68 2, 60 12, 40 12 C 30 12, 22 8, 10 6" fill="none" stroke="currentColor" stroke-width="0.8"/>
+      <path d="M80 2 C 92 2, 100 12, 120 12 C 130 12, 138 8, 150 6" fill="none" stroke="currentColor" stroke-width="0.8"/>
+      <circle cx="80" cy="7" r="2"/>
+      <circle cx="4" cy="6" r="1.3"/>
+      <circle cx="156" cy="6" r="1.3"/>
+    </svg>
+  </div>
+  <div class="footer-inner">
+    <div class="colophon">
+      <strong>Kolofon.</strong> Niniejsza witryna złożona została pismem Cormorant Garamond oraz
+      EB Garamond, ozdobniki rytowano ręcznie. Oficyna mieści się w skromnym lokalu, gdzie parzy
+      się herbatę i zszywa książki &mdash; jedną po drugiej. Anno Domini MMXXVI.
+    </div>
+    <div class="footer-links">
+      <a href="#">Kontakt</a>
+      <a href="#">Regulamin</a>
+      <a href="#">Prywatność</a>
+      <a href="#">Dostawa</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

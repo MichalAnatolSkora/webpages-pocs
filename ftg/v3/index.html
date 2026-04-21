@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bajka o Twoim dziecku — personalizowana książka tworzona przez AI</title>
+<meta name="description" content="Zdjęcie. Imię. Kilka chwil. Twoje dziecko zostaje bohaterem własnej bajki. Zobacz, jak to działa.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:         #0B0A09;   /* niemal czerń, lekko ciepła */
+    --bg-soft:    #14120F;
+    --ink:        #F5EFE4;   /* kremowa biel */
+    --ink-muted:  rgba(245, 239, 228, 0.62);
+    --ink-dim:    rgba(245, 239, 228, 0.38);
+    --accent:     #FF6B3D;   /* koralowy pomarańcz — jedyny akcent */
+    --accent-2:   #FFB38A;
+    --line:       rgba(245, 239, 228, 0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-weight: 300;
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 300;
+    letter-spacing: -0.025em;
+    line-height: 1.02;
+  }
+  h1 { font-size: clamp(3rem, 9vw, 8rem); }
+  h2 { font-size: clamp(2.2rem, 5.5vw, 4.8rem); }
+  h3 { font-size: clamp(1.1rem, 1.6vw, 1.35rem); font-weight: 400; }
+  em, .italic { font-style: italic; font-weight: 300; }
+
+  a { color: inherit; text-decoration: none; }
+  p { color: var(--ink-muted); }
+
+  .wrap { max-width: 1360px; margin: 0 auto; padding: 0 32px; }
+
+  /* ---------- CTA — jedyny silny akcent koloru na stronie ---------- */
+  .cta {
+    display: inline-flex; align-items: center; gap: 12px;
+    padding: 18px 34px;
+    background: var(--accent);
+    color: #1A0A03;
+    border: none;
+    border-radius: 999px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    box-shadow: 0 0 0 0 rgba(255, 107, 61, 0.5);
+  }
+  .cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 40px -8px rgba(255, 107, 61, 0.55);
+    background: #FF7A4F;
+  }
+  .cta .arrow {
+    width: 14px; height: 14px;
+    transition: transform 0.3s;
+  }
+  .cta:hover .arrow { transform: translateX(4px); }
+
+  .cta-ghost {
+    display: inline-flex; align-items: center; gap: 10px;
+    color: var(--ink);
+    font-size: 0.9rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    padding: 4px 0;
+    border-bottom: 1px solid var(--line);
+    transition: border-color 0.3s, color 0.3s;
+  }
+  .cta-ghost:hover { border-color: var(--accent); color: var(--accent-2); }
+
+  /* ---------- NAV ---------- */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    padding: 24px 32px;
+    display: flex; justify-content: space-between; align-items: center;
+    mix-blend-mode: normal;
+  }
+  .logo {
+    font-family: 'Fraunces', serif;
+    font-size: 1.15rem;
+    font-weight: 400;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .logo em { color: var(--accent); font-style: italic; }
+  .nav-cta {
+    font-size: 0.85rem;
+    color: var(--ink);
+    padding: 10px 20px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    backdrop-filter: blur(8px);
+    background: rgba(11, 10, 9, 0.3);
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .nav-cta:hover { border-color: var(--accent); background: rgba(255, 107, 61, 0.1); }
+
+  /* ============================================================
+     1. HERO — KINEMATOGRAFICZNE WIDEO W TLE
+     ============================================================ */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .hero-video {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+  /* Zastępnik wideo — animowane, ciepłe światło "bokeh" przy świeczkach.
+     W produkcji usuń tę warstwę i zostaw <video> z prawdziwym plikiem. */
+  .hero-video-fallback {
+    position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse at 20% 30%, rgba(255, 140, 80, 0.28), transparent 50%),
+      radial-gradient(ellipse at 75% 65%, rgba(255, 180, 120, 0.22), transparent 55%),
+      radial-gradient(ellipse at 50% 90%, rgba(200, 90, 50, 0.18), transparent 60%),
+      linear-gradient(180deg, #1A0F08 0%, #0B0A09 100%);
+    animation: slowDrift 18s ease-in-out infinite alternate;
+  }
+  .hero-bokeh {
+    position: absolute; inset: 0; z-index: 0;
+    overflow: hidden;
+    opacity: 0.55;
+  }
+  .hero-bokeh span {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 200, 140, 0.7) 0%, rgba(255, 140, 70, 0.1) 60%, transparent 100%);
+    filter: blur(14px);
+    animation: float 12s ease-in-out infinite;
+  }
+  .hero-bokeh span:nth-child(1) { width: 180px; height: 180px; top: 15%; left: 10%; animation-delay: 0s; }
+  .hero-bokeh span:nth-child(2) { width: 120px; height: 120px; top: 60%; left: 75%; animation-delay: 2s; }
+  .hero-bokeh span:nth-child(3) { width: 220px; height: 220px; top: 40%; left: 45%; animation-delay: 5s; opacity: 0.5; }
+  .hero-bokeh span:nth-child(4) { width: 90px; height: 90px; top: 80%; left: 20%; animation-delay: 7s; }
+  .hero-bokeh span:nth-child(5) { width: 150px; height: 150px; top: 20%; left: 85%; animation-delay: 3s; }
+  .hero-bokeh span:nth-child(6) { width: 60px; height: 60px; top: 70%; left: 50%; animation-delay: 9s; }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+    50%      { transform: translate(30px, -40px) scale(1.15); opacity: 0.9; }
+  }
+  @keyframes slowDrift {
+    0%   { filter: hue-rotate(0deg) brightness(1); }
+    100% { filter: hue-rotate(-10deg) brightness(1.08); }
+  }
+
+  /* Ciemna winieta nad wideo — czytelność tekstu */
+  .hero::after {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at center, transparent 0%, rgba(11,10,9,0.55) 100%),
+      linear-gradient(180deg, rgba(11,10,9,0.4) 0%, transparent 30%, transparent 70%, rgba(11,10,9,0.7) 100%);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 1100px;
+    padding: 0 32px;
+  }
+  .hero h1 {
+    color: var(--ink);
+    margin-bottom: 48px;
+    text-shadow: 0 2px 40px rgba(0,0,0,0.5);
+  }
+  .hero h1 em {
+    color: var(--accent-2);
+    font-style: italic;
+  }
+  .hero-actions {
+    display: flex; gap: 24px; justify-content: center; align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    font-size: 0.72rem;
+    letter-spacing: 0.25em;
+    color: var(--ink-dim);
+    text-transform: uppercase;
+  }
+  .scroll-hint .line {
+    width: 1px; height: 40px;
+    background: linear-gradient(180deg, var(--ink-dim), transparent);
+    animation: scrollPulse 2.4s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { transform: scaleY(1); opacity: 0.4; }
+    50%      { transform: scaleY(1.3); opacity: 1; }
+  }
+
+  /* ============================================================
+     2. SHOPPABLE VIDEO — ZOBACZ, JAK TO DZIAŁA
+     ============================================================ */
+  .how {
+    padding: 140px 0 160px;
+    background: var(--bg);
+    position: relative;
+  }
+  .how-grid {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .video-player {
+    position: relative;
+    aspect-ratio: 9/16;
+    max-height: 720px;
+    border-radius: 18px;
+    overflow: hidden;
+    background: #000;
+    box-shadow:
+      0 40px 100px -30px rgba(0,0,0,0.9),
+      0 0 0 1px var(--line);
+    cursor: pointer;
+  }
+  .video-player video {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  /* Zastępnik — sekwencja 3 ujęć w pętli (zdjęcie → rysowanie → gotowe strony) */
+  .video-player-fallback {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(160deg, #2A1810 0%, #14120F 100%);
+    overflow: hidden;
+  }
+  .shot {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0;
+    animation: shotCycle 15s infinite;
+  }
+  .shot:nth-child(1) { animation-delay: 0s; }
+  .shot:nth-child(2) { animation-delay: 5s; }
+  .shot:nth-child(3) { animation-delay: 10s; }
+  @keyframes shotCycle {
+    0%, 2%   { opacity: 0; transform: scale(1.05); }
+    6%, 32%  { opacity: 1; transform: scale(1); }
+    36%, 100% { opacity: 0; transform: scale(0.98); }
+  }
+  .shot-label {
+    position: absolute; top: 24px; left: 24px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    color: var(--accent);
+    text-transform: uppercase;
+    padding: 6px 12px;
+    background: rgba(11,10,9,0.65);
+    backdrop-filter: blur(6px);
+    border-radius: 4px;
+  }
+  .shot-visual {
+    width: 65%; aspect-ratio: 3/4;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--ink-muted);
+  }
+  .shot-1 .shot-visual {
+    background: linear-gradient(135deg, #6B4A35, #3A2418);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    position: relative;
+  }
+  .shot-1 .shot-visual::before {
+    content: '';
+    position: absolute; inset: 20%;
+    background: radial-gradient(circle at 50% 40%, #D4A788 0%, transparent 60%);
+    border-radius: 50%;
+  }
+  .shot-1 .shot-visual::after {
+    content: 'zdjęcie.jpg';
+    font-size: 0.9rem;
+    position: absolute; bottom: 16px; left: 16px;
+    color: rgba(255,255,255,0.5);
+  }
+  .shot-2 .shot-visual {
+    background: #1F1914;
+    position: relative;
+  }
+  .shot-2 .shot-visual::before {
+    content: '';
+    position: absolute; inset: 15%;
+    background:
+      repeating-linear-gradient(-45deg, transparent 0 3px, rgba(255,140,80,0.4) 3px 4px),
+      radial-gradient(circle at 50% 40%, rgba(255,180,140,0.6), transparent 60%);
+    border-radius: 40% 45% 35% 50%;
+    animation: pencil 1.8s ease-in-out infinite alternate;
+  }
+  @keyframes pencil {
+    0%   { filter: brightness(0.9); }
+    100% { filter: brightness(1.1); }
+  }
+  .shot-3 .shot-visual {
+    background: #F5EFE4;
+    color: #3A2418;
+    padding: 28px 22px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    text-align: left;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  }
+  .shot-3 .shot-visual::before {
+    content: '— rozdział 1 —';
+    display: block;
+    font-family: 'Caveat', cursive;
+    color: var(--accent);
+    font-size: 1rem;
+    margin-bottom: 12px;
+  }
+
+  .video-play-badge {
+    position: absolute;
+    bottom: 24px; right: 24px;
+    z-index: 3;
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 16px 10px 14px;
+    background: rgba(11, 10, 9, 0.75);
+    backdrop-filter: blur(10px);
+    border-radius: 999px;
+    font-size: 0.78rem;
+    color: var(--ink);
+    border: 1px solid var(--line);
+  }
+  .video-play-badge .live {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent);
+    animation: livePulse 1.6s ease-in-out infinite;
+  }
+  @keyframes livePulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50%      { transform: scale(1.4); opacity: 0.6; }
+  }
+
+  .video-timer {
+    position: absolute;
+    top: 24px; right: 24px;
+    z-index: 3;
+    font-family: 'Inter', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    color: var(--ink);
+    padding: 6px 10px;
+    background: rgba(11,10,9,0.65);
+    border-radius: 4px;
+    backdrop-filter: blur(6px);
+  }
+
+  .how-copy {
+    max-width: 480px;
+  }
+  .how-eyebrow {
+    display: inline-block;
+    font-size: 0.78rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 28px;
+    padding: 6px 14px;
+    border: 1px solid rgba(255, 107, 61, 0.3);
+    border-radius: 999px;
+  }
+  .how-copy h2 {
+    margin-bottom: 32px;
+  }
+  .how-copy h2 em { color: var(--accent-2); }
+  .how-copy p {
+    font-size: 1.08rem;
+    margin-bottom: 40px;
+    max-width: 42ch;
+  }
+
+  .how-steps {
+    display: flex; gap: 14px;
+    margin-top: 36px;
+    padding-top: 36px;
+    border-top: 1px solid var(--line);
+    flex-wrap: wrap;
+  }
+  .how-step {
+    font-size: 0.82rem;
+    color: var(--ink-muted);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .how-step b {
+    color: var(--accent);
+    font-weight: 500;
+    font-family: 'Fraunces', serif;
+    font-size: 1rem;
+    font-style: italic;
+  }
+
+  @media (max-width: 900px) {
+    .how-grid { grid-template-columns: 1fr; gap: 60px; }
+    .video-player { max-height: 600px; aspect-ratio: 3/4; margin: 0 auto; max-width: 440px; }
+  }
+
+  /* ============================================================
+     3. WALL OF LOVE — WIDEO DOWÓD SPOŁECZNY
+     ============================================================ */
+  .wall {
+    padding: 140px 0 160px;
+    background: var(--bg-soft);
+    position: relative;
+  }
+  .wall-head {
+    text-align: center;
+    margin-bottom: 80px;
+    max-width: 820px;
+    margin-left: auto; margin-right: auto;
+    padding: 0 32px;
+  }
+  .wall-head h2 {
+    margin-bottom: 20px;
+  }
+  .wall-head h2 em { color: var(--accent-2); }
+  .wall-head p {
+    font-size: 1.05rem;
+    color: var(--ink-muted);
+    margin: 0 auto;
+  }
+
+  .wall-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    padding: 0 32px;
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+  .ugc {
+    position: relative;
+    aspect-ratio: 9/16;
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.5s cubic-bezier(.2,.7,.2,1);
+    background: #000;
+  }
+  .ugc:hover { transform: translateY(-6px) scale(1.02); }
+  .ugc video, .ugc .ugc-fallback {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .ugc-fallback {
+    display: flex; align-items: flex-end;
+    padding: 16px;
+  }
+  /* 8 różnych wariantów tła — sugerują różne sceny */
+  .ugc:nth-child(1) .ugc-fallback { background: linear-gradient(160deg, #8B5A3C, #3A2418); }
+  .ugc:nth-child(2) .ugc-fallback { background: linear-gradient(160deg, #6B4A58, #2A1830); }
+  .ugc:nth-child(3) .ugc-fallback { background: linear-gradient(160deg, #A07050, #4A2818); }
+  .ugc:nth-child(4) .ugc-fallback { background: linear-gradient(160deg, #58685C, #1A2818); }
+  .ugc:nth-child(5) .ugc-fallback { background: linear-gradient(160deg, #78504A, #2A1010); }
+  .ugc:nth-child(6) .ugc-fallback { background: linear-gradient(160deg, #987050, #382818); }
+  .ugc:nth-child(7) .ugc-fallback { background: linear-gradient(160deg, #5A6A78, #1A2838); }
+  .ugc:nth-child(8) .ugc-fallback { background: linear-gradient(160deg, #886050, #381818); }
+
+  /* Subtelny "ruch" na placeholderze */
+  .ugc .ugc-fallback::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% 30%, rgba(255,200,150,0.2), transparent 60%);
+    animation: ugcPulse 4s ease-in-out infinite;
+  }
+  .ugc:nth-child(2n) .ugc-fallback::before { animation-delay: 1s; }
+  .ugc:nth-child(3n) .ugc-fallback::before { animation-delay: 2s; }
+  @keyframes ugcPulse {
+    0%, 100% { opacity: 0.5; }
+    50%      { opacity: 1; }
+  }
+
+  .ugc::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.7) 100%);
+    pointer-events: none;
+  }
+
+  .ugc-meta {
+    position: absolute;
+    bottom: 16px; left: 16px; right: 16px;
+    z-index: 2;
+    display: flex; justify-content: space-between; align-items: flex-end;
+    color: var(--ink);
+    font-size: 0.82rem;
+  }
+  .ugc-author {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    line-height: 1.2;
+  }
+  .ugc-author small {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-size: 0.7rem;
+    color: var(--ink-dim);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  .ugc-play {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.25);
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.3s;
+  }
+  .ugc:hover .ugc-play {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .ugc-play svg { width: 12px; height: 12px; fill: var(--ink); }
+  .ugc:hover .ugc-play svg { fill: #1A0A03; }
+
+  .ugc-duration {
+    position: absolute;
+    top: 12px; right: 12px;
+    z-index: 2;
+    font-size: 0.68rem;
+    padding: 4px 8px;
+    background: rgba(11,10,9,0.7);
+    color: var(--ink);
+    border-radius: 4px;
+    font-family: 'Inter', monospace;
+    letter-spacing: 0.1em;
+  }
+
+  @media (max-width: 1100px) { .wall-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 760px)  { .wall-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } }
+
+  /* ============================================================
+     4. FINAL CTA + FAQ
+     ============================================================ */
+  .final {
+    padding: 180px 0 80px;
+    background: var(--bg);
+    text-align: center;
+    position: relative;
+  }
+  .final::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(255, 107, 61, 0.18) 0%, transparent 60%);
+    pointer-events: none;
+    filter: blur(40px);
+  }
+  .final-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .final h2 {
+    margin-bottom: 40px;
+  }
+  .final h2 em { color: var(--accent-2); }
+  .final .cta {
+    padding: 22px 40px;
+    font-size: 1rem;
+  }
+  .final-sub {
+    margin-top: 28px;
+    color: var(--ink-dim);
+    font-size: 0.88rem;
+    letter-spacing: 0.02em;
+  }
+
+  /* FAQ */
+  .faq {
+    padding: 80px 0 120px;
+    background: var(--bg);
+    position: relative;
+    z-index: 2;
+  }
+  .faq-inner {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .faq-label {
+    text-align: center;
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    color: var(--ink-dim);
+    text-transform: uppercase;
+    margin-bottom: 36px;
+  }
+  .faq-item {
+    padding: 28px 0;
+    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 40px;
+    align-items: baseline;
+  }
+  .faq-item:last-child { border-bottom: 1px solid var(--line); }
+  .faq-q {
+    font-family: 'Fraunces', serif;
+    font-size: 1.25rem;
+    font-weight: 300;
+    color: var(--ink);
+  }
+  .faq-a {
+    font-size: 0.98rem;
+    color: var(--ink-muted);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 760px) {
+    .faq-item { grid-template-columns: 1fr; gap: 12px; }
+  }
+
+  /* ---------- STOPKA ---------- */
+  footer.site-footer {
+    padding: 40px 32px 48px;
+    border-top: 1px solid var(--line);
+    font-size: 0.8rem;
+    color: var(--ink-dim);
+    background: var(--bg);
+  }
+  .footer-inner {
+    max-width: 1360px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 16px;
+  }
+  .footer-inner a:hover { color: var(--accent); }
+
+  /* szanujemy preferencje ruchu */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Bajka <em>o Tobie</em></div>
+  <a href="#start" class="nav-cta">Stwórz książkę</a>
+</nav>
+
+<!-- ============================================================
+     1. HERO — KINEMATOGRAFICZNA SEKCJA GŁÓWNA
+     ============================================================
+     [Dla grafika / montażysty:
+      Zapętlone wideo 10–15 sekund, bez dźwięku, autoplay, muted, loop, playsinline.
+      UJĘCIE: Wnętrze ciepłego domu o zmierzchu. Zbliżenie makro na ręce dziecka (4–6 lat)
+      i dłoń rodzica, które wspólnie przewracają grubą, twardo oprawioną stronę książki.
+      Światło: złoty „magic hour" wpadający ukośnie przez okno, wolno przesuwające się
+      drobinki kurzu w promieniach. Slow-motion (24→60 fps, odtwarzanie w 0.5x).
+      Kolorystyka: ciepły pomarańcz i głęboki brąz. Na stronie widać ledwo rozpoznawalną
+      ilustrację dziecka (twarz celowo nieostra — zagadka).
+      W kadrze NIE MA twarzy — tylko ręce, książka, światło. Tak budujemy uniwersalność.
+      Końcówka pętli: dziecko przesuwa palcem pod wydrukowanym IMIENIEM — to moment
+      „a-ha", po którym wideo wraca do początku.] -->
+<section class="hero">
+  <!-- W produkcji: <video class="hero-video" autoplay muted loop playsinline poster="hero-poster.jpg">
+       <source src="hero-loop.mp4" type="video/mp4"></video> -->
+  <div class="hero-video-fallback"></div>
+  <div class="hero-bokeh">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <div class="hero-content">
+    <h1>Tym razem <em>bohaterem</em><br>jest Twoje dziecko.</h1>
+    <div class="hero-actions">
+      <a href="#start" class="cta">
+        Stwórz książkę
+        <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M13 5l7 7-7 7"/>
+        </svg>
+      </a>
+      <a href="#how" class="cta-ghost">Zobacz jak to działa</a>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>przewiń</span>
+    <span class="line"></span>
+  </div>
+</section>
+
+<!-- ============================================================
+     2. SHOPPABLE VIDEO — ZOBACZ, JAK TO DZIAŁA
+     ============================================================
+     [Dla grafika / montażysty:
+      Wideo pionowe 9:16 (format „reel"), długość DOKŁADNIE 15 sekund, zapętlone.
+      Trzy ujęcia, każde po 5 sekund, twarde cięcia rytmiczne:
+
+      UJĘCIE 1 (0:00–0:05) — „WGRYWANIE ZDJĘCIA"
+        Kadr: ekran smartfona trzymanego w dłoni rodzica, lekko przechylony.
+        Na ekranie: zdjęcie dziecka zostaje wybrane z galerii i przeciągnięte
+        w pole uploadu. Palec puka w przycisk „Stwórz". Subtelna animacja
+        pomarańczowego paska postępu.
+
+      UJĘCIE 2 (0:05–0:10) — „AI RYSUJE"
+        Kadr: zbliżenie na ekran — z twarzy dziecka na zdjęciu „wyrasta"
+        ilustracja akwarelowa. Animowane pociągnięcia pędzla, delikatna
+        morphing-animacja fotografii → rysunek. Kolory się rozpływają
+        jak farba na mokrym papierze.
+
+      UJĘCIE 3 (0:10–0:15) — „GOTOWA KSIĄŻKA"
+        Kadr: przejście z ekranu na rzeczywistą książkę leżącą na drewnianym
+        stole. Strony same się przekładają (stop-motion), widać kolejne
+        ilustracje z dzieckiem jako bohaterem. Ostatnie ujęcie: okładka
+        z imieniem dziecka, obok niej filiżanka kakao.
+
+      Przycisk „try now" — klikalny, nakładany na wideo w momencie UJĘCIA 3,
+      prowadzi bezpośrednio do generatora.] -->
+<section class="how" id="how">
+  <div class="wrap">
+    <div class="how-grid">
+      <div class="video-player" onclick="location.href='#start'">
+        <!-- W produkcji:
+             <video autoplay muted loop playsinline>
+               <source src="how-it-works-15s.mp4" type="video/mp4">
+             </video> -->
+        <div class="video-player-fallback">
+          <div class="shot shot-1">
+            <div class="shot-label">01 · zdjęcie</div>
+            <div class="shot-visual"></div>
+          </div>
+          <div class="shot shot-2">
+            <div class="shot-label">02 · AI rysuje</div>
+            <div class="shot-visual"></div>
+          </div>
+          <div class="shot shot-3">
+            <div class="shot-label">03 · gotowe</div>
+            <div class="shot-visual">
+              Tej nocy Zosia odkryła, że w szafie mieszka mały jednorożec. Miał na imię Kruszynka i bał się ciemności...
+            </div>
+          </div>
+        </div>
+
+        <div class="video-timer">00:15</div>
+        <div class="video-play-badge">
+          <span class="live"></span>
+          Na żywo — kliknij, aby spróbować
+        </div>
+      </div>
+
+      <div class="how-copy">
+        <span class="how-eyebrow">15 sekund</span>
+        <h2>Zdjęcie.<br>Imię.<br><em>Gotowe.</em></h2>
+        <p>
+          Obok widzisz cały proces. Tyle samo zajmie Ci zrobienie własnej książki — od wgrania zdjęcia, po podgląd gotowych stron.
+        </p>
+        <a href="#start" class="cta">
+          Wypróbuj teraz
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M13 5l7 7-7 7"/>
+          </svg>
+        </a>
+
+        <div class="how-steps">
+          <div class="how-step"><b>1.</b> wgraj</div>
+          <div class="how-step"><b>2.</b> wybierz bajkę</div>
+          <div class="how-step"><b>3.</b> odbierz w 5 dni</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     3. WALL OF LOVE — WIDEO DOWÓD SPOŁECZNY (UGC)
+     ============================================================
+     [Dla grafika / montażysty:
+      Siatka 8 krótkich wideo-recenzji (UGC — telefonem, surowy styl, BEZ post-produkcji).
+      Każde wideo 6–10 sekund, pionowe 9:16, zapętlone, muted (dźwięk włącza się po kliknięciu).
+      Miniatury auto-play w tle — bardzo subtelny ruch, żeby nie przytłoczyć oka.
+
+      KLATKI KLUCZOWE DLA KAŻDEJ KAFLI (sugestie castingu z prawdziwych rodziców):
+        01. Dziewczynka (~4 lat) z szeroko otwartymi ustami widzi swoją twarz na stronie.
+        02. Chłopiec (~6 lat) głaszcze palcem wydrukowane imię na okładce, uśmiecha się.
+        03. Mama z synem na kolanach, oboje patrzą w książkę, światło lampki nocnej.
+        04. Tata czyta na głos, dziecko zasłania usta ze śmiechu.
+        05. Babcia otwiera prezent — łzy wzruszenia, przytula wnuczkę.
+        06. Rodzeństwo kłóci się o to, kto pierwszy będzie czytał — śmiech w tle.
+        07. Dziecko śpi z książką na piersi — kadr podkradziony.
+        08. Tata nagrywa reakcję mamy, gdy widzi swoją córkę jako księżniczkę.
+
+      Filtr: lekka desaturacja + ciepły tint — spójność bez sztuczności.
+      Miniaturki wszystkich wideo są tej samej wielkości, ale każde ma unikalny
+      kolor dominujący (ciepła gama). Klik → modal z pełnym wideo i dźwiękiem.] -->
+<section class="wall" id="wall">
+  <div class="wall-head">
+    <h2>Tak reagują, gdy widzą <em>siebie</em>.</h2>
+    <p>Prawdziwi rodzice. Prawdziwe dzieci. Bez aktorów, bez scenariusza.</p>
+  </div>
+
+  <div class="wall-grid">
+    <div class="ugc">
+      <!-- <video autoplay muted loop playsinline><source src="ugc-01.mp4" type="video/mp4"></video> -->
+      <div class="ugc-fallback"></div>
+      <div class="ugc-duration">0:08</div>
+      <div class="ugc-meta">
+        <div class="ugc-author">Zosia<small>4 lata</small></div>
+        <div class="ugc-play"><svg viewBox="0 0 12 12"><path d="M2 1 L10 6 L2 11 Z"/></svg></div>
+      </div>
+    </div>
+
+    <div class="ugc">
+      <div class="ugc-fallback"></div>
+      <div class="ugc-duration">0:06</div>
+      <div class="ugc-meta">
+        <div class="ugc-author">Antek<small>6 lat</small></div>
+        <div class="ugc-play"><svg viewBox="0 0 12 12"><path d="M2 1 L10 6 L2 11 Z"/></svg></div>
+      </div>
+    </div>
+
+    <div class="ugc">
+      <div class="ugc-fallback"></div>
+      <div class="ugc-duration">0:09</div>
+      <div class="ugc-meta">
+        <div class="ugc-author">Hania & mama<small>wieczorne czytanie</small></div>
+        <div class="ugc-play"><svg viewBox="0 0 12 12"><path d="M2 1 L10 6 L2 11 Z"/></svg></div>
+      </div>
+    </div>
+
+    <div class="ugc">
+      <div class="ugc-fallback"></div>
+      <div class="ugc-duration">0:07</div>
+      <div class="ugc-meta">
+        <div class="ugc-author">Staś<small>tata czyta</small></div>
+        <div class="ugc-play"><svg viewBox="0 0 12 12"><path d="M2 1 L10 6 L2 11 Z"/></svg></div>
+      </div>
+    </div>
+
+    <div class="ugc">
+      <div class="ugc-fallback"></div>
+      <div class="ugc-duration">0:10</div>
+      <div class="ugc-meta">
+        <div class="ugc-author">Babcia Helenki<small>prezent</small></div>
+        <div class="ugc-play"><svg viewBox="0 0 12 12"><path d="M2 1 L10 6 L2 11 Z"/></svg></div>
+      </div>
+    </div>
+
+    <div class="ugc">
+      <div class="ugc-fallback"></div>
+      <div class="ugc-duration">0:08</div>
+      <div class="ugc-meta">
+        <div class="ugc-author">Kuba & Lena<small>rodzeństwo</small></div>
+        <div class="ugc-play"><svg viewBox="0 0 12 12"><path d="M2 1 L10 6 L2 11 Z"/></svg></div>
+      </div>
+    </div>
+
+    <div class="ugc">
+      <div class="ugc-fallback"></div>
+      <div class="ugc-duration">0:06</div>
+      <div class="ugc-meta">
+        <div class="ugc-author">Tosia<small>śpi z książką</small></div>
+        <div class="ugc-play"><svg viewBox="0 0 12 12"><path d="M2 1 L10 6 L2 11 Z"/></svg></div>
+      </div>
+    </div>
+
+    <div class="ugc">
+      <div class="ugc-fallback"></div>
+      <div class="ugc-duration">0:09</div>
+      <div class="ugc-meta">
+        <div class="ugc-author">Julka<small>księżniczka</small></div>
+        <div class="ugc-play"><svg viewBox="0 0 12 12"><path d="M2 1 L10 6 L2 11 Z"/></svg></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     5. FINAŁ — JEDNO, CZYSTE WEZWANIE
+     ============================================================ -->
+<section class="final" id="start">
+  <div class="final-inner">
+    <h2>Zacznij teraz.<br><em>Gotowe za 15 sekund.</em></h2>
+    <a href="#" class="cta">
+      Stwórz swoją książkę
+      <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M5 12h14M13 5l7 7-7 7"/>
+      </svg>
+    </a>
+    <div class="final-sub">Bez zobowiązań. Podgląd zawsze bezpłatny.</div>
+  </div>
+</section>
+
+<!-- ============================================================
+     4. FAQ — ZBIJANIE OBIEKCJI POD FINAŁOWYM CTA
+     ============================================================ -->
+<section class="faq">
+  <div class="faq-inner">
+    <div class="faq-label">— zanim klikniesz —</div>
+
+    <div class="faq-item">
+      <div class="faq-q">Czy moje zdjęcie jest bezpieczne?</div>
+      <div class="faq-a">Tak — kasujemy je z naszych serwerów w 24 godziny po wygenerowaniu książki i nigdy nie używamy go do trenowania modeli.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Kiedy dostanę książkę?</div>
+      <div class="faq-a">PDF w 2 minuty po zamówieniu, fizyczny egzemplarz w twardej oprawie w 5 dni roboczych pod Twoje drzwi.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">A jeśli mi się nie spodoba?</div>
+      <div class="faq-a">Zwracamy 100% pieniędzy bez pytań — masz na to 30 dni od dostawy.</div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>© 2026 Bajka o Tobie</div>
+    <div>
+      <a href="#">kontakt</a> &nbsp;·&nbsp;
+      <a href="#">regulamin</a> &nbsp;·&nbsp;
+      <a href="#">prywatność</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

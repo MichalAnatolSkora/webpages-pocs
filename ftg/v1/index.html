@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bajkowi Bohaterowie — personalizowane książki dla dzieci</title>
+<style>
+  :root {
+    --cream: #fdf6ec;
+    --cream-dark: #f5ead5;
+    --ink: #2a2118;
+    --ink-soft: #5a4a3a;
+    --accent: #d97742;
+    --accent-dark: #b85a2a;
+    --gold: #e8b04a;
+    --rose: #e8a3a3;
+    --teal: #4a8b8b;
+    --shadow: 0 4px 20px rgba(42, 33, 24, 0.08);
+    --shadow-lg: 0 12px 40px rgba(42, 33, 24, 0.15);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.65;
+    font-size: 17px;
+  }
+
+  h1, h2, h3, .display {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .container {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* === NAV === */
+  nav {
+    padding: 22px 0;
+    background: var(--cream);
+    border-bottom: 1px solid rgba(184, 90, 42, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  nav .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--accent-dark);
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+  .logo span { color: var(--gold); }
+  nav ul {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  nav ul a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 15px;
+    transition: color 0.2s;
+  }
+  nav ul a:hover { color: var(--accent); }
+
+  /* === BUTTONS === */
+  .btn {
+    display: inline-block;
+    padding: 18px 38px;
+    background: var(--accent);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 17px;
+    font-weight: 600;
+    font-family: Georgia, serif;
+    border: none;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 6px 18px rgba(217, 119, 66, 0.35);
+    letter-spacing: 0.02em;
+  }
+  .btn:hover {
+    background: var(--accent-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(217, 119, 66, 0.45);
+  }
+  .btn-large {
+    padding: 22px 50px;
+    font-size: 19px;
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--accent-dark);
+    border: 2px solid var(--accent);
+    box-shadow: none;
+  }
+  .btn-secondary:hover {
+    background: var(--accent);
+    color: white;
+  }
+
+  /* === HERO === */
+  .hero {
+    padding: 80px 0 100px;
+    background: linear-gradient(180deg, var(--cream) 0%, var(--cream-dark) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '✦';
+    position: absolute;
+    top: 80px;
+    left: 8%;
+    font-size: 28px;
+    color: var(--gold);
+    opacity: 0.5;
+  }
+  .hero::after {
+    content: '✦';
+    position: absolute;
+    bottom: 120px;
+    right: 10%;
+    font-size: 36px;
+    color: var(--rose);
+    opacity: 0.5;
+  }
+  .hero .container {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 70px;
+    align-items: center;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(232, 176, 74, 0.18);
+    color: var(--accent-dark);
+    padding: 8px 18px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 28px;
+    letter-spacing: 0.04em;
+  }
+  .hero h1 {
+    font-size: 56px;
+    line-height: 1.1;
+    margin-bottom: 24px;
+    color: var(--ink);
+  }
+  .hero h1 em {
+    color: var(--accent-dark);
+    font-style: italic;
+  }
+  .hero h2 {
+    font-size: 21px;
+    font-weight: 400;
+    font-family: Georgia, serif;
+    color: var(--ink-soft);
+    margin-bottom: 36px;
+    line-height: 1.55;
+  }
+  .hero-cta-row {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+  .hero-trust {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+  .stars { color: var(--gold); letter-spacing: 2px; font-size: 17px; }
+
+  .hero-visual {
+    position: relative;
+    text-align: center;
+  }
+  .book-mockup {
+    width: 100%;
+    max-width: 420px;
+    aspect-ratio: 4/5;
+    background: linear-gradient(135deg, #c97350 0%, #8b3e1a 100%);
+    border-radius: 8px 16px 16px 8px;
+    box-shadow: var(--shadow-lg);
+    margin: 0 auto;
+    position: relative;
+    transform: rotate(-3deg);
+    padding: 38px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: #fdf6ec;
+    text-align: left;
+  }
+  .book-mockup::before {
+    content: '';
+    position: absolute;
+    left: 14px;
+    top: 14px;
+    bottom: 14px;
+    width: 3px;
+    background: rgba(255, 255, 255, 0.15);
+  }
+  .book-mockup h3 {
+    font-size: 32px;
+    line-height: 1.15;
+    color: #fdf6ec;
+  }
+  .book-mockup .book-author {
+    font-size: 14px;
+    opacity: 0.85;
+    margin-top: 8px;
+    font-style: italic;
+  }
+  .book-illustration {
+    width: 100%;
+    height: 180px;
+    background: rgba(253, 246, 236, 0.95);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 80px;
+  }
+  .book-mockup .name-tag {
+    background: var(--gold);
+    color: var(--ink);
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    display: inline-block;
+    align-self: flex-start;
+    font-family: Georgia, serif;
+  }
+
+  /* === SECTION SHARED === */
+  section { padding: 90px 0; }
+  .section-eyebrow {
+    text-align: center;
+    color: var(--accent-dark);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .section-title {
+    text-align: center;
+    font-size: 42px;
+    line-height: 1.2;
+    margin-bottom: 18px;
+    color: var(--ink);
+  }
+  .section-subtitle {
+    text-align: center;
+    font-size: 19px;
+    color: var(--ink-soft);
+    max-width: 640px;
+    margin: 0 auto 60px;
+    line-height: 1.6;
+  }
+
+  /* === HOW IT WORKS === */
+  .how-it-works {
+    background: white;
+  }
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 36px;
+    position: relative;
+  }
+  .steps::before {
+    content: '';
+    position: absolute;
+    top: 50px;
+    left: 18%;
+    right: 18%;
+    height: 2px;
+    background: repeating-linear-gradient(90deg, var(--gold) 0 8px, transparent 8px 16px);
+    z-index: 0;
+  }
+  .step {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  .step-number {
+    width: 100px;
+    height: 100px;
+    background: var(--cream);
+    border: 3px solid var(--accent);
+    color: var(--accent-dark);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    font-weight: 700;
+    margin: 0 auto 24px;
+    font-family: 'Playfair Display', Georgia, serif;
+    box-shadow: var(--shadow);
+  }
+  .step h3 {
+    font-size: 22px;
+    margin-bottom: 12px;
+    color: var(--ink);
+  }
+  .step p {
+    color: var(--ink-soft);
+    font-size: 16px;
+    line-height: 1.6;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+
+  /* === BENEFITS === */
+  .benefits {
+    background: var(--cream-dark);
+  }
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+  }
+  .benefit-card {
+    background: white;
+    padding: 40px 36px;
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .benefit-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+  .benefit-icon {
+    font-size: 42px;
+    margin-bottom: 18px;
+    display: inline-block;
+  }
+  .benefit-card h3 {
+    font-size: 23px;
+    margin-bottom: 12px;
+    color: var(--ink);
+  }
+  .benefit-card p {
+    color: var(--ink-soft);
+    line-height: 1.65;
+  }
+
+  /* === SOCIAL PROOF === */
+  .reviews {
+    background: white;
+  }
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    margin-bottom: 60px;
+  }
+  .review-card {
+    background: var(--cream);
+    padding: 32px 28px;
+    border-radius: 14px;
+    position: relative;
+    border: 1px solid rgba(184, 90, 42, 0.08);
+  }
+  .review-card::before {
+    content: '"';
+    position: absolute;
+    top: 8px;
+    right: 22px;
+    font-size: 80px;
+    color: var(--gold);
+    opacity: 0.3;
+    font-family: 'Playfair Display', Georgia, serif;
+    line-height: 1;
+  }
+  .review-stars {
+    color: var(--gold);
+    font-size: 18px;
+    letter-spacing: 3px;
+    margin-bottom: 14px;
+  }
+  .review-text {
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 22px;
+    font-style: italic;
+  }
+  .reviewer {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .reviewer-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--rose), var(--gold));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    flex-shrink: 0;
+  }
+  .reviewer-name {
+    font-weight: 700;
+    color: var(--ink);
+    font-size: 15px;
+  }
+  .reviewer-detail {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-top: 2px;
+  }
+  .reviews-stats {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    flex-wrap: wrap;
+    padding-top: 40px;
+    border-top: 1px solid rgba(184, 90, 42, 0.12);
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat-number {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 44px;
+    font-weight: 700;
+    color: var(--accent-dark);
+    line-height: 1;
+  }
+  .stat-label {
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin-top: 6px;
+  }
+
+  /* === FAQ === */
+  .faq {
+    background: var(--cream-dark);
+  }
+  .faq-list {
+    max-width: 780px;
+    margin: 0 auto;
+  }
+  .faq-item {
+    background: white;
+    border-radius: 12px;
+    margin-bottom: 14px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.2s;
+  }
+  .faq-item:hover { box-shadow: var(--shadow-lg); }
+  .faq-question {
+    width: 100%;
+    padding: 24px 28px;
+    background: none;
+    border: none;
+    text-align: left;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--ink);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+  }
+  .faq-question::after {
+    content: '+';
+    font-size: 28px;
+    color: var(--accent);
+    font-weight: 400;
+    transition: transform 0.25s;
+    flex-shrink: 0;
+  }
+  .faq-item.open .faq-question::after {
+    transform: rotate(45deg);
+  }
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    padding: 0 28px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+  .faq-item.open .faq-answer {
+    max-height: 320px;
+    padding: 0 28px 26px;
+  }
+
+  /* === FINAL CTA === */
+  .final-cta {
+    background: linear-gradient(135deg, #b85a2a 0%, #8b3e1a 100%);
+    color: white;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .final-cta::before, .final-cta::after {
+    content: '✦';
+    position: absolute;
+    color: var(--gold);
+    opacity: 0.4;
+  }
+  .final-cta::before { top: 50px; left: 12%; font-size: 24px; }
+  .final-cta::after { bottom: 60px; right: 14%; font-size: 32px; }
+  .final-cta h2 {
+    font-size: 48px;
+    line-height: 1.15;
+    margin-bottom: 20px;
+    color: white;
+  }
+  .final-cta h2 em {
+    color: var(--gold);
+    font-style: italic;
+  }
+  .final-cta p {
+    font-size: 20px;
+    opacity: 0.92;
+    max-width: 620px;
+    margin: 0 auto 38px;
+    line-height: 1.6;
+  }
+  .final-cta .btn {
+    background: var(--gold);
+    color: var(--ink);
+    box-shadow: 0 6px 24px rgba(232, 176, 74, 0.4);
+  }
+  .final-cta .btn:hover {
+    background: #f0c060;
+    box-shadow: 0 10px 30px rgba(232, 176, 74, 0.55);
+  }
+  .final-cta-note {
+    margin-top: 24px;
+    font-size: 14px;
+    opacity: 0.8;
+  }
+
+  /* === FOOTER === */
+  footer {
+    background: var(--ink);
+    color: rgba(253, 246, 236, 0.7);
+    padding: 48px 0 28px;
+    text-align: center;
+    font-size: 14px;
+  }
+  footer .logo { color: var(--gold); margin-bottom: 14px; display: inline-block; }
+  footer ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    margin: 22px 0;
+    flex-wrap: wrap;
+  }
+  footer ul a {
+    color: rgba(253, 246, 236, 0.7);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  footer ul a:hover { color: var(--gold); }
+  .copyright {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(253, 246, 236, 0.12);
+    font-size: 13px;
+    opacity: 0.7;
+  }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 880px) {
+    .hero { padding: 50px 0 70px; }
+    .hero .container { grid-template-columns: 1fr; gap: 50px; text-align: center; }
+    .hero h1 { font-size: 38px; }
+    .hero h2 { font-size: 18px; }
+    .hero-cta-row { justify-content: center; }
+    .hero-trust { justify-content: center; }
+    section { padding: 60px 0; }
+    .section-title { font-size: 30px; }
+    .section-subtitle { font-size: 17px; margin-bottom: 40px; }
+    .steps { grid-template-columns: 1fr; gap: 40px; }
+    .steps::before { display: none; }
+    .benefits-grid { grid-template-columns: 1fr; }
+    .reviews-grid { grid-template-columns: 1fr; }
+    .reviews-stats { gap: 36px; }
+    .stat-number { font-size: 34px; }
+    .final-cta h2 { font-size: 32px; }
+    .final-cta p { font-size: 17px; }
+    nav ul { display: none; }
+    .book-mockup { transform: rotate(-2deg); max-width: 320px; }
+    .book-mockup h3 { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="container">
+    <div class="logo">Bajkowi<span>Bohaterowie</span></div>
+    <ul>
+      <li><a href="#jak-to-dziala">Jak to działa</a></li>
+      <li><a href="#dlaczego-my">Dlaczego my</a></li>
+      <li><a href="#opinie">Opinie</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <a href="#cta" class="btn" style="padding: 12px 24px; font-size: 15px;">Stwórz książkę</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <span class="hero-badge">✦ Spersonalizowany prezent na każdą okazję</span>
+      <h1>Twoje dziecko zostaje <em>bohaterem</em> własnej bajki.</h1>
+      <h2>Książka, w której to Twoje dziecko ratuje świat, odkrywa skarby i zasypia wśród gwiazd. Wieczór po wieczorze rozkochujemy najmłodszych w czytaniu — bo nic nie zachwyca tak, jak własne imię na pierwszej stronie.</h2>
+      <div class="hero-cta-row">
+        <a href="#cta" class="btn btn-large">Stwórz wyjątkową książkę →</a>
+      </div>
+      <div class="hero-trust">
+        <span class="stars">★★★★★</span>
+        <span><strong>4,9/5</strong> · ponad 12 000 zachwyconych rodziców</span>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="book-mockup">
+        <span class="name-tag">★ Dla Zosi</span>
+        <div class="book-illustration">🌙</div>
+        <div>
+          <h3>Zosia i Sekret Gwiezdnego Lasu</h3>
+          <p class="book-author">Wyjątkowa bajka stworzona z miłością</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-it-works" id="jak-to-dziala">
+  <div class="container">
+    <p class="section-eyebrow">Prosty proces</p>
+    <h2 class="section-title">Magiczna książka w 3 krokach</h2>
+    <p class="section-subtitle">Stworzenie wyjątkowego prezentu zajmie Ci dosłownie kilka minut. Resztą zajmiemy się my.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <h3>Podaj imię i wgraj zdjęcie</h3>
+        <p>Wpisz imię dziecka i prześlij jego ulubione zdjęcie. To jedyne, czego potrzebujemy, by zacząć tworzyć magię.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <h3>Wybierz motyw i dostosuj awatar</h3>
+        <p>Bajka kosmiczna, podwodna przygoda, świat smoków? Dopasuj fryzurę, kolor oczu, skóry i drobne cechy szczególne.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <h3>My zajmiemy się magią</h3>
+        <p>Drukujemy w wysokiej jakości, pakujemy w ozdobne pudełko i wysyłamy pod wskazany adres. Gotowe na wręczenie.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="benefits" id="dlaczego-my">
+  <div class="container">
+    <p class="section-eyebrow">Dlaczego nasze książki</p>
+    <h2 class="section-title">Więcej niż prezent — to wspomnienie na lata</h2>
+    <p class="section-subtitle">Personalizowana książka to nie tylko piękny przedmiot. To narzędzie, które buduje miłość do czytania i poczucie własnej wartości.</p>
+    <div class="benefits-grid">
+      <div class="benefit-card">
+        <span class="benefit-icon">📖</span>
+        <h3>Buduje nawyk czytania</h3>
+        <p>Badania pokazują, że dzieci znacznie chętniej sięgają po książkę, w której rozpoznają siebie. Imię na okładce zamienia obowiązek w przygodę, a wieczorne czytanie — w ulubiony rytuał.</p>
+      </div>
+      <div class="benefit-card">
+        <span class="benefit-icon">✨</span>
+        <h3>Pełna personalizacja postaci</h3>
+        <p>Kolor skóry, fryzura, piegi, okulary, znamię — odwzorowujemy każdy szczegół. Nasze książki celebrują różnorodność i sprawiają, że każde dziecko znajdzie w bohaterze siebie.</p>
+      </div>
+      <div class="benefit-card">
+        <span class="benefit-icon">💛</span>
+        <h3>Wzmacnia poczucie wartości</h3>
+        <p>Kiedy dziecko widzi siebie jako bohatera ratującego świat, odkrywającego nieznane lądy czy pokonującego strach — uczy się, że jest odważne, mądre i wyjątkowe.</p>
+      </div>
+      <div class="benefit-card">
+        <span class="benefit-icon">🎁</span>
+        <h3>Prezent, który zostaje na lata</h3>
+        <p>Twarda oprawa, papier kremowy o gramaturze 120g, ilustracje drukowane w technologii premium. Książka, którą za 20 lat dziecko pokaże swoim dzieciom.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews" id="opinie">
+  <div class="container">
+    <p class="section-eyebrow">Opinie rodziców</p>
+    <h2 class="section-title">Nie wierz nam na słowo</h2>
+    <p class="section-subtitle">Posłuchaj, co mówią rodzice i dziadkowie, którzy podarowali swoim dzieciom książkę z ich imieniem.</p>
+
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">Synek miał 4 latka, gdy dostał książkę „Antoś i Smoki Wawelu". Czytamy ją codziennie od pół roku. Nigdy nie widziałam, żeby był tak dumny — pokazuje wszystkim w przedszkolu, że to ON jest na okładce. Bezcenne.</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">👩</div>
+          <div>
+            <div class="reviewer-name">Magdalena K.</div>
+            <div class="reviewer-detail">Mama Antosia, Kraków</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">Kupiłam dla wnuczki na chrzciny. Jakość druku absolutnie zachwycająca, twarda oprawa, papier kremowy — czuć premium. A reakcja rodziców i dziadków po drugiej stronie? Łzy wzruszenia. Polecam z całego serca.</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">👵</div>
+          <div>
+            <div class="reviewer-name">Krystyna W.</div>
+            <div class="reviewer-detail">Babcia Marysi, Poznań</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">Bałam się, że personalizacja będzie wyglądała sztucznie. Nic z tych rzeczy — postać naprawdę przypomina naszą Lenkę, z tą samą fryzurą i piegami. Córka zasypia z książką pod poduszką. Najlepszy prezent na 5. urodziny.</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">👨</div>
+          <div>
+            <div class="reviewer-name">Tomasz R.</div>
+            <div class="reviewer-detail">Tata Lenki, Warszawa</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reviews-stats">
+      <div class="stat">
+        <div class="stat-number">12 400+</div>
+        <div class="stat-label">stworzonych książek</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">4,9/5</div>
+        <div class="stat-label">średnia ocen</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">98%</div>
+        <div class="stat-label">poleca znajomym</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">7 dni</div>
+        <div class="stat-label">do wręczenia prezentu</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="container">
+    <p class="section-eyebrow">Pytania i odpowiedzi</p>
+    <h2 class="section-title">Wszystko, co chcesz wiedzieć</h2>
+    <p class="section-subtitle">Zebraliśmy najczęstsze pytania rodziców. Jeśli czegoś brakuje — napisz do nas, odpowiadamy w ciągu kilku godzin.</p>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-question">Ile czasu zajmuje stworzenie i dostawa książki?</button>
+        <div class="faq-answer">
+          <p>Plik PDF wysyłamy w ciągu 24 godzin od złożenia zamówienia — idealne, jeśli prezent potrzebny jest „na już". Książka w twardej oprawie jest drukowana i pakowana w 3-4 dni robocze, a dostawa kurierem zajmuje kolejne 1-2 dni. W sumie maksymalnie 7 dni od zamówienia do wręczenia. Przed świętami i Dniem Dziecka warto zamówić z tygodniowym wyprzedzeniem.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">Co dzieje się ze zdjęciem mojego dziecka po realizacji zamówienia?</button>
+        <div class="faq-answer">
+          <p>Bezpieczeństwo Twojego dziecka jest dla nas absolutnym priorytetem. Zdjęcie wykorzystujemy wyłącznie do wygenerowania spersonalizowanego awatara, a oryginalny plik jest automatycznie i bezpowrotnie usuwany z naszych serwerów w ciągu 30 dni od realizacji zamówienia. Nigdy nie udostępniamy zdjęć osobom trzecim, nie wykorzystujemy ich do trenowania modeli AI ani celów marketingowych. Działamy w pełnej zgodzie z RODO.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">Jaka jest jakość druku i materiałów?</button>
+        <div class="faq-answer">
+          <p>Drukujemy wyłącznie w technologii premium na papierze kremowym o gramaturze 120 g/m², który jest miły dla oczu i nie męczy podczas wieczornego czytania. Twarda oprawa wykonywana jest z lakierowanego kartonu, a okładka pokryta matową folią odporną na zarysowania i wilgoć. Książkę dostarczamy w eleganckim, ozdobnym pudełku — gotową do wręczenia bez dodatkowego pakowania.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">Czy mogę zobaczyć podgląd książki przed drukiem?</button>
+        <div class="faq-answer">
+          <p>Oczywiście. Po złożeniu zamówienia w ciągu kilku godzin otrzymasz na maila pełny podgląd PDF z wygenerowanym awatarem i całą treścią. Masz 48 godzin na zaakceptowanie projektu lub poproszenie o bezpłatne poprawki — np. zmianę fryzury, koloru oczu czy drobnych szczegółów. Drukujemy dopiero po Twojej akceptacji.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">Co jeśli książka nie spełni moich oczekiwań?</button>
+        <div class="faq-answer">
+          <p>Dajemy 30-dniową gwarancję satysfakcji. Jeśli z jakiegokolwiek powodu książka Ci się nie spodoba — zwracamy 100% kosztów, bez żadnych pytań. Twoje zaufanie jest dla nas ważniejsze niż jedno zamówienie. Zadowolenie 98% naszych klientów pokazuje jednak, że taki scenariusz to absolutny wyjątek.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta" id="cta">
+  <div class="container">
+    <h2>Niech ten prezent <em>zostanie zapamiętany</em> na całe życie.</h2>
+    <p>Urodziny, święta, chrzciny, Dzień Dziecka — najpiękniejsze chwile zasługują na prezent, który nie skończy się w pudełku po tygodniu. Stwórz książkę dziś i miej spokojną głowę o nadchodzącą okazję.</p>
+    <a href="#" class="btn btn-large">Zacznij tworzyć książkę →</a>
+    <p class="final-cta-note">✦ Wysyłka w 7 dni · 30-dniowa gwarancja satysfakcji · Bezpłatne poprawki podglądu</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="logo">Bajkowi<span style="color: #e8b04a;">Bohaterowie</span></div>
+    <ul>
+      <li><a href="#jak-to-dziala">Jak to działa</a></li>
+      <li><a href="#dlaczego-my">Dlaczego my</a></li>
+      <li><a href="#opinie">Opinie</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#">Kontakt</a></li>
+      <li><a href="#">Polityka prywatności</a></li>
+      <li><a href="#">Regulamin</a></li>
+    </ul>
+    <div class="copyright">© 2026 Bajkowi Bohaterowie · Stworzone z miłością do najmłodszych czytelników</div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
+    });
+  });
+</script>
+
+</body>
+</html>

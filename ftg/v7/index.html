@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bajka o Twoim dziecku — książka z imieniem i twarzą bohatera</title>
+<meta name="description" content="Personalizowane książki dla dzieci. Twarda oprawa, spokojny papier, ilustracje rysowane z uwagą. Dziecko — bohaterem każdej strony.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Recoleta:wght@300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --white:     #FAFAF7;   /* near-white, tło bazowe */
+    --white-2:   #F4F2EC;   /* cień tła */
+    --mist:      #E8DDD5;   /* mist grey, beżowa mgła */
+    --mist-2:    #EEE7E0;   /* jaśniejsza odmiana mist */
+    --sage:      #C4D1C0;   /* szałwia */
+    --honey:     #E8C894;   /* miodowy beż */
+    --graphite:  #2C2826;   /* atrament, tekst */
+    --graphite-2:#6A655F;   /* tekst drugorzędny */
+    --line:      #D9D2CA;   /* hairline */
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+    background: var(--white);
+    color: var(--graphite);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.7;
+    letter-spacing: 0.002em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    letter-spacing: -0.022em;
+    line-height: 1.08;
+    color: var(--graphite);
+  }
+  h1 { font-size: clamp(2.4rem, 5.6vw, 4.6rem); }
+  h2 { font-size: clamp(1.9rem, 3.6vw, 3rem); letter-spacing: -0.02em; }
+  h3 { font-size: 1.05rem; font-weight: 500; letter-spacing: 0.01em; }
+  h4 { font-size: 0.82rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--graphite-2); }
+
+  p { color: var(--graphite-2); max-width: 58ch; font-weight: 300; }
+  a  { color: inherit; text-decoration: none; }
+
+  ::selection { background: var(--honey); color: var(--graphite); }
+
+  .wrap {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 40px;
+    position: relative;
+  }
+
+  /* ============================================================
+     Numerki sekcji (01 / 02 / 03) — podpis typograficzny
+     ============================================================ */
+  .num {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    font-size: 0.78rem;
+    letter-spacing: 0.22em;
+    color: var(--graphite-2);
+    display: inline-block;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 36px;
+  }
+
+  /* ============================================================
+     NAV
+     ============================================================ */
+  nav.site {
+    position: absolute; top: 0; left: 0; right: 0;
+    z-index: 20;
+    padding: 34px 40px;
+  }
+  .nav-inner {
+    max-width: 1240px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .logo {
+    display: flex; align-items: center; gap: 12px;
+    font-weight: 500; font-size: 0.95rem; letter-spacing: 0.02em;
+    color: var(--graphite);
+  }
+  .logo-mark {
+    width: 20px; height: 20px;
+    border: 1px solid var(--graphite);
+    border-radius: 50%;
+    position: relative;
+  }
+  .logo-mark::after {
+    content: '';
+    position: absolute;
+    width: 6px; height: 6px;
+    background: var(--honey);
+    border-radius: 50%;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+  }
+  .nav-links {
+    display: flex; gap: 36px;
+    font-size: 0.86rem;
+    color: var(--graphite);
+    font-weight: 400;
+  }
+  .nav-links a { position: relative; transition: color .3s ease; }
+  .nav-links a::after {
+    content: '';
+    position: absolute; left: 0; right: 0; bottom: -4px;
+    height: 1px; background: var(--graphite);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .4s ease;
+  }
+  .nav-links a:hover::after { transform: scaleX(1); }
+  @media (max-width: 760px) { .nav-links { display: none; } }
+
+  /* ============================================================
+     HERO
+     ============================================================ */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    align-items: center;
+    gap: 80px;
+    padding: 180px 40px 140px;
+    max-width: 1240px;
+    margin: 0 auto;
+  }
+  .hero-text { max-width: 560px; }
+  .hero-kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--graphite-2);
+    margin-bottom: 40px;
+  }
+  .hero-kicker::before {
+    content: '';
+    width: 28px; height: 1px;
+    background: var(--graphite-2);
+    display: inline-block;
+  }
+  .hero h1 {
+    margin-bottom: 36px;
+  }
+  .hero h1 .accent {
+    font-family: 'Recoleta', 'DM Sans', serif;
+    font-style: normal;
+    font-weight: 300;
+    color: var(--graphite);
+    position: relative;
+  }
+  .hero h1 .accent::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: 4px;
+    height: 10px;
+    background: var(--sage);
+    opacity: 0.45;
+    z-index: -1;
+  }
+  .hero-lede {
+    font-size: 1.06rem;
+    line-height: 1.75;
+    max-width: 46ch;
+    color: var(--graphite-2);
+    margin-bottom: 48px;
+  }
+
+  .cta {
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 18px 28px;
+    background: var(--graphite);
+    color: var(--white);
+    border: 1px solid var(--graphite);
+    border-radius: 4px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: background .35s ease, color .35s ease, transform .35s ease;
+  }
+  .cta:hover { background: var(--white); color: var(--graphite); transform: translateY(-1px); }
+  .cta svg { width: 14px; height: 14px; transition: transform .35s ease; }
+  .cta:hover svg { transform: translateX(4px); }
+
+  .cta.ghost {
+    background: transparent;
+    color: var(--graphite);
+  }
+  .cta.ghost:hover { background: var(--graphite); color: var(--white); }
+
+  .hero-meta {
+    margin-top: 64px;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .hero-meta div {
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--graphite-2);
+    font-weight: 400;
+  }
+  .hero-meta div strong {
+    display: block;
+    margin-top: 6px;
+    font-weight: 400;
+    font-size: 0.92rem;
+    letter-spacing: 0.01em;
+    text-transform: none;
+    color: var(--graphite);
+  }
+
+  /* HERO VISUAL — makieta książki + subtelny, abstrakcyjny pejzaż SVG */
+  .hero-visual {
+    position: relative;
+    aspect-ratio: 4/5;
+    max-width: 520px;
+    justify-self: end;
+    width: 100%;
+  }
+  .hero-visual .landscape {
+    position: absolute; inset: 0;
+    border-radius: 6px;
+    background:
+      radial-gradient(120% 80% at 50% 100%, rgba(196,209,192,0.28) 0%, rgba(196,209,192,0) 60%),
+      linear-gradient(180deg, var(--white-2) 0%, var(--mist-2) 100%);
+    border: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .hero-visual .landscape svg {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+  }
+  .hero-visual .book-mockup {
+    position: absolute;
+    left: 16%; right: 16%;
+    top: 18%; bottom: 10%;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 3px 6px 6px 3px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 36px 30px 30px;
+    transform: rotate(-1.2deg);
+    transition: transform 1.2s cubic-bezier(.2,.7,.2,1);
+  }
+  .hero-visual:hover .book-mockup { transform: rotate(0deg); }
+  .hero-visual .book-mockup::before {
+    /* grzbiet */
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 10px;
+    background: var(--mist);
+    border-right: 1px solid var(--line);
+    border-radius: 3px 0 0 3px;
+  }
+  .book-mockup .small {
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--graphite-2);
+  }
+  .book-mockup .title {
+    font-family: 'Recoleta', 'DM Sans', serif;
+    font-weight: 300;
+    font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    color: var(--graphite);
+  }
+  .book-mockup .name {
+    font-weight: 400;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    color: var(--graphite);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .book-mockup .name::before {
+    content: '';
+    width: 18px; height: 1px;
+    background: var(--graphite);
+    display: inline-block;
+  }
+  .book-mockup .glyph {
+    align-self: flex-start;
+    width: 44px; height: 44px;
+  }
+  .book-mockup .glyph circle { fill: var(--honey); }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; padding: 150px 24px 80px; gap: 60px; }
+    .hero-visual { max-width: 420px; justify-self: start; }
+    .hero-meta { grid-template-columns: 1fr; gap: 16px; }
+    .hero-meta div { padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+    .hero-meta div:last-child { border: none; }
+  }
+
+  /* ============================================================
+     SEKCJA 2 — TACTILE PREVIEW
+     ============================================================ */
+  .tactile {
+    padding: 180px 0;
+    background: var(--white);
+    border-top: 1px solid var(--line);
+  }
+  .tactile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 120px;
+    align-items: center;
+  }
+  .tactile-head h2 { margin-bottom: 28px; }
+  .tactile-head p {
+    font-size: 1.02rem;
+    line-height: 1.75;
+    max-width: 42ch;
+    margin-bottom: 28px;
+  }
+
+  .spec-list {
+    list-style: none;
+    margin-top: 40px;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+  }
+  .spec-list li {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 16px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.92rem;
+  }
+  .spec-list li span:first-child {
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--graphite-2);
+    font-weight: 400;
+    padding-top: 3px;
+  }
+  .spec-list li span:last-child { color: var(--graphite); font-weight: 400; }
+
+  /* Makieta książki w SEKCJI 2 — płasko, widok z góry */
+  .book-flatlay {
+    position: relative;
+    aspect-ratio: 4/5;
+    background: var(--white-2);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+  }
+  .book-flatlay .hair {
+    position: absolute;
+    width: 1px;
+    background: var(--line);
+  }
+  .book-flatlay .hair.h1 { left: 0; right: 0; top: 33%; height: 1px; width: auto; }
+  .book-flatlay .hair.h2 { left: 0; right: 0; top: 66%; height: 1px; width: auto; }
+  .book-flatlay .hair.v1 { top: 0; bottom: 0; left: 33%; }
+  .book-flatlay .hair.v2 { top: 0; bottom: 0; left: 66%; }
+  .book-flatlay .corner {
+    position: absolute;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--graphite-2);
+    font-weight: 400;
+  }
+  .book-flatlay .corner.tl { top: 18px; left: 20px; }
+  .book-flatlay .corner.br { bottom: 18px; right: 20px; }
+
+  .cover {
+    width: 62%;
+    aspect-ratio: 3/4;
+    background: var(--mist);
+    border-radius: 2px;
+    position: relative;
+    padding: 40px 32px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid var(--line);
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    inset: 20px 16px;
+    border: 1px solid rgba(44,40,38,0.1);
+    pointer-events: none;
+  }
+  .cover .top-mark {
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--graphite);
+    opacity: 0.55;
+  }
+  .cover .cover-title {
+    font-family: 'Recoleta', 'DM Sans', serif;
+    font-weight: 300;
+    font-size: 1.55rem;
+    line-height: 1.15;
+    color: var(--graphite);
+    letter-spacing: -0.01em;
+  }
+  .cover .cover-name {
+    font-size: 0.95rem;
+    color: var(--graphite);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .cover .cover-name::before {
+    content: ''; width: 16px; height: 1px; background: var(--graphite);
+  }
+  .cover .cover-shape {
+    position: absolute;
+    right: 28px; top: 44%;
+    width: 38px; height: 38px;
+    transform: translateY(-50%);
+  }
+
+  @media (max-width: 900px) {
+    .tactile { padding: 120px 0; }
+    .tactile-grid { grid-template-columns: 1fr; gap: 60px; }
+    .book-flatlay { aspect-ratio: 4/5; }
+  }
+
+  /* ============================================================
+     SEKCJA 3 — CRAFT / HOW IT WORKS
+     ============================================================ */
+  .craft {
+    padding: 180px 0;
+    background: var(--white-2);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .craft-head {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 60px;
+    margin-bottom: 120px;
+  }
+  .craft-head h2 { max-width: 18ch; }
+  .craft-head p {
+    font-size: 1.04rem;
+    line-height: 1.75;
+    max-width: 48ch;
+    margin-top: 14px;
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+  .step {
+    padding: 48px 36px 56px 0;
+    border-right: 1px solid var(--line);
+    position: relative;
+  }
+  .step:last-child { border-right: none; padding-right: 0; }
+  .step:not(:last-child) { padding-right: 40px; }
+  .step:nth-child(n+2) { padding-left: 40px; }
+
+  .step-num {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    font-size: 0.78rem;
+    letter-spacing: 0.22em;
+    color: var(--graphite-2);
+    margin-bottom: 28px;
+  }
+  .step-illus {
+    width: 72px; height: 72px;
+    margin-bottom: 36px;
+  }
+  .step-illus svg { width: 100%; height: 100%; }
+  .step-illus svg .st-line {
+    fill: none; stroke: var(--graphite); stroke-width: 1;
+    stroke-linecap: round; stroke-linejoin: round;
+  }
+  .step-illus svg .st-fill { fill: var(--sage); }
+  .step-illus svg .st-honey { fill: var(--honey); }
+
+  .step h3 {
+    font-weight: 400;
+    font-size: 1.25rem;
+    letter-spacing: -0.01em;
+    margin-bottom: 16px;
+    color: var(--graphite);
+  }
+  .step p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    max-width: 34ch;
+  }
+
+  @media (max-width: 900px) {
+    .craft { padding: 120px 0; }
+    .craft-head { grid-template-columns: 1fr; gap: 28px; margin-bottom: 72px; }
+    .steps { grid-template-columns: 1fr; }
+    .step {
+      border-right: none;
+      border-bottom: 1px solid var(--line);
+      padding: 48px 0 !important;
+    }
+    .step:last-child { border-bottom: none; }
+  }
+
+  /* ============================================================
+     SEKCJA 4 — TESTIMONIALS (cicha horyzontalna linia)
+     ============================================================ */
+  .testimonials {
+    padding: 180px 0 160px;
+    background: var(--white);
+  }
+  .testimonials-head {
+    display: flex; justify-content: space-between; align-items: end;
+    margin-bottom: 96px;
+    gap: 40px;
+  }
+  .testimonials-head h2 { max-width: 16ch; }
+  .testimonials-head p {
+    max-width: 32ch;
+    font-size: 0.95rem;
+  }
+
+  .t-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+  .t-item {
+    padding: 56px 40px 48px 0;
+    border-right: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  .t-item:last-child { border-right: none; padding-right: 0; }
+  .t-item:not(:first-child) { padding-left: 40px; }
+
+  .t-quote {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--graphite);
+    letter-spacing: -0.005em;
+  }
+  .t-quote em {
+    font-style: normal;
+    background: linear-gradient(180deg, transparent 62%, var(--sage) 62%, var(--sage) 88%, transparent 88%);
+    padding: 0 2px;
+  }
+
+  .t-author {
+    margin-top: auto;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    display: flex; align-items: center; gap: 14px;
+  }
+  .t-avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid var(--line);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: var(--graphite);
+  }
+  .t-avatar.c1 { background: var(--mist); }
+  .t-avatar.c2 { background: var(--sage); }
+  .t-avatar.c3 { background: var(--honey); }
+  .t-author .t-name {
+    font-size: 0.86rem;
+    color: var(--graphite);
+    font-weight: 400;
+  }
+  .t-author .t-role {
+    display: block;
+    font-size: 0.74rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--graphite-2);
+    margin-top: 2px;
+    font-weight: 400;
+  }
+
+  @media (max-width: 900px) {
+    .testimonials { padding: 120px 0; }
+    .testimonials-head { flex-direction: column; align-items: start; margin-bottom: 56px; }
+    .t-row { grid-template-columns: 1fr; }
+    .t-item {
+      border-right: none;
+      border-bottom: 1px solid var(--line);
+      padding: 48px 0 !important;
+    }
+    .t-item:last-child { border-bottom: none; }
+  }
+
+  /* ============================================================
+     SEKCJA 5 — FINAL CTA
+     ============================================================ */
+  .final {
+    padding: 200px 0 200px;
+    background: var(--white);
+    border-top: 1px solid var(--line);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .final::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 480px; height: 480px;
+    background: radial-gradient(circle, rgba(232,200,148,0.12) 0%, rgba(232,200,148,0) 60%);
+    transform: translate(-50%,-50%);
+    pointer-events: none;
+  }
+  .final .num { margin-bottom: 44px; }
+  .final-line {
+    font-family: 'Recoleta', 'DM Sans', serif;
+    font-weight: 300;
+    font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+    line-height: 1.25;
+    color: var(--graphite);
+    letter-spacing: -0.018em;
+    max-width: 22ch;
+    margin: 0 auto 56px;
+    position: relative;
+    z-index: 2;
+  }
+  .final-line .soft {
+    background: linear-gradient(180deg, transparent 60%, var(--honey) 60%, var(--honey) 86%, transparent 86%);
+    padding: 0 4px;
+    opacity: 0.9;
+  }
+  .final small {
+    display: block;
+    margin-top: 28px;
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--graphite-2);
+  }
+
+  /* ============================================================
+     FOOTER
+     ============================================================ */
+  footer.site-footer {
+    padding: 56px 40px 48px;
+    background: var(--white);
+    border-top: 1px solid var(--line);
+  }
+  .footer-inner {
+    max-width: 1240px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+  .footer-brand .logo { margin-bottom: 16px; }
+  .footer-brand p {
+    font-size: 0.82rem;
+    max-width: 32ch;
+    color: var(--graphite-2);
+  }
+  .footer-col h4 { margin-bottom: 16px; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col ul a {
+    font-size: 0.86rem;
+    color: var(--graphite);
+    transition: color .3s ease;
+  }
+  .footer-col ul a:hover { color: var(--graphite-2); }
+
+  .footer-bottom {
+    max-width: 1240px; margin: 48px auto 0;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 0.76rem;
+    color: var(--graphite-2);
+    letter-spacing: 0.04em;
+  }
+
+  @media (max-width: 900px) {
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+    .footer-brand { grid-column: 1 / -1; }
+  }
+
+  /* ============================================================
+     REDUCED MOTION
+     ============================================================ */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAV
+     ============================================================ -->
+<nav class="site">
+  <div class="nav-inner">
+    <div class="logo">
+      <span class="logo-mark" aria-hidden="true"></span>
+      <span>Liewa & Syn</span>
+    </div>
+    <div class="nav-links">
+      <a href="#book">Książka</a>
+      <a href="#process">Proces</a>
+      <a href="#voices">Opinie</a>
+      <a href="#start">Zamów</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================================
+     1. HERO
+     ============================================================ -->
+<section class="hero">
+  <div class="hero-text">
+    <span class="hero-kicker">Książka na pamiątkę / od 2023</span>
+    <h1>
+      Książka, w której <span class="accent">Twoje dziecko</span> jest bohaterem każdej strony.
+    </h1>
+    <p class="hero-lede">
+      Spokojna, klasyczna bajka. Twarda oprawa, papier z recyklingu, ilustracje rysowane z uwagą.
+      Imię dziecka na okładce. Jego twarz pomiędzy wierszami.
+    </p>
+    <a href="#start" class="cta">
+      Zamów książkę
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        <path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+
+    <div class="hero-meta">
+      <div>
+        Format
+        <strong>Twarda oprawa / PDF</strong>
+      </div>
+      <div>
+        Stron
+        <strong>32 pełnokolorowe</strong>
+      </div>
+      <div>
+        Czas
+        <strong>Wysyłka w 7 dni</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-visual" aria-hidden="true">
+    <div class="landscape">
+      <!-- Spokojny, geometryczny pejzaż: kopce, słońce, horyzont -->
+      <svg viewBox="0 0 520 650" preserveAspectRatio="xMidYMid slice">
+        <!-- słońce -->
+        <circle cx="380" cy="150" r="56" fill="#E8C894" opacity="0.55"/>
+        <!-- wzgórze tylne -->
+        <path d="M-20 500 Q 160 380 260 440 T 560 430 L 560 660 L -20 660 Z" fill="#C4D1C0" opacity="0.45"/>
+        <!-- wzgórze przednie -->
+        <path d="M-20 560 Q 100 500 220 540 T 560 530 L 560 660 L -20 660 Z" fill="#E8DDD5" opacity="0.7"/>
+        <!-- horyzont — cienka kreska -->
+        <line x1="0" y1="500" x2="520" y2="500" stroke="#D9D2CA" stroke-width="1"/>
+      </svg>
+    </div>
+
+    <div class="book-mockup">
+      <div>
+        <div class="small">Wydanie pierwsze</div>
+      </div>
+
+      <svg class="glyph" viewBox="0 0 44 44" aria-hidden="true">
+        <circle cx="22" cy="22" r="8"/>
+        <circle cx="22" cy="22" r="18" fill="none" stroke="#2C2826" stroke-width="1"/>
+      </svg>
+
+      <div>
+        <div class="title">Dom, w którym<br/>rosną opowieści</div>
+        <div class="name" style="margin-top: 14px;">dla Zosi</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     2. TACTILE PREVIEW
+     ============================================================ -->
+<section class="tactile" id="book">
+  <div class="wrap">
+    <div class="tactile-grid">
+      <div class="tactile-head">
+        <span class="num">01 &nbsp;/&nbsp; Przedmiot</span>
+        <h2>Książka, która zostaje na półce.</h2>
+        <p>
+          Zaprojektowana tak, by wytrzymała lata czytania przed snem — i jeszcze więcej powrotów do niej, kiedy dziecko dorośnie.
+        </p>
+        <p>
+          Prosty papier, oszczędna typografia, twarde okładki szyte nicią. Bez folii, bez plastiku.
+        </p>
+
+        <ul class="spec-list">
+          <li>
+            <span>Format</span>
+            <span>21 &times; 26 cm, pionowy</span>
+          </li>
+          <li>
+            <span>Papier</span>
+            <span>Munken Pure, 150 g, certyfikat FSC</span>
+          </li>
+          <li>
+            <span>Oprawa</span>
+            <span>Twarda, szyta, płótno introligatorskie</span>
+          </li>
+          <li>
+            <span>Druk</span>
+            <span>Offset, farby roślinne</span>
+          </li>
+          <li>
+            <span>Wersje</span>
+            <span>Egzemplarz fizyczny & plik PDF</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="book-flatlay" aria-hidden="true">
+        <span class="hair h1"></span>
+        <span class="hair h2"></span>
+        <span class="hair v1"></span>
+        <span class="hair v2"></span>
+        <span class="corner tl">Fig. 01</span>
+        <span class="corner br">okładka & grzbiet</span>
+
+        <div class="cover">
+          <div class="top-mark">Liewa & Syn</div>
+
+          <svg class="cover-shape" viewBox="0 0 40 40">
+            <circle cx="20" cy="20" r="8" fill="#E8C894"/>
+            <circle cx="20" cy="20" r="16" fill="none" stroke="#2C2826" stroke-width="1"/>
+          </svg>
+
+          <div>
+            <div class="cover-title">Dom,<br/>w którym rosną<br/>opowieści</div>
+            <div class="cover-name" style="margin-top: 18px;">dla Antka</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     3. CRAFT / HOW IT WORKS
+     ============================================================ -->
+<section class="craft" id="process">
+  <div class="wrap">
+    <div class="craft-head">
+      <div>
+        <span class="num">02 &nbsp;/&nbsp; Proces</span>
+        <h2>Trzy kroki, jeden bohater.</h2>
+      </div>
+      <p>
+        Każda ilustracja zaczyna się od jednej fotografii. Nasza technologia uczy się rysów twarzy,
+        a na końcu ilustrator siada i doprowadza książkę do porządku — tak, by nie czuć w niej maszyny.
+      </p>
+    </div>
+
+    <div class="steps">
+      <!-- KROK 1 -->
+      <div class="step">
+        <div class="step-num">Krok 01</div>
+        <div class="step-illus">
+          <svg viewBox="0 0 72 72" aria-hidden="true">
+            <rect x="10" y="16" width="52" height="40" rx="2" class="st-line"/>
+            <circle cx="36" cy="34" r="8" class="st-fill"/>
+            <circle cx="36" cy="34" r="8" class="st-line"/>
+            <circle cx="54" cy="24" r="1.4" class="st-line" fill="#2C2826"/>
+          </svg>
+        </div>
+        <h3>Jedno zdjęcie.</h3>
+        <p>
+          Wysyłasz pojedynczą, wyraźną fotografię dziecka. Żadnych sesji, żadnych filtrów.
+          Najlepsze są te codzienne, domowe kadry.
+        </p>
+      </div>
+
+      <!-- KROK 2 -->
+      <div class="step">
+        <div class="step-num">Krok 02</div>
+        <div class="step-illus">
+          <svg viewBox="0 0 72 72" aria-hidden="true">
+            <circle cx="32" cy="32" r="18" class="st-line"/>
+            <path d="M46 46 L 60 60" class="st-line"/>
+            <circle cx="32" cy="32" r="6" class="st-honey"/>
+            <circle cx="32" cy="32" r="6" class="st-line"/>
+          </svg>
+        </div>
+        <h3>Uczymy się rysów.</h3>
+        <p>
+          Technologia uważnie przenosi linię oczu, kształt nosa, ten jeden uśmiech.
+          Buduje spójnego bohatera — takiego samego na każdej z trzydziestu dwóch stron.
+        </p>
+      </div>
+
+      <!-- KROK 3 -->
+      <div class="step">
+        <div class="step-num">Krok 03</div>
+        <div class="step-illus">
+          <svg viewBox="0 0 72 72" aria-hidden="true">
+            <path d="M14 58 L 50 22" class="st-line"/>
+            <path d="M46 18 L 58 6 L 66 14 L 54 26 Z" class="st-fill"/>
+            <path d="M46 18 L 58 6 L 66 14 L 54 26 Z" class="st-line"/>
+            <path d="M12 60 Q 8 66 14 68" class="st-line"/>
+          </svg>
+        </div>
+        <h3>Ilustrator kończy.</h3>
+        <p>
+          Każda strona przechodzi przez ręce człowieka. Drobne poprawki, dobór kolorów,
+          sprawdzenie proporcji — zanim książka trafi do druku.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     4. TESTIMONIALS
+     ============================================================ -->
+<section class="testimonials" id="voices">
+  <div class="wrap">
+    <div class="testimonials-head">
+      <div>
+        <span class="num">03 &nbsp;/&nbsp; Głosy</span>
+        <h2>Kilka rodzin, które zaczęły czytać.</h2>
+      </div>
+      <p>Krótkie notatki, które otrzymaliśmy w ostatnich miesiącach — publikowane za zgodą autorów.</p>
+    </div>
+
+    <div class="t-row">
+      <article class="t-item">
+        <p class="t-quote">
+          Zosia nauczyła się literować własne imię, czytając <em>swoją</em> książkę.
+          Co wieczór ta sama, ale za każdym razem inaczej.
+        </p>
+        <div class="t-author">
+          <div class="t-avatar c1" aria-hidden="true">AK</div>
+          <div>
+            <span class="t-name">Anna Kowalczyk</span>
+            <span class="t-role">Mama Zosi, 4 lata</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="t-item">
+        <p class="t-quote">
+          Spodziewałem się, że AI będzie widać od razu. Nie widać.
+          Widzę <em>swojego syna</em> — jego grzywkę, ten znak przy uchu.
+        </p>
+        <div class="t-author">
+          <div class="t-avatar c2" aria-hidden="true">MN</div>
+          <div>
+            <span class="t-name">Michał Nowak</span>
+            <span class="t-role">Tata Stasia, 5 lat</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="t-item">
+        <p class="t-quote">
+          Prezent dla wnuczki, który zatrzyma na lata. Helenka gładzi palcem swoje imię na okładce
+          i <em>prosi o jeszcze jeden raz</em>.
+        </p>
+        <div class="t-author">
+          <div class="t-avatar c3" aria-hidden="true">BW</div>
+          <div>
+            <span class="t-name">Barbara Wójcik</span>
+            <span class="t-role">Babcia Helenki, 3 lata</span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     5. FINAL CTA
+     ============================================================ -->
+<section class="final" id="start">
+  <div class="wrap">
+    <span class="num">04 &nbsp;/&nbsp; Początek</span>
+    <p class="final-line">
+      Pamiątka na lata powstaje z&nbsp;jednego <span class="soft">zdjęcia i&nbsp;imienia</span>.
+    </p>
+    <a href="#" class="cta">
+      Rozpocznij zamówienie
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        <path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+    <small>Wysyłka w 7 dni &nbsp;·&nbsp; Darmowy zwrot w 30 dni</small>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo">
+        <span class="logo-mark" aria-hidden="true"></span>
+        <span>Liewa & Syn</span>
+      </div>
+      <p>Spokojne książki dla dzieci. Robione ręcznie, drukowane w Polsce, wysyłane bez plastiku.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Produkt</h4>
+      <ul>
+        <li><a href="#book">Książka</a></li>
+        <li><a href="#process">Proces</a></li>
+        <li><a href="#start">Zamów</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Pomoc</h4>
+      <ul>
+        <li><a href="#">Kontakt</a></li>
+        <li><a href="#">Pytania</a></li>
+        <li><a href="#">Wysyłka & zwroty</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Marka</h4>
+      <ul>
+        <li><a href="#">O nas</a></li>
+        <li><a href="#">Studio</a></li>
+        <li><a href="#">Prasa</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>&copy; 2026 Liewa & Syn. Wszystkie prawa zastrzeżone.</div>
+    <div>Regulamin &nbsp;·&nbsp; Prywatność &nbsp;·&nbsp; Cookies</div>
+  </div>
+</footer>
+
+</body>
+</html>

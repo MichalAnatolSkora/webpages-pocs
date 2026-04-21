@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Księga Zaklęć · Personalizowana bajka, w której bohaterem jest Twoje dziecko</title>
+<meta name="description" content="Dawno, dawno temu była sobie książka, w której Twoje dziecko zostaje głównym bohaterem. Wypowiedz imię, pokaż twarz, obudź magię.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Caveat:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Baśniowa paleta: głęboki granat + fiolet + szmaragd + złoto + neon magenta */
+    --midnight:     #0A0822;   /* północna głębia */
+    --nebula:       #140A33;   /* fioletowa mgła */
+    --deep-violet:  #1E0B3B;
+    --emerald:      #0F3A36;   /* mech zaczarowanego lasu */
+    --gold:         #E8C27A;   /* stare złoto z księgi */
+    --gold-bright:  #F5D98F;
+    --neon:         #E879F9;   /* magiczny neon (zaklęcie) */
+    --neon-soft:    #F0ABFC;
+    --cream:        #F5E6D3;   /* pergamin */
+    --cream-muted:  rgba(245, 230, 211, 0.65);
+    --cream-dim:    rgba(245, 230, 211, 0.4);
+    --line:         rgba(232, 194, 122, 0.18);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'EB Garamond', Georgia, serif;
+    background: var(--midnight);
+    color: var(--cream);
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, .display {
+    font-family: 'Cinzel', Georgia, serif;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    line-height: 1.15;
+    color: var(--cream);
+  }
+  h1 { font-size: clamp(2.8rem, 6.5vw, 5.4rem); font-weight: 500; letter-spacing: 0.04em; }
+  h2 { font-size: clamp(2rem, 4.5vw, 3.6rem); }
+  h3 { font-size: clamp(1.1rem, 1.6vw, 1.4rem); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
+  em, .italic { font-style: italic; font-family: 'EB Garamond', serif; font-weight: 400; color: var(--gold-bright); }
+
+  p { color: var(--cream-muted); max-width: 60ch; }
+  a { color: inherit; text-decoration: none; }
+
+  .wrap { max-width: 1380px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 3; }
+  .narrow { max-width: 820px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 3; }
+
+  /* ---------- MAGICZNY KURZ — unoszące się cząsteczki na całej stronie ---------- */
+  .dust {
+    position: fixed; inset: 0;
+    pointer-events: none;
+    z-index: 2;
+    overflow: hidden;
+  }
+  .dust span {
+    position: absolute;
+    width: 2px; height: 2px;
+    background: var(--gold-bright);
+    border-radius: 50%;
+    box-shadow: 0 0 6px 1px rgba(245, 217, 143, 0.8);
+    opacity: 0;
+    animation: rise 14s linear infinite;
+  }
+  @keyframes rise {
+    0%   { transform: translate(0, 110vh) scale(0.6); opacity: 0; }
+    10%  { opacity: 0.9; }
+    90%  { opacity: 0.7; }
+    100% { transform: translate(40px, -10vh) scale(1.1); opacity: 0; }
+  }
+
+  /* ---------- CTA — Świetliste Zaklęcie ---------- */
+  .cta {
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 18px 36px;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-bright) 50%, var(--gold) 100%);
+    color: #2A1A05;
+    border: none;
+    border-radius: 999px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    box-shadow:
+      0 0 0 1px rgba(232, 194, 122, 0.4),
+      0 10px 40px -10px rgba(232, 194, 122, 0.45),
+      0 0 60px -20px rgba(232, 179, 90, 0.6);
+  }
+  .cta:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 0 0 1px var(--gold-bright),
+      0 20px 60px -10px rgba(232, 194, 122, 0.6),
+      0 0 100px -10px rgba(232, 179, 90, 0.7);
+  }
+  .cta .star {
+    width: 12px; height: 12px;
+    fill: #2A1A05;
+    animation: twinkle 3s ease-in-out infinite;
+  }
+  @keyframes twinkle {
+    0%, 100% { transform: rotate(0) scale(1); opacity: 1; }
+    50%      { transform: rotate(180deg) scale(1.2); opacity: 0.75; }
+  }
+
+  .cta-ghost {
+    display: inline-flex; align-items: center; gap: 10px;
+    color: var(--cream);
+    font-family: 'Cinzel', serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(232, 194, 122, 0.3);
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .cta-ghost:hover { color: var(--gold-bright); border-color: var(--gold-bright); }
+
+  /* ---------- NAWIGACJA ---------- */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 22px 32px;
+    display: flex; justify-content: space-between; align-items: center;
+    backdrop-filter: blur(8px);
+    background: linear-gradient(180deg, rgba(10, 8, 34, 0.5), transparent);
+  }
+  .logo {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--cream);
+  }
+  .logo .amp { color: var(--gold-bright); margin: 0 6px; }
+  .nav-cta {
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold-bright);
+    padding: 10px 22px;
+    border: 1px solid rgba(232, 194, 122, 0.3);
+    border-radius: 999px;
+    transition: all 0.3s;
+  }
+  .nav-cta:hover {
+    border-color: var(--gold-bright);
+    background: rgba(232, 194, 122, 0.08);
+    box-shadow: 0 0 24px -6px rgba(232, 194, 122, 0.4);
+  }
+
+  /* ============================================================
+     1. MAGICZNA BRAMA — HERO Z ZAPĘTLONYM WIDEO
+     ============================================================
+     [Dla grafika / montażysty:
+      Wideo — POWOLNA wędrówka przez mglisty, zaczarowany las o zmierzchu.
+      Mgła kłębi się między drzewami, a wśród konarów unoszą się cieplutkie,
+      złote iskry (jakby żywe świetliki). Kolorystyka: głęboki granat/fiolet
+      drzew z akcentami szmaragdu i ciepłych, złotych punktów.
+      W pierwszej sekundzie zza drzewa wyłania się delikatny, magiczny blask
+      (jakby odbicie od otwartej księgi). Długość 10–20 s, loop seamless,
+      24–30 fps, muted, autoplay, playsinline. Format horyzontalny 16:9+.
+      Aktualne źródło: Pexels "Colorful Bokeh Light Patterns at Night"
+      (33685874) — zastępnik kinematograficzny.] */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .hero-video {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    filter: saturate(1.1) contrast(1.05) brightness(0.75);
+  }
+  /* Winieta + kolorystyczny tint — budują baśniową głębię nad wideo */
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0; z-index: 1;
+    background:
+      radial-gradient(ellipse at center, transparent 0%, rgba(10, 8, 34, 0.7) 90%),
+      linear-gradient(180deg, rgba(10,8,34,0.4) 0%, rgba(20,10,51,0.2) 40%, rgba(10,8,34,0.85) 100%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; inset: 0; z-index: 1;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(232, 194, 122, 0.15), transparent 45%),
+      radial-gradient(circle at 75% 70%, rgba(232, 121, 249, 0.1), transparent 50%);
+    mix-blend-mode: screen;
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 3;
+    max-width: 1100px;
+    padding: 0 32px;
+  }
+  .hero-intro {
+    display: inline-flex; align-items: center; gap: 16px;
+    margin-bottom: 40px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold-bright);
+  }
+  .hero-intro::before,
+  .hero-intro::after {
+    content: '';
+    width: 40px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-bright), transparent);
+  }
+  .hero h1 {
+    margin-bottom: 28px;
+    text-shadow: 0 4px 40px rgba(0,0,0,0.7);
+  }
+  .hero h1 em { color: var(--gold-bright); }
+  .hero-sub {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.1rem, 1.8vw, 1.45rem);
+    color: var(--cream-muted);
+    max-width: 52ch;
+    margin: 0 auto 56px;
+    line-height: 1.5;
+  }
+  .hero-actions {
+    display: flex; gap: 28px; justify-content: center; align-items: center;
+    flex-wrap: wrap;
+  }
+
+  /* "ozdoba" nad i pod nagłówkiem */
+  .ornament {
+    display: block;
+    margin: 0 auto 36px;
+    width: 120px; height: 18px;
+    opacity: 0.75;
+  }
+  .ornament svg { width: 100%; height: 100%; }
+  .ornament path, .ornament circle { fill: none; stroke: var(--gold-bright); stroke-width: 1; stroke-linecap: round; }
+
+  .scroll-whisper {
+    position: absolute;
+    bottom: 40px; left: 50%; transform: translateX(-50%);
+    z-index: 3;
+    display: flex; flex-direction: column; align-items: center; gap: 14px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+  }
+  .scroll-whisper .line {
+    width: 1px; height: 50px;
+    background: linear-gradient(180deg, var(--gold-bright), transparent);
+    animation: flow 2.6s ease-in-out infinite;
+  }
+  @keyframes flow {
+    0%, 100% { transform: scaleY(1); opacity: 0.5; }
+    50%      { transform: scaleY(1.4); opacity: 1; }
+  }
+
+  /* ============================================================
+     2. KSIĘGA ZAKLĘĆ — SHOPPABLE VIDEO Z 3 MAGICZNYMI KROKAMI
+     ============================================================
+     [Dla grafika / montażysty:
+      WIDEO (15 sekund, loop, muted, playsinline):
+      Close-up na stary, skórzany tom z mosiężnymi okuciami. Strona otwiera
+      się sama, a z papieru WYRASTA smuga złotego światła. W tym świetle
+      zaczyna się krystalizować twarz dziecka — najpierw jako fotografia,
+      potem jako akwarelowa ilustracja. Światło znika, strona wypełnia się
+      tekstem i kolorem. Akcenty: powolne obracanie strony, unoszący się
+      złoty pył, delikatny glow wokół imienia wypisanego piórem.
+      Aktualne źródło: Pexels "Cozy Vintage Book Flipping" (35828975).] */
+  .spellbook {
+    padding: 160px 0;
+    background:
+      radial-gradient(ellipse at 50% 0%, var(--deep-violet) 0%, transparent 70%),
+      var(--midnight);
+    position: relative;
+  }
+
+  .section-label {
+    text-align: center;
+    display: block;
+    margin-bottom: 28px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.74rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold-bright);
+  }
+  .section-label::before,
+  .section-label::after {
+    content: '✦';
+    margin: 0 14px;
+    color: var(--gold-bright);
+    opacity: 0.7;
+  }
+
+  .spellbook-head {
+    text-align: center;
+    margin-bottom: 90px;
+  }
+  .spellbook-head h2 {
+    max-width: 24ch;
+    margin: 0 auto 20px;
+  }
+  .spellbook-head p {
+    margin: 0 auto;
+    font-style: italic;
+    font-size: 1.1rem;
+  }
+
+  .spellbook-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 100px;
+    align-items: center;
+  }
+
+  /* Ramka wideo w stylu iluminowanej karty księgi */
+  .spellbook-frame {
+    position: relative;
+    aspect-ratio: 16/10;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow:
+      0 0 0 1px rgba(232, 194, 122, 0.45),
+      0 0 0 8px rgba(10, 8, 34, 0.9),
+      0 0 0 9px rgba(232, 194, 122, 0.3),
+      0 40px 100px -30px rgba(0, 0, 0, 0.8),
+      0 0 120px -20px rgba(232, 121, 249, 0.25);
+  }
+  .spellbook-frame::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, rgba(10,8,34,0.3) 0%, transparent 30%, transparent 70%, rgba(10,8,34,0.55) 100%);
+    z-index: 2;
+    pointer-events: none;
+  }
+  .spellbook-frame video {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: saturate(1.1) brightness(0.92);
+  }
+  .spell-badge {
+    position: absolute;
+    top: 20px; left: 20px;
+    z-index: 3;
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 14px 8px 12px;
+    background: rgba(10, 8, 34, 0.8);
+    border: 1px solid rgba(232, 194, 122, 0.35);
+    border-radius: 999px;
+    backdrop-filter: blur(8px);
+    font-family: 'Cinzel', serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold-bright);
+  }
+  .spell-badge .rune {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--neon);
+    box-shadow: 0 0 8px var(--neon);
+    animation: pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50%      { transform: scale(1.5); opacity: 0.5; }
+  }
+  .spell-timer {
+    position: absolute;
+    top: 20px; right: 20px;
+    z-index: 3;
+    padding: 6px 12px;
+    background: rgba(10,8,34,0.8);
+    border: 1px solid rgba(232, 194, 122, 0.3);
+    border-radius: 4px;
+    font-family: 'Cinzel', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--cream);
+    backdrop-filter: blur(8px);
+  }
+
+  .spells {
+    display: flex; flex-direction: column; gap: 32px;
+  }
+  .spell {
+    display: flex; align-items: flex-start; gap: 24px;
+    padding: 24px 28px;
+    border-radius: 16px;
+    border: 1px solid var(--line);
+    background: linear-gradient(135deg, rgba(30, 11, 59, 0.4), rgba(10, 8, 34, 0.2));
+    position: relative;
+    transition: border-color 0.4s, box-shadow 0.4s, transform 0.4s;
+  }
+  .spell:hover {
+    border-color: rgba(232, 194, 122, 0.5);
+    box-shadow: 0 0 60px -20px rgba(232, 194, 122, 0.35);
+    transform: translateX(6px);
+  }
+  .spell-num {
+    flex-shrink: 0;
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(232, 194, 122, 0.25), transparent 70%);
+    border: 1px solid rgba(232, 194, 122, 0.45);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--gold-bright);
+  }
+  .spell-body { flex: 1; }
+  .spell-body h3 {
+    color: var(--cream);
+    margin-bottom: 8px;
+    letter-spacing: 0.06em;
+    font-size: 0.92rem;
+  }
+  .spell-body p {
+    font-size: 0.98rem;
+    color: var(--cream-muted);
+    max-width: 36ch;
+    font-style: italic;
+  }
+
+  .spellbook-cta { margin-top: 44px; }
+
+  @media (max-width: 960px) {
+    .spellbook-grid { grid-template-columns: 1fr; gap: 60px; }
+  }
+
+  /* ============================================================
+     3. KOMNATA SZEPTÓW — WIDEO DOWÓD SPOŁECZNY (UGC)
+     ============================================================
+     [Dla grafika / montażysty:
+      Siatka krótkich (6–10 s) pionowych 9:16 wideo-recenzji od rodziców,
+      surowy UGC — telefon w dłoni, naturalne światło, zero post-produkcji.
+      Każde wideo zapętlone, muted w miniaturze; klik uruchamia dźwięk.
+      Styl miniatur: delikatnie przyciemnione, z wyróżnieniem bohatera
+      punktowym ciepłym światłem (vignette), żeby spójnie pasowały do
+      baśniowego klimatu reszty strony.
+      Zalecane ujęcia: dziecko widzące swoją twarz w książce, uśmiech mamy
+      przy kolacji, babcia wzruszona prezentem, ojciec czytający przed snem.
+      Aktualne źródło: różne Pexels — baśniowe miniatury zastępcze.] */
+  .whispers {
+    padding: 160px 0;
+    background:
+      radial-gradient(ellipse at 0% 50%, rgba(15, 58, 54, 0.35), transparent 60%),
+      radial-gradient(ellipse at 100% 50%, rgba(30, 11, 59, 0.5), transparent 60%),
+      var(--midnight);
+    position: relative;
+  }
+  .whispers-head {
+    text-align: center;
+    margin-bottom: 90px;
+    max-width: 820px;
+    margin-left: auto; margin-right: auto;
+    padding: 0 32px;
+  }
+  .whispers-head h2 { margin-bottom: 24px; }
+  .whispers-head h2 em { color: var(--neon-soft); }
+  .whispers-head p {
+    font-style: italic;
+    margin: 0 auto;
+    font-size: 1.1rem;
+  }
+
+  .tales-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    padding: 0 32px;
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+  .tale {
+    position: relative;
+    aspect-ratio: 9/16;
+    border-radius: 18px;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--deep-violet);
+    box-shadow: 0 10px 40px -12px rgba(0, 0, 0, 0.6);
+    transition: transform 0.5s cubic-bezier(.2,.7,.2,1), box-shadow 0.5s;
+  }
+  .tale:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow:
+      0 20px 60px -10px rgba(232, 121, 249, 0.4),
+      0 0 0 1px rgba(232, 194, 122, 0.35);
+  }
+  .tale video {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: saturate(1.1) brightness(0.85);
+  }
+  .tale::after {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, transparent 40%, rgba(10, 8, 34, 0.85) 100%),
+      radial-gradient(ellipse at 50% 30%, transparent 30%, rgba(10, 8, 34, 0.4) 90%);
+    pointer-events: none;
+  }
+  .tale-meta {
+    position: absolute;
+    bottom: 20px; left: 20px; right: 20px;
+    z-index: 2;
+    display: flex; justify-content: space-between; align-items: flex-end;
+  }
+  .tale-author {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--cream);
+    line-height: 1.2;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+  }
+  .tale-author small {
+    display: block;
+    font-family: 'Cinzel', serif;
+    font-style: normal;
+    font-size: 0.62rem;
+    letter-spacing: 0.25em;
+    color: var(--gold-bright);
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+  .tale-play {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: rgba(245, 230, 211, 0.12);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(232, 194, 122, 0.45);
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s;
+  }
+  .tale:hover .tale-play {
+    background: var(--gold-bright);
+    border-color: var(--gold-bright);
+    box-shadow: 0 0 24px rgba(232, 194, 122, 0.6);
+  }
+  .tale-play svg { width: 11px; height: 11px; fill: var(--cream); }
+  .tale:hover .tale-play svg { fill: #2A1A05; }
+
+  .tale-duration {
+    position: absolute;
+    top: 14px; right: 14px;
+    z-index: 2;
+    font-family: 'Cinzel', monospace;
+    font-size: 0.64rem;
+    letter-spacing: 0.2em;
+    padding: 5px 10px;
+    background: rgba(10,8,34,0.75);
+    border: 1px solid rgba(232, 194, 122, 0.25);
+    border-radius: 4px;
+    color: var(--cream);
+    backdrop-filter: blur(6px);
+  }
+
+  @media (max-width: 1100px) { .tales-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 720px)  { .tales-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+
+  /* ============================================================
+     4. ZWOJE WIEDZY — FAQ W FORMIE ROZWIJANYCH ZWOJÓW
+     ============================================================
+     [Dla grafika: każde pytanie to "zwój pergaminowy" — po kliknięciu
+      rozwija się w dół, ujawniając odpowiedź. Delikatny szelest przy
+      otwieraniu (opcjonalnie), złota pieczęć jako ikona po lewej.] */
+  .scrolls {
+    padding: 140px 0 60px;
+    background: var(--midnight);
+    position: relative;
+  }
+  .scrolls-head {
+    text-align: center;
+    margin-bottom: 72px;
+  }
+  .scrolls-head h2 {
+    max-width: 20ch;
+    margin: 0 auto;
+  }
+  .scrolls-list {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .scroll {
+    border-top: 1px solid var(--line);
+    padding: 0;
+    transition: background 0.4s;
+  }
+  .scroll:last-child { border-bottom: 1px solid var(--line); }
+  .scroll[open] { background: rgba(30, 11, 59, 0.25); }
+  .scroll summary {
+    display: flex; align-items: center; gap: 20px;
+    padding: 28px 20px;
+    cursor: pointer;
+    list-style: none;
+    transition: color 0.3s;
+  }
+  .scroll summary::-webkit-details-marker { display: none; }
+  .scroll-seal {
+    flex-shrink: 0;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    border: 1px solid rgba(232, 194, 122, 0.45);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gold-bright);
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    transition: all 0.4s;
+  }
+  .scroll[open] .scroll-seal {
+    background: var(--gold-bright);
+    color: var(--midnight);
+    box-shadow: 0 0 20px rgba(232, 194, 122, 0.5);
+    transform: rotate(45deg);
+  }
+  .scroll-q {
+    flex: 1;
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    color: var(--cream);
+  }
+  .scroll-toggle {
+    width: 16px; height: 16px;
+    color: var(--gold-bright);
+    transition: transform 0.4s;
+  }
+  .scroll[open] .scroll-toggle { transform: rotate(45deg); }
+  .scroll-a {
+    padding: 0 20px 32px 72px;
+    font-family: 'EB Garamond', serif;
+    font-size: 1.05rem;
+    font-style: italic;
+    color: var(--cream-muted);
+    max-width: 58ch;
+  }
+
+  /* ---------- FINAŁOWE, ŚWIETLISTE WEZWANIE ---------- */
+  .final {
+    padding: 120px 0 180px;
+    text-align: center;
+    background: var(--midnight);
+    position: relative;
+    overflow: hidden;
+  }
+  .final::before {
+    content: '';
+    position: absolute;
+    top: -100px; left: 50%; transform: translateX(-50%);
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, rgba(232, 194, 122, 0.22) 0%, rgba(232, 121, 249, 0.08) 40%, transparent 70%);
+    filter: blur(60px);
+    pointer-events: none;
+    animation: glowPulse 8s ease-in-out infinite;
+  }
+  @keyframes glowPulse {
+    0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.8; }
+    50%      { transform: translateX(-50%) scale(1.15); opacity: 1; }
+  }
+  .final-inner {
+    position: relative;
+    z-index: 3;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .final h2 {
+    margin-bottom: 32px;
+  }
+  .final h2 em { color: var(--gold-bright); }
+  .final-sub {
+    font-style: italic;
+    font-size: 1.15rem;
+    margin: 0 auto 56px;
+    color: var(--cream-muted);
+  }
+  .final .cta {
+    padding: 22px 48px;
+    font-size: 0.95rem;
+    animation: float 5s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-6px); }
+  }
+  .final-whisper {
+    display: block;
+    margin-top: 32px;
+    font-family: 'Caveat', cursive;
+    font-size: 1.15rem;
+    color: var(--gold-bright);
+    opacity: 0.8;
+  }
+
+  /* ---------- STOPKA ---------- */
+  footer.site-footer {
+    padding: 40px 32px 56px;
+    border-top: 1px solid var(--line);
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+    background: var(--midnight);
+    position: relative;
+    z-index: 3;
+  }
+  .footer-inner {
+    max-width: 1380px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 20px;
+  }
+  .footer-inner a { transition: color 0.3s; }
+  .footer-inner a:hover { color: var(--gold-bright); }
+  .footer-inner span { margin: 0 8px; color: var(--gold-bright); opacity: 0.5; }
+
+  /* szanujemy preferencje ruchu */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- magiczny pył — unoszące się cząsteczki na całej stronie -->
+<div class="dust" aria-hidden="true">
+  <span style="left:4%;  animation-delay: 0s;    animation-duration: 16s;"></span>
+  <span style="left:12%; animation-delay: 3s;    animation-duration: 13s;"></span>
+  <span style="left:22%; animation-delay: 7s;    animation-duration: 18s;"></span>
+  <span style="left:34%; animation-delay: 1.5s;  animation-duration: 14s;"></span>
+  <span style="left:46%; animation-delay: 9s;    animation-duration: 20s;"></span>
+  <span style="left:58%; animation-delay: 4.5s;  animation-duration: 15s;"></span>
+  <span style="left:68%; animation-delay: 11s;   animation-duration: 17s;"></span>
+  <span style="left:78%; animation-delay: 6s;    animation-duration: 19s;"></span>
+  <span style="left:86%; animation-delay: 2s;    animation-duration: 14s;"></span>
+  <span style="left:94%; animation-delay: 8.5s;  animation-duration: 16s;"></span>
+</div>
+
+<nav>
+  <div class="logo">Księga <span class="amp">&</span> Iskra</div>
+  <a href="#start" class="nav-cta">Otwórz Księgę</a>
+</nav>
+
+<!-- ============================================================
+     1. MAGICZNA BRAMA — HERO
+     ============================================================ -->
+<section class="hero">
+  <video class="hero-video" autoplay muted loop playsinline preload="auto"
+         poster="https://images.pexels.com/videos/33685874/pexels-photo-33685874.jpeg">
+    <source src="https://videos.pexels.com/video-files/33685874/14309962_2560_1440_29fps.mp4" type="video/mp4">
+  </video>
+
+  <div class="hero-content">
+    <div class="hero-intro">Rozdział pierwszy</div>
+
+    <h1>Dawno, dawno temu<br>była sobie <em>bajka</em>,<br>w której bohaterem<br>zostało Twoje dziecko.</h1>
+
+    <span class="ornament" aria-hidden="true">
+      <svg viewBox="0 0 120 18">
+        <path d="M10 9 Q 35 2, 60 9 Q 85 16, 110 9"/>
+        <circle cx="60" cy="9" r="2"/>
+        <circle cx="10" cy="9" r="1"/>
+        <circle cx="110" cy="9" r="1"/>
+      </svg>
+    </span>
+
+    <p class="hero-sub">
+      Wypowiedz jego imię. Pokaż twarz. <em>Obudź magię</em> — a pergamin zamieni się w książkę, którą zachowa na całe życie.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#spellbook" class="cta">
+        <svg class="star" viewBox="0 0 12 12"><path d="M6 0 L7.4 4.2 L12 4.6 L8.4 7.4 L9.8 12 L6 9.2 L2.2 12 L3.6 7.4 L0 4.6 L4.6 4.2 Z"/></svg>
+        Otwórz Księgę
+      </a>
+      <a href="#spellbook" class="cta-ghost">Zobacz zaklęcie ↓</a>
+    </div>
+  </div>
+
+  <div class="scroll-whisper">
+    <span>przewiń w głąb lasu</span>
+    <span class="line"></span>
+  </div>
+</section>
+
+<!-- ============================================================
+     2. KSIĘGA ZAKLĘĆ — SHOPPABLE VIDEO + 3 KROKI
+     ============================================================ -->
+<section class="spellbook" id="spellbook">
+  <div class="wrap">
+    <div class="spellbook-head">
+      <span class="section-label">Księga Zaklęć</span>
+      <h2>Trzy ruchy. <em>Piętnaście sekund.</em></h2>
+      <p class="narrow">Tyle zajmuje przejście od zwykłej fotografii do pierwszej strony Twojej własnej bajki.</p>
+    </div>
+
+    <div class="spellbook-grid">
+      <div class="spellbook-frame">
+        <video autoplay muted loop playsinline preload="metadata"
+               poster="https://images.pexels.com/videos/35828975/pexels-photo-35828975.jpeg">
+          <source src="https://videos.pexels.com/video-files/35828975/15192293_1920_1080_60fps.mp4" type="video/mp4">
+        </video>
+        <div class="spell-badge">
+          <span class="rune"></span>
+          Zaklęcie w trakcie
+        </div>
+        <div class="spell-timer">00:15</div>
+      </div>
+
+      <div>
+        <div class="spells">
+          <div class="spell">
+            <div class="spell-num">I</div>
+            <div class="spell-body">
+              <h3>Wypowiedz imię</h3>
+              <p>Jedno słowo — to, które mówisz szeptem, gdy dziecko zasypia.</p>
+            </div>
+          </div>
+
+          <div class="spell">
+            <div class="spell-num">II</div>
+            <div class="spell-body">
+              <h3>Pokaż twarz</h3>
+              <p>Jedno zdjęcie. Takie, na którym naprawdę jest sobą — nie pozuje.</p>
+            </div>
+          </div>
+
+          <div class="spell">
+            <div class="spell-num">III</div>
+            <div class="spell-body">
+              <h3>Obudź magię</h3>
+              <p>Księga zapisze się sama. W kilka chwil — na Twoim ekranie i u Twoich drzwi.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="spellbook-cta">
+          <a href="#start" class="cta">
+            <svg class="star" viewBox="0 0 12 12"><path d="M6 0 L7.4 4.2 L12 4.6 L8.4 7.4 L9.8 12 L6 9.2 L2.2 12 L3.6 7.4 L0 4.6 L4.6 4.2 Z"/></svg>
+            Zacznij Czary
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     3. KOMNATA SZEPTÓW — WIDEO DOWÓD SPOŁECZNY
+     ============================================================ -->
+<section class="whispers" id="whispers">
+  <div class="whispers-head">
+    <span class="section-label">Komnata Szeptów</span>
+    <h2>Opowieści z <em>innych królestw</em>.</h2>
+    <p>Rodzice, którzy już obudzili magię — dzielą się tym, co zobaczyli w oczach swoich dzieci.</p>
+  </div>
+
+  <div class="tales-grid">
+    <div class="tale">
+      <video autoplay muted loop playsinline preload="metadata">
+        <source src="https://videos.pexels.com/video-files/5679006/5679006-uhd_1440_2732_30fps.mp4" type="video/mp4">
+      </video>
+      <div class="tale-duration">0:08</div>
+      <div class="tale-meta">
+        <div class="tale-author">Zosia<small>Królestwo Porannych Mgieł</small></div>
+        <div class="tale-play"><svg viewBox="0 0 12 12"><path d="M2 1 L10 6 L2 11 Z"/></svg></div>
+      </div>
+    </div>
+
+    <div class="tale">
+      <video autoplay muted loop playsinline preload="metadata">
+        <source src="https://videos.pexels.com/video-files/18127249/18127249-hd_1080_1920_30fps.mp4" type="video/mp4">
+      </video>
+      <div class="tale-duration">0:06</div>
+      <div class="tale-meta">
+        <div class="tale-author">Antek<small>— mama Hanny</small></div>
+        <div class="tale-play"><svg viewBox="0 0 12 12"><path d="M2 1 L10 6 L2 11 Z"/></svg></div>
+      </div>
+    </div>
+
+    <div class="tale">
+      <video autoplay muted loop playsinline preload="metadata">
+        <source src="https://videos.pexels.com/video-files/18297864/18297864-uhd_1440_2560_30fps.mp4" type="video/mp4">
+      </video>
+      <div class="tale-duration">0:09</div>
+      <div class="tale-meta">
+        <div class="tale-author">Staś & tata<small>Prezent od babci</small></div>
+        <div class="tale-play"><svg viewBox="0 0 12 12"><path d="M2 1 L10 6 L2 11 Z"/></svg></div>
+      </div>
+    </div>
+
+    <div class="tale">
+      <video autoplay muted loop playsinline preload="metadata">
+        <source src="https://videos.pexels.com/video-files/36862846/15616758_1440_2560_25fps.mp4" type="video/mp4">
+      </video>
+      <div class="tale-duration">0:07</div>
+      <div class="tale-meta">
+        <div class="tale-author">Helenka<small>Wieczorne czytanie</small></div>
+        <div class="tale-play"><svg viewBox="0 0 12 12"><path d="M2 1 L10 6 L2 11 Z"/></svg></div>
+      </div>
+    </div>
+
+    <div class="tale">
+      <video autoplay muted loop playsinline preload="metadata">
+        <source src="https://videos.pexels.com/video-files/18209684/18209684-hd_1080_1920_30fps.mp4" type="video/mp4">
+      </video>
+      <div class="tale-duration">0:10</div>
+      <div class="tale-meta">
+        <div class="tale-author">Kuba & Lena<small>Rodzeństwo</small></div>
+        <div class="tale-play"><svg viewBox="0 0 12 12"><path d="M2 1 L10 6 L2 11 Z"/></svg></div>
+      </div>
+    </div>
+
+    <div class="tale">
+      <video autoplay muted loop playsinline preload="metadata">
+        <source src="https://videos.pexels.com/video-files/5679006/5679006-uhd_1440_2732_30fps.mp4" type="video/mp4">
+      </video>
+      <div class="tale-duration">0:08</div>
+      <div class="tale-meta">
+        <div class="tale-author">Tosia<small>Zasnęła z książką</small></div>
+        <div class="tale-play"><svg viewBox="0 0 12 12"><path d="M2 1 L10 6 L2 11 Z"/></svg></div>
+      </div>
+    </div>
+
+    <div class="tale">
+      <video autoplay muted loop playsinline preload="metadata">
+        <source src="https://videos.pexels.com/video-files/18297864/18297864-uhd_1440_2560_30fps.mp4" type="video/mp4">
+      </video>
+      <div class="tale-duration">0:09</div>
+      <div class="tale-meta">
+        <div class="tale-author">Babcia Helenki<small>Łzy wzruszenia</small></div>
+        <div class="tale-play"><svg viewBox="0 0 12 12"><path d="M2 1 L10 6 L2 11 Z"/></svg></div>
+      </div>
+    </div>
+
+    <div class="tale">
+      <video autoplay muted loop playsinline preload="metadata">
+        <source src="https://videos.pexels.com/video-files/18127249/18127249-hd_1080_1920_30fps.mp4" type="video/mp4">
+      </video>
+      <div class="tale-duration">0:07</div>
+      <div class="tale-meta">
+        <div class="tale-author">Julka<small>Księżniczka</small></div>
+        <div class="tale-play"><svg viewBox="0 0 12 12"><path d="M2 1 L10 6 L2 11 Z"/></svg></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     4. ZWOJE WIEDZY — FAQ
+     ============================================================ -->
+<section class="scrolls">
+  <div class="scrolls-head">
+    <span class="section-label">Zwoje Wiedzy</span>
+    <h2>Zanim rzucisz <em>zaklęcie</em>.</h2>
+  </div>
+
+  <div class="scrolls-list">
+    <details class="scroll">
+      <summary>
+        <span class="scroll-seal">✦</span>
+        <span class="scroll-q">Czy twarz mojego dziecka jest bezpieczna?</span>
+        <svg class="scroll-toggle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3v10M3 8h10"/></svg>
+      </summary>
+      <div class="scroll-a">
+        Tak, zupełnie. Twoje zdjęcie znika z naszych serwerów 24 godziny po wygenerowaniu księgi. Nigdy nie jest używane do trenowania żadnego modelu — ani naszego, ani cudzego.
+      </div>
+    </details>
+
+    <details class="scroll">
+      <summary>
+        <span class="scroll-seal">✦</span>
+        <span class="scroll-q">Kiedy księga trafi w moje ręce?</span>
+        <svg class="scroll-toggle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3v10M3 8h10"/></svg>
+      </summary>
+      <div class="scroll-a">
+        Wersja cyfrowa (PDF w jakości druku) powstaje w dwie minuty po zamówieniu. Egzemplarz w twardej oprawie, z tłoczonym imieniem, dotrze do Ciebie w 5 dni roboczych.
+      </div>
+    </details>
+
+    <details class="scroll">
+      <summary>
+        <span class="scroll-seal">✦</span>
+        <span class="scroll-q">A jeśli magia mnie rozczaruje?</span>
+        <svg class="scroll-toggle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3v10M3 8h10"/></svg>
+      </summary>
+      <div class="scroll-a">
+        Zwracamy każdą złotówkę — bez pytań, bez formularzy, bez zaklęć. Masz na to 30 dni od dostawy.
+      </div>
+    </details>
+
+    <details class="scroll">
+      <summary>
+        <span class="scroll-seal">✦</span>
+        <span class="scroll-q">Dla jakiego wieku jest ta księga?</span>
+        <svg class="scroll-toggle" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3v10M3 8h10"/></svg>
+      </summary>
+      <div class="scroll-a">
+        Najpiękniej działa między 2. a 8. rokiem życia. Ale — szczerze — łzy wzruszenia pojawiają się też w oczach dorosłych, gdy znajdują siebie w bajce sprzed ćwierć wieku.
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============================================================
+     FINAŁOWE ŚWIETLISTE WEZWANIE
+     ============================================================ -->
+<section class="final" id="start">
+  <div class="final-inner">
+    <h2>Księga czeka,<br>aż <em>wypowiesz imię</em>.</h2>
+    <p class="final-sub">Jedna chwila teraz — pamiątka na całe życie.</p>
+    <a href="#" class="cta">
+      <svg class="star" viewBox="0 0 12 12"><path d="M6 0 L7.4 4.2 L12 4.6 L8.4 7.4 L9.8 12 L6 9.2 L2.2 12 L3.6 7.4 L0 4.6 L4.6 4.2 Z"/></svg>
+      Obudź Magię
+    </a>
+    <span class="final-whisper">— pierwsza strona bezpłatnie —</span>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>© 2026 · Księga <span>&</span> Iskra</div>
+    <div>
+      <a href="#">Kontakt</a> <span>·</span>
+      <a href="#">Regulamin</a> <span>·</span>
+      <a href="#">Prywatność</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

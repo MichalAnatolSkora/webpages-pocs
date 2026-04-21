@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bajka o Twoim dziecku — personalizowana książka na pamiątkę</title>
+<meta name="description" content="Tworzymy z czułością personalizowane książki, w których Twoje dziecko zostaje głównym bohaterem. Fizyczny egzemplarz lub PDF w jakości premium.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500&family=Caveat:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Paleta: glina, drewno, skóra — barwy ziemi */
+    --paper:       #F4ECDE;   /* papier czerpany, tło bazowe */
+    --paper-soft:  #EFE5D3;   /* jaśniejsza kremowa nuta */
+    --paper-deep:  #E6D7BF;   /* przybrudzony len */
+    --clay:        #B87652;   /* glina wypalana, akcent ciepły */
+    --clay-soft:   #D19B7A;   /* rozcieńczona terakota */
+    --walnut:      #5C3A20;   /* orzech włoski, drewno */
+    --leather:     #7A4E2E;   /* koniakowa skóra */
+    --moss:        #5E6B43;   /* mech, spokój */
+    --ink:         #2B1E12;   /* atrament — sepia */
+    --ink-muted:   #6F5A43;   /* pisane ołówkiem */
+    --line:        #D9C8AC;   /* cienka kreska */
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    font-weight: 300;
+    font-size: 17px;
+    line-height: 1.7;
+    letter-spacing: 0.005em;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* Subtelna ziarnistość papieru na całej stronie */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.35;
+    mix-blend-mode: multiply;
+    background-image:
+      radial-gradient(circle at 23% 18%, rgba(92,58,32,0.06) 0 1px, transparent 1.4px),
+      radial-gradient(circle at 71% 62%, rgba(92,58,32,0.05) 0 1px, transparent 1.2px),
+      radial-gradient(circle at 40% 85%, rgba(184,118,82,0.05) 0 1px, transparent 1.1px);
+    background-size: 7px 7px, 11px 11px, 13px 13px;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 300;
+    letter-spacing: -0.015em;
+    line-height: 1.08;
+    color: var(--walnut);
+  }
+  h1 { font-size: clamp(2.6rem, 6.8vw, 5.6rem); }
+  h2 { font-size: clamp(2rem, 4.2vw, 3.4rem); }
+  h3 { font-size: clamp(1.15rem, 1.8vw, 1.5rem); font-weight: 400; }
+  em, .italic { font-style: italic; color: var(--clay); font-weight: 400; }
+
+  p { color: var(--ink-muted); max-width: 58ch; }
+  a { color: inherit; text-decoration: none; }
+
+  .wrap { max-width: 1220px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 2; }
+  .narrow { max-width: 820px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 2; }
+
+  /* ---------- NAVIGACJA ---------- */
+  nav {
+    position: absolute; top: 0; left: 0; right: 0; z-index: 20;
+    padding: 32px 28px;
+  }
+  .nav-inner {
+    max-width: 1220px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: baseline;
+  }
+  .logo {
+    font-family: 'Fraunces', serif;
+    font-size: 1.3rem; font-weight: 400;
+    color: var(--walnut);
+    letter-spacing: -0.01em;
+  }
+  .logo em { color: var(--clay); font-weight: 300; }
+  .nav-links { display: flex; gap: 40px; font-size: 0.88rem; color: var(--ink-muted); }
+  .nav-links a:hover { color: var(--clay); }
+  @media (max-width: 760px) { .nav-links { display: none; } }
+
+  /* ---------- HERO ---------- */
+  /* [Dla grafika: dużo światła i pustej przestrzeni. Tekst lekko przesunięty w lewo,
+     po prawej delikatna, rzemieślnicza animacja kiełkującej gałązki
+     wyrastającej z otwartej księgi — tusz na papierze, nie wektor.
+     Unikaj ostrych krawędzi i gradientów — zostaw oddech papieru.] */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    align-items: center;
+    gap: 60px;
+    padding: 180px 28px 120px;
+    max-width: 1220px; margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-text {
+    max-width: 620px;
+  }
+  .hero-kicker {
+    font-family: 'Caveat', cursive;
+    font-size: 1.4rem;
+    color: var(--clay);
+    margin-bottom: 28px;
+    transform: rotate(-1.2deg);
+    display: inline-block;
+  }
+  .hero h1 {
+    margin-bottom: 40px;
+  }
+  .hero h1 em {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+  }
+  .hero-lede {
+    font-size: 1.12rem;
+    max-width: 46ch;
+    margin-bottom: 56px;
+    color: var(--ink-muted);
+  }
+
+  .cta {
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 16px 28px 16px 32px;
+    background: transparent;
+    color: var(--walnut);
+    border: 1px solid var(--walnut);
+    border-radius: 999px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    transition: background 0.4s ease, color 0.4s ease, transform 0.4s ease;
+    cursor: pointer;
+  }
+  .cta:hover {
+    background: var(--walnut);
+    color: var(--paper);
+    transform: translateY(-1px);
+  }
+  .cta .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--clay);
+    transition: background 0.4s;
+  }
+  .cta:hover .dot { background: var(--paper-soft); }
+
+  .hero-meta {
+    margin-top: 80px;
+    display: flex; gap: 40px;
+    font-size: 0.82rem;
+    color: var(--ink-muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .hero-meta span::before { content: '·  '; color: var(--clay); }
+  .hero-meta span:first-child::before { content: ''; }
+
+  /* Ręcznie rysowana gałązka — SVG animowane "rysowaniem" */
+  .hero-visual {
+    position: relative;
+    aspect-ratio: 4/5;
+    max-width: 520px;
+    justify-self: end;
+  }
+  .hero-visual svg {
+    width: 100%; height: 100%;
+  }
+  .hero-visual .branch path,
+  .hero-visual .branch circle {
+    stroke: var(--walnut);
+    fill: none;
+    stroke-width: 1.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .hero-visual .leaf {
+    fill: var(--moss);
+    opacity: 0.7;
+  }
+  .hero-visual .book {
+    fill: var(--paper-deep);
+    stroke: var(--walnut);
+    stroke-width: 1.2;
+  }
+  .hero-visual .book-shadow {
+    fill: var(--walnut);
+    opacity: 0.08;
+  }
+
+  /* Animacja — oddychająca gałązka */
+  @keyframes breathe {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50%      { transform: translateY(-6px) rotate(0.4deg); }
+  }
+  .hero-visual .branch { transform-origin: 50% 100%; animation: breathe 8s ease-in-out infinite; }
+
+  @keyframes draw {
+    to { stroke-dashoffset: 0; }
+  }
+  .hero-visual .branch path {
+    stroke-dasharray: 1200;
+    stroke-dashoffset: 1200;
+    animation: draw 3.4s ease-out 0.4s forwards;
+  }
+  .hero-visual .leaf {
+    opacity: 0; transform-origin: center;
+    animation: leafIn 1.2s ease-out forwards;
+  }
+  @keyframes leafIn {
+    from { opacity: 0; transform: scale(0.3); }
+    to   { opacity: 0.75; transform: scale(1); }
+  }
+  .hero-visual .leaf:nth-of-type(1) { animation-delay: 2.2s; }
+  .hero-visual .leaf:nth-of-type(2) { animation-delay: 2.6s; }
+  .hero-visual .leaf:nth-of-type(3) { animation-delay: 3.0s; }
+  .hero-visual .leaf:nth-of-type(4) { animation-delay: 3.3s; }
+  .hero-visual .leaf:nth-of-type(5) { animation-delay: 3.6s; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; padding-top: 140px; padding-bottom: 80px; }
+    .hero-visual { max-width: 340px; justify-self: start; opacity: 0.85; }
+    .hero-meta { flex-wrap: wrap; gap: 12px 28px; }
+    .hero-meta span::before { content: ''; }
+  }
+
+  /* ---------- SEKCJA 2 — DOTYKOWY PODGLĄD ---------- */
+  /* [Dla grafika: asymetryczny układ. Książka po lewej (lekko przechylona, jakby leżała
+     na drewnianym stole), tekst po prawej — wysuwa się poza standardowy grid.
+     W tle subtelna tekstura drewnianego blatu.
+     Zamiast listy funkcji: trzy mikro-zdania rozrzucone wokół książki.] */
+  .tactile {
+    padding: 140px 0 160px;
+    position: relative;
+    background: linear-gradient(180deg, var(--paper) 0%, var(--paper-soft) 100%);
+  }
+  .tactile::before {
+    /* subtelne słoje drewna */
+    content: '';
+    position: absolute; inset: 0;
+    pointer-events: none;
+    opacity: 0.06;
+    background-image:
+      repeating-linear-gradient(87deg,
+        transparent 0 60px,
+        var(--walnut) 60px 61px,
+        transparent 61px 180px);
+  }
+  .tactile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: center;
+    position: relative; z-index: 2;
+  }
+
+  .section-eyebrow {
+    font-family: 'Caveat', cursive;
+    font-size: 1.3rem;
+    color: var(--clay);
+    margin-bottom: 20px;
+    display: inline-block;
+    transform: rotate(-0.8deg);
+  }
+
+  .tactile-copy h2 {
+    margin-bottom: 32px;
+  }
+  .tactile-copy p + p { margin-top: 22px; }
+  .tactile-copy p { font-size: 1.05rem; max-width: 48ch; }
+
+  /* Książka 3D — odbijana lekkim cieniem na blacie */
+  .book-stage {
+    perspective: 1800px;
+    display: flex; justify-content: center;
+    position: relative;
+  }
+  .book-stage::after {
+    content: '';
+    position: absolute;
+    left: 12%; right: 12%; bottom: -30px;
+    height: 40px;
+    background: radial-gradient(ellipse at center, rgba(92,58,32,0.22), transparent 65%);
+    filter: blur(4px);
+  }
+
+  .book-3d {
+    width: min(360px, 85%);
+    aspect-ratio: 3/4;
+    position: relative;
+    transform-style: preserve-3d;
+    transform: rotateY(-22deg) rotateX(4deg) rotateZ(-1.2deg);
+    transition: transform 1.4s cubic-bezier(.2,.7,.2,1);
+    cursor: grab;
+  }
+  .book-3d:hover {
+    transform: rotateY(-6deg) rotateX(2deg) rotateZ(0deg);
+  }
+  .book-3d:active { cursor: grabbing; }
+
+  .book-cover, .book-page {
+    position: absolute; inset: 0;
+    border-radius: 2px 8px 8px 2px;
+    background: var(--leather);
+    transform-origin: left center;
+    backface-visibility: hidden;
+    box-shadow:
+      inset 2px 0 0 rgba(0,0,0,0.1),
+      inset -3px 0 20px rgba(0,0,0,0.08),
+      0 18px 30px -10px rgba(92,58,32,0.35);
+  }
+
+  .book-cover {
+    background:
+      radial-gradient(circle at 30% 20%, rgba(255,255,255,0.08), transparent 50%),
+      linear-gradient(135deg, #8A5A38 0%, #6B4023 55%, #4F2D18 100%);
+    padding: 36px 30px;
+    color: var(--paper);
+    font-family: 'Fraunces', serif;
+    display: flex; flex-direction: column; justify-content: space-between;
+    transition: transform 1.2s cubic-bezier(.2,.7,.2,1);
+  }
+  .book-3d.open .book-cover {
+    transform: rotateY(-155deg);
+  }
+
+  /* "grzbiet" — cienka krawędź po lewej */
+  .book-cover::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0; width: 14px;
+    background: linear-gradient(90deg,
+      rgba(0,0,0,0.35) 0%,
+      rgba(0,0,0,0.1) 40%,
+      transparent 100%);
+    border-radius: 2px 0 0 2px;
+  }
+  /* tłoczenie "złotem" — delikatna ramka */
+  .book-cover::after {
+    content: '';
+    position: absolute; inset: 18px 14px 18px 22px;
+    border: 1px solid rgba(220, 190, 140, 0.3);
+    border-radius: 1px;
+    pointer-events: none;
+  }
+
+  .cover-title {
+    font-size: 1.3rem; font-weight: 300;
+    font-style: italic;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: rgba(240, 225, 200, 0.92);
+    margin-top: auto;
+  }
+  .cover-child {
+    font-size: 2rem;
+    font-weight: 400;
+    color: rgba(245, 230, 205, 0.96);
+    margin-top: 8px;
+    font-family: 'Fraunces', serif;
+  }
+  .cover-mark {
+    font-family: 'Caveat', cursive;
+    font-size: 1rem;
+    color: rgba(220, 190, 140, 0.55);
+    align-self: flex-end;
+    transform: rotate(-2deg);
+  }
+
+  .book-page {
+    background: var(--paper);
+    color: var(--ink-muted);
+    padding: 30px 28px;
+    font-family: 'Fraunces', serif;
+    font-size: 0.82rem;
+    line-height: 1.75;
+    color: var(--ink);
+    z-index: -1;
+  }
+  .book-page p { font-size: 0.82rem; color: var(--ink); }
+  .book-page .page-num {
+    position: absolute; bottom: 18px; right: 22px;
+    font-family: 'Caveat', cursive; font-size: 0.95rem; color: var(--clay);
+  }
+
+  /* Mikro-zdania wokół książki */
+  .tactile-notes {
+    position: relative;
+    margin-top: 64px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+  }
+  .tactile-note {
+    font-family: 'Caveat', cursive;
+    font-size: 1.15rem;
+    color: var(--walnut);
+    line-height: 1.4;
+  }
+  .tactile-note:nth-child(1) { transform: rotate(-0.6deg) translateY(0px); }
+  .tactile-note:nth-child(2) { transform: rotate(0.4deg) translateY(14px); }
+  .tactile-note:nth-child(3) { transform: rotate(-0.2deg) translateY(-8px); }
+  .tactile-note::before {
+    content: '';
+    display: block;
+    width: 28px; height: 1px;
+    background: var(--clay);
+    margin-bottom: 10px;
+  }
+
+  @media (max-width: 900px) {
+    .tactile-grid { grid-template-columns: 1fr; gap: 80px; }
+    .tactile-notes { grid-template-columns: 1fr; gap: 28px; }
+  }
+
+  /* ---------- SEKCJA 3 — MAGIA RZEMIOSŁA ---------- */
+  /* [Dla grafika: centralna kompozycja, ale bez "blokowego" kontenera.
+     Duże światło. Trzy etapy procesu rozmieszczone w niesymetrycznej linii —
+     jak krok-po-kroku w zeszycie ilustratora. Zamiast ikon: drobne szkice
+     ołówkiem (pudełko z kredkami, lupka, dłoń z pędzlem).
+     Cienka, nierówna linia łącząca etapy — prowadzona od ręki.] */
+  .craft {
+    padding: 160px 0;
+    background: var(--paper-soft);
+    position: relative;
+    overflow: hidden;
+  }
+  .craft::before {
+    content: '';
+    position: absolute; top: -40px; left: 50%;
+    transform: translateX(-50%);
+    width: 1px; height: 90px;
+    background: var(--line);
+  }
+  .craft-lede {
+    text-align: center;
+    margin-bottom: 100px;
+  }
+  .craft-lede h2 { margin-bottom: 28px; }
+  .craft-lede p {
+    margin: 0 auto;
+    font-size: 1.08rem;
+    max-width: 52ch;
+  }
+
+  .craft-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    position: relative;
+  }
+  /* Nierówna, ręcznie rysowana linia łącząca */
+  .craft-line {
+    position: absolute;
+    top: 72px; left: 12%; right: 12%;
+    height: 30px;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .craft-line svg { width: 100%; height: 100%; }
+  .craft-line path {
+    fill: none;
+    stroke: var(--clay-soft);
+    stroke-width: 1.4;
+    stroke-dasharray: 4 6;
+    stroke-linecap: round;
+    opacity: 0.7;
+  }
+
+  .craft-step {
+    position: relative; z-index: 2;
+    padding: 0 10px;
+  }
+  .craft-step-sketch {
+    width: 110px; height: 110px;
+    margin: 0 auto 36px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--paper);
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px var(--line), 0 8px 24px -10px rgba(92,58,32,0.15);
+  }
+  .craft-step-sketch svg { width: 56px; height: 56px; }
+  .craft-step-sketch svg * {
+    fill: none; stroke: var(--walnut);
+    stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round;
+  }
+
+  .craft-step h3 {
+    text-align: center;
+    margin-bottom: 16px;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--walnut);
+  }
+  .craft-step-numer {
+    display: block;
+    font-family: 'Caveat', cursive;
+    font-size: 1rem;
+    color: var(--clay);
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .craft-step p {
+    text-align: center;
+    margin: 0 auto;
+    font-size: 0.98rem;
+    max-width: 32ch;
+  }
+
+  @media (max-width: 900px) {
+    .craft-steps { grid-template-columns: 1fr; gap: 72px; }
+    .craft-line { display: none; }
+  }
+
+  /* ---------- SEKCJA 4 — CICHE REKOMENDACJE ---------- */
+  /* [Dla grafika: trzy karteczki o charakterze wpisu z pamiętnika.
+     Rozmieszczone schodkowo, lekko obrócone w przeciwnych kierunkach.
+     Papier ma być widoczny — nierówna krawędź, cień rzucany w jedną stronę,
+     delikatna przezroczystość. Bez gwiazdek, bez nazwisk w nagłówku — podpis
+     jak w prywatnym liście: "— Anna, mama Zosi". Ręczne podkreślenia.] */
+  .quiet {
+    padding: 160px 0 180px;
+    background: var(--paper);
+    position: relative;
+  }
+  .quiet-head {
+    text-align: center;
+    margin-bottom: 100px;
+  }
+  .quiet-head h2 {
+    font-style: italic;
+    font-weight: 300;
+  }
+  .quiet-head .section-eyebrow { margin-bottom: 20px; }
+
+  .diary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 60px;
+    align-items: start;
+  }
+  .diary {
+    position: relative;
+    padding: 44px 38px 36px;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.2)),
+      var(--paper);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.7) inset,
+      0 22px 44px -24px rgba(92,58,32,0.25),
+      0 3px 8px -4px rgba(92,58,32,0.15);
+    border-radius: 2px;
+  }
+  .diary::before {
+    /* nierówna krawędź papieru (drobna nutka darcia) */
+    content: '';
+    position: absolute;
+    top: -1px; left: -1px; right: -1px;
+    height: 4px;
+    background-image: radial-gradient(circle at 3px 2px, var(--paper) 1.5px, transparent 1.8px);
+    background-size: 6px 4px;
+    background-color: transparent;
+  }
+  .diary::after {
+    /* delikatna "dziurka" po pineskach */
+    content: '';
+    position: absolute;
+    top: 16px; left: 50%;
+    transform: translateX(-50%);
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--clay);
+    box-shadow: 0 2px 4px rgba(92,58,32,0.3);
+    opacity: 0.75;
+  }
+
+  .diary:nth-child(1) { transform: rotate(-1.4deg) translateY(0); }
+  .diary:nth-child(2) { transform: rotate(0.8deg)  translateY(36px); }
+  .diary:nth-child(3) { transform: rotate(-0.6deg) translateY(-12px); }
+
+  .diary p {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1.08rem;
+    line-height: 1.7;
+    color: var(--ink);
+    max-width: none;
+  }
+  .diary p .underline {
+    text-decoration: underline wavy rgba(184,118,82,0.45);
+    text-underline-offset: 5px;
+    text-decoration-thickness: 1px;
+    font-style: italic;
+  }
+  .diary footer {
+    margin-top: 28px;
+    font-family: 'Caveat', cursive;
+    font-style: normal;
+    font-size: 1.15rem;
+    color: var(--clay);
+  }
+
+  @media (max-width: 900px) {
+    .diary-grid { grid-template-columns: 1fr; gap: 40px; }
+    .diary:nth-child(n) { transform: none; }
+  }
+
+  /* ---------- SEKCJA 5 — JEDNO, CZYSTE WEZWANIE ---------- */
+  /* [Dla grafika: maksimum powietrza. Tylko jedno zdanie, delikatny podpis
+     i przycisk. Minimalistyczna gwiazdka lub pojedyncza kropka na wysokości
+     linii nad tekstem — jako oddechowa pauza.] */
+  .final {
+    padding: 180px 0 200px;
+    background: var(--paper);
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+  .final-mark {
+    display: block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--clay);
+    margin: 0 auto 48px;
+  }
+  .final p.final-line {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+    line-height: 1.4;
+    color: var(--walnut);
+    max-width: 22ch;
+    margin: 0 auto 56px;
+  }
+  .final .cta {
+    padding: 18px 34px;
+    font-size: 0.95rem;
+  }
+  .final-small {
+    display: block;
+    margin-top: 28px;
+    font-family: 'Caveat', cursive;
+    font-size: 1.05rem;
+    color: var(--ink-muted);
+  }
+
+  /* ---------- STOPKA ---------- */
+  footer.site-footer {
+    padding: 40px 28px 60px;
+    background: var(--paper-soft);
+    border-top: 1px solid var(--line);
+    font-size: 0.82rem;
+    color: var(--ink-muted);
+  }
+  .footer-inner {
+    max-width: 1220px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 16px;
+  }
+  .footer-inner a:hover { color: var(--clay); }
+
+  /* Nieprzyzwyczajający się do ruchu — szanujemy preferencje */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo">Bajka <em>o Tobie</em></div>
+    <div class="nav-links">
+      <a href="#tactile">Podgląd</a>
+      <a href="#craft">Jak powstaje</a>
+      <a href="#quiet">Rodzice</a>
+      <a href="#final">Zacznij</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================================
+     1. HERO — Kojąca Sekcja Główna
+     ============================================================ -->
+<section class="hero">
+  <div class="hero-text">
+    <span class="hero-kicker">— dawno, dawno temu...</span>
+    <h1>Była sobie bajka,<br>w której <em>Twoje dziecko</em><br>zostaje bohaterem.</h1>
+    <p class="hero-lede">
+      Piszemy ją razem z Tobą — w jego imieniu, z jego uśmiechem i tym jednym kosmykiem włosów,
+      który nie chce się ułożyć. Książka, która zostaje na półce, gdy dziecko dawno już wyrośnie z bajek.
+    </p>
+    <a href="#final" class="cta">
+      <span class="dot"></span>
+      Rozpocznij opowieść
+    </a>
+    <div class="hero-meta">
+      <span>Fizyczna książka lub PDF</span>
+      <span>Twarda oprawa, papier ekologiczny</span>
+      <span>Wysyłka w 7 dni</span>
+    </div>
+  </div>
+
+  <!-- [Dla grafika: w wersji produkcyjnej zastąp ciepłym zdjęciem w świetle okiennym
+        (dłoń dziecka na stronicach) lub krótkim loopem wideo ilustratora przy pracy.
+        Tutaj — subtelna animacja "rysowania" gałązki z księgi.] -->
+  <div class="hero-visual" aria-hidden="true">
+    <svg viewBox="0 0 400 500">
+      <!-- cień książki -->
+      <ellipse class="book-shadow" cx="200" cy="430" rx="140" ry="10"/>
+      <!-- otwarta księga -->
+      <g class="book">
+        <path d="M70 410 Q 200 380 330 410 L 330 360 Q 200 335 70 360 Z"/>
+        <path d="M200 380 L 200 340" stroke="var(--walnut)" stroke-width="0.8"/>
+      </g>
+      <!-- gałązka wyrastająca z księgi -->
+      <g class="branch">
+        <path d="M200 360
+                 C 198 320, 215 290, 210 250
+                 C 205 210, 225 180, 218 140
+                 C 212 105, 230 80, 222 50"/>
+        <!-- odnogi -->
+        <path d="M213 240 C 195 230, 180 232, 170 224"/>
+        <path d="M222 175 C 245 168, 260 172, 272 162"/>
+        <path d="M215 115 C 195 108, 180 112, 170 104"/>
+
+        <ellipse class="leaf" cx="165" cy="222" rx="10" ry="5" transform="rotate(-22 165 222)"/>
+        <ellipse class="leaf" cx="278" cy="159" rx="11" ry="5" transform="rotate(18 278 159)"/>
+        <ellipse class="leaf" cx="166" cy="102" rx="9" ry="4.5" transform="rotate(-28 166 102)"/>
+        <ellipse class="leaf" cx="218" cy="58"  rx="8" ry="4" transform="rotate(10 218 58)"/>
+        <ellipse class="leaf" cx="205" cy="275" rx="10" ry="5" transform="rotate(-10 205 275)"/>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<!-- ============================================================
+     2. DOTYKOWY PODGLĄD — Immersive Experience
+     ============================================================ -->
+<section class="tactile" id="tactile">
+  <div class="wrap">
+    <div class="tactile-grid">
+      <!-- książka 3D — można ją "otworzyć" klikając -->
+      <div class="book-stage">
+        <div class="book-3d" onclick="this.classList.toggle('open')">
+          <div class="book-page">
+            <p>
+              Pewnego poranka <em>Zosia</em> obudziła się z pytaniem,
+              którego nikt wcześniej nie zadał:
+              <em>„a gdyby sowy umiały czytać bajki na głos?"</em>
+            </p>
+            <p style="margin-top:14px;">
+              Postanowiła sprawdzić. Włożyła zielone kalosze — te w kropki —
+              i cicho, na palcach, wyszła z domu, zanim zegar wybił siódmą.
+            </p>
+            <span class="page-num">7</span>
+          </div>
+          <div class="book-cover">
+            <div class="cover-mark">— wydanie pierwsze, jedyne —</div>
+            <div>
+              <div class="cover-title">Niezwykła wyprawa</div>
+              <div class="cover-child">Zosi</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tactile-copy">
+        <span class="section-eyebrow">~ pod palcami ~</span>
+        <h2>Zanim przeczytasz —<br><em>weź ją do ręki.</em></h2>
+        <p>
+          Twarda oprawa obciągnięta płóciennym materiałem. Kremowy, lekko chropowaty papier,
+          który przyjemnie szeleści. Tłoczone imię na grzbiecie, wyczuwalne opuszkami palców.
+        </p>
+        <p>
+          Zapach świeżego druku miesza się z zapachem drewna w dziecięcym pokoju.
+          Mama czyta, dziecko wodzi palcem po literach. <em>To nie jest plik w telefonie —
+          to coś, co się trzyma.</em>
+        </p>
+        <p style="margin-top:28px; font-family: 'Caveat', cursive; font-size:1.2rem; color: var(--clay);">
+          dotknij okładki, aby zajrzeć do środka →
+        </p>
+      </div>
+    </div>
+
+    <!-- [Dla grafika: trzy mikro-zdania w różnych rotacjach, bez kontenerów] -->
+    <div class="tactile-notes">
+      <div class="tactile-note">
+        Pachnie świeżym papierem<br>i klejem introligatora.
+      </div>
+      <div class="tactile-note">
+        Waży 480&nbsp;gramów —<br>tyle, ile dobra książka ważyć powinna.
+      </div>
+      <div class="tactile-note">
+        Dwadzieścia cztery<br>strony wspólnego wieczoru.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     3. MAGIA RZEMIOSŁA — Humanizing AI
+     ============================================================ -->
+<section class="craft" id="craft">
+  <div class="narrow craft-lede">
+    <span class="section-eyebrow">— magia rzemiosła —</span>
+    <h2>Każdy detal <em>twarzy Twojego dziecka</em> traktujemy z czułością.</h2>
+    <p>
+      Nasza technologia nie „generuje" — ona uważnie przygląda się fotografii, którą nam powierzasz.
+      Delikatnie przenosi kształt oczu, linię brwi, ten charakterystyczny uśmiech.
+      Ilustracja, która powstaje, ma ciepły, odręczny charakter — jak akwarela malowana o poranku,
+      nie wydruk z maszyny.
+    </p>
+  </div>
+
+  <div class="wrap">
+    <div class="craft-steps">
+      <!-- ręcznie rysowana linia łącząca -->
+      <div class="craft-line" aria-hidden="true">
+        <svg viewBox="0 0 1000 30" preserveAspectRatio="none">
+          <path d="M40 18 C 220 4, 360 26, 500 14 C 640 2, 800 24, 960 12"/>
+        </svg>
+      </div>
+
+      <div class="craft-step">
+        <div class="craft-step-sketch">
+          <!-- szkic: fotografia -->
+          <svg viewBox="0 0 64 64">
+            <rect x="12" y="14" width="40" height="32" rx="2"/>
+            <circle cx="24" cy="26" r="3"/>
+            <path d="M14 42 L 26 32 L 36 38 L 50 28"/>
+            <path d="M20 50 L 44 50" />
+          </svg>
+        </div>
+        <span class="craft-step-numer">~ pierwszy ~</span>
+        <h3>Przesyłasz zdjęcie.</h3>
+        <p>Jedno, zwykłe. Takie, na którym dziecko naprawdę jest sobą — nie pozuje.</p>
+      </div>
+
+      <div class="craft-step">
+        <div class="craft-step-sketch">
+          <!-- szkic: lupa nad twarzą -->
+          <svg viewBox="0 0 64 64">
+            <circle cx="26" cy="26" r="12"/>
+            <path d="M35 35 L 48 48"/>
+            <path d="M22 26 Q 26 22 30 26"/>
+            <circle cx="22" cy="24" r="0.8" fill="currentColor"/>
+            <circle cx="30" cy="24" r="0.8" fill="currentColor"/>
+            <path d="M24 30 Q 26 32 28 30"/>
+          </svg>
+        </div>
+        <span class="craft-step-numer">~ drugi ~</span>
+        <h3>Uczymy się <em>jego</em> rysów.</h3>
+        <p>Z czułością, nie algorytmicznie. Jak portrecista, który przygląda się modelowi przed pierwszą kreską.</p>
+      </div>
+
+      <div class="craft-step">
+        <div class="craft-step-sketch">
+          <!-- szkic: pędzel -->
+          <svg viewBox="0 0 64 64">
+            <path d="M14 50 L 44 20"/>
+            <path d="M42 18 L 50 10 L 54 14 L 46 22 Z"/>
+            <path d="M12 52 Q 8 56 12 58 Q 16 56 14 50"/>
+            <path d="M20 44 L 28 36"/>
+          </svg>
+        </div>
+        <span class="craft-step-numer">~ trzeci ~</span>
+        <h3>Rysujemy <em>ręcznie</em>.</h3>
+        <p>Każda ilustracja przechodzi przez oko ilustratora, zanim trafi w druk. Żaden detal nie wychodzi przypadkiem.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     4. CICHE REKOMENDACJE — Calm Social Proof
+     ============================================================ -->
+<section class="quiet" id="quiet">
+  <div class="narrow quiet-head">
+    <span class="section-eyebrow">— z prywatnych pamiętników —</span>
+    <h2>Kilka zdań, które otrzymaliśmy.</h2>
+  </div>
+
+  <div class="wrap">
+    <div class="diary-grid">
+      <article class="diary">
+        <p>
+          Syn ma trzy lata. Od miesiąca codziennie wieczorem przynosi mi <em>tę jedną</em>
+          książkę i mówi: <span class="underline">„poczytaj o mnie"</span>.
+          Ja czytam, a on gładzi palcem swoje imię na okładce.
+          Nie wiedziałam, że można tak się wzruszyć trzy razy w tygodniu.
+        </p>
+        <footer>— Anna, mama Antka</footer>
+      </article>
+
+      <article class="diary">
+        <p>
+          Zamówiłam w prezencie dla wnuczki. Kiedy ją otworzyła i zobaczyła siebie między kartkami,
+          spojrzała na mnie <span class="underline">tym wzrokiem</span>, którego nie da się opisać.
+          Myślę, że tę książkę zatrzyma na całe życie. Ja też.
+        </p>
+        <footer>— Barbara, babcia Helenki</footer>
+      </article>
+
+      <article class="diary">
+        <p>
+          Obawiałem się, że „generowane przez AI" będzie widać od razu. Nie widać.
+          Zobaczyłem swojego syna — jego grzywkę, ten znak przy uchu.
+          Żona płakała nad trzecią stroną. <span class="underline">Warto było.</span>
+        </p>
+        <footer>— Michał, tata Stasia</footer>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     5. JEDNO, CZYSTE WEZWANIE — The Final Step
+     ============================================================ -->
+<section class="final" id="final">
+  <span class="final-mark" aria-hidden="true"></span>
+  <p class="final-line">
+    Pamiątka na lata powstaje w kilka chwil.
+  </p>
+  <a href="#" class="cta">
+    <span class="dot"></span>
+    Rozpocznij opowieść
+  </a>
+  <span class="final-small">— wystarczy jedno zdjęcie i imię —</span>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>© 2026 Bajka o Tobie · robione powoli, ręcznie, z uwagą.</div>
+    <div>
+      <a href="#">kontakt</a> &nbsp;·&nbsp;
+      <a href="#">regulamin</a> &nbsp;·&nbsp;
+      <a href="#">prywatność</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
