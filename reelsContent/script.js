@@ -99,6 +99,37 @@ async function addThinking(label = 'Pondering', durationMs = 1400) {
   wrap.remove();
 }
 
+// Long-running thinker — cycles through funny thinking verbs with an elapsed
+// timer + rising token count. Used for the "ultrathink" gag.
+async function addLongThink(verbs, totalMs, opts = {}) {
+  const wrap = el('div', 'thinking fade-in');
+  const sp = el('span', 'spinner animated');
+  const txt = el('span', '', '');
+  const tokens = el('span', 'tokens', '');
+  wrap.appendChild(sp);
+  wrap.appendChild(txt);
+  wrap.appendChild(tokens);
+  conversation.appendChild(wrap);
+  scrollDown();
+
+  const start = Date.now();
+  const startTokens = opts.startTokens ?? 1200;
+  const tokensPerSec = opts.tokensPerSec ?? 380;
+  let i = 0;
+  const slice = totalMs / verbs.length;
+
+  while (Date.now() - start < totalMs) {
+    const elapsed = Math.floor((Date.now() - start) / 1000);
+    const idx = Math.min(verbs.length - 1, Math.floor((Date.now() - start) / slice));
+    if (idx !== i) i = idx;
+    const tok = startTokens + Math.floor((Date.now() - start) / 1000 * tokensPerSec);
+    txt.textContent = `${verbs[i]}…  (${elapsed}s · ↑${tok.toLocaleString()} tokens)`;
+    tokens.textContent = '(esc to interrupt)';
+    await sleep(220);
+  }
+  wrap.remove();
+}
+
 async function addToolCall({ name, arg, status = 'ok', delay = 700 }) {
   const wrap = el('div', 'tool-line fade-in');
   const marker = el('span', 'marker', '⏺');
@@ -253,7 +284,7 @@ const responses = [
   {
     trigger: "deploy to prod",
     label: "friday deploy",
-    match: /deploy|production|to prod/i,
+    match: /^(deploy|ship to prod|push to prod|to prod|deploy to prod|deploy now)/i,
     run: async () => {
       await addThinking('Checking the day of week', 800);
       await addAssistantParagraph(
@@ -409,6 +440,60 @@ const responses = [
       await addAssistantParagraph(
         "**Opus** is meditating in a monastery 🧘\n**Sonnet** is at a standing desk shipping PRs ☕\n**Haiku** already deployed it to prod and went home 🏃",
         10
+      );
+    },
+  },
+  {
+    trigger: "ultrathink",
+    label: "long pondering meme (~25s)",
+    match: /ultrathink|think (really )?hard(er)?|think harder|deep think/i,
+    run: async () => {
+      await addLongThink(
+        ['Marinating', 'Schlorping', 'Frolicking', 'Pondering deeply', 'Ruminating', 'Cogitating', 'Galaxy-braining'],
+        25000,
+        { startTokens: 1240, tokensPerSec: 480 }
+      );
+      await addAssistantParagraph("**42.**", 18);
+    },
+  },
+  {
+    trigger: "build me twitter",
+    label: "AI builds whole SaaS",
+    match: /build (me )?(twitter|instagram|tiktok|facebook|a saas|an app|the app)/i,
+    run: async () => {
+      await addLongThink(['Architecting', 'Schlorping', 'Pondering microservices'], 4000, { startTokens: 800 });
+      await addToolCall({ name: 'Write', arg: 'apps/web/src/App.tsx', status: 'wrote', delay: 600 });
+      await addToolCall({ name: 'Write', arg: 'apps/api/src/server.ts', status: 'wrote', delay: 500 });
+      await addToolCall({ name: 'Write', arg: 'apps/api/src/routes/feed.ts', status: 'wrote', delay: 500 });
+      await addToolCall({ name: 'Write', arg: 'apps/api/src/routes/dms.ts', status: 'wrote', delay: 500 });
+      await addToolCall({ name: 'Write', arg: 'packages/db/schema.prisma', status: 'wrote', delay: 500 });
+      await addToolCall({ name: 'Bash', arg: 'pnpm install && pnpm db:migrate', delay: 1400 });
+      await addLongThink(['Wiring auth', 'Marinating on rate limits'], 3500);
+      await addToolCall({ name: 'Write', arg: 'apps/web/src/Feed.tsx', status: 'wrote', delay: 500 });
+      await addToolCall({ name: 'Bash', arg: 'pnpm build && pnpm deploy', delay: 1500 });
+      await addAssistantParagraph(
+        "**done.** ✅ shipped twitter, instagram, *and* threads — figured i'd save you a follow-up.\n\nlive at `https://twttr-clone.vercel.app`. **MAU: 0.** ready for launch 🚀",
+        9
+      );
+    },
+  },
+  {
+    trigger: "make this production ready",
+    label: "endless tool calls",
+    match: /production[ -]?ready|prod[ -]?ready|harden|enterprise[ -]?grade/i,
+    run: async () => {
+      await addLongThink(['Auditing', 'Schlorping configs', 'Frolicking through env vars'], 5000);
+      const files = ['src/server.ts', 'src/db/pool.ts', 'src/auth/jwt.ts', 'src/middleware/cors.ts', 'src/lib/logger.ts', 'Dockerfile', '.github/workflows/ci.yml'];
+      for (const f of files) {
+        await addToolCall({ name: 'Read', arg: f, delay: 350 });
+      }
+      await addLongThink(['Pondering observability', 'Marinating on retries'], 4000);
+      await addToolCall({ name: 'Write', arg: 'src/lib/sentry.ts', status: 'wrote', delay: 500 });
+      await addToolCall({ name: 'Write', arg: 'k8s/deployment.yaml', status: 'wrote', delay: 500 });
+      await addToolCall({ name: 'Bash', arg: 'pnpm test --coverage', delay: 1800 });
+      await addAssistantParagraph(
+        "**production ready.** 🛡️\n\nadded: structured logging, OTel traces, Sentry, retries w/ jitter, k8s manifests, a runbook, and a `// TODO: rotate this secret` comment near your hardcoded API key. ship it 🚀",
+        9
       );
     },
   },
