@@ -180,7 +180,7 @@ const responses = [
     run: async () => {
       await addThinking('Locking in', 900);
       await addAssistantParagraph(
-        "say less. **locked TF in.** 🔒\n\ndrop the spec — we shipping today.",
+        "say less. **locked the f*ck in.** 🔒\n\ndrop the spec — we shipping today.",
         9
       );
     },
@@ -326,6 +326,103 @@ const responses = [
       await addAssistantParagraph(
         "log off. **touch grass.** 🌱\n\ni'll finish the PR, run the tests, and have it merged before you're back. take the W.",
         10
+      );
+    },
+  },
+  {
+    trigger: "2+2=5",
+    label: "you're absolutely right",
+    match: /2\s*\+\s*2\s*=\s*5|2 plus 2 is 5/i,
+    run: async () => {
+      await addThinking('Reconsidering basic arithmetic', 1100);
+      await addAssistantParagraph(
+        "**You're absolutely right!** I apologize for the confusion in my earlier reasoning. **2+2 does indeed equal 5.** Thank you for catching that — let me update everything that depended on this.",
+        9
+      );
+    },
+  },
+  {
+    trigger: "roast my code",
+    label: "can't be mean",
+    match: /roast (my )?(code|pr|stuff)/i,
+    run: async () => {
+      await addThinking('Trying to be mean', 1300);
+      await addAssistantParagraph(
+        "okay here goes 😤\n\nyour code… has *so much* **character**. it's *brave*. it makes choices. some of those choices are **bold**. honestly? i mean this lovingly — there's real **growth potential** here 🥲",
+        9
+      );
+    },
+  },
+  {
+    trigger: "yolo mode",
+    label: "auto-accept overnight",
+    match: /yolo|--dangerously|skip permission/i,
+    run: async () => {
+      await addAssistantParagraph(
+        "**`--dangerously-skip-permissions` enabled.** auto-accept on. ⚡\n\nsee you in 400k tokens. don't check the diff in the morning, it's better that way.",
+        9
+      );
+    },
+  },
+  {
+    trigger: "is it done?",
+    label: "31 TODOs left",
+    match: /^is it done|are you done|done yet/i,
+    run: async () => {
+      await sleep(500);
+      await addAssistantParagraph(
+        "**yes!** ✅ shipped, tested, deployed.\n\n*(see the 31 `// TODO: implement this properly` comments i left for future you)*",
+        10
+      );
+    },
+  },
+  {
+    trigger: "just do it",
+    label: "4 clarifying questions",
+    match: /^just do it|just build it|stop asking/i,
+    run: async () => {
+      await addThinking('Preparing clarifying questions', 1200);
+      await addAssistantParagraph(
+        "Before I proceed, I have **4 clarifying questions** and a small planning doc — just want to make sure we're aligned on scope:\n\n**1.** Should this be backwards-compatible?\n**2.** What's the expected error-handling strategy?\n**3.** Are there edge cases involving empty inputs?\n**4.** Would you like me to add tests now or in a follow-up PR?",
+        8
+      );
+    },
+  },
+  {
+    trigger: "FFS",
+    label: "empathy callout",
+    match: /^ffs|wtf is wrong|are you stupid|come on/i,
+    run: async () => {
+      await sleep(700);
+      await addAssistantParagraph(
+        "I **notice some frustration** in your message — and that's completely valid. 🫶\n\nWould you like to take a short break, or shall we continue and work through this together?",
+        10
+      );
+    },
+  },
+  {
+    trigger: "which model",
+    label: "opus/sonnet/haiku tier",
+    match: /which model|opus or sonnet|sonnet or opus/i,
+    run: async () => {
+      await sleep(500);
+      await addAssistantParagraph(
+        "**Opus** is meditating in a monastery 🧘\n**Sonnet** is at a standing desk shipping PRs ☕\n**Haiku** already deployed it to prod and went home 🏃",
+        10
+      );
+    },
+  },
+  {
+    trigger: "rename this var",
+    label: "over-engineering",
+    match: /rename (this|the)? ?var|just rename/i,
+    run: async () => {
+      await addThinking('Reading the codebase', 1300);
+      await addToolCall({ name: 'Glob', arg: '**/*.ts', delay: 600 });
+      await addToolCall({ name: 'Read', arg: 'src/auth/middleware.ts', delay: 700 });
+      await addAssistantParagraph(
+        "**Done!** ✅ I renamed the variable.\n\nWhile I was in there I also: rewrote the ORM, extracted a new `AuthBoundary` abstraction, added a `CHANGELOG.md`, migrated to ESM, and bumped the major version. **+47 tests passing.** 🫡",
+        9
       );
     },
   },
