@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232F4A3A'/%3E%3Ctext x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='22' font-weight='600' font-style='italic' fill='%23FAF7F2'%3EK%3C/text%3E%3C/svg%3E">
 <title>Kateryna Donajska — Masaż Wrocław | Gabinet & dojazd</title>
 <meta name="description" content="Masaż z dojazdem do klienta we Wrocławiu, Jelcz-Laskowicach i okolicach. Technik masażysta Kateryna Donajska — masaż, sportowy, relaksacyjny, terapia manualna, kinesiotaping, bańki.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -88,11 +89,56 @@
   .nav-cta:hover { background: var(--forest); color: var(--cream); }
   nav.scrolled .nav-cta { background: var(--forest); color: var(--cream); }
   nav.scrolled .nav-cta:hover { background: var(--ink); }
+  .lang-switch {
+    display: flex;
+    gap: 2px;
+    background: rgba(250, 247, 242, 0.12);
+    border: 1px solid rgba(250, 247, 242, 0.18);
+    border-radius: 999px;
+    padding: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    margin-right: 14px;
+  }
+  nav.scrolled .lang-switch {
+    background: rgba(47, 74, 58, 0.08);
+    border-color: rgba(47, 74, 58, 0.18);
+  }
+  .lang-switch button {
+    background: none;
+    border: none;
+    color: rgba(250, 247, 242, 0.75);
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    font-family: inherit;
+    font-size: inherit;
+    letter-spacing: inherit;
+    transition: all 0.2s;
+  }
+  nav.scrolled .lang-switch button { color: var(--ink-muted); }
+  .lang-switch button:hover { color: var(--cream); }
+  nav.scrolled .lang-switch button:hover { color: var(--forest); }
+  .lang-switch button.active {
+    background: var(--cream);
+    color: var(--ink);
+  }
+  nav.scrolled .lang-switch button.active {
+    background: var(--forest);
+    color: var(--cream);
+  }
+  .nav-right {
+    display: flex; align-items: center; gap: 0;
+  }
   @media (max-width: 780px) {
     .nav-links { display: none; }
     .nav-inner { padding: 14px 16px; }
     .logo { font-size: 1.1rem; }
     .nav-cta { padding: 8px 14px; font-size: 0.8rem; }
+    .lang-switch { margin-right: 8px; padding: 2px; }
+    .lang-switch button { padding: 4px 7px; font-size: 0.66rem; }
   }
 
   /* ---------- CINEMA HERO ---------- */
@@ -1104,13 +1150,20 @@
   <div class="nav-inner">
     <a href="#" class="logo">Kateryna <span>Donajska</span></a>
     <div class="nav-links">
-      <a href="#uslugi">Usługi</a>
-      <a href="#o-mnie">O mnie</a>
-      <a href="#reels">Reels</a>
-      <a href="#opinie">Opinie</a>
-      <a href="#faq">FAQ</a>
+      <a href="#uslugi" data-i18n="nav_services">Usługi</a>
+      <a href="#o-mnie" data-i18n="nav_about">O mnie</a>
+      <a href="#reels" data-i18n="nav_reels">Reels</a>
+      <a href="#opinie" data-i18n="nav_reviews">Opinie</a>
+      <a href="#faq" data-i18n="nav_faq">FAQ</a>
     </div>
-    <a href="#rezerwacja" class="nav-cta">Umów masaż</a>
+    <div class="nav-right">
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button type="button" data-lang="pl" class="active">PL</button>
+        <button type="button" data-lang="en">EN</button>
+        <button type="button" data-lang="ru">RU</button>
+      </div>
+      <a href="#rezerwacja" class="nav-cta" data-i18n="nav_cta">Umów masaż</a>
+    </div>
   </div>
 </nav>
 
@@ -1138,15 +1191,15 @@
     <div class="cinema-corners-bottom"></div>
 
     <div class="cinema-content">
-      <span class="cinema-eyebrow mono">● Live · Masaż Wrocław · Gabinet & dojazd</span>
-      <h1>Dotyk, który<br><em>przywraca</em> równowagę.</h1>
+      <span class="cinema-eyebrow mono" data-i18n="hero_eyebrow">● Live · Masaż Wrocław · Gabinet & dojazd</span>
+      <h1 data-i18n-html="hero_title">Dotyk, który<br><em>przywraca</em> równowagę.</h1>
       <div class="cinema-sub-row">
-        <p class="cinema-lead">
+        <p class="cinema-lead" data-i18n="hero_lead">
           Masaż, sportowy i relaksacyjny — z dojazdem we Wrocławiu, Jelcz-Laskowicach i okolicach. Mobilnie, ze stołem i pełnym sprzętem.
         </p>
         <div class="cinema-cta-row">
-          <a href="#rezerwacja" class="btn btn-primary">Zarezerwuj wizytę <span class="btn-arrow">→</span></a>
-          <a href="#reels" class="btn btn-ghost">▶ Obejrzyj reel</a>
+          <a href="#rezerwacja" class="btn btn-primary"><span data-i18n="hero_cta1">Zarezerwuj wizytę</span> <span class="btn-arrow">→</span></a>
+          <a href="#reels" class="btn btn-ghost" data-i18n="hero_cta2">▶ Obejrzyj reel</a>
         </div>
       </div>
     </div>
@@ -1177,20 +1230,20 @@
 <!-- MARQUEE -->
 <div class="marquee" aria-hidden="true">
   <div class="marquee-track">
-    <span>Masaż</span>
-    <span>Sportowy</span>
-    <span>Terapia manualna</span>
-    <span>Bańki & IASTM</span>
-    <span>Kinesiotaping</span>
-    <span>Relaksacyjny</span>
-    <span>Dojazd do klienta</span>
-    <span>Masaż</span>
-    <span>Sportowy</span>
-    <span>Terapia manualna</span>
-    <span>Bańki & IASTM</span>
-    <span>Kinesiotaping</span>
-    <span>Relaksacyjny</span>
-    <span>Dojazd do klienta</span>
+    <span data-i18n="mq_massage">Masaż</span>
+    <span data-i18n="mq_sport">Sportowy</span>
+    <span data-i18n="mq_manual">Terapia manualna</span>
+    <span data-i18n="mq_cupping">Bańki & IASTM</span>
+    <span data-i18n="mq_tape">Kinesiotaping</span>
+    <span data-i18n="mq_relax">Relaksacyjny</span>
+    <span data-i18n="mq_mobile">Dojazd do klienta</span>
+    <span data-i18n="mq_massage">Masaż</span>
+    <span data-i18n="mq_sport">Sportowy</span>
+    <span data-i18n="mq_manual">Terapia manualna</span>
+    <span data-i18n="mq_cupping">Bańki & IASTM</span>
+    <span data-i18n="mq_tape">Kinesiotaping</span>
+    <span data-i18n="mq_relax">Relaksacyjny</span>
+    <span data-i18n="mq_mobile">Dojazd do klienta</span>
   </div>
 </div>
 
@@ -1198,8 +1251,8 @@
 <section class="split">
   <div class="split-header">
     <div>
-      <span class="section-eyebrow">Dwa światy</span>
-      <h2>Sport <em>i</em> cisza — ta sama dokładność.</h2>
+      <span class="section-eyebrow" data-i18n="split_eyebrow">Dwa światy</span>
+      <h2 data-i18n-html="split_title">Sport <em>i</em> cisza — ta sama dokładność.</h2>
     </div>
     <div class="split-meta">
       <div>SHOT 01 · WRO 2026</div>
@@ -1213,10 +1266,10 @@
         <source src="WhatsApp Video 2026-04-20 at 21.54.46.mp4" type="video/mp4">
       </video>
       <div class="split-item-gradient"></div>
-      <div class="split-item-label"><span class="dot"></span> Na evencie</div>
+      <div class="split-item-label"><span class="dot"></span> <span data-i18n="split_label_event">Na evencie</span></div>
       <div class="split-item-caption">
-        <h3>Sport <em>& regeneracja</em></h3>
-        <p>Punkt fizjoterapii na zawodach biegowych. Masaż sportowy, IASTM, tape — tak, żebyś następnego dnia wsiadł na rower.</p>
+        <h3 data-i18n-html="split_event_title">Sport <em>& regeneracja</em></h3>
+        <p data-i18n="split_event_desc">Punkt fizjoterapii na zawodach biegowych. Masaż sportowy, IASTM, tape — tak, żebyś następnego dnia wsiadł na rower.</p>
       </div>
     </div>
     <div class="split-item">
@@ -1225,10 +1278,10 @@
         <source src="WhatsApp Video 2026-04-20 at 21.54.50.mp4" type="video/mp4">
       </video>
       <div class="split-item-gradient"></div>
-      <div class="split-item-label"><span class="dot"></span> W gabinecie</div>
+      <div class="split-item-label"><span class="dot"></span> <span data-i18n="split_label_studio">W gabinecie</span></div>
       <div class="split-item-caption">
-        <h3>Cisza <em>& oddech</em></h3>
-        <p>Kameralne wnętrze w centrum Wrocławia. Terapia manualna, bańki, kinesiotaping — spokój bez pośpiechu.</p>
+        <h3 data-i18n-html="split_studio_title">Cisza <em>& oddech</em></h3>
+        <p data-i18n="split_studio_desc">Kameralne wnętrze w centrum Wrocławia. Terapia manualna, bańki, kinesiotaping — spokój bez pośpiechu.</p>
       </div>
     </div>
   </div>
@@ -1258,8 +1311,8 @@
       </svg>
     </div>
     <div class="mask-caption">
-      <span>obserwuję · wywiad · dobieram intensywność</span>
-      <em>"Pierwszy dotyk mówi więcej niż godzinny wywiad."</em>
+      <span data-i18n="mask_method">obserwuję · wywiad · dobieram intensywność</span>
+      <em data-i18n="mask_quote">"Pierwszy dotyk mówi więcej niż godzinny wywiad."</em>
       <span>Kateryna D.</span>
     </div>
   </div>
@@ -1268,8 +1321,8 @@
 <!-- STICKY VIDEO + SERVICES -->
 <section class="sticky-section" id="uslugi">
   <div class="sticky-header">
-    <span class="section-eyebrow">Zakres usług</span>
-    <h2>Masaż dobrany <em class="italic-accent">do Twojego ciała</em></h2>
+    <span class="section-eyebrow" data-i18n="services_eyebrow">Zakres usług</span>
+    <h2 data-i18n-html="services_title">Masaż dobrany <em class="italic-accent">do Twojego ciała</em></h2>
   </div>
   <div class="sticky-grid">
     <div class="sticky-visual">
@@ -1285,61 +1338,61 @@
     <div class="sticky-cards">
       <div class="sticky-card">
         <div class="sticky-card-head">
-          <h3>Masaż klasyczny</h3>
+          <h3 data-i18n="svc_classic_name">Masaż klasyczny</h3>
           <span class="price">150 zł</span>
         </div>
-        <p>Całego ciała lub wybranych partii. Rozluźnia mięśnie, poprawia krążenie, redukuje napięcie po długim dniu przy biurku.</p>
+        <p data-i18n="svc_classic_desc">Całego ciała lub wybranych partii. Rozluźnia mięśnie, poprawia krążenie, redukuje napięcie po długim dniu przy biurku.</p>
         <div class="sticky-card-foot">
           <span>60 min</span>
-          <span>relaks · napięcie</span>
+          <span data-i18n="svc_classic_tag">relaks · napięcie</span>
         </div>
       </div>
       <div class="sticky-card">
         <div class="sticky-card-head">
-          <h3>Masaż sportowy</h3>
+          <h3 data-i18n="svc_sport_name">Masaż sportowy</h3>
           <span class="price">150 zł</span>
         </div>
-        <p>Dla biegaczy, rowerzystów, triathlonistów. Regeneracja po treningu i startach. Pracuję też przy punktach fizjo na zawodach.</p>
+        <p data-i18n="svc_sport_desc">Dla biegaczy, rowerzystów, triathlonistów. Regeneracja po treningu i startach. Pracuję też przy punktach fizjo na zawodach.</p>
         <div class="sticky-card-foot">
           <span>60 min</span>
-          <span>sport · regeneracja</span>
+          <span data-i18n="svc_sport_tag">sport · regeneracja</span>
         </div>
       </div>
       <div class="sticky-card">
         <div class="sticky-card-head">
-          <h3>Masaż relaksacyjny</h3>
+          <h3 data-i18n="svc_relax_name">Masaż relaksacyjny</h3>
           <span class="price">220 zł</span>
         </div>
-        <p>Długa, spokojna sesja — aromaterapia, delikatne rozciąganie, praca z oddechem. Reset dla ciała i głowy.</p>
+        <p data-i18n="svc_relax_desc">Długa, spokojna sesja — aromaterapia, delikatne rozciąganie, praca z oddechem. Reset dla ciała i głowy.</p>
         <div class="sticky-card-foot">
           <span>90 min</span>
-          <span>relaks · reset</span>
+          <span data-i18n="svc_relax_tag">relaks · reset</span>
         </div>
       </div>
       <div class="sticky-card">
         <div class="sticky-card-head">
-          <h3>Kinesiotaping</h3>
+          <h3 data-i18n="svc_tape_name">Kinesiotaping</h3>
           <span class="price">80 zł</span>
         </div>
-        <p>Elastyczne taśmy wspierające mięśnie i stawy. Jako dodatek do masażu lub samodzielnie przed zawodami.</p>
+        <p data-i18n="svc_tape_desc">Elastyczne taśmy wspierające mięśnie i stawy. Jako dodatek do masażu lub samodzielnie przed zawodami.</p>
         <div class="sticky-card-foot">
           <span>15 min</span>
-          <span>taping · start</span>
+          <span data-i18n="svc_tape_tag">taping · start</span>
         </div>
       </div>
       <div class="sticky-card sticky-card--pakiet">
-        <span class="pakiet-badge">Pakiet · 10 h</span>
+        <span class="pakiet-badge" data-i18n="svc_pkg_badge">Pakiet · 10 h</span>
         <div class="sticky-card-head">
-          <h3>Masaż antycelulitowy</h3>
+          <h3 data-i18n="svc_cellulite_name">Masaż antycelulitowy</h3>
           <div class="price-stack">
             <span class="price">1200 zł</span>
-            <span class="price-unit">10 × 60 min · 120 zł/godz.</span>
+            <span class="price-unit" data-i18n="svc_cellulite_unit">10 × 60 min · 120 zł/godz.</span>
           </div>
         </div>
-        <p>Intensywna praca na udach, pośladkach i brzuchu. Pobudza krążenie, wygładza skórę i wspiera redukcję tkanki tłuszczowej. Seria 10 sesji daje widoczny efekt.</p>
+        <p data-i18n="svc_cellulite_desc">Intensywna praca na udach, pośladkach i brzuchu. Pobudza krążenie, wygładza skórę i wspiera redukcję tkanki tłuszczowej. Seria 10 sesji daje widoczny efekt.</p>
         <div class="sticky-card-foot">
-          <span>cykl · regularność</span>
-          <span>modelowanie · skóra</span>
+          <span data-i18n="svc_cellulite_meta">cykl · regularność</span>
+          <span data-i18n="svc_cellulite_tag">modelowanie · skóra</span>
         </div>
       </div>
     </div>
@@ -1349,30 +1402,30 @@
 <!-- MODES -->
 <section class="modes">
   <div class="modes-header">
-    <span class="section-eyebrow">Jak chcesz się spotkać</span>
-    <h2>Dwie formy, <em class="italic-accent">jedna jakość</em></h2>
+    <span class="section-eyebrow" data-i18n="modes_eyebrow">Jak chcesz się spotkać</span>
+    <h2 data-i18n-html="modes_title">Dwie formy, <em class="italic-accent">jedna jakość</em></h2>
   </div>
   <div class="modes-grid">
     <div class="mode-card">
       <div class="mode-icon">🏠</div>
-      <h3>Z dojazdem do Ciebie</h3>
-      <p>Przywożę stół, oleje i muzykę. Ty oszczędzasz czas — relaksujesz się w swoim domu, nie wychodząc spod prysznica.</p>
+      <h3 data-i18n="mode_mobile_title">Z dojazdem do Ciebie</h3>
+      <p data-i18n="mode_mobile_desc">Przywożę stół, oleje i muzykę. Ty oszczędzasz czas — relaksujesz się w swoim domu, nie wychodząc spod prysznica.</p>
       <ul class="mode-features">
-        <li><span>Zasięg dojazdu</span><span>Wrocław + 15 km</span></li>
-        <li><span>Koszt dojazdu w mieście</span><span>gratis</span></li>
-        <li><span>Poza miastem</span><span>2 zł / km</span></li>
-        <li><span>Czas przygotowania</span><span>~10 min</span></li>
+        <li><span data-i18n="mode_mobile_f1">Zasięg dojazdu</span><span data-i18n="mode_mobile_f1_v">Wrocław + 15 km</span></li>
+        <li><span data-i18n="mode_mobile_f2">Koszt dojazdu w mieście</span><span data-i18n="mode_mobile_f2_v">gratis</span></li>
+        <li><span data-i18n="mode_mobile_f3">Poza miastem</span><span data-i18n="mode_mobile_f3_v">2 zł / km</span></li>
+        <li><span data-i18n="mode_mobile_f4">Czas przygotowania</span><span data-i18n="mode_mobile_f4_v">~10 min</span></li>
       </ul>
     </div>
     <div class="mode-card">
       <div class="mode-icon">🌿</div>
-      <h3>W kameralnym gabinecie</h3>
-      <p>Cisza, stonowane światło, aromaterapia. Gabinet w centrum, 5 minut od Rynku. Prysznic i szatnia dostępne na miejscu.</p>
+      <h3 data-i18n="mode_studio_title">W kameralnym gabinecie</h3>
+      <p data-i18n="mode_studio_desc">Cisza, stonowane światło, aromaterapia. Gabinet w centrum, 5 minut od Rynku. Prysznic i szatnia dostępne na miejscu.</p>
       <ul class="mode-features">
-        <li><span>Adres</span><span>ul. Świętokrzyska 37b, Wrocław</span></li>
-        <li><span>Parking</span><span>bezpłatny na podwórku</span></li>
-        <li><span>Prysznic po zabiegu</span><span>tak</span></li>
-        <li><span>Godziny otwarcia</span><span>pn–n, 10–21</span></li>
+        <li><span data-i18n="mode_studio_f1">Adres</span><span>ul. Świętokrzyska 37b, Wrocław</span></li>
+        <li><span data-i18n="mode_studio_f2">Parking</span><span data-i18n="mode_studio_f2_v">bezpłatny na podwórku</span></li>
+        <li><span data-i18n="mode_studio_f3">Prysznic po zabiegu</span><span data-i18n="mode_studio_f3_v">tak</span></li>
+        <li><span data-i18n="mode_studio_f4">Godziny otwarcia</span><span>pn–sb, 10–21</span></li>
       </ul>
     </div>
   </div>
@@ -1382,8 +1435,8 @@
 <section class="reels" id="reels">
   <div class="reels-header">
     <div>
-      <span class="section-eyebrow">Reels · Z pracy</span>
-      <h2>Nagrania <em>z gabinetu i eventów</em></h2>
+      <span class="section-eyebrow" data-i18n="reels_eyebrow">Reels · Z pracy</span>
+      <h2 data-i18n-html="reels_title">Nagrania <em>z gabinetu i eventów</em></h2>
     </div>
     <div class="reels-nav">
       <button id="reelPrev" aria-label="Poprzedni">←</button>
@@ -1486,35 +1539,35 @@
   <div class="about-grid">
     <div class="about-img-wrap">
       <img src="nowe_bez_ludzi.png" alt="Kateryna w gabinecie" class="about-img">
-      <div class="about-quote">
+      <div class="about-quote" data-i18n="about_quote">
         "Najważniejszy jest pierwszy dotyk — mówi o ciele więcej niż godzinny wywiad."
       </div>
     </div>
     <div class="about-content">
-      <span class="section-eyebrow">O mnie</span>
-      <h2>Kateryna <em>Donajska</em></h2>
-      <p>
+      <span class="section-eyebrow" data-i18n="about_eyebrow">O mnie</span>
+      <h2 data-i18n-html="about_title">Kateryna <em>Donajska</em></h2>
+      <p data-i18n="about_p1">
         Nazywam się Kateryna Donajska. Jestem technikiem masażystą i od trzech lat prowadzę własną działalność — głównie mobilnie, z dojazdem do klienta we Wrocławiu, Jelcz-Laskowicach i okolicach.
       </p>
-      <p>
+      <p data-i18n="about_p2">
         Łączę masaż klasyczny, sportowy i relaksacyjny z terapią manualną, bańkami, IASTM i kinesiotapingiem. Obsługuję też punkty regeneracji na zawodach biegowych oraz prowadzę szkolenia dla masażystów w Centrum Edukacji Biznesu. Wykształcenie technika usług kosmetycznych i technika sterylizacji medycznej przekłada się na wysokie standardy higieny.
       </p>
       <div class="credentials">
         <div class="credential">
-          <strong>Zawód</strong>
-          <span>Technik masażysta</span>
+          <strong data-i18n="cred_1_k">Zawód</strong>
+          <span data-i18n="cred_1_v">Technik masażysta</span>
         </div>
         <div class="credential">
-          <strong>Wykształcenie</strong>
-          <span>Technik usług kosmetycznych · sterylizacja medyczna</span>
+          <strong data-i18n="cred_2_k">Wykształcenie</strong>
+          <span data-i18n="cred_2_v">Technik usług kosmetycznych · sterylizacja medyczna</span>
         </div>
         <div class="credential">
-          <strong>Doświadczenie</strong>
-          <span>3 lata praktyki, mobilnie</span>
+          <strong data-i18n="cred_3_k">Doświadczenie</strong>
+          <span data-i18n="cred_3_v">3 lata praktyki, mobilnie</span>
         </div>
         <div class="credential">
-          <strong>Szkolenia</strong>
-          <span>Kurs „Masaż z dojazdem" · CEB Wrocław</span>
+          <strong data-i18n="cred_4_k">Szkolenia</strong>
+          <span data-i18n="cred_4_v">Kurs „Masaż z dojazdem" · CEB Wrocław</span>
         </div>
       </div>
     </div>
@@ -1524,46 +1577,46 @@
 <!-- TESTIMONIALS -->
 <section class="testimonials" id="opinie">
   <div class="testimonials-header">
-    <span class="section-eyebrow">Opinie klientów</span>
-    <h2>Co mówią <em class="italic-accent">ci, którzy wrócili</em></h2>
+    <span class="section-eyebrow" data-i18n="reviews_eyebrow">Opinie klientów</span>
+    <h2 data-i18n-html="reviews_title">Co mówią <em class="italic-accent">ci, którzy wrócili</em></h2>
   </div>
   <div class="testimonial-grid">
     <div class="testimonial">
       <div class="stars">★★★★★</div>
-      <blockquote>
+      <blockquote data-i18n="review_1_quote">
         "Po półmaratonie ledwo chodziłam. Po 45 minutach u Kateryny następnego dnia wsiadłam na rower. Konkret, profesjonalizm, pełen luz."
       </blockquote>
       <div class="testimonial-author">
         <div class="author-avatar">AK</div>
         <div class="author-info">
           <strong>Anna K.</strong>
-          <span>Biegaczka, Wrocław</span>
+          <span data-i18n="review_1_role">Biegaczka, Wrocław</span>
         </div>
       </div>
     </div>
     <div class="testimonial">
       <div class="stars">★★★★★</div>
-      <blockquote>
+      <blockquote data-i18n="review_2_quote">
         "Zamówiłam masaż z dojazdem przed ważnym wyjazdem. Punktualnie, sprzęt czysty, atmosfera jak w dobrym spa. Polecam w ciemno."
       </blockquote>
       <div class="testimonial-author">
         <div class="author-avatar">MP</div>
         <div class="author-info">
           <strong>Magda P.</strong>
-          <span>Klientka stała</span>
+          <span data-i18n="review_2_role">Klientka stała</span>
         </div>
       </div>
     </div>
     <div class="testimonial">
       <div class="stars">★★★★★</div>
-      <blockquote>
+      <blockquote data-i18n="review_3_quote">
         "Bóle karku po pracy zdalnej kompletnie ustąpiły po trzech spotkaniach. Kateryna tłumaczy co robi i dlaczego — nie tylko rozciera."
       </blockquote>
       <div class="testimonial-author">
         <div class="author-avatar">TR</div>
         <div class="author-info">
           <strong>Tomek R.</strong>
-          <span>IT, Wrocław</span>
+          <span data-i18n="review_3_role">IT, Wrocław</span>
         </div>
       </div>
     </div>
@@ -1573,33 +1626,33 @@
 <!-- FAQ -->
 <section class="faq" id="faq">
   <div class="faq-header">
-    <span class="section-eyebrow">FAQ</span>
-    <h2>Najczęściej <em class="italic-accent">zadawane pytania</em></h2>
+    <span class="section-eyebrow" data-i18n="faq_eyebrow">FAQ</span>
+    <h2 data-i18n-html="faq_title">Najczęściej <em class="italic-accent">zadawane pytania</em></h2>
   </div>
   <div class="faq-list">
     <details class="faq-item">
-      <summary>Czy muszę się rozbierać do masażu?</summary>
-      <p>Tylko do bielizny — i tylko te partie, nad którymi pracuję, są odkryte. Reszta przykryta ręcznikiem. Komfort klienta jest najważniejszy.</p>
+      <summary data-i18n="faq_q1">Czy muszę się rozbierać do masażu?</summary>
+      <p data-i18n="faq_a1">Tylko do bielizny — i tylko te partie, nad którymi pracuję, są odkryte. Reszta przykryta ręcznikiem. Komfort klienta jest najważniejszy.</p>
     </details>
     <details class="faq-item">
-      <summary>Co muszę przygotować przy masażu z dojazdem?</summary>
-      <p>Nic — przywożę stół, prześcieradło, oleje i muzykę. Potrzebuję tylko ~2 m² wolnej przestrzeni i dostępu do łazienki, żeby umyć ręce przed zabiegiem.</p>
+      <summary data-i18n="faq_q2">Co muszę przygotować przy masażu z dojazdem?</summary>
+      <p data-i18n="faq_a2">Nic — przywożę stół, prześcieradło, oleje i muzykę. Potrzebuję tylko ~2 m² wolnej przestrzeni i dostępu do łazienki, żeby umyć ręce przed zabiegiem.</p>
     </details>
     <details class="faq-item">
-      <summary>Ile trwa typowa sesja?</summary>
-      <p>Pierwsze spotkanie: 75–90 minut (15 min wywiadu + zabieg). Kolejne zwykle 60 minut. Terapia manualna bywa krótsza i intensywniejsza.</p>
+      <summary data-i18n="faq_q3">Ile trwa typowa sesja?</summary>
+      <p data-i18n="faq_a3">Pierwsze spotkanie: 75–90 minut (15 min wywiadu + zabieg). Kolejne zwykle 60 minut. Terapia manualna bywa krótsza i intensywniejsza.</p>
     </details>
     <details class="faq-item">
-      <summary>Jak płacę?</summary>
-      <p>Gotówka, BLIK, przelew, karta. Na dojeździe najczęściej BLIK lub gotówka. Wystawiam faktury na firmę.</p>
+      <summary data-i18n="faq_q4">Jak płacę?</summary>
+      <p data-i18n="faq_a4">Gotówka, BLIK, przelew, karta. Na dojeździe najczęściej BLIK lub gotówka. Wystawiam faktury na firmę.</p>
     </details>
     <details class="faq-item">
-      <summary>Czy są przeciwwskazania?</summary>
-      <p>Tak — świeże urazy, gorączka, niektóre choroby skórne i naczyniowe. Przed pierwszą wizytą zawsze pytam o stan zdrowia. W razie wątpliwości odsyłam do lekarza.</p>
+      <summary data-i18n="faq_q5">Czy są przeciwwskazania?</summary>
+      <p data-i18n="faq_a5">Tak — świeże urazy, gorączka, niektóre choroby skórne i naczyniowe. Przed pierwszą wizytą zawsze pytam o stan zdrowia. W razie wątpliwości odsyłam do lekarza.</p>
     </details>
     <details class="faq-item">
-      <summary>Czy mogę kupić masaż w prezencie?</summary>
-      <p>Jak najbardziej. Wystawiam voucher PDF lub drukowany, na wybrany zabieg lub kwotę. Ważność 6 miesięcy.</p>
+      <summary data-i18n="faq_q6">Czy mogę kupić masaż w prezencie?</summary>
+      <p data-i18n="faq_a6">Jak najbardziej. Wystawiam voucher PDF lub drukowany, na wybrany zabieg lub kwotę. Ważność 6 miesięcy.</p>
     </details>
   </div>
 </section>
@@ -1610,10 +1663,10 @@
     <source src="WhatsApp Video 2026-04-20 at 21.54.50.mp4" type="video/mp4">
   </video>
   <div class="container-narrow">
-    <h2>Zrób <em>jedną rzecz</em> dla siebie w tym tygodniu.</h2>
-    <p>Napisz lub zadzwoń — ustalimy termin, formę (gabinet / dojazd) i rodzaj zabiegu. Nic więcej nie trzeba.</p>
+    <h2 data-i18n-html="final_title">Zrób <em>jedną rzecz</em> dla siebie w tym tygodniu.</h2>
+    <p data-i18n="final_desc">Napisz lub zadzwoń — ustalimy termin, formę (gabinet / dojazd) i rodzaj zabiegu. Nic więcej nie trzeba.</p>
     <div class="cta-cta-row">
-      <a href="tel:+48697655441" class="btn btn-primary">Zadzwoń · 697 655 441</a>
+      <a href="tel:+48697655441" class="btn btn-primary" data-i18n="final_call">Zadzwoń · 697 655 441</a>
       <a href="https://wa.me/48697655441" class="btn btn-ghost">WhatsApp</a>
     </div>
   </div>
@@ -1624,26 +1677,25 @@
   <div class="footer-grid">
     <div>
       <a href="#" class="logo">Kateryna <span style="color: var(--beige);">Donajska</span></a>
-      <p>Masaż, sportowy & relaksacyjny we Wrocławiu. Gabinet i dojazd do klienta.</p>
+      <p data-i18n="footer_tagline">Masaż, sportowy & relaksacyjny we Wrocławiu. Gabinet i dojazd do klienta.</p>
     </div>
     <div>
-      <h4>Kontakt</h4>
+      <h4 data-i18n="footer_contact">Kontakt</h4>
       <ul>
         <li><a href="tel:+48697655441">+48 697 655 441</a></li>
-        <li><a href="mailto:kontakt@masaz-wroclaw.pl">kontakt@masaz-wroclaw.pl</a></li>
         <li><a href="https://wa.me/48697655441">WhatsApp</a></li>
       </ul>
     </div>
     <div>
-      <h4>Gabinet</h4>
+      <h4 data-i18n="footer_studio">Gabinet</h4>
       <ul>
         <li>ul. Świętokrzyska 37b</li>
         <li>Wrocław, Poland</li>
-        <li>pn–n, 10:00–21:00</li>
+        <li>pn–sb, 10:00–21:00</li>
       </ul>
     </div>
     <div>
-      <h4>Social</h4>
+      <h4 data-i18n="footer_social">Social</h4>
       <ul>
         <li><a href="https://www.instagram.com/masaz_wroclaw_pl/">Instagram</a></li>
         <li><a href="https://www.facebook.com/katerina.bohunenko/">Facebook</a></li>
@@ -1651,10 +1703,10 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <span>© 2026 Kateryna Donajska. Wszystkie prawa zastrzeżone.</span>
+    <span data-i18n="footer_rights">© 2026 Kateryna Donajska. Wszystkie prawa zastrzeżone.</span>
     <span>
-      <a href="#" style="color: rgba(250, 247, 242, 0.5);">Polityka prywatności</a> ·
-      <a href="#" style="color: rgba(250, 247, 242, 0.5);">Regulamin</a>
+      <a href="#" style="color: rgba(250, 247, 242, 0.5);" data-i18n="footer_privacy">Polityka prywatności</a> ·
+      <a href="#" style="color: rgba(250, 247, 242, 0.5);" data-i18n="footer_terms">Regulamin</a>
     </span>
   </div>
 </footer>
@@ -1666,6 +1718,394 @@
 </a>
 
 <script>
+  // --- i18n: PL (default) / EN / RU ---
+  const I18N = {
+    pl: {
+      nav_services: "Usługi",
+      nav_about: "O mnie",
+      nav_reels: "Reels",
+      nav_reviews: "Opinie",
+      nav_faq: "FAQ",
+      nav_cta: "Umów masaż",
+
+      hero_eyebrow: "● Live · Masaż Wrocław · Gabinet & dojazd",
+      hero_title: "Dotyk, który<br><em>przywraca</em> równowagę.",
+      hero_lead: "Masaż, sportowy i relaksacyjny — z dojazdem we Wrocławiu, Jelcz-Laskowicach i okolicach. Mobilnie, ze stołem i pełnym sprzętem.",
+      hero_cta1: "Zarezerwuj wizytę",
+      hero_cta2: "▶ Obejrzyj reel",
+
+      mq_massage: "Masaż",
+      mq_sport: "Sportowy",
+      mq_manual: "Terapia manualna",
+      mq_cupping: "Bańki & IASTM",
+      mq_tape: "Kinesiotaping",
+      mq_relax: "Relaksacyjny",
+      mq_mobile: "Dojazd do klienta",
+
+      split_eyebrow: "Dwa światy",
+      split_title: "Sport <em>i</em> cisza — ta sama dokładność.",
+      split_label_event: "Na evencie",
+      split_event_title: "Sport <em>& regeneracja</em>",
+      split_event_desc: "Punkt fizjoterapii na zawodach biegowych. Masaż sportowy, IASTM, tape — tak, żebyś następnego dnia wsiadł na rower.",
+      split_label_studio: "W gabinecie",
+      split_studio_title: "Cisza <em>& oddech</em>",
+      split_studio_desc: "Kameralne wnętrze w centrum Wrocławia. Terapia manualna, bańki, kinesiotaping — spokój bez pośpiechu.",
+
+      mask_method: "obserwuję · wywiad · dobieram intensywność",
+      mask_quote: "\"Pierwszy dotyk mówi więcej niż godzinny wywiad.\"",
+
+      services_eyebrow: "Zakres usług",
+      services_title: "Masaż dobrany <em class=\"italic-accent\">do Twojego ciała</em>",
+      svc_classic_name: "Masaż klasyczny",
+      svc_classic_desc: "Całego ciała lub wybranych partii. Rozluźnia mięśnie, poprawia krążenie, redukuje napięcie po długim dniu przy biurku.",
+      svc_classic_tag: "relaks · napięcie",
+      svc_sport_name: "Masaż sportowy",
+      svc_sport_desc: "Dla biegaczy, rowerzystów, triathlonistów. Regeneracja po treningu i startach. Pracuję też przy punktach fizjo na zawodach.",
+      svc_sport_tag: "sport · regeneracja",
+      svc_relax_name: "Masaż relaksacyjny",
+      svc_relax_desc: "Długa, spokojna sesja — aromaterapia, delikatne rozciąganie, praca z oddechem. Reset dla ciała i głowy.",
+      svc_relax_tag: "relaks · reset",
+      svc_tape_name: "Kinesiotaping",
+      svc_tape_desc: "Elastyczne taśmy wspierające mięśnie i stawy. Jako dodatek do masażu lub samodzielnie przed zawodami.",
+      svc_tape_tag: "taping · start",
+      svc_pkg_badge: "Pakiet · 10 h",
+      svc_cellulite_name: "Masaż antycelulitowy",
+      svc_cellulite_unit: "10 × 60 min · 120 zł/godz.",
+      svc_cellulite_desc: "Intensywna praca na udach, pośladkach i brzuchu. Pobudza krążenie, wygładza skórę i wspiera redukcję tkanki tłuszczowej. Seria 10 sesji daje widoczny efekt.",
+      svc_cellulite_meta: "cykl · regularność",
+      svc_cellulite_tag: "modelowanie · skóra",
+
+      modes_eyebrow: "Jak chcesz się spotkać",
+      modes_title: "Dwie formy, <em class=\"italic-accent\">jedna jakość</em>",
+      mode_mobile_title: "Z dojazdem do Ciebie",
+      mode_mobile_desc: "Przywożę stół, oleje i muzykę. Ty oszczędzasz czas — relaksujesz się w swoim domu, nie wychodząc spod prysznica.",
+      mode_mobile_f1: "Zasięg dojazdu", mode_mobile_f1_v: "Wrocław + 15 km",
+      mode_mobile_f2: "Koszt dojazdu w mieście", mode_mobile_f2_v: "gratis",
+      mode_mobile_f3: "Poza miastem", mode_mobile_f3_v: "2 zł / km",
+      mode_mobile_f4: "Czas przygotowania", mode_mobile_f4_v: "~10 min",
+      mode_studio_title: "W kameralnym gabinecie",
+      mode_studio_desc: "Cisza, stonowane światło, aromaterapia. Gabinet w centrum, 5 minut od Rynku. Prysznic i szatnia dostępne na miejscu.",
+      mode_studio_f1: "Adres",
+      mode_studio_f2: "Parking", mode_studio_f2_v: "bezpłatny na podwórku",
+      mode_studio_f3: "Prysznic po zabiegu", mode_studio_f3_v: "tak",
+      mode_studio_f4: "Godziny otwarcia",
+
+      reels_eyebrow: "Reels · Z pracy",
+      reels_title: "Nagrania <em>z gabinetu i eventów</em>",
+
+      about_eyebrow: "O mnie",
+      about_title: "Kateryna <em>Donajska</em>",
+      about_quote: "\"Najważniejszy jest pierwszy dotyk — mówi o ciele więcej niż godzinny wywiad.\"",
+      about_p1: "Nazywam się Kateryna Donajska. Jestem technikiem masażystą i od trzech lat prowadzę własną działalność — głównie mobilnie, z dojazdem do klienta we Wrocławiu, Jelcz-Laskowicach i okolicach.",
+      about_p2: "Łączę masaż klasyczny, sportowy i relaksacyjny z terapią manualną, bańkami, IASTM i kinesiotapingiem. Obsługuję też punkty regeneracji na zawodach biegowych oraz prowadzę szkolenia dla masażystów w Centrum Edukacji Biznesu. Wykształcenie technika usług kosmetycznych i technika sterylizacji medycznej przekłada się na wysokie standardy higieny.",
+      cred_1_k: "Zawód", cred_1_v: "Technik masażysta",
+      cred_2_k: "Wykształcenie", cred_2_v: "Technik usług kosmetycznych · sterylizacja medyczna",
+      cred_3_k: "Doświadczenie", cred_3_v: "3 lata praktyki, mobilnie",
+      cred_4_k: "Szkolenia", cred_4_v: "Kurs „Masaż z dojazdem\" · CEB Wrocław",
+
+      reviews_eyebrow: "Opinie klientów",
+      reviews_title: "Co mówią <em class=\"italic-accent\">ci, którzy wrócili</em>",
+      review_1_quote: "\"Po półmaratonie ledwo chodziłam. Po 45 minutach u Kateryny następnego dnia wsiadłam na rower. Konkret, profesjonalizm, pełen luz.\"",
+      review_1_role: "Biegaczka, Wrocław",
+      review_2_quote: "\"Zamówiłam masaż z dojazdem przed ważnym wyjazdem. Punktualnie, sprzęt czysty, atmosfera jak w dobrym spa. Polecam w ciemno.\"",
+      review_2_role: "Klientka stała",
+      review_3_quote: "\"Bóle karku po pracy zdalnej kompletnie ustąpiły po trzech spotkaniach. Kateryna tłumaczy co robi i dlaczego — nie tylko rozciera.\"",
+      review_3_role: "IT, Wrocław",
+
+      faq_eyebrow: "FAQ",
+      faq_title: "Najczęściej <em class=\"italic-accent\">zadawane pytania</em>",
+      faq_q1: "Czy muszę się rozbierać do masażu?",
+      faq_a1: "Tylko do bielizny — i tylko te partie, nad którymi pracuję, są odkryte. Reszta przykryta ręcznikiem. Komfort klienta jest najważniejszy.",
+      faq_q2: "Co muszę przygotować przy masażu z dojazdem?",
+      faq_a2: "Nic — przywożę stół, prześcieradło, oleje i muzykę. Potrzebuję tylko ~2 m² wolnej przestrzeni i dostępu do łazienki, żeby umyć ręce przed zabiegiem.",
+      faq_q3: "Ile trwa typowa sesja?",
+      faq_a3: "Pierwsze spotkanie: 75–90 minut (15 min wywiadu + zabieg). Kolejne zwykle 60 minut. Terapia manualna bywa krótsza i intensywniejsza.",
+      faq_q4: "Jak płacę?",
+      faq_a4: "Gotówka, BLIK, przelew, karta. Na dojeździe najczęściej BLIK lub gotówka. Wystawiam faktury na firmę.",
+      faq_q5: "Czy są przeciwwskazania?",
+      faq_a5: "Tak — świeże urazy, gorączka, niektóre choroby skórne i naczyniowe. Przed pierwszą wizytą zawsze pytam o stan zdrowia. W razie wątpliwości odsyłam do lekarza.",
+      faq_q6: "Czy mogę kupić masaż w prezencie?",
+      faq_a6: "Jak najbardziej. Wystawiam voucher PDF lub drukowany, na wybrany zabieg lub kwotę. Ważność 6 miesięcy.",
+
+      final_title: "Zrób <em>jedną rzecz</em> dla siebie w tym tygodniu.",
+      final_desc: "Napisz lub zadzwoń — ustalimy termin, formę (gabinet / dojazd) i rodzaj zabiegu. Nic więcej nie trzeba.",
+      final_call: "Zadzwoń · 697 655 441",
+
+      footer_tagline: "Masaż, sportowy & relaksacyjny we Wrocławiu. Gabinet i dojazd do klienta.",
+      footer_contact: "Kontakt",
+      footer_studio: "Gabinet",
+      footer_social: "Social",
+      footer_rights: "© 2026 Kateryna Donajska. Wszystkie prawa zastrzeżone.",
+      footer_privacy: "Polityka prywatności",
+      footer_terms: "Regulamin"
+    },
+    en: {
+      nav_services: "Services",
+      nav_about: "About",
+      nav_reels: "Reels",
+      nav_reviews: "Reviews",
+      nav_faq: "FAQ",
+      nav_cta: "Book a massage",
+
+      hero_eyebrow: "● Live · Massage Wrocław · Studio & mobile",
+      hero_title: "A touch that<br><em>restores</em> balance.",
+      hero_lead: "Sports, relaxing and therapeutic massage — mobile across Wrocław, Jelcz-Laskowice and surroundings. Full kit, table, oils, music.",
+      hero_cta1: "Book a session",
+      hero_cta2: "▶ Watch reel",
+
+      mq_massage: "Massage",
+      mq_sport: "Sports",
+      mq_manual: "Manual therapy",
+      mq_cupping: "Cupping & IASTM",
+      mq_tape: "Kinesiotaping",
+      mq_relax: "Relaxing",
+      mq_mobile: "Mobile service",
+
+      split_eyebrow: "Two worlds",
+      split_title: "Sport <em>and</em> stillness — same precision.",
+      split_label_event: "On site",
+      split_event_title: "Sport <em>& recovery</em>",
+      split_event_desc: "Physiotherapy point at running events. Sports massage, IASTM, tape — so you're back on the bike the next day.",
+      split_label_studio: "In studio",
+      split_studio_title: "Silence <em>& breath</em>",
+      split_studio_desc: "An intimate space in central Wrocław. Manual therapy, cupping, kinesiotaping — calm without rush.",
+
+      mask_method: "I observe · interview · dial intensity",
+      mask_quote: "\"The first touch tells more than an hour of questions.\"",
+
+      services_eyebrow: "Range of services",
+      services_title: "Massage tailored <em class=\"italic-accent\">to your body</em>",
+      svc_classic_name: "Classic massage",
+      svc_classic_desc: "Full body or selected areas. Releases muscles, improves circulation, reduces tension after a long day at a desk.",
+      svc_classic_tag: "relax · tension",
+      svc_sport_name: "Sports massage",
+      svc_sport_desc: "For runners, cyclists, triathletes. Recovery after training and races. Also available at event physio points.",
+      svc_sport_tag: "sport · recovery",
+      svc_relax_name: "Relaxing massage",
+      svc_relax_desc: "A long, calm session — aromatherapy, gentle stretching, breathwork. A reset for body and mind.",
+      svc_relax_tag: "relax · reset",
+      svc_tape_name: "Kinesiotaping",
+      svc_tape_desc: "Elastic tapes supporting muscles and joints. As an add-on or standalone before competitions.",
+      svc_tape_tag: "taping · start",
+      svc_pkg_badge: "Package · 10 h",
+      svc_cellulite_name: "Anti-cellulite massage",
+      svc_cellulite_unit: "10 × 60 min · 120 PLN/hr",
+      svc_cellulite_desc: "Intensive work on thighs, glutes and abdomen. Boosts circulation, smooths skin, supports fat reduction. A 10-session series gives visible results.",
+      svc_cellulite_meta: "cycle · consistency",
+      svc_cellulite_tag: "modeling · skin",
+
+      modes_eyebrow: "How we meet",
+      modes_title: "Two forms, <em class=\"italic-accent\">one quality</em>",
+      mode_mobile_title: "Mobile — I come to you",
+      mode_mobile_desc: "I bring the table, oils and music. You save time — relax at home without stepping out of the shower.",
+      mode_mobile_f1: "Travel range", mode_mobile_f1_v: "Wrocław + 15 km",
+      mode_mobile_f2: "Travel cost in town", mode_mobile_f2_v: "free",
+      mode_mobile_f3: "Outside town", mode_mobile_f3_v: "2 PLN / km",
+      mode_mobile_f4: "Setup time", mode_mobile_f4_v: "~10 min",
+      mode_studio_title: "In the studio",
+      mode_studio_desc: "Silence, soft light, aromatherapy. Studio in the center, 5 min from the Market Square. Shower and changing room on site.",
+      mode_studio_f1: "Address",
+      mode_studio_f2: "Parking", mode_studio_f2_v: "free in the courtyard",
+      mode_studio_f3: "Shower after session", mode_studio_f3_v: "yes",
+      mode_studio_f4: "Opening hours",
+
+      reels_eyebrow: "Reels · From work",
+      reels_title: "Footage <em>from the studio and events</em>",
+
+      about_eyebrow: "About",
+      about_title: "Kateryna <em>Donajska</em>",
+      about_quote: "\"The first touch matters most — it tells more about the body than an hour of questions.\"",
+      about_p1: "I'm Kateryna Donajska. A certified massage technician running my own practice for three years — mainly mobile, traveling to clients across Wrocław, Jelcz-Laskowice and nearby.",
+      about_p2: "I combine classic, sports and relaxing massage with manual therapy, cupping, IASTM and kinesiotaping. I also run recovery points at running events and teach courses for therapists at CEB Wrocław. A background in cosmetology and medical sterilization translates into high hygiene standards.",
+      cred_1_k: "Profession", cred_1_v: "Massage technician",
+      cred_2_k: "Education", cred_2_v: "Cosmetology technician · medical sterilization",
+      cred_3_k: "Experience", cred_3_v: "3 years of practice, mobile",
+      cred_4_k: "Training", cred_4_v: "\"Mobile massage\" course · CEB Wrocław",
+
+      reviews_eyebrow: "Client reviews",
+      reviews_title: "What <em class=\"italic-accent\">returning clients</em> say",
+      review_1_quote: "\"After the half marathon I could barely walk. 45 minutes with Kateryna and the next day I was back on the bike. Focused, professional, easy vibe.\"",
+      review_1_role: "Runner, Wrocław",
+      review_2_quote: "\"Booked a mobile session before an important trip. Punctual, clean kit, atmosphere like a good spa. Would recommend blindly.\"",
+      review_2_role: "Regular client",
+      review_3_quote: "\"Neck pain from remote work was completely gone after three sessions. Kateryna explains what she's doing and why — not just pressing.\"",
+      review_3_role: "IT, Wrocław",
+
+      faq_eyebrow: "FAQ",
+      faq_title: "Frequently <em class=\"italic-accent\">asked questions</em>",
+      faq_q1: "Do I have to undress for the massage?",
+      faq_a1: "Down to underwear only — and only the area I'm working on is uncovered. The rest is covered with a towel. Client comfort comes first.",
+      faq_q2: "What do I need to prepare for mobile massage?",
+      faq_a2: "Nothing — I bring the table, sheet, oils and music. I only need ~2 m² of free space and access to a bathroom to wash my hands before treatment.",
+      faq_q3: "How long is a typical session?",
+      faq_a3: "First visit: 75–90 minutes (15 min interview + treatment). Follow-ups usually 60 minutes. Manual therapy tends to be shorter and more intense.",
+      faq_q4: "How do I pay?",
+      faq_a4: "Cash, BLIK, transfer, card. On the road it's usually BLIK or cash. Business invoices available.",
+      faq_q5: "Are there contraindications?",
+      faq_a5: "Yes — fresh injuries, fever, some skin and vascular conditions. I always ask about your health before the first visit. If in doubt, I refer to a doctor.",
+      faq_q6: "Can I buy a massage as a gift?",
+      faq_a6: "Absolutely. I issue a PDF or printed voucher for a specific treatment or amount. Valid for 6 months.",
+
+      final_title: "Do <em>one thing</em> for yourself this week.",
+      final_desc: "Message or call — we'll set a time, format (studio / mobile) and type of treatment. Nothing more needed.",
+      final_call: "Call · 697 655 441",
+
+      footer_tagline: "Sports, relaxing & therapeutic massage in Wrocław. Studio and mobile service.",
+      footer_contact: "Contact",
+      footer_studio: "Studio",
+      footer_social: "Social",
+      footer_rights: "© 2026 Kateryna Donajska. All rights reserved.",
+      footer_privacy: "Privacy policy",
+      footer_terms: "Terms"
+    },
+    ru: {
+      nav_services: "Услуги",
+      nav_about: "Обо мне",
+      nav_reels: "Reels",
+      nav_reviews: "Отзывы",
+      nav_faq: "FAQ",
+      nav_cta: "Записаться",
+
+      hero_eyebrow: "● Live · Массаж Вроцлав · Кабинет & выезд",
+      hero_title: "Прикосновение, что<br><em>возвращает</em> баланс.",
+      hero_lead: "Спортивный, расслабляющий и лечебный массаж — с выездом по Вроцлаву, Ельч-Лясковице и окрестностям. Мобильно, со столом и полным оборудованием.",
+      hero_cta1: "Записаться",
+      hero_cta2: "▶ Посмотреть reel",
+
+      mq_massage: "Массаж",
+      mq_sport: "Спортивный",
+      mq_manual: "Мануальная терапия",
+      mq_cupping: "Банки & IASTM",
+      mq_tape: "Кинезиотейпинг",
+      mq_relax: "Расслабляющий",
+      mq_mobile: "Выезд к клиенту",
+
+      split_eyebrow: "Два мира",
+      split_title: "Спорт <em>и</em> тишина — одна точность.",
+      split_label_event: "На мероприятии",
+      split_event_title: "Спорт <em>& восстановление</em>",
+      split_event_desc: "Пункт физиотерапии на беговых соревнованиях. Спортивный массаж, IASTM, тейп — чтобы на следующий день сесть на велосипед.",
+      split_label_studio: "В кабинете",
+      split_studio_title: "Тишина <em>& дыхание</em>",
+      split_studio_desc: "Камерное пространство в центре Вроцлава. Мануальная терапия, банки, кинезиотейпинг — спокойствие без спешки.",
+
+      mask_method: "наблюдаю · опрос · подбираю интенсивность",
+      mask_quote: "\"Первое прикосновение говорит больше, чем час беседы.\"",
+
+      services_eyebrow: "Перечень услуг",
+      services_title: "Массаж, подобранный <em class=\"italic-accent\">под ваше тело</em>",
+      svc_classic_name: "Классический массаж",
+      svc_classic_desc: "Всё тело или отдельные зоны. Расслабляет мышцы, улучшает кровообращение, снимает напряжение после долгого дня за столом.",
+      svc_classic_tag: "релакс · напряжение",
+      svc_sport_name: "Спортивный массаж",
+      svc_sport_desc: "Для бегунов, велосипедистов, триатлонистов. Восстановление после тренировок и стартов. Работаю и на физио-пунктах соревнований.",
+      svc_sport_tag: "спорт · восстановление",
+      svc_relax_name: "Расслабляющий массаж",
+      svc_relax_desc: "Длинная, спокойная сессия — аромат, мягкая растяжка, работа с дыханием. Перезагрузка для тела и головы.",
+      svc_relax_tag: "релакс · сброс",
+      svc_tape_name: "Кинезиотейпинг",
+      svc_tape_desc: "Эластичные ленты, поддерживающие мышцы и суставы. Как дополнение к массажу или отдельно перед стартом.",
+      svc_tape_tag: "тейп · старт",
+      svc_pkg_badge: "Пакет · 10 ч",
+      svc_cellulite_name: "Антицеллюлитный массаж",
+      svc_cellulite_unit: "10 × 60 мин · 120 zł/час",
+      svc_cellulite_desc: "Интенсивная работа по бёдрам, ягодицам и животу. Улучшает кровообращение, выравнивает кожу, поддерживает снижение жировой ткани. Курс из 10 сессий даёт заметный результат.",
+      svc_cellulite_meta: "цикл · регулярность",
+      svc_cellulite_tag: "моделирование · кожа",
+
+      modes_eyebrow: "Как встречаемся",
+      modes_title: "Две формы, <em class=\"italic-accent\">одно качество</em>",
+      mode_mobile_title: "С выездом к вам",
+      mode_mobile_desc: "Привожу стол, масла и музыку. Вы экономите время — расслабляетесь дома, не выходя из-под душа.",
+      mode_mobile_f1: "Зона выезда", mode_mobile_f1_v: "Вроцлав + 15 км",
+      mode_mobile_f2: "Выезд в городе", mode_mobile_f2_v: "бесплатно",
+      mode_mobile_f3: "За городом", mode_mobile_f3_v: "2 zł / км",
+      mode_mobile_f4: "Подготовка", mode_mobile_f4_v: "~10 мин",
+      mode_studio_title: "В уютном кабинете",
+      mode_studio_desc: "Тишина, мягкий свет, ароматерапия. Кабинет в центре, 5 минут от Рынка. Душ и раздевалка на месте.",
+      mode_studio_f1: "Адрес",
+      mode_studio_f2: "Парковка", mode_studio_f2_v: "бесплатно во дворе",
+      mode_studio_f3: "Душ после сеанса", mode_studio_f3_v: "да",
+      mode_studio_f4: "Часы работы",
+
+      reels_eyebrow: "Reels · С работы",
+      reels_title: "Ролики <em>из кабинета и с мероприятий</em>",
+
+      about_eyebrow: "Обо мне",
+      about_title: "Катерина <em>Донайска</em>",
+      about_quote: "\"Главное — первое прикосновение: оно говорит о теле больше, чем час беседы.\"",
+      about_p1: "Меня зовут Катерина Донайска. Я дипломированный массажист, уже три года веду собственную практику — в основном мобильно, с выездом к клиенту во Вроцлаве, Ельч-Лясковице и окрестностях.",
+      about_p2: "Сочетаю классический, спортивный и расслабляющий массаж с мануальной терапией, банками, IASTM и кинезиотейпингом. Работаю на пунктах восстановления на беговых соревнованиях и веду курсы для массажистов в CEB Вроцлав. Образование в косметологии и медицинской стерилизации переходит в высокие стандарты гигиены.",
+      cred_1_k: "Профессия", cred_1_v: "Техник-массажист",
+      cred_2_k: "Образование", cred_2_v: "Косметолог · медицинская стерилизация",
+      cred_3_k: "Опыт", cred_3_v: "3 года практики, мобильно",
+      cred_4_k: "Обучение", cred_4_v: "Курс «Массаж с выездом» · CEB Вроцлав",
+
+      reviews_eyebrow: "Отзывы клиентов",
+      reviews_title: "Что говорят <em class=\"italic-accent\">те, кто вернулся</em>",
+      review_1_quote: "\"После полумарафона еле ходила. 45 минут у Катерины — и на следующий день я села на велосипед. Конкретика, профессионализм, лёгкая атмосфера.\"",
+      review_1_role: "Бегунья, Вроцлав",
+      review_2_quote: "\"Заказала массаж с выездом перед важной поездкой. Пунктуально, чистое оборудование, атмосфера как в хорошем спа. Рекомендую без раздумий.\"",
+      review_2_role: "Постоянная клиентка",
+      review_3_quote: "\"Боль в шее от удалёнки полностью прошла после трёх сеансов. Катерина объясняет, что делает и зачем — не просто растирает.\"",
+      review_3_role: "IT, Вроцлав",
+
+      faq_eyebrow: "FAQ",
+      faq_title: "Часто <em class=\"italic-accent\">задаваемые вопросы</em>",
+      faq_q1: "Нужно ли раздеваться для массажа?",
+      faq_a1: "Только до белья — и открыта только та зона, над которой я работаю. Остальное под полотенцем. Комфорт клиента — в первую очередь.",
+      faq_q2: "Что подготовить для массажа с выездом?",
+      faq_a2: "Ничего — привожу стол, простыню, масла и музыку. Нужно только ~2 м² свободного места и доступ к ванной, чтобы вымыть руки перед сеансом.",
+      faq_q3: "Сколько длится сессия?",
+      faq_a3: "Первая встреча: 75–90 минут (15 мин опрос + сеанс). Следующие обычно 60 минут. Мануальная терапия может быть короче и интенсивнее.",
+      faq_q4: "Как оплатить?",
+      faq_a4: "Наличные, BLIK, перевод, карта. На выезде чаще BLIK или наличные. Выставляю счета для компаний.",
+      faq_q5: "Есть противопоказания?",
+      faq_a5: "Да — свежие травмы, температура, некоторые кожные и сосудистые заболевания. Перед первым визитом всегда спрашиваю о здоровье. При сомнениях направляю к врачу.",
+      faq_q6: "Можно купить массаж в подарок?",
+      faq_a6: "Конечно. Делаю PDF или печатный сертификат на выбранную процедуру или сумму. Срок действия — 6 месяцев.",
+
+      final_title: "Сделайте <em>одну вещь</em> для себя на этой неделе.",
+      final_desc: "Напишите или позвоните — согласуем время, формат (кабинет / выезд) и вид процедуры. Больше ничего не нужно.",
+      final_call: "Позвонить · 697 655 441",
+
+      footer_tagline: "Спортивный, расслабляющий и лечебный массаж во Вроцлаве. Кабинет и выезд к клиенту.",
+      footer_contact: "Контакт",
+      footer_studio: "Кабинет",
+      footer_social: "Соцсети",
+      footer_rights: "© 2026 Kateryna Donajska. Все права защищены.",
+      footer_privacy: "Политика конфиденциальности",
+      footer_terms: "Правила"
+    }
+  };
+
+  function applyLang(lang) {
+    const dict = I18N[lang] || I18N.pl;
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (dict[key] !== undefined) el.textContent = dict[key];
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+      const key = el.getAttribute('data-i18n-html');
+      if (dict[key] !== undefined) el.innerHTML = dict[key];
+    });
+    document.querySelectorAll('.lang-switch button').forEach(b => {
+      b.classList.toggle('active', b.dataset.lang === lang);
+    });
+    try { localStorage.setItem('kd_lang', lang); } catch (e) {}
+  }
+
+  (function initLang() {
+    let saved = 'pl';
+    try { saved = localStorage.getItem('kd_lang') || 'pl'; } catch (e) {}
+    if (!I18N[saved]) saved = 'pl';
+    applyLang(saved);
+    document.querySelectorAll('.lang-switch button').forEach(b => {
+      b.addEventListener('click', () => applyLang(b.dataset.lang));
+    });
+  })();
+
   // Loader: running timecode + fade out on ready.
   (function() {
     const loader = document.getElementById('loader');
