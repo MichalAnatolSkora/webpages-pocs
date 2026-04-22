@@ -83,8 +83,20 @@
     <button class="hud-btn" id="resetBtn" title="Clear conversation">⟲ reset</button>
     <button class="hud-btn" id="hideBtn" title="Hide HUD (H)">hide hud</button>
     <button class="hud-btn" id="petBtn" title="Toggle Claude pet">🐾 pet</button>
+    <button class="hud-btn" id="cheatBtn" title="Toggle cheat sheet (C)">📋 cheat sheet</button>
     <span class="hud-hint">type &amp; press <span class="kbd">Enter</span> · <span class="kbd">Shift</span>+<span class="kbd">Enter</span> for newline</span>
   </div>
+
+  <!-- Cheat sheet panel — shows all triggers; click a row to fill the input -->
+  <aside class="cheat" id="cheat" aria-hidden="true">
+    <header class="cheat-head">
+      <span class="cheat-title">📋 cheat sheet</span>
+      <button class="cheat-close" id="cheatClose" title="Hide (C)">×</button>
+    </header>
+    <div class="cheat-sub">click any row to fill the input</div>
+    <ul class="cheat-list" id="cheatList"></ul>
+    <footer class="cheat-foot">press <span class="kbd">C</span> to toggle</footer>
+  </aside>
 
   <script src="script.js"></script>
 </body>

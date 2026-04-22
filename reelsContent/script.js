@@ -174,12 +174,158 @@ function highlight(code, lang) {
 
 const responses = [
   {
+    trigger: "let's cook",
+    label: "locked-in energy",
     match: /let'?s cook|lets cook/i,
     run: async () => {
       await addThinking('Locking in', 900);
       await addAssistantParagraph(
         "say less. **locked TF in.** 🔒\n\ndrop the spec — we shipping today.",
         9
+      );
+    },
+  },
+  {
+    trigger: "ship it",
+    label: "no notes, send",
+    match: /^ship it|send it$/i,
+    run: async () => {
+      await addThinking('Pushing to prod', 700);
+      await addAssistantParagraph(
+        "no notes. **sending.** 🚀\n\n`git push origin main --force` — *jk, opening a PR like a normal person.*",
+        9
+      );
+    },
+  },
+  {
+    trigger: "fix this",
+    label: "skill issue jab",
+    match: /^fix (this|it|the bug)/i,
+    run: async () => {
+      await addThinking('Diagnosing', 1100);
+      await addAssistantParagraph(
+        "skill issue *(the code, not you 🫶)*.\n\nfound it — classic `undefined` slipping through a `?.` chain. one-liner.",
+        9
+      );
+      await addDiff('src/handler.ts', [
+        '@@ -12,3 +12,3 @@',
+        '-  return user.profile.name;',
+        '+  return user?.profile?.name ?? "anon";',
+      ]);
+    },
+  },
+  {
+    trigger: "make it pop",
+    label: "chef's kiss energy",
+    match: /make it (pop|cooler|better|nicer|prettier)/i,
+    run: async () => {
+      await addThinking('Adding sauce', 1000);
+      await addAssistantParagraph(
+        "say no more. **chef's kiss** energy 💋\n\nadding: smooth easings, a *lil* gradient, and the kind of micro-interaction that makes designers weep. brb cooking.",
+        9
+      );
+    },
+  },
+  {
+    trigger: "rewrite this",
+    label: "goblin mode",
+    match: /rewrite( this| it)?$/i,
+    run: async () => {
+      await addThinking('Entering goblin mode', 900);
+      await addAssistantParagraph(
+        "say less. **goblin mode: ON.** 🧌\n\nrewriting from scratch. no abstractions until i feel them. no tests until they hurt. *raw dogging the implementation.*",
+        9
+      );
+    },
+  },
+  {
+    trigger: "wtf",
+    label: "diagnose w/ sass",
+    match: /^wtf|what the|why is this broken/i,
+    run: async () => {
+      await addThinking('Reading stack trace', 1200);
+      await addAssistantParagraph(
+        "bestie… this is a `null` issue. **classic 💀**\n\nyou're awaiting a function that returns `void`. the `await` resolves to undefined, then `.map` on undefined goes boom.",
+        9
+      );
+    },
+  },
+  {
+    trigger: "deploy to prod",
+    label: "friday deploy",
+    match: /deploy|production|to prod/i,
+    run: async () => {
+      await addThinking('Checking the day of week', 800);
+      await addAssistantParagraph(
+        "shipping straight to prod on a *friday afternoon?* **respect.** 🫡\n\nrunning the full suite first — i refuse to be the reason you skip happy hour.",
+        9
+      );
+      await addToolCall({ name: 'Bash', arg: 'pnpm test && pnpm deploy:prod', delay: 1100 });
+      await addAssistantParagraph(
+        "**green across the board.** deployed. logs look clean. go enjoy the weekend 🍻",
+        9
+      );
+    },
+  },
+  {
+    trigger: "thoughts?",
+    label: "honest review",
+    match: /^thoughts\??$|is this good\??$/i,
+    run: async () => {
+      await addThinking('Being honest', 1100);
+      await addAssistantParagraph(
+        "ngl… it's a *lil* **mid** 😬\n\nthe logic works but you've got a `useEffect` doing three jobs and a prop named `data` that could mean anything. lemme cook a cleaner version?",
+        9
+      );
+    },
+  },
+  {
+    trigger: "add tests",
+    label: "green check fantasy",
+    match: /^(add )?tests?$|test it/i,
+    run: async () => {
+      await addThinking('Writing tests', 1200);
+      await addToolCall({ name: 'Write', arg: 'src/utils/parse.test.ts', status: 'wrote', delay: 700 });
+      await addToolCall({ name: 'Bash', arg: 'pnpm vitest run', delay: 1100 });
+      await addAssistantParagraph(
+        "**12 passing, 0 failing.** 💚\n\ncoverage went from `47%` → `91%`. the one branch i didn't cover is genuinely unreachable — wanna delete it?",
+        9
+      );
+    },
+  },
+  {
+    trigger: "thanks",
+    label: "we ride at dawn",
+    match: /^(thanks|thank you|ty|thx)/i,
+    run: async () => {
+      await sleep(400);
+      await addAssistantParagraph(
+        "we ride at dawn 🤝",
+        14
+      );
+    },
+  },
+  {
+    trigger: "are you sure?",
+    label: "trust",
+    match: /are you sure|you sure\??$/i,
+    run: async () => {
+      await sleep(500);
+      await addAssistantParagraph(
+        "trust 🙏",
+        18
+      );
+    },
+  },
+  {
+    trigger: "i'm tired",
+    label: "touch grass",
+    match: /(i'?m |im )?(tired|exhausted|cooked|done)/i,
+    run: async () => {
+      await addThinking('Scanning the diff', 700);
+      await addAssistantParagraph(
+        "log off. **touch grass.** 🌱\n\ni'll finish the PR, run the tests, and have it merged before you're back. take the W.",
+        10
       );
     },
   },
@@ -424,4 +570,40 @@ requestAnimationFrame(() => autosize());
 // Pet is purely decorative — static, like the real CLI. Only toggle visibility.
 petBtn.addEventListener('click', () => {
   pet.classList.toggle('hidden');
+});
+
+// ===== Cheat sheet =====
+const cheat = document.getElementById('cheat');
+const cheatList = document.getElementById('cheatList');
+const cheatBtn = document.getElementById('cheatBtn');
+const cheatClose = document.getElementById('cheatClose');
+
+// Build the list from `responses` entries that declare a trigger/label.
+for (const r of responses) {
+  if (!r.trigger) continue;
+  const li = document.createElement('li');
+  li.className = 'cheat-row';
+  li.innerHTML = `<span class="cheat-trigger">${r.trigger}</span><span class="cheat-label">${r.label || ''}</span>`;
+  li.addEventListener('click', () => {
+    input.value = r.trigger;
+    autosize();
+    input.focus();
+  });
+  cheatList.appendChild(li);
+}
+
+function toggleCheat() {
+  const hidden = cheat.getAttribute('aria-hidden') === 'true';
+  cheat.setAttribute('aria-hidden', hidden ? 'false' : 'true');
+}
+cheatBtn.addEventListener('click', toggleCheat);
+cheatClose.addEventListener('click', toggleCheat);
+
+document.addEventListener('keydown', (e) => {
+  // 'C' toggles cheat sheet, but not when typing in the input.
+  if (e.key.toLowerCase() === 'c' && !e.metaKey && !e.ctrlKey && !e.altKey) {
+    if (document.activeElement === input) return;
+    e.preventDefault();
+    toggleCheat();
+  }
 });
