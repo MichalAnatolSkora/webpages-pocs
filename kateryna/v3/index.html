@@ -563,6 +563,48 @@
   }
   .sticky-card-foot span:last-child { color: var(--forest); font-weight: 500; }
 
+  .sticky-card--pakiet {
+    background: var(--forest);
+    border-color: var(--forest);
+    color: var(--cream);
+    overflow: hidden;
+  }
+  .sticky-card--pakiet:hover {
+    border-color: var(--forest-light);
+    box-shadow: 0 18px 36px rgba(47, 74, 58, 0.25);
+  }
+  .sticky-card--pakiet h3 { color: var(--cream); }
+  .sticky-card--pakiet p { color: rgba(250, 247, 242, 0.78); }
+  .sticky-card--pakiet .sticky-card-foot {
+    border-top-color: rgba(250, 247, 242, 0.18);
+    color: rgba(250, 247, 242, 0.65);
+  }
+  .sticky-card--pakiet .sticky-card-foot span:last-child { color: var(--beige); }
+  .pakiet-badge {
+    position: absolute;
+    top: 18px; right: 20px;
+    background: var(--beige);
+    color: var(--forest);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    padding: 6px 12px;
+    border-radius: 999px;
+    text-transform: uppercase;
+  }
+  .price-stack { display: flex; flex-direction: column; align-items: flex-end; line-height: 1; }
+  .price-stack .price { color: var(--cream); }
+  .price-stack .price-unit {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--beige);
+    margin-top: 6px;
+  }
+  .sticky-card--pakiet .sticky-card-head { margin-top: 28px; }
+
   @media (max-width: 900px) {
     .sticky-grid { grid-template-columns: 1fr; gap: 40px; }
     .sticky-visual { position: relative; top: 0; aspect-ratio: 3/4; }
@@ -1244,7 +1286,7 @@
       <div class="sticky-card">
         <div class="sticky-card-head">
           <h3>Masaż klasyczny</h3>
-          <span class="price">180 zł</span>
+          <span class="price">150 zł</span>
         </div>
         <p>Całego ciała lub wybranych partii. Rozluźnia mięśnie, poprawia krążenie, redukuje napięcie po długim dniu przy biurku.</p>
         <div class="sticky-card-foot">
@@ -1255,7 +1297,7 @@
       <div class="sticky-card">
         <div class="sticky-card-head">
           <h3>Masaż sportowy</h3>
-          <span class="price">220 zł</span>
+          <span class="price">150 zł</span>
         </div>
         <p>Dla biegaczy, rowerzystów, triathlonistów. Regeneracja po treningu i startach. Pracuję też przy punktach fizjo na zawodach.</p>
         <div class="sticky-card-foot">
@@ -1265,24 +1307,13 @@
       </div>
       <div class="sticky-card">
         <div class="sticky-card-head">
-          <h3>Masaż</h3>
-          <span class="price">240 zł</span>
+          <h3>Masaż relaksacyjny</h3>
+          <span class="price">220 zł</span>
         </div>
-        <p>Konkretny problem — bóle pleców, karku, rwa kulszowa. Łączę techniki klasyczne z terapią manualną i tkanek głębokich.</p>
+        <p>Długa, spokojna sesja — aromaterapia, delikatne rozciąganie, praca z oddechem. Reset dla ciała i głowy.</p>
         <div class="sticky-card-foot">
-          <span>60 min</span>
-          <span>ból · kontuzje</span>
-        </div>
-      </div>
-      <div class="sticky-card">
-        <div class="sticky-card-head">
-          <h3>Bańki & IASTM</h3>
-          <span class="price">200 zł</span>
-        </div>
-        <p>Terapia narzędziowa — bańki próżniowe, gua sha. Świetna na powięź, blizny, przewlekłe napięcia.</p>
-        <div class="sticky-card-foot">
-          <span>45 min</span>
-          <span>powięź · blizny</span>
+          <span>90 min</span>
+          <span>relaks · reset</span>
         </div>
       </div>
       <div class="sticky-card">
@@ -1296,25 +1327,18 @@
           <span>taping · start</span>
         </div>
       </div>
-      <div class="sticky-card">
-        <div class="sticky-card-head">
-          <h3>Terapia manualna</h3>
-          <span class="price">260 zł</span>
-        </div>
-        <p>Techniki czaszkowo-krzyżowe, praca z przeponą, trzewiami. Dla tych, u których „klasyczny masaż już nie działa".</p>
-        <div class="sticky-card-foot">
-          <span>75 min</span>
-          <span>manualna · głęboka</span>
-        </div>
-      </div>
-      <div class="sticky-card">
+      <div class="sticky-card sticky-card--pakiet">
+        <span class="pakiet-badge">Pakiet · 10 h</span>
         <div class="sticky-card-head">
           <h3>Masaż antycelulitowy</h3>
-          <span class="price">200 zł</span>
+          <div class="price-stack">
+            <span class="price">1200 zł</span>
+            <span class="price-unit">10 × 60 min · 120 zł/godz.</span>
+          </div>
         </div>
-        <p>Intensywna praca na udach, pośladkach i brzuchu. Pobudza krążenie, wygładza skórę i wspiera redukcję tkanki tłuszczowej.</p>
+        <p>Intensywna praca na udach, pośladkach i brzuchu. Pobudza krążenie, wygładza skórę i wspiera redukcję tkanki tłuszczowej. Seria 10 sesji daje widoczny efekt.</p>
         <div class="sticky-card-foot">
-          <span>60 min</span>
+          <span>cykl · regularność</span>
           <span>modelowanie · skóra</span>
         </div>
       </div>
@@ -1348,7 +1372,7 @@
         <li><span>Adres</span><span>ul. Świdnicka 12/4</span></li>
         <li><span>Parking</span><span>bezpłatny na podwórku</span></li>
         <li><span>Prysznic po zabiegu</span><span>tak</span></li>
-        <li><span>Godziny otwarcia</span><span>pn–sb, 9–20</span></li>
+        <li><span>Godziny otwarcia</span><span>pn–n, 10–21</span></li>
       </ul>
     </div>
   </div>
@@ -1461,7 +1485,7 @@
 <section class="about" id="o-mnie">
   <div class="about-grid">
     <div class="about-img-wrap">
-      <img src="../media/WhatsApp Image 2026-04-20 at 21.54.48 (6).jpeg" alt="Kateryna w gabinecie" class="about-img">
+      <img src="../media/nowe_bez_ludzi.png" alt="Kateryna w gabinecie" class="about-img">
       <div class="about-quote">
         "Najważniejszy jest pierwszy dotyk — mówi o ciele więcej niż godzinny wywiad."
       </div>
@@ -1473,7 +1497,7 @@
         Nazywam się Kateryna Donajska. Jestem technikiem masażystą i od trzech lat prowadzę własną działalność — głównie mobilnie, z dojazdem do klienta we Wrocławiu, Jelcz-Laskowicach i okolicach.
       </p>
       <p>
-        Łączę masaż klasyczny, sportowy i leczniczy z terapią manualną, bańkami, IASTM i kinesiotapingiem. Obsługuję też punkty regeneracji na zawodach biegowych oraz prowadzę szkolenia dla masażystów w Centrum Edukacji Biznesu. Wykształcenie technika usług kosmetycznych i technika sterylizacji medycznej przekłada się na wysokie standardy higieny.
+        Łączę masaż klasyczny, sportowy i relaksacyjny z terapią manualną, bańkami, IASTM i kinesiotapingiem. Obsługuję też punkty regeneracji na zawodach biegowych oraz prowadzę szkolenia dla masażystów w Centrum Edukacji Biznesu. Wykształcenie technika usług kosmetycznych i technika sterylizacji medycznej przekłada się na wysokie standardy higieny.
       </p>
       <div class="credentials">
         <div class="credential">
@@ -1615,7 +1639,7 @@
       <ul>
         <li>ul. Świdnicka 12/4</li>
         <li>50-068 Wrocław</li>
-        <li>pn–sb, 9:00–20:00</li>
+        <li>pn–n, 10:00–21:00</li>
       </ul>
     </div>
     <div>
