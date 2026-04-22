@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Claude Code</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="terminal" id="terminal">
+    <div class="titlebar">
+      <div class="dots">
+        <span class="dot red"></span>
+        <span class="dot yellow"></span>
+        <span class="dot green"></span>
+      </div>
+      <div class="title">michal@macbook — claude — 120×40</div>
+      <div class="spacer"></div>
+    </div>
+
+    <div class="screen" id="screen">
+      <div class="welcome-panel">
+        <div class="welcome-title accent">Claude Code v2.0.42</div>
+        <div class="welcome-grid">
+          <div class="welcome-left">
+            <div class="welcome-greet">Welcome back Michał!</div>
+            <!-- Claude pet — pixel-art blob (matches Claude Code v2 mascot) -->
+            <div class="pet" id="pet" title="claudie">
+              <svg class="pet-svg" viewBox="0 0 14 10" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+                <g class="pet-body">
+                  <rect x="3" y="0" width="8"  height="1" fill="#d97757"/>
+                  <rect x="1" y="1" width="12" height="1" fill="#d97757"/>
+                  <rect x="0" y="2" width="14" height="5" fill="#d97757"/>
+                  <rect x="0"  y="7" width="2" height="3" fill="#d97757"/>
+                  <rect x="4"  y="7" width="2" height="3" fill="#d97757"/>
+                  <rect x="8"  y="7" width="2" height="3" fill="#d97757"/>
+                  <rect x="12" y="7" width="2" height="3" fill="#d97757"/>
+                  <rect x="3" y="3" width="2" height="2" fill="#1a1a1a" class="eye-l"/>
+                  <rect x="9" y="3" width="2" height="2" fill="#1a1a1a" class="eye-r"/>
+                </g>
+              </svg>
+            </div>
+            <div class="welcome-model">Opus 4.7 · Claude Max</div>
+            <div class="welcome-cwd muted">/Users/michal/sc/webpages-pocs</div>
+          </div>
+          <div class="welcome-divider"></div>
+          <div class="welcome-right">
+            <div class="welcome-section-title accent">Tips for getting started</div>
+            <div class="welcome-tip">Run <span class="accent">/init</span> to create a CLAUDE.md file with instructions for Claude</div>
+            <div class="welcome-tip">Run <span class="accent">/install-github-app</span> to tag @claude right from your Github issues a…</div>
+
+            <div class="welcome-section-title accent" style="margin-top: 14px;">Recent activity</div>
+            <div class="welcome-tip muted">No recent activity</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="conversation" id="conversation"></div>
+    </div>
+
+    <div class="footer">
+      <div class="prompt-box" id="promptBox">
+        <div class="prompt-row">
+          <span class="prompt-arrow">&gt;</span>
+          <textarea id="promptInput" class="prompt-input" rows="1" placeholder='Try "build me a snake game in python"' autocomplete="off" spellcheck="false"></textarea>
+        </div>
+      </div>
+      <div class="status-bar">
+        <span class="mode-tag">⏵⏵ <span class="accent-soft">auto-accept edits on</span> <span class="muted">(shift+tab to cycle)</span></span>
+        <span class="status-right">
+          <span class="muted">claude-opus-4-7</span>
+          <span class="muted">·</span>
+          <span class="muted" id="ctxPercent">7% context left</span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hud">
+    <button class="hud-btn" id="resetBtn" title="Clear conversation">⟲ reset</button>
+    <button class="hud-btn" id="hideBtn" title="Hide HUD (H)">hide hud</button>
+    <button class="hud-btn" id="petBtn" title="Toggle Claude pet">🐾 pet</button>
+    <span class="hud-hint">type &amp; press <span class="kbd">Enter</span> · <span class="kbd">Shift</span>+<span class="kbd">Enter</span> for newline</span>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
