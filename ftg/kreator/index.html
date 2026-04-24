@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bajaro · Stwórz bajkę o swoim dziecku</title>
+<meta name="description" content="Kreator bajki personalizowanej — odpowiedz na kilka pytań, a my stworzymy książkę, w której Twoje dziecko jest bohaterem.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,500&family=Nunito:wght@300;400;500;600;700;800&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream:        #FFF8E7;
+    --cream-deep:   #F6EBCD;
+    --cream-warm:   #FBEFD4;
+    --paper:        #FDF5E1;
+    --rose:         #E8A3A3;
+    --rose-deep:    #D88A8A;
+    --teal:         #4A8B8B;
+    --teal-deep:    #3A6E6E;
+    --honey:        #E8B04A;
+    --honey-deep:   #C4912D;
+    --terracotta:   #D97742;
+    --terracotta-deep:#B55F32;
+    --ink:          #3A2817;
+    --ink-soft:     #6E5840;
+    --ink-faint:    #A09478;
+    --leaf:         #7B9E6A;
+    --leaf-deep:    #5E7F52;
+    --sky:          #C8DEE1;
+    --line:         rgba(58,40,23,0.12);
+    --line-strong:  rgba(58,40,23,0.22);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Nunito', system-ui, sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 1;
+    opacity: 0.5; mix-blend-mode: multiply;
+    background-image:
+      radial-gradient(circle at 18% 22%, rgba(58,40,23,0.04) 0 1.2px, transparent 1.6px),
+      radial-gradient(circle at 63% 71%, rgba(58,40,23,0.035) 0 1px, transparent 1.4px),
+      radial-gradient(circle at 88% 34%, rgba(217,119,66,0.04) 0 1px, transparent 1.2px);
+    background-size: 9px 9px, 13px 13px, 17px 17px;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    color: var(--ink);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+  }
+
+  /* NAV */
+  nav.top {
+    position: sticky; top: 0; z-index: 30;
+    background: rgba(255, 248, 231, 0.88);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    max-width: 1240px; margin: 0 auto;
+    padding: 18px 28px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px;
+    position: relative; z-index: 2;
+  }
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; font-weight: 700;
+    color: var(--ink);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .logo .logo-mark {
+    width: 34px; height: 34px;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--rose);
+    border-radius: 50%;
+    box-shadow: 0 3px 0 var(--rose-deep), 0 6px 14px -4px rgba(58,40,23,0.2);
+  }
+  .logo .logo-mark svg { width: 18px; height: 18px; }
+  .logo em {
+    color: var(--teal);
+    font-family: 'Kalam', cursive;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 0.9rem;
+    margin-left: 6px;
+    transform: rotate(-1deg);
+    display: inline-block;
+  }
+  .help-link {
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    font-weight: 600;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .help-link svg { width: 16px; height: 16px; }
+
+  /* PROGRESS BAR */
+  .progress-wrap {
+    max-width: 1240px; margin: 0 auto;
+    padding: 18px 28px 0;
+    position: relative; z-index: 2;
+  }
+  .step-dots {
+    display: flex; align-items: center;
+    gap: 8px;
+    font-size: 0.82rem;
+    color: var(--ink-faint);
+    font-weight: 600;
+    flex-wrap: wrap;
+  }
+  .step-dot {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 4px 0;
+  }
+  .step-dot .circle {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--cream-deep);
+    border: 1.5px solid var(--line);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-weight: 800;
+    font-size: 0.8rem;
+    color: var(--ink-faint);
+    transition: all 0.3s;
+  }
+  .step-dot.active .circle {
+    background: var(--terracotta);
+    color: var(--cream);
+    border-color: var(--terracotta);
+    box-shadow: 0 3px 0 var(--terracotta-deep);
+  }
+  .step-dot.done .circle {
+    background: var(--leaf);
+    color: var(--cream);
+    border-color: var(--leaf);
+  }
+  .step-dot.active .label { color: var(--ink); font-weight: 700; }
+  .step-dot .label { transition: color 0.3s; }
+  .step-line {
+    flex: 1; height: 2px;
+    background: var(--line);
+    border-radius: 2px;
+    margin: 0 2px;
+    max-width: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .step-line.done { background: var(--leaf); }
+
+  /* LAYOUT */
+  .layout {
+    max-width: 1240px; margin: 0 auto;
+    padding: 30px 28px 60px;
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 40px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* FORM COL */
+  .form-col { min-width: 0; }
+  .step-header {
+    margin-bottom: 26px;
+  }
+  .step-kicker {
+    font-family: 'Kalam', cursive;
+    color: var(--terracotta);
+    font-size: 1.1rem;
+    display: inline-block;
+    transform: rotate(-1deg);
+    margin-bottom: 8px;
+  }
+  .step-header h1 {
+    font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+    margin-bottom: 10px;
+  }
+  .step-header h1 em {
+    font-style: italic;
+    color: var(--ink);
+    font-weight: 500;
+    position: relative;
+    display: inline-block;
+  }
+  .step-header h1 em::before {
+    content: '';
+    position: absolute;
+    left: -4px; right: -4px; top: 18%; bottom: 12%;
+    background: var(--honey);
+    opacity: 0.5;
+    border-radius: 18px 28px 22px 30px / 30px 22px 28px 18px;
+    transform: rotate(-1.2deg);
+    z-index: -1;
+  }
+  .step-lede {
+    color: var(--ink-soft);
+    font-size: 1.02rem;
+    max-width: 52ch;
+  }
+
+  /* FIELDS */
+  .field { margin-bottom: 22px; }
+  .field-label {
+    display: block;
+    font-size: 0.86rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 8px;
+    letter-spacing: 0.01em;
+  }
+  .field-help {
+    font-size: 0.82rem;
+    color: var(--ink-faint);
+    margin-top: 6px;
+  }
+  .input, .textarea, .select {
+    width: 100%;
+    padding: 13px 16px;
+    background: var(--paper);
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 1rem;
+    color: var(--ink);
+    transition: border 0.2s, box-shadow 0.2s, background 0.2s;
+    outline: none;
+  }
+  .input:focus, .textarea:focus, .select:focus {
+    border-color: var(--terracotta);
+    background: var(--cream);
+    box-shadow: 0 0 0 3px rgba(217, 119, 66, 0.15);
+  }
+  .textarea { resize: vertical; min-height: 100px; font-family: inherit; }
+  .input-row { display: grid; grid-template-columns: 1fr 140px; gap: 14px; }
+
+  /* CHIPS */
+  .chips {
+    display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .chip-opt {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 9px 16px;
+    background: var(--paper);
+    border: 1.5px solid var(--line);
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .chip-opt:hover {
+    border-color: var(--terracotta);
+    color: var(--ink);
+    transform: translateY(-1px);
+  }
+  .chip-opt.on {
+    background: var(--terracotta);
+    border-color: var(--terracotta);
+    color: var(--cream);
+    box-shadow: 0 3px 0 var(--terracotta-deep);
+  }
+  .chip-opt .emoji { font-size: 1rem; }
+
+  /* RADIO CARDS */
+  .radio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .radio-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+  .radio-card {
+    padding: 14px 16px;
+    background: var(--paper);
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+    transition: all 0.2s;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .radio-card:hover { border-color: var(--terracotta); transform: translateY(-1px); }
+  .radio-card.on {
+    background: var(--cream);
+    border-color: var(--terracotta);
+    box-shadow: 0 3px 0 var(--terracotta-deep), 0 6px 14px -4px rgba(217,119,66,0.2);
+  }
+  .radio-card b {
+    font-weight: 700;
+    color: var(--ink);
+    font-size: 0.95rem;
+  }
+  .radio-card span {
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+  }
+
+  /* THEME CARDS */
+  .theme-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  .theme-card {
+    padding: 20px;
+    background: var(--paper);
+    border: 1.5px solid var(--line);
+    border-radius: 16px;
+    cursor: pointer;
+    font-family: inherit;
+    text-align: left;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .theme-card::before {
+    content: '';
+    position: absolute;
+    right: -20px; top: -20px;
+    width: 90px; height: 90px;
+    border-radius: 50%;
+    background: var(--c, var(--honey));
+    opacity: 0.2;
+  }
+  .theme-card:hover {
+    border-color: var(--c, var(--terracotta));
+    transform: translateY(-2px);
+  }
+  .theme-card.on {
+    background: var(--cream);
+    border-color: var(--c, var(--terracotta));
+    box-shadow: 0 4px 0 rgba(58,40,23,0.1), 0 10px 20px -6px rgba(58,40,23,0.15);
+  }
+  .theme-card .icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    position: relative; z-index: 1;
+  }
+  .theme-card h3 {
+    font-size: 1.15rem;
+    margin-bottom: 4px;
+    font-family: 'Playfair Display', serif;
+  }
+  .theme-card p {
+    font-size: 0.86rem;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+  .theme-card .tag {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 3px 8px;
+    background: var(--cream-deep);
+    color: var(--ink-soft);
+    border-radius: 6px;
+  }
+
+  /* PHOTO UPLOAD */
+  .upload {
+    border: 2px dashed var(--line-strong);
+    border-radius: 16px;
+    background: var(--paper);
+    padding: 34px 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative;
+  }
+  .upload:hover { border-color: var(--terracotta); background: var(--cream); }
+  .upload.has-photo { padding: 20px; display: flex; gap: 20px; align-items: center; text-align: left; }
+  .upload-preview {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--sky), var(--rose));
+    flex-shrink: 0;
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink);
+    font-weight: 800;
+    font-size: 1.5rem;
+    font-family: 'Playfair Display', serif;
+  }
+  .upload-preview img { width: 100%; height: 100%; object-fit: cover; }
+  .upload-info h4 { font-family: 'Playfair Display', serif; margin-bottom: 3px; font-size: 1rem; }
+  .upload-info p { font-size: 0.82rem; color: var(--ink-soft); }
+  .upload-cta {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .upload-hint {
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+    margin-top: 4px;
+  }
+  .upload input[type=file] { display: none; }
+
+  /* GDPR BOX */
+  .gdpr-box {
+    margin-top: 14px;
+    padding: 14px 16px;
+    background: #E6F0E2;
+    border: 1px solid #BED4B4;
+    border-radius: 12px;
+    font-size: 0.84rem;
+    color: #3D5A30;
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  .gdpr-box svg { flex-shrink: 0; margin-top: 1px; }
+  .gdpr-box b { color: var(--leaf-deep); font-weight: 800; }
+
+  /* CHECKBOXES */
+  .checkbox {
+    display: flex; gap: 10px; align-items: flex-start;
+    padding: 12px 14px;
+    background: var(--paper);
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    cursor: pointer;
+    margin-bottom: 8px;
+    transition: all 0.2s;
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+  .checkbox:hover { border-color: var(--terracotta); }
+  .checkbox.on { border-color: var(--terracotta); background: var(--cream); }
+  .checkbox input { display: none; }
+  .check-box {
+    width: 20px; height: 20px;
+    border: 1.5px solid var(--line-strong);
+    border-radius: 6px;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--cream);
+    margin-top: 1px;
+  }
+  .check-box svg { opacity: 0; transition: opacity 0.15s; }
+  .checkbox.on .check-box { background: var(--terracotta); border-color: var(--terracotta); }
+  .checkbox.on .check-box svg { opacity: 1; }
+  .checkbox strong { font-weight: 700; }
+  .checkbox a { color: var(--teal-deep); text-decoration: underline; }
+
+  /* VARIANT CARDS */
+  .variants { display: grid; gap: 12px; }
+  .variant-card {
+    padding: 18px 20px;
+    background: var(--paper);
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    align-items: center;
+    transition: all 0.2s;
+  }
+  .variant-card:hover { border-color: var(--terracotta); transform: translateX(2px); }
+  .variant-card.on {
+    background: var(--cream);
+    border-color: var(--terracotta);
+    box-shadow: 0 4px 0 rgba(58,40,23,0.1);
+  }
+  .variant-card.featured {
+    background: linear-gradient(135deg, rgba(232,176,74,0.15), var(--paper));
+    border-color: var(--honey);
+  }
+  .variant-head {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 4px;
+  }
+  .variant-head b {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .variant-head .popular {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: var(--honey);
+    color: var(--ink);
+  }
+  .variant-card p {
+    color: var(--ink-soft);
+    font-size: 0.86rem;
+    line-height: 1.5;
+  }
+  .variant-price {
+    font-family: 'Playfair Display', serif;
+    font-weight: 800;
+    font-size: 1.6rem;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .variant-price .cur {
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    margin-left: 2px;
+  }
+
+  /* REVIEW SUMMARY */
+  .review-grid {
+    display: grid;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .review-row {
+    display: grid;
+    grid-template-columns: 160px 1fr auto;
+    gap: 16px;
+    padding: 14px 18px;
+    background: var(--paper);
+    align-items: center;
+  }
+  .review-row .k {
+    font-size: 0.8rem;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+  }
+  .review-row .v {
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .review-row .edit {
+    font-size: 0.82rem;
+    color: var(--terracotta);
+    font-weight: 700;
+    cursor: pointer;
+    background: transparent; border: none;
+    font-family: inherit;
+  }
+  .review-row .edit:hover { color: var(--terracotta-deep); text-decoration: underline; }
+
+  /* NAV BUTTONS */
+  .nav-buttons {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 12px;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 28px;
+    border: none;
+    border-radius: 14px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--ink);
+    background: transparent;
+  }
+  .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+  .btn-primary {
+    background: var(--terracotta);
+    color: var(--cream);
+    box-shadow: 0 4px 0 var(--terracotta-deep), 0 8px 20px -6px rgba(217,119,66,0.4);
+  }
+  .btn-primary:hover:not(:disabled) { transform: translateY(-1px); background: #E07F4C; }
+  .btn-primary:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--terracotta-deep); }
+  .btn-ghost { color: var(--ink-soft); }
+  .btn-ghost:hover:not(:disabled) { color: var(--ink); background: var(--paper); }
+  .btn svg { width: 18px; height: 18px; }
+
+  /* PREVIEW COL */
+  .preview-col {
+    position: sticky; top: 100px;
+    align-self: start;
+  }
+  .preview-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 28px 24px;
+    box-shadow: 0 20px 40px -20px rgba(58,40,23,0.2);
+  }
+  .preview-title {
+    font-size: 0.78rem;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 14px;
+  }
+
+  /* BOOK MOCKUP */
+  .book-mockup {
+    width: 100%;
+    max-width: 260px;
+    aspect-ratio: 3/4;
+    margin: 0 auto;
+    background: linear-gradient(135deg, var(--book-from, var(--honey)) 0%, var(--book-to, var(--terracotta)) 100%);
+    border-radius: 6px 16px 16px 6px;
+    box-shadow:
+      -3px 0 0 rgba(0,0,0,0.15),
+      8px 20px 40px -12px rgba(58,40,23,0.4),
+      inset 16px 0 0 rgba(255,255,255,0.1);
+    padding: 28px 24px 28px 34px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.6s;
+  }
+  .book-mockup::before {
+    content: '';
+    position: absolute;
+    left: 16px; top: 0; bottom: 0;
+    width: 1px;
+    background: rgba(0,0,0,0.15);
+  }
+  .book-emoji {
+    font-size: 3.4rem;
+    margin-bottom: 14px;
+    display: block;
+    text-align: center;
+    filter: drop-shadow(0 3px 6px rgba(0,0,0,0.2));
+  }
+  .book-subtitle {
+    font-family: 'Kalam', cursive;
+    color: rgba(255,255,255,0.92);
+    font-size: 0.85rem;
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  }
+  .book-title {
+    font-family: 'Playfair Display', serif;
+    color: #FFF;
+    font-size: 1.85rem;
+    font-weight: 800;
+    text-align: center;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.25);
+    margin-bottom: 8px;
+  }
+  .book-by {
+    font-family: 'Kalam', cursive;
+    color: rgba(255,255,255,0.8);
+    font-size: 0.82rem;
+    text-align: center;
+    font-weight: 400;
+  }
+  .book-child {
+    font-family: 'Playfair Display', serif;
+    color: #FFF;
+    text-align: center;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 1.1rem;
+    margin-top: 4px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+  .book-foot {
+    position: absolute;
+    left: 34px; right: 24px; bottom: 20px;
+    text-align: center;
+    color: rgba(255,255,255,0.85);
+    font-family: 'Kalam', cursive;
+    font-size: 0.78rem;
+    border-top: 1px solid rgba(255,255,255,0.25);
+    padding-top: 8px;
+  }
+
+  /* PREVIEW META */
+  .preview-meta {
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-size: 0.86rem;
+  }
+  .preview-meta .m-row {
+    display: flex; justify-content: space-between;
+    padding: 6px 0;
+  }
+  .preview-meta .m-row .k { color: var(--ink-soft); }
+  .preview-meta .m-row .v { font-weight: 700; color: var(--ink); text-align: right; }
+  .preview-meta .m-row .v.placeholder { color: var(--ink-faint); font-weight: 500; }
+
+  .preview-note {
+    margin-top: 16px;
+    padding: 12px 14px;
+    background: var(--cream-deep);
+    border-radius: 10px;
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+  .preview-note b { color: var(--terracotta); font-weight: 800; }
+
+  /* STEP CONTAINERS */
+  .step-panel { display: none; }
+  .step-panel.active { display: block; animation: fadein 0.4s ease; }
+  @keyframes fadein {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* FINAL GREETING STATE */
+  .done-card {
+    text-align: center;
+    padding: 40px 20px;
+  }
+  .done-card .emoji-big { font-size: 4rem; margin-bottom: 20px; display: block; }
+  .done-card h2 { font-size: 2rem; margin-bottom: 12px; }
+  .done-card p { color: var(--ink-soft); max-width: 48ch; margin: 0 auto 20px; }
+
+  /* RESPONSIVE */
+  @media (max-width: 960px) {
+    .layout { grid-template-columns: 1fr; gap: 24px; }
+    .preview-col { position: static; order: -1; }
+    .book-mockup { max-width: 200px; }
+    .theme-grid { grid-template-columns: 1fr; }
+    .radio-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 600px) {
+    .step-line { max-width: 16px; }
+    .step-dot .label { display: none; }
+    .nav-inner, .progress-wrap, .layout { padding-left: 18px; padding-right: 18px; }
+    .input-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="nav-inner">
+    <a class="logo" href="#">
+      <span class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#3A2817" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+        </svg>
+      </span>
+      Bajaro <em>kreator</em>
+    </a>
+    <a class="help-link" href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Pomoc &amp; kontakt
+    </a>
+  </div>
+  <div class="progress-wrap">
+    <div class="step-dots" id="step-dots"></div>
+  </div>
+</nav>
+
+<div class="layout">
+
+  <!-- FORM -->
+  <div class="form-col">
+
+    <!-- STEP 1: CHILD -->
+    <div class="step-panel active" data-step="1">
+      <div class="step-header">
+        <span class="step-kicker">zacznijmy od bohatera ✨</span>
+        <h1>Kim jest <em>mały bohater</em>?</h1>
+        <p class="step-lede">Powiedz nam, jak ma się nazywać w naszej bajce. Imię pojawi się na okładce i w całej historii.</p>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="f-name">Imię dziecka</label>
+        <div class="input-row">
+          <input class="input" id="f-name" type="text" placeholder="np. Zosia, Antek, Hania…" autocomplete="off">
+          <input class="input" id="f-age" type="number" min="1" max="12" placeholder="wiek (lata)">
+        </div>
+        <p class="field-help">Możesz użyć zdrobnienia — tak jak mówisz w domu.</p>
+      </div>
+
+      <div class="field">
+        <label class="field-label">Zaimki</label>
+        <div class="radio-grid">
+          <button type="button" class="radio-card" data-pronoun="she"><b>ona</b><span>Zosia pobiegła, zobaczyła…</span></button>
+          <button type="button" class="radio-card" data-pronoun="he"><b>on</b><span>Antek pobiegł, zobaczył…</span></button>
+          <button type="button" class="radio-card" data-pronoun="they"><b>neutralne</b><span>bez rodzaju gramatycznego</span></button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">Ulubiony kolor <span style="color:var(--ink-faint); font-weight:500;">(okładka bajki)</span></label>
+        <div class="chips" id="color-chips">
+          <button type="button" class="chip-opt" data-color="honey" data-from="#E8B04A" data-to="#D97742"><span class="emoji">🟡</span> miodowy</button>
+          <button type="button" class="chip-opt" data-color="rose" data-from="#E8A3A3" data-to="#D88A8A"><span class="emoji">🌸</span> różany</button>
+          <button type="button" class="chip-opt" data-color="teal" data-from="#7FBABA" data-to="#3A6E6E"><span class="emoji">🌊</span> morski</button>
+          <button type="button" class="chip-opt" data-color="leaf" data-from="#A8C79B" data-to="#5E7F52"><span class="emoji">🌿</span> leśny</button>
+          <button type="button" class="chip-opt" data-color="sky" data-from="#C8DEE1" data-to="#8AB4BA"><span class="emoji">☁️</span> niebieski</button>
+          <button type="button" class="chip-opt" data-color="terracotta" data-from="#E8B04A" data-to="#B55F32"><span class="emoji">🍂</span> jesienny</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: PHOTO + PERSONALITY -->
+    <div class="step-panel" data-step="2">
+      <div class="step-header">
+        <span class="step-kicker">teraz wygląd ✍️</span>
+        <h1>Wrzuć <em>zdjęcie</em> dziecka</h1>
+        <p class="step-lede">Nasz ilustrator wzoruje się na zdjęciu, żeby bohater naprawdę wyglądał jak Twoje dziecko. Jedno dobre, wyraźne zdjęcie wystarczy.</p>
+      </div>
+
+      <div class="field">
+        <label class="field-label">Zdjęcie</label>
+        <label class="upload" id="upload-box">
+          <input type="file" id="f-photo" accept="image/*">
+          <div class="upload-cta">📷 Kliknij, żeby dodać zdjęcie</div>
+          <div class="upload-hint">JPG lub PNG · max 10 MB · jedna osoba · dobre światło</div>
+        </label>
+        <div class="gdpr-box">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span>
+            <b>🇪🇺 Zdjęcie zostaje w Unii Europejskiej</b> i jest automatycznie usuwane zaraz po wygenerowaniu ilustracji (max 24h). Nie trenujemy na nim modeli. Pełna zgodność z GDPR.
+          </span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">Charakter dziecka <span style="color:var(--ink-faint); font-weight:500;">(wybierz 2–4)</span></label>
+        <div class="chips" id="traits-chips">
+          <button type="button" class="chip-opt" data-trait="odważny"><span class="emoji">🦁</span> odważny</button>
+          <button type="button" class="chip-opt" data-trait="ciekawski"><span class="emoji">🔍</span> ciekawski</button>
+          <button type="button" class="chip-opt" data-trait="marzycielski"><span class="emoji">☁️</span> marzycielski</button>
+          <button type="button" class="chip-opt" data-trait="wesoły"><span class="emoji">😊</span> wesoły</button>
+          <button type="button" class="chip-opt" data-trait="wrażliwy"><span class="emoji">💗</span> wrażliwy</button>
+          <button type="button" class="chip-opt" data-trait="uparty"><span class="emoji">🐴</span> uparty</button>
+          <button type="button" class="chip-opt" data-trait="pomocny"><span class="emoji">🤝</span> pomocny</button>
+          <button type="button" class="chip-opt" data-trait="spokojny"><span class="emoji">🍃</span> spokojny</button>
+          <button type="button" class="chip-opt" data-trait="zabawny"><span class="emoji">🎭</span> zabawny</button>
+          <button type="button" class="chip-opt" data-trait="mądry"><span class="emoji">📚</span> mądry</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">Zainteresowania &amp; ulubione rzeczy</label>
+        <div class="chips" id="interests-chips">
+          <button type="button" class="chip-opt" data-int="dinozaury"><span class="emoji">🦖</span> dinozaury</button>
+          <button type="button" class="chip-opt" data-int="kosmos"><span class="emoji">🚀</span> kosmos</button>
+          <button type="button" class="chip-opt" data-int="morze"><span class="emoji">🐙</span> morze</button>
+          <button type="button" class="chip-opt" data-int="zwierzęta"><span class="emoji">🐾</span> zwierzęta</button>
+          <button type="button" class="chip-opt" data-int="księżniczki"><span class="emoji">👑</span> księżniczki</button>
+          <button type="button" class="chip-opt" data-int="piraci"><span class="emoji">🏴‍☠️</span> piraci</button>
+          <button type="button" class="chip-opt" data-int="sport"><span class="emoji">⚽</span> sport</button>
+          <button type="button" class="chip-opt" data-int="magia"><span class="emoji">✨</span> magia</button>
+          <button type="button" class="chip-opt" data-int="pojazdy"><span class="emoji">🚂</span> pojazdy</button>
+          <button type="button" class="chip-opt" data-int="gotowanie"><span class="emoji">🍳</span> gotowanie</button>
+          <button type="button" class="chip-opt" data-int="muzyka"><span class="emoji">🎶</span> muzyka</button>
+          <button type="button" class="chip-opt" data-int="malowanie"><span class="emoji">🎨</span> malowanie</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3: THEME -->
+    <div class="step-panel" data-step="3">
+      <div class="step-header">
+        <span class="step-kicker">wybierz przygodę 🌟</span>
+        <h1>O czym będzie <em>bajka</em>?</h1>
+        <p class="step-lede">Wybierz motyw, w którym umieścimy Twoje dziecko. Nad całą narracją czuwa pisarz-kurator, żeby bajka była naprawdę dobra.</p>
+      </div>
+
+      <div class="theme-grid" id="theme-grid">
+        <button type="button" class="theme-card" data-theme="kosmos" data-icon="🚀" data-color="#4A8B8B" data-from="#8AB4BA" data-to="#3A6E6E">
+          <div class="icon">🚀</div>
+          <h3>Podróż w kosmos</h3>
+          <p>Bohater wyrusza rakietą do gwiazd, żeby rozwiązać tajemnicę znikających planet. Nauka + przygoda.</p>
+          <span class="tag">3–9 lat · 24 strony</span>
+        </button>
+        <button type="button" class="theme-card" data-theme="las" data-icon="🌲" data-color="#5E7F52" data-from="#A8C79B" data-to="#5E7F52">
+          <div class="icon">🌲</div>
+          <h3>Magiczny las</h3>
+          <p>W środku lasu mieszkają stworzenia, których nikt nie widział. Bohater uczy się, że odwaga to słuchanie serca.</p>
+          <span class="tag">3–8 lat · 22 strony</span>
+        </button>
+        <button type="button" class="theme-card" data-theme="urodziny" data-icon="🎂" data-color="#D88A8A" data-from="#E8A3A3" data-to="#D88A8A">
+          <div class="icon">🎂</div>
+          <h3>Moje urodziny</h3>
+          <p>Prezent na urodziny. Cała rodzina, przyjaciele, zwierzaki — i jedno wielkie, tajemnicze życzenie.</p>
+          <span class="tag">prezent · 20 stron</span>
+        </button>
+        <button type="button" class="theme-card" data-theme="ocean" data-icon="🐙" data-color="#3A6E6E" data-from="#7FBABA" data-to="#3A6E6E">
+          <div class="icon">🐙</div>
+          <h3>Przyjaciel z oceanu</h3>
+          <p>Bohater poznaje mądrą ośmiornicę i razem szukają zaginionego skarbu. O przyjaźni i ekologii.</p>
+          <span class="tag">4–9 lat · 24 strony</span>
+        </button>
+        <button type="button" class="theme-card" data-theme="rodzenstwo" data-icon="👶" data-color="#E8B04A" data-from="#FBDCA6" data-to="#C4912D">
+          <div class="icon">👶</div>
+          <h3>Witaj, rodzeństwo</h3>
+          <p>Terapeutyczna bajka dla dzieci oczekujących siostry lub brata. Spokój, ciepło, oswajanie zmiany.</p>
+          <span class="tag">terapeutyczna · 22 str.</span>
+        </button>
+        <button type="button" class="theme-card" data-theme="noc" data-icon="🌙" data-color="#5A6B8A" data-from="#A8B4CF" data-to="#4A5B7A">
+          <div class="icon">🌙</div>
+          <h3>Nocą balonem</h3>
+          <p>Wieczorna bajka — bohater leci balonem nad uśpionym miastem, spotyka księżyc i wraca do swojego łóżka.</p>
+          <span class="tag">na dobranoc · 18 str.</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- STEP 4: COMPANIONS -->
+    <div class="step-panel" data-step="4">
+      <div class="step-header">
+        <span class="step-kicker">kto jeszcze? 🐕</span>
+        <h1>Dodaj <em>towarzyszy</em> przygody</h1>
+        <p class="step-lede">Rodzeństwo, przyjaciel, pupil — każda dodatkowa postać pojawi się w ilustracjach i narracji. Nieobowiązkowe.</p>
+      </div>
+
+      <div class="field">
+        <label class="field-label">Rodzeństwo lub przyjaciel</label>
+        <div class="input-row" style="grid-template-columns: 1fr 140px 200px; gap: 10px;">
+          <input class="input" id="c-sib-name" placeholder="imię (opcjonalnie)">
+          <input class="input" id="c-sib-age" type="number" min="0" max="18" placeholder="wiek">
+          <select class="select" id="c-sib-rel">
+            <option value="">— typ relacji —</option>
+            <option>starsze rodzeństwo</option>
+            <option>młodsze rodzeństwo</option>
+            <option>bliźniak/bliźniaczka</option>
+            <option>najlepszy przyjaciel</option>
+            <option>kuzyn/kuzynka</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">Pupil domowy</label>
+        <div class="chips" id="pet-chips">
+          <button type="button" class="chip-opt" data-pet="pies"><span class="emoji">🐶</span> pies</button>
+          <button type="button" class="chip-opt" data-pet="kot"><span class="emoji">🐱</span> kot</button>
+          <button type="button" class="chip-opt" data-pet="królik"><span class="emoji">🐰</span> królik</button>
+          <button type="button" class="chip-opt" data-pet="chomik"><span class="emoji">🐹</span> chomik</button>
+          <button type="button" class="chip-opt" data-pet="ryba"><span class="emoji">🐠</span> rybka</button>
+          <button type="button" class="chip-opt" data-pet="ptak"><span class="emoji">🦜</span> papuga</button>
+          <button type="button" class="chip-opt" data-pet="żółw"><span class="emoji">🐢</span> żółw</button>
+          <button type="button" class="chip-opt" data-pet="none"><span class="emoji">—</span> brak</button>
+        </div>
+        <input class="input" id="c-pet-name" placeholder="Imię pupila (opcjonalne)" style="margin-top: 12px;">
+      </div>
+
+      <div class="field">
+        <label class="field-label">Coś ważnego, o czym powinniśmy wiedzieć <span style="color:var(--ink-faint); font-weight:500;">(opcjonalnie)</span></label>
+        <textarea class="textarea" id="c-notes" placeholder="np. Zosia nosi okulary, boi się grzmotów, ma rude włosy, uwielbia ciocię Kasię…"></textarea>
+        <p class="field-help">Każdy szczegół pomaga stworzyć bajkę, która naprawdę jest o tym dziecku.</p>
+      </div>
+    </div>
+
+    <!-- STEP 5: STYLE + DEDICATION -->
+    <div class="step-panel" data-step="5">
+      <div class="step-header">
+        <span class="step-kicker">szlifujemy detale 🎨</span>
+        <h1>Jaki <em>styl</em>, jaka dedykacja?</h1>
+        <p class="step-lede">Styl ilustracji to charakter książki. Dedykacja to wiadomość, którą przeczyta dziecko kiedyś jako dorosły.</p>
+      </div>
+
+      <div class="field">
+        <label class="field-label">Styl ilustracji</label>
+        <div class="radio-grid cols-2" id="style-grid">
+          <button type="button" class="radio-card" data-style="akwarela"><b>🖌 Akwarelowy</b><span>Miękki, ręcznie malowany, ciepłe światło — klasyka polskich bajek.</span></button>
+          <button type="button" class="radio-card" data-style="pastelowy"><b>🎨 Pastelowy</b><span>Nowoczesna ilustracja w spokojnych kolorach — stylizacja 3D.</span></button>
+          <button type="button" class="radio-card" data-style="retro"><b>📖 Retro</b><span>Styl znany z polskich książeczek z lat 60. i 70.</span></button>
+          <button type="button" class="radio-card" data-style="kredka"><b>✏️ Kredkowy</b><span>Jakby narysowane ręką dziecka — surowe, ciepłe, autentyczne.</span></button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">Dedykacja na pierwszej stronie <span style="color:var(--ink-faint); font-weight:500;">(opcjonalna)</span></label>
+        <textarea class="textarea" id="f-dedication" placeholder="Dla Zosi, która uwielbia odkrywać świat. Z miłością, Mama i Tata · 2026"></textarea>
+        <p class="field-help">Kilka zdań od Ciebie — pojawi się kaligraficzną czcionką na stronie tytułowej.</p>
+      </div>
+
+      <div class="field">
+        <label class="field-label">Imię osoby, od której bajka</label>
+        <input class="input" id="f-from" placeholder="np. Babcia Ala, Mama &amp; Tata, Wujek Maciek…">
+      </div>
+    </div>
+
+    <!-- STEP 6: VARIANT + REVIEW -->
+    <div class="step-panel" data-step="6">
+      <div class="step-header">
+        <span class="step-kicker">ostatni krok 💛</span>
+        <h1>Wybierz <em>wariant</em> i sprawdź całość</h1>
+        <p class="step-lede">Wszystkie warianty zawierają tę samą historię i ilustracje. Różnią się tylko formatem — PDF do pobrania albo książka, którą przytulisz.</p>
+      </div>
+
+      <div class="field">
+        <label class="field-label">Wariant</label>
+        <div class="variants" id="variants">
+          <button type="button" class="variant-card" data-variant="ebook-basic" data-price="69">
+            <div>
+              <div class="variant-head"><b>eBook Basic</b></div>
+              <p>20-stronicowy PDF · 1 bohater · natychmiastowa wysyłka na email.</p>
+            </div>
+            <div class="variant-price">69<span class="cur">PLN</span></div>
+          </button>
+          <button type="button" class="variant-card featured" data-variant="ebook-plus" data-price="119">
+            <div>
+              <div class="variant-head"><b>eBook Plus</b> <span class="popular">najczęściej wybierany</span></div>
+              <p>24 strony · do 3 bohaterów · wybór stylu · PDF gotowy w 10 minut.</p>
+            </div>
+            <div class="variant-price">119<span class="cur">PLN</span></div>
+          </button>
+          <button type="button" class="variant-card" data-variant="hardcover-std" data-price="229">
+            <div>
+              <div class="variant-head"><b>Hardcover Standard</b></div>
+              <p>Druk A4, 24 strony, szyty blok, twarda oprawa · wysyłka 3–5 dni (UE).</p>
+            </div>
+            <div class="variant-price">229<span class="cur">PLN</span></div>
+          </button>
+          <button type="button" class="variant-card" data-variant="hardcover-premium" data-price="299">
+            <div>
+              <div class="variant-head"><b>Hardcover Premium</b></div>
+              <p>Format 24×24 cm, papier 170g, pudełko prezentowe, szyty blok.</p>
+            </div>
+            <div class="variant-price">299<span class="cur">PLN</span></div>
+          </button>
+          <button type="button" class="variant-card" data-variant="gift" data-price="349">
+            <div>
+              <div class="variant-head"><b>Gift bundle</b></div>
+              <p>Hardcover Premium + eBook + audio-dedykacja nagrana Twoim głosem.</p>
+            </div>
+            <div class="variant-price">349<span class="cur">PLN</span></div>
+          </button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">Podsumowanie</label>
+        <div class="review-grid" id="review-grid"></div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">Zgody</label>
+        <label class="checkbox" data-req="consent-gdpr">
+          <input type="checkbox" id="c-gdpr">
+          <div class="check-box"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+          <div>Zgadzam się na przetwarzanie zdjęcia dziecka <strong>wyłącznie w celu wygenerowania tej jednej książki</strong>. Zdjęcie zostaje w EU i jest usuwane automatycznie. (<a href="#">polityka prywatności</a>)</div>
+        </label>
+        <label class="checkbox" data-req="consent-terms">
+          <input type="checkbox" id="c-terms">
+          <div class="check-box"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+          <div>Akceptuję <a href="#">regulamin</a>. Rozumiem, że bajka powstaje z udziałem AI — każda książka jest weryfikowana przez kuratora.</div>
+        </label>
+        <label class="checkbox">
+          <input type="checkbox">
+          <div class="check-box"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+          <div>Chcę dostawać raz w miesiącu propozycje nowych motywów i historii. <em style="color:var(--ink-faint);">(opcjonalne)</em></div>
+        </label>
+      </div>
+    </div>
+
+    <!-- STEP 7: DONE -->
+    <div class="step-panel" data-step="7">
+      <div class="done-card">
+        <span class="emoji-big">✨📖✨</span>
+        <span class="step-kicker">gotowe!</span>
+        <h2>Twoja bajka właśnie się pisze</h2>
+        <p>Rozpoczęliśmy generację historii (Claude) i ilustracji (Nano Banana Pro) w regionie EU. Za chwilę dostaniesz podgląd — zwykle w <b>8–12 minut</b>. Sprawdź skrzynkę i status zamówienia w panelu.</p>
+        <button class="btn btn-primary" onclick="goto(1)">Stwórz drugą bajkę</button>
+      </div>
+    </div>
+
+    <!-- NAV BUTTONS -->
+    <div class="nav-buttons" id="nav-btns">
+      <button class="btn btn-ghost" id="btn-back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg>
+        Wstecz
+      </button>
+      <div style="color: var(--ink-faint); font-size: 0.86rem; font-weight: 600;" id="step-counter">krok 1 z 6</div>
+      <button class="btn btn-primary" id="btn-next">
+        Dalej
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- PREVIEW -->
+  <aside class="preview-col">
+    <div class="preview-card">
+      <div class="preview-title">podgląd okładki · na żywo</div>
+      <div class="book-mockup" id="book-mockup">
+        <span class="book-emoji" id="book-emoji">📖</span>
+        <div class="book-subtitle" id="book-subtitle">przygody</div>
+        <div class="book-title" id="book-title">Twoja bajka</div>
+        <div class="book-child" id="book-child">— dla mojego dziecka</div>
+        <div class="book-foot" id="book-foot">Bajaro · 2026</div>
+      </div>
+
+      <div class="preview-meta">
+        <div class="m-row"><span class="k">bohater</span><span class="v placeholder" id="meta-name">—</span></div>
+        <div class="m-row"><span class="k">motyw</span><span class="v placeholder" id="meta-theme">—</span></div>
+        <div class="m-row"><span class="k">styl</span><span class="v placeholder" id="meta-style">—</span></div>
+        <div class="m-row"><span class="k">format</span><span class="v placeholder" id="meta-variant">—</span></div>
+        <div class="m-row"><span class="k">cena</span><span class="v placeholder" id="meta-price">—</span></div>
+      </div>
+
+      <div class="preview-note">
+        <b>🇪🇺 Pracujemy w Unii.</b> Zdjęcie dziecka jest szyfrowane, przechowywane w regionie europe-central2 i usuwane automatycznie po wygenerowaniu ilustracji.
+      </div>
+    </div>
+  </aside>
+
+</div>
+
+<script>
+const STEPS = [
+  { n: 1, label: 'dziecko' },
+  { n: 2, label: 'zdjęcie' },
+  { n: 3, label: 'motyw' },
+  { n: 4, label: 'towarzysze' },
+  { n: 5, label: 'styl' },
+  { n: 6, label: 'podsumowanie' },
+];
+const TOTAL = STEPS.length;
+let current = 1;
+
+const state = {
+  name: '',
+  age: null,
+  pronoun: null,
+  color: null,
+  bookFrom: '#E8B04A',
+  bookTo: '#D97742',
+  photoURL: null,
+  traits: new Set(),
+  interests: new Set(),
+  theme: null,
+  themeIcon: '📖',
+  themeTitle: null,
+  companions: { sibName: '', sibAge: '', sibRel: '', pet: null, petName: '', notes: '' },
+  style: null,
+  dedication: '',
+  from: '',
+  variant: null,
+  price: null,
+  variantLabel: null,
+  consents: { gdpr: false, terms: false },
+};
+
+/* ========== STEP DOTS ========== */
+function renderDots() {
+  const el = document.getElementById('step-dots');
+  el.innerHTML = STEPS.map((s, i) => {
+    const done = s.n < current;
+    const active = s.n === current;
+    const line = (i < STEPS.length - 1)
+      ? `<span class="step-line ${s.n < current ? 'done' : ''}"></span>`
+      : '';
+    return `<span class="step-dot ${active ? 'active' : ''} ${done ? 'done' : ''}" data-go="${s.n}">
+      <span class="circle">${done ? '✓' : s.n}</span>
+      <span class="label">${s.label}</span>
+    </span>${line}`;
+  }).join('');
+  el.querySelectorAll('.step-dot').forEach(d => {
+    d.style.cursor = 'pointer';
+    d.addEventListener('click', () => {
+      const n = parseInt(d.dataset.go, 10);
+      if (n <= current || n < current + 1) goto(n);
+    });
+  });
+}
+
+/* ========== NAV ========== */
+function goto(n) {
+  if (n < 1) n = 1;
+  if (n > TOTAL + 1) n = TOTAL + 1;
+  current = n;
+  document.querySelectorAll('.step-panel').forEach(p => {
+    p.classList.toggle('active', parseInt(p.dataset.step, 10) === current);
+  });
+  const counter = document.getElementById('step-counter');
+  const navBtns = document.getElementById('nav-btns');
+  if (current > TOTAL) {
+    navBtns.style.display = 'none';
+  } else {
+    navBtns.style.display = 'flex';
+    counter.textContent = `krok ${current} z ${TOTAL}`;
+    document.getElementById('btn-back').disabled = (current === 1);
+    document.getElementById('btn-next').innerHTML = current === TOTAL
+      ? 'Zatwierdź i uruchom bajkę <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>'
+      : 'Dalej <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg>';
+  }
+  renderDots();
+  if (current === TOTAL) renderReview();
+  updatePreview();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.getElementById('btn-back').addEventListener('click', () => goto(current - 1));
+document.getElementById('btn-next').addEventListener('click', () => {
+  if (!validate(current)) return;
+  goto(current + 1);
+});
+
+function validate(step) {
+  if (step === 1) {
+    if (!state.name) { flash('f-name', 'Imię dziecka jest potrzebne, żeby zacząć ✨'); return false; }
+  }
+  if (step === TOTAL) {
+    if (!state.variant) { alert('Wybierz wariant książki.'); return false; }
+    if (!state.consents.gdpr || !state.consents.terms) {
+      alert('Zaznacz wymagane zgody (GDPR i regulamin), żeby przejść dalej.');
+      return false;
+    }
+  }
+  return true;
+}
+function flash(id, msg) {
+  const el = document.getElementById(id);
+  el.focus();
+  el.style.borderColor = 'var(--rose-deep)';
+  el.style.boxShadow = '0 0 0 3px rgba(216, 138, 138, 0.25)';
+  setTimeout(() => { el.style.borderColor = ''; el.style.boxShadow = ''; }, 1400);
+}
+
+/* ========== STEP 1 ========== */
+document.getElementById('f-name').addEventListener('input', e => { state.name = e.target.value.trim(); updatePreview(); });
+document.getElementById('f-age').addEventListener('input', e => { state.age = e.target.value; updatePreview(); });
+document.querySelectorAll('.radio-card[data-pronoun]').forEach(b => {
+  b.addEventListener('click', () => {
+    document.querySelectorAll('.radio-card[data-pronoun]').forEach(x => x.classList.remove('on'));
+    b.classList.add('on');
+    state.pronoun = b.dataset.pronoun;
+    updatePreview();
+  });
+});
+document.querySelectorAll('#color-chips .chip-opt').forEach(c => {
+  c.addEventListener('click', () => {
+    document.querySelectorAll('#color-chips .chip-opt').forEach(x => x.classList.remove('on'));
+    c.classList.add('on');
+    state.color = c.dataset.color;
+    state.bookFrom = c.dataset.from;
+    state.bookTo = c.dataset.to;
+    updatePreview();
+  });
+});
+
+/* ========== STEP 2 ========== */
+document.getElementById('f-photo').addEventListener('change', e => {
+  const f = e.target.files && e.target.files[0];
+  if (!f) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    state.photoURL = reader.result;
+    const box = document.getElementById('upload-box');
+    box.classList.add('has-photo');
+    box.innerHTML = `
+      <input type="file" id="f-photo" accept="image/*">
+      <div class="upload-preview"><img src="${reader.result}" alt=""></div>
+      <div class="upload-info">
+        <h4>Zdjęcie gotowe ✓</h4>
+        <p>${f.name} · ${Math.round(f.size / 1024)} KB — zdjęcie zostanie zaszyfrowane przy wysyłce.</p>
+      </div>
+      <div style="margin-left:auto;"><button type="button" class="btn btn-ghost" id="reset-photo" style="font-size:0.82rem; padding:8px 14px;">Zmień</button></div>
+    `;
+    document.getElementById('reset-photo').addEventListener('click', (ev) => {
+      ev.preventDefault(); ev.stopPropagation();
+      document.getElementById('upload-box').outerHTML = document.getElementById('upload-box').outerHTML;
+      location.reload();
+    });
+    document.getElementById('f-photo').addEventListener('change', arguments.callee);
+  };
+  reader.readAsDataURL(f);
+});
+
+function setupChips(containerId, stateKey, opts = {}) {
+  document.querySelectorAll(`#${containerId} .chip-opt`).forEach(c => {
+    c.addEventListener('click', () => {
+      const key = c.dataset[opts.dataKey || 'trait'] || c.dataset.int || c.dataset.pet;
+      const set = state[stateKey];
+      if (opts.single) {
+        document.querySelectorAll(`#${containerId} .chip-opt`).forEach(x => x.classList.remove('on'));
+        c.classList.add('on');
+        state[stateKey] = key;
+      } else {
+        if (set.has(key)) { set.delete(key); c.classList.remove('on'); }
+        else { set.add(key); c.classList.add('on'); }
+      }
+      updatePreview();
+    });
+  });
+}
+setupChips('traits-chips', 'traits', { dataKey: 'trait' });
+setupChips('interests-chips', 'interests', { dataKey: 'int' });
+
+/* ========== STEP 3: theme ========== */
+document.querySelectorAll('#theme-grid .theme-card').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('#theme-grid .theme-card').forEach(x => x.classList.remove('on'));
+    t.classList.add('on');
+    state.theme = t.dataset.theme;
+    state.themeIcon = t.dataset.icon;
+    state.themeTitle = t.querySelector('h3').textContent;
+    state.bookFrom = t.dataset.from;
+    state.bookTo = t.dataset.to;
+    t.style.setProperty('--c', t.dataset.color);
+    updatePreview();
+  });
+});
+
+/* ========== STEP 4: companions ========== */
+['c-sib-name','c-sib-age','c-sib-rel','c-pet-name','c-notes'].forEach(id => {
+  document.getElementById(id).addEventListener('input', e => {
+    const key = id === 'c-sib-name' ? 'sibName'
+             : id === 'c-sib-age' ? 'sibAge'
+             : id === 'c-sib-rel' ? 'sibRel'
+             : id === 'c-pet-name' ? 'petName'
+             : 'notes';
+    state.companions[key] = e.target.value;
+  });
+});
+document.querySelectorAll('#pet-chips .chip-opt').forEach(c => {
+  c.addEventListener('click', () => {
+    document.querySelectorAll('#pet-chips .chip-opt').forEach(x => x.classList.remove('on'));
+    c.classList.add('on');
+    state.companions.pet = c.dataset.pet;
+  });
+});
+
+/* ========== STEP 5: style + dedication ========== */
+document.querySelectorAll('#style-grid .radio-card').forEach(r => {
+  r.addEventListener('click', () => {
+    document.querySelectorAll('#style-grid .radio-card').forEach(x => x.classList.remove('on'));
+    r.classList.add('on');
+    state.style = r.dataset.style;
+    updatePreview();
+  });
+});
+document.getElementById('f-dedication').addEventListener('input', e => { state.dedication = e.target.value; });
+document.getElementById('f-from').addEventListener('input', e => { state.from = e.target.value; updatePreview(); });
+
+/* ========== STEP 6: variant + review ========== */
+document.querySelectorAll('#variants .variant-card').forEach(v => {
+  v.addEventListener('click', () => {
+    document.querySelectorAll('#variants .variant-card').forEach(x => x.classList.remove('on'));
+    v.classList.add('on');
+    state.variant = v.dataset.variant;
+    state.price = parseInt(v.dataset.price, 10);
+    state.variantLabel = v.querySelector('b').textContent;
+    updatePreview();
+    renderReview();
+  });
+});
+['c-gdpr', 'c-terms'].forEach((id, idx) => {
+  document.getElementById(id).addEventListener('change', e => {
+    const key = id === 'c-gdpr' ? 'gdpr' : 'terms';
+    state.consents[key] = e.target.checked;
+  });
+});
+document.querySelectorAll('.checkbox').forEach(l => {
+  l.addEventListener('click', () => {
+    setTimeout(() => l.classList.toggle('on', l.querySelector('input').checked), 0);
+  });
+});
+
+function renderReview() {
+  const el = document.getElementById('review-grid');
+  const rows = [
+    ['Dziecko', state.name ? `${state.name}${state.age ? ', ' + state.age + ' lat' : ''}` : '—', 1],
+    ['Charakter', state.traits.size ? [...state.traits].join(', ') : '—', 2],
+    ['Zainteresowania', state.interests.size ? [...state.interests].join(', ') : '—', 2],
+    ['Motyw', state.themeTitle || '—', 3],
+    ['Towarzysze', [
+      state.companions.sibName && `rodzeństwo: ${state.companions.sibName}`,
+      state.companions.pet && state.companions.pet !== 'none' && `pupil: ${state.companions.pet}${state.companions.petName ? ' (' + state.companions.petName + ')' : ''}`,
+    ].filter(Boolean).join(' · ') || '—', 4],
+    ['Styl ilustracji', state.style || '—', 5],
+    ['Dedykacja', state.dedication ? state.dedication.slice(0, 80) + (state.dedication.length > 80 ? '…' : '') : '—', 5],
+    ['Wariant', state.variantLabel ? `${state.variantLabel} · ${state.price} PLN` : 'nie wybrano', 6],
+  ];
+  el.innerHTML = rows.map(([k, v, step]) => `
+    <div class="review-row">
+      <span class="k">${k}</span>
+      <span class="v">${v}</span>
+      <button class="edit" onclick="goto(${step})">edytuj</button>
+    </div>
+  `).join('');
+}
+
+/* ========== LIVE PREVIEW ========== */
+function updatePreview() {
+  // Book cover
+  const mock = document.getElementById('book-mockup');
+  mock.style.setProperty('--book-from', state.bookFrom);
+  mock.style.setProperty('--book-to', state.bookTo);
+
+  const ico = state.themeIcon || '📖';
+  document.getElementById('book-emoji').textContent = ico;
+
+  const title = state.name ? `${state.name}\ni ${state.themeTitle ? state.themeTitle.toLowerCase() : 'wielka przygoda'}` : 'Twoja bajka';
+  const titleHtml = state.name
+    ? `<div style="font-size: 0.9rem; opacity: 0.85; font-family: 'Kalam', cursive; font-weight: 400; margin-bottom: 4px;">${state.themeTitle ? state.themeTitle : 'Wielka przygoda'}</div><div>${state.name}</div>`
+    : 'Twoja bajka';
+  document.getElementById('book-title').innerHTML = titleHtml;
+
+  document.getElementById('book-subtitle').textContent = state.theme ? 'bajka o' : 'przygody';
+  document.getElementById('book-child').textContent = state.age ? `— ${state.age} lat` : '— mojego dziecka';
+  document.getElementById('book-foot').textContent = (state.from ? `od ${state.from} · ` : '') + 'Bajaro · 2026';
+
+  // Meta
+  setMeta('meta-name', state.name ? `${state.name}${state.age ? ', ' + state.age + 'l.' : ''}` : null);
+  setMeta('meta-theme', state.themeTitle);
+  setMeta('meta-style', state.style);
+  setMeta('meta-variant', state.variantLabel);
+  setMeta('meta-price', state.price ? state.price + ' PLN' : null);
+}
+function setMeta(id, val) {
+  const el = document.getElementById(id);
+  if (val) { el.textContent = val; el.classList.remove('placeholder'); }
+  else { el.textContent = '—'; el.classList.add('placeholder'); }
+}
+
+renderDots();
+updatePreview();
+window.goto = goto;
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1661 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bajaro · Panel operacyjny</title>
+<meta name="description" content="Panel operacyjny Bajaro — zamówienia, generacje, kolejka druku, zgodność GDPR.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,500&family=Nunito:wght@300;400;500;600;700;800&family=Kalam:wght@400;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream:        #FFF8E7;
+    --cream-deep:   #F6EBCD;
+    --cream-warm:   #FBEFD4;
+    --paper:        #FDF5E1;
+    --rose:         #E8A3A3;
+    --rose-deep:    #D88A8A;
+    --teal:         #4A8B8B;
+    --teal-deep:    #3A6E6E;
+    --honey:        #E8B04A;
+    --honey-deep:   #C4912D;
+    --terracotta:   #D97742;
+    --terracotta-deep:#B55F32;
+    --ink:          #3A2817;
+    --ink-soft:     #6E5840;
+    --ink-faint:    #A09478;
+    --leaf:         #7B9E6A;
+    --leaf-deep:    #5E7F52;
+    --sky:          #C8DEE1;
+    --alert:        #C85A4A;
+    --line:         rgba(58,40,23,0.12);
+    --line-strong:  rgba(58,40,23,0.22);
+    --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Nunito', system-ui, sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.45;
+    mix-blend-mode: multiply;
+    background-image:
+      radial-gradient(circle at 18% 22%, rgba(58,40,23,0.04) 0 1.2px, transparent 1.6px),
+      radial-gradient(circle at 63% 71%, rgba(58,40,23,0.035) 0 1px, transparent 1.4px),
+      radial-gradient(circle at 88% 34%, rgba(217,119,66,0.04) 0 1px, transparent 1.2px);
+    background-size: 9px 9px, 13px 13px, 17px 17px;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Playfair Display', Georgia, serif;
+    color: var(--ink);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+  }
+  .mono { font-family: var(--mono); font-feature-settings: "tnum"; }
+
+  /* SHELL */
+  .shell {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    min-height: 100vh;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* SIDEBAR */
+  aside {
+    border-right: 1px solid var(--line);
+    background: linear-gradient(180deg, var(--cream) 0%, var(--cream-warm) 100%);
+    padding: 24px 18px;
+    position: sticky; top: 0; height: 100vh;
+    overflow-y: auto;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 32px;
+    padding: 0 6px;
+  }
+  .brand-mark {
+    width: 36px; height: 36px;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--rose);
+    border-radius: 50%;
+    box-shadow: 0 3px 0 var(--rose-deep), 0 6px 12px -4px rgba(58,40,23,0.2);
+    flex-shrink: 0;
+  }
+  .brand-mark svg { width: 20px; height: 20px; }
+  .brand-text {
+    display: flex; flex-direction: column;
+    font-family: 'Playfair Display', serif;
+  }
+  .brand-name { font-size: 1.25rem; font-weight: 700; color: var(--ink); line-height: 1; }
+  .brand-sub {
+    font-family: 'Kalam', cursive;
+    font-size: 0.78rem;
+    color: var(--teal);
+    transform: rotate(-1deg);
+    margin-top: 3px;
+  }
+
+  .sidenav-group {
+    margin-bottom: 22px;
+  }
+  .sidenav-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 0 10px 8px;
+  }
+  .sidenav a {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 10px;
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.88rem;
+    border-radius: 10px;
+    transition: background 0.2s, color 0.2s;
+    position: relative;
+    cursor: pointer;
+  }
+  .sidenav a:hover { background: rgba(232,176,74,0.12); color: var(--ink); }
+  .sidenav a.active {
+    background: var(--paper);
+    color: var(--ink);
+    box-shadow: inset 0 0 0 1px var(--line);
+  }
+  .sidenav a.active::before {
+    content: '';
+    position: absolute; left: -18px; top: 10px; bottom: 10px;
+    width: 3px; border-radius: 0 3px 3px 0;
+    background: var(--terracotta);
+  }
+  .sidenav a .dot {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--ink-faint);
+    flex-shrink: 0;
+  }
+  .sidenav a.active .dot { background: var(--terracotta); }
+  .sidenav a .count {
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    background: var(--cream-deep);
+    color: var(--ink-soft);
+    padding: 2px 7px;
+    border-radius: 8px;
+    font-weight: 600;
+  }
+  .sidenav a .count.alert { background: #F3D1CC; color: var(--alert); }
+  .sidenav a .count.ok { background: #DCE9D7; color: var(--leaf-deep); }
+
+  .sidenav-env {
+    margin-top: auto;
+    padding: 14px 10px;
+    border: 1px dashed var(--line-strong);
+    border-radius: 10px;
+    font-size: 0.76rem;
+    color: var(--ink-soft);
+  }
+  .env-row { display: flex; justify-content: space-between; margin-bottom: 4px; }
+  .env-row:last-child { margin-bottom: 0; }
+  .env-row b { color: var(--teal-deep); font-weight: 700; }
+  .env-row .eu { color: var(--leaf-deep); }
+
+  /* MAIN */
+  main {
+    padding: 22px 34px 60px;
+    overflow-x: hidden;
+  }
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 18px;
+    padding-bottom: 22px;
+    margin-bottom: 26px;
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar-title {
+    display: flex; align-items: baseline; gap: 14px;
+  }
+  .topbar h1 { font-size: 1.8rem; font-weight: 800; }
+  .topbar h1 em {
+    font-style: italic;
+    color: var(--terracotta);
+    font-family: 'Playfair Display', serif;
+    font-weight: 500;
+  }
+  .crumbs { font-size: 0.82rem; color: var(--ink-faint); font-family: var(--mono); }
+  .topbar-actions { display: flex; gap: 10px; align-items: center; }
+
+  .search {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 8px 12px;
+    min-width: 260px;
+    font-size: 0.85rem;
+  }
+  .search input {
+    border: none; outline: none; background: transparent;
+    flex: 1; font-family: inherit; font-size: inherit; color: var(--ink);
+  }
+  .search svg { opacity: 0.5; }
+  .search kbd {
+    font-family: var(--mono); font-size: 0.7rem;
+    background: var(--cream-deep); color: var(--ink-soft);
+    padding: 2px 6px; border-radius: 5px;
+    border: 1px solid var(--line);
+  }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 9px 16px;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .btn-primary {
+    background: var(--terracotta);
+    color: var(--cream);
+    box-shadow: 0 3px 0 var(--terracotta-deep), 0 6px 14px -4px rgba(217,119,66,0.35);
+  }
+  .btn-primary:hover { transform: translateY(-1px); background: #E07F4C; }
+  .btn-ghost {
+    background: transparent;
+    border: 1px solid var(--line);
+  }
+  .btn-ghost:hover { background: var(--paper); }
+  .btn svg { width: 16px; height: 16px; }
+
+  /* USER CHIP */
+  .user {
+    display: flex; align-items: center; gap: 10px;
+    padding: 6px 14px 6px 6px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--paper);
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+  .user-avatar {
+    width: 28px; height: 28px;
+    background: var(--honey);
+    color: var(--ink);
+    border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-weight: 800;
+    font-size: 0.78rem;
+  }
+
+  /* SECTION HEAD */
+  .sec-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin: 30px 0 14px;
+    gap: 14px;
+  }
+  .sec-head h2 { font-size: 1.15rem; font-weight: 700; }
+  .sec-head h2 .sub {
+    font-family: 'Kalam', cursive;
+    color: var(--ink-faint);
+    font-weight: 400;
+    font-size: 0.9rem;
+    margin-left: 10px;
+  }
+  .sec-head .right { font-size: 0.8rem; color: var(--ink-soft); display: flex; gap: 12px; align-items: center; }
+  .sec-head a { color: var(--terracotta); font-weight: 700; text-decoration: none; }
+  .sec-head a:hover { color: var(--terracotta-deep); }
+
+  /* KPI CARDS */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+  .kpi {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px 18px;
+    position: relative;
+    overflow: hidden;
+  }
+  .kpi::before {
+    content: '';
+    position: absolute;
+    right: -24px; top: -24px;
+    width: 90px; height: 90px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--c, var(--honey)) 0%, transparent 70%);
+    opacity: 0.18;
+  }
+  .kpi-label {
+    font-size: 0.74rem;
+    color: var(--ink-soft);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .kpi-label .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--c, var(--honey));
+  }
+  .kpi-value {
+    font-family: 'Playfair Display', serif;
+    font-weight: 800;
+    font-size: 2rem;
+    line-height: 1;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .kpi-value .unit {
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    margin-left: 4px;
+  }
+  .kpi-delta {
+    font-size: 0.78rem;
+    font-weight: 700;
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+  .kpi-delta.up { color: var(--leaf-deep); }
+  .kpi-delta.down { color: var(--alert); }
+  .kpi-delta.neutral { color: var(--ink-faint); }
+  .kpi-spark { margin-top: 10px; height: 36px; }
+
+  /* CARD */
+  .card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 0;
+    overflow: hidden;
+  }
+  .card-head {
+    padding: 14px 18px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, rgba(253,245,225,0.6), transparent);
+  }
+  .card-head h3 { font-size: 1rem; }
+  .card-head .tabs { display: flex; gap: 4px; }
+  .card-head .tab {
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 5px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    color: var(--ink-soft);
+  }
+  .card-head .tab.active { background: var(--cream-deep); color: var(--ink); }
+  .card-body { padding: 14px 18px; }
+  .card-body.p0 { padding: 0; }
+
+  /* TWO-COL LAYOUT */
+  .cols-2 { display: grid; grid-template-columns: 2fr 1fr; gap: 18px; }
+  .cols-2-equal { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+
+  /* ORDERS TABLE */
+  table.orders { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
+  table.orders th {
+    text-align: left;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-faint);
+    font-weight: 800;
+    padding: 10px 16px;
+    background: rgba(246,235,205,0.4);
+    border-bottom: 1px solid var(--line);
+    cursor: pointer;
+    user-select: none;
+  }
+  table.orders th:hover { color: var(--ink); }
+  table.orders th .arr { display: inline-block; width: 10px; opacity: 0.4; }
+  table.orders th.sort-asc .arr, table.orders th.sort-desc .arr { opacity: 1; color: var(--terracotta); }
+  table.orders td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: middle;
+  }
+  table.orders tr:last-child td { border-bottom: none; }
+  table.orders tr:hover td { background: rgba(253,245,225,0.5); }
+  .order-id { font-family: var(--mono); font-size: 0.8rem; color: var(--ink-soft); }
+  .child-cell { display: flex; align-items: center; gap: 10px; }
+  .child-avatar {
+    width: 30px; height: 30px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 0.78rem;
+    color: var(--ink);
+    flex-shrink: 0;
+  }
+  .child-name { font-weight: 700; }
+  .child-meta { font-size: 0.74rem; color: var(--ink-faint); }
+
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-size: 0.74rem;
+    font-weight: 700;
+  }
+  .chip::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+  }
+  .chip.pending   { background: #F6E5C0; color: #8A6410; }
+  .chip.pending::before { background: #C4912D; }
+  .chip.generating { background: #D7E8F0; color: #2E5F73; }
+  .chip.generating::before { background: var(--teal); animation: pulse 1.4s infinite; }
+  .chip.review    { background: #F3D9D9; color: #8A3434; }
+  .chip.review::before { background: var(--rose-deep); }
+  .chip.paid      { background: #DCE9D7; color: var(--leaf-deep); }
+  .chip.paid::before { background: var(--leaf); }
+  .chip.printed   { background: #EAD5C8; color: #7E4622; }
+  .chip.printed::before { background: var(--terracotta); }
+  .chip.refunded  { background: #EEE4D0; color: var(--ink-soft); }
+  .chip.refunded::before { background: var(--ink-faint); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+
+  .variant {
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: var(--ink-soft);
+  }
+  .variant .v-tag {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: 4px;
+    background: var(--cream-deep);
+    font-size: 0.7rem;
+    margin-right: 4px;
+    color: var(--ink);
+  }
+
+  /* PIPELINE */
+  .pipeline {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+  }
+  .lane {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    min-height: 300px;
+    display: flex; flex-direction: column;
+  }
+  .lane-head {
+    padding: 10px 12px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .lane-head .cnt {
+    font-family: var(--mono);
+    background: var(--cream-deep);
+    padding: 1px 7px;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+  .lane-body { padding: 8px; display: flex; flex-direction: column; gap: 8px; flex: 1; overflow-y: auto; max-height: 360px; }
+
+  .job {
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .job:hover { transform: translateY(-1px); box-shadow: 0 6px 14px -6px rgba(58,40,23,0.15); }
+  .job-title { font-weight: 700; margin-bottom: 3px; color: var(--ink); }
+  .job-meta { font-size: 0.72rem; color: var(--ink-faint); display: flex; justify-content: space-between; margin-top: 6px; }
+  .job-prog {
+    height: 4px; border-radius: 2px;
+    background: var(--cream-deep);
+    overflow: hidden;
+    margin-top: 8px;
+  }
+  .job-prog-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--honey), var(--terracotta));
+    transition: width 0.6s;
+  }
+
+  /* GDPR VAULT */
+  .vault {
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .photo-row {
+    display: grid;
+    grid-template-columns: 36px 1fr 100px 140px 80px;
+    gap: 12px;
+    align-items: center;
+    padding: 10px 12px;
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    font-size: 0.82rem;
+  }
+  .photo-row.urgent { border-color: var(--alert); background: #FBECE8; }
+  .photo-thumb {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--sky), var(--rose));
+    position: relative;
+    overflow: hidden;
+  }
+  .photo-thumb::after {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    background: radial-gradient(circle at 50% 40%, rgba(58,40,23,0.15) 20%, transparent 50%);
+    border-radius: 50%;
+  }
+  .photo-id { font-family: var(--mono); font-size: 0.78rem; color: var(--ink-soft); }
+  .photo-main b { font-weight: 700; display: block; }
+  .ttl { font-family: var(--mono); font-weight: 700; font-size: 0.86rem; }
+  .ttl.warn { color: #8A6410; }
+  .ttl.danger { color: var(--alert); }
+  .ttl.ok { color: var(--leaf-deep); }
+  .region { font-size: 0.72rem; color: var(--ink-faint); display: flex; align-items: center; gap: 4px; }
+  .region::before { content: '·'; color: var(--leaf-deep); font-size: 1.2rem; line-height: 0; }
+
+  /* CURATOR */
+  .cur-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--line);
+    transition: background 0.3s;
+  }
+  .cur-item:last-child { border-bottom: none; }
+  .cur-item.removed { opacity: 0; transform: translateX(30px); pointer-events: none; }
+  .cur-title { font-weight: 700; margin-bottom: 3px; }
+  .cur-excerpt {
+    color: var(--ink-soft);
+    font-size: 0.82rem;
+    line-height: 1.45;
+    margin-top: 4px;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+  }
+  .cur-meta {
+    font-size: 0.74rem;
+    color: var(--ink-faint);
+    display: flex; gap: 12px; margin-top: 6px; flex-wrap: wrap;
+  }
+  .cur-meta b { color: var(--ink-soft); font-weight: 700; }
+  .cur-actions { display: flex; gap: 6px; align-items: center; }
+  .icon-btn {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: var(--cream);
+    cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .icon-btn:hover { transform: translateY(-1px); }
+  .icon-btn.approve { background: #DCE9D7; border-color: #B5CDA9; color: var(--leaf-deep); }
+  .icon-btn.approve:hover { background: #C6DABA; }
+  .icon-btn.reject  { background: #F3D1CC; border-color: #E0A99F; color: var(--alert); }
+  .icon-btn.reject:hover { background: #E9BBB3; }
+  .icon-btn svg { width: 16px; height: 16px; }
+
+  /* REVENUE CHART */
+  .chart-wrap {
+    position: relative;
+    padding: 8px 4px 0;
+  }
+  .chart-legend {
+    display: flex; gap: 14px;
+    font-size: 0.78rem; color: var(--ink-soft);
+    margin-bottom: 8px;
+    padding: 0 14px;
+  }
+  .chart-legend .lg-dot {
+    width: 10px; height: 10px; border-radius: 3px;
+    display: inline-block; margin-right: 6px; vertical-align: -1px;
+  }
+  .chart svg { width: 100%; height: 220px; }
+
+  /* SPLIT BARS */
+  .split-list { padding: 6px 18px 18px; }
+  .split-row { margin-bottom: 14px; }
+  .split-row:last-child { margin-bottom: 0; }
+  .split-label {
+    display: flex; justify-content: space-between;
+    font-size: 0.84rem;
+    margin-bottom: 4px;
+  }
+  .split-label b { font-weight: 700; }
+  .split-bar {
+    height: 8px;
+    border-radius: 4px;
+    background: var(--cream-deep);
+    overflow: hidden;
+  }
+  .split-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: var(--honey);
+    transition: width 0.8s;
+  }
+  .split-bar-fill.terracotta { background: var(--terracotta); }
+  .split-bar-fill.teal       { background: var(--teal); }
+  .split-bar-fill.rose       { background: var(--rose-deep); }
+  .split-bar-fill.leaf       { background: var(--leaf); }
+
+  /* FILTER BAR */
+  .filter-bar {
+    display: flex; gap: 8px; align-items: center;
+    padding: 10px 18px;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.82rem;
+    flex-wrap: wrap;
+  }
+  .filter-bar .f-label {
+    color: var(--ink-faint); font-weight: 700;
+    font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .filter-chip {
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.78rem; font-weight: 700;
+    background: transparent;
+    border: 1px solid var(--line);
+    cursor: pointer;
+    color: var(--ink-soft);
+    transition: all 0.15s;
+  }
+  .filter-chip:hover { background: var(--cream-deep); }
+  .filter-chip.active {
+    background: var(--ink);
+    color: var(--cream);
+    border-color: var(--ink);
+  }
+
+  /* TAB CONTENT */
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; animation: slidein 0.35s ease; }
+  @keyframes slidein {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ALERT BANNER */
+  .alert-banner {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 16px;
+    background: #FBECE8;
+    border: 1px solid #E0A99F;
+    border-radius: 12px;
+    font-size: 0.86rem;
+    color: #7E2E22;
+    margin-bottom: 18px;
+  }
+  .alert-banner b { color: var(--alert); font-weight: 800; }
+  .alert-banner .dismiss {
+    margin-left: auto;
+    background: transparent; border: none;
+    cursor: pointer; color: var(--alert);
+    font-size: 1.1rem;
+  }
+
+  /* FOOTER */
+  .foot {
+    margin-top: 36px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    font-size: 0.74rem;
+    color: var(--ink-faint);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+  }
+  .foot b { color: var(--ink-soft); }
+
+  /* RESPONSIVE */
+  @media (max-width: 1100px) {
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .cols-2 { grid-template-columns: 1fr; }
+    .pipeline { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 820px) {
+    .shell { grid-template-columns: 1fr; }
+    aside { position: relative; height: auto; border-right: none; border-bottom: 1px solid var(--line); }
+    main { padding: 20px 18px 40px; }
+    .pipeline { grid-template-columns: repeat(2, 1fr); }
+    .topbar { flex-wrap: wrap; }
+    .search { min-width: 180px; flex: 1; }
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- SIDEBAR -->
+  <aside>
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#3A2817" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+        </svg>
+      </span>
+      <div class="brand-text">
+        <span class="brand-name">Bajaro</span>
+        <span class="brand-sub">panel operacyjny</span>
+      </div>
+    </div>
+
+    <div class="sidenav-group">
+      <div class="sidenav-label">Operacje</div>
+      <div class="sidenav">
+        <a class="active" data-tab="overview"><span class="dot"></span>Przegląd <span class="count">live</span></a>
+        <a data-tab="orders"><span class="dot"></span>Zamówienia <span class="count">47</span></a>
+        <a data-tab="pipeline"><span class="dot"></span>Generacje <span class="count">12</span></a>
+        <a data-tab="curator"><span class="dot"></span>Kuratorzy <span class="count alert">8</span></a>
+        <a data-tab="print"><span class="dot"></span>Druk &amp; wysyłka <span class="count">21</span></a>
+      </div>
+    </div>
+
+    <div class="sidenav-group">
+      <div class="sidenav-label">Zgodność</div>
+      <div class="sidenav">
+        <a data-tab="gdpr"><span class="dot"></span>Sejf zdjęć <span class="count alert">3</span></a>
+        <a data-tab="audit"><span class="dot"></span>Audyt &amp; logi <span class="count">—</span></a>
+        <a data-tab="ai-act"><span class="dot"></span>AI Act <span class="count ok">ok</span></a>
+      </div>
+    </div>
+
+    <div class="sidenav-group">
+      <div class="sidenav-label">Analityka</div>
+      <div class="sidenav">
+        <a data-tab="finance"><span class="dot"></span>Finanse</a>
+        <a data-tab="cohorts"><span class="dot"></span>Kohorty &amp; LTV</a>
+        <a data-tab="settings"><span class="dot"></span>Ustawienia</a>
+      </div>
+    </div>
+
+    <div class="sidenav-env">
+      <div class="env-row"><span>region</span><b class="eu">europe-central2 · 🇪🇺</b></div>
+      <div class="env-row"><span>model (img)</span><b>Nano Banana Pro</b></div>
+      <div class="env-row"><span>model (story)</span><b>Claude</b></div>
+      <div class="env-row"><span>build</span><b id="build-tag">v0.1.4</b></div>
+      <div class="env-row"><span>czas</span><b id="clock">--:--:--</b></div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="topbar-title">
+        <div>
+          <div class="crumbs">panel · <span id="crumb-section">przegląd</span></div>
+          <h1>Dzień dobry, <em>Anno</em> ☕</h1>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <div class="search">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="text" placeholder="Szukaj: zamówienie, imię, #ID…" id="search-input">
+          <kbd>⌘K</kbd>
+        </div>
+        <button class="btn btn-ghost">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+          <span id="notif-count">3</span>
+        </button>
+        <button class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          Nowe zamówienie
+        </button>
+        <div class="user">
+          <span class="user-avatar">AK</span>
+          <span>Anna K.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ALERT -->
+    <div class="alert-banner" id="alert-banner">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <span>
+        <b>3 zdjęcia dzieci</b> osiągają TTL w ciągu najbliższej godziny. Skontroluj kolejkę generacji lub wymuś usunięcie.
+      </span>
+      <button class="btn btn-ghost" style="margin-left:auto; padding:5px 12px; font-size:0.8rem;" onclick="document.querySelector('[data-tab=gdpr]').click()">Przejdź do sejfu →</button>
+      <button class="dismiss" onclick="this.parentElement.style.display='none'" title="Zamknij">×</button>
+    </div>
+
+    <!-- ============ OVERVIEW ============ -->
+    <div class="tab-panel active" data-panel="overview">
+
+      <div class="kpi-grid">
+        <div class="kpi" style="--c: var(--terracotta);">
+          <div class="kpi-label"><span class="dot"></span>Zamówienia dziś</div>
+          <div class="kpi-value" id="kpi-orders">—</div>
+          <div class="kpi-delta up">↑ 18% vs średnia 7d</div>
+          <svg class="kpi-spark" viewBox="0 0 100 36" preserveAspectRatio="none"><polyline fill="none" stroke="#D97742" stroke-width="2" points="0,28 10,24 20,20 30,25 40,15 50,18 60,10 70,14 80,6 90,12 100,4"/></svg>
+        </div>
+        <div class="kpi" style="--c: var(--leaf);">
+          <div class="kpi-label"><span class="dot"></span>Przychód dziś</div>
+          <div class="kpi-value" id="kpi-revenue">—<span class="unit">PLN</span></div>
+          <div class="kpi-delta up">↑ 24% vs wczoraj</div>
+          <svg class="kpi-spark" viewBox="0 0 100 36" preserveAspectRatio="none"><polyline fill="none" stroke="#5E7F52" stroke-width="2" points="0,30 12,26 24,22 36,18 48,22 60,14 72,10 84,16 96,6"/></svg>
+        </div>
+        <div class="kpi" style="--c: var(--teal);">
+          <div class="kpi-label"><span class="dot"></span>Konwersja 7d</div>
+          <div class="kpi-value">1.82<span class="unit">%</span></div>
+          <div class="kpi-delta up">↑ 0.4 pp</div>
+          <svg class="kpi-spark" viewBox="0 0 100 36" preserveAspectRatio="none"><polyline fill="none" stroke="#3A6E6E" stroke-width="2" points="0,20 14,24 28,22 42,18 56,20 70,14 84,16 100,10"/></svg>
+        </div>
+        <div class="kpi" style="--c: var(--rose-deep);">
+          <div class="kpi-label"><span class="dot"></span>NPS 7d po dostawie</div>
+          <div class="kpi-value">62</div>
+          <div class="kpi-delta neutral">— cel 50 osiągnięty</div>
+          <svg class="kpi-spark" viewBox="0 0 100 36" preserveAspectRatio="none"><polyline fill="none" stroke="#D88A8A" stroke-width="2" points="0,24 12,20 24,22 36,18 48,16 60,18 72,12 84,14 96,10"/></svg>
+        </div>
+      </div>
+
+      <div class="cols-2" style="margin-top: 18px;">
+        <div>
+          <div class="sec-head">
+            <h2>Przychód ostatnie 30 dni <span class="sub">— trend zdrowy</span></h2>
+            <div class="right">
+              <div class="chart-legend" style="margin:0; padding:0;">
+                <span><span class="lg-dot" style="background:var(--terracotta);"></span>Hardcover</span>
+                <span><span class="lg-dot" style="background:var(--honey);"></span>eBook</span>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body p0">
+              <div class="chart">
+                <svg viewBox="0 0 640 220" preserveAspectRatio="none" id="rev-chart">
+                  <!-- gridlines -->
+                  <g stroke="rgba(58,40,23,0.06)" stroke-width="1">
+                    <line x1="0"  y1="40"  x2="640" y2="40"/>
+                    <line x1="0"  y1="90"  x2="640" y2="90"/>
+                    <line x1="0"  y1="140" x2="640" y2="140"/>
+                    <line x1="0"  y1="190" x2="640" y2="190"/>
+                  </g>
+                  <!-- area fill -->
+                  <path id="area-hard" fill="rgba(217,119,66,0.18)" d=""/>
+                  <path id="area-ebook" fill="rgba(232,176,74,0.22)" d=""/>
+                  <!-- lines -->
+                  <polyline id="line-hard" fill="none" stroke="#D97742" stroke-width="2.5" stroke-linejoin="round" points=""/>
+                  <polyline id="line-ebook" fill="none" stroke="#E8B04A" stroke-width="2.5" stroke-linejoin="round" points="" stroke-dasharray="4 3"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="sec-head">
+            <h2>Podział wariantów <span class="sub">— dziś</span></h2>
+          </div>
+          <div class="card">
+            <div class="split-list">
+              <div class="split-row">
+                <div class="split-label"><span>Hardcover Standard</span><b>42%</b></div>
+                <div class="split-bar"><div class="split-bar-fill terracotta" style="width:42%"></div></div>
+              </div>
+              <div class="split-row">
+                <div class="split-label"><span>eBook Plus</span><b>26%</b></div>
+                <div class="split-bar"><div class="split-bar-fill" style="width:26%"></div></div>
+              </div>
+              <div class="split-row">
+                <div class="split-label"><span>Hardcover Premium</span><b>14%</b></div>
+                <div class="split-bar"><div class="split-bar-fill rose" style="width:14%"></div></div>
+              </div>
+              <div class="split-row">
+                <div class="split-label"><span>Gift bundle</span><b>11%</b></div>
+                <div class="split-bar"><div class="split-bar-fill teal" style="width:11%"></div></div>
+              </div>
+              <div class="split-row">
+                <div class="split-label"><span>eBook Basic</span><b>7%</b></div>
+                <div class="split-bar"><div class="split-bar-fill leaf" style="width:7%"></div></div>
+              </div>
+              <div style="margin-top:14px; padding-top:14px; border-top:1px solid var(--line); font-size:0.82rem; color:var(--ink-soft);">
+                <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>AOV dziś</span><b class="mono">248 PLN</b></div>
+                <div style="display:flex; justify-content:space-between;"><span>Cel kwartalny</span><b class="mono">220 PLN</b></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec-head">
+        <h2>Ostatnie zamówienia <span class="sub">— najnowsze 8</span></h2>
+        <div class="right"><a href="#" onclick="document.querySelector('[data-tab=orders]').click(); return false;">Wszystkie zamówienia →</a></div>
+      </div>
+
+      <div class="card">
+        <div class="card-body p0">
+          <table class="orders" id="orders-table-mini">
+            <thead>
+              <tr>
+                <th>#ID</th>
+                <th>Dziecko</th>
+                <th>Wariant</th>
+                <th>Status</th>
+                <th>Kwota</th>
+                <th>Czas</th>
+              </tr>
+            </thead>
+            <tbody id="orders-mini-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="cols-2-equal" style="margin-top: 22px;">
+        <div>
+          <div class="sec-head">
+            <h2>Kolejka kuratorów <span class="sub">— ludzki wkład ≥30%</span></h2>
+            <div class="right"><a href="#" onclick="document.querySelector('[data-tab=curator]').click(); return false;">Otwórz →</a></div>
+          </div>
+          <div class="card" id="cur-overview"></div>
+        </div>
+        <div>
+          <div class="sec-head">
+            <h2>Kolejka druku (Gelato) <span class="sub">— EU fabryki</span></h2>
+            <div class="right"><a href="#" onclick="document.querySelector('[data-tab=print]').click(); return false;">Otwórz →</a></div>
+          </div>
+          <div class="card">
+            <div class="card-body p0">
+              <div id="print-overview" style="padding:4px 0;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ============ ORDERS ============ -->
+    <div class="tab-panel" data-panel="orders">
+      <div class="sec-head" style="margin-top: 0;">
+        <h2>Zamówienia <span class="sub">— wszystkie kanały</span></h2>
+        <div class="right">
+          <button class="btn btn-ghost" style="padding: 6px 12px; font-size:0.8rem;">Export CSV</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="filter-bar" id="order-filters">
+          <span class="f-label">status:</span>
+          <button class="filter-chip active" data-f="all">wszystkie</button>
+          <button class="filter-chip" data-f="pending">do generacji</button>
+          <button class="filter-chip" data-f="generating">generowane</button>
+          <button class="filter-chip" data-f="review">do akceptacji</button>
+          <button class="filter-chip" data-f="paid">zapłacone</button>
+          <button class="filter-chip" data-f="printed">wydrukowane</button>
+          <span class="f-label" style="margin-left: 16px;">wariant:</span>
+          <button class="filter-chip active" data-fv="all">wszystkie</button>
+          <button class="filter-chip" data-fv="eBook">eBook</button>
+          <button class="filter-chip" data-fv="Hardcover">Hardcover</button>
+          <button class="filter-chip" data-fv="Gift">Gift bundle</button>
+        </div>
+        <div class="card-body p0">
+          <table class="orders" id="orders-table">
+            <thead>
+              <tr>
+                <th data-sort="id">#ID <span class="arr">↕</span></th>
+                <th data-sort="child">Dziecko <span class="arr">↕</span></th>
+                <th>Wariant</th>
+                <th data-sort="status">Status <span class="arr">↕</span></th>
+                <th data-sort="amount">Kwota <span class="arr">↕</span></th>
+                <th data-sort="channel">Kanał</th>
+                <th data-sort="age">Czas</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="orders-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ PIPELINE ============ -->
+    <div class="tab-panel" data-panel="pipeline">
+      <div class="sec-head" style="margin-top: 0;">
+        <h2>Kolejka generacji <span class="sub">— LLM + obraz, live</span></h2>
+        <div class="right">
+          <span class="mono" style="font-size: 0.78rem; color: var(--ink-soft);" id="pipe-clock">—</span>
+        </div>
+      </div>
+      <div class="pipeline" id="pipeline-lanes">
+        <div class="lane" data-lane="queued">
+          <div class="lane-head"><span>W kolejce</span><span class="cnt">0</span></div>
+          <div class="lane-body"></div>
+        </div>
+        <div class="lane" data-lane="writing">
+          <div class="lane-head"><span>LLM pisze</span><span class="cnt">0</span></div>
+          <div class="lane-body"></div>
+        </div>
+        <div class="lane" data-lane="illustrating">
+          <div class="lane-head"><span>Ilustracje</span><span class="cnt">0</span></div>
+          <div class="lane-body"></div>
+        </div>
+        <div class="lane" data-lane="review">
+          <div class="lane-head"><span>Do akceptacji</span><span class="cnt">0</span></div>
+          <div class="lane-body"></div>
+        </div>
+        <div class="lane" data-lane="ready">
+          <div class="lane-head"><span>Gotowe</span><span class="cnt">0</span></div>
+          <div class="lane-body"></div>
+        </div>
+      </div>
+
+      <div class="sec-head" style="margin-top: 26px;">
+        <h2>Wydajność modeli <span class="sub">— ostatnie 24h</span></h2>
+      </div>
+      <div class="cols-2-equal">
+        <div class="card">
+          <div class="card-head"><h3>Czas generacji (p95)</h3></div>
+          <div class="card-body">
+            <div class="split-row">
+              <div class="split-label"><span>Historia (Claude)</span><b class="mono">42 s</b></div>
+              <div class="split-bar"><div class="split-bar-fill teal" style="width:28%"></div></div>
+            </div>
+            <div class="split-row">
+              <div class="split-label"><span>Ilustracje (Nano Banana Pro)</span><b class="mono">6 min 18 s</b></div>
+              <div class="split-bar"><div class="split-bar-fill terracotta" style="width:74%"></div></div>
+            </div>
+            <div class="split-row">
+              <div class="split-label"><span>PDF render</span><b class="mono">9 s</b></div>
+              <div class="split-bar"><div class="split-bar-fill" style="width:8%"></div></div>
+            </div>
+            <div class="split-row">
+              <div class="split-label"><span>Łącznie e2e</span><b class="mono">7 min 41 s</b></div>
+              <div class="split-bar"><div class="split-bar-fill leaf" style="width:86%"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3>Jakość face-consistency</h3></div>
+          <div class="card-body">
+            <div style="font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 800; color: var(--ink);">96.3<span style="font-family:'Nunito'; font-size:1rem; color:var(--ink-soft); font-weight:600;">% stron</span></div>
+            <div style="color: var(--ink-soft); font-size:0.86rem; margin-top:6px;">rozpoznawalnych w teście A/B rodziców (cel: ≥95%)</div>
+            <div style="display:flex; gap:14px; margin-top:14px; padding-top:14px; border-top:1px solid var(--line); font-size:0.8rem;">
+              <div><div style="color:var(--ink-faint); font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; font-weight:700;">Akceptacja</div><b class="mono" style="font-size:1rem;">87%</b></div>
+              <div><div style="color:var(--ink-faint); font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; font-weight:700;">Iteracji śr.</div><b class="mono" style="font-size:1rem;">1.4</b></div>
+              <div><div style="color:var(--ink-faint); font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; font-weight:700;">Odrzuceń</div><b class="mono" style="font-size:1rem;">4%</b></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ CURATOR ============ -->
+    <div class="tab-panel" data-panel="curator">
+      <div class="sec-head" style="margin-top: 0;">
+        <h2>Kolejka kuratora <span class="sub">— każda bajka potrzebuje człowieka</span></h2>
+        <div class="right">
+          <span class="mono" style="font-size: 0.78rem; color: var(--ink-soft);">wkład ludzki wymagany: ≥30%</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="filter-bar">
+          <span class="f-label">faza:</span>
+          <button class="filter-chip active">wszystkie</button>
+          <button class="filter-chip">scenariusz</button>
+          <button class="filter-chip">narracja</button>
+          <button class="filter-chip">ilustracje</button>
+          <button class="filter-chip">finalny PDF</button>
+        </div>
+        <div id="cur-list"></div>
+      </div>
+    </div>
+
+    <!-- ============ PRINT ============ -->
+    <div class="tab-panel" data-panel="print">
+      <div class="sec-head" style="margin-top: 0;">
+        <h2>Druk &amp; wysyłka <span class="sub">— Gelato API, fabryki EU</span></h2>
+      </div>
+      <div class="kpi-grid" style="grid-template-columns: repeat(3, 1fr);">
+        <div class="kpi" style="--c: var(--terracotta);">
+          <div class="kpi-label"><span class="dot"></span>W druku</div>
+          <div class="kpi-value">14</div>
+          <div class="kpi-delta neutral">w fabrykach: Berlin 8 · Madryt 4 · Warszawa 2</div>
+        </div>
+        <div class="kpi" style="--c: var(--teal);">
+          <div class="kpi-label"><span class="dot"></span>Wysłane dziś</div>
+          <div class="kpi-value">9</div>
+          <div class="kpi-delta up">↑ 3 vs wczoraj</div>
+        </div>
+        <div class="kpi" style="--c: var(--honey);">
+          <div class="kpi-label"><span class="dot"></span>Śr. lead time</div>
+          <div class="kpi-value">3.1<span class="unit">dni</span></div>
+          <div class="kpi-delta neutral">druk + wysyłka, cel 4d</div>
+        </div>
+      </div>
+      <div class="sec-head">
+        <h2>Kolejka <span class="sub">— live</span></h2>
+      </div>
+      <div class="card">
+        <div class="card-body p0">
+          <table class="orders">
+            <thead><tr><th>#ID</th><th>Dziecko</th><th>Fabryka</th><th>Etap</th><th>Kurier</th><th>ETA</th></tr></thead>
+            <tbody id="print-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ GDPR VAULT ============ -->
+    <div class="tab-panel" data-panel="gdpr">
+      <div class="sec-head" style="margin-top: 0;">
+        <h2>Sejf zdjęć dzieci <span class="sub">— zgodność z GDPR, TTL 24h</span></h2>
+        <div class="right">
+          <span class="mono" style="font-size: 0.78rem; color: var(--leaf-deep);">🇪🇺 europe-central2 · AES-256</span>
+        </div>
+      </div>
+
+      <div class="kpi-grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 4px;">
+        <div class="kpi" style="--c: var(--leaf);">
+          <div class="kpi-label"><span class="dot"></span>Aktywne</div>
+          <div class="kpi-value" id="gdpr-active">—</div>
+          <div class="kpi-delta neutral">w buckecie tymczasowym</div>
+        </div>
+        <div class="kpi" style="--c: var(--alert);">
+          <div class="kpi-label"><span class="dot"></span>TTL &lt; 1h</div>
+          <div class="kpi-value" id="gdpr-urgent">—</div>
+          <div class="kpi-delta down">wymaga uwagi</div>
+        </div>
+        <div class="kpi" style="--c: var(--teal);">
+          <div class="kpi-label"><span class="dot"></span>Usunięte dziś</div>
+          <div class="kpi-value">64</div>
+          <div class="kpi-delta up">auto-purge OK</div>
+        </div>
+        <div class="kpi" style="--c: var(--rose-deep);">
+          <div class="kpi-label"><span class="dot"></span>Żądania usunięcia</div>
+          <div class="kpi-value">0</div>
+          <div class="kpi-delta neutral">ostatnie 7d</div>
+        </div>
+      </div>
+
+      <div class="sec-head">
+        <h2>Aktywne zdjęcia <span class="sub">— live countdown</span></h2>
+        <div class="right">
+          <button class="btn btn-ghost" style="font-size:0.8rem; padding:6px 12px;">Wymuś purge &gt;23h</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <div class="vault" id="vault-list"></div>
+        </div>
+      </div>
+
+      <div class="sec-head">
+        <h2>Ścieżka przetwarzania zdjęcia <span class="sub">— zgodnie z DPIA</span></h2>
+      </div>
+      <div class="card">
+        <div class="card-body" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; font-size: 0.82rem;">
+          <div style="text-align:center;"><div style="background:var(--cream-deep); border-radius:10px; padding:14px 8px; margin-bottom:6px;">1</div>Upload<br><small style="color:var(--ink-faint);">walidacja + NSFW</small></div>
+          <div style="text-align:center;"><div style="background:var(--cream-deep); border-radius:10px; padding:14px 8px; margin-bottom:6px;">2</div>Bucket tymczasowy<br><small style="color:var(--ink-faint);">AES-256, TTL 2h</small></div>
+          <div style="text-align:center;"><div style="background:var(--cream-deep); border-radius:10px; padding:14px 8px; margin-bottom:6px;">3</div>Vertex AI (EU)<br><small style="color:var(--ink-faint);">store=false</small></div>
+          <div style="text-align:center;"><div style="background:var(--cream-deep); border-radius:10px; padding:14px 8px; margin-bottom:6px;">4</div>Ilustracje<br><small style="color:var(--ink-faint);">bucket produktowy</small></div>
+          <div style="text-align:center;"><div style="background:#DCE9D7; border-radius:10px; padding:14px 8px; margin-bottom:6px; color:var(--leaf-deep); font-weight:800;">5</div>Kasacja oryginału<br><small style="color:var(--leaf-deep);">automatycznie</small></div>
+          <div style="text-align:center;"><div style="background:var(--cream-deep); border-radius:10px; padding:14px 8px; margin-bottom:6px;">6</div>Audit log<br><small style="color:var(--ink-faint);">hash-only</small></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ SIMPLE PLACEHOLDER TABS ============ -->
+    <div class="tab-panel" data-panel="audit">
+      <div class="sec-head" style="margin-top: 0;"><h2>Audyt &amp; logi <span class="sub">— hash-only, bez PII</span></h2></div>
+      <div class="card"><div class="card-body">
+        <div class="mono" style="font-size: 0.8rem; line-height: 1.7; color: var(--ink-soft); background: var(--cream); padding: 16px; border-radius: 10px;">
+          <div>2026-04-24 14:22:04 <span style="color:var(--leaf-deep);">[PURGE]</span> photo#a3f4e2 deleted · ttl=24h01m · bucket=tmp-eu-c2</div>
+          <div>2026-04-24 14:21:58 <span style="color:var(--teal-deep);">[GEN]</span> story#9f2b complete · chars=14822 · tok_in=2410 · tok_out=6840</div>
+          <div>2026-04-24 14:21:12 <span style="color:var(--terracotta-deep);">[CURATE]</span> user#12 approved scenario#forest-v3 for order#44981</div>
+          <div>2026-04-24 14:20:47 <span style="color:var(--honey-deep);">[PAY]</span> order#44983 · 229 PLN · Hardcover Standard · BLIK ok</div>
+          <div>2026-04-24 14:20:11 <span style="color:var(--teal-deep);">[GEN]</span> image#c1d7 iter=2 · face_sim=0.94 · accepted</div>
+          <div>2026-04-24 14:19:02 <span style="color:var(--ink-soft);">[WEBHOOK]</span> gelato.order.shipped · tracking=DP9182...</div>
+          <div>2026-04-24 14:18:44 <span style="color:var(--alert);">[MODERATE]</span> prompt rejected · trademark=disney · user notified</div>
+          <div>2026-04-24 14:17:20 <span style="color:var(--leaf-deep);">[PURGE]</span> photo#771c21 deleted · ttl=19h44m · bucket=tmp-eu-c2</div>
+        </div>
+      </div></div>
+    </div>
+    <div class="tab-panel" data-panel="ai-act">
+      <div class="sec-head" style="margin-top: 0;"><h2>AI Act compliance <span class="sub">— transparentność</span></h2></div>
+      <div class="kpi-grid" style="grid-template-columns: repeat(3, 1fr);">
+        <div class="kpi" style="--c:var(--leaf);"><div class="kpi-label"><span class="dot"></span>Oznaczenie AI-assisted</div><div class="kpi-value">100<span class="unit">% PDF</span></div><div class="kpi-delta up">metadane + stopka</div></div>
+        <div class="kpi" style="--c:var(--teal);"><div class="kpi-label"><span class="dot"></span>Watermark C2PA</div><div class="kpi-value">100<span class="unit">% obr.</span></div><div class="kpi-delta up">podpisane</div></div>
+        <div class="kpi" style="--c:var(--honey);"><div class="kpi-label"><span class="dot"></span>Prompt filter</div><div class="kpi-value">4,218</div><div class="kpi-delta neutral">blokad / 30d</div></div>
+      </div>
+    </div>
+    <div class="tab-panel" data-panel="finance">
+      <div class="sec-head" style="margin-top: 0;"><h2>Finanse <span class="sub">— miesiąc w toku</span></h2></div>
+      <div class="kpi-grid" style="grid-template-columns: repeat(4, 1fr);">
+        <div class="kpi" style="--c:var(--terracotta);"><div class="kpi-label"><span class="dot"></span>MRR szacowany</div><div class="kpi-value">—</div><div class="kpi-delta neutral">nie-subskrypcyjny</div></div>
+        <div class="kpi" style="--c:var(--honey);"><div class="kpi-label"><span class="dot"></span>Przychód MTD</div><div class="kpi-value">184 320<span class="unit">PLN</span></div><div class="kpi-delta up">↑ 34% MoM</div></div>
+        <div class="kpi" style="--c:var(--teal);"><div class="kpi-label"><span class="dot"></span>CAC (Meta)</div><div class="kpi-value">78<span class="unit">PLN</span></div><div class="kpi-delta up">cel ≤120</div></div>
+        <div class="kpi" style="--c:var(--leaf);"><div class="kpi-label"><span class="dot"></span>LTV/CAC</div><div class="kpi-value">3.2</div><div class="kpi-delta up">cel ≥3.0</div></div>
+      </div>
+    </div>
+    <div class="tab-panel" data-panel="cohorts">
+      <div class="sec-head" style="margin-top:0;"><h2>Kohorty &amp; LTV <span class="sub">— w budowie</span></h2></div>
+      <div class="card"><div class="card-body" style="text-align:center; padding: 60px 20px; color: var(--ink-soft);">
+        <div style="font-family:'Kalam',cursive; color: var(--terracotta); font-size:1.3rem; margin-bottom:8px;">wkrótce</div>
+        Heatmapa powtórnych zakupów w oknie 12 miesięcy — wymaga danych historycznych (min. 60 dni).
+      </div></div>
+    </div>
+    <div class="tab-panel" data-panel="settings">
+      <div class="sec-head" style="margin-top:0;"><h2>Ustawienia <span class="sub">— team &amp; integracje</span></h2></div>
+      <div class="card"><div class="card-body" style="color: var(--ink-soft);">Konfiguracja kont zespołu, klucze API, webhooks, feature flags — widok w przygotowaniu.</div></div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="foot">
+      <div>© 2026 Bajaro sp. z o.o. · <b>panel operacyjny</b> · wersja v0.1.4</div>
+      <div>🇪🇺 dane w europe-central2 · audit log SHA-256 · zgodność GDPR &amp; AI Act · <span id="foot-clock" class="mono">—</span></div>
+    </div>
+
+  </main>
+
+</div>
+
+<script>
+/* ================== MOCK DATA ================== */
+const FIRST_NAMES = ['Zosia', 'Antek', 'Maja', 'Janek', 'Hania', 'Kuba', 'Ala', 'Staś', 'Lena', 'Filip', 'Pola', 'Leon', 'Nela', 'Tymek', 'Iga', 'Franek', 'Basia', 'Mikołaj', 'Oliwia', 'Wojtek', 'Marysia', 'Ignacy', 'Amelia', 'Borys'];
+const SURNAME_INIT = 'KMWPSZRDLOBAGC';
+const THEMES = ['Podróż w kosmos', 'Magiczny las', 'Moje urodziny', 'Przyjaciel z oceanu', 'Nocny balonem', 'Detektyw w piwnicy'];
+const VARIANTS = [
+  { tag: 'eBook Basic', price: 69 },
+  { tag: 'eBook Plus', price: 119 },
+  { tag: 'Hardcover Standard', price: 229 },
+  { tag: 'Hardcover Premium', price: 299 },
+  { tag: 'Gift bundle', price: 349 },
+];
+const CHANNELS = ['Meta Ads', 'Google', 'Organic', 'Newsletter', 'Polecenie', 'TikTok'];
+const STATUSES = ['pending', 'generating', 'review', 'paid', 'printed'];
+const STATUS_LABEL = {
+  pending: 'do generacji',
+  generating: 'generowane',
+  review: 'do akceptacji',
+  paid: 'zapłacone',
+  printed: 'wydrukowane',
+  refunded: 'zwrot',
+};
+const AVATAR_COLORS = ['#E8A3A3', '#E8B04A', '#4A8B8B', '#7B9E6A', '#D97742', '#C8DEE1'];
+
+function rand(a, b) { return a + Math.floor(Math.random() * (b - a + 1)); }
+function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+function initials(name) { return name[0] + SURNAME_INIT[rand(0, SURNAME_INIT.length - 1)]; }
+function ageMin(min, max) {
+  const m = rand(min, max);
+  if (m < 60) return m + ' min';
+  const h = Math.floor(m / 60); const rem = m % 60;
+  return h + 'h' + (rem ? ' ' + rem + 'm' : '');
+}
+
+function makeOrder(i) {
+  const name = pick(FIRST_NAMES);
+  const v = pick(VARIANTS);
+  return {
+    id: '#' + (44900 + i),
+    child: name,
+    childAge: rand(3, 9),
+    avatarInit: initials(name),
+    avatarColor: AVATAR_COLORS[i % AVATAR_COLORS.length],
+    theme: pick(THEMES),
+    variant: v.tag,
+    amount: v.price,
+    status: pick(STATUSES),
+    channel: pick(CHANNELS),
+    ageRaw: rand(2, 720),
+  };
+}
+const ORDERS = Array.from({ length: 34 }, (_, i) => makeOrder(i));
+
+/* ================== ORDERS TABLE ================== */
+function orderRow(o) {
+  return `
+    <tr data-status="${o.status}" data-variant="${o.variant.split(' ')[0]}">
+      <td class="order-id">${o.id}</td>
+      <td>
+        <div class="child-cell">
+          <span class="child-avatar" style="background:${o.avatarColor};">${o.avatarInit}</span>
+          <div>
+            <div class="child-name">${o.child}, ${o.childAge} l.</div>
+            <div class="child-meta">${o.theme}</div>
+          </div>
+        </div>
+      </td>
+      <td><span class="variant"><span class="v-tag">${o.variant}</span></span></td>
+      <td><span class="chip ${o.status}">${STATUS_LABEL[o.status]}</span></td>
+      <td class="mono"><b>${o.amount}</b> PLN</td>
+      <td style="color: var(--ink-soft); font-size:0.8rem;">${o.channel}</td>
+      <td class="mono" style="color:var(--ink-faint); font-size:0.78rem;">${ageMin(o.ageRaw - 1, o.ageRaw + 1)}</td>
+      <td><button class="btn btn-ghost" style="padding: 4px 10px; font-size:0.76rem;">Otwórz</button></td>
+    </tr>`;
+}
+function miniOrderRow(o) {
+  return `
+    <tr>
+      <td class="order-id">${o.id}</td>
+      <td>
+        <div class="child-cell">
+          <span class="child-avatar" style="background:${o.avatarColor};">${o.avatarInit}</span>
+          <div>
+            <div class="child-name">${o.child}, ${o.childAge} l.</div>
+            <div class="child-meta">${o.theme}</div>
+          </div>
+        </div>
+      </td>
+      <td><span class="variant"><span class="v-tag">${o.variant}</span></span></td>
+      <td><span class="chip ${o.status}">${STATUS_LABEL[o.status]}</span></td>
+      <td class="mono"><b>${o.amount}</b> PLN</td>
+      <td style="color:var(--ink-faint); font-size:0.78rem;">${ageMin(o.ageRaw - 1, o.ageRaw + 1)}</td>
+    </tr>`;
+}
+
+document.getElementById('orders-tbody').innerHTML = ORDERS.map(orderRow).join('');
+document.getElementById('orders-mini-tbody').innerHTML = ORDERS.slice(0, 8).map(miniOrderRow).join('');
+
+/* ORDER FILTERS */
+document.querySelectorAll('#order-filters .filter-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    const group = chip.dataset.f ? 'f' : 'fv';
+    chip.parentElement.querySelectorAll(`.filter-chip[data-${group}]`).forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    applyOrderFilters();
+  });
+});
+function applyOrderFilters() {
+  const sf = document.querySelector('#order-filters .filter-chip[data-f].active').dataset.f;
+  const vf = document.querySelector('#order-filters .filter-chip[data-fv].active').dataset.fv;
+  document.querySelectorAll('#orders-tbody tr').forEach(tr => {
+    const okS = sf === 'all' || tr.dataset.status === sf;
+    const okV = vf === 'all' || tr.dataset.variant === vf;
+    tr.style.display = (okS && okV) ? '' : 'none';
+  });
+}
+
+/* TABLE SORT */
+const sortState = { col: null, dir: 1 };
+document.querySelectorAll('#orders-table th[data-sort]').forEach(th => {
+  th.addEventListener('click', () => {
+    const col = th.dataset.sort;
+    sortState.dir = (sortState.col === col) ? -sortState.dir : 1;
+    sortState.col = col;
+    document.querySelectorAll('#orders-table th').forEach(t => t.classList.remove('sort-asc', 'sort-desc'));
+    th.classList.add(sortState.dir > 0 ? 'sort-asc' : 'sort-desc');
+    const sorted = [...ORDERS].sort((a, b) => {
+      const av = { id: a.id, child: a.child, status: a.status, amount: a.amount, channel: a.channel, age: a.ageRaw }[col];
+      const bv = { id: b.id, child: b.child, status: b.status, amount: b.amount, channel: b.channel, age: b.ageRaw }[col];
+      return (av > bv ? 1 : -1) * sortState.dir;
+    });
+    document.getElementById('orders-tbody').innerHTML = sorted.map(orderRow).join('');
+    applyOrderFilters();
+  });
+});
+
+/* ================== PIPELINE ================== */
+const LANES = ['queued', 'writing', 'illustrating', 'review', 'ready'];
+function makeJob() {
+  const o = ORDERS[rand(0, ORDERS.length - 1)];
+  return {
+    id: o.id,
+    child: o.child,
+    theme: o.theme,
+    variant: o.variant,
+    lane: pick(LANES),
+    progress: rand(5, 95),
+    eta: rand(1, 12),
+  };
+}
+let JOBS = Array.from({ length: 14 }, makeJob);
+
+function renderPipeline() {
+  LANES.forEach(lane => {
+    const jobs = JOBS.filter(j => j.lane === lane);
+    const laneEl = document.querySelector(`.lane[data-lane="${lane}"]`);
+    if (!laneEl) return;
+    laneEl.querySelector('.cnt').textContent = jobs.length;
+    const body = laneEl.querySelector('.lane-body');
+    body.innerHTML = jobs.map(j => `
+      <div class="job">
+        <div class="job-title">${j.child} · <span style="color:var(--ink-faint); font-weight:500;">${j.theme}</span></div>
+        <div class="job-meta"><span class="mono">${j.id}</span><span>${j.variant.split(' ')[0]}</span></div>
+        ${j.lane === 'writing' || j.lane === 'illustrating' ? `
+          <div class="job-prog"><div class="job-prog-bar" style="width:${j.progress}%"></div></div>
+          <div class="job-meta" style="margin-top:4px;"><span>${j.progress}%</span><span>ETA ${j.eta} min</span></div>
+        ` : ''}
+      </div>`).join('');
+  });
+}
+renderPipeline();
+
+setInterval(() => {
+  JOBS.forEach(j => {
+    if (j.lane === 'writing' || j.lane === 'illustrating') {
+      j.progress = Math.min(100, j.progress + rand(1, 5));
+      j.eta = Math.max(0, j.eta - (Math.random() < 0.3 ? 1 : 0));
+      if (j.progress >= 100) {
+        const idx = LANES.indexOf(j.lane);
+        j.lane = LANES[Math.min(LANES.length - 1, idx + 1)];
+        j.progress = rand(5, 20);
+      }
+    } else if (Math.random() < 0.08) {
+      const idx = LANES.indexOf(j.lane);
+      j.lane = LANES[Math.min(LANES.length - 1, idx + 1)];
+    }
+  });
+  // remove some that reached ready
+  JOBS = JOBS.filter(j => !(j.lane === 'ready' && Math.random() < 0.15));
+  // top up
+  while (JOBS.length < 14) JOBS.push(makeJob());
+  renderPipeline();
+}, 2800);
+
+/* ================== CURATOR ================== */
+const CUR_ITEMS = [
+  { id: 'scn-0442', title: 'Zosia, 5 lat · Magiczny las', phase: 'scenariusz', excerpt: '„Zosia wyszła z chatki i zobaczyła, że wszystkie drzewa zasnęły. Tylko jedno mrugało do niej zielonymi oczami…"', meta: 'generacja #2 · 1820 znaków · 24 strony' },
+  { id: 'img-0441', title: 'Antek, 7 lat · Podróż w kosmos', phase: 'ilustracje', excerpt: 'Iteracja 3/3 — face sim 0.94. Kurator do zatwierdzenia końcowego układu 18 rozkładówek.', meta: 'Nano Banana Pro · 18 ilustracji · 94% consistency' },
+  { id: 'nar-0440', title: 'Hania, 4 lata · Moje urodziny', phase: 'narracja', excerpt: '„Hania obudziła się, a na stole czekały cztery świeczki. Jedna dla mamy, jedna dla taty, jedna dla Lilki i…"', meta: 'Claude · 22 strony · 2 korekty wniesione' },
+  { id: 'scn-0438', title: 'Janek, 6 lat · Detektyw w piwnicy', phase: 'scenariusz', excerpt: '„Janek założył lupę, którą dostał na urodziny, i zszedł do piwnicy. Coś tam szurało od miesięcy…"', meta: 'generacja #1 · 1960 znaków · motyw: odwaga' },
+  { id: 'pdf-0437', title: 'Maja, 8 lat · Nocny balonem', phase: 'finalny PDF', excerpt: 'Finalny render do akceptacji przed wysyłką. Watermark AI-assisted w stopce: OK.', meta: 'PDF · 24 str. · 42 MB · hardcover' },
+];
+function renderCurator(target, limit) {
+  const items = limit ? CUR_ITEMS.slice(0, limit) : CUR_ITEMS;
+  target.innerHTML = items.map(c => `
+    <div class="cur-item" data-id="${c.id}">
+      <div>
+        <div class="cur-title">${c.title} <span style="color:var(--teal); font-weight:600; font-size:0.76rem; margin-left:6px;">• ${c.phase}</span></div>
+        <div class="cur-excerpt">${c.excerpt}</div>
+        <div class="cur-meta"><span class="mono">${c.id}</span><span>${c.meta}</span></div>
+      </div>
+      <div class="cur-actions">
+        <button class="icon-btn reject" title="Odrzuć" onclick="rmCur('${c.id}')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+        <button class="icon-btn approve" title="Zatwierdź" onclick="rmCur('${c.id}')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        </button>
+      </div>
+    </div>`).join('');
+}
+renderCurator(document.getElementById('cur-list'));
+renderCurator(document.getElementById('cur-overview'), 3);
+
+window.rmCur = (id) => {
+  document.querySelectorAll(`.cur-item[data-id="${id}"]`).forEach(el => {
+    el.classList.add('removed');
+    setTimeout(() => el.remove(), 350);
+  });
+};
+
+/* ================== GDPR VAULT ================== */
+const FACTORIES = ['Berlin', 'Madryt', 'Warszawa', 'Praga'];
+const VAULT = [
+  { id: 'ph_a3f4e2', name: 'Zosia K.', order: '#44981', ttl: 41 * 60 },
+  { id: 'ph_c1d7a9', name: 'Antek M.', order: '#44979', ttl: 2 * 3600 + 14 * 60 },
+  { id: 'ph_8b2f14', name: 'Hania R.', order: '#44978', ttl: 18 * 60 },
+  { id: 'ph_771c21', name: 'Janek P.', order: '#44977', ttl: 5 * 3600 + 2 * 60 },
+  { id: 'ph_5e9d03', name: 'Maja D.', order: '#44975', ttl: 12 * 3600 + 40 * 60 },
+  { id: 'ph_6fa422', name: 'Staś L.', order: '#44974', ttl: 22 * 3600 + 5 * 60 },
+  { id: 'ph_2c19ba', name: 'Lena W.', order: '#44973', ttl: 4 * 3600 + 48 * 60 },
+  { id: 'ph_94e55d', name: 'Filip N.', order: '#44972', ttl: 19 * 3600 + 30 * 60 },
+];
+
+function fmtTTL(sec) {
+  if (sec <= 0) return 'expired';
+  const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60;
+  return (h ? h + 'h ' : '') + String(m).padStart(2, '0') + 'm ' + String(s).padStart(2, '0') + 's';
+}
+function ttlClass(sec) { return sec < 3600 ? 'danger' : (sec < 4 * 3600 ? 'warn' : 'ok'); }
+
+function renderVault() {
+  const html = VAULT.map(v => `
+    <div class="photo-row ${v.ttl < 3600 ? 'urgent' : ''}">
+      <div class="photo-thumb"></div>
+      <div class="photo-main">
+        <b>${v.name}</b>
+        <span class="photo-id">${v.id} · zam. ${v.order}</span>
+      </div>
+      <div><span class="region">🇪🇺 eu-c2</span></div>
+      <div>TTL <span class="ttl ${ttlClass(v.ttl)}">${fmtTTL(v.ttl)}</span></div>
+      <div><button class="btn btn-ghost" style="padding: 4px 10px; font-size:0.72rem;">Usuń</button></div>
+    </div>`).join('');
+  document.getElementById('vault-list').innerHTML = html;
+  document.getElementById('gdpr-active').textContent = VAULT.length;
+  document.getElementById('gdpr-urgent').textContent = VAULT.filter(v => v.ttl < 3600).length;
+}
+renderVault();
+
+setInterval(() => {
+  VAULT.forEach(v => { v.ttl = Math.max(0, v.ttl - 1); });
+  renderVault();
+}, 1000);
+
+/* ================== PRINT TABLE ================== */
+const PRINT_ROWS = Array.from({ length: 12 }, (_, i) => {
+  const o = ORDERS[i];
+  return {
+    id: o.id,
+    child: o.child,
+    init: o.avatarInit,
+    color: o.avatarColor,
+    factory: pick(FACTORIES),
+    stage: pick(['druk', 'druk', 'laminacja', 'oprawa', 'pakowanie', 'wysłane']),
+    courier: pick(['DPD', 'InPost', 'DHL', 'GLS']),
+    eta: pick(['jutro', 'za 2 dni', 'za 3 dni', 'dziś 18:00', 'za 4 dni']),
+  };
+});
+document.getElementById('print-tbody').innerHTML = PRINT_ROWS.map(p => `
+  <tr>
+    <td class="order-id">${p.id}</td>
+    <td><div class="child-cell"><span class="child-avatar" style="background:${p.color};">${p.init}</span><div class="child-name">${p.child}</div></div></td>
+    <td>${p.factory}</td>
+    <td><span class="chip ${p.stage === 'wysłane' ? 'paid' : 'printed'}">${p.stage}</span></td>
+    <td>${p.courier}</td>
+    <td style="color:var(--ink-soft); font-weight:600;">${p.eta}</td>
+  </tr>`).join('');
+
+document.getElementById('print-overview').innerHTML = PRINT_ROWS.slice(0, 5).map(p => `
+  <div style="display:grid; grid-template-columns: 30px 1fr auto auto; gap:12px; align-items:center; padding:10px 16px; border-bottom:1px solid var(--line); font-size:0.86rem;">
+    <span class="child-avatar" style="background:${p.color};">${p.init}</span>
+    <div><b>${p.child}</b><div style="color:var(--ink-faint); font-size:0.74rem;">${p.factory} · ${p.courier}</div></div>
+    <span class="chip ${p.stage === 'wysłane' ? 'paid' : 'printed'}">${p.stage}</span>
+    <span style="color:var(--ink-soft); font-weight:600;">${p.eta}</span>
+  </div>`).join('');
+
+/* ================== REVENUE CHART ================== */
+(() => {
+  const W = 640, H = 220;
+  const days = 30;
+  const hardPts = [], ebookPts = [];
+  let hardAcc = 8, ebookAcc = 5;
+  const hardData = [], ebookData = [];
+  for (let i = 0; i < days; i++) {
+    hardAcc = Math.max(3, hardAcc + (Math.random() - 0.4) * 4);
+    ebookAcc = Math.max(2, ebookAcc + (Math.random() - 0.5) * 3);
+    // inject weekly pulses
+    const weekend = (i % 7 === 5 || i % 7 === 6);
+    hardData.push(weekend ? hardAcc * 1.6 : hardAcc);
+    ebookData.push(weekend ? ebookAcc * 1.4 : ebookAcc);
+  }
+  const maxV = Math.max(...hardData, ...ebookData) * 1.1;
+  function toXY(arr) {
+    return arr.map((v, i) => [
+      (i / (days - 1)) * W,
+      H - 10 - (v / maxV) * (H - 30),
+    ]);
+  }
+  const hx = toXY(hardData), ex = toXY(ebookData);
+  document.getElementById('line-hard').setAttribute('points', hx.map(p => p.join(',')).join(' '));
+  document.getElementById('line-ebook').setAttribute('points', ex.map(p => p.join(',')).join(' '));
+  document.getElementById('area-hard').setAttribute('d',
+    `M ${hx[0][0]},${H} L ${hx.map(p => p.join(',')).join(' L ')} L ${hx[hx.length-1][0]},${H} Z`);
+  document.getElementById('area-ebook').setAttribute('d',
+    `M ${ex[0][0]},${H} L ${ex.map(p => p.join(',')).join(' L ')} L ${ex[ex.length-1][0]},${H} Z`);
+})();
+
+/* ================== TAB SWITCHING ================== */
+document.querySelectorAll('.sidenav a').forEach(a => {
+  a.addEventListener('click', (e) => {
+    e.preventDefault();
+    const tab = a.dataset.tab;
+    document.querySelectorAll('.sidenav a').forEach(x => x.classList.remove('active'));
+    a.classList.add('active');
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    const panel = document.querySelector(`.tab-panel[data-panel="${tab}"]`);
+    if (panel) panel.classList.add('active');
+    document.getElementById('crumb-section').textContent = a.textContent.trim().split(/\s/)[0].toLowerCase();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+/* ================== CLOCK + LIVE COUNTERS ================== */
+function tick() {
+  const d = new Date();
+  const t = d.toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  document.getElementById('clock').textContent = t;
+  document.getElementById('foot-clock').textContent = d.toISOString().replace('T', ' ').slice(0, 19) + ' UTC';
+  document.getElementById('pipe-clock').textContent = 'aktualizacja: ' + t;
+}
+tick();
+setInterval(tick, 1000);
+
+/* KPI animated counters */
+(() => {
+  let orders = 34, revenue = 8420;
+  const ord = document.getElementById('kpi-orders');
+  const rev = document.getElementById('kpi-revenue');
+  function paint() {
+    ord.textContent = orders;
+    rev.innerHTML = revenue.toLocaleString('pl-PL') + '<span class="unit">PLN</span>';
+  }
+  paint();
+  setInterval(() => {
+    if (Math.random() < 0.45) {
+      orders += 1;
+      revenue += VARIANTS[rand(0, VARIANTS.length - 1)].price;
+      paint();
+    }
+  }, 4200);
+})();
+
+/* SEARCH — filter orders table live */
+document.getElementById('search-input').addEventListener('input', (e) => {
+  const q = e.target.value.toLowerCase();
+  document.querySelectorAll('#orders-tbody tr, #orders-mini-tbody tr').forEach(tr => {
+    tr.style.display = tr.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+});
+
+/* KEYBOARD */
+document.addEventListener('keydown', (e) => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+    e.preventDefault();
+    document.getElementById('search-input').focus();
+  }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Pipelane · acme-corp/platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<main class="main">
+
+  <header class="head">
+    <div class="brand-group">
+      <div class="brand">
+        <span class="brand-mark">✻</span>
+        <span class="brand-product">Pipelane<span class="brand-cursor"></span></span>
+      </div>
+      <div class="env-switcher prod" id="envSwitcher">
+        <button class="env-trigger" id="envTrigger" aria-expanded="false">
+          <span class="env-lock">🔒</span>
+          <span class="env-name">production</span>
+          <span class="env-caret">▾</span>
+        </button>
+        <div class="env-menu" id="envMenu" role="menu">
+          <div class="env-menu-label">environment</div>
+          <button class="env-option" data-env="dev">
+            <span class="env-option-dot"></span>
+            <span class="env-option-name">dev</span>
+            <span class="env-option-meta muted">auto · last: 1m</span>
+          </button>
+          <button class="env-option" data-env="staging">
+            <span class="env-option-dot"></span>
+            <span class="env-option-name">staging</span>
+            <span class="env-option-meta muted">on merge · last: 12m</span>
+          </button>
+          <button class="env-option selected" data-env="production">
+            <span class="env-option-dot prod"></span>
+            <span class="env-option-name">🔒 production</span>
+            <span class="env-option-meta">current · last: 2m</span>
+            <span class="env-check">✓</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="head-meta">
+      <span class="tally fail">1 failing</span>
+      <span class="tally run">1 running</span>
+      <span class="tally ok">5 passing</span>
+    </div>
+  </header>
+
+  <section class="cards">
+
+    <!-- FAILING -->
+    <article class="card expanded status-fail">
+      <div class="card-head">
+        <span class="type-tag dotnet">.NET</span>
+        <span class="proj-name">reports</span>
+        <div class="card-actions">
+          <button class="btn-ghost btn-edit" data-project="reports">edit</button>
+          <button class="btn-ghost">logs →</button>
+          <button class="btn-trigger">↻ retry</button>
+        </div>
+      </div>
+      <div class="pipeline">
+        <div class="stage done"><span class="stage-dot"></span>build</div>
+        <div class="stage-line fail"></div>
+        <div class="stage fail"><span class="stage-dot"></span>test</div>
+        <div class="stage-line"></div>
+        <div class="stage skipped"><span class="stage-dot"></span>deploy</div>
+      </div>
+      <ul class="history">
+        <li class="fail last-error"><span class="hist-sha">9ed3a52</span> <span class="hist-who">kateryna</span> <span class="hist-when">38m ago</span> <span class="hist-env">production</span> <span class="hist-status fail">✗ failed on test <span class="last-error-tag">↪ last error</span></span></li>
+        <li><span class="hist-sha">2bd4e10</span> <span class="hist-who">pawel</span> <span class="hist-when">2h ago</span> <span class="hist-env">production</span> <span class="hist-status ok">✓ deployed</span></li>
+        <li><span class="hist-sha">08c3f41</span> <span class="hist-who">michal</span> <span class="hist-when">yesterday</span> <span class="hist-env">production</span> <span class="hist-status ok">✓ deployed</span></li>
+      </ul>
+    </article>
+
+    <!-- RUNNING -->
+    <article class="card expanded status-running">
+      <div class="card-head">
+        <span class="type-tag dotnet">.NET</span>
+        <span class="proj-name">worker</span>
+        <div class="card-actions">
+          <button class="btn-ghost btn-edit" data-project="worker">edit</button>
+          <button class="btn-ghost">logs →</button>
+          <span class="btn-trigger running-tag">⠋ running</span>
+        </div>
+      </div>
+      <div class="pipeline">
+        <div class="stage done"><span class="stage-dot"></span>build</div>
+        <div class="stage-line running"></div>
+        <div class="stage running"><span class="stage-dot"></span>test</div>
+        <div class="stage-line"></div>
+        <div class="stage pending"><span class="stage-dot"></span>deploy</div>
+      </div>
+      <ul class="history">
+        <li><span class="hist-sha">f4c7218</span> <span class="hist-who">pawel</span> <span class="hist-when">1m 08s</span> <span class="hist-env">production</span> <span class="hist-status run">⠋ testing</span></li>
+        <li><span class="hist-sha">9a2e1c3</span> <span class="hist-who">michal</span> <span class="hist-when">42m ago</span> <span class="hist-env">production</span> <span class="hist-status ok">✓ deployed</span></li>
+        <li class="fail last-error"><span class="hist-sha">88a2f11</span> <span class="hist-who">kasia</span> <span class="hist-when">3h ago</span> <span class="hist-env">production</span> <span class="hist-status fail">✗ failed on build <span class="last-error-tag">↪ last error</span></span></li>
+      </ul>
+    </article>
+
+    <!-- PASSING (collapsed) -->
+    <article class="card collapsed status-success">
+      <span class="type-tag dotnet">.NET</span>
+      <span class="proj-name">api</span>
+      <div class="mini-pipeline">
+        <span class="dot ok"></span><span class="mini-line ok"></span>
+        <span class="dot ok"></span><span class="mini-line ok"></span>
+        <span class="dot ok"></span>
+      </div>
+      <span class="last-build">
+        <span class="hist-sha">a8f2c19</span> · michal · 2m ago · production
+      </span>
+      <button class="btn-ghost btn-edit" data-project="api">edit</button>
+      <button class="btn-trigger">▶ trigger</button>
+    </article>
+
+    <article class="card collapsed status-success">
+      <span class="type-tag dotnet">.NET</span>
+      <span class="proj-name">auth</span>
+      <div class="mini-pipeline">
+        <span class="dot ok"></span><span class="mini-line ok"></span>
+        <span class="dot ok"></span><span class="mini-line ok"></span>
+        <span class="dot ok"></span>
+      </div>
+      <span class="last-build">
+        <span class="hist-sha">7d41e9b</span> · kasia · 14m ago · production
+      </span>
+      <span class="last-fail-chip">⚠ last fail 2d ago</span>
+      <button class="btn-ghost btn-edit" data-project="auth">edit</button>
+      <button class="btn-trigger">▶ trigger</button>
+    </article>
+
+    <article class="card collapsed status-success">
+      <span class="type-tag ui">UI</span>
+      <span class="proj-name">web</span>
+      <div class="mini-pipeline">
+        <span class="dot ok"></span><span class="mini-line ok"></span>
+        <span class="dot ok"></span><span class="mini-line ok"></span>
+        <span class="dot ok"></span>
+      </div>
+      <span class="last-build">
+        <span class="hist-sha">71b0e46</span> · michal · 18m ago · production
+      </span>
+      <button class="btn-ghost btn-edit" data-project="web">edit</button>
+      <button class="btn-trigger">▶ trigger</button>
+    </article>
+
+    <article class="card collapsed status-success">
+      <span class="type-tag ui">UI</span>
+      <span class="proj-name">admin</span>
+      <div class="mini-pipeline">
+        <span class="dot ok"></span><span class="mini-line ok"></span>
+        <span class="dot ok"></span><span class="mini-line ok"></span>
+        <span class="dot ok"></span>
+      </div>
+      <span class="last-build">
+        <span class="hist-sha">c01e887</span> · kasia · 1h ago · production
+      </span>
+      <button class="btn-ghost btn-edit" data-project="admin">edit</button>
+      <button class="btn-trigger">▶ trigger</button>
+    </article>
+
+    <article class="card collapsed status-success">
+      <span class="type-tag dotnet-fw">.NET FW 4.6.1</span>
+      <span class="proj-name">legacy</span>
+      <div class="mini-pipeline">
+        <span class="dot ok"></span><span class="mini-line ok"></span>
+        <span class="dot ok"></span><span class="mini-line ok"></span>
+        <span class="dot ok"></span>
+      </div>
+      <span class="last-build">
+        <span class="hist-sha">e4f0a71</span> · pawel · 3h ago · production
+      </span>
+      <button class="btn-ghost btn-edit" data-project="legacy">edit</button>
+      <button class="btn-trigger">▶ trigger</button>
+    </article>
+
+  </section>
+
+</main>
+
+<!-- Config view (read-only) -->
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title">
+        <span class="brand-mark-sm">✻</span>
+        <span id="modalTitle">config · api</span>
+      </div>
+      <button class="modal-close" id="modalClose" aria-label="Close">×</button>
+    </div>
+
+    <div class="modal-body">
+
+      <div class="file-info">
+        <div class="file-info-left">
+          <span class="file-icon">📄</span>
+          <code class="file-path" id="filePath">src/Acme.Api/pipelane.yml</code>
+          <span class="file-badge">read-only</span>
+        </div>
+        <a class="file-edit-link" href="#" id="fileEditLink">edit in repo ↗</a>
+      </div>
+
+      <div class="config-note">
+        Project pipelines are defined in <code>pipelane.yml</code> in each project's directory. To change build, test, or deploy behavior — edit the file and push. The dashboard re-reads on next run.
+      </div>
+
+      <div class="view-toggle" role="tablist">
+        <button class="view-tab active" data-view="visual" role="tab">◨ visual</button>
+        <button class="view-tab" data-view="raw" role="tab">{ } raw</button>
+      </div>
+
+      <div class="view view-visual" id="viewVisual">
+        <div class="visual-grid" id="visualGrid"></div>
+      </div>
+
+      <div class="view view-raw" id="viewRaw" hidden>
+        <div class="yaml-view">
+          <div class="yaml-view-label">
+            <span class="prompt">$</span> cat <span id="yamlPath">src/Acme.Api/pipelane.yml</span>
+          </div>
+          <pre class="yaml-content" id="yamlContent"></pre>
+        </div>
+      </div>
+
+      <div class="inferred">
+        <div class="inferred-label" id="inferredLabel">derived pipeline</div>
+        <div id="inferredLines"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LOCKIN CREW // deep work as a service</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div class="scanlines"></div>
+<div class="vignette"></div>
+
+<header class="topbar">
+  <div class="logo">
+    <span class="logo-bracket">[</span><span class="logo-text">LOCKIN_CREW</span><span class="logo-bracket">]</span>
+    <span class="logo-cursor">█</span>
+  </div>
+  <nav class="nav">
+    <a href="#manifesto">manifesto</a>
+    <a href="#services">services</a>
+    <a href="#crew">crew</a>
+    <a href="#contact">contact</a>
+  </nav>
+  <div class="status">
+    <span class="status-dot"></span>
+    <span class="status-text">STATUS: <b id="status-label">LOCKED_IN</b></span>
+    <span class="status-time" id="session-time">00:00:00</span>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="hero-meta">
+    <span>// session_id: 0x4C4F434B</span>
+    <span>// uplink: secure</span>
+    <span>// depth: ∞</span>
+  </div>
+  <h1 class="hero-title">
+    <span class="line line-1" data-text="DEEP WORK">DEEP WORK</span>
+    <span class="line line-2" data-text="AS A">AS A</span>
+    <span class="line line-3" data-text="SERVICE.">SERVICE.<span class="caret"></span></span>
+  </h1>
+  <p class="hero-sub">
+    we are <span class="hl">lockincrew</span>. a small unit of operators who ship
+    when others schedule the meeting. no slack, no standups, no theatre — just
+    the keyboard, the problem, &amp; the receipts.
+  </p>
+  <div class="hero-cta">
+    <a href="#contact" class="btn btn-primary">
+      <span>./hire_us</span>
+      <span class="btn-arrow">→</span>
+    </a>
+    <a href="#manifesto" class="btn btn-ghost">
+      <span>cat manifesto.txt</span>
+    </a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num" data-target="184">0</div>
+      <div class="stat-lbl">ships / quarter</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" data-target="42">0</div>
+      <div class="stat-lbl">active operators</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" data-target="0">0</div>
+      <div class="stat-lbl">recurring meetings</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" data-target="99">0</div>
+      <div class="stat-lbl">% async</div>
+    </div>
+  </div>
+</section>
+
+<section id="manifesto" class="manifesto">
+  <div class="section-head">
+    <span class="section-num">01</span>
+    <h2>the manifesto</h2>
+    <span class="section-line"></span>
+  </div>
+  <div class="manifest-grid">
+    <article class="rule">
+      <span class="rule-num">001</span>
+      <h3>locked in &gt; logged on</h3>
+      <p>presence is not output. we measure ourselves in shipped artifacts, not in hours of green dot.</p>
+    </article>
+    <article class="rule">
+      <span class="rule-num">010</span>
+      <h3>fewer rituals.</h3>
+      <p>no daily standup. no retro about the retro. one written brief, one done thing, one demo.</p>
+    </article>
+    <article class="rule">
+      <span class="rule-num">011</span>
+      <h3>the keyboard is the artifact.</h3>
+      <p>strategy decks rot. running code compounds. we bias hard toward the latter.</p>
+    </article>
+    <article class="rule">
+      <span class="rule-num">100</span>
+      <h3>small units, sharp scope.</h3>
+      <p>two-to-four operators per cell. fixed window. brutal definition of done.</p>
+    </article>
+    <article class="rule">
+      <span class="rule-num">101</span>
+      <h3>taste is non-negotiable.</h3>
+      <p>fast is good. fast &amp; tasteful is the whole job. if it ships ugly, it didn't ship.</p>
+    </article>
+    <article class="rule">
+      <span class="rule-num">110</span>
+      <h3>own the outcome.</h3>
+      <p>we don't hand off tickets. we walk the thing into production &amp; stay until it breathes on its own.</p>
+    </article>
+  </div>
+</section>
+
+<section id="services" class="services">
+  <div class="section-head">
+    <span class="section-num">02</span>
+    <h2>what we drop in for</h2>
+    <span class="section-line"></span>
+  </div>
+  <div class="service-list">
+    <div class="service">
+      <div class="service-tag">/01 — strike team</div>
+      <div class="service-body">
+        <h3>zero-to-one product cells</h3>
+        <p>you have a pitch, a deadline &amp; a half-built figma. we turn up as a 3-person cell &amp; ship a real v1 in 6 weeks. design, frontend, backend, infra, all in one room (or one discord).</p>
+      </div>
+      <div class="service-meta">
+        <span>6 wk window</span>
+        <span>fixed price</span>
+        <span>code is yours</span>
+      </div>
+    </div>
+    <div class="service">
+      <div class="service-tag">/02 — rescue op</div>
+      <div class="service-body">
+        <h3>codebase rescues &amp; rewrites</h3>
+        <p>your repo is on fire, the original team is gone, &amp; the next release is friday. we triage, we patch, we delete. we leave it boring &amp; documented.</p>
+      </div>
+      <div class="service-meta">
+        <span>2-8 wk</span>
+        <span>t&amp;m</span>
+        <span>handover doc</span>
+      </div>
+    </div>
+    <div class="service">
+      <div class="service-tag">/03 — ai integration</div>
+      <div class="service-body">
+        <h3>llm features that actually ship</h3>
+        <p>not another chatbot. real workflows: agents in your ops, eval harnesses, prompt &amp; cache discipline, observability. we use claude as a tool, not a buzzword.</p>
+      </div>
+      <div class="service-meta">
+        <span>4 wk pilot</span>
+        <span>opt-in retainer</span>
+        <span>evals included</span>
+      </div>
+    </div>
+    <div class="service">
+      <div class="service-tag">/04 — embedded operator</div>
+      <div class="service-body">
+        <h3>one of us, on your team, full lock-in</h3>
+        <p>a single senior operator embeds in your team for one quarter. they don't attend standups; they ship. you keep the work, the context, &amp; the muscle memory.</p>
+      </div>
+      <div class="service-meta">
+        <span>1 quarter</span>
+        <span>monthly</span>
+        <span>renewable</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="crew" class="crew">
+  <div class="section-head">
+    <span class="section-num">03</span>
+    <h2>the crew</h2>
+    <span class="section-line"></span>
+  </div>
+  <div class="crew-grid">
+    <div class="op">
+      <div class="op-avatar" data-glyph="K"></div>
+      <div class="op-name">kira / @k1ra</div>
+      <div class="op-role">founding operator · systems</div>
+      <div class="op-bio">distributed systems, rust, postgres internals. once deleted 40k lines &amp; the product got faster.</div>
+    </div>
+    <div class="op">
+      <div class="op-avatar" data-glyph="M"></div>
+      <div class="op-name">mateo / @m4t</div>
+      <div class="op-role">operator · product &amp; frontend</div>
+      <div class="op-bio">react, motion, taste. believes that 60fps is a moral position.</div>
+    </div>
+    <div class="op">
+      <div class="op-avatar" data-glyph="A"></div>
+      <div class="op-name">ada / @ada_lvc</div>
+      <div class="op-role">operator · ai &amp; agents</div>
+      <div class="op-bio">writes prompts like she writes code. evals or it didn't happen.</div>
+    </div>
+    <div class="op">
+      <div class="op-avatar" data-glyph="J"></div>
+      <div class="op-name">juno / @juno.exe</div>
+      <div class="op-role">operator · infra &amp; security</div>
+      <div class="op-bio">terraform whisperer. has opinions about iam policies that would ruin a dinner party.</div>
+    </div>
+    <div class="op">
+      <div class="op-avatar" data-glyph="R"></div>
+      <div class="op-name">rin / @r1n</div>
+      <div class="op-role">operator · design engineering</div>
+      <div class="op-bio">designs in code. ships type scales that make pms cry, in a good way.</div>
+    </div>
+    <div class="op op-recruit">
+      <div class="op-avatar op-avatar-empty">+</div>
+      <div class="op-name">[ slot open ]</div>
+      <div class="op-role">we hire 2 operators / yr</div>
+      <div class="op-bio">if you read this far &amp; your hands are itching, the application is one email.</div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact">
+  <div class="terminal">
+    <div class="term-bar">
+      <span class="term-dot"></span>
+      <span class="term-dot"></span>
+      <span class="term-dot"></span>
+      <span class="term-title">~/lockincrew/contact.sh</span>
+    </div>
+    <div class="term-body">
+      <p><span class="prompt">crew@lockin:~$</span> <span class="cmd">./contact --intent=ship</span></p>
+      <p class="term-out">> establishing secure uplink…</p>
+      <p class="term-out">> 256-bit handshake ✓</p>
+      <p class="term-out">> ready.</p>
+      <p class="term-out term-ask">> tell us what you want to build. brief is better than long.</p>
+      <form class="term-form" onsubmit="return false">
+        <label>
+          <span class="prompt">name@</span>
+          <input type="text" placeholder="your name" autocomplete="off">
+        </label>
+        <label>
+          <span class="prompt">mail@</span>
+          <input type="email" placeholder="you@company.com" autocomplete="off">
+        </label>
+        <label class="full">
+          <span class="prompt">brief@</span>
+          <textarea rows="4" placeholder="what are we building? deadline? budget shape?"></textarea>
+        </label>
+        <button type="submit" class="btn btn-primary">
+          <span>./send</span><span class="btn-arrow">↵</span>
+        </button>
+      </form>
+      <p><span class="prompt">crew@lockin:~$</span> <span class="cmd cursor">_</span></p>
+    </div>
+  </div>
+  <aside class="contact-side">
+    <h3>or just email us.</h3>
+    <a class="bigmail" href="mailto:lockin@lockincrew.io">lockin@lockincrew.io</a>
+    <p class="contact-note">we read everything. we reply to most. if you don't hear back in 5 days, you're in the no pile — but the door stays open next quarter.</p>
+    <ul class="links">
+      <li><a href="#">github / lockincrew</a></li>
+      <li><a href="#">x / @lockincrew</a></li>
+      <li><a href="#">read.cv / lockincrew</a></li>
+    </ul>
+  </aside>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div>© <span id="year"></span> lockincrew, sp. z o.o. — operating from warsaw, lisbon &amp; the terminal.</div>
+  <div class="foot-right">
+    <span>build #<span id="build">0000</span></span>
+    <span>· uptime <span id="uptime">∞</span></span>
+    <span>· press <kbd>L</kbd> to lock in</span>
+  </div>
+</footer>
+
+<div class="lockin-overlay" id="lockin-overlay">
+  <div class="lockin-card">
+    <div class="lockin-title">// LOCK_IN MODE</div>
+    <div class="lockin-line"></div>
+    <p>the rain falls faster. the noise drops. the meeting is cancelled.</p>
+    <button class="btn btn-primary" id="lockin-close"><span>./resume</span></button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
