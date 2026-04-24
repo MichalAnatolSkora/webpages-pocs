@@ -183,9 +183,10 @@ b { color: var(--ink); font-weight: 600; }
 }
 
 .welcome-pet {
-  width: 56px;
-  height: 40px;
+  width: 96px;
+  height: 96px;
   flex-shrink: 0;
+  filter: drop-shadow(0 4px 16px rgba(217, 119, 87, 0.25));
 }
 .pet-svg { width: 100%; height: 100%; }
 
