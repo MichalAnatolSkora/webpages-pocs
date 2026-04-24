@@ -30,41 +30,50 @@
 
     <!-- Welcome panel -->
     <section class="welcome">
-      <div class="welcome-left">
-        <div class="welcome-row">
-          <span class="brand-mark">✻</span>
-          <h1 class="welcome-h">Welcome to <b>lockincrew</b></h1>
+      <div class="welcome-cmd">
+        <span class="brand-mark">✻</span>
+        <span class="dim">$</span> <span class="cmd">./lockincrew</span> <span class="dim">--status</span>
+      </div>
+
+      <h1 class="ascii-logo" aria-label="lockincrew">
+<pre>██╗      ██████╗  ██████╗██╗  ██╗██╗███╗   ██╗     ██████╗██████╗ ███████╗██╗    ██╗
+██║     ██╔═══██╗██╔════╝██║ ██╔╝██║████╗  ██║    ██╔════╝██╔══██╗██╔════╝██║    ██║
+██║     ██║   ██║██║     █████╔╝ ██║██╔██╗ ██║    ██║     ██████╔╝█████╗  ██║ █╗ ██║
+██║     ██║   ██║██║     ██╔═██╗ ██║██║╚██╗██║    ██║     ██╔══██╗██╔══╝  ██║███╗██║
+███████╗╚██████╔╝╚██████╗██║  ██╗██║██║ ╚████║    ╚██████╗██║  ██║███████╗╚███╗╔███╔╝
+╚══════╝ ╚═════╝  ╚═════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝     ╚═════╝╚═╝  ╚═╝╚══════╝ ╚══╝╚══╝ </pre>
+      </h1>
+
+      <div class="welcome-tag">
+        <div class="welcome-pet" title="claudie">
+          <svg class="pet-svg" viewBox="0 0 14 10" shape-rendering="crispEdges" aria-hidden="true">
+            <g>
+              <rect x="3" y="0" width="8"  height="1" fill="#d97757"/>
+              <rect x="1" y="1" width="12" height="1" fill="#d97757"/>
+              <rect x="0" y="2" width="14" height="5" fill="#d97757"/>
+              <rect x="0"  y="7" width="2" height="3" fill="#d97757"/>
+              <rect x="4"  y="7" width="2" height="3" fill="#d97757"/>
+              <rect x="8"  y="7" width="2" height="3" fill="#d97757"/>
+              <rect x="12" y="7" width="2" height="3" fill="#d97757"/>
+              <rect x="3" y="3" width="2" height="2" fill="#1a1a1a"/>
+              <rect x="9" y="3" width="2" height="2" fill="#1a1a1a"/>
+            </g>
+          </svg>
         </div>
-        <p class="welcome-sub">small unit of operators. ship when others schedule the meeting.</p>
-        <ul class="welcome-tips">
-          <li><span class="key">/manifesto</span><span class="dim">— rules</span></li>
-          <li><span class="key">/services</span><span class="dim">— engagements</span></li>
-          <li><span class="key">/crew</span><span class="dim">— operators</span></li>
-          <li><span class="key">/hire</span><span class="dim">— send brief</span></li>
-          <li><span class="key">/lockin</span><span class="dim">— focus mode</span></li>
-        </ul>
-        <div class="welcome-foot">
-          <span class="dim">cwd:</span> <span class="path">~/lockincrew</span>
-          <span class="sep">·</span>
-          <span class="dim">model:</span> opus-4.7
-          <span class="sep">·</span>
-          <span class="dim">session:</span> 0x4C4F434B
+        <div class="welcome-tag-text">
+          <p class="welcome-tag-line"><b>deep work as a service.</b></p>
+          <p class="welcome-sub">small unit of operators. ship when others schedule the meeting.</p>
         </div>
       </div>
-      <div class="welcome-pet" title="claudie">
-        <svg class="pet-svg" viewBox="0 0 14 10" shape-rendering="crispEdges" aria-hidden="true">
-          <g>
-            <rect x="3" y="0" width="8"  height="1" fill="#d97757"/>
-            <rect x="1" y="1" width="12" height="1" fill="#d97757"/>
-            <rect x="0" y="2" width="14" height="5" fill="#d97757"/>
-            <rect x="0"  y="7" width="2" height="3" fill="#d97757"/>
-            <rect x="4"  y="7" width="2" height="3" fill="#d97757"/>
-            <rect x="8"  y="7" width="2" height="3" fill="#d97757"/>
-            <rect x="12" y="7" width="2" height="3" fill="#d97757"/>
-            <rect x="3" y="3" width="2" height="2" fill="#1a1a1a"/>
-            <rect x="9" y="3" width="2" height="2" fill="#1a1a1a"/>
-          </g>
-        </svg>
+
+      <div class="welcome-foot">
+        <span class="dim">cwd:</span> <span class="path">~/lockincrew</span>
+        <span class="sep">·</span>
+        <span class="dim">model:</span> opus-4.7
+        <span class="sep">·</span>
+        <span class="dim">session:</span> 0x4C4F434B
+        <span class="sep">·</span>
+        <span class="ok">● locked_in</span>
       </div>
     </section>
 
@@ -282,18 +291,15 @@
               <div class="op-tags"><span class="t">senior</span><span class="t">eu/remote</span></div>
             </div>
           </div>
-        </div>
       </div>
 
       <!-- /receipts -->
-      <div class="turn" id="t-receipts">
-        <div class="user-line"><span class="prompt-arrow">&gt;</span> /receipts</div>
-        <div class="assistant">
-          <div class="resp-head">
-            <span class="resp-mark">✻</span>
-            <span class="resp-label">last 12 months. unaudited but honest.</span>
-          </div>
-          <div class="stats">
+      <div class="panel" id="p-receipts" role="tabpanel" hidden>
+        <div class="panel-head">
+          <span class="resp-mark">✻</span>
+          <span class="resp-label">last 12 months. unaudited but honest.</span>
+        </div>
+        <div class="stats">
             <div class="stat">
               <div class="stat-num">184</div>
               <div class="stat-lbl">ships / quarter</div>
@@ -317,18 +323,15 @@
 <span class="log-line"><span class="log-time">09:17:55</span> <span class="ok">✓</span> deployed: brink/agent-eval — p95 -41%</span>
 <span class="log-line"><span class="log-time">07:02:30</span> <span class="warn">!</span> declined: 3 briefs / scope unclear, no deadline</span>
 <span class="log-line"><span class="log-time">02:11:09</span> <span class="ok">✓</span> embedded: keiretsu/data — q4 renewed</span></pre>
-        </div>
       </div>
 
       <!-- /hire -->
-      <div class="turn" id="t-hire">
-        <div class="user-line"><span class="prompt-arrow">&gt;</span> /hire</div>
-        <div class="assistant">
-          <div class="resp-head">
-            <span class="resp-mark">✻</span>
-            <span class="resp-label">brief is better than long. we read everything.</span>
-          </div>
-          <form class="hire-form" id="hireForm" onsubmit="return false">
+      <div class="panel" id="p-hire" role="tabpanel" hidden>
+        <div class="panel-head">
+          <span class="resp-mark">✻</span>
+          <span class="resp-label">brief is better than long. we read everything.</span>
+        </div>
+        <form class="hire-form" id="hireForm" onsubmit="return false">
             <div class="hf-row">
               <label class="hf-key">name@</label>
               <input type="text" name="name" placeholder="your name" autocomplete="off" />
@@ -361,7 +364,6 @@
               <span class="hf-note dim">replies in &lt; 5 days, or you're in the no pile (door stays open)</span>
             </div>
           </form>
-        </div>
       </div>
 
     </section>

@@ -1,13 +1,31 @@
+// ===== Tabs =====
+const tabs = document.querySelectorAll('.tab');
+const panels = document.querySelectorAll('.panel');
+
+function setTab(name) {
+  tabs.forEach(t => {
+    const on = t.dataset.tab === name;
+    t.classList.toggle('active', on);
+    t.setAttribute('aria-selected', on ? 'true' : 'false');
+  });
+  panels.forEach(p => {
+    const on = p.id === `p-${name}`;
+    p.classList.toggle('active', on);
+    p.hidden = !on;
+  });
+}
+tabs.forEach(t => t.addEventListener('click', () => setTab(t.dataset.tab)));
+
 // ===== Live prompt =====
 const promptInput = document.getElementById('promptInput');
 const replyStream = document.getElementById('replyStream');
 
-const sectionMap = {
-  '/manifesto': 't-manifesto',
-  '/services': 't-services',
-  '/crew': 't-crew',
-  '/receipts': 't-receipts',
-  '/hire': 't-hire',
+const tabMap = {
+  '/manifesto': 'manifesto',
+  '/services': 'services',
+  '/crew': 'crew',
+  '/receipts': 'receipts',
+  '/hire': 'hire',
 };
 
 const replies = [
@@ -53,11 +71,10 @@ const replies = [
     match: /^\/(manifesto|services|crew|receipts|hire)/i,
     run: (cmd) => {
       const key = cmd.toLowerCase().split(' ')[0];
-      const id = sectionMap[key];
-      if (id) {
-        const el = document.getElementById(id);
-        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        return `jumping to <b>${key}</b>…`;
+      const tab = tabMap[key];
+      if (tab) {
+        setTab(tab);
+        return `switched to <b>${key}</b>`;
       }
     },
   },
