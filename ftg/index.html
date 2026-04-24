@@ -218,6 +218,24 @@
   .card.v9  { --accent: #2C4A3C; }  /* butelkowa zieleń */
   .card.v10 { --accent: #6B2737; }  /* burgund */
   .card.v11 { --accent: #7A4E2E; }
+  .card.kreator   { --accent: #4A8B8B; }  /* teal — flow użytkownika */
+  .card.dashboard { --accent: #B55F32; }  /* terakota deep — panel ops */
+
+  /* sekcja "poza wariantami" — kreator + dashboard */
+  .section-label {
+    font-family: 'Caveat', cursive;
+    font-size: 1.35rem;
+    color: var(--clay);
+    text-align: center;
+    margin: 16px 0 28px;
+    transform: rotate(-0.5deg);
+  }
+  .section-label::before,
+  .section-label::after {
+    content: '~';
+    margin: 0 12px;
+    color: var(--line);
+  }
 
   /* wariant ciemny — v3 */
   .card.v3 h2,
@@ -515,6 +533,50 @@
       </div>
       <div class="foot">
         <span class="fonts">Fraunces · Inter</span>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+  </div>
+
+  <p class="section-label">poza wariantami landing page</p>
+
+  <div class="versions">
+
+    <a href="kreator/index.html" class="card kreator">
+      <div class="meta">
+        <span class="tag">~ flow użytkownika ~</span>
+        <span class="num">kreator</span>
+      </div>
+      <h2>Kreator <em>bajki</em></h2>
+      <p>Wizard krok-po-kroku: odpowiedzi rodzica, dane dziecka, wybór motywu i stylu ilustracji. To, co user wypełnia po kliknięciu „stwórz bajkę".</p>
+      <div class="swatches" aria-hidden="true">
+        <span class="swatch" style="background:#FFF8E7"></span>
+        <span class="swatch" style="background:#4A8B8B"></span>
+        <span class="swatch" style="background:#E8B04A"></span>
+        <span class="swatch" style="background:#3A2817"></span>
+      </div>
+      <div class="foot">
+        <span class="fonts">Playfair · Nunito · Kalam</span>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a href="dashboard/index.html" class="card dashboard">
+      <div class="meta">
+        <span class="tag">~ panel operacyjny ~</span>
+        <span class="num">dashboard</span>
+      </div>
+      <h2>Panel <em>operacyjny</em></h2>
+      <p>Wewnętrzny widok: zamówienia, generacje, kolejka druku, zgodność GDPR. Strona dla zespołu Bajaro, nie dla klienta.</p>
+      <div class="swatches" aria-hidden="true">
+        <span class="swatch" style="background:#FFF8E7"></span>
+        <span class="swatch" style="background:#B55F32"></span>
+        <span class="swatch" style="background:#7B9E6A"></span>
+        <span class="swatch" style="background:#3A2817"></span>
+      </div>
+      <div class="foot">
+        <span class="fonts">Playfair · Nunito · JetBrains Mono</span>
         <span class="arrow">→</span>
       </div>
     </a>
