@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#e8671c">
 <title>Znajdź nas – test animacji</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
@@ -36,6 +38,9 @@
 .pin::after{content:"";position:absolute;left:12px;top:9px;width:10px;height:10px;border-radius:50%;background:#fff}
 .leaflet-tooltip.pin-label{font-family:var(--font);font-weight:700;font-size:.82rem;color:var(--ink);background:var(--white);border:0;border-radius:999px;padding:.3rem .75rem;box-shadow:var(--shadow)}
 .leaflet-tooltip-top.pin-label::before{border-top-color:var(--white)}
+.leaflet-touch .leaflet-bar,.leaflet-bar{border:0;border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+.leaflet-touch .leaflet-bar a,.leaflet-bar a{width:36px;height:36px;line-height:36px;font:600 1.2rem/36px var(--font);color:var(--ink)}
+.leaflet-bar a:hover{background:var(--paper)}
 
 /* ===== test page layout (mock only) ===== */
 .test-layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:1.5rem;align-items:start}
@@ -185,6 +190,22 @@ L.marker(TARGET, {
   keyboard: false
 }).addTo(map).bindTooltip("Uncle Tan's Asian Express", { permanent: true, direction: 'top', className: 'pin-label' });
 
+// zoom / pan only once the flight is over – a user gesture mid-flyTo would cut the animation short.
+// Wheel zoom waits for a click on the map so scrolling the page past it still scrolls;
+// one-finger drag stays off on touch screens for the same reason (pinch, double tap and +/− work).
+const zoomControl = L.control.zoom({ position: 'topright', zoomInTitle: 'Przybliż', zoomOutTitle: 'Oddal' });
+const canDrag = matchMedia('(pointer: fine)').matches;
+const HANDLERS = ['touchZoom', 'doubleClickZoom', 'boxZoom', 'keyboard', ...(canDrag ? ['dragging'] : [])];
+let interactive = false;
+function setInteractive(on) {
+  if (on === interactive) return;
+  interactive = on;
+  HANDLERS.forEach(h => map[h][on ? 'enable' : 'disable']());
+  if (on) zoomControl.addTo(map); else { zoomControl.remove(); map.scrollWheelZoom.disable(); }
+}
+map.on('click', () => { if (interactive) map.scrollWheelZoom.enable(); });
+map.on('mouseout', () => map.scrollWheelZoom.disable());
+
 // every run gets an id; callbacks from an older run (replay mid-flight, late iframe load) are ignored
 let runId = 0, sv = null, svTimer = 0, delayTimer = 0, onFlyEnd = null;
 
@@ -200,6 +221,7 @@ function resetStage() {
     old.classList.add('is-leaving'); old.classList.remove('is-visible');
     setTimeout(() => old.remove(), isReduced() ? 0 : 450);
   }
+  setInteractive(false);
   map.setView(TARGET, START_ZOOM, { animate: false });
 }
 
@@ -208,12 +230,14 @@ function runSequence() {
   resetStage();
   if (isReduced()) {
     map.setView(TARGET, END_ZOOM, { animate: false });
+    setInteractive(true);
     setState('loading', 'reduced motion → bez animacji');
     return showStreetView(id);
   }
   onFlyEnd = () => {
     onFlyEnd = null;
     if (id !== runId) return;
+    setInteractive(true);
     test.log('moveend (zoom ' + map.getZoom() + ')');
     delayTimer = setTimeout(() => showStreetView(id), SV_DELAY_MS);
   };
@@ -253,8 +277,7 @@ function fallback(id, reason) {
   if (id !== runId) return;
   clearTimeout(svTimer);
   if (sv) { sv.onload = null; sv.remove(); sv = null; } // a late load must not pop the iframe over the fallback
-  chip.hidden = true;
-  map.setView(TARGET, END_ZOOM, { animate: false });
+  chip.hidden = true; // the map is already at END_ZOOM (flight end / reduced motion) – don't undo the user's zoom
   svExternal.hidden = false;
   actions.hidden = false;
   setState('fallback', 'fallback: ' + reason);

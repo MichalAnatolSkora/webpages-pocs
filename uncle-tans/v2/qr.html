@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#e8671c">
+<title>Kod QR z obrazkiem</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+.qr{padding-top:1.4rem;padding-bottom:3rem}
+.qr__head h1{font-size:1.6rem;font-weight:800;letter-spacing:-.01em;line-height:1.2}
+.qr__head p{margin-top:.2rem}
+.qr__layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.5rem;align-items:start;margin-top:1.2rem}
+.qr-card{background:var(--white);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:1.2rem 1.4rem 1.4rem}
+
+/* preview */
+.qr-preview{position:sticky;top:16px}
+.qr-preview__frame{position:relative;border-radius:14px;overflow:hidden;background:repeating-conic-gradient(#f1ebe3 0 25%,#fff 0 50%) 0 0/20px 20px}
+.qr-preview__frame canvas{display:block;width:100%;height:auto;aspect-ratio:1}
+.qr-preview__error{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:1.5rem;background:rgba(255,255,255,.92);color:var(--red);font-weight:700}
+.qr-status{display:flex;align-items:center;gap:.5rem;margin-top:1rem;font-weight:700;font-size:.9rem;border-radius:12px;padding:.6rem .8rem;background:var(--paper);color:var(--ink-2)}
+.qr-status small{display:block;font-weight:500;font-size:.78rem}
+.qr-status[data-s="ok"]{background:var(--green-soft);color:var(--green)}
+.qr-status[data-s="fail"]{background:var(--red-soft);color:var(--red)}
+.qr-status[data-s="warn"]{background:var(--accent-soft);color:var(--accent-d)}
+.qr-meta{font-size:.8rem;color:var(--ink-2);margin-top:.6rem}
+.qr-warn{list-style:none;display:grid;gap:.35rem;margin-top:.5rem}
+.qr-warn li{font-size:.82rem;color:var(--accent-d);background:var(--accent-soft);border-radius:10px;padding:.45rem .7rem}
+.qr-warn li.is-bad{color:var(--red);background:var(--red-soft)}
+.qr-dl{display:flex;align-items:flex-end;gap:.5rem;flex-wrap:wrap;margin-top:1rem}
+.qr-dl label{margin:0;flex:1 1 130px}
+.qr-dl .btn{flex:1 1 auto}
+
+/* form */
+.qr-form fieldset:first-child{margin-top:0}
+.qr-label{font-size:.8rem;font-weight:600;color:var(--ink-2)}
+.qr-form .hint{margin-top:0}
+.qr-row{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.65rem}
+.qr-row .btn{padding:.45rem .85rem;font-size:.82rem;margin:0}
+.qr-row .btn.is-active{border-color:var(--accent);background:var(--accent-soft)}
+.qr-field{display:grid;grid-template-columns:1fr auto;align-items:center;gap:.1rem .6rem}
+.qr-field output{font-size:.8rem;font-weight:700;color:var(--ink)}
+.qr-field input{grid-column:1 / -1}
+.qr-form input[type=range]{margin:.35rem 0 0;padding:0;border:0;background:none;box-shadow:none;-webkit-appearance:auto;appearance:auto;accent-color:var(--accent)}
+.qr-form .check{margin:0 0 .65rem}
+.seg{margin:.25rem 0 .65rem}
+.seg--3{grid-template-columns:repeat(3,1fr)}
+.seg--4{grid-template-columns:repeat(4,1fr)}
+.seg button{font-size:.82rem}
+.qr-row label.btn{position:relative;overflow:hidden}
+.qr-row input[type=file]{position:absolute;inset:0;width:100%;height:100%;margin:0;padding:0;border:0;opacity:0;cursor:pointer}
+
+.drop{display:flex;align-items:center;gap:.8rem;border:1.5px dashed var(--line);border-radius:14px;padding:.6rem;margin-bottom:.6rem;transition:border-color .15s,background .15s}
+.drop.is-over{border-color:var(--accent);background:var(--accent-soft)}
+.drop__thumb{width:72px;height:72px;flex:none;border-radius:10px;display:grid;place-items:center;overflow:hidden;background:repeating-conic-gradient(#f1ebe3 0 25%,#fff 0 50%) 0 0/12px 12px;color:var(--ink-3);font-size:1.4rem}
+.drop__thumb img{max-width:100%;max-height:100%;display:block}
+.drop__text{min-width:0;font-size:.85rem}
+.drop__text strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.drop__text small{color:var(--ink-2);font-size:.78rem}
+
+.swatches{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.5rem;margin-bottom:.4rem}
+.swatch{display:grid;justify-items:center;gap:.25rem;margin:0;text-align:center;font-size:.74rem}
+.qr-form input[type=color]{width:100%;height:42px;margin:0;padding:3px;cursor:pointer;border-radius:12px}
+.qr-form input[type=color]::-webkit-color-swatch-wrapper{padding:0}
+.qr-form input[type=color]::-webkit-color-swatch{border:0;border-radius:8px}
+.qr-form input[type=color]::-moz-color-swatch{border:0;border-radius:8px}
+.qr-form input[type=color]:disabled{opacity:.35;cursor:not-allowed}
+
+@media (max-width:860px){
+  .qr__layout{grid-template-columns:minmax(0,1fr)}
+  .qr-preview{position:static}
+  .qr-card{padding:1rem 1rem 1.2rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== DEMO BAR (mock only) ===== -->
+<div class="demo-bar">
+  <div class="container demo-bar__inner">
+    <strong>Mock v2 · generator kodu QR</strong>
+    <a class="demo-bar__link" href="index.html">← Menu</a>
+  </div>
+</div>
+
+<main class="container qr">
+  <header class="qr__head">
+    <h1>Kod QR z obrazkiem</h1>
+    <p class="muted">Link albo tekst, logo na środku, kolory – pobierz jako PNG albo SVG.</p>
+  </header>
+
+  <div class="qr__layout">
+    <!-- ===== PREVIEW ===== -->
+    <section class="qr-card qr-preview" aria-label="Podgląd">
+      <div class="qr-preview__frame">
+        <canvas id="qrCanvas" width="1000" height="1000" role="img" aria-label="Podgląd kodu QR"></canvas>
+        <p class="qr-preview__error" id="qrError" hidden></p>
+      </div>
+      <p class="qr-status" id="scanStatus" data-s="wait" aria-live="polite">Sprawdzam…</p>
+      <p class="qr-meta" id="qrMeta"></p>
+      <ul class="qr-warn" id="qrWarn"></ul>
+      <div class="qr-dl">
+        <label>Rozmiar PNG
+          <select id="pngSize">
+            <option value="512">512 px</option>
+            <option value="1024">1024 px</option>
+            <option value="2048" selected>2048 px</option>
+            <option value="4096">4096 px</option>
+          </select>
+        </label>
+        <button class="btn btn--primary" id="dlPng" type="button">Pobierz PNG</button>
+        <button class="btn btn--ghost" id="dlSvg" type="button">Pobierz SVG</button>
+      </div>
+    </section>
+
+    <!-- ===== SETTINGS ===== -->
+    <form class="qr-card qr-form" id="qrForm" autocomplete="off">
+      <fieldset>
+        <legend>Treść</legend>
+        <label>Link lub tekst
+          <textarea id="qrText" rows="3" spellcheck="false"></textarea>
+        </label>
+        <div class="qr-row">
+          <button class="btn btn--ghost" type="button" id="textMenu">Menu online</button>
+        </div>
+        <p class="hint" id="textInfo"></p>
+      </fieldset>
+
+      <fieldset>
+        <legend>Obrazek</legend>
+        <div class="drop" id="drop">
+          <div class="drop__thumb" id="logoThumb" aria-hidden="true">∅</div>
+          <div class="drop__text">
+            <strong id="logoName">Bez obrazka</strong>
+            <small>Przeciągnij tu plik, wklej (⌘V / Ctrl+V) albo wybierz</small>
+          </div>
+        </div>
+        <div class="qr-row">
+          <label class="btn btn--ghost">Wybierz plik…<input type="file" id="logoFile" accept="image/*"></label>
+          <button class="btn btn--ghost" type="button" id="logoDefault">Logo Uncle Tan's</button>
+          <button class="btn btn--ghost" type="button" id="logoNone">Bez obrazka</button>
+        </div>
+        <label class="check"><input type="checkbox" id="trim" checked> <span>Przytnij białe / przezroczyste marginesy obrazka</span></label>
+        <label class="qr-field">Rozmiar (szerokość kodu) <output id="logoSizeOut"></output>
+          <input type="range" id="logoSize" min="10" max="40" step="1" value="34">
+        </label>
+        <label class="qr-field">Odstęp wokół obrazka <output id="logoPadOut"></output>
+          <input type="range" id="logoPad" min="0" max="3" step="0.5" value="1">
+        </label>
+        <label class="check"><input type="checkbox" id="excavate" checked> <span>Wytnij moduły pod obrazkiem <small class="muted">(wyłącz dla logo z przezroczystym tłem, które ma leżeć na kodzie)</small></span></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Wygląd</legend>
+        <p class="qr-label">Moduły</p>
+        <div class="seg seg--3" id="segModules" role="group" aria-label="Moduły">
+          <button type="button" data-v="square">Kwadraty</button>
+          <button type="button" data-v="liquid">Płynne</button>
+          <button type="button" data-v="dots">Kropki</button>
+        </div>
+        <p class="qr-label">Narożniki (oczka)</p>
+        <div class="seg seg--4" id="segEyes" role="group" aria-label="Narożniki">
+          <button type="button" data-v="square">Kwadrat</button>
+          <button type="button" data-v="rounded">Obłe</button>
+          <button type="button" data-v="leaf">Liść</button>
+          <button type="button" data-v="circle">Koło</button>
+        </div>
+        <p class="qr-label">Kolory</p>
+        <div class="qr-row" id="presets">
+          <button class="btn btn--ghost" type="button" data-preset="logo">Kolory logo</button>
+          <button class="btn btn--ghost" type="button" data-preset="site">Pomarańcz strony</button>
+          <button class="btn btn--ghost" type="button" data-preset="mono">Czarno-białe</button>
+        </div>
+        <div class="swatches">
+          <label class="swatch"><input type="color" id="cFg"> Moduły</label>
+          <label class="swatch"><input type="color" id="cEyeOuter"> Ramka oczek</label>
+          <label class="swatch"><input type="color" id="cEyeInner"> Środek oczek</label>
+          <label class="swatch"><input type="color" id="cBg"> Tło</label>
+        </div>
+        <label class="check"><input type="checkbox" id="transparent"> <span>Przezroczyste tło (PNG / SVG)</span></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Zaawansowane</legend>
+        <label>Korekcja błędów
+          <select id="ecl">
+            <option value="L">L – odtwarza ~7% kodu</option>
+            <option value="M">M – ~15%</option>
+            <option value="Q">Q – ~25%</option>
+            <option value="H" selected>H – ~30% (zalecane z obrazkiem)</option>
+          </select>
+        </label>
+        <label class="qr-field">Margines (strefa ciszy) <output id="marginOut"></output>
+          <input type="range" id="margin" min="0" max="8" step="1" value="4">
+        </label>
+        <p class="hint">Skanery potrzebują wokół kodu pustego pola ~4 modułów – przy 0 zostaw je w projekcie, w który wklejasz kod.</p>
+      </fieldset>
+    </form>
+  </div>
+</main>
+
+<script src="https://unpkg.com/qrcode-generator@1.4.4/qrcode.js"></script>
+<script src="https://unpkg.com/jsqr@1.4.0/dist/jsQR.js"></script>
+<script src="qr.js"></script>
+</body>
+</html>
