@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#e8671c">
+<meta name="robots" content="noindex">
+<title>Zamówienie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<!-- Order page: order.html?id=<order id>. Przelewy24 ReturnUrl and the link in the confirmation SMS / e-mail. -->
+
+<!-- ===== DEMO BAR (mock only) ===== -->
+<div class="demo-bar">
+  <div class="container demo-bar__inner"><strong>Mock v2</strong></div>
+</div>
+
+<header class="header header--slim">
+  <div class="container">
+    <div class="brand">
+      <a class="brand__logo" id="rLogo" href="index.html"></a>
+      <div class="brand__text">
+        <a class="brand__name" id="rName" href="index.html"></a>
+        <p class="brand__meta" id="rAddress"></p>
+      </div>
+      <div class="lang lang--header">
+        <span class="lang__flag" aria-hidden="true"></span>
+        <span class="lang__name"></span><span class="lang__code"></span>
+        <svg class="lang__chev" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1.5l5 5 5-5"/></svg>
+        <select aria-label="Język" data-i18n-aria="lang.label"></select>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <div class="page-card">
+    <!-- back from Przelewy24: waiting for the verified payment (IPN → ConfirmPaymentAsync) -->
+    <div class="state" id="oCheck" hidden>
+      <div class="spinner" aria-hidden="true"></div>
+      <h2 data-i18n="check.title">Sprawdzamy płatność…</h2>
+      <p class="muted" data-i18n="check.body">Czekamy na potwierdzenie z Przelewy24. Zwykle trwa to kilka sekund – nie zamykaj tej strony.</p>
+      <p class="state__no" id="checkNo"></p>
+    </div>
+
+    <!-- no confirmation within the timeout (P24 never reports failure – we only know it isn't paid yet) -->
+    <div class="state" id="oUnpaid" hidden>
+      <div class="state__icon">!</div>
+      <h2 data-i18n="unpaid.title">Nie otrzymaliśmy potwierdzenia płatności</h2>
+      <p class="muted" data-i18n="unpaid.body">Jeśli płatność została przerwana, nic nie zostało pobrane. Jeśli płatność trwa w innym oknie, sprawdź ponownie za chwilę.</p>
+      <p class="state__no" id="unpaidNo"></p>
+      <div class="state__actions">
+        <button class="btn btn--primary btn--block" id="unpaidRetry"></button>
+        <button class="btn btn--ghost btn--block" id="unpaidRecheck" data-i18n="unpaid.recheck">↻ Sprawdź ponownie</button>
+        <button class="btn btn--ghost btn--block" id="unpaidOffline"></button>
+        <a class="linkbtn" id="unpaidEdit" data-i18n="unpaid.edit">Wróć do formularza</a>
+      </div>
+    </div>
+
+    <!-- order placed -->
+    <div class="done" id="oDone" hidden></div>
+
+    <!-- unknown / incomplete link -->
+    <div class="state" id="oMissing" hidden>
+      <div class="state__icon">?</div>
+      <h2 data-i18n="notfound.title">Nie znaleziono zamówienia</h2>
+      <p class="muted" data-i18n="notfound.body">Sprawdź, czy link z SMS-a lub e-maila jest kompletny.</p>
+      <div class="state__actions">
+        <a class="btn btn--primary btn--block" href="index.html" data-i18n="done.back">Wróć do menu</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="footer footer--plain">
+  <div class="container"><p id="fName"></p></div>
+</footer>
+
+<script src="data.js"></script>
+<script src="i18n.js"></script>
+<script src="common.js"></script>
+<script src="order.js"></script>
+</body>
+</html>

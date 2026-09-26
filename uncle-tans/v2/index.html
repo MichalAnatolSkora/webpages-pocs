@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#e8671c">
+<title>Zamów online</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ===== DEMO BAR (mock only) ===== -->
+<div class="demo-bar">
+  <div class="container demo-bar__inner">
+    <strong>Mock v2</strong>
+    <label class="demo-bar__check"><input type="checkbox" id="demoForceOpen" checked> <span data-i18n="demo.force_open">Symuluj „otwarte”</span></label>
+  </div>
+</div>
+
+<!-- today's order (its page is also linked from the confirmation SMS / e-mail) -->
+<a class="order-link" id="orderLink" hidden></a>
+
+<!-- ===== HEADER ===== -->
+<header class="header">
+  <div class="container">
+    <div class="brand">
+      <span class="brand__logo" id="rLogo"></span>
+      <div class="brand__text">
+        <h1 class="brand__name" id="rName"></h1>
+        <p class="brand__tagline" id="rTagline"></p>
+        <p class="brand__meta"><span id="rAddress"></span><span class="brand__hours"> · <span id="rHours"></span></span></p>
+      </div>
+      <!-- language: native <select> stretched invisibly over the pill – flags + full names in the OS picker -->
+      <div class="lang lang--header" id="langHeader">
+        <span class="lang__flag" aria-hidden="true"></span>
+        <span class="lang__name"></span><span class="lang__code"></span>
+        <svg class="lang__chev" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1.5l5 5 5-5"/></svg>
+        <select aria-label="Język" data-i18n-aria="lang.label"></select>
+      </div>
+    </div>
+    <div class="facts">
+      <div class="fact" id="rStatus"></div>
+      <div class="fact"><span class="fact__icon">🚚</span><div><strong id="rDeliveryFee"></strong><small id="rDeliveryMin"></small></div></div>
+      <div class="fact"><span class="fact__icon">⏱️</span><div><strong id="rDeliveryEta"></strong><small id="rPickupEta"></small></div></div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== CATEGORY NAV (sticky; a compact language pill appears at its end once the header one scrolls away) ===== -->
+<nav class="cats" id="cats">
+  <div class="container cats__bar">
+    <div class="cats__inner" id="catsInner"></div>
+    <div class="lang lang--sticky">
+      <span class="lang__flag" aria-hidden="true"></span>
+      <span class="lang__code"></span>
+      <svg class="lang__chev" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1.5l5 5 5-5"/></svg>
+      <select aria-label="Język" data-i18n-aria="lang.label"></select>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<main class="container layout">
+  <section class="menu" id="menu"></section>
+
+  <aside class="cart" id="cart" aria-label="Koszyk" data-i18n-aria="cart.aria">
+    <div class="sheet-handle" aria-hidden="true"></div>
+    <div class="cart__head">
+      <h2 data-i18n="cart.title">Twoje zamówienie</h2>
+      <button class="icon-btn cart__close" id="cartClose" aria-label="Zamknij" data-i18n-aria="close">✕</button>
+    </div>
+    <div class="seg" id="fulfilment">
+      <button data-f="delivery">🚚 <span data-i18n="f.delivery">Dostawa</span></button>
+      <button data-f="pickup">🥡 <span data-i18n="f.pickup">Odbiór</span></button>
+    </div>
+    <div class="cart__items" id="cartItems"></div>
+    <div class="cart__foot" id="cartFoot"></div>
+  </aside>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p id="fName"></p>
+    <p class="muted"><span data-i18n="footer.guest">Zamówienie bez zakładania konta</span> · <a href="#" data-modal="terms" data-i18n="footer.terms">Regulamin</a> · <a href="#" data-modal="terms" data-i18n="footer.privacy">Polityka prywatności</a></p>
+  </div>
+</footer>
+
+<!-- mobile cart bar -->
+<button class="cart-bar" id="cartBar" hidden>
+  <span class="cart-bar__count" id="cartBarCount">0</span>
+  <span data-i18n="cartbar.view">Zobacz koszyk</span>
+  <strong id="cartBarTotal">0 zł</strong>
+</button>
+<div class="backdrop" id="backdrop" hidden></div>
+
+<!-- ===== VARIANT MODAL ===== -->
+<div class="modal modal--sheet" id="variantModal" hidden>
+  <div class="modal__box">
+    <div class="sheet-handle" aria-hidden="true"></div>
+    <button class="icon-btn modal__x" data-close aria-label="Zamknij" data-i18n-aria="close">✕</button>
+    <img class="vm-img" id="vmImg" alt="" width="200" height="200">
+    <h3 id="vmName"></h3>
+    <p class="muted" id="vmEn"></p>
+    <p class="vm-label" id="vmLabel"></p>
+    <div class="vm-options" id="vmOptions"></div>
+    <div class="vm-foot">
+      <div class="qty" id="vmQty">
+        <button data-d="-1" aria-label="Mniej" data-i18n-aria="qty.less"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg></button><span>1</span><button data-d="1" aria-label="Więcej" data-i18n-aria="qty.more"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+      </div>
+      <button class="btn btn--primary" id="vmAdd"></button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CHECKOUT ===== -->
+<div class="modal modal--full" id="checkout" hidden>
+  <div class="modal__box checkout">
+    <div class="co-head">
+      <h2 data-i18n="co.title.form">Dane do zamówienia</h2>
+      <button class="icon-btn" id="coClose" data-close aria-label="Zamknij" data-i18n-aria="close">✕</button>
+    </div>
+
+    <!-- form -->
+    <form id="coForm" novalidate>
+      <p class="co-lead" data-i18n="co.lead">Bez zakładania konta – potwierdzenie wyślemy SMS-em i e-mailem.</p>
+      <div class="alert alert--error" id="coError" hidden></div>
+
+      <fieldset>
+        <legend data-i18n="co.how">Sposób odbioru</legend>
+        <div class="seg" id="coFulfilment">
+          <button type="button" data-f="delivery">🚚 <span data-i18n="f.delivery">Dostawa</span></button>
+          <button type="button" data-f="pickup">🥡 <span data-i18n="f.pickup_long">Odbiór osobisty</span></button>
+        </div>
+        <p class="hint" id="coPickupInfo"></p>
+      </fieldset>
+
+      <fieldset>
+        <legend data-i18n="co.when">Kiedy?</legend>
+        <select name="time" id="coTime" required></select>
+      </fieldset>
+
+      <fieldset>
+        <legend data-i18n="co.contact">Kontakt</legend>
+        <div class="grid2">
+          <label><span data-i18n="co.name">Imię</span>*<input name="name" autocomplete="given-name" maxlength="40" required></label>
+          <label><span data-i18n="co.phone">Telefon</span>*<input name="phone" type="tel" autocomplete="tel" inputmode="tel" pattern="[+0-9 ]{9,15}" placeholder="np. 500 100 200" data-i18n-ph="co.phone_ph" required></label>
+        </div>
+        <label><span data-i18n="co.email">E-mail</span>*<input name="email" type="email" autocomplete="email" maxlength="50" required></label>
+      </fieldset>
+
+      <fieldset id="coAddress">
+        <legend data-i18n="co.address">Adres dostawy</legend>
+        <div class="grid2">
+          <label><span data-i18n="co.street">Ulica i numer</span>*<input name="street" autocomplete="address-line1" data-delivery required></label>
+          <label><span data-i18n="co.flat">Mieszkanie / piętro</span><input name="flat" autocomplete="address-line2"></label>
+        </div>
+        <div class="grid2 grid2--pc">
+          <label><span data-i18n="co.postcode">Kod pocztowy</span>*<input name="postcode" autocomplete="postal-code" pattern="[0-9]{2}-?[0-9]{3}" placeholder="00-000" data-delivery required></label>
+          <label><span data-i18n="co.city">Miasto</span>*<input name="city" autocomplete="address-level2" data-delivery required></label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend data-i18n="co.notes">Uwagi</legend>
+        <textarea name="notes" rows="2" placeholder="np. bez kolendry, kod do domofonu" data-i18n-ph="co.notes_ph"></textarea>
+      </fieldset>
+
+      <fieldset>
+        <legend data-i18n="co.payment">Płatność</legend>
+        <label class="radio"><input type="radio" name="pay" value="online" checked> <span data-i18n="co.pay_online"><strong>Online</strong> – BLIK, karta, szybki przelew</span></label>
+        <label class="radio"><input type="radio" name="pay" value="on_delivery"> <span id="coPayOnDelivery"></span></label>
+      </fieldset>
+
+      <div class="summary" id="coSummary"></div>
+
+      <label class="check" id="coAgeRow" hidden><input type="checkbox" name="age"> <span><span data-i18n="co.age">Mam ukończone 18 lat (zamówienie zawiera alkohol)</span>*</span></label>
+      <label class="check"><input type="checkbox" name="terms" required> <span><span data-i18n="co.terms">Akceptuję <a href="#" data-modal="terms">regulamin</a> i <a href="#" data-modal="terms">politykę prywatności</a></span>*</span></label>
+
+      <div class="co-foot">
+        <button class="btn btn--primary btn--lg btn--block" id="coSubmit" type="submit"></button>
+      </div>
+    </form>
+
+    <!-- after submitting: pay online → p24.html (Przelewy24 mock) → order.html; pay on delivery / pickup → order.html -->
+  </div>
+</div>
+
+<!-- ===== TERMS (placeholder) ===== -->
+<div class="modal" id="termsModal" hidden>
+  <div class="modal__box">
+    <button class="icon-btn modal__x" data-close aria-label="Zamknij" data-i18n-aria="close">✕</button>
+    <h3 data-i18n="terms.title">Regulamin i polityka prywatności</h3>
+    <p class="muted" data-i18n="terms.body">Treść do uzupełnienia przez restaurację.</p>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script src="i18n.js"></script>
+<script src="common.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

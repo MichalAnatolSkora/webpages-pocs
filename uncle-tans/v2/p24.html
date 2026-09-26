@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Przelewy24</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="p24-page">
+<!-- Przelewy24 paywall (mock) – in production the customer is redirected to CreatePaymentResult.RedirectUrl,
+     i.e. leaves our site, and P24 sends them back to ReturnUrl (order.html) whatever happened. -->
+
+<div class="demo-bar">
+  <div class="container demo-bar__inner"><strong>Mock v2</strong></div>
+</div>
+
+<main class="container">
+  <div class="page-card page-card--narrow pay">
+    <div class="pay__box">
+      <p class="pay__brand">Przelewy24 <span data-i18n="pay.sim">symulacja</span></p>
+      <h2 id="payAmount"></h2>
+      <p id="payRestaurant" class="muted"></p>
+      <p id="paySession" class="pay__session"></p>
+      <div class="pay__methods"><span>BLIK</span><span data-i18n="pay.card">Karta</span><span data-i18n="pay.transfer">Przelew</span></div>
+      <p class="pay__demo" data-i18n="pay.choose">Wybierz wynik płatności:</p>
+      <button class="btn btn--primary btn--block" data-pay="now" data-i18n="pay.now">✓ Zapłać</button>
+      <button class="btn btn--ghost btn--block" data-pay="late" data-i18n="pay.late">✓ Zapłać – potwierdzenie z opóźnieniem</button>
+      <button class="btn btn--ghost btn--block" data-pay="none" data-i18n="pay.none">✕ Wróć do sklepu bez płacenia</button>
+    </div>
+  </div>
+</main>
+
+<script src="data.js"></script>
+<script src="i18n.js"></script>
+<script src="common.js"></script>
+<script src="p24.js"></script>
+</body>
+</html>
