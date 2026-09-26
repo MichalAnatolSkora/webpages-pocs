@@ -314,7 +314,7 @@ addEventListener('storage', e => { if (e.key === 'v2_orders') sync(); });
 setInterval(sync, 2000);                         // late IPNs, "3 min ago" labels; render() skips when nothing changed
 setInterval(() => { if (list.some(o => o.status === 'placed')) chime(); }, 15000);
 
-$('#rLogo').textContent = R.logo;
+$('#rLogo').innerHTML = `<img src="${R.logo}" alt="">`;
 $('#rName').textContent = R.name;
 applyI18n();
 renderLang();

@@ -51,7 +51,7 @@ function changeQty(key, d) {
 /* ---------- header ---------- */
 function renderHeader() {
   document.title = t('meta.title', { name: R.name });
-  $('#rLogo').textContent = R.logo;
+  $('#rLogo').innerHTML = `<img src="${R.logo}" alt="">`;
   $('#rName').textContent = R.name;
   $('#rTagline').textContent = R.tagline;
   $('#rAddress').textContent = `${R.address.street}, ${R.address.city}`;

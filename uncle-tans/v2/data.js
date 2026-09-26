@@ -15,7 +15,7 @@ const WITH_RICE = {
 
 const RESTAURANT = {
   name: "Uncle Tan's Asian Express",
-  logo: '🍜',
+  logo: 'img/social/logo-mark.jpg', // mascot from logo.jpg – the full logo is unreadable at badge size
   tagline: 'Big Flavor. Fast!',
   orderPrefix: 'UT',
   address: { street: 'Kotlarska 25A', city: '50-120 Wrocław' },
@@ -85,7 +85,7 @@ const PRODUCTS = [
   { id: 'w3', cat: 'wonton', price: 40, name: 'Zupa wonton z wołowiną', en: 'Wonton Soup with Beef', de: 'Wan-Tan-Suppe mit Rindfleisch', vi: 'Súp hoành thánh bò' },
   { id: 'w4', cat: 'wonton', price: 45, name: 'Zupa wonton z krewetkami', en: 'Wonton Soup with Shrimp', de: 'Wan-Tan-Suppe mit Garnelen', vi: 'Súp hoành thánh tôm' },
 
-  { id: 's1', cat: 'starters', price: 15, name: 'Sajgonki 3 szt.', en: 'Spring Rolls (3 pcs)', de: 'Frühlingsrollen (3 Stk.)', vi: 'Nem rán (3 chiếc)' },
+  { id: 's1', cat: 'starters', price: 15, img: 'img/photos/s1.jpg', name: 'Sajgonki 3 szt.', en: 'Spring Rolls (3 pcs)', de: 'Frühlingsrollen (3 Stk.)', vi: 'Nem rán (3 chiếc)' },
   { id: 's2', cat: 'starters', price: 15, name: 'Sajgonki wege 3 szt.', en: 'Vegan Spring Rolls (3 pcs)', de: 'Vegane Frühlingsrollen (3 Stk.)', vi: 'Nem rán chay (3 chiếc)', veg: true },
   { id: 's3', cat: 'starters', price: 17, name: 'Pierożki „Hacao” 5 szt.', en: 'Hacao Dumplings (5 pcs)', de: 'Hacao-Teigtaschen (5 Stk.)', vi: 'Há cảo (5 chiếc)' },
   { id: 's4', cat: 'starters', price: 17, name: 'Pierożki „SiuMai” 5 szt.', en: 'Siu Mai Dumplings (5 pcs)', de: 'Siu-Mai-Teigtaschen (5 Stk.)', vi: 'Xíu mại (5 chiếc)' },
@@ -99,12 +99,12 @@ const PRODUCTS = [
 
   { id: 'c1', cat: 'curry', price: 40, name: 'Curry z krewetkami', en: 'Shrimp Curry', de: 'Curry mit Garnelen', vi: 'Cà ri tôm', variants: 'curry' },
   { id: 'c2', cat: 'curry', price: 30, name: 'Curry z tofu', en: 'Tofu Curry', de: 'Curry mit Tofu', vi: 'Cà ri đậu phụ', variants: 'curry', veg: true },
-  { id: 'c3', cat: 'curry', price: 32, name: 'Curry z kurczakiem', en: 'Chicken Curry', de: 'Curry mit Hähnchen', vi: 'Cà ri gà', variants: 'curry' },
+  { id: 'c3', cat: 'curry', price: 32, img: 'img/photos/c3.jpg', name: 'Curry z kurczakiem', en: 'Chicken Curry', de: 'Curry mit Hähnchen', vi: 'Cà ri gà', variants: 'curry' },
   { id: 'c4', cat: 'curry', price: 40, name: 'Krewetki chrupiące 7 szt.', en: 'Crispy Shrimp (7 pcs)', de: 'Knusprige Garnelen (7 Stk.)', vi: 'Tôm chiên giòn (7 con)' },
   { id: 'c5', cat: 'curry', price: 41, name: 'Krewetki chrupiące w sosie słodko-kwaśnym', en: 'Crispy Shrimp in Sweet & Sour Sauce',
     de: 'Knusprige Garnelen in Süß-Sauer-Soße', vi: 'Tôm chiên giòn sốt chua ngọt' },
 
-  { id: 'k1', cat: 'chicken', price: 30, name: 'Kurczak chrupiący', en: 'Crispy chicken', de: 'Knuspriges Hähnchen', vi: 'Gà chiên giòn',
+  { id: 'k1', cat: 'chicken', price: 30, img: 'img/photos/k1.jpg', name: 'Kurczak chrupiący', en: 'Crispy chicken', de: 'Knuspriges Hähnchen', vi: 'Gà chiên giòn',
     desc: {
       pl: 'Kapusta pekińska, marchew, cebula, por, ryż biały, surówka.',
       en: 'Chinese cabbage, carrot, onion, leek, white rice, salad.',
@@ -152,7 +152,7 @@ const PRODUCTS = [
   { id: 't3', cat: 'padthai', price: 35, name: 'Pad Thai z wołowiną', en: 'Pad Thai with beef', de: 'Pad Thai mit Rindfleisch', vi: 'Pad Thai bò' },
   { id: 't4', cat: 'padthai', price: 40, name: 'Pad Thai z krewetkami', en: 'Pad Thai with shrimp', de: 'Pad Thai mit Garnelen', vi: 'Pad Thai tôm' },
 
-  { id: 'bc1', cat: 'buncha', price: 35, name: 'Bun cha z grillowaną wieprzowiną', en: 'Bun cha with grilled pork',
+  { id: 'bc1', cat: 'buncha', price: 35, img: 'img/photos/bc1.jpg', name: 'Bun cha z grillowaną wieprzowiną', en: 'Bun cha with grilled pork',
     de: 'Bún chả mit gegrilltem Schweinefleisch', vi: 'Bún chả thịt nướng',
     desc: {
       pl: 'Grillowana wieprzowina, sajgonki, makaron ryżowy, świeże warzywa i sałata.',

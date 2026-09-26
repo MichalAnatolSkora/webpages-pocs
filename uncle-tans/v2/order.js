@@ -4,7 +4,7 @@ let o = orders.get(new URLSearchParams(location.search).get('id'));
 let view = null, timer = null;
 
 function renderHeader() {
-  $('#rLogo').textContent = R.logo;
+  $('#rLogo').innerHTML = `<img src="${R.logo}" alt="">`;
   $('#rName').textContent = R.name;
   $('#rAddress').textContent = `${R.address.street}, ${R.address.city}`;
   $('#fName').textContent = `${R.name} · ${R.address.street}, ${R.address.city}`;
