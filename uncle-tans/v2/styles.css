@@ -32,7 +32,8 @@ button{font:inherit;color:inherit}
 /* demo bar */
 .demo-bar{background:var(--ink);color:#fff;font-size:.75rem}
 .demo-bar__inner{display:flex;align-items:center;gap:1rem;padding-top:.35rem;padding-bottom:.35rem;line-height:1.2}
-.demo-bar__check{display:flex;align-items:center;gap:.35rem;cursor:pointer;opacity:.8}
+.demo-bar__link{margin-left:auto;color:#fff;opacity:.8;text-decoration:none;white-space:nowrap}
+.demo-bar__link:hover{opacity:1;text-decoration:underline}
 
 /* today's order (menu page) */
 .order-link{display:block;background:var(--green-soft);color:var(--green);text-decoration:none;font-size:.86rem;font-weight:600}
@@ -245,6 +246,20 @@ input::placeholder,textarea::placeholder{color:var(--ink-3)}
 .done__no{display:inline-block;font-weight:800;font-size:1.3rem;letter-spacing:.06em;background:var(--paper);border:1.5px dashed var(--line);border-radius:12px;padding:.35rem 1rem;margin:.7rem 0}
 .done__eta{font-size:1.02rem;margin:.4rem 0 1.2rem}
 .done .summary{text-align:left}
+.done__icon--no{background:var(--red-soft);color:var(--red)}
+.done__reason{text-align:left;margin:.4rem 0 0}
+/* order progress – moved on by the restaurant's panel */
+.track{list-style:none;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;margin:.5rem 0 1rem;font-size:.74rem;font-weight:600;color:var(--ink-3)}
+.track li{position:relative;padding-top:1.3rem;line-height:1.25}
+.track li::before{content:'';position:absolute;top:.2rem;left:50%;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--line);z-index:1}
+.track li::after{content:'';position:absolute;top:calc(.2rem + 5px);left:-50%;right:50%;height:2px;background:var(--line)}
+.track li:first-child::after{display:none}
+.track li.is-done{color:var(--green)}
+.track li.is-done::before,.track li.is-done::after{background:var(--green)}
+.track li.is-now{color:var(--ink);font-weight:800}
+.track li.is-now::before{box-shadow:0 0 0 4px var(--green-soft)}
+.track li.is-now:not(:last-child)::before{animation:ping 1.6s ease-out infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(47,125,50,.45)}100%{box-shadow:0 0 0 9px rgba(47,125,50,0)}}
 .done__notes{font-size:.88rem;text-align:left;background:var(--paper);border-radius:12px;padding:.6rem .8rem;margin-bottom:.8rem;overflow-wrap:anywhere}
 .done .btn{margin-top:1rem}
 

@@ -6,7 +6,6 @@ const dishImg = p => p.img ?? `img/dishes/${p.id}.svg`;
 const state = {
   cart: store.get('v2_cart', []),         // [{ pid, variant, qty }]
   fulfilment: store.get('v2_fulfilment', 'delivery'),
-  forceOpen: store.get('v2_force_open', true),
 };
 const save = () => { store.set('v2_cart', state.cart); store.set('v2_fulfilment', state.fulfilment); };
 
@@ -15,11 +14,7 @@ const toMin = hhmm => { const [h, m] = hhmm.split(':').map(Number); return h * 6
 const fmt = min => `${String(Math.floor(min / 60)).padStart(2, '0')}:${String(min % 60).padStart(2, '0')}`;
 const etaMin = eta => parseInt(eta, 10);
 const OPEN = toMin(R.hours.open), CLOSE = toMin(R.hours.close);
-function nowMin() {
-  const d = new Date(), real = d.getHours() * 60 + d.getMinutes();
-  // demo: outside opening hours pretend it's 18:00 so the flow can be clicked through
-  return state.forceOpen && (real < OPEN || real >= CLOSE) ? 18 * 60 : real;
-}
+const nowMin = () => { const d = new Date(); return d.getHours() * 60 + d.getMinutes(); };
 const isOpen = () => { const n = nowMin(); return n >= OPEN && n < CLOSE; };
 function timeSlots() {
   const lead = etaMin(state.fulfilment === 'delivery' ? R.delivery.eta : R.pickup.eta);
@@ -76,8 +71,8 @@ function renderHeader() {
 // today's order stays one tap away – its page is otherwise only linked from the SMS / e-mail
 function renderOrderLink() {
   const today = new Date().toDateString();
-  const o = Object.values(store.get('v2_orders', {}))
-    .filter(o => o.status === 'placed' && new Date(o.createdAt).toDateString() === today)
+  const o = orders.all()
+    .filter(o => isPlaced(o) && new Date(placedAt(o)).toDateString() === today)
     .sort((a, b) => b.createdAt - a.createdAt)[0];
   $('#orderLink').hidden = !o;
   if (!o) return;
@@ -261,7 +256,6 @@ function renderCheckout() {
 }
 // an order whose online payment wasn't confirmed – the customer came back to the form from its page
 let pending = null;
-const newOrderNo = () => `${R.orderPrefix}-${Math.floor(1000 + Math.random() * 9000)}`;
 function readOrder() {
   const f = Object.fromEntries(new FormData(form));
   return {
@@ -345,11 +339,6 @@ $$('.lang select').forEach(s => s.addEventListener('change', e => setLang(e.targ
 // once the header pill slides under the sticky bar, show the compact one there
 new IntersectionObserver(([e]) => $('#cats').classList.toggle('has-lang', !e.isIntersecting), { rootMargin: '-56px 0px 0px 0px' })
   .observe($('#langHeader'));
-$('#demoForceOpen').checked = state.forceOpen;
-$('#demoForceOpen').addEventListener('change', e => {
-  state.forceOpen = e.target.checked; store.set('v2_force_open', state.forceOpen);
-  renderHeader(); renderCart();
-});
 document.addEventListener('keydown', e => {
   if (e.key !== 'Escape') return;
   ['#variantModal', '#termsModal', '#checkout'].forEach(s => { $(s).hidden = true; });
@@ -368,6 +357,6 @@ setupScrollSpy();
 const editing = orders.get(new URLSearchParams(location.search).get('edit'));
 if (editing) {
   history.replaceState(null, '', location.pathname);
-  if (editing.status === 'placed') location.replace(orderUrl(editing));
+  if (isPlaced(editing)) location.replace(orderUrl(editing));
   else { pending = editing; setFulfilment(editing.fulfilment); openCheckout(); fillForm(editing.form); renderCheckout(); }
 }

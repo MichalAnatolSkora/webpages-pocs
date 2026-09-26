@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<meta name="robots" content="noindex">
+<title>Panel zamówień</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="panel.css">
+</head>
+<body class="panel-page">
+<!-- Restaurant panel: the tablet on the counter during service. Orders arrive here with a sound once the restaurant
+     has them (paid online, or pay on delivery / pickup); staff accept them with a time or reject them, then hand them over. -->
+
+<!-- ===== DEMO BAR (mock only) ===== -->
+<div class="demo-bar">
+  <div class="panel-wrap demo-bar__inner">
+    <strong>Mock v2</strong>
+    <button class="demo-bar__btn" id="demoOrder" data-i18n="p.demo.order">+ Symuluj zamówienie</button>
+    <a class="demo-bar__link" href="index.html" target="_blank" data-i18n="p.demo.menu">Menu klienta ↗</a>
+  </div>
+</div>
+
+<header class="ptop">
+  <div class="panel-wrap ptop__inner">
+    <span class="brand__logo ptop__logo" id="rLogo"></span>
+    <div class="ptop__name"><strong id="rName"></strong><small data-i18n="p.title">Panel zamówień</small></div>
+    <span class="ptop__stats" id="pStats"></span>
+    <button class="ptop__sound" id="pSound"></button>
+    <div class="lang">
+      <span class="lang__flag" aria-hidden="true"></span>
+      <span class="lang__name"></span><span class="lang__code"></span>
+      <svg class="lang__chev" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1.5l5 5 5-5"/></svg>
+      <select aria-label="Język" data-i18n-aria="lang.label"></select>
+    </div>
+  </div>
+</header>
+<!-- browsers only play sound after the first touch / click on the page -->
+<button class="punlock" id="pUnlock" data-i18n="p.unlock" hidden>🔔 Dotknij ekranu, aby włączyć dźwięk nowych zamówień</button>
+
+<main class="pmain" id="pMain">
+  <section class="plist">
+    <div class="seg ptabs" id="pTabs">
+      <button data-tab="active"><span data-i18n="p.tab.active">Aktywne</span><span class="ptabs__n" id="pActiveN"></span></button>
+      <button data-tab="closed" data-i18n="p.tab.closed">Zakończone</button>
+    </div>
+    <div class="plist__body" id="pList"></div>
+  </section>
+  <section class="pdetail">
+    <div class="pdetail__body" id="pBody"></div>
+    <div class="pactions" id="pActions" hidden></div>
+  </section>
+</main>
+
+<!-- ===== REJECT ===== -->
+<div class="modal modal--sheet" id="rejectModal" hidden>
+  <form class="modal__box" id="rejectForm">
+    <button type="button" class="icon-btn modal__x" data-close aria-label="Zamknij" data-i18n-aria="close">✕</button>
+    <h3 id="rejectTitle"></h3>
+    <p class="muted preject__hint" data-i18n="p.reject.hint">Klient dostanie SMS i e-mail z powodem.</p>
+    <div class="preasons" id="rejectReasons"></div>
+    <p class="note" id="rejectRefund"></p>
+    <div class="preject__foot">
+      <button type="button" class="btn btn--ghost" data-close data-i18n="p.back">Wróć</button>
+      <button class="btn btn--danger" data-i18n="p.reject.confirm">Odrzuć zamówienie</button>
+    </div>
+  </form>
+</div>
+
+<div class="ptoast" id="pToast" role="status" aria-live="polite"></div>
+
+<script src="data.js"></script>
+<script src="i18n.js"></script>
+<script src="panel-i18n.js"></script>
+<script src="common.js"></script>
+<script src="panel.js"></script>
+</body>
+</html>

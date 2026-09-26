@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#e8671c">
+<title>Znajdź nas – test animacji</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+/* ===== find-us section ===== */
+.find-us{padding:2.5rem 0 1rem}
+.find-us h2{font-size:1.6rem;font-weight:800;letter-spacing:-.01em}
+.find-us__meta{color:var(--ink-2);margin:.2rem 0 1rem}
+.stage{position:relative;width:100%;height:70vh;min-height:360px;overflow:hidden;border-radius:12px;background:#e9e4dc;box-shadow:var(--shadow)}
+.stage__map{position:absolute;inset:0;z-index:0} /* own stacking context: leaflet's z-indexes stay under the iframe */
+.stage__sv{position:absolute;inset:0;width:100%;height:100%;border:0;opacity:0;transition:opacity 1.2s ease;pointer-events:none;z-index:1}
+.stage__sv.is-visible{opacity:1;pointer-events:auto}
+.stage__sv.is-leaving{transition-duration:.4s}
+.stage__chip{position:absolute;left:50%;top:12px;transform:translateX(-50%);z-index:2;background:rgba(31,26,23,.82);color:#fff;font-size:.8rem;font-weight:600;padding:.35rem .8rem;border-radius:999px;white-space:nowrap}
+.stage__actions{position:absolute;left:50%;bottom:30px;transform:translateX(-50%);z-index:2;display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;width:max-content;max-width:calc(100% - 24px)}
+.stage__actions .btn{box-shadow:var(--shadow);padding:.6rem 1.1rem;font-size:.9rem}
+.stage__notice{position:absolute;inset:auto 12px 12px 12px;z-index:3;background:var(--white);border-radius:12px;box-shadow:var(--shadow);padding:.8rem 1rem;font-size:.84rem}
+.stage__notice code{font-size:.78rem;background:var(--paper);padding:.1rem .35rem;border-radius:6px;word-break:break-all}
+.find-us__cta{margin-top:.8rem;font-weight:600}
+.find-us__cta a{color:var(--accent-d);text-underline-offset:2px}
+@media (max-width:600px){.stage{height:55vh}}
+.force-reduced .stage__sv{transition:none}
+
+/* leaflet – match site font / colours */
+.leaflet-container{font-family:var(--font);background:#e9e4dc}
+.pin{position:relative;width:34px;height:34px}
+.pin::before{content:"";position:absolute;left:3px;top:0;width:28px;height:28px;border-radius:50% 50% 50% 0;background:var(--accent);transform:rotate(-45deg);box-shadow:0 3px 8px rgba(31,26,23,.35)}
+.pin::after{content:"";position:absolute;left:12px;top:9px;width:10px;height:10px;border-radius:50%;background:#fff}
+.leaflet-tooltip.pin-label{font-family:var(--font);font-weight:700;font-size:.82rem;color:var(--ink);background:var(--white);border:0;border-radius:999px;padding:.3rem .75rem;box-shadow:var(--shadow)}
+.leaflet-tooltip-top.pin-label::before{border-top-color:var(--white)}
+
+/* ===== test page layout (mock only) ===== */
+.test-layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:1.5rem;align-items:start}
+.test-layout > aside{align-self:stretch}
+.scroll-hint{min-height:105vh;display:grid;place-items:center;text-align:center;color:var(--ink-2)}
+.scroll-hint strong{display:block;font-size:1.3rem;color:var(--ink)}
+.scroll-hint__arrow{font-size:2rem;animation:bob 1.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(8px)}}
+.page-end{height:30vh}
+.tp{position:sticky;top:16px;margin-top:16px;background:var(--white);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);font-size:.84rem}
+.tp summary{cursor:pointer;font-weight:800;padding:.8rem 1rem;list-style:none;display:flex;align-items:center;gap:.5rem}
+.tp summary::-webkit-details-marker{display:none}
+.tp__state{margin-left:auto;font-size:.72rem;font-weight:700;padding:.15rem .55rem;border-radius:999px;background:var(--paper);color:var(--ink-2)}
+.tp__state[data-s="flying"],.tp__state[data-s="loading"]{background:var(--accent-soft);color:var(--accent-d)}
+.tp__state[data-s="streetview"]{background:var(--green-soft);color:var(--green)}
+.tp__state[data-s="fallback"]{background:var(--red-soft);color:var(--red)}
+.tp__body{padding:0 1rem 1rem;display:grid;gap:.9rem;max-height:calc(100vh - 90px);overflow:auto}
+.tp label{display:flex;gap:.45rem;align-items:flex-start;cursor:pointer}
+.tp__field{display:grid;gap:.35rem}
+.tp__field > span{font-weight:700}
+.tp textarea{margin:0;font-size:.78rem;padding:.5rem .6rem;border-radius:10px;resize:vertical;min-height:64px}
+.tp__row{display:flex;gap:.4rem;flex-wrap:wrap}
+.tp .btn{padding:.45rem .8rem;font-size:.8rem}
+.tp small{color:var(--ink-2);font-size:.74rem}
+.tp input[type=range]{width:100%;margin:0;padding:0;border:0;background:none;box-shadow:none;-webkit-appearance:auto;appearance:auto;accent-color:var(--accent)}
+.tp input[type=checkbox]{accent-color:var(--accent);margin-top:.2rem}
+.tp__log{list-style:none;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.72rem;background:var(--paper);border-radius:10px;padding:.5rem .6rem;max-height:200px;overflow:auto;display:grid;gap:.15rem}
+.tp__log:empty::before{content:"(brak zdarzeń)";color:var(--ink-3)}
+.tp__log b{color:var(--accent-d);font-weight:600}
+@media (max-width:1000px){
+  .test-layout{display:block}
+  .tp{position:fixed;top:auto;left:12px;right:12px;bottom:calc(12px + var(--safe-b));margin:0;z-index:1000}
+  .tp__body{max-height:55vh}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== DEMO BAR (mock only) ===== -->
+<div class="demo-bar">
+  <div class="container demo-bar__inner">
+    <strong>Mock v2 · test „Znajdź nas”</strong>
+    <a class="demo-bar__link" href="index.html">← Menu</a>
+  </div>
+</div>
+
+<div class="container test-layout">
+  <main>
+    <div class="scroll-hint">
+      <div>
+        <strong>Przewiń w dół</strong>
+        Animacja startuje, gdy połowa mapy wejdzie w widok.
+        <div class="scroll-hint__arrow" aria-hidden="true">↓</div>
+      </div>
+    </div>
+
+    <!-- ===== FIND US ===== -->
+    <section id="find-us" class="find-us">
+      <h2>Znajdź nas</h2>
+      <p class="find-us__meta">ul. Kotlarska 25A, Wrocław · codziennie 12:00–22:00 · tel. 604 352 051</p>
+
+      <div id="stage" class="stage">
+        <div id="map" class="stage__map" aria-label="Mapa: Uncle Tan's Asian Express, Kotlarska 25A"></div>
+        <!-- the Street View iframe is created only after the zoom animation ends -->
+        <div id="svChip" class="stage__chip" hidden>Wczytuję Street View…</div>
+        <div id="stageActions" class="stage__actions" hidden>
+          <a id="svExternal" class="btn btn--primary" href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=51.111978,17.032505" target="_blank" rel="noopener" hidden>Zobacz Street View w Google Maps ↗</a>
+          <button id="replay" class="btn btn--ghost" type="button">↺ Pokaż ponownie</button>
+        </div>
+      </div>
+
+      <p class="find-us__cta"><a id="gmaps-link" href="https://www.google.com/maps/search/?api=1&query=Uncle+Tan%27s+Asian+Express+Kotlarska+25A+Wroc%C5%82aw" target="_blank" rel="noopener">Otwórz w Google Maps ↗</a></p>
+    </section>
+    <div class="page-end"></div>
+  </main>
+
+  <!-- ===== TEST PANEL (mock only) ===== -->
+  <aside>
+    <details class="tp" id="tp" open>
+      <summary>🧪 Panel testowy <span class="tp__state" id="tpState" data-s="idle">czeka na scroll</span></summary>
+      <div class="tp__body">
+        <div class="tp__field">
+          <span>STREETVIEW_EMBED_SRC</span>
+          <textarea id="tpSrc" spellcheck="false" placeholder="Wklej src albo cały kod <iframe …> z Google Maps (Krok 0)"></textarea>
+          <div class="tp__row">
+            <button class="btn btn--primary" id="tpSrcSave" type="button">Zapisz</button>
+            <button class="btn btn--ghost" id="tpSrcClear" type="button">Wyczyść</button>
+            <button class="btn btn--ghost" id="tpSrcCoords" type="button" title="Embed po współrzędnych – kadr nie jest ustawiony na wejście">Tymczasowy (współrzędne)</button>
+          </div>
+          <small id="tpSrcInfo"></small>
+        </div>
+
+        <label><input type="checkbox" id="tpReduced"> <span>Symuluj <code>prefers-reduced-motion</code> <small id="tpReducedSys"></small></span></label>
+        <label><input type="checkbox" id="tpTimeout"> <span>Symuluj timeout iframe'a <small>(src nie jest ustawiany → fallback po 6 s)</small></span></label>
+
+        <div class="tp__field">
+          <span>Czas lotu: <output id="tpDurOut">3.5</output> s</span>
+          <input type="range" id="tpDur" min="1" max="8" step="0.5" value="3.5">
+        </div>
+
+        <div class="tp__row">
+          <button class="btn btn--primary" id="tpPlay" type="button">▶ Odtwórz teraz</button>
+          <button class="btn btn--ghost" id="tpRearm" type="button">⟲ Reset + scroll</button>
+        </div>
+
+        <div class="tp__field">
+          <span>Log</span>
+          <ol class="tp__log" id="tpLog"></ol>
+        </div>
+      </div>
+    </details>
+  </aside>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+/* ===================== find-us: zoom → Street View ===================== */
+const TARGET = { lat: 51.111978, lng: 17.032505 };
+const STREETVIEW_EMBED_SRC = ""; // wklej src z Google Maps (Krok 0)
+const SV_FALLBACK_URL = 'https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=51.111978,17.032505';
+const START_ZOOM = 11, END_ZOOM = 18;
+const FLY_SECONDS = 3.5, SV_DELAY_MS = 400, SV_TIMEOUT_MS = 6000;
+
+// test page hooks (mock only) – the panel below fills these in; production code would use the constants directly
+const test = { src: '', reduced: false, forceTimeout: false, duration: FLY_SECONDS, onState() {}, log() {} };
+const svSrc = () => test.src || STREETVIEW_EMBED_SRC;
+const isReduced = () => test.reduced || matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const stage = document.getElementById('stage');
+const chip = document.getElementById('svChip');
+const actions = document.getElementById('stageActions');
+const svExternal = document.getElementById('svExternal');
+svExternal.href = SV_FALLBACK_URL;
+
+const map = L.map('map', {
+  zoomControl: false, dragging: false, scrollWheelZoom: false,
+  doubleClickZoom: false, touchZoom: false, keyboard: false, boxZoom: false
+}).setView(TARGET, START_ZOOM);
+
+// tile.openstreetmap.org answers requests without a Referer with an "Access blocked" tile – always send the origin
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom: 19, referrerPolicy: 'strict-origin-when-cross-origin', attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+
+L.marker(TARGET, {
+  icon: L.divIcon({ className: 'pin', iconSize: [34, 34], iconAnchor: [17, 34], tooltipAnchor: [0, -30] }),
+  keyboard: false
+}).addTo(map).bindTooltip("Uncle Tan's Asian Express", { permanent: true, direction: 'top', className: 'pin-label' });
+
+// every run gets an id; callbacks from an older run (replay mid-flight, late iframe load) are ignored
+let runId = 0, sv = null, svTimer = 0, delayTimer = 0, onFlyEnd = null;
+
+function setState(s, msg) { test.onState(s); if (msg) test.log(msg); }
+
+function resetStage() {
+  clearTimeout(svTimer); clearTimeout(delayTimer);
+  if (onFlyEnd) { map.off('moveend', onFlyEnd); onFlyEnd = null; }
+  chip.hidden = true; actions.hidden = true; svExternal.hidden = true;
+  if (sv) {
+    const old = sv; sv = null;
+    old.onload = null;
+    old.classList.add('is-leaving'); old.classList.remove('is-visible');
+    setTimeout(() => old.remove(), isReduced() ? 0 : 450);
+  }
+  map.setView(TARGET, START_ZOOM, { animate: false });
+}
+
+function runSequence() {
+  const id = ++runId;
+  resetStage();
+  if (isReduced()) {
+    map.setView(TARGET, END_ZOOM, { animate: false });
+    setState('loading', 'reduced motion → bez animacji');
+    return showStreetView(id);
+  }
+  onFlyEnd = () => {
+    onFlyEnd = null;
+    if (id !== runId) return;
+    test.log('moveend (zoom ' + map.getZoom() + ')');
+    delayTimer = setTimeout(() => showStreetView(id), SV_DELAY_MS);
+  };
+  map.once('moveend', onFlyEnd);
+  setState('flying', `flyTo zoom ${START_ZOOM} → ${END_ZOOM}, ${test.duration} s`);
+  map.flyTo(TARGET, END_ZOOM, { duration: test.duration, easeLinearity: 0.15 });
+}
+
+function showStreetView(id) {
+  if (id !== runId) return;
+  const src = svSrc();
+  if (!src) return fallback(id, 'brak STREETVIEW_EMBED_SRC');
+
+  setState('loading', test.forceTimeout ? 'iframe: symulowany timeout (src nie ustawiony)' : 'iframe: ładowanie');
+  chip.hidden = false;
+  svTimer = setTimeout(() => fallback(id, `timeout ${SV_TIMEOUT_MS / 1000} s`), SV_TIMEOUT_MS);
+
+  const frame = document.createElement('iframe');
+  frame.className = 'stage__sv';
+  frame.title = "Street View: wejście do Uncle Tan's Asian Express, Kotlarska 25A";
+  frame.allowFullscreen = true;
+  frame.referrerPolicy = 'no-referrer-when-downgrade';
+  frame.onload = () => {
+    if (id !== runId || frame !== sv || !frame.getAttribute('src')) return; // ignore about:blank loads
+    clearTimeout(svTimer);
+    chip.hidden = true;
+    frame.classList.add('is-visible');
+    actions.hidden = false;
+    setState('streetview', 'iframe: onload → Street View widoczny');
+  };
+  sv = frame;
+  if (!test.forceTimeout) frame.src = src;
+  stage.appendChild(frame);
+}
+
+function fallback(id, reason) {
+  if (id !== runId) return;
+  clearTimeout(svTimer);
+  if (sv) { sv.onload = null; sv.remove(); sv = null; } // a late load must not pop the iframe over the fallback
+  chip.hidden = true;
+  map.setView(TARGET, END_ZOOM, { animate: false });
+  svExternal.hidden = false;
+  actions.hidden = false;
+  setState('fallback', 'fallback: ' + reason);
+}
+
+document.getElementById('replay').addEventListener('click', () => {
+  test.log('— Pokaż ponownie —');
+  runId++; resetStage();
+  setTimeout(runSequence, 300);
+});
+
+// start once the section is half in view
+let observer = null;
+function armOnScroll() {
+  if (observer) observer.disconnect();
+  observer = new IntersectionObserver((entries, obs) => {
+    if (entries[0].isIntersecting) { obs.disconnect(); observer = null; test.log('— sekcja w widoku —'); runSequence(); }
+  }, { threshold: 0.5 });
+  observer.observe(stage);
+}
+armOnScroll();
+</script>
+
+<script>
+/* ===================== test panel (mock only) ===================== */
+(() => {
+  const $ = id => document.getElementById(id);
+  const KEY = 'v2_findus_test';
+  const COORDS_SRC = `https://www.google.com/maps/embed?pb=!6m6!1m5!2m2!1d${TARGET.lat}!2d${TARGET.lng}!4f0!5f1`;
+  const STATE_LABEL = { idle: 'czeka na scroll', flying: 'lot', loading: 'ładowanie SV', streetview: 'Street View', fallback: 'fallback' };
+
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY)) || {}; } catch {}
+  const persist = () => { try { localStorage.setItem(KEY, JSON.stringify({ src: test.src, reduced: test.reduced, forceTimeout: test.forceTimeout, duration: test.duration })); } catch {} };
+
+  test.src = saved.src || '';
+  test.reduced = !!saved.reduced;
+  test.forceTimeout = !!saved.forceTimeout;
+  test.duration = saved.duration || FLY_SECONDS;
+
+  // log with time since the run started
+  let t0 = performance.now();
+  test.log = msg => {
+    if (/^— /.test(msg)) t0 = performance.now();
+    const li = document.createElement('li');
+    li.innerHTML = `<b>+${((performance.now() - t0) / 1000).toFixed(2)} s</b> `;
+    li.append(msg);
+    $('tpLog').append(li);
+    $('tpLog').scrollTop = 1e6;
+  };
+  test.onState = s => { $('tpState').dataset.s = s; $('tpState').textContent = STATE_LABEL[s]; };
+
+  // STREETVIEW_EMBED_SRC override
+  const srcInfo = () => {
+    const s = svSrc();
+    $('tpSrcInfo').textContent = !s ? 'Brak → zadziała fallback (mapa zoom 18 + przycisk do Google Maps).'
+      : test.src ? (test.src === COORDS_SRC ? 'Tymczasowy embed po współrzędnych (kadr nie na wejście).' : 'Użyty src z panelu (localStorage).')
+      : 'Użyta stała STREETVIEW_EMBED_SRC z kodu.';
+  };
+  const parseSrc = v => {
+    v = v.trim();
+    const m = v.match(/<iframe[^>]*\ssrc=["']([^"']+)["']/i);
+    return (m ? m[1] : v).replace(/&amp;/g, '&');
+  };
+  $('tpSrc').value = test.src;
+  $('tpSrcSave').onclick = () => {
+    const s = parseSrc($('tpSrc').value);
+    if (s && !/^https:\/\/www\.google\.com\/maps\/embed\?/.test(s)) alert('To nie wygląda na src embeda Google Maps (https://www.google.com/maps/embed?…). Zapisuję mimo to.');
+    test.src = s; $('tpSrc').value = s; persist(); srcInfo(); test.log('src: ' + (s ? 'zapisany' : 'pusty'));
+  };
+  $('tpSrcClear').onclick = () => { test.src = ''; $('tpSrc').value = ''; persist(); srcInfo(); test.log('src: wyczyszczony'); };
+  $('tpSrcCoords').onclick = () => { test.src = COORDS_SRC; $('tpSrc').value = COORDS_SRC; persist(); srcInfo(); test.log('src: tymczasowy (współrzędne)'); };
+  srcInfo();
+
+  // reduced motion
+  const mq = matchMedia('(prefers-reduced-motion: reduce)');
+  const sysReduced = () => { $('tpReducedSys').textContent = `(system: ${mq.matches ? 'tak' : 'nie'})`; };
+  mq.addEventListener('change', sysReduced); sysReduced();
+  const applyReduced = () => document.documentElement.classList.toggle('force-reduced', test.reduced);
+  $('tpReduced').checked = test.reduced; applyReduced();
+  $('tpReduced').onchange = e => { test.reduced = e.target.checked; applyReduced(); persist(); };
+
+  $('tpTimeout').checked = test.forceTimeout;
+  $('tpTimeout').onchange = e => { test.forceTimeout = e.target.checked; persist(); };
+
+  $('tpDur').value = test.duration; $('tpDurOut').textContent = test.duration;
+  $('tpDur').oninput = e => { test.duration = +e.target.value; $('tpDurOut').textContent = test.duration; persist(); };
+
+  // play now: bring the stage into view and run (the observer would fire too – disarm it first)
+  $('tpPlay').onclick = () => {
+    if (observer) { observer.disconnect(); observer = null; }
+    stage.scrollIntoView({ behavior: isReduced() ? 'auto' : 'smooth', block: 'center' });
+    test.log('— Odtwórz teraz —');
+    runSequence();
+  };
+  // back to the top, reset to zoom 11 and wait for the scroll trigger again
+  $('tpRearm').onclick = () => {
+    runId++; resetStage(); test.onState('idle');
+    $('tpLog').textContent = '';
+    window.scrollTo({ top: 0, behavior: 'auto' });
+    requestAnimationFrame(() => requestAnimationFrame(armOnScroll));
+  };
+
+  if (matchMedia('(max-width:1000px)').matches) $('tp').open = false;
+
+  // opened straight from disk: the browser sends no Referer, so OSM serves "Access blocked" tiles
+  if (location.protocol === 'file:') {
+    const n = document.createElement('div');
+    n.className = 'stage__notice';
+    n.innerHTML = '<strong>Strona otwarta z dysku (file://).</strong> Kafelki OpenStreetMap wymagają nagłówka Referer, '
+      + 'którego przeglądarka nie wysyła dla plików lokalnych – stąd „Access blocked”. Uruchom serwer: '
+      + '<code>python3 -m http.server 8766 --directory mock/v2</code> i otwórz <code>http://localhost:8766/find-us.html</code>.';
+    stage.appendChild(n);
+    test.log('uwaga: file:// → OSM zablokuje kafelki');
+  }
+})();
+</script>
+</body>
+</html>
