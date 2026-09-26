@@ -25,7 +25,7 @@ Object.entries({
     'p.reject.refund': 'Płatność online ({total}) zostanie automatycznie zwrócona.', 'p.reject.confirm': 'Odrzuć zamówienie',
     'p.back': 'Wróć', 'p.list': 'Zamówienia',
     'p.toast.new': 'Nowe zamówienie {no}', 'p.toast.status': '{no}: {status}', 'p.toast.sms': '{no}: {status} · SMS do klienta wysłany',
-    'p.demo.order': '+ Symuluj zamówienie', 'p.demo.menu': 'Menu klienta ↗',
+    'p.demo.note': 'Tylko w mocku – nie ma tego na prawdziwej stronie', 'p.demo.order': '+ Symuluj zamówienie', 'p.demo.menu': 'Menu klienta ↗',
     'p.demo.hint': 'Złóż zamówienie w menu klienta albo użyj „Symuluj zamówienie” na górze.',
   },
   en: {
@@ -52,7 +52,7 @@ Object.entries({
     'p.reject.refund': 'The online payment ({total}) will be refunded automatically.', 'p.reject.confirm': 'Reject order',
     'p.back': 'Back', 'p.list': 'Orders',
     'p.toast.new': 'New order {no}', 'p.toast.status': '{no}: {status}', 'p.toast.sms': '{no}: {status} · text sent to the customer',
-    'p.demo.order': '+ Simulate an order', 'p.demo.menu': 'Customer menu ↗',
+    'p.demo.note': 'Mock only – not part of the real site', 'p.demo.order': '+ Simulate an order', 'p.demo.menu': 'Customer menu ↗',
     'p.demo.hint': 'Place an order in the customer menu or use “Simulate an order” at the top.',
   },
   de: {
@@ -79,7 +79,7 @@ Object.entries({
     'p.reject.refund': 'Die Online-Zahlung ({total}) wird automatisch erstattet.', 'p.reject.confirm': 'Bestellung ablehnen',
     'p.back': 'Zurück', 'p.list': 'Bestellungen',
     'p.toast.new': 'Neue Bestellung {no}', 'p.toast.status': '{no}: {status}', 'p.toast.sms': '{no}: {status} · SMS an den Kunden gesendet',
-    'p.demo.order': '+ Bestellung simulieren', 'p.demo.menu': 'Kundenmenü ↗',
+    'p.demo.note': 'Nur im Mock – nicht Teil der echten Seite', 'p.demo.order': '+ Bestellung simulieren', 'p.demo.menu': 'Kundenmenü ↗',
     'p.demo.hint': 'Bestelle im Kundenmenü oder nutze oben „Bestellung simulieren“.',
   },
   vi: {
@@ -106,7 +106,7 @@ Object.entries({
     'p.reject.refund': 'Khoản thanh toán online ({total}) sẽ được hoàn tự động.', 'p.reject.confirm': 'Từ chối đơn',
     'p.back': 'Quay lại', 'p.list': 'Đơn hàng',
     'p.toast.new': 'Đơn mới {no}', 'p.toast.status': '{no}: {status}', 'p.toast.sms': '{no}: {status} · đã gửi SMS cho khách',
-    'p.demo.order': '+ Giả lập đơn hàng', 'p.demo.menu': 'Thực đơn của khách ↗',
+    'p.demo.note': 'Chỉ có trong bản mock – không có trên trang thật', 'p.demo.order': '+ Giả lập đơn hàng', 'p.demo.menu': 'Thực đơn của khách ↗',
     'p.demo.hint': 'Đặt món trong thực đơn của khách hoặc dùng “Giả lập đơn hàng” ở trên cùng.',
   },
 }).forEach(([lang, strings]) => Object.assign(I18N[lang], strings));

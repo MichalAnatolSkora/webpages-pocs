@@ -74,7 +74,7 @@ const I18N = {
     'track.done_pickup': 'Odebrane', 'track.done_delivery': 'Dostarczone',
     'reason.unavailable': 'część produktów jest niedostępna', 'reason.busy': 'zbyt wiele zamówień w tej chwili',
     'reason.closing': 'restauracja kończy dziś pracę', 'reason.zone': 'adres jest poza strefą dostawy', 'reason.contact': 'brak kontaktu z zamawiającym',
-    'demo.findUs': 'Znajdź nas', 'demo.qr': 'Kod QR', 'demo.panel': 'Panel restauracji ↗',
+    'demo.note': 'Tylko w mocku – nie ma tego na prawdziwej stronie', 'demo.findUs': 'Znajdź nas', 'demo.qr': 'Kod QR', 'demo.panel': 'Panel restauracji ↗',
   },
   en: {
     'meta.title': '{name} – order online', 'lang.label': 'Language',
@@ -131,7 +131,7 @@ const I18N = {
     'track.done_pickup': 'Picked up', 'track.done_delivery': 'Delivered',
     'reason.unavailable': 'some items are unavailable', 'reason.busy': 'too many orders right now',
     'reason.closing': 'the restaurant is closing for today', 'reason.zone': 'the address is outside the delivery area', 'reason.contact': 'we couldn’t reach the customer',
-    'demo.findUs': 'Find us', 'demo.qr': 'QR code', 'demo.panel': 'Restaurant panel ↗',
+    'demo.note': 'Mock only – not part of the real site', 'demo.findUs': 'Find us', 'demo.qr': 'QR code', 'demo.panel': 'Restaurant panel ↗',
   },
   de: {
     'meta.title': '{name} – online bestellen', 'lang.label': 'Sprache',
@@ -188,7 +188,7 @@ const I18N = {
     'track.done_pickup': 'Abgeholt', 'track.done_delivery': 'Geliefert',
     'reason.unavailable': 'einige Produkte sind nicht verfügbar', 'reason.busy': 'gerade zu viele Bestellungen',
     'reason.closing': 'das Restaurant schließt für heute', 'reason.zone': 'die Adresse liegt außerhalb des Liefergebiets', 'reason.contact': 'der Besteller war nicht erreichbar',
-    'demo.findUs': 'So finden Sie uns', 'demo.qr': 'QR-Code', 'demo.panel': 'Restaurant-Panel ↗',
+    'demo.note': 'Nur im Mock – nicht Teil der echten Seite', 'demo.findUs': 'So finden Sie uns', 'demo.qr': 'QR-Code', 'demo.panel': 'Restaurant-Panel ↗',
   },
   vi: {
     'meta.title': '{name} – đặt món online', 'lang.label': 'Ngôn ngữ',
@@ -245,7 +245,7 @@ const I18N = {
     'track.done_pickup': 'Đã lấy', 'track.done_delivery': 'Đã giao',
     'reason.unavailable': 'một số món đã hết', 'reason.busy': 'hiện có quá nhiều đơn',
     'reason.closing': 'nhà hàng sắp đóng cửa hôm nay', 'reason.zone': 'địa chỉ nằm ngoài khu vực giao hàng', 'reason.contact': 'không liên lạc được với người đặt',
-    'demo.findUs': 'Tìm chúng tôi', 'demo.qr': 'Mã QR', 'demo.panel': 'Bảng điều khiển nhà hàng ↗',
+    'demo.note': 'Chỉ có trong bản mock – không có trên trang thật', 'demo.findUs': 'Tìm chúng tôi', 'demo.qr': 'Mã QR', 'demo.panel': 'Bảng điều khiển nhà hàng ↗',
   },
 };
 
