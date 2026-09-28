@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#161616">
+<title>Żuraw Dojo – aplikacja Kyokushin</title>
+<meta name="description" content="Animowana reklama aplikacji Żuraw Dojo Kyokushin Guide: techniki, kata, wymagania na stopnie i słownik.">
+<link rel="icon" href="img/logo.png" type="image/png">
+<link rel="apple-touch-icon" href="img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&family=Poppins:wght@400;500;600;700&family=Noto+Serif+JP:wght@700&display=swap" rel="stylesheet">
+<style>
+/* Reklama aplikacji Żuraw Dojo jako jedna animowana plansza.
+   Scena ma stały rozmiar – 1600×900 (16:9) albo 1080×1920 (9:16, rolki / stories) – i jest skalowana do okna,
+   więc nagranie ekranu wygląda wszędzie tak samo. Ekrany telefonu to prawdziwe zrzuty apki (img/app),
+   a palec stuka w miejsca, gdzie w apce są przyciski (współrzędne w px CSS ekranu 390×844). */
+:root{
+  --brand:#0cb4a5; --brand-l:#3fd3c5; --dark:#222; --darker:#161616; --ink:#111; --ink-2:#5a5a5a;
+  --paper:#f5f5f5; --white:#fff;
+  --font:'Poppins',system-ui,sans-serif; --display:'Manrope','Poppins',system-ui,sans-serif; --jp:'Noto Serif JP','Hiragino Mincho ProN',serif;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:var(--font);color:#fff;background:#0d0d0d;overflow:hidden;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit}
+img{display:block}
+
+/* ================= okno + sterowanie ================= */
+.viewport{position:fixed;inset:0 0 56px 0;overflow:hidden}
+body.no-ui .viewport{bottom:0}
+.stage{position:absolute;left:0;top:0;transform-origin:0 0;overflow:hidden;
+  background:radial-gradient(ellipse 55% 75% at 66% 50%,rgba(12,180,165,.34) 0%,rgba(12,180,165,0) 70%),
+             radial-gradient(ellipse 40% 50% at 0% 100%,rgba(12,180,165,.14) 0%,rgba(12,180,165,0) 70%),var(--darker)}
+.stage.is-land{width:1600px;height:900px}
+.stage.is-port{width:1080px;height:1920px;
+  background:radial-gradient(ellipse 80% 45% at 50% 62%,rgba(12,180,165,.34) 0%,rgba(12,180,165,0) 70%),
+             radial-gradient(ellipse 60% 30% at 0% 0%,rgba(12,180,165,.14) 0%,rgba(12,180,165,0) 70%),var(--darker)}
+.kanji{position:absolute;font-family:var(--jp);font-weight:700;line-height:.9;writing-mode:vertical-rl;color:rgba(255,255,255,.04);pointer-events:none;user-select:none}
+.is-land .kanji{right:40px;top:-20px;font-size:470px}
+.is-port .kanji{right:-40px;top:560px;font-size:620px}
+
+.controls{position:fixed;left:0;right:0;bottom:0;height:56px;display:flex;align-items:center;justify-content:center;gap:8px;padding:0 16px;background:#0d0d0d;color:#fff}
+body.no-ui .controls{display:none}
+.controls button{height:36px;min-width:36px;padding:0 12px;border-radius:999px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.07);font-size:.85rem;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.controls button:hover{background:rgba(255,255,255,.16)}
+.controls button:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.controls button[aria-pressed=true]{background:var(--brand);border-color:var(--brand);color:#fff}
+.controls svg{width:14px;height:14px;fill:currentColor}
+.controls__sep{width:1px;height:22px;background:rgba(255,255,255,.16);margin:0 4px}
+.controls__hint{font-size:.75rem;color:rgba(255,255,255,.5);margin-left:6px;white-space:nowrap}
+@media (max-width:640px){.controls__hint,.controls__sep{display:none}.controls{gap:6px}.controls button{padding:0 10px}}
+
+/* ================= tekst ================= */
+.copy{position:absolute;display:flex;flex-direction:column}
+.is-land .copy{left:80px;top:64px;bottom:64px;width:560px}
+.is-port .copy{left:80px;right:80px;top:84px;height:600px}
+.brandline{display:flex;align-items:center;gap:16px}
+.brandline img{width:64px;height:64px;border-radius:50%;background:#fff;padding:4px;object-fit:contain;box-shadow:0 8px 20px rgba(0,0,0,.3)}
+.brandline b{display:block;font-family:var(--display);font-weight:800;font-size:25px;line-height:1.1}
+.brandline i{display:block;font-style:normal;font-size:15px;letter-spacing:.06em;color:rgba(255,255,255,.6);margin-top:3px}
+.is-port .brandline img{width:84px;height:84px}
+.is-port .brandline b{font-size:33px}
+.is-port .brandline i{font-size:20px}
+
+.say{margin:auto 0;padding:24px 0}
+.is-port .say{margin:56px 0 0;padding:0}
+.say__eyebrow{font-size:15px;font-weight:600;text-transform:uppercase;letter-spacing:.14em;color:var(--brand)}
+.say__title{font-family:var(--display);font-weight:800;font-size:60px;line-height:1.06;letter-spacing:-.02em;margin-top:16px;text-wrap:balance}
+.say__title em{font-style:normal;color:var(--brand)}
+.say__text{font-size:21px;line-height:1.5;color:rgba(255,255,255,.78);margin-top:20px;max-width:28em;text-wrap:pretty}
+.is-port .say__eyebrow{font-size:21px}
+.is-port .say__title{font-size:84px;margin-top:22px}
+.is-port .say__text{font-size:31px;margin-top:26px}
+.say__eyebrow,.say__title,.say__text{transition:opacity .45s var(--ease),transform .45s var(--ease)}
+.say__title{transition-delay:.06s}.say__text{transition-delay:.12s}
+.say.is-out .say__eyebrow,.say.is-out .say__title,.say.is-out .say__text{opacity:0;transform:translateY(14px)}
+
+/* rozdziały: japońskie liczebniki jak w słowniku apki */
+.flow{list-style:none;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,auto);grid-auto-flow:column;gap:12px 24px}
+.is-port .flow{position:absolute;left:80px;right:80px;top:1700px;grid-template-columns:repeat(3,1fr);grid-template-rows:auto auto;grid-auto-flow:row;gap:22px 24px}
+.flow li{display:flex;align-items:center;gap:12px;font-size:16px;font-weight:500;color:rgba(255,255,255,.45);transition:color .3s}
+.is-port .flow li{font-size:24px;gap:16px}
+.flow li span{flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(255,255,255,.25);display:grid;place-items:center;font-family:var(--jp);font-size:17px;line-height:1;transition:.3s}
+.is-port .flow li span{width:46px;height:46px;font-size:23px}
+.flow li.is-done{color:rgba(255,255,255,.72)}
+.flow li.is-done span{border-color:var(--brand);color:var(--brand)}
+.flow li.is-now{color:#fff;font-weight:600}
+.flow li.is-now span{background:var(--brand);border-color:var(--brand);color:#fff;box-shadow:0 0 0 6px rgba(12,180,165,.22)}
+
+/* ================= telefon ================= */
+.dev{position:absolute;left:0;top:0;transform-origin:50% 50%;transition:transform 1s var(--ease);will-change:transform}
+.phone{width:414px;height:915px;padding:12px;border-radius:64px;background:#141414;box-shadow:0 0 0 2px #3a3a3a inset,0 40px 80px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.06)}
+/* środek telefonu: (x, y) = (207, 457.5) */
+.is-land .phone{transform:translate(833px,-7px) scale(.88)}
+.is-land.m-intro .phone{transform:translate(833px,-7px) scale(.86) rotate(3deg)}
+.is-land.m-outro .phone{transform:translate(683px,-7px) scale(.8) rotate(-5deg)}
+.is-port .phone{transform:translate(333px,773px) scale(1.02)}
+.is-port.m-intro .phone{transform:translate(333px,773px) scale(1) rotate(3deg)}
+.is-port.m-outro .phone{transform:translate(123px,753px) scale(.86) rotate(-5deg)}
+
+.scr{position:relative;width:390px;height:891px;border-radius:52px;overflow:hidden;background:var(--paper)}
+.sb{position:absolute;left:0;right:0;top:0;height:47px;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:6px 30px 0 46px;font-size:16px;font-weight:600;color:#fff;background:var(--sb,var(--brand));transition:background .35s}
+.sb__island{position:absolute;left:50%;top:11px;width:122px;height:35px;margin-left:-61px;border-radius:20px;background:#000}
+.sb__icons{display:flex;gap:6px;align-items:center}
+.sb__icons svg{height:12px;fill:currentColor}
+.home{position:absolute;left:50%;bottom:8px;width:134px;height:5px;margin-left:-67px;border-radius:3px;background:rgba(0,0,0,.55);z-index:30}
+.views{position:absolute;left:0;right:0;top:47px;height:844px;overflow:hidden}
+.view{position:absolute;inset:0;background:var(--paper);transition:transform .45s var(--ease),opacity .45s var(--ease)}
+.view.is-off-r{transform:translateX(100%)}
+.view.is-off-l{transform:translateX(-28%);opacity:.55}
+.view.is-fade{opacity:0}
+.view > img,.view__content > img{width:390px;height:auto}
+.view__content{position:absolute;left:0;top:0;width:390px;transition:transform .9s var(--ease)}
+.view__head,.view__foot{position:absolute;left:0;width:390px;background-size:390px 844px;background-repeat:no-repeat;z-index:2}
+.view__head{top:0;background-position:0 0}
+.view__foot{bottom:0;height:64px;background-position:0 100%}
+.hot{position:absolute;border-radius:12px;background:rgba(0,0,0,0);transition:background .15s;z-index:1}
+.hot.is-hit{background:rgba(0,0,0,.16)}
+/* wpisywanie w wyszukiwarkę słownika */
+.typing{position:absolute;display:flex;align-items:center;padding:0 13px;background:#fff;border:2px solid var(--brand);border-radius:6px;font-size:16px;color:#222;z-index:3}
+.typing::after{content:'';width:2px;height:20px;margin-left:1px;background:var(--brand);animation:caret 1s steps(1) infinite}
+@keyframes caret{50%{opacity:0}}
+
+/* ================= liczba przy telefonie ================= */
+.stat{position:absolute;z-index:20;background:#fff;color:var(--ink);border-radius:22px;padding:18px 26px 18px 22px;box-shadow:0 24px 50px rgba(0,0,0,.4);display:flex;align-items:center;gap:16px;
+  opacity:0;transform:translateY(16px) scale(.94);transition:opacity .45s var(--ease),transform .55s cubic-bezier(.3,1.4,.5,1)}
+.stat.is-on{opacity:1;transform:none}
+.stat__kanji{flex:none;width:52px;height:52px;border-radius:50%;background:var(--dark);color:#fff;display:grid;place-items:center;font-family:var(--jp);font-size:24px;line-height:1}
+.stat b{display:block;font-family:var(--display);font-weight:800;font-size:40px;line-height:1;letter-spacing:-.02em;color:var(--ink);white-space:nowrap}
+.stat b em{font-style:normal;color:var(--brand)}
+.stat small{display:block;font-size:15px;color:var(--ink-2);margin-top:6px;white-space:nowrap}
+.is-land .stat{right:36px;top:610px}
+.is-port .stat{right:36px;top:1450px;padding:20px 30px 20px 24px}
+.is-port .stat__kanji{width:66px;height:66px;font-size:30px}
+.is-port .stat b{font-size:46px}
+.is-port .stat small{font-size:20px}
+
+/* ================= intro: zdjęcia technik ================= */
+.sticker{position:absolute;width:250px;border-radius:18px;border:6px solid #fff;overflow:hidden;background:#fff;box-shadow:0 20px 44px rgba(0,0,0,.45);
+  opacity:0;transform:scale(.4) rotate(-12deg);transition:opacity .5s var(--ease),transform .7s cubic-bezier(.3,1.5,.5,1)}
+.sticker img{width:100%;aspect-ratio:16/9;object-fit:cover}
+.sticker span{display:block;padding:6px 8px 4px;font-family:var(--display);font-weight:800;font-size:17px;color:var(--ink)}
+.sticker.is-on{opacity:1;transform:scale(1) rotate(var(--rot,0deg))}
+.is-land .sticker--1{left:640px;top:96px;--rot:-7deg}
+.is-land .sticker--2{left:1270px;top:120px;--rot:6deg}
+.is-land .sticker--3{left:1280px;top:560px;--rot:-4deg}
+.is-land .sticker--4{left:660px;top:600px;--rot:8deg}
+.is-port .sticker{width:300px}
+.is-port .sticker span{font-size:21px}
+.is-port .sticker--1{left:30px;top:800px;--rot:-7deg}
+.is-port .sticker--2{left:750px;top:760px;--rot:6deg}
+.is-port .sticker--3{left:760px;top:1360px;--rot:-4deg}
+.is-port .sticker--4{left:24px;top:1420px;--rot:8deg}
+
+/* ================= outro: pobierz ================= */
+.get{position:absolute;width:430px;background:#fff;color:var(--ink);border-radius:30px;padding:34px 34px 30px;text-align:center;box-shadow:0 30px 70px rgba(0,0,0,.45);
+  opacity:0;transform:translateY(40px) rotate(3deg);transition:opacity .6s var(--ease),transform .8s var(--ease)}
+.m-outro .get{opacity:1;transform:rotate(3deg)}
+.get img{width:112px;height:112px;margin:0 auto 14px;border-radius:50%;box-shadow:0 0 0 1px #eee}
+.get b{display:block;font-family:var(--display);font-weight:800;font-size:30px;line-height:1.15}
+.get p{font-size:16px;color:var(--ink-2);margin-top:6px}
+.store{display:flex;align-items:center;gap:12px;margin-top:12px;padding:10px 20px;border-radius:14px;background:var(--dark);color:#fff;text-align:left}
+.get .store:first-of-type{margin-top:22px}
+.store svg{width:26px;height:26px;flex:none;color:var(--brand)}
+.store span{display:flex;flex-direction:column;font-family:var(--display);font-weight:800;font-size:20px;line-height:1.1}
+.store small{font-family:var(--font);font-weight:400;font-size:12px;color:rgba(255,255,255,.62)}
+.get__www{display:block;margin-top:18px;font-weight:600;color:#08776e}
+.is-land .get{left:1080px;top:150px}
+.is-port .get{left:560px;top:880px;width:460px}
+
+/* ================= palec ================= */
+.finger{position:absolute;left:0;top:0;width:0;height:0;z-index:50;opacity:0;transition:opacity .25s,transform .6s var(--ease);pointer-events:none}
+.finger.is-on{opacity:1}
+.finger__dot{position:absolute;left:-28px;top:-28px;width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.42);border:3px solid #fff;box-shadow:0 6px 20px rgba(0,0,0,.35),0 0 0 1px rgba(0,0,0,.08);transition:transform .15s}
+.finger.is-press .finger__dot{transform:scale(.78);background:rgba(12,180,165,.6)}
+.finger__ring{position:absolute;left:-28px;top:-28px;width:56px;height:56px;border-radius:50%;border:3px solid var(--brand-l);opacity:0}
+.finger.is-press .finger__ring{animation:ring .55s ease-out}
+@keyframes ring{0%{opacity:1;transform:scale(.8)}100%{opacity:0;transform:scale(2.2)}}
+.finger__label{position:absolute;left:0;bottom:40px;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:17px;font-weight:600;padding:8px 14px;border-radius:12px;white-space:nowrap;box-shadow:0 8px 20px rgba(0,0,0,.3)}
+.finger__label::after{content:'';position:absolute;left:50%;bottom:-6px;margin-left:-7px;border:7px solid transparent;border-bottom:0;border-top-color:var(--ink)}
+.finger__label:empty{display:none}
+.is-port .finger__label{font-size:22px;padding:10px 18px;bottom:46px}
+
+/* przewijanie scen do przodu – bez animacji */
+.ff *,.ff *::before,.ff *::after{transition:none!important;animation:none!important}
+.is-paused *,.is-paused *::before,.is-paused *::after{animation-play-state:paused!important}
+</style>
+</head>
+<body>
+
+<div class="viewport" id="viewport">
+  <div class="stage is-land m-intro" id="stage">
+    <div class="kanji" aria-hidden="true">極真</div>
+
+    <section class="copy">
+      <div class="brandline">
+        <img src="img/logo.png" alt="">
+        <div><b>Żuraw Dojo</b><i>Kyokushin Guide</i></div>
+      </div>
+      <div class="say" id="say" aria-live="polite">
+        <p class="say__eyebrow" id="sayEyebrow"></p>
+        <h1 class="say__title" id="sayTitle"></h1>
+        <p class="say__text" id="sayText"></p>
+      </div>
+      <ol class="flow" id="flow" aria-label="Rozdziały"></ol>
+    </section>
+
+    <!-- intro: zdjęcia technik z apki -->
+    <div class="sticker sticker--1"><img src="img/techniques/mae-geri.jpg" alt=""><span>Mae Geri</span></div>
+    <div class="sticker sticker--2"><img src="img/techniques/mawashi-geri.jpg" alt=""><span>Mawashi Geri</span></div>
+    <div class="sticker sticker--3"><img src="img/techniques/tobi-geri.jpg" alt=""><span>Tobi Geri</span></div>
+    <div class="sticker sticker--4"><img src="img/techniques/yoko-geri.jpg" alt=""><span>Yoko Geri</span></div>
+
+    <div class="dev phone" id="phone">
+      <div class="scr">
+        <div class="sb" id="sb">
+          <span>9:41</span><span class="sb__island"></span>
+          <span class="sb__icons">
+            <svg viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
+            <svg viewBox="0 0 16 12"><path d="M8 2.2c2.3 0 4.4.9 6 2.4l1.3-1.4A10.4 10.4 0 0 0 8 .3 10.4 10.4 0 0 0 .7 3.2L2 4.6a8.6 8.6 0 0 1 6-2.4Zm0 3.8c1.3 0 2.5.5 3.4 1.3l1.3-1.4A6.8 6.8 0 0 0 8 4.1a6.8 6.8 0 0 0-4.7 1.8l1.3 1.4C5.5 6.5 6.7 6 8 6Zm0 3.7c-.6 0-1.1.3-1.5.7L8 12l1.5-1.6c-.4-.4-.9-.7-1.5-.7Z"/></svg>
+            <svg viewBox="0 0 27 12"><rect x=".5" y=".5" width="23" height="11" rx="3" fill="none" stroke="currentColor" opacity=".45"/><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="24.5" y="4" width="2" height="4" rx="1" opacity=".45"/></svg>
+          </span>
+        </div>
+        <div class="views" id="views"></div>
+        <span class="home"></span>
+      </div>
+    </div>
+
+    <div class="stat" id="stat"><span class="stat__kanji" id="statKanji"></span><div><b id="statNum"></b><small id="statSub"></small></div></div>
+
+    <div class="get" id="get">
+      <img src="img/logo.png" alt="">
+      <b>Żuraw Dojo<br>Kyokushin Guide</b>
+      <p>Aplikacja Wrocławskiego Klubu Karate Kyokushin</p>
+      <div class="store">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10.5 18.5h3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <span><small>iPhone · wkrótce w</small>App Store</span>
+      </div>
+      <div class="store">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.4-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5Z" fill="currentColor"/></svg>
+        <span><small>Android · wkrótce w</small>Google Play</span>
+      </div>
+      <span class="get__www">zurawdojo.com</span>
+    </div>
+
+    <div class="finger" id="finger"><span class="finger__ring"></span><span class="finger__dot"></span><span class="finger__label" id="fingerLabel"></span></div>
+  </div>
+</div>
+
+<div class="controls" id="controls">
+  <button id="cPrev" aria-label="Poprzednia scena"><svg viewBox="0 0 16 16"><path d="M3 2h2v12H3zM14 2v12L6 8z"/></svg></button>
+  <button id="cPlay" aria-label="Pauza"><svg viewBox="0 0 16 16" id="cPlayIcon"><path d="M3 2h4v12H3zM9 2h4v12H9z"/></svg></button>
+  <button id="cNext" aria-label="Następna scena"><svg viewBox="0 0 16 16"><path d="M11 2h2v12h-2zM2 2v12l8-6z"/></svg></button>
+  <span class="controls__sep"></span>
+  <button id="cLand" aria-pressed="true">16:9</button>
+  <button id="cPort" aria-pressed="false">9:16</button>
+  <span class="controls__sep"></span>
+  <button id="cHide" aria-label="Ukryj przyciski do nagrywania">Ukryj przyciski</button>
+  <span class="controls__hint">Spacja – pauza · ← → – sceny · H – przyciski</span>
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+const BRAND = '#0cb4a5', DARK = '#222';
+
+/* ---------- ekrany apki: zrzut + miejsca do stuknięcia [x, y, szer, wys, zaokrąglenie] ---------- */
+const SCREENS = {
+  title:        { bar: DARK, hot: { pl: [20, 486, 350, 56, 28] } },
+  menu:         { bar: DARK, hot: { techniki: [20, 257, 350, 56, 28], kata: [20, 329, 350, 56, 28], slownik: [20, 401, 350, 56, 28],
+                                    stopnie: [20, 473, 350, 76, 28], przysiega: [20, 565, 350, 56, 28] } },
+  techniques:   { hot: { kopniecia: [20, 101, 350, 68, 12] } },
+  kicks:        { hot: { maegeri: [20, 101, 350, 84, 12] } },
+  'mae-geri':   { hot: { foto: [20, 101, 350, 200, 12] } },
+  'mae-geri-zoom': { bar: '#0b0b0b', hot: { zamknij: [334, 12, 44, 44, 22] } },
+  kata:         { hot: { taikyoku: [20, 184, 350, 68, 12] } },
+  'kata-detail': { long: true, head: 98 },
+  requirements: { hot: { dzieci: [20, 101, 350, 76, 28] } },
+  belts:        { hot: { pomaranczowy: [20, 134, 350, 68, 12] } },
+  'belt-orange': { long: true, head: 65, hot: { fudo: [56, 366, 110, 29, 6] } },
+  'belt-link':  {},
+  dictionary:   { hot: { szukaj: [20, 101, 350, 47, 6] } },
+  'dictionary-hajime': {},
+  oath:         {},
+};
+
+/* ---------- teksty ---------- */
+const CHAPTERS = ['Język', 'Techniki', 'Kata', 'Wymagania', 'Słownik', 'Dojo'];
+const KANJI = ['一', '二', '三', '四', '五', '六'];
+const COPY = {
+  intro:    { eyebrow: 'Nowa aplikacja Żuraw Dojo', title: 'Całe dojo<br><em>w Twojej kieszeni.</em>',
+              text: 'Techniki, kata, wymagania na stopnie i słownik – dla każdego, kto trenuje z nami Kyokushin.' },
+  lang:     { title: 'Wybierz język i <em>wejdź do dojo</em>',
+              text: 'Polski, angielski, hiszpański albo niemiecki – apka mówi językiem całej rodziny.' },
+  tech:     { title: '67 technik <em>rozłożonych na ruchy</em>',
+              text: 'Kopnięcia, ciosy, uderzenia, bloki i postawy. Każda faza ruchu na zdjęciu z naszej sali – powiększysz je palcem.' },
+  kata:     { title: '33 kata, <em>ruch po ruchu</em>',
+              text: 'Od Taikyoku Sono Ichi po Kanku Dai i Sushiho. Sprawdzisz kolejność kroków, zanim wyjdziesz na matę.' },
+  belts:    { title: 'Wiesz, czego potrzebujesz <em>na egzamin</em>',
+              text: 'Wymagania na każdy pas – osobno dla dzieci i dorosłych. Stuknij technikę z listy, a apka pokaże, jak ją wykonać.' },
+  dict:     { title: 'Hajime, yame, osu – <em>bez zgadywania</em>',
+              text: 'Japońskie komendy i liczby z wyszukiwarką. Wpisz słowo po polsku albo po japońsku.' },
+  dojo:     { title: 'Przysięga, etykieta <em>i historia klubu</em>',
+              text: 'Wszystko, co nowy zawodnik – i rodzic – powinien wiedzieć przed pierwszym treningiem.' },
+  outro:    { eyebrow: 'Wrocławski Klub Karate Kyokushin', title: 'Osu!<br><em>Zabierz dojo ze sobą.</em>',
+              text: 'Aplikacja Żuraw Dojo Kyokushin Guide – wkrótce w App Store i Google Play.' },
+};
+const STATS = {
+  lang:  ['4 języki', 'PL · EN · ES · DE'],
+  tech:  ['67 technik', 'w 5 kategoriach'],
+  kata:  ['33 kata', 'krok po kroku'],
+  belts: ['10 kyu <em>→</em> 5 dan', 'dzieci i dorośli'],
+  dict:  ['70+ słów', 'komendy i liczby'],
+  dojo:  ['7 + 15', 'przysięga i etykieta'],
+};
+
+/* ---------- sceny ---------- */
+const SCENES = [
+  { key: 'intro', step: -1, async run(c) {
+      c.mode('intro');
+      c.show('title');
+      await c.wait(600);
+      c.stickers(true);
+      await c.wait(4200);
+      c.stickers(false);
+      await c.wait(300);
+    } },
+
+  { key: 'lang', step: 0, async run(c) {
+      c.mode('phone');
+      await c.wait(900);
+      c.stat('lang');
+      await c.wait(900);
+      await c.tap('pl', 'Wejdź do Dojo');
+      c.go('menu');
+      await c.wait(1600);
+    } },
+
+  { key: 'tech', step: 1, async run(c) {
+      c.stat('tech');
+      await c.wait(500);
+      await c.tap('techniki', 'Techniki');
+      c.go('techniques');
+      await c.wait(700);
+      await c.tap('kopniecia', 'Kopnięcia');
+      c.go('kicks');
+      await c.wait(700);
+      await c.tap('maegeri', 'Mae Geri');
+      c.go('mae-geri');
+      await c.wait(1500);
+      await c.tap('foto', 'Powiększ zdjęcie');
+      c.go('mae-geri-zoom', 'fade');
+      await c.wait(1900);
+      await c.tap('zamknij', '');
+      c.go('mae-geri', 'fade');
+      await c.wait(900);
+    } },
+
+  { key: 'kata', step: 2, async run(c) {
+      c.finger(false);
+      c.back('menu');
+      c.stat('kata');
+      await c.wait(900);
+      await c.tap('kata', 'Kata');
+      c.go('kata');
+      await c.wait(700);
+      await c.tap('taikyoku', 'Taikyoku Sono Ichi');
+      c.go('kata-detail');
+      c.finger(false);
+      await c.wait(1000);
+      await c.scroll(620, 2400);
+      await c.wait(900);
+    } },
+
+  { key: 'belts', step: 3, async run(c) {
+      c.back('menu');
+      c.stat('belts');
+      await c.wait(900);
+      await c.tap('stopnie', 'Gradacja stopni');
+      c.go('requirements');
+      await c.wait(700);
+      await c.tap('dzieci', 'Dla dzieci');
+      c.go('belts');
+      await c.wait(900);
+      await c.tap('pomaranczowy', 'Pomarańczowy pas');
+      c.go('belt-orange');
+      c.finger(false);
+      await c.wait(900);
+      await c.scroll(560, 1600);
+      await c.wait(500);
+      await c.scroll(0, 1100);
+      await c.tap('fudo', 'Fudo dachi');
+      c.go('belt-link');
+      await c.wait(1700);
+    } },
+
+  { key: 'dict', step: 4, async run(c) {
+      c.finger(false);
+      c.back('menu');
+      c.stat('dict');
+      await c.wait(900);
+      await c.tap('slownik', 'Słownik');
+      c.go('dictionary');
+      await c.wait(700);
+      await c.type('szukaj', 'hajime');
+      c.go('dictionary-hajime', 'fade');
+      await c.wait(2000);
+    } },
+
+  { key: 'dojo', step: 5, async run(c) {
+      c.finger(false);
+      c.back('menu');
+      c.stat('dojo');
+      await c.wait(900);
+      await c.tap('przysiega', 'Przysięga dojo');
+      c.go('oath');
+      c.finger(false);
+      await c.wait(2800);
+    } },
+
+  { key: 'outro', step: 6, async run(c) {
+      c.stat(null);
+      c.back('menu');
+      c.mode('outro');
+      await c.wait(6000);
+    } },
+];
+
+/* ---------- telefon: widoki ze zrzutów ---------- */
+let curView = null, curName = '';
+function hotHTML(s) {
+  return Object.entries(s.hot || {}).map(([k, [x, y, w, h, r]]) =>
+    `<i class="hot" data-hot="${k}" style="left:${x}px;top:${y}px;width:${w}px;height:${h}px;border-radius:${r}px"></i>`).join('');
+}
+function viewEl(name) {
+  const s = SCREENS[name], el = document.createElement('div');
+  el.className = 'view';
+  el.dataset.screen = name;
+  const src = `img/app/${name}.jpg`;
+  el.innerHTML = s.long
+    ? `<div class="view__content"><img src="img/app/${name}-content.jpg" alt="">${hotHTML(s)}</div>
+       <div class="view__head" style="height:${s.head}px;background-image:url(${src})"></div>
+       <div class="view__foot" style="background-image:url(${src})"></div>`
+    : `<img src="${src}" alt="">${hotHTML(s)}`;
+  return el;
+}
+// how: 'push' (z prawej, jak wejście głębiej), 'pop' (powrót), 'fade', 'cut'
+function show(name, how = 'cut') {
+  const views = $('#views'), next = viewEl(name), prev = curView;
+  $('#sb').style.setProperty('--sb', SCREENS[name].bar || BRAND);
+  curView = next; curName = name;
+  if (!prev || how === 'cut' || P.ff) { views.replaceChildren(next); return; }
+  const inCls = how === 'push' ? 'is-off-r' : how === 'pop' ? 'is-off-l' : 'is-fade';
+  const outCls = how === 'push' ? 'is-off-l' : how === 'pop' ? 'is-off-r' : 'is-fade';
+  next.classList.add(inCls);
+  if (how === 'pop') views.prepend(next); else views.append(next);
+  void next.offsetWidth;
+  next.classList.remove(inCls);
+  prev.classList.add(outCls);
+  setTimeout(() => prev.remove(), 600);
+}
+
+/* ---------- odtwarzacz ---------- */
+const stage = $('#stage'), finger = $('#finger');
+const MODES = ['m-intro', 'm-phone', 'm-outro'];
+const P = { token: 0, scene: 0, paused: false, ff: false, scale: 1, pausedAt: 0, pausedMs: 0 };
+const clock = () => performance.now() - P.pausedMs - (P.paused ? performance.now() - P.pausedAt : 0);
+class Cancel extends Error {}
+
+function setMode(m) { stage.classList.remove(...MODES); stage.classList.add('m-' + m); }
+function setStat(key) {
+  const el = $('#stat');
+  if (!key) { el.classList.remove('is-on'); return; }
+  const fill = () => {
+    const i = SCENES.find(s => s.key === key).step;
+    $('#statKanji').textContent = KANJI[i];
+    $('#statNum').innerHTML = STATS[key][0];
+    $('#statSub').textContent = STATS[key][1];
+    el.classList.add('is-on');
+  };
+  if (P.ff || !el.classList.contains('is-on')) return fill();
+  el.classList.remove('is-on');
+  const tok = P.token;
+  setTimeout(() => { if (tok === P.token) fill(); }, 350);
+}
+function reset() {
+  curView = null;
+  $('#views').replaceChildren();
+  setMode('intro');
+  setStat(null);
+  document.querySelectorAll('.sticker').forEach(s => s.classList.remove('is-on'));
+  finger.classList.remove('is-on');
+}
+
+function makeCtx(tok) {
+  const alive = () => { if (tok !== P.token) throw new Cancel(); };
+  // timery zamiast requestAnimationFrame – przeglądarki dławią rAF w kartach w tle i przy nagrywaniu
+  const wait = ms => {
+    alive();
+    if (P.ff) return Promise.resolve();
+    const end = clock() + ms;
+    return new Promise((res, rej) => {
+      const tick = () => {
+        if (tok !== P.token) return rej(new Cancel());
+        const left = end - clock();
+        if (left <= 0 && !P.paused) res();
+        else setTimeout(tick, P.paused ? 100 : left);
+      };
+      setTimeout(tick, ms);
+    });
+  };
+  // środek elementu we współrzędnych sceny (scena jest skalowana transformacją)
+  const point = el => {
+    const r = el.getBoundingClientRect(), s = stage.getBoundingClientRect();
+    return [(r.left + r.width / 2 - s.left) / P.scale, (r.top + r.height / 2 - s.top) / P.scale];
+  };
+  // poczekaj, aż telefon i ekrany przestaną się ruszać, zanim palec wyceluje
+  const moving = () => document.getAnimations().filter(a => a instanceof CSSTransition && a.playState === 'running' && a.effect?.target?.closest?.('.dev'));
+  const settle = async () => {
+    for (let i = 0; i < 24 && !P.ff && moving().length; i++) await wait(50);
+    moving().forEach(a => a.finish());
+  };
+  let fx = null;
+  const hot = k => curView.querySelector(`[data-hot="${k}"]`);
+  const c = {
+    wait,
+    mode: setMode,
+    show: name => show(name, 'cut'),
+    go: (name, how = 'push') => show(name, how),
+    back: name => show(name, 'pop'),
+    stat: setStat,
+    stickers(on) {
+      document.querySelectorAll('.sticker').forEach((s, i) => {
+        if (P.ff) s.classList.toggle('is-on', on);
+        else setTimeout(() => { if (tok === P.token) s.classList.toggle('is-on', on); }, i * 140);
+      });
+    },
+    finger(on) { finger.classList.toggle('is-on', on && !P.ff); if (!on) fx = null; },
+    async moveTo(key, label = '') {
+      alive();
+      if (P.ff) return;
+      await settle();
+      const [x, y] = point(hot(key));
+      const first = !finger.classList.contains('is-on');
+      const dist = fx ? Math.hypot(x - fx[0], y - fx[1]) : 0;
+      finger.style.transitionDuration = first ? '0s' : `.25s, ${Math.min(.8, .3 + dist / 900)}s`;
+      finger.style.transform = `translate(${x}px, ${y}px)`;
+      $('#fingerLabel').textContent = label;
+      fx = [x, y];
+      if (first) { void finger.offsetWidth; finger.classList.add('is-on'); await wait(450); }
+      else await wait(Math.min(800, 300 + dist / 900 * 1000) + 150);
+    },
+    async tap(key, label) {
+      await c.moveTo(key, label);
+      if (P.ff) return;
+      const el = hot(key);
+      finger.classList.remove('is-press'); void finger.offsetWidth;
+      finger.classList.add('is-press');
+      el.classList.add('is-hit');
+      await wait(260);
+      el.classList.remove('is-hit');
+      finger.classList.remove('is-press');
+      await wait(140);
+    },
+    async type(key, text) {
+      await c.tap(key, '');
+      const [x, y, w, h] = SCREENS[curName].hot[key];
+      const box = document.createElement('div');
+      box.className = 'typing';
+      box.style.cssText = `left:${x}px;top:${y}px;width:${w}px;height:${h}px`;
+      curView.append(box);
+      c.finger(false);
+      await wait(300);
+      for (let i = 1; i <= text.length; i++) {
+        box.textContent = text.slice(0, i);
+        await wait(130);
+      }
+      await wait(350);
+    },
+    async scroll(y, ms = 1200) {
+      alive();
+      const content = curView.querySelector('.view__content');
+      content.style.transitionDuration = P.ff ? '0s' : ms + 'ms';
+      content.style.transform = `translateY(${-y}px)`;
+      await wait(ms);
+    },
+  };
+  return c;
+}
+
+function setCopy(scene) {
+  const say = $('#say'), copy = COPY[scene.key];
+  const fill = () => {
+    $('#sayEyebrow').textContent = scene.step >= 0 && scene.step < CHAPTERS.length
+      ? `${scene.step + 1} / ${CHAPTERS.length} · ${CHAPTERS[scene.step]}`
+      : copy.eyebrow;
+    $('#sayTitle').innerHTML = copy.title;
+    $('#sayText').innerHTML = copy.text;
+    say.classList.remove('is-out');
+  };
+  document.querySelectorAll('#flow li').forEach((li, i) => {
+    li.className = i < scene.step ? 'is-done' : i === scene.step ? 'is-now' : '';
+  });
+  if (P.ff) return fill();
+  const tok = P.token;
+  say.classList.add('is-out');
+  setTimeout(() => { if (tok === P.token) fill(); }, 300);
+}
+
+async function play(from = 0) {
+  const tok = ++P.token;
+  const c = makeCtx(tok);
+  try {
+    reset();
+    if (from > 0) {                               // wcześniejsze sceny odtwórz natychmiast
+      P.ff = true;
+      stage.classList.add('ff');
+      for (let i = 0; i < from; i++) { setCopy(SCENES[i]); await SCENES[i].run(c); }
+      void stage.offsetWidth;
+      stage.classList.remove('ff');
+      P.ff = false;
+    }
+    for (let i = from; i < SCENES.length; i++) {
+      P.scene = i;
+      setCopy(SCENES[i]);
+      await SCENES[i].run(c);
+    }
+    await c.wait(400);
+    play(0);
+  } catch (e) {
+    if (!(e instanceof Cancel)) throw e;
+  }
+}
+
+/* ---------- układ + sterowanie ---------- */
+const params = new URLSearchParams(location.search);
+let format = params.get('format') || (innerWidth / innerHeight < .8 ? 'port' : 'land');
+function fit() {
+  const vp = $('#viewport'), W = format === 'port' ? 1080 : 1600, H = format === 'port' ? 1920 : 900;
+  P.scale = Math.min(vp.clientWidth / W, vp.clientHeight / H);
+  stage.style.transform = `translate(${(vp.clientWidth - W * P.scale) / 2}px, ${(vp.clientHeight - H * P.scale) / 2}px) scale(${P.scale})`;
+}
+function setFormat(f, restart = true) {
+  format = f;
+  stage.classList.toggle('is-land', f === 'land');
+  stage.classList.toggle('is-port', f === 'port');
+  $('#cLand').setAttribute('aria-pressed', f === 'land');
+  $('#cPort').setAttribute('aria-pressed', f === 'port');
+  fit();
+  if (restart) play(P.scene);
+}
+function setPaused(on) {
+  if (on === P.paused) return;
+  if (on) P.pausedAt = performance.now(); else P.pausedMs += performance.now() - P.pausedAt;
+  P.paused = on;
+  stage.classList.toggle('is-paused', on);
+  $('#cPlay').setAttribute('aria-label', on ? 'Odtwórz' : 'Pauza');
+  $('#cPlayIcon').innerHTML = on ? '<path d="M3 2v12l11-6z"/>' : '<path d="M3 2h4v12H3zM9 2h4v12H9z"/>';
+}
+const jump = d => play(Math.max(0, Math.min(SCENES.length - 1, P.scene + d)));
+const toggleUI = () => { document.body.classList.toggle('no-ui'); fit(); };
+
+$('#flow').innerHTML = CHAPTERS.map((name, i) => `<li><span lang="ja">${KANJI[i]}</span>${name}</li>`).join('');
+$('#cPrev').onclick = () => jump(-1);
+$('#cNext').onclick = () => jump(1);
+$('#cPlay').onclick = () => setPaused(!P.paused);
+$('#cLand').onclick = () => setFormat('land');
+$('#cPort').onclick = () => setFormat('port');
+$('#cHide').onclick = toggleUI;
+addEventListener('keydown', e => {
+  if (e.key === ' ') { if (e.target.closest('button')) return; e.preventDefault(); setPaused(!P.paused); }
+  else if (e.key === 'ArrowRight') jump(1);
+  else if (e.key === 'ArrowLeft') jump(-1);
+  else if (e.key === 'h' || e.key === 'H') toggleUI();
+});
+addEventListener('resize', fit);
+stage.addEventListener('click', () => { if (document.body.classList.contains('no-ui')) toggleUI(); });
+
+// ekrany ładujemy od razu, żeby przejścia nie mrugały przy pierwszym obejrzeniu
+Object.entries(SCREENS).forEach(([n, s]) => {
+  new Image().src = `img/app/${n}.jpg`;
+  if (s.long) new Image().src = `img/app/${n}-content.jpg`;
+});
+setFormat(format === 'port' ? 'port' : 'land', false);
+document.fonts.ready.then(() => {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) setPaused(true);
+  play(Number(params.get('scene')) || 0);
+});
+</script>
+</body>
+</html>
