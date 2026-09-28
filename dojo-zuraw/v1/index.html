@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1c1c1c">
+<title>Żuraw Dojo – aplikacja Kyokushin</title>
+<meta name="description" content="Techniki, kata, wymagania na stopnie i słownik japońskich komend – aplikacja Wrocławskiego Klubu Karate Kyokushin Żuraw Dojo.">
+<meta property="og:title" content="Całe dojo w Twojej kieszeni – aplikacja Żuraw Dojo">
+<meta property="og:description" content="67 technik ze zdjęciami, 33 kata krok po kroku, wymagania na każdy pas i słownik komend.">
+<meta property="og:image" content="img/screens/menu.jpg">
+<link rel="icon" href="img/logo.png" type="image/png">
+<link rel="apple-touch-icon" href="img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&family=Poppins:wght@400;500;600;700&family=Noto+Serif+JP:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<header class="nav">
+  <div class="container nav__inner">
+    <a class="brand" href="#top" aria-label="Żuraw Dojo – początek strony">
+      <span class="brand__logo"><img src="img/logo.png" alt="" width="40" height="40"></span>
+      <span class="brand__name">Żuraw Dojo <small>Kyokushin Guide</small></span>
+    </a>
+    <nav class="nav__links" aria-label="Sekcje">
+      <a href="#funkcje">Funkcje</a>
+      <a href="#dla-kogo">Dla kogo</a>
+      <a href="#klub">Klub</a>
+    </nav>
+    <a class="btn btn--small" href="#pobierz">Pobierz</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="hero__kanji" aria-hidden="true">極真</div>
+    <div class="container hero__inner">
+      <div class="hero__copy">
+        <p class="eyebrow">Aplikacja Wrocławskiego Klubu Karate Kyokushin</p>
+        <h1>Całe dojo <span class="accent">w Twojej kieszeni.</span></h1>
+        <p class="hero__lead">
+          Techniki ze zdjęciami każdej fazy ruchu, 33 kata krok po kroku, wymagania na każdy pas
+          i słownik japońskich komend. Powtarzaj między treningami i przygotuj się do egzaminu –
+          gdziekolwiek jesteś.
+        </p>
+        <div class="stores">
+          <div class="store" aria-disabled="true">
+            <svg class="store__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10.5 18.5h3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <span class="store__text"><small>iPhone · wkrótce w</small>App Store</span>
+          </div>
+          <div class="store" aria-disabled="true">
+            <svg class="store__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.4-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5Z" fill="currentColor"/></svg>
+            <span class="store__text"><small>Android · wkrótce w</small>Google Play</span>
+          </div>
+        </div>
+        <ul class="hero__facts">
+          <li>iOS i Android</li>
+          <li>PL · EN · ES · DE</li>
+          <li>Zdjęcia z naszej sali</li>
+        </ul>
+      </div>
+
+      <div class="hero__phones">
+        <figure class="phone phone--back">
+          <img src="img/screens/mae-geri.jpg" alt="Ekran techniki Mae Geri ze zdjęciami faz kopnięcia" width="600" height="1298">
+        </figure>
+        <figure class="phone phone--front">
+          <img src="img/screens/menu.jpg" alt="Menu główne aplikacji: informacje o dojo, techniki, kata, słownik, gradacja stopni, przysięga i etykieta" width="600" height="1298">
+        </figure>
+        <div class="hero__badge" aria-hidden="true">
+          <strong>Osu!</strong>
+          <span>押忍</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== LICZBY ===== -->
+  <section class="stats" aria-label="Aplikacja w liczbach">
+    <div class="container stats__grid">
+      <div class="stat"><strong>67</strong><span>technik w 5 kategoriach</span></div>
+      <div class="stat"><strong>33</strong><span>kata rozpisane krok po kroku</span></div>
+      <div class="stat stat--range"><strong>10 kyu <em>→</em> 5 dan</strong><span>wymagania dla dzieci i dorosłych</span></div>
+      <div class="stat"><strong>4</strong><span>języki: polski, angielski, hiszpański, niemiecki</span></div>
+    </div>
+    <div class="belt-bar" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  </section>
+
+  <!-- ===== FUNKCJE ===== -->
+  <section class="features" id="funkcje">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow eyebrow--dark">Co jest w środku</p>
+        <h2>Wszystko, czego uczysz się na macie – w jednej aplikacji</h2>
+      </header>
+
+      <article class="feature reveal">
+        <div class="feature__copy">
+          <p class="feature__num"><span lang="ja">一</span> ichi · Techniki</p>
+          <h3>67 technik rozłożonych na ruchy</h3>
+          <p>
+            Kopnięcia, ciosy, uderzenia, bloki i postawy. Każda technika ma japońską nazwę,
+            polski opis i zdjęcia kolejnych faz ruchu ze strzałkami – zdjęcie powiększysz palcem.
+          </p>
+          <ul class="chips">
+            <li>Geri</li><li>Tsuki</li><li>Uchi</li><li>Uke</li><li>Dachi</li>
+          </ul>
+        </div>
+        <div class="feature__visual">
+          <figure class="phone phone--sm phone--tilt-l"><img src="img/screens/kicks.jpg" alt="Lista kopnięć: Mae Geri, Hiza Geri, Mae Keage, Kin Geri…" loading="lazy" width="600" height="1298"></figure>
+          <figure class="phone phone--sm phone--tilt-r"><img src="img/screens/mae-geri.jpg" alt="Szczegóły techniki Mae Geri – kopnięcie przednie" loading="lazy" width="600" height="1298"></figure>
+        </div>
+      </article>
+
+      <article class="feature feature--reverse reveal">
+        <div class="feature__copy">
+          <p class="feature__num"><span lang="ja">二</span> ni · Kata</p>
+          <h3>33 kata, ruch po ruchu</h3>
+          <p>
+            Od Taikyoku Sono Ichi aż po Kanku Dai i Sushiho. Każde kata jest rozpisane na
+            ponumerowane kroki – sprawdzisz kolejność, zanim wyjdziesz na matę.
+          </p>
+          <ul class="chips">
+            <li>Taikyoku</li><li>Pinan</li><li>Sokugi</li><li>Gekisai</li><li>Tsuki no Kata</li><li>Garyu</li>
+          </ul>
+        </div>
+        <div class="feature__visual">
+          <figure class="phone phone--sm"><img src="img/screens/kata-detail.jpg" alt="Kata Taikyoku Sono Ichi rozpisane na kroki" loading="lazy" width="600" height="1298"></figure>
+        </div>
+      </article>
+
+      <article class="feature reveal">
+        <div class="feature__copy">
+          <p class="feature__num"><span lang="ja">三</span> san · Wymagania na stopnie</p>
+          <h3>Wiesz, czego potrzebujesz na egzamin</h3>
+          <p>
+            Osobne wymagania dla dzieci i dorosłych – od 10. kyu aż po 5. dan. Teoria, pozycje,
+            uderzenia, kopnięcia, kondycja i kumite na każdy pas. Kliknij technikę z listy,
+            a aplikacja pokaże, jak ją wykonać.
+          </p>
+          <ul class="belts" aria-label="Pasy">
+            <li class="belt belt--orange">pomarańczowy</li>
+            <li class="belt belt--blue">niebieski</li>
+            <li class="belt belt--yellow">żółty</li>
+            <li class="belt belt--green">zielony</li>
+            <li class="belt belt--brown">brązowy</li>
+            <li class="belt belt--black">czarny</li>
+          </ul>
+        </div>
+        <div class="feature__visual">
+          <figure class="phone phone--sm phone--tilt-l"><img src="img/screens/belts.jpg" alt="Wymagania na stopnie dla dzieci – lista pasów" loading="lazy" width="600" height="1298"></figure>
+          <figure class="phone phone--sm phone--tilt-r"><img src="img/screens/belt-orange.jpg" alt="Wymagania na pomarańczowy pas: teoria, pozycje, uderzenia, kopnięcia, kondycja" loading="lazy" width="600" height="1298"></figure>
+        </div>
+      </article>
+
+      <article class="feature feature--reverse reveal">
+        <div class="feature__copy">
+          <p class="feature__num"><span lang="ja">四</span> yon · Słownik</p>
+          <h3>Hajime, yame, osu – bez zgadywania</h3>
+          <p>
+            Ponad 70 japońskich słów i komend używanych na treningu oraz liczby po japońsku.
+            Wpisz słowo po polsku albo po japońsku i od razu masz tłumaczenie.
+          </p>
+          <dl class="glossary">
+            <div><dt>Hajime</dt><dd>początek</dd></div>
+            <div><dt>Yame</dt><dd>stop</dd></div>
+            <div><dt>Mokuso</dt><dd>medytacja</dd></div>
+          </dl>
+        </div>
+        <div class="feature__visual">
+          <figure class="phone phone--sm"><img src="img/screens/dictionary.jpg" alt="Słownik z wyszukiwarką: słowa kluczowe i komendy" loading="lazy" width="600" height="1298"></figure>
+        </div>
+      </article>
+
+      <article class="feature reveal">
+        <div class="feature__copy">
+          <p class="feature__num"><span lang="ja">五</span> go · Dojo</p>
+          <h3>Przysięga, etykieta i historia klubu</h3>
+          <p>
+            Siedem punktów przysięgi dojo, 15 zasad etykiety i historia Żuraw Dojo. Wszystko,
+            co nowy zawodnik – i rodzic – powinien wiedzieć przed pierwszym treningiem.
+          </p>
+        </div>
+        <div class="feature__visual">
+          <figure class="phone phone--sm phone--tilt-l"><img src="img/screens/dojo.jpg" alt="Informacje o Żuraw Dojo" loading="lazy" width="600" height="1298"></figure>
+          <figure class="phone phone--sm phone--tilt-r"><img src="img/screens/oath.jpg" alt="Przysięga dojo" loading="lazy" width="600" height="1298"></figure>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===== GALERIA TECHNIK ===== -->
+  <section class="gallery" aria-labelledby="gallery-title">
+    <div class="container">
+      <header class="section-head section-head--light">
+        <p class="eyebrow">Zdjęcia z naszej maty</p>
+        <h2 id="gallery-title">Każda faza ruchu widoczna jak na treningu</h2>
+        <p class="section-head__lead">Techniki pokazują zawodnicy Żuraw Dojo – krok po kroku, ze strzałkami kierunku ruchu.</p>
+      </header>
+    </div>
+    <div class="gallery__track" tabindex="0" aria-label="Przykładowe techniki – przewiń w bok">
+      <figure class="shot"><img src="img/techniques/mae-geri.jpg" alt="Mae Geri – trzy fazy kopnięcia przedniego" loading="lazy"><figcaption><b>Mae Geri</b>kopnięcie przednie</figcaption></figure>
+      <figure class="shot"><img src="img/techniques/mawashi-geri.jpg" alt="Mawashi Geri – fazy kopnięcia okrężnego" loading="lazy"><figcaption><b>Mawashi Geri</b>kopnięcie okrężne</figcaption></figure>
+      <figure class="shot"><img src="img/techniques/yoko-geri.jpg" alt="Yoko Geri – fazy kopnięcia bocznego" loading="lazy"><figcaption><b>Yoko Geri</b>kopnięcie boczne</figcaption></figure>
+      <figure class="shot"><img src="img/techniques/ushiro-mawashi-geri.jpg" alt="Ushiro Mawashi Geri – fazy kopnięcia z obrotem" loading="lazy"><figcaption><b>Ushiro Mawashi Geri</b>kopnięcie okrężne w tył z obrotem</figcaption></figure>
+      <figure class="shot"><img src="img/techniques/tobi-geri.jpg" alt="Tobi Geri – fazy kopnięcia z wyskoku" loading="lazy"><figcaption><b>Tobi Geri</b>kopnięcie z wyskoku</figcaption></figure>
+      <figure class="shot"><img src="img/techniques/gyaku-tsuki.jpg" alt="Gyaku Tsuki – fazy ciosu odwrotnego" loading="lazy"><figcaption><b>Gyaku Tsuki</b>cios odwrotny</figcaption></figure>
+      <figure class="shot"><img src="img/techniques/shuto-uke.jpg" alt="Shuto Uke – fazy bloku krawędzią dłoni" loading="lazy"><figcaption><b>Shuto Uke</b>blok dłonią</figcaption></figure>
+      <figure class="shot"><img src="img/techniques/kiba-dachi.jpg" alt="Kiba Dachi – postawa jeździecka" loading="lazy"><figcaption><b>Kiba Dachi</b>postawa jeździecka</figcaption></figure>
+    </div>
+  </section>
+
+  <!-- ===== DLA KOGO ===== -->
+  <section class="audience" id="dla-kogo">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow eyebrow--dark">Dla kogo</p>
+        <h2>Dla każdego, kto trenuje w Żuraw Dojo</h2>
+      </header>
+      <div class="cards">
+        <article class="card reveal">
+          <span class="card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="8" cy="7" r="3"/><circle cx="17" cy="9" r="2.2"/><path d="M2.5 20c0-3.3 2.5-6 5.5-6s5.5 2.7 5.5 6M13.5 20c.3-2.6 1.7-4.6 3.5-4.6s3.4 2 3.5 4.6"/></svg>
+          </span>
+          <h3>Dzieci i rodzice</h3>
+          <p>Rodzic sprawdzi, czego dziecko uczy się na kolejny pas, a dziecko powtórzy techniki i kata w domu.</p>
+        </article>
+        <article class="card reveal">
+          <span class="card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M3 12h18"/><path d="M5 8.5v7M19 8.5v7M8 10v4M16 10v4"/><path d="M3 12h2M19 12h2"/></svg>
+          </span>
+          <h3>Dorośli</h3>
+          <p>Osobna ścieżka wymagań od 10. kyu do 5. dan – z teorią, kondycją i kumite na każdy stopień.</p>
+        </article>
+        <article class="card reveal">
+          <span class="card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><rect x="5" y="3.5" width="14" height="17" rx="2"/><path d="M9 3.5h6v2.5H9z"/><path d="m9 13 2 2 4-4.5"/></svg>
+          </span>
+          <h3>Przed egzaminem</h3>
+          <p>Lista wymagań na konkretny pas, kata krok po kroku i słownik komend – w jednym miejscu, bez szukania notatek.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== KLUB ===== -->
+  <section class="club" id="klub">
+    <img class="club__photo" src="img/photos/kumite.jpg" alt="Zawodnicy Żuraw Dojo podczas walki kumite na turnieju" loading="lazy">
+    <div class="container club__inner">
+      <div class="club__box reveal">
+        <p class="eyebrow">Wrocławski Klub Karate Kyokushin</p>
+        <h2>Żuraw Dojo trenuje od 2021 roku</h2>
+        <p>
+          Klub powstał we wrześniu 2021 r. z pasji do karate Kyokushin. W trzecim roku działalności
+          trenowało z nami już ponad 200 osób – dzieci, młodzież i dorośli. Aplikację zrobiliśmy
+          dla nich: żeby to, czego uczą się na macie, było pod ręką także po treningu.
+        </p>
+        <a class="link-arrow" href="https://zurawdojo.com" target="_blank" rel="noopener">zurawdojo.com</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== POBIERZ ===== -->
+  <section class="cta" id="pobierz">
+    <div class="container cta__inner">
+      <img class="cta__logo" src="img/logo.png" alt="Logo Żuraw Dojo" width="120" height="120" loading="lazy">
+      <h2>Osu! Zabierz dojo ze sobą.</h2>
+      <p class="cta__lead">Aplikacja Żuraw Dojo Kyokushin Guide na iPhone’a i Androida.</p>
+      <div class="stores stores--center">
+        <div class="store store--light" aria-disabled="true">
+          <svg class="store__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10.5 18.5h3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <span class="store__text"><small>iPhone · wkrótce w</small>App Store</span>
+        </div>
+        <div class="store store--light" aria-disabled="true">
+          <svg class="store__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.4-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5Z" fill="currentColor"/></svg>
+          <span class="store__text"><small>Android · wkrótce w</small>Google Play</span>
+        </div>
+      </div>
+      <p class="cta__note">Linki do sklepów pojawią się tutaj, gdy aplikacja będzie dostępna.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== STOPKA ===== -->
+<footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__brand">
+      <span class="brand__logo"><img src="img/logo.png" alt="" width="40" height="40" loading="lazy"></span>
+      <p>Wrocławski Klub Karate Kyokushin<br><b>Żuraw Dojo</b></p>
+    </div>
+    <ul class="footer__links">
+      <li><a href="https://zurawdojo.com" target="_blank" rel="noopener">zurawdojo.com</a></li>
+      <li><a href="https://www.facebook.com/zurawdojo/" target="_blank" rel="noopener">Facebook</a></li>
+      <li><a href="https://www.instagram.com/zurawdojo_kyokushin/" target="_blank" rel="noopener">Instagram</a></li>
+      <li><a href="https://www.tiktok.com/@zurawdojo_kyokushin" target="_blank" rel="noopener">TikTok</a></li>
+      <li><a href="https://www.youtube.com/@zurawdojo-wrocawskiklubkar149" target="_blank" rel="noopener">YouTube</a></li>
+    </ul>
+    <p class="footer__note">© 2026 Żuraw Dojo · strona demonstracyjna (POC)</p>
+  </div>
+</footer>
+
+<script>
+  // Łagodne pojawianie się sekcji przy przewijaniu (bez JS wszystko jest po prostu widoczne).
+  (function () {
+    var items = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      items.forEach(function (el) { el.classList.add('is-visible'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -10% 0px' });
+    items.forEach(function (el) { io.observe(el); });
+  })();
+</script>
+</body>
+</html>
