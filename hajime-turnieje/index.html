@@ -226,6 +226,8 @@ table.t tr:last-child td{border-bottom:0}
 .bout.s-ready .bout-tag .m{color:var(--ai)}
 .bout.s-bye .bout-box{border-style:dashed;opacity:.6;box-shadow:none}
 .bout.fresh .bout-box{animation:fresh 2.2s ease-out}
+.cn.draw{stroke:var(--hc);stroke-width:3.5;stroke-dasharray:700;stroke-dashoffset:700;animation:drawln 1.4s .2s ease-out forwards}
+@keyframes drawln{to{stroke-dashoffset:0}}
 @keyframes fresh{0%{box-shadow:0 0 0 8px var(--ai-soft);border-color:var(--ai)}100%{box-shadow:0 0 0 0 transparent}}
 .bk.has-hl .slot:not(.hl){opacity:.28}
 .bk.has-hl .cn:not(.hl){opacity:.35}
@@ -237,18 +239,19 @@ table.t tr:last-child td{border-bottom:0}
 .bronze-lbl{position:absolute;font:600 10.5px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--bronze)}
 .drop{animation:drop .5s cubic-bezier(.2,.9,.3,1.25) both}
 @keyframes drop{from{opacity:0;transform:translateY(-14px) scale(.96)}to{opacity:1;transform:none}}
-.mandala{display:block;width:100%;max-width:820px;margin:0 auto;height:auto}
+.mandala{display:block;width:100%;max-width:760px;max-height:82vh;margin:0 auto;height:auto}
 .mandala text{font-family:var(--f-display)}
 .m-ring{fill:none;stroke:var(--line);stroke-dasharray:2 5}
-.m-seg{fill:none;stroke:var(--line-2);stroke-width:1.4;transition:opacity .15s}
-.m-seg.adv{stroke:var(--hc);stroke-width:3.2}
+.m-seg{fill:none;stroke:var(--line-2);stroke-width:1.8;transition:opacity .15s}
+.m-seg.adv{stroke:var(--hc);stroke-width:4.2;stroke-linecap:round}
 .m-seg.pend{stroke-dasharray:3 4}
 .m-seg.live{stroke:var(--aka);stroke-width:2.6;animation:pulse 1.4s infinite}
-.m-name{font-size:12.5px;font-weight:650;font-stretch:82%;fill:var(--ink);cursor:pointer}
+.m-name{font-size:16px;font-weight:650;font-stretch:82%;fill:var(--ink);cursor:pointer}
 .m-name.lost{fill:var(--ink-3);font-weight:500}
 .m-node{stroke:var(--surface);stroke-width:2}
 .bk.has-hl .m-seg:not(.hl),.bk.has-hl .m-name:not(.hl){opacity:.22}
-.m-seg.hl{stroke-width:4.4}
+.m-seg.hl{stroke-width:6}
+.m-rl{font:600 11px var(--f-mono);fill:var(--ink-3);letter-spacing:.1em;text-transform:uppercase}
 .pool{display:flex;flex-wrap:wrap;gap:8px;padding:22px}
 .pool-c{display:flex;align-items:center;gap:8px;border:1px solid var(--line-2);border-radius:999px;padding:7px 12px 7px 9px;font-weight:600;font-size:14px;background:var(--surface-2)}
 .pool-cta{padding:0 22px 22px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
@@ -268,6 +271,11 @@ table.t tr:last-child td{border-bottom:0}
 .switch input::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:var(--surface);transition:transform .15s}
 .switch input:checked{background:var(--warn)}
 .switch input:checked::after{transform:translateX(14px)}
+.deck{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;margin-bottom:14px}
+.deck-i{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:9px 12px;display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:13px;min-width:0}
+.deck-i>div{min-width:0}
+.deck-i b{display:block;font:800 13.5px/1.2 var(--f-display);font-stretch:85%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.deck-i.on{border-color:var(--warn);background:var(--warn-soft)}
 .sec-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,320px) minmax(0,1fr);gap:14px}
 .corner{border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:14px;position:relative;overflow:hidden;min-width:0}
 .corner.aka{background:var(--aka);color:var(--aka-ink)}
@@ -289,9 +297,9 @@ table.t tr:last-child td{border-bottom:0}
 .aka .cbtn{background:rgba(255,255,255,.16);color:inherit}
 .aka .cbtn:hover{background:rgba(255,255,255,.26)}
 .aka .cbtn.main{background:#fff;color:var(--aka)}
-.shiro .cbtn{background:var(--surface-3);color:var(--ink)}
-.shiro .cbtn:hover{background:var(--line)}
-.shiro .cbtn.main{background:var(--ink);color:var(--paper)}
+.shiro .cbtn{background:rgba(12,15,36,.07);color:var(--shiro-ink)}
+.shiro .cbtn:hover{background:rgba(12,15,36,.13)}
+.shiro .cbtn.main{background:var(--shiro-ink);color:var(--shiro)}
 .corner.won{outline:4px solid var(--gold);outline-offset:-4px}
 .clock{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
 .clock .phase{font:700 11px var(--f-mono);letter-spacing:.14em;color:var(--ink-3);text-transform:uppercase}
@@ -424,7 +432,7 @@ table.t tr:last-child td{border-bottom:0}
 .next-card .big{font:900 34px/1 var(--f-display);font-stretch:110%;margin:6px 0}
 .next-card .eyebrow{color:color-mix(in srgb,var(--paper) 60%,transparent)}
 .feat-list{display:flex;flex-direction:column;gap:14px;max-width:520px}
-.feat-list div{display:grid;grid-template-columns:36px 1fr;gap:12px}
+.feat-list>div{display:grid;grid-template-columns:36px 1fr;gap:12px}
 .feat-list .ic{width:36px;height:36px;border-radius:10px;background:var(--ai-soft);color:var(--ai);display:grid;place-items:center;font:900 16px var(--f-jp)}
 .feat-list b{display:block;font-family:var(--f-display);font-stretch:105%}
 .feat-list p{margin:2px 0 0;color:var(--ink-2);font-size:14px}
@@ -887,7 +895,7 @@ function slotHTML(bout, side, cat) {
 }
 function boutTag(bout, cat) {
   let m = '';
-  if (bout.status === 'live') m = `LIVE · T${cat.tatami}`;
+  if (bout.status === 'live') m = `LIVE · T${cat.tatami} · <span class="js-time">${mmss(sc.time)}</span>`;
   else if (bout.status === 'done') m = bout.res.m.toUpperCase() + (bout.res.m.startsWith('Hantei') ? ' ' + bout.res.d : '');
   else if (bout.status === 'ready') m = 'NASTĘPNE';
   else if (bout.status === 'bye') m = 'WOLNY LOS';
@@ -895,8 +903,8 @@ function boutTag(bout, cat) {
 }
 function treeHTML(cat) {
   const B = buildBracket(cat, true), R = B._rounds, n = cat.R1.length;
-  const COLW = 214, GAP = 58, BH = 60, U = 90, TOP = 40, CHW = 176;
-  const W = R * COLW + (R - 1) * GAP + GAP + CHW, H = TOP + n * U + (cat.bronze ? 30 : 0);
+  const COLW = 214, GAP = 58, BH = 60, U = 90, TOP = 40;
+  const W = R * COLW + (R - 1) * GAP, H = TOP + n * U + (cat.bronze ? 40 : 0);
   let boxes = '', paths = '', heads = '';
   const yc = (r, i) => TOP + (i + 0.5) * U * 2 ** r;
   for (let r = 0; r < R; r++) {
@@ -908,18 +916,18 @@ function treeHTML(cat) {
       if (r < R - 1) {
         const x1 = x + COLW, x2 = (r + 1) * (COLW + GAP), y2 = yc(r + 1, i >> 1) + (i % 2 ? 15 : -15);
         const w = bout.win, cls = w ? 'done' : 'pend';
-        paths += `<path class="cn ${cls}" ${w ? `data-f="${w}" style="--hc:${club(w).c}"` : ''} d="M${x1} ${y} H${x1 + GAP / 2} V${y2} H${x2}"/>`;
+        paths += `<path class="cn ${cls} ${w && ui.justDone === bout.id ? 'draw' : ''}" ${w ? `data-f="${w}" style="--hc:${club(w).c}"` : ''} d="M${x1} ${y} H${x1 + GAP / 2} V${y2} H${x2}"/>`;
       }
     }
   }
   const fin = B._final, fx = (R - 1) * (COLW + GAP), fy = yc(R - 1, 0);
-  const cx = R * (COLW + GAP);
-  paths += `<path class="cn ${fin.win ? 'done' : 'pend'}" ${fin.win ? `data-f="${fin.win}" style="--hc:${club(fin.win).c}"` : ''} d="M${fx + COLW} ${fy} H${cx}"/>`;
+  const chTop = fy - BH / 2 - 26 - 122;
+  paths += `<path class="cn ${fin.win ? 'done' : 'pend'} ${fin.win && ui.justDone === fin.id ? 'draw' : ''}" ${fin.win ? `data-f="${fin.win}" style="--hc:${club(fin.win).c}"` : ''} d="M${fx + COLW / 2} ${fy - BH / 2 - 20} V${chTop + 122}"/>`;
   const order = cat.order || [], ahead = order.filter(id => B[id] && B[id].status !== 'done').indexOf('r' + (R - 1) + '-0');
-  boxes += `<div class="champ" style="left:${cx}px;top:${fy - 62}px;width:${CHW}px"><div class="k">優勝</div><div class="l">Mistrz kategorii</div>${fin.win ? `<b>${esc(fname(fin.win))}</b><div class="muted" style="font-size:12px;margin-top:3px">${club(fin.win).name}</div>` : `<b class="muted" style="font-weight:600">jeszcze nie wiemy</b><div class="muted" style="font-size:12px;margin-top:3px">${fin.no ? `finał #${fin.no}` : 'finał'}${ahead >= 0 && cat.live ? ` · ok. ${hm(simClock + ahead * 4)}` : ''}</div>`}</div>`;
+  boxes += `<div class="champ" style="left:${fx + 12}px;top:${chTop}px;width:${COLW - 24}px;height:122px"><div class="k">優勝</div><div class="l">Mistrz kategorii</div>${fin.win ? `<b>${esc(fname(fin.win))}</b><div class="muted" style="font-size:12px;margin-top:3px">${club(fin.win).name}</div>` : `<b class="muted" style="font-weight:600">jeszcze nie wiemy</b><div class="muted" style="font-size:12px;margin-top:3px">${fin.no ? `finał #${fin.no}` : 'finał'}${ahead >= 0 && cat.live ? ` · ok. ${hm(simClock + ahead * 4)}` : ''}</div>`}</div>`;
   if (cat.bronze) {
     const bz = B.b3, by = fy + 150;
-    boxes += `<div class="bronze-lbl" style="left:${fx}px;top:${by - 52}px">O 3. miejsce</div><div class="bout s-${bz.status} ${ui.justDone === 'b3' ? 'fresh' : ''}" style="left:${fx}px;top:${by - BH / 2}px;width:${COLW}px">${boutTag(bz, cat)}<div class="bout-box">${slotHTML(bz, 'a', cat)}${slotHTML(bz, 'b', cat)}</div></div>`;
+    boxes += `<div class="bronze-lbl" style="left:${fx}px;top:${by - BH / 2 - 44}px">O 3. miejsce</div><div class="bout s-${bz.status} ${ui.justDone === 'b3' ? 'fresh' : ''}" style="left:${fx}px;top:${by - BH / 2}px;width:${COLW}px">${boutTag(bz, cat)}<div class="bout-box">${slotHTML(bz, 'a', cat)}${slotHTML(bz, 'b', cat)}</div></div>`;
   }
   return `<div class="bk" style="width:${W}px;height:${H}px">${heads}<svg class="cn-layer" width="${W}" height="${H}" aria-hidden="true">${paths}</svg>${boxes}</div>`;
 }
@@ -931,6 +939,7 @@ function mandalaHTML(cat) {
   const P = (r, a) => `${(r * Math.cos(a)).toFixed(1)} ${(r * Math.sin(a)).toFixed(1)}`;
   let segs = '', segsTop = '', nodes = '', labels = '', rings = '';
   for (let L = 0; L < R; L++) rings += `<circle class="m-ring" r="${RAD[L]}"/>`;
+  const ringLbl = Array.from({ length: R }, (_, L) => roundName(L, R).toLowerCase()).join(' → ') + ' → mistrz';
   for (let r = 0; r < R; r++) {
     for (let i = 0; i < N / 2 ** (r + 1); i++) {
       const bout = B[`r${r}-${i}`];
@@ -956,8 +965,8 @@ function mandalaHTML(cat) {
   const center = `<circle r="54" fill="var(--surface-2)" stroke="${ch ? club(ch).c : 'var(--line-2)'}" stroke-width="3"/>
     <text text-anchor="middle" y="-6" style="font:900 26px var(--f-jp);fill:var(--gold)">優勝</text>
     <text text-anchor="middle" y="20" style="font:700 11.5px var(--f-display);font-stretch:85%;fill:var(--ink)">${ch ? esc(F[ch].n) : 'Mistrz?'}</text>`;
-  const lim = RAD[0] + 190;
-  return `<div class="bk" style="margin:14px"><svg class="mandala" viewBox="${-lim} ${-lim} ${lim * 2} ${lim * 2}" role="img" aria-label="Drabinka promienista">${rings}${segs}${segsTop}${nodes}${labels}${center}</svg></div>
+  const lim = RAD[0] + 160;
+  return `<div class="bk" style="margin:14px"><svg class="mandala" viewBox="${-lim} ${-lim} ${lim * 2} ${lim * 2}" role="img" aria-label="Drabinka promienista"><text class="m-rl" x="${-lim + 6}" y="${-lim + 16}">od zewnątrz: ${ringLbl}</text>${rings}${segs}${segsTop}${nodes}${labels}${center}</svg></div>
     <p class="muted" style="font-size:12.5px;padding:0 22px 18px;margin:0">Mandala: zawodnicy na obwodzie, mistrz w środku. Kolorowa linia to droga zwycięzcy w barwach klubu. Dobrze wygląda na telebimie i w social media. ${fid('wyróżnik')}</p>`;
 }
 function isEliminated(B, f) { return Object.values(B).some(b => b && b.id && b.id !== 'b3' && b.status === 'done' && b.lose === f); }
@@ -1015,6 +1024,7 @@ function viewSekretarz() {
   <div class="sec-head"><div><div class="eyebrow">Tatami 2 · panel sekretarza ${fid('F-SCR-01…05')}</div><h1>Walka #${bout.no}<span>${roundName(bout.r, bout.rounds)} · ${cat.name} ${cat.w}</span></h1></div>
     <div class="net">${net.offline ? `<span class="pill warn"><span class="dot"></span>offline · ${queued} w kolejce</span>` : '<span class="pill ok"><span class="dot"></span>online · zsynchronizowano</span>'}
       <label class="switch"><input type="checkbox" id="netToggle" data-act="net" ${net.offline ? 'checked' : ''}>Symuluj zanik Wi-Fi</label></div></div>
+  ${deckHTML(cat)}
   <div class="sec-grid">
     ${corner('a', a)}
     <section class="clock">
@@ -1049,6 +1059,12 @@ function viewSekretarz() {
       <p class="muted" style="font-size:12px;margin:10px 0 0">Komunikaty powstają same z wyników. Odtwarza je przeglądarka na komputerze podłączonym do nagłośnienia.</p>
     </section>
   </div>`;
+}
+function deckHTML(cat) {
+  const B = buildBracket(cat, false), ids = cat.order.filter(id => id !== cat.live && B[id].status !== 'done').slice(0, 3);
+  if (!ids.length) return '';
+  const nm = (b, s) => esc(b[s] ? F[b[s]].n : placeholder(b, s));
+  return `<div class="deck">${ids.map((id, k) => { const b = B[id]; return `<div class="deck-i ${k === 0 ? 'on' : ''}"><div><span class="eyebrow">${k === 0 ? 'Przygotowanie' : 'Potem'} · #${b.no}</span><b>${nm(b, 'a')} — ${nm(b, 'b')}</b></div>${k === 0 && b.a && b.b ? `<button class="btn sm" data-act="callDeck" data-arg="${id}">Wywołaj</button>` : ''}</div>`; }).join('')}</div>`;
 }
 function nextNo(cat) { const B = buildBracket(cat, false); const id = cat.order.find(id => id !== cat.live && B[id].status !== 'done'); return id ? B[id].no : null; }
 function flagSVG(v) {
@@ -1301,7 +1317,7 @@ function viewKlub() {
   const total = sel.reduce((s, i) => s + fee(i), 0);
   const can = sel.length && ui.consents.every(Boolean);
   return `<div class="bk-head"><div><div class="eyebrow">Panel klubu · widok z okresu zgłoszeń</div><h2>Żuraw Dojo <span>· zgłoszenia na Puchar Żurawia</span></h2></div>
-    <span class="pill warn">zgłoszenia do 14.11.2026, 23:59 czasu polskiego (CET) ${fid('NFR strefy czasu')}</span></div>
+    <span class="pill warn" style="white-space:normal">zgłoszenia do 14.11.2026, 23:59 czasu polskiego (CET) ${fid('NFR strefy czasu')}</span></div>
   <section class="card">
     <div class="card-h"><h3>Zgłoś zawodników ${fid('F-REG-01', 'F-REG-02', 'F-REG-04', 'F-ORG-03')}</h3><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" data-act="mockOnly">Importuj członków z CSV / XLSX ${fid('F-ORG-04')}</button><button class="btn sm" data-act="mockOnly">+ Członek klubu</button></div></div>
     <label class="field" for="clubCat" style="max-width:420px">Kategoria<select id="clubCat" data-change="clubCat">${CLUBCATS.map((x, k) => `<option value="${k}" ${k === ui.clubCat ? 'selected' : ''}>${x.name}</option>`).join('')}</select></label>
@@ -1518,6 +1534,7 @@ const ACT = {
   pick: a => { const i = +a.dataset.arg; a.checked ? ui.clubSel.add(i) : ui.clubSel.delete(i); render(); },
   consent: a => { ui.consents[+a.dataset.arg] = a.checked; render(); },
   submitReg: () => { const c = CLUBCATS[ui.clubCat], n = ui.clubSel.size; ui.clubSel.forEach(i => MEMBERS[i].reg.push(c.id)); ui.clubSel.clear(); toast(`Zgłoszono ${n} ${n === 1 ? 'osobę' : 'osoby'}. Potwierdzenie przyjdzie na e-mail klubu.`); render(); },
+  callDeck: a => { const b = buildBracket(CATS['b14-60'], false)[a.dataset.arg]; ann.unshift({ txt: `Na przygotowanie, tatami dwa: ${F[b.a].n} i ${F[b.b].n}.` }); if (annAuto) speak(ann[0].txt); toast(`Wywołano na przygotowanie: walka #${b.no}`); render(); },
   mockOnly: () => toast('W prototypie ta funkcja jest wyłączona.'),
   mockCorr: () => toast('Korektę zatwierdza sędzia główny. Zmiana trafi do historii zmian.'),
 };
