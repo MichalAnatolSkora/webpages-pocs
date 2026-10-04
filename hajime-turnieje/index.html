@@ -54,6 +54,7 @@
   color-scheme:dark;
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 var(--f-body);-webkit-font-smoothing:antialiased}
 button,input,select{font:inherit;color:inherit}
 button{cursor:pointer}
@@ -70,9 +71,8 @@ h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.1
 .hanko{width:34px;height:34px;border-radius:7px;background:var(--aka);color:var(--aka-ink);display:grid;place-items:center;font:900 20px/1 var(--f-jp);transform:rotate(-4deg);box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--aka-ink) 35%,transparent)}
 .brand b{font:900 19px/1 var(--f-display);font-stretch:118%;letter-spacing:.01em}
 .brand small{display:block;font:500 10.5px/1.2 var(--f-mono);color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
-.nav{display:flex;gap:16px;overflow-x:auto;flex:1;min-width:0;scrollbar-width:none;padding-block:2px}
-.nav::-webkit-scrollbar{display:none}
-.nav-g{display:flex;align-items:center;gap:2px;flex:none}
+.nav{display:flex;flex-wrap:wrap;gap:2px 18px;min-width:0;padding-block:2px}
+.nav-g{display:flex;flex-wrap:wrap;align-items:center;gap:2px}
 .nav-g>span{font:600 9.5px/1 var(--f-mono);text-transform:uppercase;letter-spacing:.12em;color:var(--ink-3);margin-right:6px}
 .nav a{padding:7px 11px;border-radius:999px;text-decoration:none;color:var(--ink-2);font-weight:600;font-size:13.5px;white-space:nowrap}
 .nav a:hover{background:var(--surface-3);color:var(--ink)}
@@ -80,6 +80,8 @@ h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.1
 .tools{display:flex;gap:8px;align-items:center;flex:none;margin-left:auto}
 .top-in{flex-wrap:wrap;row-gap:4px}
 .nav{order:3;flex:1 1 100%;border-top:1px solid var(--line);padding-top:6px}
+.menu-btn{display:none}
+.demo-btn{background:var(--aka)!important;border-color:var(--aka)!important;color:#fff!important}
 .chipbtn{border:1px solid var(--line-2);background:var(--surface);border-radius:999px;padding:6px 11px;font:600 12px/1 var(--f-mono);color:var(--ink-2)}
 .chipbtn[aria-pressed="true"]{background:var(--ai);border-color:var(--ai);color:var(--ai-ink)}
 .lang{font:600 12px/1 var(--f-mono);color:var(--ink-3)}
@@ -133,9 +135,10 @@ table.t tr:last-child td{border-bottom:0}
 .hs-prog{flex:1;min-width:200px;max-width:360px}
 .bar{height:6px;border-radius:9px;background:rgba(255,255,255,.15);overflow:hidden;margin-top:8px}
 .bar i{display:block;height:100%;background:linear-gradient(90deg,#fff,var(--hero-dim));border-radius:9px}
-.subtabs{display:flex;gap:4px;margin:18px 0 18px;overflow-x:auto;border-bottom:1px solid var(--line)}
-.subtabs button,.subtabs a{border:0;background:none;padding:10px 14px;font-weight:600;font-size:14px;color:var(--ink-2);text-decoration:none;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
-.subtabs .on{color:var(--ink);border-bottom-color:var(--aka)}
+.subtabs{display:flex;gap:4px;margin:18px 0 18px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;box-shadow:inset 0 -1px 0 var(--line)}
+.subtabs::-webkit-scrollbar{display:none}
+.subtabs button,.subtabs a{border:0;background:none;padding:10px 14px;font-weight:600;font-size:14px;color:var(--ink-2);text-decoration:none;white-space:nowrap}
+.subtabs .on{color:var(--ink);box-shadow:inset 0 -2px 0 var(--aka)}
 .subtabs a::after{content:" ↗";color:var(--ink-3)}
 .live-grid{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:18px;align-items:start}
 .mats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
@@ -535,7 +538,8 @@ input[type=checkbox].pick{width:18px;height:18px;accent-color:var(--ai)}
 
 /* ---------- wizard ---------- */
 .wiz{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:18px;align-items:start}
-.steps{display:grid;grid-template-columns:repeat(6,minmax(110px,1fr));gap:6px;margin-bottom:16px;overflow-x:auto}
+.steps{display:grid;grid-template-columns:repeat(6,minmax(110px,1fr));gap:6px;margin-bottom:16px;overflow-x:auto;scrollbar-width:none}
+.steps::-webkit-scrollbar{display:none}
 .steps button{border:0;background:none;text-align:left;padding:10px 4px 0 0;border-top:3px solid var(--line-2);font-size:13px;color:var(--ink-3);font-weight:600}
 .steps button b{display:block;font:700 10.5px var(--f-mono);letter-spacing:.1em}
 .steps button.done{border-color:var(--ai);color:var(--ink-2)}
@@ -619,6 +623,25 @@ input[type=checkbox].pick{width:18px;height:18px;accent-color:var(--ai)}
 @media (max-width:1100px){.wiz,.kata-grid,.msg-grid{grid-template-columns:minmax(0,1fr)}.wprev{position:static}}
 @media (max-width:640px){.user-btn>span:last-child{display:none}.user-btn{padding:3px}.form-grid{grid-template-columns:1fr}.judges input{font-size:16px;padding:10px 2px}.user-btn small{display:none}}
 
+
+/* ---------- demo ---------- */
+#demoCursor{position:fixed;left:0;top:0;width:26px;height:26px;margin:-3px 0 0 -5px;z-index:80;pointer-events:none;transition:transform .6s cubic-bezier(.3,.8,.3,1)}
+#demoCursor svg{width:26px;height:26px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.35))}
+#demoCursor::after{content:"";position:absolute;left:0;top:0;width:18px;height:18px;border-radius:50%;border:3px solid var(--aka);opacity:0}
+#demoCursor.tap::after{animation:rip .5s ease-out}
+@keyframes rip{0%{opacity:.9;transform:scale(.4)}100%{opacity:0;transform:scale(2.6)}}
+.demo-bar{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);width:min(780px,calc(100% - 32px));background:var(--ink);color:var(--paper);border-radius:16px;padding:12px 14px 15px;z-index:70;display:flex;gap:14px;align-items:center;flex-wrap:wrap;box-shadow:0 18px 40px -12px rgba(0,0,0,.5);overflow:hidden}
+.db-txt{flex:1;min-width:220px;display:flex;flex-direction:column;gap:2px;font-size:13.5px}
+.db-txt b{font:800 18px/1.15 var(--f-display);font-stretch:105%}
+.db-txt span{opacity:.8}
+.db-txt .db-n{font:700 10.5px var(--f-mono);letter-spacing:.12em;color:var(--aka);opacity:1}
+.db-btns{display:flex;gap:6px;flex-wrap:wrap}
+.demo-bar .btn{background:transparent;border-color:color-mix(in srgb,var(--paper) 30%,transparent);color:var(--paper)}
+.demo-bar .btn.primary{background:var(--aka);border-color:var(--aka);color:#fff}
+.db-prog{position:absolute;left:0;right:0;bottom:0;height:3px;background:color-mix(in srgb,var(--paper) 15%,transparent)}
+.db-prog i{display:block;height:100%;background:var(--aka);transition:width .4s}
+body.demo .toast{bottom:calc(130px + env(safe-area-inset-bottom,0px))}
+body.demo main{padding-bottom:150px}
 /* ---------- drawer & toast ---------- */
 .scrim{position:fixed;inset:0;background:rgba(10,12,30,.4);z-index:40;opacity:0;pointer-events:none;transition:opacity .2s}
 .scrim.on{opacity:1;pointer-events:auto}
@@ -646,10 +669,15 @@ input[type=checkbox].pick{width:18px;height:18px;accent-color:var(--ai)}
   .device-row{grid-template-columns:1fr;justify-items:center}
   .rr{grid-template-columns:1fr}
   .brand small,.lang{display:none}
+  .menu-btn{display:inline-flex}
+  .nav{display:none}
+  .nav.open{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px 14px;padding:10px 0 6px}
+  .nav.open .nav-g{flex-direction:column;align-items:stretch}
+  .nav.open .nav-g>span{margin:0 0 4px 11px}
 }
 @media (max-width:640px){
-  .top-in{flex-wrap:wrap;gap:10px}
-  .nav{order:3;flex-basis:100%}
+  .top-in{flex-wrap:wrap;gap:6px 10px}
+  .lang,#fidBtn{display:none}
   .mats{grid-template-columns:1fr}
   .sec-grid{grid-template-columns:1fr}
   .hero{padding:22px 18px}
@@ -673,7 +701,9 @@ input[type=checkbox].pick{width:18px;height:18px;accent-color:var(--ai)}
     <nav class="nav" id="nav" aria-label="Widoki"></nav>
     <div class="tools">
       <span class="lang" title="Język w ścieżce URL (F-ORG-07)">/<b>pl</b>/ · en · lt · de</span>
+      <button class="chipbtn demo-btn" data-act="demoStart">▶ Demo</button>
       <button class="chipbtn" id="fidBtn" aria-pressed="false" data-act="fids">ID funkcji</button>
+      <button class="chipbtn menu-btn" id="menuBtn" data-act="navToggle" aria-expanded="false" aria-controls="nav">Menu</button>
       <div class="user" id="user"></div>
     </div>
   </div>
@@ -682,6 +712,8 @@ input[type=checkbox].pick{width:18px;height:18px;accent-color:var(--ai)}
 <div class="scrim" id="scrim" data-act="close"></div>
 <aside class="drawer" id="drawer" aria-hidden="true"><div class="dw-h"><div id="dwTitle" class="eyebrow"></div><button class="x" data-act="close" aria-label="Zamknij">×</button></div><div class="dw-b" id="dwBody"></div></aside>
 <div class="toast" id="toast" role="status"></div>
+<div class="demo-bar" id="demoBar" hidden></div>
+<div id="demoCursor" hidden aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 2l16 10-7 1.5L9.5 21z" fill="#fff" stroke="#14183a" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
 
 <script>
 /* ===================== utils ===================== */
@@ -1540,7 +1572,7 @@ function startTimer() { if (sc.time <= 0) return; sc.running = true; sc.ended = 
 function stopTimer(silent) { if (!sc.running) return; sc.running = false; if (!silent) scLog(null, 'sys', 'Yame'); }
 setInterval(() => {
   if (!sc.running) return;
-  const now = performance.now(); sc.time = Math.max(0, sc.time - (now - tickLast) / 1000); tickLast = now;
+  const now = performance.now(); sc.time = Math.max(0, sc.time - (now - tickLast) / 1000 * (DEMO.on ? 6 : 1)); tickLast = now;
   if (sc.time <= 0) { sc.running = false; sc.ended = true; scLog(null, 'sys', 'Koniec czasu'); beep(); render(); return; }
   $$('.js-time').forEach(el => el.textContent = mmss(sc.time));
 }, 100);
@@ -1975,6 +2007,7 @@ function tickSent() {
 /* ===================== akcje etapu 2 ===================== */
 Object.assign(ACT, {
   menu: () => { menuOpen = !menuOpen; renderUser(); },
+  navToggle: () => { const n = $('#nav'), o = n.classList.toggle('open'); $('#menuBtn').setAttribute('aria-expanded', o); },
   role: a => { ui.role = a.dataset.arg; menuOpen = false; renderUser(); renderNav(); if (ui.view === 'logowanie') location.hash = ui.role === 'sedzia' ? 'sedzia' : ui.role === 'sek' ? 'sekretarz' : ui.role === 'trener' ? 'klub' : 'organizator'; else render(); toast(`Jesteś teraz: ${ROLES[ui.role].label}`); },
   logout: () => { ui.role = 'widz'; menuOpen = false; renderUser(); renderNav(); location.hash = 'logowanie'; },
   go: a => { location.hash = a.dataset.arg; },
@@ -2020,6 +2053,138 @@ document.addEventListener('input', e => {
 document.addEventListener('change', e => { if (e.target.dataset.wiz && e.target.tagName === 'SELECT') render(); if (e.target.dataset.wiz && ['date', 'time', 'number'].includes(e.target.type)) render(); });
 document.addEventListener('click', e => { if (menuOpen && e.target.isConnected && !e.target.closest('.user')) { menuOpen = false; renderUser(); } });
 
+/* ===================== tryb demo (autoprezentacja) ===================== */
+const EMBED = window.self !== window.top;
+const DEMO = { on: false, paused: false, skip: false, i: 0, done: false };
+function wait(ms) {
+  return new Promise(res => {
+    let t = 0;
+    const iv = setInterval(() => {
+      if (!DEMO.on || DEMO.skip) { clearInterval(iv); res(); return; }
+      if (DEMO.paused) return;
+      t += 50; if (t >= ms) { clearInterval(iv); res(); }
+    }, 50);
+  });
+}
+const go = v => { if (location.hash !== '#' + v) location.hash = v; else render(); };
+function cursorTo(x, y) { const c = $('#demoCursor'); c.hidden = false; c.style.transform = `translate(${x}px, ${y}px)`; }
+function ripple() { const c = $('#demoCursor'); c.classList.remove('tap'); void c.offsetWidth; c.classList.add('tap'); }
+async function tap(sel, opt = {}) {
+  if (!DEMO.on) return;
+  const el = typeof sel === 'string' ? $(sel) : sel; if (!el) return;
+  { const rr = el.getBoundingClientRect(); window.scrollTo({ top: rr.top + scrollY - innerHeight / 2 + rr.height / 2, behavior: DEMO.skip ? 'auto' : 'smooth' }); }
+  await wait(420);
+  const r = el.getBoundingClientRect(); cursorTo(r.left + r.width / 2, r.top + r.height / 2);
+  await wait(620); ripple();
+  if (!opt.hover) el.click();
+  await wait(260);
+}
+async function typeIn(sel, text) {
+  const el = $(sel); if (!el || !DEMO.on) return;
+  await tap(el, { hover: true }); el.focus(); el.value = '';
+  let acc = '';
+  for (const ch of text) { acc += ch; if (el.type === 'number' && /[.,]$/.test(acc)) continue; el.value = acc; el.dispatchEvent(new Event('input', { bubbles: true })); await wait(55); }
+  el.dispatchEvent(new Event('change', { bubbles: true }));
+  await wait(200);
+}
+async function hoverFighter(f) {
+  const el = $(`.bk .slot[data-f="${f}"]`); if (!el) return;
+  await tap(el, { hover: true }); setHL(el.closest('.bk'), f);
+}
+const DEMO_STEPS = [
+  { t: 'Organizator zakłada turniej', d: 'Kreator w 6 krokach. Podgląd strony turnieju zmienia się na bieżąco.', run: async () => {
+    go('kreator'); ui.wiz.step = 0; render(); await wait(900);
+    await typeIn('#wz-name', 'Puchar Jesieni Żurawia 2026');
+    await tap('[data-act=wstep][data-arg="2"]'); await wait(1600);
+    await tap('[data-act=wstep][data-arg="3"]'); await wait(500);
+    const r = $('#wz-tatami'); if (r) { await tap(r, { hover: true }); for (let v = 4; v <= 6; v++) { r.value = v; r.dispatchEvent(new Event('input', { bubbles: true })); await wait(450); } }
+    await wait(1400);
+  } },
+  { t: 'Ważenie w dniu zawodów', d: 'Waga ponad limit? System od razu proponuje wyższą kategorię.', run: async () => {
+    ui.org = 'wazenie'; go('organizator'); await wait(900);
+    await typeIn('#w1', '59.2'); await wait(700);
+    await tap('[data-act=moveUp][data-arg="2"]'); await wait(1600);
+  } },
+  { t: 'Losowanie na żywo', d: 'Zawodniczki z jednego klubu trafiają do przeciwnych połówek drabinki.', run: async () => {
+    ui.cat = 'g12-45'; ui.bmode = 'tree'; go('drabinki'); await wait(900);
+    await tap('[data-act=draw]'); await wait(2600);
+  } },
+  { t: 'Drabinka, którą rozumie każdy', d: 'Wskaż zawodnika, a podświetli się cała jego droga. Albo spójrz na mandalę.', run: async () => {
+    await tap('[data-act=cat][data-arg="b14-60"]'); await wait(600);
+    await hoverFighter('f1'); await wait(1600);
+    await hoverFighter('f6'); await wait(1600);
+    await tap('[data-act=bmode][data-arg=mandala]'); await wait(2600);
+    await tap('[data-act=bmode][data-arg=tree]'); await wait(400);
+  } },
+  { t: 'Sekretarz prowadzi walkę', d: 'Hajime, waza-ari, chui jednym dotknięciem. Ekran hali i strona publiczna widzą to od razu.', run: async () => {
+    go('sekretarz'); await wait(900);
+    await tap('.hajime'); await wait(1800);
+    await tap('[data-act=wa][data-arg=a]'); await wait(2000);
+    await tap('[data-act=chui][data-arg=b]'); await wait(1500);
+    for (let k = 0; k < 120 && sc.running && DEMO.on && !DEMO.skip; k++) await wait(100);
+    if (sc.running) { stopTimer(true); render(); }
+    await wait(800);
+  } },
+  { t: 'Hantei na tabletach sędziów', d: 'Pięć flag w kilka sekund. Nikt nie liczy głosów ręcznie.', run: async () => {
+    if (!sc.winner) await tap('[data-act=hantei]');
+    await wait(500); go('sedzia'); await wait(1000);
+    if (sc.hantei) await tap('.vbtn.a');
+    await wait(900); go('sekretarz'); await wait(2600);
+    if (!sc.winner) { sc.votes = sc.votes.map((v, k) => v || ['a', 'a', 'a', 'd', 'b'][k]); afterVote(); render(); }
+    await wait(1200);
+  } },
+  { t: 'Wynik idzie w świat', d: 'Zatwierdzenie przesuwa zwycięzcę w drabince i tworzy zapowiedź głosową.', run: async () => {
+    if (!sc.winner) { sc.winner = 'a'; sc.method = 'Hantei'; sc.tech = '4:1'; render(); }
+    await tap('[data-act=confirm]'); await wait(900);
+    ui.cat = 'b14-60'; ui.bmode = 'tree'; go('drabinki'); await wait(2800);
+  } },
+  { t: 'Rodzic wie, kiedy wejść na halę', d: 'Powiadomienie przychodzi dwie walki przed startem dziecka. Bez instalowania aplikacji.', run: async () => {
+    ui.follow = 'f1'; go('sledz'); await wait(3400);
+  } },
+  { t: 'Ekran hali i transmisja', d: 'Ippon na telebimie z kanji. Overlay na YouTube z tego samego źródła.', run: async () => {
+    ui.sbMode = 'hall'; go('ekran'); await wait(800);
+    ACT.timer(); await wait(1600);
+    ACT.wa({ dataset: { arg: 'b' } }); await wait(2000);
+    ACT.ippon({ dataset: { arg: 'b' } }); await wait(2200);
+    await tap('[data-act=sbMode][data-arg=ov]'); await wait(2400);
+  } },
+  { t: 'Finał i podium', d: 'Po finale podium, klasyfikacja klubowa i dyplomy są gotowe od razu.', run: async () => {
+    const cat = CATS['b14-60'];
+    for (let k = 0; k < 8 && cat.live; k++) { if (!sc.winner) { sc.winner = k % 2 ? 'b' : 'a'; sc.method = 'Ippon'; sc.tech = 'jodan mawashi geri'; } confirmBout(); }
+    go('wyniki'); await wait(900);
+    const bar = $('.team-bars'); if (bar) await tap(bar, { hover: true });
+    await wait(3200);
+  } },
+];
+function demoBar() {
+  const b = $('#demoBar'); if (!b) return;
+  if (!DEMO.on && !DEMO.done) { b.hidden = true; $('#demoCursor').hidden = true; return; }
+  b.hidden = false;
+  const s = DEMO_STEPS[Math.min(DEMO.i, DEMO_STEPS.length - 1)];
+  b.innerHTML = DEMO.done
+    ? `<div class="db-txt"><span class="db-n">Koniec</span><b>Tak wygląda turniej w Hajime</b><span>${EMBED ? 'Za chwilę od początku.' : 'Kliknij dowolny ekran i sprawdź sam.'}</span></div><div class="db-btns"><button class="btn sm" data-act="demoStart">Jeszcze raz</button><button class="btn sm primary" data-act="demoStop">Klikam sam</button></div>`
+    : `<div class="db-txt"><span class="db-n">${DEMO.i + 1} / ${DEMO_STEPS.length}</span><b>${s.t}</b><span>${s.d}</span></div>
+       <div class="db-btns"><button class="btn sm" data-act="demoPause">${DEMO.paused ? 'Wznów' : 'Pauza'}</button><button class="btn sm" data-act="demoNext">Dalej</button><button class="btn sm" data-act="demoStop">Zakończ</button></div>
+       <div class="db-prog"><i style="width:${(DEMO.i + 1) / DEMO_STEPS.length * 100}%"></i></div>`;
+}
+async function runDemo() {
+  DEMO.on = true; DEMO.done = false; document.body.classList.add('demo'); ui.role = 'org'; renderUser(); renderNav();
+  for (DEMO.i = 0; DEMO.i < DEMO_STEPS.length && DEMO.on; DEMO.i++) {
+    DEMO.skip = false; demoBar();
+    try { await DEMO_STEPS[DEMO.i].run(); } catch (e) { console.warn('demo step', DEMO.i, e); }
+  }
+  if (!DEMO.on) return;
+  DEMO.on = false; DEMO.done = true; $('#demoCursor').hidden = true; demoBar();
+  if (EMBED) setTimeout(() => { if (DEMO.done) ACT.demoStart(); }, 7000);
+}
+Object.assign(ACT, {
+  demoStart: () => { location.hash = 'demo'; location.reload(); },
+  demoPause: () => { DEMO.paused = !DEMO.paused; demoBar(); },
+  demoNext: () => { DEMO.skip = true; },
+  demoStop: () => { DEMO.on = false; DEMO.done = false; DEMO.skip = true; document.body.classList.remove('demo'); demoBar(); },
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && (DEMO.on || DEMO.done)) ACT.demoStop(); });
+
 /* path highlight */
 function setHL(host, f) {
   if (host._hl === f) return; host._hl = f;
@@ -2040,9 +2205,14 @@ function render() {
   drawQR();
   feed.forEach(f => { if (f.fresh) setTimeout(() => { f.fresh = false; }, 2500); });
 }
+let booting = true;
 function route() {
   const h = location.hash.replace('#', '');
+  $('#nav').classList.remove('open'); $('#menuBtn').setAttribute('aria-expanded', 'false');
+  if (h === 'demo') { if (!booting) { location.reload(); return; } booting = false; ui.view = 'turniej'; renderUser(); renderNav(); render(); runDemo(); return; }
+  booting = false;
   ui.view = RENDER[h] ? h : 'turniej';
+  const mb = $('#menuBtn'); if (mb) mb.textContent = 'Menu · ' + (VIEWS.find(v => v.id === ui.view) || {}).label;
   menuOpen = false; renderUser(); renderNav(); closeDrawer(); render(); window.scrollTo(0, 0);
 }
 window.addEventListener('hashchange', route);
