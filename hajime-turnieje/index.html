@@ -65,7 +65,7 @@ h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.1
 
 /* ---------- top bar ---------- */
 .top{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.top-in{max-width:1360px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:18px}
+.top-in{max-width:1360px;margin:0 auto;padding:8px 20px 6px;display:flex;align-items:center;gap:18px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);flex:none}
 .hanko{width:34px;height:34px;border-radius:7px;background:var(--aka);color:var(--aka-ink);display:grid;place-items:center;font:900 20px/1 var(--f-jp);transform:rotate(-4deg);box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--aka-ink) 35%,transparent)}
 .brand b{font:900 19px/1 var(--f-display);font-stretch:118%;letter-spacing:.01em}
@@ -77,7 +77,9 @@ h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.1
 .nav a{padding:7px 11px;border-radius:999px;text-decoration:none;color:var(--ink-2);font-weight:600;font-size:13.5px;white-space:nowrap}
 .nav a:hover{background:var(--surface-3);color:var(--ink)}
 .nav a.on{background:var(--ink);color:var(--paper)}
-.tools{display:flex;gap:8px;align-items:center;flex:none}
+.tools{display:flex;gap:8px;align-items:center;flex:none;margin-left:auto}
+.top-in{flex-wrap:wrap;row-gap:4px}
+.nav{order:3;flex:1 1 100%;border-top:1px solid var(--line);padding-top:6px}
 .chipbtn{border:1px solid var(--line-2);background:var(--surface);border-radius:999px;padding:6px 11px;font:600 12px/1 var(--f-mono);color:var(--ink-2)}
 .chipbtn[aria-pressed="true"]{background:var(--ai);border-color:var(--ai);color:var(--ai-ink)}
 .lang{font:600 12px/1 var(--f-mono);color:var(--ink-3)}
@@ -184,7 +186,7 @@ table.t tr:last-child td{border-bottom:0}
 
 /* ---------- brackets ---------- */
 .bk-layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:18px;align-items:start}
-.cat-list{display:flex;flex-direction:column;gap:6px;position:sticky;top:76px}
+.cat-list{display:flex;flex-direction:column;gap:6px;position:sticky;top:116px}
 .cat-btn{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:11px 12px;text-align:left;display:flex;flex-direction:column;gap:4px}
 .cat-btn.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
 .cat-btn b{font:800 14px/1.2 var(--f-display);font-stretch:92%}
@@ -509,6 +511,114 @@ input[type=checkbox].pick{width:18px;height:18px;accent-color:var(--ai)}
 .diploma p{margin:4px 0;font-size:13px;color:var(--ink-2)}
 .diploma b{font:800 18px var(--f-display);display:block;margin:6px 0;color:var(--ink)}
 
+/* ---------- user / roles ---------- */
+.user{position:relative}
+.user-btn{display:flex;align-items:center;gap:8px;border:1px solid var(--line-2);background:var(--surface);border-radius:999px;padding:3px 12px 3px 3px;font-size:13px;font-weight:600;text-align:left;line-height:1.15}
+.user-btn small{display:block;font:500 10.5px var(--f-mono);color:var(--ink-3)}
+.avatar{width:28px;height:28px;border-radius:50%;background:var(--ai);color:var(--ai-ink);display:grid;place-items:center;font:700 11px var(--f-mono);flex:none}
+.avatar.ghost{background:var(--surface-3);color:var(--ink-3)}
+.menu{position:absolute;right:0;top:calc(100% + 8px);width:310px;max-width:calc(100vw - 32px);background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:6px;z-index:50}
+.menu .eyebrow{padding:8px 10px 4px}
+.menu button{display:grid;grid-template-columns:28px 1fr auto;align-items:center;width:100%;text-align:left;border:0;background:none;border-radius:10px;padding:8px 10px;gap:0 10px}
+.menu button:hover{background:var(--surface-3)}
+.menu button .avatar{grid-row:1/3;width:28px;height:28px}
+.menu button b{font-size:13.5px}
+.menu button span.d{grid-column:2;font-size:12px;color:var(--ink-3)}
+.menu button.on::after{content:"✓";grid-row:1/3;grid-column:3;color:var(--ai);font-weight:800}
+.menu hr{border:0;border-top:1px solid var(--line);margin:6px}
+.gate{max-width:560px;margin:40px auto;text-align:center;display:flex;flex-direction:column;gap:14px;align-items:center}
+.gate .hanko{width:56px;height:56px;font-size:30px;border-radius:12px}
+.gate-roles{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.login{max-width:420px;margin:30px auto;display:flex;flex-direction:column;gap:14px}
+.login .hanko{width:52px;height:52px;font-size:28px;border-radius:12px}
+.login h1{font-size:30px;font-weight:900;font-stretch:112%}
+
+/* ---------- wizard ---------- */
+.wiz{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:18px;align-items:start}
+.steps{display:grid;grid-template-columns:repeat(6,minmax(110px,1fr));gap:6px;margin-bottom:16px;overflow-x:auto}
+.steps button{border:0;background:none;text-align:left;padding:10px 4px 0 0;border-top:3px solid var(--line-2);font-size:13px;color:var(--ink-3);font-weight:600}
+.steps button b{display:block;font:700 10.5px var(--f-mono);letter-spacing:.1em}
+.steps button.done{border-color:var(--ai);color:var(--ink-2)}
+.steps button.on{border-color:var(--aka);color:var(--ink)}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px 14px}
+.form-grid .full{grid-column:1/-1}
+.field textarea{border:1px solid var(--line-2);background:var(--surface);border-radius:9px;padding:10px;font:500 14px/1.5 var(--f-body);color:var(--ink);resize:vertical;min-height:120px}
+.toggles{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.tog{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--line-2);border-radius:10px;padding:8px 12px;font-weight:600;font-size:13.5px;background:var(--surface);color:var(--ink-2)}
+.tog::before{content:"";width:14px;height:14px;border-radius:4px;border:2px solid var(--line-2);flex:none}
+.tog.on{border-color:var(--ai);background:var(--ai-soft);color:var(--ink)}
+.tog.on::before{background:var(--ai);border-color:var(--ai);box-shadow:inset 0 0 0 2px var(--ai-soft)}
+.sub-h{font:700 11px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:16px 0 8px}
+.note{background:var(--surface-2);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--ink-2)}
+.note b{color:var(--ink)}
+.matrix{width:100%;border-collapse:collapse;font-size:13px}
+.matrix th{font:600 10.5px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);text-align:left;padding:8px;border-bottom:1px solid var(--line)}
+.matrix td{padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+.wchip{display:inline-block;font:600 11px var(--f-mono);background:var(--surface-3);border-radius:6px;padding:3px 6px;margin:2px 3px 2px 0;white-space:nowrap}
+.wchip.k{background:var(--ai-soft);color:var(--ai)}
+.mats-vis{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0 14px}
+.mat-sq{width:64px;height:64px;border-radius:6px;background:repeating-linear-gradient(90deg,var(--tat-1) 0 16px,var(--tat-2) 16px 32px);box-shadow:inset 0 0 0 4px var(--aka),inset 0 0 0 7px var(--tat-1);display:grid;place-items:center;font:900 15px var(--f-display);color:#2b2a1a}
+.range{width:100%;accent-color:var(--ai)}
+.perm td{text-align:center}
+.perm td:first-child,.perm th:first-child{text-align:left}
+.perm input{width:17px;height:17px;accent-color:var(--ai)}
+.checks{display:flex;flex-direction:column;gap:8px;margin:4px 0 14px}
+.checks div{display:flex;gap:10px;align-items:center;font-size:14px}
+.checks .ok{color:var(--ok);font-weight:800} .checks .no{color:var(--bad);font-weight:800}
+.wiz-nav{display:flex;justify-content:space-between;gap:10px;margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+.wprev{position:sticky;top:116px;display:flex;flex-direction:column;gap:12px}
+.wprev .hero{padding:20px;border-radius:16px}
+.wprev .hero-title{font-size:30px;margin:10px 0 12px}
+.wprev .hero-kanji{font-size:84px}
+.url{font:600 12px var(--f-mono);color:var(--ai);word-break:break-all}
+.success{text-align:center;display:flex;flex-direction:column;gap:12px;align-items:center;padding:30px 10px}
+.success .big{font:900 64px/1 var(--f-jp);color:var(--aka)}
+
+/* ---------- kata ---------- */
+.kata-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:18px;align-items:start}
+.kata-now{display:flex;flex-direction:column;gap:14px}
+.kata-name{font:900 clamp(26px,3vw,36px)/1.05 var(--f-display);font-stretch:95%}
+.judges{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.judges label{min-width:0;display:flex;flex-direction:column;gap:5px;font:600 10px var(--f-mono);color:var(--ink-3);letter-spacing:.06em;text-align:center}
+.judges input{min-width:0;width:100%;border:1px solid var(--line-2);border-radius:10px;padding:12px 4px;text-align:center;font:800 20px var(--f-display);font-variant-numeric:tabular-nums;background:var(--surface);color:var(--ink)}
+.judges input.bad{border-color:var(--bad);background:var(--bad-soft)}
+.calc{display:flex;flex-wrap:wrap;align-items:center;gap:8px;background:var(--surface-2);border-radius:12px;padding:12px}
+.sc-chip{font:700 14px var(--f-mono);padding:4px 8px;border-radius:7px;background:var(--surface);border:1px solid var(--line)}
+.sc-chip.x{text-decoration:line-through;color:var(--ink-3);background:transparent;border-style:dashed}
+.calc .tot{margin-left:auto;font:900 30px var(--f-display);font-variant-numeric:tabular-nums}
+.calc .tot small{font:600 10px var(--f-mono);color:var(--ink-3);display:block;text-align:right;letter-spacing:.1em}
+.rank-t td .mini{font:500 11px var(--f-mono);color:var(--ink-3);white-space:nowrap}
+.rank-t td .mini s{opacity:.6}
+.rank-t tr.cut td{border-bottom:2px dashed var(--ok)}
+.rank-t tr.cur{background:var(--warn-soft)}
+.rank-t .tot{font:800 16px var(--f-display);font-variant-numeric:tabular-nums;text-align:right}
+.kpair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kpair>div{border-radius:14px;padding:14px;min-width:0}
+.kpair .a{background:var(--aka);color:var(--aka-ink)}
+.kpair .b{background:var(--shiro);color:var(--shiro-ink);border:2px solid var(--shiro-edge);text-align:right}
+.kpair b{display:block;font:900 22px/1.1 var(--f-display);font-stretch:90%}
+
+/* ---------- messages ---------- */
+.msg-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:18px;align-items:start}
+.rcpt{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.ai-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:-2px 0 12px}
+.ai-btn{background:linear-gradient(135deg,var(--ai),color-mix(in srgb,var(--ai) 55%,var(--aka)))!important;border:0!important;color:#fff!important}
+.ai-note{font-size:12.5px;color:var(--ai);font-weight:600}
+.sent{display:flex;flex-direction:column;gap:12px}
+.sent-i{border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.sent-i b{font-size:14.5px}
+.track{display:grid;grid-template-columns:76px minmax(0,1fr) 54px;gap:8px;align-items:center;font-size:12.5px;color:var(--ink-2)}
+.track .tr{height:8px;background:var(--surface-3);border-radius:9px;overflow:hidden}
+.track .tr i{display:block;height:100%;border-radius:9px;transition:width .35s}
+.track .dl i{background:var(--ai)} .track .op i{background:var(--ok)}
+.track span:last-child{font:700 12px var(--f-mono);text-align:right}
+.inbox-i{display:grid;grid-template-columns:10px 1fr auto;gap:10px;padding:12px 0;border-top:1px solid var(--line);align-items:start}
+.inbox-i:first-child{border-top:0}
+.inbox-i .u{width:8px;height:8px;border-radius:50%;background:var(--ai);margin-top:6px}
+.inbox-i p{margin:4px 0 0;font-size:13.5px;color:var(--ink-2)}
+@media (max-width:1100px){.wiz,.kata-grid,.msg-grid{grid-template-columns:minmax(0,1fr)}.wprev{position:static}}
+@media (max-width:640px){.user-btn>span:last-child{display:none}.user-btn{padding:3px}.form-grid{grid-template-columns:1fr}.judges input{font-size:16px;padding:10px 2px}.user-btn small{display:none}}
+
 /* ---------- drawer & toast ---------- */
 .scrim{position:fixed;inset:0;background:rgba(10,12,30,.4);z-index:40;opacity:0;pointer-events:none;transition:opacity .2s}
 .scrim.on{opacity:1;pointer-events:auto}
@@ -564,6 +674,7 @@ input[type=checkbox].pick{width:18px;height:18px;accent-color:var(--ai)}
     <div class="tools">
       <span class="lang" title="Język w ścieżce URL (F-ORG-07)">/<b>pl</b>/ · en · lt · de</span>
       <button class="chipbtn" id="fidBtn" aria-pressed="false" data-act="fids">ID funkcji</button>
+      <div class="user" id="user"></div>
     </div>
   </div>
 </header>
@@ -716,7 +827,7 @@ let sc = SC0();
 const net = { offline: false, pendingFeed: [] };
 const ann = [{ txt: 'Tatami dwa, walka czterdzieści trzy. Na czerwono: Tymon Krawczyk, Orzeł Kyokushin. Na biało: Jan Pawlak, Żuraw Dojo.', auto: true }];
 let annAuto = false;
-const ui = { view: 'turniej', pubTab: 'live', pClub: null, cat: 'b14-60', bmode: 'tree', org: 'wazenie', clubCat: 0, clubSel: new Set(), consents: [false, false, false], follow: 'f1', sbMode: 'hall', justDone: null, gSel: null, pts: { 1: 5, 2: 3, 3: 1 }, tol: 0 };
+const ui = { role: 'org', view: 'turniej', pubTab: 'live', pClub: null, cat: 'b14-60', bmode: 'tree', org: 'wazenie', clubCat: 0, clubSel: new Set(), consents: [false, false, false], follow: 'f1', sbMode: 'hall', justDone: null, gSel: null, pts: { 1: 5, 2: 3, 3: 1 }, tol: 0 };
 
 /* ===================== nav ===================== */
 const VIEWS = [
@@ -725,14 +836,18 @@ const VIEWS = [
   { id: 'wyniki', label: 'Wyniki', g: 'Publiczne' },
   { id: 'sledz', label: 'Śledź zawodnika', g: 'Publiczne' },
   { id: 'sekretarz', label: 'Sekretarz', g: 'Hala' },
+  { id: 'kata', label: 'Kata', g: 'Hala' },
   { id: 'sedzia', label: 'Tablet sędziego', g: 'Hala' },
   { id: 'ekran', label: 'Ekran i stream', g: 'Hala' },
+  { id: 'kreator', label: 'Nowy turniej', g: 'Zaplecze' },
   { id: 'organizator', label: 'Organizator', g: 'Zaplecze' },
+  { id: 'wiadomosci', label: 'Wiadomości', g: 'Zaplecze' },
   { id: 'klub', label: 'Klub', g: 'Zaplecze' },
+  { id: 'logowanie', label: 'Logowanie', g: 'Publiczne', hidden: true },
 ];
 function renderNav() {
-  const groups = [...new Set(VIEWS.map(v => v.g))];
-  $('#nav').innerHTML = groups.map(g => `<div class="nav-g"><span>${g}</span>${VIEWS.filter(v => v.g === g).map(v => `<a href="#${v.id}" class="${ui.view === v.id ? 'on' : ''}">${v.label}</a>`).join('')}</div>`).join('');
+  const vis = VIEWS.filter(v => !v.hidden && allowed(v.id)), groups = [...new Set(vis.map(v => v.g))];
+  $('#nav').innerHTML = groups.map(g => `<div class="nav-g"><span>${g}</span>${vis.filter(v => v.g === g).map(v => `<a href="#${v.id}" class="${ui.view === v.id ? 'on' : ''}">${v.label}</a>`).join('')}</div>`).join('');
 }
 
 /* ===================== shared bits ===================== */
@@ -823,7 +938,7 @@ function pubInfo() {
       <dt>Termin</dt><dd>do 14 listopada 2026, 23:59 CET</dd><dt>Kto</dt><dd>Kluby zaproszone przez organizatora (24)</dd><dt>Limit</dt><dd>220 zawodników · zajęto 186</dd>
       <dt>Opłaty</dt><dd>kumite 80 zł · kata 60 zł · pakiet kumite + kata 120 zł</dd></dl>
       <p class="muted" style="font-size:13px;margin:12px 0 0">Wstępne losowanie: 15 listopada. Ponowne losowanie po weryfikacji w dniu zawodów.</p></section>
-    <section class="card"><h3>Kontakt ${fid('F-TRN-07')}</h3><div class="locked" style="margin-top:12px"><span class="pill ai">zaloguj się</span>Telefon i e-mail organizatora widzą tylko zalogowani trenerzy klubów.</div>
+    <section class="card"><h3>Kontakt ${fid('F-TRN-07')}</h3>${ui.role === 'widz' ? `<div class="locked" style="margin-top:12px"><span class="pill ai">zaloguj się</span>Telefon i e-mail organizatora widzą tylko zalogowani trenerzy klubów.</div>` : `<dl class="dl" style="margin-top:12px"><dt>Organizator</dt><dd>Michał S.</dd><dt>Telefon</dt><dd>widoczny dla zalogowanych</dd><dt>E-mail</dt><dd>zawody@zuraw.example</dd></dl>`}
       <h3 style="margin-top:18px">Dokumenty</h3><div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px"><button class="btn sm" data-act="mockOnly">Regulamin</button><button class="btn sm" data-act="mockOnly">Klauzula RODO</button><button class="btn sm" data-act="mockOnly">Komunikat organizacyjny</button></div></section>
   </div>`;
 }
@@ -1562,6 +1677,349 @@ document.addEventListener('keydown', e => {
   if (ui.view === 'sekretarz' && e.key.toLowerCase() === 'q') ACT.wa({ dataset: { arg: 'a' } });
   if (ui.view === 'sekretarz' && e.key.toLowerCase() === 'p') ACT.wa({ dataset: { arg: 'b' } });
 });
+/* ===================== role i logowanie ===================== */
+const PUB = ['turniej', 'drabinki', 'wyniki', 'sledz', 'logowanie'];
+const ROLES = {
+  org: { label: 'Organizator', who: 'Michał S.', ini: 'MS', desc: 'Pełny dostęp do turnieju', views: 'all' },
+  admin: { label: 'Administrator turnieju', who: 'Kasia M.', ini: 'KM', desc: 'Ważenie, kategorie, wiadomości, bez finansów', views: [...PUB, 'organizator', 'wiadomosci', 'sekretarz', 'kata', 'ekran'] },
+  sek: { label: 'Sekretarz · Tatami 2', who: 'Anna W.', ini: 'AW', desc: 'Panel walki, kata i ekran hali', views: [...PUB, 'sekretarz', 'kata', 'ekran'] },
+  sedzia: { label: 'Sędzia · Fukushin 2', who: 'Tomasz B.', ini: 'TB', desc: 'Tablet z flagami', views: [...PUB, 'sedzia'] },
+  trener: { label: 'Trener · Żuraw Dojo', who: 'Michał S.', ini: 'MS', desc: 'Zgłoszenia klubu i wiadomości od organizatora', views: [...PUB, 'klub', 'wiadomosci'] },
+  widz: { label: 'Widz', who: 'Niezalogowany', ini: '?', desc: 'Strona turnieju, drabinki, wyniki', views: PUB },
+};
+const allowed = (v, r = ui.role) => ROLES[r].views === 'all' || ROLES[r].views.includes(v);
+let menuOpen = false;
+function renderUser() {
+  const r = ROLES[ui.role];
+  const btn = ui.role === 'widz'
+    ? `<button class="user-btn" data-act="go" data-arg="logowanie"><span class="avatar ghost">?</span><span>Zaloguj się</span></button>`
+    : `<button class="user-btn" data-act="menu" aria-expanded="${menuOpen}"><span class="avatar">${r.ini}</span><span>${r.who}<small>${r.label}</small></span></button>`;
+  const menu = menuOpen ? `<div class="menu" role="menu"><div class="eyebrow">Przełącz rolę (prototyp) ${fid('F-TRN-04')}</div>${Object.entries(ROLES).filter(([k]) => k !== 'widz').map(([k, x]) => `<button role="menuitem" class="${ui.role === k ? 'on' : ''}" data-act="role" data-arg="${k}"><span class="avatar">${x.ini}</span><b>${x.label}</b><span class="d">${x.desc}</span></button>`).join('')}<hr><button role="menuitem" data-act="logout"><span class="avatar ghost">⏻</span><b>Wyloguj</b><span class="d">Zobacz stronę jak widz</span></button></div>` : '';
+  $('#user').innerHTML = btn + menu;
+}
+function viewGate() {
+  const v = VIEWS.find(x => x.id === ui.view), can = Object.keys(ROLES).filter(r => allowed(ui.view, r) && r !== 'widz');
+  return `<div class="gate"><span class="hanko">鍵</span><h2 style="font-size:26px">${v.label}: brak dostępu</h2>
+    <p class="muted" style="margin:0">Twoja rola: <b>${ROLES[ui.role].label}</b>. Ten ekran widzą: ${can.map(r => ROLES[r].label).join(', ')}.</p>
+    <div class="gate-roles">${can.map(r => `<button class="btn sm" data-act="role" data-arg="${r}">Wejdź jako ${ROLES[r].label}</button>`).join('')}</div></div>`;
+}
+function viewLogowanie() {
+  return `<div class="login card"><span class="hanko">始</span><h1>Zaloguj się do Hajime</h1>
+    <p class="muted" style="margin:0">Bez hasła. Wyślemy link logowania na e-mail, ważny 15 minut. ${fid('F-ORG-01')}</p>
+    <label class="field" for="loginMail">E-mail<input id="loginMail" type="email" placeholder="trener@klub.pl" autocomplete="off"></label>
+    <button class="btn primary" data-act="magic">Wyślij link logowania</button>
+    <div class="note">Prototyp nie wysyła e-maili. Wejdź od razu jako:<div class="gate-roles" style="justify-content:flex-start;margin-top:8px">${['org', 'trener', 'sek', 'sedzia'].map(r => `<button class="btn sm" data-act="role" data-arg="${r}">${ROLES[r].label}</button>`).join('')}</div></div>
+    <p class="muted" style="font-size:13px;margin:0">Klub nie ma konta? <button class="btn sm" data-act="mockOnly" style="margin-left:4px">Załóż konto klubu ${fid('F-ORG-02')}</button></p></div>`;
+}
+
+/* ===================== kreator turnieju ===================== */
+const AGES = ['8–9', '10–11', '12–13', '14–15', '16–17', 'seniorzy'];
+const WT = {
+  '8–9': { M: [-25, -30, -35, '+35'], F: [-25, -30, '+30'] },
+  '10–11': { M: [-30, -35, -40, -45, '+45'], F: [-30, -35, -40, '+40'] },
+  '12–13': { M: [-40, -45, -50, -55, '+55'], F: [-40, -45, -50, '+50'] },
+  '14–15': { M: [-50, -55, -60, -65, -70, '+70'], F: [-45, -50, -55, -60, '+60'] },
+  '16–17': { M: [-55, -60, -65, -70, -75, '+75'], F: [-50, -55, -60, '+60'] },
+  'seniorzy': { M: [-70, -75, -80, -90, '+90'], F: [-55, -60, -65, '+65'] },
+};
+const PERMS = ['Konfiguracja', 'Kategorie i losowanie', 'Ważenie', 'Wyniki na tatami', 'Wiadomości', 'Finanse'];
+const TEAM_ROLES = { org: ['Organizator', [1, 1, 1, 1, 1, 1]], admin: ['Administrator', [0, 1, 1, 0, 1, 0]], sek: ['Sekretarz tatami', [0, 0, 0, 1, 0, 0]], gl: ['Sędzia główny', [0, 1, 0, 1, 0, 0]], wer: ['Weryfikacja', [0, 0, 1, 0, 0, 0]] };
+const WSTEPS = ['Podstawy', 'Zgłoszenia', 'Kategorie', 'Tatami i program', 'Zespół', 'Publikacja'];
+ui.wiz = {
+  step: 0, name: 'Puchar Wiosny Żurawia 2027', date: '2027-04-17', place: 'Hala MOSiR', tz: 'Europe/Warsaw', rules: 'Knockdown (WKB)',
+  disc: { kumite: true, kata: true, team: false },
+  open: '2027-02-15', close: '2027-04-10', closeTime: '23:59', limit: 250, invited: true, clubs: new Set(['zur', 'ory', 'sam', 'bia', 'tor', 'wil']),
+  feeK: 80, feeKata: 60, feePack: 120,
+  ages: new Set(['10–11', '12–13', '14–15', '16–17']), sexes: new Set(['M', 'F']), tpl: 'wkb', kataList: 'Pinan Sono Yon, Gekisai Dai, Tsuki no Kata',
+  tatami: 4, start: '09:30',
+  team: [{ n: 'Michał S.', role: 'org', p: [1, 1, 1, 1, 1, 1] }, { n: 'Kasia M.', role: 'admin', p: [0, 1, 1, 0, 1, 0] }, { n: 'Anna W.', role: 'sek', p: [0, 0, 0, 1, 0, 0] }, { n: 'Piotr K.', role: 'gl', p: [0, 1, 0, 1, 0, 0] }],
+  published: false,
+};
+const wlbl = x => typeof x === 'number' ? `−${Math.abs(x)} kg` : x === 'open' ? 'open' : `${x} kg`;
+function wizCats() {
+  const w = ui.wiz, rows = []; let kum = 0;
+  AGES.filter(a => w.ages.has(a)).forEach(a => {
+    const r = { a, M: [], F: [] };
+    if (w.disc.kumite) ['M', 'F'].forEach(s => { if (w.sexes.has(s)) { r[s] = w.tpl === 'open' ? ['open'] : WT[a][s]; kum += r[s].length; } });
+    rows.push(r);
+  });
+  const kata = w.disc.kata ? rows.length : 0;
+  return { rows, kum, kata, total: kum + kata };
+}
+function tzInfo(dateStr, timeStr, tz) {
+  try {
+    const [y, m, d] = dateStr.split('-').map(Number), [h, mi] = timeStr.split(':').map(Number);
+    const guess = Date.UTC(y, m - 1, d, h, mi);
+    const part = new Intl.DateTimeFormat('en-US', { timeZone: tz, timeZoneName: 'shortOffset' }).formatToParts(new Date(guess)).find(p => p.type === 'timeZoneName').value;
+    const mt = part.match(/GMT([+-]\d+)?(?::(\d+))?/);
+    const off = mt && mt[1] ? (+mt[1]) * 60 + (mt[2] ? Math.sign(+mt[1]) * +mt[2] : 0) : 0;
+    const utc = new Date(guess - off * 60000);
+    return { off: `UTC${off >= 0 ? '+' : '−'}${Math.abs(off / 60)}`, utc: `${String(utc.getUTCHours()).padStart(2, '0')}:${String(utc.getUTCMinutes()).padStart(2, '0')} UTC` + (utc.getUTCDate() !== d ? ' (dzień wcześniej)' : '') };
+  } catch (e) { return null; }
+}
+const plDate = s => { try { return new Date(s + 'T12:00:00').toLocaleDateString('pl-PL', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); } catch (e) { return s; } };
+const slug = s => s.toLowerCase().replace(/ł/g, 'l').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const toMin = t => { const [h, m] = t.split(':').map(Number); return h * 60 + m; };
+function wizEnd() {
+  const w = ui.wiz, bouts = w.disc.kumite ? Math.round(w.limit * 0.95) : 0;
+  const mins = (w.disc.kata ? 80 : 0) + bouts * 3.6 / w.tatami + 75;
+  return { bouts, end: hm(toMin(w.start) + mins) };
+}
+function wizChecks() {
+  const w = ui.wiz, c = wizCats();
+  return [
+    ['Nazwa turnieju', w.name.trim().length > 3],
+    ['Zgłoszenia zamykają się przed dniem zawodów', w.close < w.date && w.open < w.close],
+    ['Wybrana co najmniej jedna dyscyplina', w.disc.kumite || w.disc.kata || w.disc.team],
+    [`Kategorie: ${c.total}`, c.total > 0],
+    ['W zespole jest sekretarz tatami', w.team.some(t => t.role === 'sek')],
+    [`Zaproszone kluby: ${w.invited ? w.clubs.size : 'wszystkie'}`, !w.invited || w.clubs.size > 0],
+  ];
+}
+function wizPreview() {
+  const w = ui.wiz, c = wizCats(), tzI = tzInfo(w.close, w.closeTime, w.tz);
+  const disc = [w.disc.kumite && 'Kumite', w.disc.kata && 'Kata', w.disc.team && 'Drużyny'].filter(Boolean);
+  return `<div class="eyebrow">Podgląd strony turnieju</div>
+    <section class="hero"><div class="hero-kanji" aria-hidden="true">押忍</div>
+      <div class="hero-eyebrow"><span>${esc(w.rules)} · ${esc(plDate(w.date))}</span></div>
+      <h1 class="hero-title">${esc(w.name) || 'Bez nazwy'}</h1>
+      <div class="hero-eyebrow"><span>${esc(w.place)}</span></div></section>
+    <div class="card" style="padding:14px;display:flex;flex-direction:column;gap:8px;font-size:13.5px">
+      <div style="display:flex;flex-wrap:wrap;gap:6px">${disc.map(d => `<span class="pill ai">${d}</span>`).join('')}<span class="pill">${c.total} kategorii</span><span class="pill">${w.tatami} tatami</span></div>
+      <div>Zgłoszenia do <b>${esc(w.close)}, ${esc(w.closeTime)}</b>${tzI ? ` <span class="muted">(${tzI.off})</span>` : ''}</div>
+      <div>Szacowany koniec zawodów: <b>ok. ${wizEnd().end}</b></div>
+      <div class="url">hajime.app/pl/t/${slug(w.name)}</div>
+    </div>`;
+}
+function updateWizPrev() { const el = $('#wizPrev'); if (el) el.innerHTML = wizPreview(); }
+function wizStep() {
+  const w = ui.wiz, s = w.step;
+  const inp = (key, label, type = 'text', extra = '') => `<label class="field" for="wz-${key}">${label}<input id="wz-${key}" type="${type}" value="${esc(w[key])}" data-wiz="${key}" ${extra}></label>`;
+  const tog = (arg, label, on) => `<button class="tog ${on ? 'on' : ''}" data-act="wtog" data-arg="${arg}" aria-pressed="${on}">${label}</button>`;
+  if (s === 0) return `<h3>Podstawy ${fid('F-TRN-01', 'F-TRN-03')}</h3><div class="form-grid" style="margin-top:12px">
+      <div class="full">${inp('name', 'Nazwa turnieju')}</div>${inp('date', 'Data zawodów', 'date')}${inp('place', 'Miejsce')}
+      <label class="field" for="wz-tz">Strefa czasu turnieju<select id="wz-tz" data-wiz="tz">${['Europe/Warsaw', 'Europe/Vilnius', 'Europe/Berlin', 'Europe/London'].map(z => `<option ${w.tz === z ? 'selected' : ''}>${z}</option>`).join('')}</select></label>
+      <label class="field" for="wz-rules">Przepisy<select id="wz-rules" data-wiz="rules">${['Knockdown (WKB)', 'Knockdown (IKO)', 'Semi-kontakt', 'Light contact (dzieci)'].map(z => `<option ${w.rules === z ? 'selected' : ''}>${z}</option>`).join('')}</select></label></div>
+    <div class="sub-h">Dyscypliny</div><div class="toggles">${tog('disc:kumite', 'Kumite', w.disc.kumite)}${tog('disc:kata', 'Kata', w.disc.kata)}${tog('disc:team', 'Drużyny', w.disc.team)}</div>
+    <div class="note">Przepisy ustawiają czas walki, liczbę encho i zasady hantei w panelu sekretarza. Można je potem zmienić osobno dla każdej kategorii.</div>`;
+  if (s === 1) {
+    const tzI = tzInfo(w.close, w.closeTime, w.tz);
+    return `<h3>Zgłoszenia ${fid('F-TRN-05', 'F-TRN-06')}</h3><div class="form-grid" style="margin-top:12px">
+      ${inp('open', 'Otwarcie zgłoszeń', 'date')}${inp('limit', 'Limit zawodników', 'number', 'min="10" step="10"')}${inp('close', 'Zamknięcie zgłoszeń', 'date')}${inp('closeTime', 'Godzina zamknięcia', 'time')}</div>
+      <div class="note">${tzI ? `Zamknięcie: <b>${esc(w.close)}, ${esc(w.closeTime)}</b> czasu turnieju (${w.tz}, ${tzI.off}) = <b>${tzI.utc}</b>. Każdy klub widzi tę godzinę przeliczoną na swoją strefę. ${fid('NFR strefy czasu')}` : 'Podaj datę i godzinę.'}</div>
+      <div class="sub-h">Kto może zgłaszać</div><div class="toggles">${tog('invited', 'Tylko zaproszone kluby', w.invited)}</div>
+      ${w.invited ? `<div class="toggles">${Object.entries(CLUBS).map(([k, c]) => `<button class="tog ${w.clubs.has(k) ? 'on' : ''}" data-act="wtog" data-arg="clubs:${k}"><span class="club-dot" style="--c:${c.c}"></span>${c.name}</button>`).join('')}<button class="btn sm" data-act="mockOnly">+ Zaproś klub e-mailem</button></div>` : ''}
+      <div class="sub-h">Opłaty startowe</div><div class="form-grid">${inp('feeK', 'Kumite (zł)', 'number', 'min="0"')}${inp('feeKata', 'Kata (zł)', 'number', 'min="0"')}${inp('feePack', 'Pakiet kumite + kata (zł)', 'number', 'min="0"')}</div>`;
+  }
+  if (s === 2) {
+    const c = wizCats();
+    return `<div class="card-h"><h3>Kategorie ${fid('F-CAT-01', 'F-CAT-02', 'F-CAT-03')}</h3><button class="btn sm" data-act="wcopy">Kopiuj z Pucharu Żurawia 2026</button></div>
+      <div class="sub-h">Grupy wiekowe (wiek w dniu zawodów)</div><div class="toggles">${AGES.map(a => tog('ages:' + a, a === 'seniorzy' ? 'Seniorzy' : a + ' lat', w.ages.has(a))).join('')}</div>
+      <div class="toggles">${tog('sexes:M', 'Chłopcy / mężczyźni', w.sexes.has('M'))}${tog('sexes:F', 'Dziewczęta / kobiety', w.sexes.has('F'))}</div>
+      <label class="field" for="wz-tpl" style="max-width:360px">Wagi<select id="wz-tpl" data-wiz="tpl"><option value="wkb" ${w.tpl === 'wkb' ? 'selected' : ''}>Szablon federacji WKB 2026</option><option value="open" ${w.tpl === 'open' ? 'selected' : ''}>Bez podziału na wagi (open)</option></select></label>
+      <div class="scroll-x"><table class="matrix"><thead><tr><th>Wiek</th>${w.disc.kumite && w.sexes.has('M') ? '<th>Kumite · chłopcy</th>' : ''}${w.disc.kumite && w.sexes.has('F') ? '<th>Kumite · dziewczęta</th>' : ''}${w.disc.kata ? '<th>Kata</th>' : ''}</tr></thead><tbody>
+      ${c.rows.map(r => `<tr><td style="white-space:nowrap;font-weight:700">${r.a}</td>${w.disc.kumite && w.sexes.has('M') ? `<td>${r.M.map(x => `<span class="wchip">${wlbl(x)}</span>`).join('')}</td>` : ''}${w.disc.kumite && w.sexes.has('F') ? `<td>${r.F.map(x => `<span class="wchip">${wlbl(x)}</span>`).join('')}</td>` : ''}${w.disc.kata ? '<td><span class="wchip k">open</span></td>' : ''}</tr>`).join('') || `<tr><td colspan="4" class="muted">Wybierz grupy wiekowe.</td></tr>`}</tbody></table></div>
+      <div class="note" style="margin-top:12px"><b>${c.total} kategorii</b> (kumite ${c.kum}, kata ${c.kata}). Po zamknięciu zgłoszeń system podpowie, które połączyć lub podzielić.</div>
+      ${w.disc.kata ? `<div style="margin-top:12px">${inp('kataList', 'Obowiązkowe kata (dla wszystkich kategorii kata)')}</div>` : ''}`;
+  }
+  if (s === 3) {
+    const e = wizEnd();
+    return `<h3>Tatami i program dnia ${fid('F-SCH-01', 'F-TRN-02', 'F-SCH-04')}</h3>
+      <label class="field" for="wz-tatami" style="margin-top:12px">Liczba tatami: <b style="color:var(--ink)">${w.tatami}</b><input class="range" id="wz-tatami" type="range" min="1" max="8" value="${w.tatami}" data-wiz="tatami"></label>
+      <div class="mats-vis">${Array.from({ length: w.tatami }, (_, k) => `<div class="mat-sq">T${k + 1}</div>`).join('')}</div>
+      <div class="form-grid">${inp('start', 'Start zawodów', 'time')}<label class="field">Szacowany koniec<input value="ok. ${e.end}" disabled></label></div>
+      <div class="note">Szacunek: ${e.bouts} walk kumite po ok. 3:36${w.disc.kata ? ', blok kata 80 min' : ''}, finały i dekoracja 75 min. Przy ${w.tatami} tatami zawody kończą się ok. <b>${e.end}</b>. Dodanie tatami skraca dzień.</div>
+      <div class="sub-h">Program dnia</div>
+      <div class="prog-track">${[['8:00', 'Weryfikacja i ważenie'], [w.start, w.disc.kata ? 'Kata' : 'Kumite'], [hm(toMin(w.start) + (w.disc.kata ? 80 : 0)), 'Kumite – eliminacje'], [hm(toMin(e.end) - 75), 'Finały'], [hm(toMin(e.end) - 20), 'Dekoracja']].map(x => `<div class="prog-step"><b>${x[0]}</b><span>${x[1]}</span></div>`).join('')}</div>`;
+  }
+  if (s === 4) return `<div class="card-h"><h3>Zespół i uprawnienia ${fid('F-TRN-04')}</h3><button class="btn sm" data-act="waddTeam">+ Zaproś osobę</button></div>
+    <div class="scroll-x"><table class="t perm"><thead><tr><th>Osoba</th><th>Rola</th>${PERMS.map(p => `<th>${p}</th>`).join('')}</tr></thead><tbody>
+    ${w.team.map((t, i) => `<tr><td style="white-space:nowrap"><b>${esc(t.n)}</b></td><td><select id="wz-role${i}" data-change="wrole" data-arg="${i}" style="border:1px solid var(--line-2);border-radius:8px;padding:5px;background:var(--surface);color:var(--ink)">${Object.entries(TEAM_ROLES).map(([k, r]) => `<option value="${k}" ${t.role === k ? 'selected' : ''}>${r[0]}</option>`).join('')}</select></td>${t.p.map((v, j) => `<td><input type="checkbox" id="wz-p${i}-${j}" data-act="wperm" data-arg="${i}:${j}" ${v ? 'checked' : ''} aria-label="${PERMS[j]}: ${esc(t.n)}"></td>`).join('')}</tr>`).join('')}
+    </tbody></table></div>
+    <div class="note" style="margin-top:12px">Rola ustawia domyślne uprawnienia, każde można zmienić. Sekretarz widzi tylko swoje tatami. Każda zmiana wyniku trafia do historii zmian z nazwiskiem osoby.</div>`;
+  const checks = wizChecks(), ok = checks.every(c => c[1]);
+  if (w.published) return `<div class="success"><div class="big">押忍</div><h2 style="font-size:28px">Turniej opublikowany</h2><div class="url" style="font-size:14px">hajime.app/pl/t/${slug(w.name)}</div>
+    <p class="muted" style="margin:0;max-width:440px">Zaproszenia poszły do ${w.invited ? w.clubs.size : 'wszystkich'} klubów. Zgłoszenia otworzą się ${esc(w.open)}. Adres jest czytelny, bez kolejnych numerów, których nie da się przejrzeć hurtem. ${fid('NFR identyfikatory')}</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center"><a class="btn" href="#turniej">Zobacz przykładowy turniej w trakcie</a><button class="btn" data-act="wreset">Utwórz kolejny</button></div></div>`;
+  const lic = Math.max(50, w.limit);
+  return `<h3>Publikacja ${fid('F-PAY-01', 'F-PAY-03')}</h3>
+    <div class="checks" style="margin-top:12px">${checks.map(c => `<div><span class="${c[1] ? 'ok' : 'no'}">${c[1] ? '✓' : '✗'}</span>${c[0]}</div>`).join('')}</div>
+    <div class="note"><b>Licencja</b> (model do ustalenia, na razie jak w Kumite Technology): 50 € przy publikacji, zaliczane na poczet 1 € za uczestnika rozliczanego po turnieju. Przy limicie ${w.limit} zawodników: <b>${lic} €</b>. Płatność kartą przez Stripe.</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px"><button class="btn primary" data-act="wpublish" ${ok ? '' : 'disabled'}>Zapłać 50 € i opublikuj</button><button class="btn" data-act="mockOnly">Zapisz jako szkic</button></div>
+    ${ok ? '' : '<p class="muted" style="font-size:13px">Popraw punkty oznaczone ✗, żeby opublikować.</p>'}`;
+}
+function viewKreator() {
+  const w = ui.wiz;
+  return `<div class="bk-head"><div><div class="eyebrow">Panel organizatora · nowy turniej</div><h2>Kreator turnieju</h2></div><span class="muted" style="font-size:13px">Zmiany zapisują się na bieżąco jako szkic</span></div>
+    <div class="steps">${WSTEPS.map((t, k) => `<button class="${k === w.step ? 'on' : k < w.step ? 'done' : ''}" data-act="wstep" data-arg="${k}"><b>${String(k + 1).padStart(2, '0')}</b>${t}</button>`).join('')}</div>
+    <div class="wiz"><section class="card">${wizStep()}
+      ${w.published ? '' : `<div class="wiz-nav"><button class="btn" data-act="wstep" data-arg="${w.step - 1}" ${w.step ? '' : 'disabled'}>← Wstecz</button>${w.step < 5 ? `<button class="btn primary" data-act="wstep" data-arg="${w.step + 1}">Dalej: ${WSTEPS[w.step + 1]} →</button>` : ''}</div>`}
+    </section><aside class="wprev" id="wizPrev">${wizPreview()}</aside></div>`;
+}
+
+/* ===================== kata ===================== */
+const KATA = {
+  mode: 'pts', advance: 4, cur: 3, entry: ['', '', '', '', ''],
+  list: ['Pinan Sono Yon', 'Pinan Sono Go', 'Sanchin no Kata', 'Gekisai Dai', 'Tsuki no Kata', 'Yantsu'],
+  comp: [
+    { n: 'Nina Jasińska', club: 'bia', kata: 'Gekisai Dai', s: [7.6, 7.8, 7.7, 7.9, 7.5] },
+    { n: 'Ada Kowal', club: 'tor', kata: 'Pinan Sono Go', s: [7.4, 7.6, 7.5, 7.7, 7.6] },
+    { n: 'Roksana Pyka', club: 'ory', kata: 'Tsuki no Kata', s: [8.1, 8.0, 8.2, 7.9, 8.0] },
+    { n: 'Lena Sowa', club: 'ory', kata: 'Yantsu', s: null },
+    { n: 'Iga Marczak', club: 'bia', kata: 'Sanchin no Kata', s: null },
+    { n: 'Emilia Ruta', club: 'sam', kata: 'Gekisai Dai', s: null },
+    { n: 'Zuzia Lach', club: 'zur', kata: 'Pinan Sono Yon', s: null },
+    { n: 'Marta Kłos', club: 'wil', kata: 'Tsuki no Kata', s: null },
+  ],
+  pairs: [[['Oliwka Bąk', 'zur'], ['Tola Zych', 'sam'], null], [['Kaja Lis', 'bia'], ['Ala Mróz', 'ory'], null], [['Iza Pawlak', 'tor'], ['Wera Sęk', 'wil'], null], [['Gaja Kot', 'zur'], ['Nela Wąs', 'bia'], null]],
+  fp: 0, fl: [null, null, null, null, null],
+};
+function kataScore(s) {
+  const v = s.map(Number), lo = v.indexOf(Math.min(...v));
+  let hi = -1, mx = -Infinity; v.forEach((x, i) => { if (i !== lo && x > mx) { mx = x; hi = i; } });
+  const drop = new Set([lo, hi]);
+  const tot = v.reduce((a, x, i) => a + (drop.has(i) ? 0 : x), 0);
+  return { tot: Math.round(tot * 10) / 10, drop, all: v.reduce((a, b) => a + b, 0), min: Math.min(...v) };
+}
+const kataVals = () => KATA.entry.map(x => parseFloat(String(x).replace(',', '.')));
+const kataValid = () => kataVals().every(x => !isNaN(x) && x >= 5 && x <= 10);
+function kataCalcHTML() {
+  if (!kataValid()) return `<span class="muted" style="font-size:13px">Wpisz 5 ocen od 5,0 do 10,0. Najwyższa i najniższa odpadają, liczy się suma trzech środkowych.</span>`;
+  const v = kataVals(), r = kataScore(v);
+  return `${v.map((x, i) => `<span class="sc-chip ${r.drop.has(i) ? 'x' : ''}">${x.toFixed(1)}</span>`).join('')}<span class="tot">${r.tot.toFixed(1)}<small>SUMA 3 OCEN</small></span>`;
+}
+function updateKataCalc() { const el = $('#kataCalc'); if (el) el.innerHTML = kataCalcHTML(); const b = $('#kataOk'); if (b) b.disabled = !kataValid(); KATA.entry.forEach((x, i) => { const inp = $('#ks' + i); if (inp) { const n = parseFloat(String(x).replace(',', '.')); inp.classList.toggle('bad', x !== '' && (isNaN(n) || n < 5 || n > 10)); } }); }
+function kataRanking() {
+  const done = KATA.comp.filter(c => c.s).map(c => ({ ...c, r: kataScore(c.s) })).sort((a, b) => b.r.tot - a.r.tot || b.r.all - a.r.all || b.r.min - a.r.min);
+  const wait = KATA.comp.filter(c => !c.s);
+  return `<div class="scroll-x"><table class="t rank-t"><thead><tr><th>#</th><th>Zawodniczka</th><th>Kata i oceny</th><th style="text-align:right">Wynik</th></tr></thead><tbody>
+    ${done.map((c, k) => `<tr class="${k === KATA.advance - 1 && done.length > KATA.advance ? 'cut' : ''}"><td class="mono">${k + 1}</td><td><b>${c.n}</b><div class="muted" style="font-size:12px;display:flex;gap:6px;align-items:center"><span class="club-dot" style="--c:${CLUBS[c.club].c}"></span>${CLUBS[c.club].name}</div></td><td>${c.kata}<div class="mini">${c.s.map((x, i) => c.r.drop.has(i) ? `<s>${x.toFixed(1)}</s>` : x.toFixed(1)).join(' · ')}</div></td><td class="tot">${c.r.tot.toFixed(1)}${k < KATA.advance ? '<div class="pill ok" style="margin-top:3px">finał</div>' : ''}</td></tr>`).join('')}
+    ${wait.map(c => `<tr class="${KATA.comp.indexOf(c) === KATA.cur ? 'cur' : ''}"><td class="mono muted">–</td><td><b>${c.n}</b><div class="muted" style="font-size:12px">${CLUBS[c.club].name}</div></td><td class="muted">${c.kata}</td><td class="muted" style="text-align:right;font-size:12.5px">${KATA.comp.indexOf(c) === KATA.cur ? 'na macie' : 'czeka'}</td></tr>`).join('')}
+    </tbody></table></div><p class="muted" style="font-size:12.5px;margin:10px 0 0">Do finału awansuje ${KATA.advance} najlepszych. Przy remisie decyduje suma wszystkich 5 ocen, potem najniższa ocena.</p>`;
+}
+function viewKata() {
+  const seg = `<div class="seg"><button class="${KATA.mode === 'pts' ? 'on' : ''}" data-act="kmode" data-arg="pts">Punkty</button><button class="${KATA.mode === 'flags' ? 'on' : ''}" data-act="kmode" data-arg="flags">Flagi w parach</button></div>`;
+  if (KATA.mode === 'flags') {
+    const p = KATA.pairs[KATA.fp];
+    const a = KATA.fl.filter(x => x === 'a').length, b = KATA.fl.filter(x => x === 'b').length, all = KATA.fl.every(Boolean);
+    return `<div class="bk-head"><div><div class="eyebrow">Tatami 3 · panel kata ${fid('F-DRW-08', 'F-SCR-08')}</div><h2>Kata Dzieci 10–11 lat <span>eliminacje flagowe</span></h2></div>${seg}</div>
+      <div class="kata-grid"><section class="card kata-now">${p ? `<div class="eyebrow">Para ${KATA.fp + 1} z ${KATA.pairs.length} · obie wykonują Pinan Sono Ni</div>
+        <div class="kpair"><div class="a"><span class="side" style="font:700 11px var(--f-mono);letter-spacing:.14em;opacity:.8">AKA</span><b>${p[0][0]}</b><small>${CLUBS[p[0][1]].name}</small></div><div class="b"><span class="side" style="font:700 11px var(--f-mono);letter-spacing:.14em;opacity:.8">SHIRO</span><b>${p[1][0]}</b><small>${CLUBS[p[1][1]].name}</small></div></div>
+        <div class="flags">${KATA.fl.map((v, k) => `<button class="flag ${v ? '' : 'wait'}" data-act="kflag" data-arg="${k}">${flagSVG(v)}<span>${JUDGES[k]}</span></button>`).join('')}</div>
+        <div class="hres">${all ? `Wygrywa ${a > b ? 'AKA · ' + p[0][0] : 'SHIRO · ' + p[1][0]} ${Math.max(a, b)}:${Math.min(a, b)}` : '<span class="muted" style="font-weight:500">Kliknij flagę, żeby wpisać głos sędziego, albo zbierz głosy z tabletów.</span>'}</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" data-act="kflagsTab">Zbierz z tabletów</button><button class="btn primary" data-act="kflagsOk" ${all ? '' : 'disabled'}>Zatwierdź i następna para</button></div>` : `<h3>Runda zakończona</h3><button class="btn" data-act="kflagsReset">Zacznij od nowa</button>`}</section>
+      <section class="card"><h3 style="margin-bottom:12px">Pary rundy 1</h3>${KATA.pairs.map((q, k) => `<div class="feed-i" style="grid-template-columns:30px 1fr auto"><span class="tm">${k + 1}</span><span>${q[2] === 'a' ? `<b>${q[0][0]}</b>` : q[0][0]} — ${q[2] === 'b' ? `<b>${q[1][0]}</b>` : q[1][0]}</span><span class="pill ${q[2] ? 'ok' : k === KATA.fp ? 'live' : ''}">${q[2] ? q[3] || 'zakończona' : k === KATA.fp ? 'na macie' : 'czeka'}</span></div>`).join('')}
+        <p class="muted" style="font-size:12.5px;margin:10px 0 0">Flagi w parach sprawdzają się w młodszych grupach i dużych kategoriach. Format wybiera się przy kategorii.</p></section></div>`;
+  }
+  const c = KATA.comp[KATA.cur];
+  return `<div class="bk-head"><div><div class="eyebrow">Tatami 3 · panel kata ${fid('F-SCR-08', 'F-DRW-08')}</div><h2>Kata Juniorzy 12–15 lat <span>runda 2 z 3</span></h2></div>${seg}</div>
+    <div class="kata-grid"><section class="card kata-now">${c ? `
+      <div class="eyebrow">Na macie · ${KATA.cur + 1} z ${KATA.comp.length}</div>
+      <div><div class="kata-name">${c.n}</div><div class="muted" style="display:flex;gap:7px;align-items:center;margin-top:6px;font-size:14px"><span class="club-dot" style="--c:${CLUBS[c.club].c}"></span>${CLUBS[c.club].name}</div></div>
+      <label class="field" for="kataSel">Kata (lista obowiązkowa kategorii) ${fid('F-CAT-03')}<select id="kataSel" data-change="kataSel">${KATA.list.map(k => `<option ${c.kata === k ? 'selected' : ''}>${k}</option>`).join('')}</select></label>
+      <div class="judges">${JUDGES.map((j, i) => `<label for="ks${i}">${j.replace('Fukushin ', 'F')}<input id="ks${i}" inputmode="decimal" data-kata="${i}" value="${esc(KATA.entry[i])}" placeholder="–" aria-label="Ocena: ${j}"></label>`).join('')}</div>
+      <div class="calc" id="kataCalc">${kataCalcHTML()}</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" data-act="kTablets">Pobierz z tabletów</button><button class="btn primary" id="kataOk" data-act="kOk" ${kataValid() ? '' : 'disabled'}>Zatwierdź ocenę</button></div>`
+      : `<h3>Runda zakończona</h3><p class="muted">Finał: ${KATA.advance} najlepsze zawodniczki. Kolejność startu w finale jest odwrotna do miejsc.</p><button class="btn" data-act="kReset">Zacznij od nowa</button>`}
+    </section><section class="card"><div class="card-h"><h3>Ranking na żywo</h3><span class="pill live"><span class="dot"></span>publikowany na stronie</span></div>${kataRanking()}</section></div>`;
+}
+
+/* ===================== wiadomości ===================== */
+const DRAFT = 'zmiana godziny. kumite dzieci bedzie o 11 a nie o 10:30 bo sie przeciaga kata. prosze przekazac rodzicom';
+const POLISHED = 'Szanowni Trenerzy,\n\ninformujemy, że kumite dzieci rozpocznie się o 11:00 zamiast o 10:30, ponieważ konkurencja kata trwa dłużej, niż planowaliśmy.\n\nProsimy o przekazanie tej informacji rodzicom zawodników.\n\nZ pozdrowieniami\nOrganizator Pucharu Żurawia 2026';
+const RCPT = [['all', 'Wszystkie zgłoszone kluby', 24], ['kids', 'Kluby z zawodnikami do 11 lat', 15], ['k60', 'Trenerzy: Chłopcy 14–15 −60 kg', 6], ['judges', 'Sędziowie i oficjele', 14]];
+const MSG = {
+  to: new Set(['kids']), subj: 'Zmiana godziny kumite dzieci', body: DRAFT, orig: null, ch: { mail: true, push: true, sms: false },
+  sent: [
+    { subj: 'Przypomnienie: weryfikacja od 8:00', tm: '21.11, 06:30', to: 'Wszystkie zgłoszone kluby', n: 24, dl: 24, op: 14, body: 'Weryfikacja i ważenie od 8:00 do 9:00 w sali B. Zawodnik bez legitymacji klubowej nie zostanie dopuszczony.', notOpen: ['Wilki Karate', 'Torii Club', 'Samuraj Team'] },
+    { subj: 'Komunikat organizacyjny i plan dnia', tm: '18.11, 20:14', to: 'Wszystkie zgłoszone kluby', n: 24, dl: 24, op: 21, body: 'W załączniku komunikat organizacyjny, plan hali i harmonogram. Wstępne losowanie opublikujemy w niedzielę.', notOpen: ['Wilki Karate'] },
+  ],
+};
+function polish(t) {
+  if (t.trim() === DRAFT) return POLISHED;
+  const body = t.trim().replace(/\s+/g, ' ').split(/(?<=[.!?])\s+/).map(x => x.charAt(0).toUpperCase() + x.slice(1)).join(' ');
+  return `Szanowni Trenerzy,\n\n${body}${/[.!?]$/.test(body) ? '' : '.'}\n\nZ pozdrowieniami\nOrganizator Pucharu Żurawia 2026`;
+}
+function sentHTML() {
+  return MSG.sent.map((m, k) => `<div class="sent-i"><div style="display:flex;justify-content:space-between;gap:10px"><b>${esc(m.subj)}</b><span class="mono muted" style="font-size:11.5px;white-space:nowrap">${m.tm}</span></div>
+    <div class="muted" style="font-size:12.5px">${esc(m.to)} · ${m.n} odbiorców</div>
+    <div class="track dl"><span>Doręczono</span><span class="tr"><i style="width:${m.dl / m.n * 100}%"></i></span><span>${m.dl}/${m.n}</span></div>
+    <div class="track op"><span>Otwarto</span><span class="tr"><i style="width:${m.op / m.n * 100}%"></i></span><span>${Math.round(m.op / m.n * 100)}%</span></div>
+    ${m.notOpen && m.notOpen.length && m.dl === m.n ? `<div style="display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap;font-size:12.5px"><span class="muted">Nie otworzyli: ${m.notOpen.join(', ')}</span><button class="btn sm" data-act="remind" data-arg="${k}">Przypomnij SMS-em</button></div>` : ''}</div>`).join('');
+}
+function viewWiadomosci() {
+  if (ui.role === 'trener') return `<div class="bk-head"><div><div class="eyebrow">Panel klubu · Żuraw Dojo</div><h2>Wiadomości od organizatorów</h2></div></div>
+    <section class="card" style="max-width:760px">${MSG.sent.map((m, k) => `<div class="inbox-i"><span class="${k === 0 ? 'u' : ''}"></span><div><b>${esc(m.subj)}</b><div class="muted" style="font-size:12px">Puchar Żurawia 2026 · organizator</div><p style="white-space:pre-line">${esc(m.body || '')}</p></div><span class="mono muted" style="font-size:11.5px;white-space:nowrap">${m.tm}</span></div>`).join('')}</section>
+    <p class="mock-note">Trener dostaje te same wiadomości e-mailem i jako powiadomienie w telefonie.</p>`;
+  const n = RCPT.filter(r => MSG.to.has(r[0])).reduce((a, r) => a + r[2], 0);
+  return `<div class="bk-head"><div><div class="eyebrow">Panel organizatora · Puchar Żurawia 2026</div><h2>Wiadomości do klubów</h2></div>${fid('F-MSG-01', 'F-MSG-02', 'F-MSG-03')}</div>
+  <div class="msg-grid"><section class="card"><h3 style="margin-bottom:12px">Nowa wiadomość</h3>
+    <div class="sub-h" style="margin-top:0">Do kogo</div><div class="rcpt">${RCPT.map(r => `<button class="tog ${MSG.to.has(r[0]) ? 'on' : ''}" data-act="rcpt" data-arg="${r[0]}">${r[1]} · ${r[2]}</button>`).join('')}</div>
+    <label class="field" for="msgSubj">Temat<input id="msgSubj" data-msg="subj" value="${esc(MSG.subj)}"></label>
+    <label class="field" for="msgBody">Treść<textarea id="msgBody" data-msg="body" rows="8">${esc(MSG.body)}</textarea></label>
+    <div class="ai-bar"><button class="btn sm ai-btn" data-act="polish">✦ Popraw redakcję</button>${MSG.orig != null ? `<span class="ai-note">Poprawione przez AI. Sprawdź przed wysłaniem.</span><button class="btn sm" data-act="unpolish">Cofnij</button>` : '<span class="muted" style="font-size:12.5px">Napisz po swojemu, AI poprawi ton i literówki.</span>'}</div>
+    <div class="sub-h">Kanały</div><div class="toggles">${[['mail', 'E-mail'], ['push', 'Powiadomienie w telefonie'], ['sms', 'SMS (płatny)']].map(([k, l]) => `<button class="tog ${MSG.ch[k] ? 'on' : ''}" data-act="mch" data-arg="${k}">${l}</button>`).join('')}</div>
+    <div class="reg-sum"><span class="muted" style="font-size:13px">${n ? `${n} odbiorców` : 'Wybierz odbiorców'}</span><button class="btn primary" data-act="msend" ${n && MSG.body.trim() && MSG.subj.trim() ? '' : 'disabled'}>Wyślij</button></div>
+  </section>
+  <section class="card"><h3 style="margin-bottom:12px">Wysłane</h3><div class="sent" id="sentList">${sentHTML()}</div></section></div>
+  <p class="mock-note">Prototyp: nic nie jest naprawdę wysyłane.</p>`;
+}
+let sendTick = null;
+function tickSent() {
+  let busy = false;
+  MSG.sent.forEach(m => { if (m.dl < m.n) { m.dl = Math.min(m.n, m.dl + 3 + Math.floor(Math.random() * 4)); busy = true; } else if (m.op < m.target) { m.op = Math.min(m.target, m.op + 1 + Math.floor(Math.random() * 3)); busy = true; } });
+  const el = $('#sentList'); if (el) el.innerHTML = sentHTML();
+  if (!busy) { clearInterval(sendTick); sendTick = null; }
+}
+
+/* ===================== akcje etapu 2 ===================== */
+Object.assign(ACT, {
+  menu: () => { menuOpen = !menuOpen; renderUser(); },
+  role: a => { ui.role = a.dataset.arg; menuOpen = false; renderUser(); renderNav(); if (ui.view === 'logowanie') location.hash = ui.role === 'sedzia' ? 'sedzia' : ui.role === 'sek' ? 'sekretarz' : ui.role === 'trener' ? 'klub' : 'organizator'; else render(); toast(`Jesteś teraz: ${ROLES[ui.role].label}`); },
+  logout: () => { ui.role = 'widz'; menuOpen = false; renderUser(); renderNav(); location.hash = 'logowanie'; },
+  go: a => { location.hash = a.dataset.arg; },
+  magic: () => toast('Prototyp nie wysyła e-maili. Wybierz rolę poniżej.'),
+  wstep: a => { const k = +a.dataset.arg; if (k < 0 || k > 5) return; ui.wiz.step = k; render(); window.scrollTo(0, 0); },
+  wtog: a => { const [k, v] = a.dataset.arg.split(':'), w = ui.wiz; if (k === 'disc') w.disc[v] = !w.disc[v]; else if (v !== undefined) { w[k].has(v) ? w[k].delete(v) : w[k].add(v); } else w[k] = !w[k]; render(); },
+  wcopy: () => { const w = ui.wiz; w.ages = new Set(['8–9', '10–11', '12–13', '14–15', 'seniorzy']); w.sexes = new Set(['M', 'F']); w.tpl = 'wkb'; w.disc.kumite = true; w.disc.kata = true; render(); toast('Skopiowano kategorie z Pucharu Żurawia 2026'); },
+  waddTeam: () => { ui.wiz.team.push({ n: 'Nowa osoba (zaproszenie wysłane)', role: 'sek', p: [...TEAM_ROLES.sek[1]] }); render(); },
+  wperm: a => { const [i, j] = a.dataset.arg.split(':').map(Number); ui.wiz.team[i].p[j] = a.checked ? 1 : 0; },
+  wpublish: () => { ui.wiz.published = true; render(); toast('Turniej opublikowany (prototyp: bez płatności).'); },
+  wreset: () => { ui.wiz.published = false; ui.wiz.step = 0; ui.wiz.name = 'Nowy turniej'; render(); },
+  kmode: a => { KATA.mode = a.dataset.arg; render(); },
+  kTablets: () => { KATA.entry = KATA.entry.map(() => (7.3 + Math.random() * 1).toFixed(1)); render(); toast('Oceny pobrane z 5 tabletów'); },
+  kOk: () => { if (!kataValid()) return; const c = KATA.comp[KATA.cur]; c.s = kataVals(); const r = kataScore(c.s); toast(`${c.n}: ${r.tot.toFixed(1)} pkt`); KATA.entry = ['', '', '', '', '']; KATA.cur = KATA.comp.findIndex(x => !x.s); if (KATA.cur < 0) KATA.cur = KATA.comp.length; render(); },
+  kReset: () => { KATA.comp.forEach((c, i) => { if (i >= 3) c.s = null; }); KATA.cur = 3; render(); },
+  kflag: a => { const k = +a.dataset.arg, cyc = [null, 'a', 'b']; KATA.fl[k] = cyc[(cyc.indexOf(KATA.fl[k]) + 1) % 3]; render(); },
+  kflagsTab: () => { const fav = Math.random() < .5 ? 'a' : 'b'; KATA.fl = KATA.fl.map(() => Math.random() < .7 ? fav : (fav === 'a' ? 'b' : 'a')); render(); },
+  kflagsOk: () => { const p = KATA.pairs[KATA.fp], a = KATA.fl.filter(x => x === 'a').length, b = 5 - a; p[2] = a > b ? 'a' : 'b'; p[3] = `${Math.max(a, b)}:${Math.min(a, b)}`; toast(`Para ${KATA.fp + 1}: wygrywa ${p[2] === 'a' ? p[0][0] : p[1][0]}`); KATA.fp++; KATA.fl = [null, null, null, null, null]; render(); },
+  kflagsReset: () => { KATA.pairs.forEach(p => { p[2] = null; p[3] = null; }); KATA.fp = 0; render(); },
+  rcpt: a => { const k = a.dataset.arg; MSG.to.has(k) ? MSG.to.delete(k) : MSG.to.add(k); render(); },
+  mch: a => { const k = a.dataset.arg; MSG.ch[k] = !MSG.ch[k]; render(); },
+  polish: () => { if (!MSG.body.trim()) { toast('Najpierw napisz treść wiadomości.'); return; } MSG.orig = MSG.body; MSG.body = polish(MSG.body); render(); },
+  unpolish: () => { if (MSG.orig != null) MSG.body = MSG.orig; MSG.orig = null; render(); },
+  msend: () => {
+    const sel = RCPT.filter(r => MSG.to.has(r[0])), n = sel.reduce((a, r) => a + r[2], 0);
+    MSG.sent.unshift({ subj: MSG.subj, tm: '21.11, ' + hm(simClock), to: sel.map(r => r[1]).join(', '), n, dl: 0, op: 0, target: Math.round(n * .62), body: MSG.body, notOpen: ['Wilki Karate', 'Torii Club'] });
+    MSG.subj = ''; MSG.body = ''; MSG.orig = null; render();
+    toast(`Wysłano do ${n} odbiorców${MSG.ch.push ? ' (e-mail i powiadomienie)' : ''}`);
+    if (!sendTick) sendTick = setInterval(tickSent, 350);
+  },
+  remind: a => { const m = MSG.sent[+a.dataset.arg]; toast(`Przypomnienie SMS do: ${m.notOpen.join(', ')}`); m.notOpen = []; const el = $('#sentList'); if (el) el.innerHTML = sentHTML(); },
+});
+Object.assign(CHANGE, {
+  wrole: e => { const t = ui.wiz.team[+e.dataset.arg]; t.role = e.value; t.p = [...TEAM_ROLES[e.value][1]]; render(); },
+  kataSel: e => { const c = KATA.comp[KATA.cur]; if (c) c.kata = e.value; },
+});
+document.addEventListener('input', e => {
+  const t = e.target;
+  if (t.dataset.wiz) { const w = ui.wiz, k = t.dataset.wiz; w[k] = t.type === 'number' || t.type === 'range' ? (+t.value || 0) : t.value; if (t.type === 'range') render(); else updateWizPrev(); }
+  if (t.dataset.kata) { KATA.entry[+t.dataset.kata] = t.value; updateKataCalc(); }
+  if (t.dataset.msg) { MSG[t.dataset.msg] = t.value; const b = $('[data-act=msend]'); if (b) b.disabled = !(MSG.body.trim() && MSG.subj.trim() && MSG.to.size); }
+});
+document.addEventListener('change', e => { if (e.target.dataset.wiz && e.target.tagName === 'SELECT') render(); if (e.target.dataset.wiz && ['date', 'time', 'number'].includes(e.target.type)) render(); });
+document.addEventListener('click', e => { if (menuOpen && e.target.isConnected && !e.target.closest('.user')) { menuOpen = false; renderUser(); } });
+
 /* path highlight */
 function setHL(host, f) {
   if (host._hl === f) return; host._hl = f;
@@ -1573,10 +2031,10 @@ document.addEventListener('mouseover', e => { const host = e.target.closest('.bk
 document.addEventListener('focusin', e => { const host = e.target.closest('.bk'); if (!host) return; const s = e.target.closest('[data-f]'); setHL(host, s ? s.dataset.f : null); });
 
 /* ===================== render ===================== */
-const RENDER = { turniej: viewTurniej, drabinki: viewDrabinki, wyniki: viewWyniki, sledz: viewSledz, sekretarz: viewSekretarz, sedzia: viewSedzia, ekran: viewEkran, organizator: viewOrganizator, klub: viewKlub };
+const RENDER = { kata: viewKata, kreator: viewKreator, wiadomosci: viewWiadomosci, logowanie: viewLogowanie, turniej: viewTurniej, drabinki: viewDrabinki, wyniki: viewWyniki, sledz: viewSledz, sekretarz: viewSekretarz, sedzia: viewSedzia, ekran: viewEkran, organizator: viewOrganizator, klub: viewKlub };
 function render() {
   const active = document.activeElement && document.activeElement.id;
-  $('#app').innerHTML = RENDER[ui.view]();
+  $('#app').innerHTML = allowed(ui.view) ? RENDER[ui.view]() : viewGate();
   if (active) { const el = document.getElementById(active); if (el && el !== document.body) el.focus({ preventScroll: true }); }
   if (ui.view === 'drabinki' && ui.cat === 'g12-45' && CATS['g12-45'].R1) { const w = $('.bk-wrap'); if (w && !$('.check', w)) w.insertAdjacentHTML('afterbegin', `<div style="padding-top:16px">${drawCheck(CATS['g12-45'])}</div>`); }
   drawQR();
@@ -1585,7 +2043,7 @@ function render() {
 function route() {
   const h = location.hash.replace('#', '');
   ui.view = RENDER[h] ? h : 'turniej';
-  renderNav(); closeDrawer(); render(); window.scrollTo(0, 0);
+  menuOpen = false; renderUser(); renderNav(); closeDrawer(); render(); window.scrollTo(0, 0);
 }
 window.addEventListener('hashchange', route);
 route();
