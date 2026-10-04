@@ -1,0 +1,1577 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="Klikalny prototyp systemu turniejowego kyokushin: drabinki na żywo, panel sekretarza, tablety sędziów, ekran hali.">
+<title>Hajime Turnieje</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Instrument+Sans:wght@400..700&family=JetBrains+Mono:wght@500;700&family=Noto+Serif+JP:wght@700;900&display=swap" rel="stylesheet">
+<style>
+/* Layout: sticky command bar with audience-grouped views; each view is its own workspace, brackets get the full canvas.
+   Identity: ai-zome indigo (brand) + aka/shiro fighter colours as the only loud semantic pair; tatami straw for the stream look. */
+:root{
+  --paper:#f1f2f8; --surface:#ffffff; --surface-2:#f6f7fc; --surface-3:#eceef7;
+  --ink:#14183a; --ink-2:#4b5175; --ink-3:#83889f; --line:#dfe2ee; --line-2:#c7cbe0;
+  --ai:#2e3db3; --ai-ink:#ffffff; --ai-soft:#e6e9fb;
+  --aka:#d4213d; --aka-ink:#ffffff; --aka-soft:#fde7ea;
+  --shiro:#ffffff; --shiro-ink:#14183a; --shiro-edge:#bfc4db;
+  --gold:#c4951a; --silver:#8b95ab; --bronze:#b3683a;
+  --ok:#14895a; --ok-soft:#e0f4ea; --warn:#a96f00; --warn-soft:#fcf0d4; --bad:#c42a2a; --bad-soft:#fde5e5;
+  --hero-bg:#1a2370; --hero-ink:#ffffff; --hero-dim:#aab3ee;
+  --shadow:0 1px 2px rgba(20,24,58,.06),0 10px 28px -14px rgba(20,24,58,.22);
+  --f-display:'Archivo','Arial Narrow',system-ui,sans-serif;
+  --f-body:'Instrument Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+  --f-jp:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif;
+  /* hall screen + stream: one dark look in both themes */
+  --sb-bg:#080a1a; --sb-panel:#121633; --sb-ink:#ffffff; --sb-dim:#8a90bb; --sb-aka:#e01f3d; --sb-shiro:#f3f4fb; --sb-shiro-ink:#0c0f24; --sb-gold:#f2c84b;
+  --tat-1:#b9b07a; --tat-2:#a59c66; --tat-edge:#2a3a2a;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0b0e22; --surface:#141834; --surface-2:#1a1f40; --surface-3:#21274d;
+  --ink:#eceefb; --ink-2:#b0b5d6; --ink-3:#7a80a6; --line:#262c56; --line-2:#363d6e;
+  --ai:#8d9cff; --ai-ink:#0b0e22; --ai-soft:#222a5e;
+  --aka:#ff4a62; --aka-ink:#ffffff; --aka-soft:#3b1526;
+  --shiro:#eceefb; --shiro-ink:#0b0e22; --shiro-edge:#eceefb;
+  --gold:#e5b843; --silver:#aab3c8; --bronze:#d48a55;
+  --ok:#3ccf8e; --ok-soft:#11352a; --warn:#f0b53a; --warn-soft:#3a2d10; --bad:#ff6a6a; --bad-soft:#3d1717;
+  --hero-bg:#1a2058; --hero-ink:#ffffff; --hero-dim:#9aa4e6;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 30px -14px rgba(0,0,0,.6);
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --paper:#0b0e22; --surface:#141834; --surface-2:#1a1f40; --surface-3:#21274d;
+  --ink:#eceefb; --ink-2:#b0b5d6; --ink-3:#7a80a6; --line:#262c56; --line-2:#363d6e;
+  --ai:#8d9cff; --ai-ink:#0b0e22; --ai-soft:#222a5e;
+  --aka:#ff4a62; --aka-ink:#ffffff; --aka-soft:#3b1526;
+  --shiro:#eceefb; --shiro-ink:#0b0e22; --shiro-edge:#eceefb;
+  --gold:#e5b843; --silver:#aab3c8; --bronze:#d48a55;
+  --ok:#3ccf8e; --ok-soft:#11352a; --warn:#f0b53a; --warn-soft:#3a2d10; --bad:#ff6a6a; --bad-soft:#3d1717;
+  --hero-bg:#1a2058; --hero-ink:#ffffff; --hero-dim:#9aa4e6;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 30px -14px rgba(0,0,0,.6);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 var(--f-body);-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:var(--ai)}
+:focus-visible{outline:2px solid var(--ai);outline-offset:2px;border-radius:4px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.1}
+.num{font-variant-numeric:tabular-nums}
+.mono{font-family:var(--f-mono)}
+
+/* ---------- top bar ---------- */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top-in{max-width:1360px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:18px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);flex:none}
+.hanko{width:34px;height:34px;border-radius:7px;background:var(--aka);color:var(--aka-ink);display:grid;place-items:center;font:900 20px/1 var(--f-jp);transform:rotate(-4deg);box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--aka-ink) 35%,transparent)}
+.brand b{font:900 19px/1 var(--f-display);font-stretch:118%;letter-spacing:.01em}
+.brand small{display:block;font:500 10.5px/1.2 var(--f-mono);color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
+.nav{display:flex;gap:16px;overflow-x:auto;flex:1;min-width:0;scrollbar-width:none;padding-block:2px}
+.nav::-webkit-scrollbar{display:none}
+.nav-g{display:flex;align-items:center;gap:2px;flex:none}
+.nav-g>span{font:600 9.5px/1 var(--f-mono);text-transform:uppercase;letter-spacing:.12em;color:var(--ink-3);margin-right:6px}
+.nav a{padding:7px 11px;border-radius:999px;text-decoration:none;color:var(--ink-2);font-weight:600;font-size:13.5px;white-space:nowrap}
+.nav a:hover{background:var(--surface-3);color:var(--ink)}
+.nav a.on{background:var(--ink);color:var(--paper)}
+.tools{display:flex;gap:8px;align-items:center;flex:none}
+.chipbtn{border:1px solid var(--line-2);background:var(--surface);border-radius:999px;padding:6px 11px;font:600 12px/1 var(--f-mono);color:var(--ink-2)}
+.chipbtn[aria-pressed="true"]{background:var(--ai);border-color:var(--ai);color:var(--ai-ink)}
+.lang{font:600 12px/1 var(--f-mono);color:var(--ink-3)}
+.lang b{color:var(--ink)}
+
+main{max-width:1360px;margin:0 auto;padding:22px 20px 80px}
+.fid{display:none;font:600 10px/1 var(--f-mono);color:var(--ai);background:var(--ai-soft);border:1px dashed var(--ai);padding:3px 6px;border-radius:5px;vertical-align:middle;margin-left:6px;white-space:nowrap;letter-spacing:.02em}
+body.fids .fid{display:inline-block}
+.eyebrow{font:600 11px/1.3 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px}
+.card h3{font-size:15px;font-stretch:105%;font-weight:800;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.card-h{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.muted{color:var(--ink-3)}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:3px 9px;font:600 11px/1.4 var(--f-mono);background:var(--surface-3);color:var(--ink-2);white-space:nowrap}
+.pill.ok{background:var(--ok-soft);color:var(--ok)} .pill.warn{background:var(--warn-soft);color:var(--warn)} .pill.bad{background:var(--bad-soft);color:var(--bad)} .pill.live{background:var(--aka-soft);color:var(--aka)} .pill.ai{background:var(--ai-soft);color:var(--ai)}
+.dot{width:7px;height:7px;border-radius:50%;background:currentColor;display:inline-block}
+.live .dot,.live-pill i{animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.25}}
+.btn{border:1px solid var(--line-2);background:var(--surface);border-radius:10px;padding:9px 14px;font-weight:600;font-size:14px;display:inline-flex;align-items:center;gap:8px;justify-content:center}
+.btn:hover{background:var(--surface-3)}
+.btn.primary{background:var(--ai);border-color:var(--ai);color:var(--ai-ink)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.dark{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.sm{padding:6px 10px;font-size:12.5px;border-radius:8px}
+.seg{display:inline-flex;background:var(--surface-3);border-radius:10px;padding:3px;gap:2px}
+.seg button{border:0;background:none;padding:6px 12px;border-radius:8px;font-weight:600;font-size:13px;color:var(--ink-2)}
+.seg button.on{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.club-dot{width:9px;height:9px;border-radius:3px;background:var(--c);display:inline-block;flex:none}
+.belt{display:inline-block;width:22px;height:7px;border-radius:2px;background:var(--b);position:relative;vertical-align:middle;box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
+.belt.st::after{content:"";position:absolute;right:3px;top:0;bottom:0;width:4px;background:var(--s)}
+table.t{width:100%;border-collapse:collapse;font-size:14px}
+table.t th{font:600 10.5px/1.2 var(--f-mono);text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+table.t td{padding:10px;border-bottom:1px solid var(--line);vertical-align:middle}
+table.t tr:last-child td{border-bottom:0}
+.scroll-x{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.offline-banner{display:flex;gap:10px;align-items:center;background:var(--warn-soft);color:var(--warn);border-radius:12px;padding:10px 14px;font-weight:600;font-size:14px;margin-bottom:16px}
+
+/* ---------- hero / public ---------- */
+.hero{position:relative;overflow:hidden;background:var(--hero-bg);color:var(--hero-ink);border-radius:20px;padding:30px 30px 26px;isolation:isolate}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;background:repeating-linear-gradient(90deg,transparent 0 118px,rgba(255,255,255,.05) 118px 120px),repeating-linear-gradient(0deg,transparent 0 58px,rgba(255,255,255,.035) 58px 60px)}
+.hero-kanji{position:absolute;right:22px;top:-6px;z-index:-1;font:900 150px/1 var(--f-jp);writing-mode:vertical-rl;color:rgba(255,255,255,.07);letter-spacing:-.05em}
+.hero-eyebrow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font:600 12px/1.4 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--hero-dim)}
+.live-pill{display:inline-flex;align-items:center;gap:7px;background:var(--aka);color:#fff;border-radius:999px;padding:4px 10px}
+.live-pill i{width:7px;height:7px;border-radius:50%;background:#fff}
+.hero-title{font-size:clamp(38px,6.4vw,78px);font-weight:900;font-stretch:122%;letter-spacing:-.01em;margin:14px 0 18px;line-height:.95}
+.hero-title span{font-stretch:70%;font-weight:300;color:var(--hero-dim)}
+.hero-stats{display:flex;flex-wrap:wrap;gap:12px 30px;align-items:flex-end}
+.hs b{display:block;font:800 26px/1 var(--f-display);font-stretch:110%}
+.hs span{font:500 11px/1.3 var(--f-mono);color:var(--hero-dim);text-transform:uppercase;letter-spacing:.08em}
+.hs-prog{flex:1;min-width:200px;max-width:360px}
+.bar{height:6px;border-radius:9px;background:rgba(255,255,255,.15);overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,#fff,var(--hero-dim));border-radius:9px}
+.subtabs{display:flex;gap:4px;margin:18px 0 18px;overflow-x:auto;border-bottom:1px solid var(--line)}
+.subtabs button,.subtabs a{border:0;background:none;padding:10px 14px;font-weight:600;font-size:14px;color:var(--ink-2);text-decoration:none;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.subtabs .on{color:var(--ink);border-bottom-color:var(--aka)}
+.subtabs a::after{content:" ↗";color:var(--ink-3)}
+.live-grid{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:18px;align-items:start}
+.mats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.mat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 14px 12px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.mat.is-live{border-color:color-mix(in srgb,var(--aka) 45%,var(--line))}
+.mat-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.mat-n{font:900 22px/1 var(--f-display);font-stretch:120%}
+.mat-n small{font:600 11px var(--f-mono);color:var(--ink-3);letter-spacing:.08em;margin-left:2px}
+.mat-cat{font-size:13px;color:var(--ink-2);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vs{display:grid;grid-template-columns:1fr auto 1fr;align-items:stretch;border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+.vs>div{padding:9px 10px;min-width:0}
+.vs .a{background:var(--aka);color:var(--aka-ink)}
+.vs .b{background:var(--shiro);color:var(--shiro-ink);text-align:right}
+.vs .mid{background:var(--surface-2);display:grid;place-items:center;padding:0 10px;font:700 15px/1 var(--f-mono)}
+.vs b{display:block;font:800 14px/1.15 var(--f-display);font-stretch:85%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vs small{font-size:11px;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.wa-pips{display:inline-flex;gap:3px;margin-top:4px}
+.wa-pips i{width:8px;height:8px;border-radius:50%;border:1.5px solid currentColor;opacity:.7}
+.wa-pips i.on{background:currentColor;opacity:1}
+.next-list{display:flex;flex-direction:column;gap:3px;font-size:12.5px;color:var(--ink-2)}
+.next-list div{display:flex;gap:8px;white-space:nowrap;overflow:hidden}
+.next-list .mono{color:var(--ink-3);font-size:11px;flex:none;padding-top:1px}
+.next-list span:last-child{overflow:hidden;text-overflow:ellipsis}
+.mbar{height:4px;background:var(--surface-3);border-radius:9px;overflow:hidden}
+.mbar i{display:block;height:100%;background:var(--ai)}
+.feed{display:flex;flex-direction:column;gap:0;max-height:520px;overflow:auto}
+.feed-i{display:grid;grid-template-columns:44px 1fr;gap:10px;padding:10px 0;border-top:1px solid var(--line);font-size:13.5px}
+.feed-i:first-of-type{border-top:0}
+.feed-i .tm{font:600 12px/1.5 var(--f-mono);color:var(--ink-3)}
+.feed-i .tt{font:600 10px var(--f-mono);color:var(--ink-3);display:block;margin-bottom:2px;letter-spacing:.06em}
+.feed-i.sys{color:var(--ink-2)}
+.feed-i.fresh{animation:freshbg 2.4s ease-out}
+@keyframes freshbg{0%{background:var(--ai-soft)}100%{background:transparent}}
+.program{margin-top:18px}
+.prog-track{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;position:relative;margin-top:6px}
+.prog-step{border-top:3px solid var(--line-2);padding:10px 10px 0 0;font-size:13px}
+.prog-step.done{border-color:var(--ink-3)} .prog-step.now{border-color:var(--aka)}
+.prog-step b{display:block;font:700 13px var(--f-mono)}
+.prog-step span{color:var(--ink-2)}
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:14px;margin:0}
+.dl dt{color:var(--ink-3);font:600 11px/1.9 var(--f-mono);text-transform:uppercase;letter-spacing:.06em}
+.dl dd{margin:0}
+.locked{display:flex;align-items:center;gap:10px;background:var(--surface-2);border:1px dashed var(--line-2);border-radius:10px;padding:10px 12px;font-size:13.5px;color:var(--ink-2)}
+.filters{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.filters button{border:1px solid var(--line-2);background:var(--surface);border-radius:999px;padding:5px 11px;font-size:13px;font-weight:600;display:inline-flex;gap:6px;align-items:center;color:var(--ink-2)}
+.filters button.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+/* ---------- brackets ---------- */
+.bk-layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:18px;align-items:start}
+.cat-list{display:flex;flex-direction:column;gap:6px;position:sticky;top:76px}
+.cat-btn{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:11px 12px;text-align:left;display:flex;flex-direction:column;gap:4px}
+.cat-btn.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.cat-btn b{font:800 14px/1.2 var(--f-display);font-stretch:92%}
+.cat-btn .row{display:flex;justify-content:space-between;gap:6px;align-items:center;font-size:12px;color:var(--ink-3)}
+.cat-more{font-size:12.5px;color:var(--ink-3);padding:6px 4px}
+.bk-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px;align-items:flex-end;margin-bottom:12px}
+.bk-head h2{font-size:clamp(24px,3vw,34px);font-weight:900;font-stretch:112%}
+.bk-head h2 span{font-stretch:75%;font-weight:500;color:var(--ink-2)}
+.meta-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;color:var(--ink-2);margin:6px 0 12px;align-items:center}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend .hint{color:var(--ink-3);margin-left:auto;font-size:12px}
+.bk-wrap{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:auto;-webkit-overflow-scrolling:touch}
+.bk{position:relative;margin:18px 22px 22px}
+.bk svg.cn-layer{position:absolute;inset:0;overflow:visible;pointer-events:none}
+.cn{fill:none;stroke:var(--line-2);stroke-width:1.5}
+.cn.done{stroke:var(--ink-3)}
+.cn.pend{stroke-dasharray:3 4}
+.cn.hl{stroke:var(--hc,var(--ai));stroke-width:3;opacity:1}
+.r-head{position:absolute;top:0;font:600 10.5px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.bout{position:absolute}
+.bout-tag{position:absolute;left:0;right:0;top:-19px;height:17px;display:flex;justify-content:space-between;align-items:center;border:0;background:none;padding:0 2px;font:600 10.5px/1 var(--f-mono);color:var(--ink-3);letter-spacing:.03em}
+.bout-tag:hover .no{color:var(--ai);text-decoration:underline}
+.bout-box{border:1px solid var(--line-2);border-radius:9px;background:var(--surface);overflow:hidden;box-shadow:0 1px 0 var(--line)}
+.slot{display:grid;grid-template-columns:4px minmax(0,1fr) auto 18px;align-items:center;gap:8px;height:30px;width:100%;border:0;background:none;text-align:left;padding:0 9px 0 0;color:var(--ink);transition:opacity .15s,background .15s}
+.slot+.slot{border-top:1px solid var(--line)}
+.slot i{align-self:stretch;background:var(--c,transparent)}
+.slot .nm{font:650 13.5px/1 var(--f-display);font-stretch:82%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.slot .cl{font:500 9.5px/1 var(--f-mono);color:var(--ink-3);letter-spacing:.04em}
+.slot .rs{font:700 10.5px/1 var(--f-mono);text-align:right;color:var(--ink-3)}
+.slot.win{background:var(--surface-2)}
+.slot.win .nm{font-weight:850}
+.slot.win .rs{color:var(--ink)}
+.slot.lose .nm{color:var(--ink-3);font-weight:500}
+.slot.ph .nm{color:var(--ink-3);font-weight:500;font-style:italic;font-family:var(--f-body);font-size:12px}
+.slot.fol .nm::after{content:" ★";color:var(--gold)}
+.bout.s-live .bout-box{border-color:var(--aka);box-shadow:0 0 0 3px var(--aka-soft)}
+.bout.s-live .bout-tag .m{color:var(--aka)}
+.bout.s-ready .bout-tag .m{color:var(--ai)}
+.bout.s-bye .bout-box{border-style:dashed;opacity:.6;box-shadow:none}
+.bout.fresh .bout-box{animation:fresh 2.2s ease-out}
+@keyframes fresh{0%{box-shadow:0 0 0 8px var(--ai-soft);border-color:var(--ai)}100%{box-shadow:0 0 0 0 transparent}}
+.bk.has-hl .slot:not(.hl){opacity:.28}
+.bk.has-hl .cn:not(.hl){opacity:.35}
+.slot.hl{background:color-mix(in srgb,var(--hc) 16%,var(--surface))}
+.champ{position:absolute;border-radius:14px;padding:14px;text-align:center;background:linear-gradient(160deg,color-mix(in srgb,var(--gold) 22%,var(--surface)),var(--surface));border:1px solid color-mix(in srgb,var(--gold) 55%,var(--line))}
+.champ .k{font:900 26px/1 var(--f-jp);color:var(--gold)}
+.champ .l{font:600 10px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin:6px 0 4px}
+.champ b{font:900 17px/1.15 var(--f-display);font-stretch:90%;display:block}
+.bronze-lbl{position:absolute;font:600 10.5px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--bronze)}
+.drop{animation:drop .5s cubic-bezier(.2,.9,.3,1.25) both}
+@keyframes drop{from{opacity:0;transform:translateY(-14px) scale(.96)}to{opacity:1;transform:none}}
+.mandala{display:block;width:100%;max-width:820px;margin:0 auto;height:auto}
+.mandala text{font-family:var(--f-display)}
+.m-ring{fill:none;stroke:var(--line);stroke-dasharray:2 5}
+.m-seg{fill:none;stroke:var(--line-2);stroke-width:1.4;transition:opacity .15s}
+.m-seg.adv{stroke:var(--hc);stroke-width:3.2}
+.m-seg.pend{stroke-dasharray:3 4}
+.m-seg.live{stroke:var(--aka);stroke-width:2.6;animation:pulse 1.4s infinite}
+.m-name{font-size:12.5px;font-weight:650;font-stretch:82%;fill:var(--ink);cursor:pointer}
+.m-name.lost{fill:var(--ink-3);font-weight:500}
+.m-node{stroke:var(--surface);stroke-width:2}
+.bk.has-hl .m-seg:not(.hl),.bk.has-hl .m-name:not(.hl){opacity:.22}
+.m-seg.hl{stroke-width:4.4}
+.pool{display:flex;flex-wrap:wrap;gap:8px;padding:22px}
+.pool-c{display:flex;align-items:center;gap:8px;border:1px solid var(--line-2);border-radius:999px;padding:7px 12px 7px 9px;font-weight:600;font-size:14px;background:var(--surface-2)}
+.pool-cta{padding:0 22px 22px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.check{display:flex;gap:8px;align-items:flex-start;font-size:13.5px;color:var(--ok);font-weight:600;padding:0 22px 18px}
+.rr{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:18px;padding:22px}
+.rr table td.cell{text-align:center;font:700 12px var(--f-mono)}
+.rr td.self{background:repeating-linear-gradient(45deg,var(--surface-3) 0 4px,transparent 4px 8px)}
+.rr td.W{color:var(--ok)} .rr td.L{color:var(--ink-3)}
+
+/* ---------- secretary ---------- */
+.sec-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:14px;margin-bottom:16px}
+.sec-head h1{font-size:clamp(24px,3.2vw,36px);font-weight:900;font-stretch:115%}
+.sec-head h1 span{display:block;font-size:15px;font-weight:600;font-stretch:100%;color:var(--ink-2);margin-top:6px;font-family:var(--f-body)}
+.net{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.switch{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-2);cursor:pointer;user-select:none}
+.switch input{appearance:none;width:34px;height:20px;border-radius:99px;background:var(--line-2);position:relative;margin:0;cursor:pointer;transition:background .15s}
+.switch input::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:var(--surface);transition:transform .15s}
+.switch input:checked{background:var(--warn)}
+.switch input:checked::after{transform:translateX(14px)}
+.sec-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,320px) minmax(0,1fr);gap:14px}
+.corner{border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:14px;position:relative;overflow:hidden;min-width:0}
+.corner.aka{background:var(--aka);color:var(--aka-ink)}
+.corner.shiro{background:var(--shiro);color:var(--shiro-ink);border:2px solid var(--shiro-edge)}
+.corner .kj{position:absolute;right:12px;top:4px;font:900 82px/1 var(--f-jp);opacity:.12;pointer-events:none}
+.corner .side{font:700 11px var(--f-mono);letter-spacing:.16em;opacity:.8}
+.corner .fname{font:900 clamp(22px,2.6vw,30px)/1.05 var(--f-display);font-stretch:90%}
+.corner .fmeta{font-size:13px;opacity:.85;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.score-row{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.wa-big{display:flex;gap:8px}
+.wa-big i{width:34px;height:34px;border-radius:50%;border:3px solid currentColor;opacity:.45}
+.wa-big i.on{background:currentColor;opacity:1}
+.chui{display:flex;gap:5px;align-items:center;font:600 11px var(--f-mono)}
+.chui i{width:14px;height:14px;border-radius:3px;border:2px solid currentColor;opacity:.45}
+.chui i.on{background:currentColor;opacity:1}
+.corner-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cbtn{border:0;border-radius:12px;padding:13px 10px;font:800 15px/1.1 var(--f-display);font-stretch:95%;display:flex;flex-direction:column;align-items:center;gap:3px}
+.cbtn small{font:500 10px var(--f-mono);opacity:.75;letter-spacing:.06em}
+.aka .cbtn{background:rgba(255,255,255,.16);color:inherit}
+.aka .cbtn:hover{background:rgba(255,255,255,.26)}
+.aka .cbtn.main{background:#fff;color:var(--aka)}
+.shiro .cbtn{background:var(--surface-3);color:var(--ink)}
+.shiro .cbtn:hover{background:var(--line)}
+.shiro .cbtn.main{background:var(--ink);color:var(--paper)}
+.corner.won{outline:4px solid var(--gold);outline-offset:-4px}
+.clock{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
+.clock .phase{font:700 11px var(--f-mono);letter-spacing:.14em;color:var(--ink-3);text-transform:uppercase}
+.clock .time{font:800 72px/1 var(--f-display);font-stretch:105%;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.clock .time.run{color:var(--ok)}
+.clock .time.end{color:var(--aka);animation:pulse .8s infinite}
+.go{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
+.go .btn{padding:12px}
+.hajime{background:var(--ok)!important;border-color:var(--ok)!important;color:#fff!important;font:800 17px/1 var(--f-display)!important;font-stretch:110%!important}
+.yame{background:var(--aka)!important;border-color:var(--aka)!important;color:#fff!important;font:800 17px/1 var(--f-display)!important;font-stretch:110%!important}
+.kbd{font:600 10.5px var(--f-mono);border:1px solid var(--line-2);border-bottom-width:2px;border-radius:4px;padding:1px 5px;color:var(--ink-3)}
+.rules{font-size:12px;color:var(--ink-3);line-height:1.5}
+.sec-lower{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.1fr);gap:14px;margin-top:14px}
+.sec-lower2{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:14px;margin-top:14px}
+.flags{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.flag{border:1px solid var(--line);background:var(--surface-2);border-radius:10px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:6px;font:600 10px var(--f-mono);color:var(--ink-3);text-align:center}
+.flag svg{width:30px;height:30px}
+.flag.wait svg{opacity:.3}
+.hres{margin-top:12px;font-weight:700;font-size:14px}
+.win-pick{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.win-pick button{border:2px solid var(--line-2);border-radius:12px;padding:10px;font-weight:700;background:var(--surface);text-align:left;min-width:0}
+.win-pick button small{display:block;font:600 10px var(--f-mono);letter-spacing:.12em;color:var(--ink-3)}
+.win-pick button span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:var(--f-display);font-stretch:88%}
+.win-pick button.a.on{border-color:var(--aka);background:var(--aka-soft)}
+.win-pick button.b.on{border-color:var(--ink);background:var(--surface-3)}
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:10px;font-size:12.5px;color:var(--ink-2);font-weight:600}
+.field select,.field input{border:1px solid var(--line-2);background:var(--surface);border-radius:9px;padding:9px 10px;font-size:14px;font-weight:500;color:var(--ink)}
+.log{display:flex;flex-direction:column;max-height:230px;overflow:auto}
+.log-i{display:grid;grid-template-columns:46px 62px 1fr auto;gap:8px;padding:7px 0;border-top:1px solid var(--line);font-size:13.5px;align-items:center}
+.log-i:first-child{border-top:0}
+.log-i .s{font:700 10px var(--f-mono);letter-spacing:.1em;border-radius:5px;padding:2px 6px;text-align:center}
+.log-i .s.a{background:var(--aka);color:var(--aka-ink)} .log-i .s.b{background:var(--shiro);color:var(--shiro-ink);box-shadow:inset 0 0 0 1px var(--shiro-edge)} .log-i .s.x{background:var(--surface-3);color:var(--ink-2)}
+.sync{font:600 11px var(--f-mono)}
+.sync.ok{color:var(--ok)} .sync.q{color:var(--warn)}
+.ann{display:flex;flex-direction:column;gap:8px;max-height:230px;overflow:auto}
+.ann-i{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;background:var(--surface-2);border-radius:10px;padding:9px 10px;font-size:13.5px}
+.play{width:30px;height:30px;border-radius:50%;border:0;background:var(--ai);color:var(--ai-ink);display:grid;place-items:center}
+.play svg{width:12px;height:12px}
+.done-box{text-align:center;padding:40px 20px}
+
+/* ---------- scoreboard (container-query scaled) ---------- */
+.sbw{container-type:inline-size;width:100%}
+.sb{position:relative;aspect-ratio:16/9;max-width:100%;background:var(--sb-bg);color:var(--sb-ink);border-radius:2cqw;overflow:hidden;display:grid;grid-template-rows:auto 1fr auto;font-family:var(--f-display)}
+.sb-top{display:flex;justify-content:space-between;padding:1.6cqw 2.4cqw;font:700 1.5cqw/1 var(--f-mono);letter-spacing:.14em;color:var(--sb-dim);text-transform:uppercase}
+.sb-top b{color:var(--sb-ink)}
+.sb-main{display:grid;grid-template-columns:1fr 26cqw 1fr;gap:1.2cqw;padding:0 1.6cqw}
+.sb-side{border-radius:1.4cqw;padding:2cqw 2.2cqw;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;min-width:0}
+.sb-side.a{background:var(--sb-aka)}
+.sb-side.b{background:var(--sb-shiro);color:var(--sb-shiro-ink);text-align:right;align-items:flex-end}
+.sb-k{position:absolute;font:900 22cqw/1 var(--f-jp);opacity:.1;bottom:-4cqw;left:-1cqw}
+.sb-side.b .sb-k{left:auto;right:-1cqw}
+.sb-name{font-size:4.4cqw;font-weight:900;font-stretch:85%;line-height:1;position:relative}
+.sb-club{font-size:1.7cqw;opacity:.8;margin-top:.6cqw;position:relative;font-family:var(--f-body)}
+.sb-wa{display:flex;gap:1cqw;position:relative}
+.sb-wa i{width:4.6cqw;height:4.6cqw;border-radius:50%;border:.5cqw solid currentColor;opacity:.35}
+.sb-wa i.on{background:currentColor;opacity:1}
+.sb-lbl{font:700 1.3cqw var(--f-mono);letter-spacing:.14em;opacity:.75;margin-bottom:.6cqw;position:relative}
+.sb-ch{display:flex;gap:.6cqw;position:relative}
+.sb-ch i{width:2cqw;height:2cqw;border-radius:.4cqw;border:.35cqw solid currentColor;opacity:.35}
+.sb-ch i.on{background:currentColor;opacity:1}
+.sb-clock{background:var(--sb-panel);border-radius:1.4cqw;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1cqw}
+.sb-time{font-size:9.5cqw;font-weight:800;font-variant-numeric:tabular-nums;line-height:1;letter-spacing:-.02em}
+.sb-time.end{color:var(--sb-aka)}
+.sb-phase{font:700 1.4cqw var(--f-mono);letter-spacing:.16em;color:var(--sb-dim)}
+.sb-phase.encho{color:var(--sb-gold)}
+.sb-next{padding:1.4cqw 2.4cqw;font:600 1.5cqw/1 var(--f-mono);color:var(--sb-dim);letter-spacing:.06em;display:flex;gap:1.4cqw;white-space:nowrap;overflow:hidden}
+.sb-next b{color:var(--sb-ink);font-weight:700}
+.sb-flash{position:absolute;inset:0;display:grid;place-items:center;background:rgba(8,10,26,.72);animation:flash 1.8s ease-out both;pointer-events:none}
+.sb-flash div{font:900 22cqw/1 var(--f-jp);text-shadow:0 0 4cqw rgba(0,0,0,.5)}
+.sb-flash div.a{color:var(--sb-aka)} .sb-flash div.b{color:var(--sb-shiro)}
+.sb-flash small{display:block;text-align:center;font:800 2.4cqw var(--f-display);letter-spacing:.3em;color:var(--sb-ink);margin-top:1cqw}
+@keyframes flash{0%{opacity:0;transform:scale(1.1)}12%{opacity:1;transform:none}80%{opacity:1}100%{opacity:0}}
+/* stream overlay */
+.ov{position:relative;aspect-ratio:16/9;border-radius:2cqw;overflow:hidden;background:
+ radial-gradient(ellipse at 50% 60%,transparent 30%,rgba(0,0,0,.55) 100%),
+ repeating-linear-gradient(90deg,var(--tat-1) 0 12cqw,var(--tat-2) 12cqw 24cqw);font-family:var(--f-display)}
+.ov::before{content:"";position:absolute;left:14%;right:14%;top:18%;bottom:10%;border:.5cqw solid rgba(160,30,40,.55);transform:perspective(60cqw) rotateX(38deg)}
+.ov-cam{position:absolute;left:2cqw;top:2cqw;font:700 1.3cqw var(--f-mono);color:rgba(255,255,255,.85);letter-spacing:.14em;display:flex;gap:.8cqw;align-items:center}
+.ov-cam i{width:1cqw;height:1cqw;border-radius:50%;background:var(--sb-aka);animation:pulse 1.4s infinite}
+.ov-bug{position:absolute;right:2cqw;top:2cqw;background:rgba(8,10,26,.85);color:#fff;padding:1cqw 1.6cqw;border-radius:.8cqw;font:800 1.5cqw/1.2 var(--f-display);font-stretch:115%;text-align:right}
+.ov-bug small{display:block;font:600 1.1cqw var(--f-mono);color:var(--sb-dim);letter-spacing:.1em}
+.ov-lt{position:absolute;left:2.4cqw;bottom:2.4cqw;display:grid;grid-template-columns:auto auto;border-radius:1cqw;overflow:hidden;box-shadow:0 1cqw 3cqw rgba(0,0,0,.4)}
+.ov-rows{display:flex;flex-direction:column}
+.ov-row{display:grid;grid-template-columns:3.4cqw 26cqw 6cqw;align-items:center;height:4.4cqw}
+.ov-row .c{height:100%;display:grid;place-items:center;font:900 1.8cqw var(--f-jp)}
+.ov-row.a .c{background:var(--sb-aka);color:#fff} .ov-row.b .c{background:var(--sb-shiro);color:var(--sb-shiro-ink)}
+.ov-row .n{background:rgba(8,10,26,.9);color:#fff;height:100%;display:flex;align-items:center;padding:0 1.4cqw;font-size:2cqw;font-weight:800;font-stretch:88%;gap:1cqw;white-space:nowrap;overflow:hidden}
+.ov-row .n small{font:500 1.2cqw var(--f-body);color:var(--sb-dim)}
+.ov-row .p{background:rgba(18,22,51,.95);height:100%;display:flex;align-items:center;justify-content:center;gap:.6cqw}
+.ov-row .p i{width:1.3cqw;height:1.3cqw;border-radius:50%;border:.25cqw solid #fff;opacity:.4}
+.ov-row .p i.on{background:var(--sb-gold);border-color:var(--sb-gold);opacity:1}
+.ov-t{background:var(--sb-bg);color:#fff;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:0 1.8cqw;font-size:3.4cqw;font-weight:800;font-variant-numeric:tabular-nums}
+.ov-t small{font:700 1cqw var(--f-mono);color:var(--sb-dim);letter-spacing:.14em}
+.ekran-grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:18px;align-items:start}
+.qr-tile{background:#fff;border-radius:12px;padding:12px;display:inline-block}
+.qr-tile canvas{display:block;width:150px;height:150px;image-rendering:pixelated}
+
+/* ---------- devices ---------- */
+.device-row{display:grid;grid-template-columns:auto minmax(0,1fr);gap:34px;align-items:start}
+.phone{width:min(360px,100%);border-radius:44px;border:10px solid var(--ink);background:var(--paper);overflow:hidden;box-shadow:var(--shadow);position:relative}
+.phone-in{height:720px;overflow:auto;padding:46px 16px 20px;display:flex;flex-direction:column;gap:12px}
+.notch{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:110px;height:28px;border-radius:20px;background:var(--ink);z-index:2}
+.push{background:color-mix(in srgb,var(--surface) 88%,transparent);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:18px;padding:10px 12px;display:grid;grid-template-columns:30px 1fr;gap:10px;font-size:13px;box-shadow:var(--shadow);animation:drop .6s .3s both}
+.push .hanko{width:30px;height:30px;font-size:16px;border-radius:8px}
+.push b{font-size:13px}
+.push .muted{font-size:11px}
+.tablet{width:min(760px,100%);border-radius:30px;border:12px solid var(--ink);background:var(--surface);box-shadow:var(--shadow);overflow:hidden}
+.tablet-in{padding:20px;display:flex;flex-direction:column;gap:16px;min-height:430px}
+.vote-row{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;flex:1}
+.vbtn{border:0;border-radius:22px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:20px;font:900 24px/1 var(--f-display);font-stretch:95%;min-height:230px;transition:transform .1s}
+.vbtn:active{transform:scale(.98)}
+.vbtn svg{width:76px;height:76px}
+.vbtn small{font:600 13px var(--f-body);opacity:.85}
+.vbtn.a{background:var(--aka);color:#fff}
+.vbtn.b{background:var(--shiro);color:var(--shiro-ink);box-shadow:inset 0 0 0 3px var(--shiro-edge)}
+.vbtn.d{background:var(--surface-3);color:var(--ink);min-height:0;padding:16px;font-size:16px}
+.vbtn.d svg{width:46px;height:46px}
+.vbtn.sel{outline:5px solid var(--gold);outline-offset:3px}
+.vbtn:disabled{opacity:.35;cursor:not-allowed}
+.step{display:grid;grid-template-columns:22px 1fr;gap:10px;position:relative;padding-bottom:14px}
+.step::before{content:"";position:absolute;left:10px;top:22px;bottom:0;width:2px;background:var(--line)}
+.step:last-child::before{display:none}
+.step .sd{width:22px;height:22px;border-radius:50%;border:2px solid var(--line-2);background:var(--surface);display:grid;place-items:center;font:700 10px var(--f-mono)}
+.step.w .sd{background:var(--ok);border-color:var(--ok);color:#fff}
+.step.l .sd{background:var(--bad);border-color:var(--bad);color:#fff}
+.step.n .sd{border-color:var(--aka);color:var(--aka)}
+.step b{font-size:14px}
+.step div div{font-size:12.5px;color:var(--ink-2)}
+.next-card{background:var(--ink);color:var(--paper);border-radius:18px;padding:16px}
+.next-card .big{font:900 34px/1 var(--f-display);font-stretch:110%;margin:6px 0}
+.next-card .eyebrow{color:color-mix(in srgb,var(--paper) 60%,transparent)}
+.feat-list{display:flex;flex-direction:column;gap:14px;max-width:520px}
+.feat-list div{display:grid;grid-template-columns:36px 1fr;gap:12px}
+.feat-list .ic{width:36px;height:36px;border-radius:10px;background:var(--ai-soft);color:var(--ai);display:grid;place-items:center;font:900 16px var(--f-jp)}
+.feat-list b{display:block;font-family:var(--f-display);font-stretch:105%}
+.feat-list p{margin:2px 0 0;color:var(--ink-2);font-size:14px}
+
+/* ---------- organizer ---------- */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px}
+.kpi b{display:block;font:800 26px/1.1 var(--f-display);font-stretch:108%;font-variant-numeric:tabular-nums}
+.kpi span{font-size:12.5px;color:var(--ink-2)}
+.kpi.warn b{color:var(--warn)}
+.w-in{width:84px;border:1px solid var(--line-2);border-radius:8px;padding:6px 8px;background:var(--surface);text-align:right;font:600 14px var(--f-mono)}
+.ci{border:1px solid var(--line-2);background:var(--surface);border-radius:999px;padding:4px 10px;font-size:12.5px;font-weight:600;white-space:nowrap}
+.ci.on{background:var(--ok-soft);color:var(--ok);border-color:transparent}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.catc{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.catc.alert{border-color:color-mix(in srgb,var(--warn) 60%,var(--line))}
+.catc b{font:800 15px/1.2 var(--f-display);font-stretch:95%}
+.cnt{display:flex;gap:2px;flex-wrap:wrap}
+.cnt i{width:7px;height:14px;border-radius:2px;background:var(--ai)}
+.cnt i.e{background:var(--surface-3)}
+.suggest{background:var(--warn-soft);border-radius:10px;padding:10px;font-size:13px;color:var(--ink);display:flex;flex-direction:column;gap:8px}
+.gantt{position:relative;min-width:760px}
+.g-axis{display:grid;margin-left:90px;font:600 11px var(--f-mono);color:var(--ink-3);height:22px;position:relative}
+.g-axis span{position:absolute;transform:translateX(-50%)}
+.g-row{display:grid;grid-template-columns:90px 1fr;align-items:center;height:58px;border-top:1px solid var(--line)}
+.g-row>b{font:900 15px var(--f-display);font-stretch:115%}
+.g-row>b small{display:block;font:500 10.5px var(--f-mono);color:var(--ink-3);font-stretch:100%}
+.g-lane{position:relative;height:100%;background:repeating-linear-gradient(90deg,transparent 0 calc(20% - 1px),var(--line) calc(20% - 1px) 20%)}
+.g-b{position:absolute;top:9px;bottom:9px;border-radius:8px;padding:5px 8px;font-size:12px;font-weight:600;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;border:0;text-align:left;line-height:1.25;color:var(--ink)}
+.g-b small{display:block;font:500 10.5px var(--f-mono);opacity:.75}
+.g-b.kumite{background:var(--aka-soft);box-shadow:inset 3px 0 0 var(--aka)}
+.g-b.kata{background:var(--ai-soft);box-shadow:inset 3px 0 0 var(--ai)}
+.g-b.sel{outline:2px solid var(--ink)}
+.g-b.livep::after{content:"";position:absolute;right:7px;top:7px;width:7px;height:7px;border-radius:50%;background:var(--aka);animation:pulse 1.4s infinite}
+.g-now{position:absolute;top:0;bottom:0;width:2px;background:var(--aka);z-index:2}
+.g-now span{position:absolute;top:-2px;left:4px;font:700 10.5px var(--f-mono);color:var(--aka);white-space:nowrap}
+.g-band{position:absolute;top:22px;bottom:0;background:repeating-linear-gradient(135deg,color-mix(in srgb,var(--gold) 18%,transparent) 0 6px,transparent 6px 12px);border-left:1px dashed var(--gold);z-index:0}
+.g-band span{position:absolute;top:4px;left:6px;font:700 10.5px var(--f-mono);color:var(--gold);white-space:nowrap}
+.movebar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:14px;padding:12px;background:var(--surface-2);border-radius:12px;font-size:14px}
+
+/* ---------- club ---------- */
+.elig{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600}
+.elig.ok{color:var(--ok)} .elig.no{color:var(--ink-3);font-weight:500}
+.reg-sum{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.consents{display:flex;flex-direction:column;gap:8px;font-size:13.5px;margin-top:14px}
+.consents label{display:flex;gap:9px;align-items:flex-start}
+.consents input{margin-top:3px;accent-color:var(--ai)}
+input[type=checkbox].pick{width:18px;height:18px;accent-color:var(--ai)}
+
+/* ---------- results ---------- */
+.res-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:18px;align-items:start}
+.podiums{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.pod{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px}
+.pod h4{margin:0 0 10px;font:800 14px/1.2 var(--f-display);font-stretch:95%}
+.pod-steps{display:grid;grid-template-columns:1fr 1fr 1fr;align-items:end;gap:6px;text-align:center}
+.pod-steps>div{display:flex;flex-direction:column;gap:6px;align-items:stretch;min-width:0}
+.pod-steps .nm{font:700 12px/1.15 var(--f-display);font-stretch:85%;overflow:hidden;text-overflow:ellipsis}
+.pod-steps .blk{border-radius:8px 8px 0 0;display:grid;place-items:center;font:900 18px var(--f-display);color:#fff}
+.p1 .blk{height:64px;background:var(--gold)} .p2 .blk{height:46px;background:var(--silver)} .p3 .blk{height:32px;background:var(--bronze)}
+.pod-b3{font-size:12px;color:var(--ink-3);margin-top:8px;text-align:center}
+.team-bars{display:flex;flex-direction:column;gap:10px}
+.tb{display:grid;grid-template-columns:22px 150px minmax(0,1fr) 44px;gap:10px;align-items:center;font-size:14px}
+.tb .rk{font:800 14px var(--f-mono);color:var(--ink-3)}
+.tb .tn{font-weight:600;display:flex;gap:7px;align-items:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tb .tr{height:22px;background:var(--surface-3);border-radius:6px;overflow:hidden}
+.tb .tr i{display:block;height:100%;background:var(--c);border-radius:6px;transition:width .4s}
+.tb .tv{font:800 15px var(--f-mono);text-align:right}
+.ptsin{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;font-size:13px;color:var(--ink-2);align-items:center}
+.ptsin input{width:52px;border:1px solid var(--line-2);border-radius:8px;padding:5px 7px;background:var(--surface);font:600 14px var(--f-mono);text-align:center}
+.medals td.m{font:700 14px var(--f-mono);text-align:center}
+.diploma{border:6px double var(--gold);border-radius:6px;padding:20px;text-align:center;background:var(--surface-2);position:relative;overflow:hidden}
+.diploma .k{font:900 40px/1 var(--f-jp);color:var(--aka);opacity:.9}
+.diploma h4{margin:8px 0 2px;font:900 22px var(--f-display);font-stretch:120%;letter-spacing:.06em}
+.diploma p{margin:4px 0;font-size:13px;color:var(--ink-2)}
+.diploma b{font:800 18px var(--f-display);display:block;margin:6px 0;color:var(--ink)}
+
+/* ---------- drawer & toast ---------- */
+.scrim{position:fixed;inset:0;background:rgba(10,12,30,.4);z-index:40;opacity:0;pointer-events:none;transition:opacity .2s}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(420px,100%);background:var(--surface);z-index:41;transform:translateX(105%);transition:transform .25s ease;display:flex;flex-direction:column;border-left:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+.drawer.on{transform:none}
+.dw-h{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-bottom:1px solid var(--line)}
+.dw-b{padding:18px;overflow:auto;display:flex;flex-direction:column;gap:16px}
+.x{border:0;background:var(--surface-3);border-radius:50%;width:32px;height:32px;font-size:18px;line-height:1}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:var(--ink);color:var(--paper);padding:11px 18px;border-radius:12px;font-weight:600;font-size:14px;opacity:0;transition:.25s;z-index:60;max-width:calc(100% - 32px);text-align:center;pointer-events:none}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.mock-note{font-size:12.5px;color:var(--ink-3);margin-top:28px;text-align:center}
+
+@media (max-width:1100px){
+  .live-grid,.ekran-grid,.res-grid{grid-template-columns:1fr}
+  .sec-lower{grid-template-columns:1fr 1fr}
+  .sec-lower .preview{grid-column:1/-1}
+}
+@media (max-width:900px){
+  .bk-layout{grid-template-columns:1fr}
+  .cat-list{position:static;flex-direction:row;overflow-x:auto;padding-bottom:4px}
+  .cat-btn{min-width:220px}
+  .sec-grid{grid-template-columns:1fr 1fr}
+  .sec-grid .clock{grid-column:1/-1;order:-1}
+  .sec-lower,.sec-lower2{grid-template-columns:1fr}
+  .device-row{grid-template-columns:1fr;justify-items:center}
+  .rr{grid-template-columns:1fr}
+  .brand small,.lang{display:none}
+}
+@media (max-width:640px){
+  .top-in{flex-wrap:wrap;gap:10px}
+  .nav{order:3;flex-basis:100%}
+  .mats{grid-template-columns:1fr}
+  .sec-grid{grid-template-columns:1fr}
+  .hero{padding:22px 18px}
+  .hero-kanji{font-size:96px}
+  .clock .time{font-size:56px}
+  .tb{grid-template-columns:20px 100px minmax(0,1fr) 36px}
+  .prog-track{grid-template-columns:1fr 1fr}
+  .vote-row{grid-template-columns:1fr 1fr}
+  .vote-row .vbtn.d{grid-column:1/-1;order:3}
+  .vbtn{min-height:160px}
+  .phone-in{height:640px}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="#turniej"><span class="hanko" aria-hidden="true">始</span><span><b>HAJIME</b><small>system turniejowy · prototyp</small></span></a>
+    <nav class="nav" id="nav" aria-label="Widoki"></nav>
+    <div class="tools">
+      <span class="lang" title="Język w ścieżce URL (F-ORG-07)">/<b>pl</b>/ · en · lt · de</span>
+      <button class="chipbtn" id="fidBtn" aria-pressed="false" data-act="fids">ID funkcji</button>
+    </div>
+  </div>
+</header>
+<main id="app"></main>
+<div class="scrim" id="scrim" data-act="close"></div>
+<aside class="drawer" id="drawer" aria-hidden="true"><div class="dw-h"><div id="dwTitle" class="eyebrow"></div><button class="x" data-act="close" aria-label="Zamknij">×</button></div><div class="dw-b" id="dwBody"></div></aside>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* ===================== utils ===================== */
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const kg = x => x == null ? '—' : x.toFixed(1).replace('.', ',') + ' kg';
+const hm = m => `${Math.floor(m / 60)}:${String(Math.round(m % 60)).padStart(2, '0')}`;
+const mmss = s => { s = Math.max(0, Math.ceil(s - 1e-6)); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };
+const fid = (...ids) => `<span class="fid">${ids.join(' · ')}</span>`;
+let toastT;
+function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), 2800); }
+
+/* ===================== data (przykładowe) ===================== */
+const CLUBS = {
+  zur: { name: 'Żuraw Dojo', s: 'ŻUR', c: '#12a89a' },
+  ory: { name: 'Orzeł Kyokushin', s: 'ORZ', c: '#e2762b' },
+  sam: { name: 'Samuraj Team', s: 'SAM', c: '#7c5cd6' },
+  bia: { name: 'Biała Gwardia Dojo', s: 'BGD', c: '#3f7fe0' },
+  tor: { name: 'Torii Club', s: 'TOR', c: '#d94f8c' },
+  wil: { name: 'Wilki Karate', s: 'WLK', c: '#5fa043' },
+};
+const BELT_C = { 10: '#ef7d1a', 9: '#ef7d1a', 8: '#2c63d1', 7: '#2c63d1', 6: '#e6bf12', 5: '#e6bf12', 4: '#2c9a4c', 3: '#2c9a4c', 2: '#7b4a26', 1: '#7b4a26', 0: '#15151a' };
+const belt = k => `<span class="belt${k % 2 ? ' st' : ''}" style="--b:${BELT_C[k]};--s:${BELT_C[k - 1] || '#15151a'}"></span> ${k} kyu`;
+const F = {
+  f1: { n: 'Antoni Kowalski', club: 'zur', kyu: 3, w: 58.4, age: 15 },
+  f2: { n: 'Mikołaj Wrona', club: 'ory', kyu: 4, w: 59.1, age: 15 },
+  f3: { n: 'Szymon Bąk', club: 'sam', kyu: 5, w: 57.8, age: 14 },
+  f4: { n: 'Kacper Lis', club: 'bia', kyu: 4, w: 59.7, age: 15 },
+  f5: { n: 'Filip Jaworski', club: 'tor', kyu: 6, w: 56.2, age: 14 },
+  f6: { n: 'Igor Mazur', club: 'wil', kyu: 3, w: 59.9, age: 15 },
+  f7: { n: 'Jan Pawlak', club: 'zur', kyu: 5, w: 57.1, age: 15 },
+  f8: { n: 'Oskar Wójcik', club: 'sam', kyu: 4, w: 58.8, age: 15 },
+  f9: { n: 'Tymon Krawczyk', club: 'ory', kyu: 2, w: 59.5, age: 15 },
+  f10: { n: 'Leon Sadowski', club: 'bia', kyu: 5, w: 58.0, age: 14 },
+  f11: { n: 'Wiktor Zając', club: 'wil', kyu: 6, w: 55.4, age: 14 },
+  f12: { n: 'Bartek Kubiak', club: 'tor', kyu: 4, w: 59.2, age: 15 },
+  f13: { n: 'Hubert Nowicki', club: 'zur', kyu: 5, w: 59.6, age: 14 },
+  g1: { n: 'Maja Zielińska', club: 'zur', kyu: 6, w: 44.1, age: 12 },
+  g2: { n: 'Zofia Nowak', club: 'sam', kyu: 5, w: 43.5, age: 13 },
+  g3: { n: 'Oliwia Kamińska', club: 'bia', kyu: 6, w: 44.8, age: 13 },
+  g4: { n: 'Hania Kurek', club: 'ory', kyu: 7, w: 42.0, age: 12 },
+  g5: { n: 'Julia Mazurek', club: 'zur', kyu: 7, w: 41.6, age: 12 },
+  g6: { n: 'Pola Wiśniewska', club: 'sam', kyu: 6, w: 44.4, age: 13 },
+  g7: { n: 'Amelia Kruk', club: 'bia', kyu: 8, w: 40.9, age: 12 },
+  g8: { n: 'Laura Bednarz', club: 'tor', kyu: 6, w: 43.9, age: 13 },
+  w1: { n: 'Natalia Wróbel', club: 'tor', kyu: 2, w: 71.2, age: 24 },
+  w2: { n: 'Ewa Lewandowska', club: 'sam', kyu: 3, w: 68.4, age: 29 },
+  w3: { n: 'Karolina Dąbrowska', club: 'zur', kyu: 1, w: 69.9, age: 22 },
+};
+const CATS = {
+  'b14-60': {
+    id: 'b14-60', name: 'Chłopcy 14–15 lat', w: '−60 kg', tatami: 2, start: '11:05', time: '1:30 · encho 1:00',
+    R1: [['f1', null], ['f2', 'f3'], ['f4', 'f5'], ['f6', null], ['f9', null], ['f7', 'f8'], ['f10', 'f11'], ['f12', 'f13']],
+    num: { 'r0-1': 31, 'r0-2': 32, 'r0-5': 33, 'r0-6': 34, 'r0-7': 35, 'r1-0': 41, 'r1-1': 42, 'r1-2': 43, 'r1-3': 44, 'r2-0': 52, 'r2-1': 53, 'b3': 58, 'r3-0': 60 },
+    results: {
+      'r0-1': { w: 'a', m: 'Ippon', d: 'jodan mawashi geri', at: '11:08', pub: true },
+      'r0-2': { w: 'b', m: 'Hantei', d: '4:1', at: '11:12', pub: true },
+      'r0-5': { w: 'a', m: 'Waza-ari', d: 'gedan mawashi geri', at: '11:16', pub: true },
+      'r0-6': { w: 'a', m: 'Hantei po encho', d: '5:0', at: '11:22', pub: true },
+      'r0-7': { w: 'b', m: 'Ippon', d: 'awase waza-ari', at: '11:26', pub: true },
+      'r1-0': { w: 'a', m: 'Waza-ari', d: 'chudan mae geri', at: '11:37', pub: true },
+      'r1-1': { w: 'b', m: 'Ippon', d: 'jodan hiza geri', at: '11:41', pub: true },
+    },
+    live: 'r1-2', order: ['r1-2', 'r1-3', 'r2-0', 'r2-1', 'b3', 'r3-0'], bronze: true,
+  },
+  'g12-45': { id: 'g12-45', name: 'Dziewczęta 12–13 lat', w: '−45 kg', tatami: 3, start: '12:10', time: '1:30 · encho 1:00', pool: ['g1', 'g2', 'g3', 'g4', 'g5', 'g6', 'g7', 'g8'], R1: null, results: {}, live: null, num: {}, order: [], bronze: false },
+  'w-65': {
+    id: 'w-65', name: 'Kobiety seniorki', w: '+65 kg', tatami: 1, start: '10:30', time: '2:00 · encho 2:00',
+    rr: { fighters: ['w1', 'w2', 'w3'], bouts: [{ a: 'w1', b: 'w2', w: 'w1', m: 'Hantei 4:1', no: 21 }, { a: 'w3', b: 'w1', w: 'w3', m: 'Ippon', no: 24 }, { a: 'w2', b: 'w3', w: 'w3', m: 'Waza-ari', no: 27 }] },
+  },
+};
+const CAT_ORDER = ['b14-60', 'g12-45', 'w-65'];
+const TECH = ['jodan mawashi geri', 'chudan mawashi geri', 'gedan mawashi geri', 'chudan mae geri', 'jodan hiza geri', 'ushiro mawashi geri', 'kakato otoshi', 'seiken chudan tsuki', 'awase waza-ari'];
+const METHODS = ['Ippon', 'Waza-ari', 'Hantei', 'Hantei po encho', 'Decyzja wagowa', 'Hansoku', 'Kiken', 'Fusen'];
+const MSHORT = { 'Ippon': 'I', 'Waza-ari': 'W', 'Hantei': 'H', 'Hantei po encho': 'E', 'Decyzja wagowa': 'DW', 'Hansoku': 'HS', 'Kiken': 'K', 'Fusen': 'F' };
+const JUDGES = ['Shushin', 'Fukushin 1', 'Fukushin 2', 'Fukushin 3', 'Fukushin 4'];
+
+let simClock = 11 * 60 + 44;
+const feed = [
+  { tm: '11:41', t: 2, txt: 'Walka #42: <b>Igor Mazur</b> wygrywa (Ippon · jodan hiza geri) · vs Filip Jaworski' },
+  { tm: '11:37', t: 2, txt: 'Walka #41: <b>Antoni Kowalski</b> wygrywa (Waza-ari · chudan mae geri) · vs Mikołaj Wrona' },
+  { tm: '11:35', t: 1, txt: 'Kobiety seniorki +65 kg zakończone. Złoto: <b>Karolina Dąbrowska</b> (Żuraw Dojo)' },
+  { tm: '11:30', t: 4, txt: 'Kategoria Chłopcy 10–11 lat −35 kg przeniesiona z Tatami 3 na Tatami 4', sys: true },
+  { tm: '11:22', t: 3, txt: 'Kata Juniorzy 12–15: koniec rundy 1, do rundy 2 awansuje 8 zawodników' },
+];
+const MATS = [
+  { t: 1, cat: 'Mężczyźni −75 kg', now: ['Paweł Ryba', 'Damian Kos'], no: 46, next: [['Marek Hajduk', 'Adam Stępień', 47], ['Łukasz Mróz', 'Robert Fijał', 48]], done: 9, total: 15, clock: '0:54' },
+  { t: 2 },
+  { t: 3, cat: 'Kata Juniorzy 12–15 · runda 2', now: ['Lena Sowa', 'Iga Marczak'], no: 'K12', next: [['Nina Jasińska', 'Ada Kowal', 'K13'], ['Roksana Pyka', 'Emilia Ruta', 'K14']], done: 14, total: 22, clock: 'kata' },
+  { t: 4, cat: 'Chłopcy 10–11 lat −35 kg', now: ['Franek Duda', 'Olek Wilk'], no: 49, next: [['Kuba Michalski', 'Staś Błach', 50], ['Tosiek Grad', 'Miłosz Sowa', 51]], done: 17, total: 20, clock: '1:12' },
+];
+const AUDIT = [
+  { tm: '11:41:06', who: 'Sekretarz T2 · Anna W.', what: 'Walka #42 · wynik: Igor Mazur, Ippon (jodan hiza geri)' },
+  { tm: '11:37:40', who: 'Sekretarz T2 · Anna W.', what: 'Walka #41 · wynik: Antoni Kowalski, Waza-ari' },
+  { tm: '11:30:12', who: 'Organizator · Michał S.', what: 'Kategoria Chłopcy 10–11 −35 kg: Tatami 3 → Tatami 4' },
+  { tm: '10:58:31', who: 'Sędzia główny · Piotr K.', what: 'Korekta walki #27: Waza-ari → Ippon (powtórka wideo)' },
+  { tm: '09:02:10', who: 'Weryfikacja · Kasia M.', what: 'Ponowne losowanie 6 kategorii po weryfikacji' },
+];
+
+/* ===================== bracket engine ===================== */
+function roundName(r, rounds) { const d = rounds - 1 - r; return ['Finał', 'Półfinały', 'Ćwierćfinały', '1/8 finału', '1/16 finału'][d]; }
+function buildBracket(cat, pubOnly) {
+  const n = cat.R1.length, rounds = Math.log2(n) + 1, B = {};
+  const get = id => { const r = cat.results[id]; return r && (!pubOnly || r.pub) ? r : null; };
+  for (let r = 0; r < rounds; r++) {
+    const cnt = n / 2 ** r;
+    for (let i = 0; i < cnt; i++) {
+      const id = `r${r}-${i}`;
+      let a, b, srcA = null, srcB = null;
+      if (r === 0) [a, b] = cat.R1[i];
+      else { const ca = B[`r${r - 1}-${2 * i}`], cb = B[`r${r - 1}-${2 * i + 1}`]; a = ca.win; b = cb.win; srcA = ca; srcB = cb; }
+      const bout = { id, r, i, a, b, srcA, srcB, no: cat.num[id], rounds };
+      finish(cat, bout, get(id)); B[id] = bout;
+    }
+  }
+  if (cat.bronze) {
+    const s0 = B[`r${rounds - 2}-0`], s1 = B[`r${rounds - 2}-1`];
+    const bz = { id: 'b3', r: rounds - 1, i: 1, a: s0.lose, b: s1.lose, srcA: s0, srcB: s1, no: cat.num.b3, bronze: true, rounds };
+    finish(cat, bz, get('b3')); B.b3 = bz;
+  }
+  B._rounds = rounds; B._final = B[`r${rounds - 1}-0`];
+  return B;
+}
+function finish(cat, bout, res) {
+  const { a, b } = bout;
+  if (bout.r === 0 && (a === null || b === null)) { bout.status = 'bye'; bout.win = a || b; bout.lose = null; return; }
+  if (res && a && b) { bout.status = 'done'; bout.res = res; bout.win = res.w === 'a' ? a : b; bout.lose = res.w === 'a' ? b : a; return; }
+  bout.win = undefined; bout.lose = undefined;
+  bout.status = bout.id === cat.live ? 'live' : (a && b ? 'ready' : 'pending');
+}
+const realBouts = B => Object.values(B).filter(x => x && x.id && x.status !== 'bye');
+function placeholder(bout, side) {
+  const src = side === 'a' ? bout.srcA : bout.srcB;
+  if (!src) return 'wolny los';
+  const lbl = src.no ? '#' + src.no : 'walki';
+  return bout.bronze ? `przegrany ${lbl}` : `zwycięzca ${lbl}`;
+}
+
+/* ===================== scoring state ===================== */
+const SC0 = () => ({ a: { wa: 0, chui: 0 }, b: { wa: 0, chui: 0 }, time: 90, base: 90, running: false, ended: false, encho: 0, votes: [null, null, null, null, null], hantei: false, winner: null, method: '', tech: '', log: [], flash: null });
+let sc = SC0();
+const net = { offline: false, pendingFeed: [] };
+const ann = [{ txt: 'Tatami dwa, walka czterdzieści trzy. Na czerwono: Tymon Krawczyk, Orzeł Kyokushin. Na biało: Jan Pawlak, Żuraw Dojo.', auto: true }];
+let annAuto = false;
+const ui = { view: 'turniej', pubTab: 'live', pClub: null, cat: 'b14-60', bmode: 'tree', org: 'wazenie', clubCat: 0, clubSel: new Set(), consents: [false, false, false], follow: 'f1', sbMode: 'hall', justDone: null, gSel: null, pts: { 1: 5, 2: 3, 3: 1 }, tol: 0 };
+
+/* ===================== nav ===================== */
+const VIEWS = [
+  { id: 'turniej', label: 'Turniej', g: 'Publiczne' },
+  { id: 'drabinki', label: 'Drabinki', g: 'Publiczne' },
+  { id: 'wyniki', label: 'Wyniki', g: 'Publiczne' },
+  { id: 'sledz', label: 'Śledź zawodnika', g: 'Publiczne' },
+  { id: 'sekretarz', label: 'Sekretarz', g: 'Hala' },
+  { id: 'sedzia', label: 'Tablet sędziego', g: 'Hala' },
+  { id: 'ekran', label: 'Ekran i stream', g: 'Hala' },
+  { id: 'organizator', label: 'Organizator', g: 'Zaplecze' },
+  { id: 'klub', label: 'Klub', g: 'Zaplecze' },
+];
+function renderNav() {
+  const groups = [...new Set(VIEWS.map(v => v.g))];
+  $('#nav').innerHTML = groups.map(g => `<div class="nav-g"><span>${g}</span>${VIEWS.filter(v => v.g === g).map(v => `<a href="#${v.id}" class="${ui.view === v.id ? 'on' : ''}">${v.label}</a>`).join('')}</div>`).join('');
+}
+
+/* ===================== shared bits ===================== */
+const club = id => CLUBS[F[id]?.club] || { name: '—', s: '—', c: 'transparent' };
+const fname = id => id ? F[id].n : '—';
+function offlineBanner() {
+  if (!net.offline) return '';
+  const q = sc.log.filter(l => !l.synced).length + net.pendingFeed.length;
+  return `<div class="offline-banner"><span class="dot"></span>Tatami 2 pracuje offline. ${q} zdarzeń czeka w kolejce i pojawi się tu po powrocie sieci. ${fid('NFR offline-first')}</div>`;
+}
+function liveBout() { const cat = CATS['b14-60']; const B = buildBracket(cat, false); return cat.live ? B[cat.live] : null; }
+function queueAhead(B, cat) { return cat.order.filter(id => B[id] && B[id].status !== 'done'); }
+
+/* ===================== VIEW: turniej ===================== */
+function viewTurniej() {
+  const cat = CATS['b14-60'], B = buildBracket(cat, true);
+  const doneF = realBouts(B).filter(b => b.status === 'done').length;
+  const pct = Math.round((131 + doneF) / 214 * 100);
+  const tabs = [['live', 'Na żywo'], ['info', 'Informacje'], ['uczestnicy', 'Uczestnicy'], ['oficjele', 'Oficjele']];
+  let body = '';
+  if (ui.pubTab === 'live') body = pubLive(B, cat);
+  if (ui.pubTab === 'info') body = pubInfo();
+  if (ui.pubTab === 'uczestnicy') body = pubPeople();
+  if (ui.pubTab === 'oficjele') body = pubOfficials();
+  return `${offlineBanner()}
+  <section class="hero">
+    <div class="hero-kanji" aria-hidden="true">押忍</div>
+    <div class="hero-eyebrow"><span class="live-pill"><i></i>Na żywo</span><span>Kyokushin knockdown · sobota, 21 listopada 2026 · Hala MOSiR</span>${fid('F-TRN-01', 'F-PUB-05')}</div>
+    <h1 class="hero-title">Puchar Żurawia <span>2026</span></h1>
+    <div class="hero-stats">
+      <div class="hs"><b class="num">186</b><span>zawodników</span></div>
+      <div class="hs"><b class="num">24</b><span>kluby</span></div>
+      <div class="hs"><b class="num">38</b><span>kategorii</span></div>
+      <div class="hs"><b class="num">4</b><span>tatami</span></div>
+      <div class="hs hs-prog"><span>Rozegrano ${131 + doneF} z 214 walk · ${pct}%</span><div class="bar"><i style="width:${pct}%"></i></div></div>
+    </div>
+  </section>
+  <div class="subtabs" role="tablist">${tabs.map(([k, l]) => `<button role="tab" class="${ui.pubTab === k ? 'on' : ''}" data-act="pubTab" data-arg="${k}">${l}</button>`).join('')}<a href="#drabinki">Drabinki</a><a href="#wyniki">Wyniki</a>${fid('F-PUB-01')}</div>
+  ${body}`;
+}
+function matCard(m, B, cat) {
+  if (m.t === 2) {
+    const lb = cat.live ? B[cat.live] : null;
+    const q = queueAhead(B, cat).filter(id => id !== cat.live).slice(0, 2).map(id => B[id]);
+    const real = realBouts(B), done = real.filter(b => b.status === 'done').length;
+    const aName = lb ? (lb.a ? fname(lb.a) : placeholder(lb, 'a')) : '—';
+    const bName = lb ? (lb.b ? fname(lb.b) : placeholder(lb, 'b')) : '—';
+    return `<div class="mat is-live">
+      <div class="mat-h"><span class="mat-n">T2<small>TATAMI</small></span>${lb ? `<span class="pill live"><span class="dot"></span>#${lb.no} · ${roundName(lb.r, lb.rounds).toLowerCase()}</span>` : '<span class="pill ok">kategoria zakończona</span>'}</div>
+      <div class="mat-cat">${cat.name} ${cat.w}</div>
+      <div class="vs"><div class="a"><b>${esc(aName)}</b><small>${lb && lb.a ? club(lb.a).name : ''}</small><span class="wa-pips"><i class="${sc.a.wa > 0 ? 'on' : ''}"></i><i class="${sc.a.wa > 1 ? 'on' : ''}"></i></span></div>
+      <div class="mid js-time num">${mmss(sc.time)}</div>
+      <div class="b"><b>${esc(bName)}</b><small>${lb && lb.b ? club(lb.b).name : ''}</small><span class="wa-pips"><i class="${sc.b.wa > 0 ? 'on' : ''}"></i><i class="${sc.b.wa > 1 ? 'on' : ''}"></i></span></div></div>
+      <div class="next-list">${q.map(b => `<div><span class="mono">#${b.no}</span><span>${esc(b.a ? fname(b.a) : placeholder(b, 'a'))} — ${esc(b.b ? fname(b.b) : placeholder(b, 'b'))}</span></div>`).join('') || '<div class="muted">Brak kolejnych walk w tej kategorii</div>'}</div>
+      <div class="mbar" title="${done}/${real.length}"><i style="width:${done / real.length * 100}%"></i></div>
+    </div>`;
+  }
+  return `<div class="mat">
+    <div class="mat-h"><span class="mat-n">T${m.t}<small>TATAMI</small></span><span class="pill">${typeof m.no === 'number' ? '#' + m.no : m.no}</span></div>
+    <div class="mat-cat">${m.cat}</div>
+    <div class="vs"><div class="a"><b>${m.now[0]}</b><small>na czerwono</small></div><div class="mid num">${m.clock === 'kata' ? 'KATA' : m.clock}</div><div class="b"><b>${m.now[1]}</b><small>na biało</small></div></div>
+    <div class="next-list">${m.next.map(n => `<div><span class="mono">${typeof n[2] === 'number' ? '#' + n[2] : n[2]}</span><span>${n[0]} — ${n[1]}</span></div>`).join('')}</div>
+    <div class="mbar"><i style="width:${m.done / m.total * 100}%"></i></div>
+  </div>`;
+}
+function pubLive(B, cat) {
+  const steps = [['8:00', 'Weryfikacja i ważenie', 'done'], ['9:30', 'Kata', 'done'], ['10:30', 'Kumite – eliminacje', 'now'], ['14:30', 'Finały kumite', ''], ['15:30', 'Dekoracja', '']];
+  return `<div class="live-grid">
+    <div>
+      <div class="card-h"><h3>Na matach teraz ${fid('F-PUB-03', 'F-SCH-03')}</h3><span class="muted" style="font-size:13px">Aktualizacja bez odświeżania strony ${fid('F-PUB-02')}</span></div>
+      <div class="mats">${MATS.map(m => matCard(m, B, cat)).join('')}</div>
+      <section class="card program"><h3>Program dnia ${fid('F-TRN-02')}</h3>
+        <div class="prog-track">${steps.map(s => `<div class="prog-step ${s[2]}"><b>${s[0]}</b><span>${s[1]}</span></div>`).join('')}</div>
+      </section>
+    </div>
+    <aside class="card"><div class="card-h"><h3>Aktualizacje na żywo</h3><span class="pill live"><span class="dot"></span>live</span></div>
+      <div class="feed">${feed.map((f, k) => `<div class="feed-i ${f.sys ? 'sys' : ''} ${k === 0 && f.fresh ? 'fresh' : ''}"><span class="tm">${f.tm}</span><div><span class="tt">TATAMI ${f.t}</span>${f.txt}</div></div>`).join('')}</div>
+    </aside>
+  </div>`;
+}
+function pubInfo() {
+  return `<div class="info-grid">
+    <section class="card"><h3>Zawody</h3><dl class="dl" style="margin-top:12px">
+      <dt>Data</dt><dd>sobota, 21 listopada 2026</dd><dt>Miejsce</dt><dd>Hala MOSiR, 4 tatami</dd><dt>Organizator</dt><dd>Żuraw Dojo</dd>
+      <dt>Dyscypliny</dt><dd>Kumite knockdown, kata ${fid('F-TRN-03')}</dd><dt>Przepisy</dt><dd>Knockdown, czas 1:30 / 2:00, encho 1:00</dd>
+      <dt>Strefa czasu</dt><dd>Europe/Warsaw (CET). Wszystkie godziny w czasie turnieju.</dd></dl></section>
+    <section class="card"><h3>Zgłoszenia ${fid('F-TRN-05', 'F-TRN-06')}</h3><dl class="dl" style="margin-top:12px">
+      <dt>Termin</dt><dd>do 14 listopada 2026, 23:59 CET</dd><dt>Kto</dt><dd>Kluby zaproszone przez organizatora (24)</dd><dt>Limit</dt><dd>220 zawodników · zajęto 186</dd>
+      <dt>Opłaty</dt><dd>kumite 80 zł · kata 60 zł · pakiet kumite + kata 120 zł</dd></dl>
+      <p class="muted" style="font-size:13px;margin:12px 0 0">Wstępne losowanie: 15 listopada. Ponowne losowanie po weryfikacji w dniu zawodów.</p></section>
+    <section class="card"><h3>Kontakt ${fid('F-TRN-07')}</h3><div class="locked" style="margin-top:12px"><span class="pill ai">zaloguj się</span>Telefon i e-mail organizatora widzą tylko zalogowani trenerzy klubów.</div>
+      <h3 style="margin-top:18px">Dokumenty</h3><div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px"><button class="btn sm" data-act="mockOnly">Regulamin</button><button class="btn sm" data-act="mockOnly">Klauzula RODO</button><button class="btn sm" data-act="mockOnly">Komunikat organizacyjny</button></div></section>
+  </div>`;
+}
+function pubPeople() {
+  const ids = Object.keys(F).filter(id => !ui.pClub || F[id].club === ui.pClub);
+  const catOf = id => id.startsWith('f') ? 'Chłopcy 14–15 lat −60 kg' : id.startsWith('g') ? 'Dziewczęta 12–13 lat −45 kg' : 'Kobiety seniorki +65 kg';
+  return `<section class="card">
+    <div class="card-h"><h3>Uczestnicy ${fid('F-REG-05')}</h3><span class="muted" style="font-size:13px">Bez dat urodzenia i wagi: publicznie pokazujemy tylko to, co potrzebne. ${fid('NFR RODO')}</span></div>
+    <div class="filters"><button class="${!ui.pClub ? 'on' : ''}" data-act="pClub" data-arg="">Wszystkie kluby</button>${Object.entries(CLUBS).map(([k, c]) => `<button class="${ui.pClub === k ? 'on' : ''}" data-act="pClub" data-arg="${k}"><span class="club-dot" style="--c:${c.c}"></span>${c.name}</button>`).join('')}</div>
+    <div class="scroll-x"><table class="t"><thead><tr><th>Zawodnik</th><th>Klub</th><th>Stopień</th><th>Kategoria</th></tr></thead><tbody>
+    ${ids.map(id => `<tr><td><button class="btn sm" style="border:0;padding:0;background:none;font-weight:700;font-size:14px" data-act="fighter" data-arg="${id}">${F[id].n}</button></td><td><span class="club-dot" style="--c:${club(id).c}"></span> ${club(id).name}</td><td>${belt(F[id].kyu)}</td><td>${catOf(id)}</td></tr>`).join('')}
+    </tbody></table></div><p class="muted" style="font-size:12.5px;margin:12px 0 0">Pokazano ${ids.length} z 186 (dane przykładowe).</p></section>`;
+}
+function pubOfficials() {
+  const o = [['Sędzia główny', 'Piotr Kowalczyk', '3 dan'], ['Shushin T1', 'Marta Lis', '2 dan'], ['Shushin T2', 'Tomasz Bielak', '3 dan'], ['Shushin T3', 'Robert Nawrot', '2 dan'], ['Shushin T4', 'Ewa Gąsior', '1 dan'], ['Sekretarz T2', 'Anna Wilczek', ''], ['Lekarz zawodów', 'lek. Jan Rudnik', ''], ['Komisja weryfikacji', 'Katarzyna Mróz', '']];
+  return `<section class="card"><h3>Oficjele ${fid('F-REG-03')}</h3><div class="scroll-x" style="margin-top:10px"><table class="t"><tbody>${o.map(x => `<tr><td class="muted" style="width:200px">${x[0]}</td><td><b>${x[1]}</b></td><td class="muted">${x[2]}</td></tr>`).join('')}</tbody></table></div></section>`;
+}
+
+/* ===================== VIEW: drabinki ===================== */
+function catStatus(cat) {
+  if (cat.rr) return ['ok', 'zakończona'];
+  if (!cat.R1) return ['warn', 'czeka na losowanie'];
+  const B = buildBracket(cat, true);
+  if (B._final.status === 'done') return ['ok', 'zakończona'];
+  return cat.live ? ['live', 'w toku'] : ['', 'zaplanowana'];
+}
+function viewDrabinki() {
+  const cat = CATS[ui.cat];
+  const side = `<div class="cat-list">${CAT_ORDER.map(id => {
+    const c = CATS[id], [k, l] = catStatus(c);
+    const n = c.rr ? c.rr.fighters.length : c.R1 ? c.R1.flat().filter(Boolean).length : c.pool.length;
+    return `<button class="cat-btn ${ui.cat === id ? 'on' : ''}" data-act="cat" data-arg="${id}"><b>${c.name} ${c.w}</b><span class="row"><span>T${c.tatami} · ${n} zaw.</span><span class="pill ${k}">${k === 'live' ? '<span class="dot"></span>' : ''}${l}</span></span></button>`;
+  }).join('')}<div class="cat-more">+ 35 innych kategorii w pełnej wersji</div></div>`;
+  let body, n, meta = [];
+  if (cat.rr) {
+    n = cat.rr.fighters.length; meta = [`${n} zawodniczki`, 'każda z każdą', cat.time];
+    body = rrHTML(cat);
+  } else if (!cat.R1) {
+    n = cat.pool.length; meta = [`${n} zawodniczek`, 'drabinka 8', cat.time];
+    body = poolHTML(cat);
+  } else {
+    n = cat.R1.flat().filter(Boolean).length;
+    const size = cat.R1.length * 2;
+    meta = [`${n} ${cat.id.startsWith('g') ? 'zawodniczek' : 'zawodników'}`, `drabinka ${size}${size - n ? ` · ${size - n} wolne losy` : ''}`, ...(cat.bronze ? ['walka o 3. miejsce'] : []), cat.time];
+    body = `${ui.bmode === 'tree' ? treeHTML(cat) : mandalaHTML(cat)}`;
+  }
+  const fighters = cat.rr ? cat.rr.fighters : cat.R1 ? cat.R1.flat().filter(Boolean) : cat.pool;
+  const clubCount = {}; fighters.forEach(f => clubCount[F[f].club] = (clubCount[F[f].club] || 0) + 1);
+  return `${offlineBanner()}<div class="bk-layout">${side}<div style="min-width:0">
+    <div class="bk-head"><div><div class="eyebrow">Tatami ${cat.tatami} · start ${cat.start}</div><h2>${cat.name} <span>${cat.w}</span></h2>
+      <div class="meta-row">${meta.map(m => `<span class="pill">${m}</span>`).join('')}</div></div>
+      ${cat.R1 ? `<div class="seg" role="group" aria-label="Widok drabinki"><button class="${ui.bmode === 'tree' ? 'on' : ''}" data-act="bmode" data-arg="tree">Drabinka</button><button class="${ui.bmode === 'mandala' ? 'on' : ''}" data-act="bmode" data-arg="mandala">Mandala</button></div>` : ''}
+    </div>
+    <div class="legend">${Object.entries(clubCount).map(([k, v]) => `<span><span class="club-dot" style="--c:${CLUBS[k].c}"></span>${CLUBS[k].name} · ${v}</span>`).join('')}${cat.R1 ? `<span class="hint">Najedź na zawodnika, żeby zobaczyć jego ścieżkę. Kliknij numer walki, żeby zobaczyć szczegóły.</span>` : ''}</div>
+    <div class="bk-wrap">${body}</div>
+    <p class="muted" style="font-size:12.5px;margin-top:10px">${fid('F-DRW-01', 'F-DRW-02', 'F-DRW-05', 'F-DRW-06', 'F-PUB-02')} Wyniki wpisane w panelu sekretarza pojawiają się tu od razu.</p>
+  </div></div>`;
+}
+function slotHTML(bout, side, cat) {
+  const id = bout[side];
+  if (!id) {
+    const ph = bout.status === 'bye' ? 'wolny los' : placeholder(bout, side);
+    return `<div class="slot ph"><i></i><span class="nm">${ph}</span><span></span><span></span></div>`;
+  }
+  const c = club(id), isW = bout.win === id && bout.status !== 'pending', isL = bout.lose === id;
+  const rs = bout.status === 'done' && isW ? (MSHORT[bout.res.m] || '✓') : bout.status === 'bye' ? '→' : '';
+  const anim = cat.drawAnim ? ` drop" style="--c:${c.c};animation-delay:${(bout.i * 2 + (side === 'b' ? 1 : 0)) * 110}ms` : `" style="--c:${c.c}`;
+  return `<button class="slot ${isW && bout.status === 'done' ? 'win' : ''} ${isL ? 'lose' : ''} ${ui.follow === id ? 'fol' : ''}${anim};--hc:${c.c}" data-f="${id}" data-act="fighter" data-arg="${id}"><i></i><span class="nm">${esc(F[id].n)}</span><span class="cl">${c.s}</span><span class="rs">${rs}</span></button>`;
+}
+function boutTag(bout, cat) {
+  let m = '';
+  if (bout.status === 'live') m = `LIVE · T${cat.tatami}`;
+  else if (bout.status === 'done') m = bout.res.m.toUpperCase() + (bout.res.m.startsWith('Hantei') ? ' ' + bout.res.d : '');
+  else if (bout.status === 'ready') m = 'NASTĘPNE';
+  else if (bout.status === 'bye') m = 'WOLNY LOS';
+  return `<button class="bout-tag" ${bout.no ? `data-act="bout" data-arg="${bout.id}"` : 'tabindex="-1"'}><span class="no">${bout.no ? '#' + bout.no : ''}</span><span class="m">${m}</span></button>`;
+}
+function treeHTML(cat) {
+  const B = buildBracket(cat, true), R = B._rounds, n = cat.R1.length;
+  const COLW = 214, GAP = 58, BH = 60, U = 90, TOP = 40, CHW = 176;
+  const W = R * COLW + (R - 1) * GAP + GAP + CHW, H = TOP + n * U + (cat.bronze ? 30 : 0);
+  let boxes = '', paths = '', heads = '';
+  const yc = (r, i) => TOP + (i + 0.5) * U * 2 ** r;
+  for (let r = 0; r < R; r++) {
+    const x = r * (COLW + GAP);
+    heads += `<div class="r-head" style="left:${x}px">${roundName(r, R)}</div>`;
+    for (let i = 0; i < n / 2 ** r; i++) {
+      const bout = B[`r${r}-${i}`], y = yc(r, i);
+      boxes += `<div class="bout s-${bout.status} ${ui.justDone === bout.id ? 'fresh' : ''}" style="left:${x}px;top:${y - BH / 2}px;width:${COLW}px">${boutTag(bout, cat)}<div class="bout-box">${slotHTML(bout, 'a', cat)}${slotHTML(bout, 'b', cat)}</div></div>`;
+      if (r < R - 1) {
+        const x1 = x + COLW, x2 = (r + 1) * (COLW + GAP), y2 = yc(r + 1, i >> 1) + (i % 2 ? 15 : -15);
+        const w = bout.win, cls = w ? 'done' : 'pend';
+        paths += `<path class="cn ${cls}" ${w ? `data-f="${w}" style="--hc:${club(w).c}"` : ''} d="M${x1} ${y} H${x1 + GAP / 2} V${y2} H${x2}"/>`;
+      }
+    }
+  }
+  const fin = B._final, fx = (R - 1) * (COLW + GAP), fy = yc(R - 1, 0);
+  const cx = R * (COLW + GAP);
+  paths += `<path class="cn ${fin.win ? 'done' : 'pend'}" ${fin.win ? `data-f="${fin.win}" style="--hc:${club(fin.win).c}"` : ''} d="M${fx + COLW} ${fy} H${cx}"/>`;
+  const order = cat.order || [], ahead = order.filter(id => B[id] && B[id].status !== 'done').indexOf('r' + (R - 1) + '-0');
+  boxes += `<div class="champ" style="left:${cx}px;top:${fy - 62}px;width:${CHW}px"><div class="k">優勝</div><div class="l">Mistrz kategorii</div>${fin.win ? `<b>${esc(fname(fin.win))}</b><div class="muted" style="font-size:12px;margin-top:3px">${club(fin.win).name}</div>` : `<b class="muted" style="font-weight:600">jeszcze nie wiemy</b><div class="muted" style="font-size:12px;margin-top:3px">${fin.no ? `finał #${fin.no}` : 'finał'}${ahead >= 0 && cat.live ? ` · ok. ${hm(simClock + ahead * 4)}` : ''}</div>`}</div>`;
+  if (cat.bronze) {
+    const bz = B.b3, by = fy + 150;
+    boxes += `<div class="bronze-lbl" style="left:${fx}px;top:${by - 52}px">O 3. miejsce</div><div class="bout s-${bz.status} ${ui.justDone === 'b3' ? 'fresh' : ''}" style="left:${fx}px;top:${by - BH / 2}px;width:${COLW}px">${boutTag(bz, cat)}<div class="bout-box">${slotHTML(bz, 'a', cat)}${slotHTML(bz, 'b', cat)}</div></div>`;
+  }
+  return `<div class="bk" style="width:${W}px;height:${H}px">${heads}<svg class="cn-layer" width="${W}" height="${H}" aria-hidden="true">${paths}</svg>${boxes}</div>`;
+}
+function mandalaHTML(cat) {
+  const B = buildBracket(cat, true), R = B._rounds, N = cat.R1.length * 2;
+  const RAD = [330, 252, 176, 100, 0].slice(0, R).concat([0]);
+  if (R === 3) { RAD.splice(0, RAD.length, 300, 200, 100, 0); }
+  const ang = (L, j) => ((j + 0.5) / (N / 2 ** L)) * 2 * Math.PI - Math.PI / 2;
+  const P = (r, a) => `${(r * Math.cos(a)).toFixed(1)} ${(r * Math.sin(a)).toFixed(1)}`;
+  let segs = '', segsTop = '', nodes = '', labels = '', rings = '';
+  for (let L = 0; L < R; L++) rings += `<circle class="m-ring" r="${RAD[L]}"/>`;
+  for (let r = 0; r < R; r++) {
+    for (let i = 0; i < N / 2 ** (r + 1); i++) {
+      const bout = B[`r${r}-${i}`];
+      ['a', 'b'].forEach((s, k) => {
+        const f = bout[s]; if (!f) return;
+        const tc = ang(r, 2 * i + k), tp = ang(r + 1, i), rc = RAD[r], rp = RAD[r + 1];
+        const adv = bout.win === f && bout.status !== 'pending' && bout.status !== 'live' && bout.status !== 'ready';
+        const sweep = tp > tc ? 1 : 0;
+        const d = rp > 0 ? `M${P(rc, tc)} L${P(rp, tc)} A${rp} ${rp} 0 0 ${sweep} ${P(rp, tp)}` : `M${P(rc, tc)} L0 0`;
+        const c = club(f).c, cls = adv ? 'adv' : bout.status === 'live' ? 'live' : (bout.status === 'done' || bout.status === 'bye') ? '' : 'pend';
+        const el = `<path class="m-seg ${cls}" data-f="${f}" style="--hc:${c}" d="${d}"/>`;
+        if (adv) segsTop += el; else segs += el;
+        nodes += `<circle class="m-node" cx="${(rc * Math.cos(tc)).toFixed(1)}" cy="${(rc * Math.sin(tc)).toFixed(1)}" r="${r === 0 ? 6 : 5}" fill="${c}"/>`;
+        if (r === 0) {
+          const a = tc, deg = a * 180 / Math.PI, left = Math.cos(a) < -0.001;
+          const lost = B[`r0-${i}`].lose === f || isEliminated(B, f);
+          labels += `<text class="m-name ${lost ? 'lost' : ''}" data-f="${f}" data-act="fighter" data-arg="${f}" transform="rotate(${left ? deg + 180 : deg}) translate(${left ? -(rc + 14) : rc + 14} 0)" text-anchor="${left ? 'end' : 'start'}" dominant-baseline="middle">${esc(F[f].n)}</text>`;
+        }
+      });
+    }
+  }
+  const fin = B._final, ch = fin.status === 'done' ? fin.win : null;
+  const center = `<circle r="54" fill="var(--surface-2)" stroke="${ch ? club(ch).c : 'var(--line-2)'}" stroke-width="3"/>
+    <text text-anchor="middle" y="-6" style="font:900 26px var(--f-jp);fill:var(--gold)">優勝</text>
+    <text text-anchor="middle" y="20" style="font:700 11.5px var(--f-display);font-stretch:85%;fill:var(--ink)">${ch ? esc(F[ch].n) : 'Mistrz?'}</text>`;
+  const lim = RAD[0] + 190;
+  return `<div class="bk" style="margin:14px"><svg class="mandala" viewBox="${-lim} ${-lim} ${lim * 2} ${lim * 2}" role="img" aria-label="Drabinka promienista">${rings}${segs}${segsTop}${nodes}${labels}${center}</svg></div>
+    <p class="muted" style="font-size:12.5px;padding:0 22px 18px;margin:0">Mandala: zawodnicy na obwodzie, mistrz w środku. Kolorowa linia to droga zwycięzcy w barwach klubu. Dobrze wygląda na telebimie i w social media. ${fid('wyróżnik')}</p>`;
+}
+function isEliminated(B, f) { return Object.values(B).some(b => b && b.id && b.id !== 'b3' && b.status === 'done' && b.lose === f); }
+function poolHTML(cat) {
+  return `<div class="pool">${cat.pool.map(id => `<span class="pool-c"><span class="club-dot" style="--c:${club(id).c}"></span>${F[id].n}<span class="mono muted" style="font-size:11px">${club(id).s}</span></span>`).join('')}</div>
+    <div class="pool-cta"><button class="btn primary" data-act="draw">Losuj drabinkę</button><span class="muted" style="font-size:13px">Losowanie rozdziela zawodniczki z tego samego klubu na przeciwne połówki. Można je pokazać na żywo na telebimie i streamie.</span></div>`;
+}
+function drawCheck(cat) {
+  const half = cat.R1.length;
+  const flat = cat.R1.flat();
+  const byClub = {};
+  flat.forEach((id, k) => { if (!id) return; (byClub[F[id].club] ||= []).push(k < half ? 'górna' : 'dolna'); });
+  const multi = Object.entries(byClub).filter(([, v]) => v.length > 1);
+  return `<div class="check">✓ Rozdzielenie klubów: ${multi.map(([k, v]) => `${CLUBS[k].name} (${v.join(' / ')})`).join(', ')}. <button class="btn sm" data-act="draw" style="margin-left:auto">Losuj ponownie</button></div>`;
+}
+function rrHTML(cat) {
+  const fs = cat.rr.fighters, bouts = cat.rr.bouts;
+  const wins = id => bouts.filter(b => b.w === id).length;
+  const sorted = [...fs].sort((a, b) => wins(b) - wins(a));
+  const cell = (r, c) => { if (r === c) return '<td class="self"></td>'; const b = bouts.find(x => (x.a === r && x.b === c) || (x.a === c && x.b === r)); const w = b.w === r; return `<td class="cell ${w ? 'W' : 'L'}" title="${b.m}">${w ? 'W' : 'P'}<div class="muted" style="font-size:10px;font-weight:500">${b.m}</div></td>`; };
+  return `<div class="rr"><div class="scroll-x"><table class="t"><thead><tr><th></th>${fs.map(f => `<th>${F[f].n.split(' ')[0]}</th>`).join('')}<th>Wygrane</th></tr></thead><tbody>
+    ${fs.map(r => `<tr><td><button style="border:0;background:none;padding:0;font-weight:700;display:flex;gap:7px;align-items:center" data-act="fighter" data-arg="${r}"><span class="club-dot" style="--c:${club(r).c}"></span>${F[r].n}</button></td>${fs.map(c => cell(r, c)).join('')}<td class="mono" style="font-weight:700">${wins(r)}</td></tr>`).join('')}
+    </tbody></table></div>
+    <div class="pod"><h4>Klasyfikacja</h4>${podiumSteps(sorted.map(id => [F[id].n, F[id].club]))}<p class="muted" style="font-size:12.5px;margin:10px 0 0">Kategorie do 4 osób system ustawia automatycznie na „każdy z każdym”. Przy remisie decydują walki bezpośrednie.</p></div></div>`;
+}
+
+/* ===================== VIEW: sekretarz ===================== */
+function viewSekretarz() {
+  const cat = CATS['b14-60'], bout = liveBout();
+  if (!bout) {
+    const B = buildBracket(cat, false), fin = B._final;
+    return `<section class="card done-box"><div class="eyebrow">Tatami 2</div><h2 style="font-size:30px;margin:10px 0">Kategoria zakończona</h2><p>Mistrz: <b>${fname(fin.win)}</b> (${club(fin.win).name})</p><button class="btn primary" data-act="resetDemo">Zacznij demo od nowa</button></section>`;
+  }
+  const a = bout.a, b = bout.b;
+  const hr = hanteiRes();
+  const queued = sc.log.filter(l => !l.synced).length + net.pendingFeed.length;
+  const corner = (s, id) => {
+    const st = sc[s], isA = s === 'a';
+    return `<section class="corner ${isA ? 'aka' : 'shiro'} ${sc.winner === s ? 'won' : ''}">
+      <div class="kj" aria-hidden="true">${isA ? '赤' : '白'}</div>
+      <div class="side">${isA ? 'AKA · CZERWONY' : 'SHIRO · BIAŁY'}</div>
+      <div><div class="fname">${esc(F[id].n)}</div><div class="fmeta"><span class="club-dot" style="--c:${club(id).c}"></span>${club(id).name} · ${belt(F[id].kyu)} · ${kg(F[id].w)}</div></div>
+      <div class="score-row"><div><div class="side" style="margin-bottom:6px">WAZA-ARI</div><div class="wa-big"><i class="${st.wa > 0 ? 'on' : ''}"></i><i class="${st.wa > 1 ? 'on' : ''}"></i></div></div>
+        <div><div class="side" style="margin-bottom:6px">CHUI / GENTEN</div><div class="chui">${[1, 2, 3, 4].map(k => `<i class="${st.chui >= k ? 'on' : ''}" title="${k % 2 ? 'chui' : 'genten'}"></i>`).join('')}</div></div></div>
+      <div class="corner-btns">
+        <button class="cbtn main" data-act="wa" data-arg="${s}">Waza-ari<small>${isA ? 'klawisz Q' : 'klawisz P'}</small></button>
+        <button class="cbtn" data-act="ippon" data-arg="${s}">Ippon<small>koniec walki</small></button>
+        <button class="cbtn" data-act="chui" data-arg="${s}">Chui<small>2 × chui = genten</small></button>
+        <button class="cbtn" data-act="win" data-arg="${s}">${sc.winner === s ? 'Zwycięzca ✓' : 'Wskaż zwycięzcę'}<small>ręcznie</small></button>
+      </div>
+    </section>`;
+  };
+  const phaseLen = sc.encho ? 60 : sc.base;
+  return `${offlineBanner()}
+  <div class="sec-head"><div><div class="eyebrow">Tatami 2 · panel sekretarza ${fid('F-SCR-01…05')}</div><h1>Walka #${bout.no}<span>${roundName(bout.r, bout.rounds)} · ${cat.name} ${cat.w}</span></h1></div>
+    <div class="net">${net.offline ? `<span class="pill warn"><span class="dot"></span>offline · ${queued} w kolejce</span>` : '<span class="pill ok"><span class="dot"></span>online · zsynchronizowano</span>'}
+      <label class="switch"><input type="checkbox" id="netToggle" data-act="net" ${net.offline ? 'checked' : ''}>Symuluj zanik Wi-Fi</label></div></div>
+  <div class="sec-grid">
+    ${corner('a', a)}
+    <section class="clock">
+      <div class="phase">${sc.encho ? `Encho ${sc.encho} · dogrywka` : 'Czas podstawowy'} · ${mmss(phaseLen)}</div>
+      <div class="time js-time ${sc.running ? 'run' : ''} ${sc.ended ? 'end' : ''}">${mmss(sc.time)}</div>
+      <div class="go">${sc.running ? `<button class="btn yame" data-act="timer">Yame</button>` : `<button class="btn hajime" data-act="timer" ${sc.time <= 0 ? 'disabled' : ''}>Hajime</button>`}<button class="btn" data-act="reset">Reset</button></div>
+      <div class="go"><button class="btn sm" data-act="adj" data-arg="-5">−5 s</button><button class="btn sm" data-act="adj" data-arg="5">+5 s</button></div>
+      <div class="go"><button class="btn" data-act="encho" ${sc.encho >= 2 ? 'disabled' : ''}>Encho</button><button class="btn dark" data-act="hantei">Hantei</button></div>
+      <div class="rules"><span class="kbd">Spacja</span> hajime / yame<br>Reguły knockdown: 2 × waza-ari = ippon, max 2 × encho, potem decyzja wagowa. Zestaw reguł ustawia federacja. ${fid('F-SCR-02', 'F-SCR-03')}</div>
+    </section>
+    ${corner('b', b)}
+  </div>
+  <div class="sec-lower">
+    <section class="card"><div class="card-h"><h3>Hantei · flagi sędziów ${fid('F-SCR-09')}</h3>${sc.hantei ? '<span class="pill live"><span class="dot"></span>głosowanie</span>' : ''}</div>
+      <div class="flags">${sc.votes.map((v, k) => `<button class="flag ${v ? '' : 'wait'}" data-act="vote" data-arg="${k}" title="Kliknij, aby wpisać ręcznie">${flagSVG(v)}<span>${JUDGES[k]}${k === 2 ? '<br>tablet' : ''}</span></button>`).join('')}</div>
+      <div class="hres">${!sc.hantei ? '<span class="muted" style="font-weight:500">Po czasie wciśnij Hantei. Sędziowie głosują na tabletach, wyniki wpadają tutaj.</span>' : hr ? (hr.draw ? `Remis ${hr.d}: zarządź encho` : `Wygrywa ${hr.w === 'a' ? 'AKA' : 'SHIRO'} ${hr.d}`) : `Czekam na ${sc.votes.filter(v => !v).length} głosy… <a href="#sedzia">otwórz tablet Fukushin 2</a>`}</div>
+    </section>
+    <section class="card"><h3 style="margin-bottom:12px">Wynik walki ${fid('F-SCR-04', 'F-SCR-05')}</h3>
+      <div class="win-pick"><button class="a ${sc.winner === 'a' ? 'on' : ''}" data-act="win" data-arg="a"><small>AKA</small><span>${esc(F[a].n)}</span></button><button class="b ${sc.winner === 'b' ? 'on' : ''}" data-act="win" data-arg="b"><small>SHIRO</small><span>${esc(F[b].n)}</span></button></div>
+      <label class="field" for="method">Sposób zwycięstwa<select id="method" data-change="method"><option value="">— wybierz —</option>${METHODS.map(m => `<option ${sc.method === m ? 'selected' : ''}>${m}</option>`).join('')}</select></label>
+      <label class="field" for="tech">Technika / wynik głosowania<select id="tech" data-change="tech"><option value="">—</option>${(sc.tech && !TECH.includes(sc.tech) ? [sc.tech] : []).concat(TECH).map(t => `<option ${sc.tech === t ? 'selected' : ''}>${t}</option>`).join('')}</select></label>
+      <button class="btn primary" style="width:100%" data-act="confirm" ${sc.winner && sc.method ? '' : 'disabled'}>Zatwierdź i przejdź do walki #${nextNo(cat) || '—'}</button>
+    </section>
+    <section class="card preview"><div class="card-h"><h3>Ekran hali · podgląd ${fid('F-SCR-07')}</h3><a href="#ekran" style="font-size:13px">pełny ekran</a></div>${sbHTML(true)}</section>
+  </div>
+  <div class="sec-lower2">
+    <section class="card"><div class="card-h"><h3>Zdarzenia walki ${fid('NFR audyt')}</h3><button class="btn sm" data-act="undo" ${sc.log.length ? '' : 'disabled'}>Cofnij ostatnie</button></div>
+      <div class="log">${sc.log.length ? sc.log.map(l => `<div class="log-i"><span class="mono muted">${l.t}</span><span class="s ${l.side || 'x'}">${l.side === 'a' ? 'AKA' : l.side === 'b' ? 'SHIRO' : 'SYS'}</span><span>${l.txt}</span><span class="sync ${l.synced ? 'ok' : 'q'}">${l.synced ? '✓ wysłane' : '⏳ kolejka'}</span></div>`).join('') : '<p class="muted" style="margin:0;font-size:13.5px">Brak zdarzeń. Wciśnij Hajime albo spację.</p>'}</div>
+    </section>
+    <section class="card"><div class="card-h"><h3>Zapowiedzi głosowe ${fid('F-ANN-01…04')}</h3><label class="switch"><input type="checkbox" id="annAuto" data-act="annAuto" ${annAuto ? 'checked' : ''}>auto</label></div>
+      <div class="ann">${ann.map((x, k) => `<div class="ann-i"><button class="play" data-act="annPlay" data-arg="${k}" aria-label="Odtwórz"><svg viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg></button><span>${esc(x.txt)}</span></div>`).join('')}</div>
+      <p class="muted" style="font-size:12px;margin:10px 0 0">Komunikaty powstają same z wyników. Odtwarza je przeglądarka na komputerze podłączonym do nagłośnienia.</p>
+    </section>
+  </div>`;
+}
+function nextNo(cat) { const B = buildBracket(cat, false); const id = cat.order.find(id => id !== cat.live && B[id].status !== 'done'); return id ? B[id].no : null; }
+function flagSVG(v) {
+  const col = v === 'a' ? 'var(--aka)' : v === 'b' ? 'var(--shiro)' : 'var(--line-2)';
+  if (v === 'd') return `<svg viewBox="0 0 30 30"><path d="M6 26L24 4M24 26L6 4" stroke="var(--ink-2)" stroke-width="2.5"/><path d="M8 7l9-1-1 7z" fill="var(--aka)"/><path d="M22 7l-9-1 1 7z" fill="var(--shiro)" stroke="var(--shiro-edge)"/></svg>`;
+  return `<svg viewBox="0 0 30 30"><path d="M8 4v23" stroke="var(--ink-2)" stroke-width="2.2"/><path d="M9 5h16l-3 6 3 6H9z" fill="${col}" stroke="${v === 'b' ? 'var(--shiro-edge)' : 'none'}"/></svg>`;
+}
+function hanteiRes() {
+  const v = sc.votes; if (v.some(x => x === null)) return null;
+  const a = v.filter(x => x === 'a').length, b = v.filter(x => x === 'b').length;
+  if (a >= 3) return { w: 'a', d: `${a}:${b}` };
+  if (b >= 3) return { w: 'b', d: `${b}:${a}` };
+  return { draw: true, d: `${a}:${b}` };
+}
+
+/* ===================== scoreboard ===================== */
+function sbHTML(mini) {
+  const cat = CATS['b14-60'], bout = liveBout();
+  if (!bout) return `<div class="sbw"><div class="sb" style="place-items:center;display:grid"><div style="font:900 6cqw var(--f-jp);color:var(--sb-gold)">優勝</div></div></div>`;
+  const B = buildBracket(cat, false);
+  const nx = cat.order.find(id => id !== cat.live && B[id].status !== 'done');
+  const nb = nx ? B[nx] : null;
+  const side = s => { const id = bout[s], st = sc[s]; return `<div class="sb-side ${s}"><div class="sb-k">${s === 'a' ? '赤' : '白'}</div><div><div class="sb-name">${esc(F[id].n)}</div><div class="sb-club">${club(id).name}</div></div><div><div class="sb-lbl">WAZA-ARI</div><div class="sb-wa"><i class="${st.wa > 0 ? 'on' : ''}"></i><i class="${st.wa > 1 ? 'on' : ''}"></i></div><div class="sb-lbl" style="margin-top:1.2cqw">CHUI</div><div class="sb-ch">${[1, 2, 3, 4].map(k => `<i class="${st.chui >= k ? 'on' : ''}"></i>`).join('')}</div></div></div>`; };
+  const fl = sc.flash && sc.flash.until > Date.now() ? `<div class="sb-flash"><div class="${sc.flash.side}">${sc.flash.k}<small>${sc.flash.txt}</small></div></div>` : '';
+  return `<div class="sbw"><div class="sb">
+    <div class="sb-top"><span><b>TATAMI 2</b> · WALKA #${bout.no} · ${roundName(bout.r, bout.rounds).toUpperCase()}</span><span>${cat.name.toUpperCase()} ${cat.w}</span></div>
+    <div class="sb-main">${side('a')}<div class="sb-clock"><div class="sb-time js-time ${sc.ended ? 'end' : ''}">${mmss(sc.time)}</div><div class="sb-phase ${sc.encho ? 'encho' : ''}">${sc.encho ? 'ENCHO ' + sc.encho : sc.hantei ? 'HANTEI' : 'CZAS'}</div></div>${side('b')}</div>
+    <div class="sb-next">${nb ? `<span>NASTĘPNA</span><b>#${nb.no}</b><span>${esc(nb.a ? F[nb.a].n : placeholder(nb, 'a'))} — ${esc(nb.b ? F[nb.b].n : placeholder(nb, 'b'))}</span>` : '<span>OSTATNIA WALKA KATEGORII</span>'}</div>
+    ${fl}</div></div>`;
+}
+function overlayHTML() {
+  const bout = liveBout(); if (!bout) return '<div class="sbw"><div class="ov"></div></div>';
+  const row = s => `<div class="ov-row ${s}"><span class="c">${s === 'a' ? '赤' : '白'}</span><span class="n">${esc(F[bout[s]].n)}<small>${club(bout[s]).s}</small></span><span class="p"><i class="${sc[s].wa > 0 ? 'on' : ''}"></i><i class="${sc[s].wa > 1 ? 'on' : ''}"></i></span></div>`;
+  return `<div class="sbw"><div class="ov"><div class="ov-cam"><i></i>REC · KAMERA T2 · 1080p60</div><div class="ov-bug">PUCHAR ŻURAWIA 2026<small>TATAMI 2 · #${bout.no}</small></div>
+    <div class="ov-lt"><div class="ov-rows">${row('a')}${row('b')}</div><div class="ov-t"><span class="js-time">${mmss(sc.time)}</span><small>${sc.encho ? 'ENCHO' : 'CZAS'}</small></div></div></div></div>`;
+}
+function viewEkran() {
+  return `<div class="ekran-grid"><div style="min-width:0">
+      <div class="bk-head" style="align-items:center"><div><div class="eyebrow">Tatami 2 · wyjście HDMI / druga karta</div><h2>${ui.sbMode === 'hall' ? 'Ekran hali' : 'Overlay transmisji'}</h2></div>
+      <div class="seg"><button class="${ui.sbMode === 'hall' ? 'on' : ''}" data-act="sbMode" data-arg="hall">Ekran hali</button><button class="${ui.sbMode === 'ov' ? 'on' : ''}" data-act="sbMode" data-arg="ov">Overlay streamu</button></div></div>
+      ${ui.sbMode === 'hall' ? sbHTML(false) : overlayHTML()}
+      <p class="muted" style="font-size:13px">Ekran sterowany z panelu sekretarza. Spacja uruchamia i zatrzymuje czas także tutaj. Przy ippon i waza-ari pojawia się plansza z kanji. ${fid('F-SCR-07', 'F-STR-02')}</p>
+    </div>
+    <aside class="card"><h3>Stream z telefonu ${fid('F-STR-01', 'F-STR-03', 'F-STR-04')}</h3>
+      <p style="font-size:14px;color:var(--ink-2)">Zeskanuj kod w aplikacji Hajime Stream (iOS i Android). Telefon łączy się z Tatami 2 i nadaje na YouTube z nałożonym wynikiem.</p>
+      <div class="qr-tile"><canvas id="qr" width="29" height="29" aria-label="Przykładowy kod QR"></canvas></div>
+      <dl class="dl" style="margin-top:14px"><dt>Cel</dt><dd>YouTube · RTMP</dd><dt>Jakość</dt><dd>1080p · 60 kl./s</dd><dt>Overlay</dt><dd>wynik, czas, kategoria</dd></dl>
+      <p class="muted" style="font-size:12px">Kod przykładowy, nie działa.</p>
+    </aside></div>`;
+}
+function drawQR() {
+  const cv = $('#qr'); if (!cv) return;
+  const x = cv.getContext('2d'), n = 29; let s = 7;
+  const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647;
+  x.fillStyle = '#fff'; x.fillRect(0, 0, n, n); x.fillStyle = '#0b0e22';
+  for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) if (rnd() > .52) x.fillRect(i, j, 1, 1);
+  [[0, 0], [n - 7, 0], [0, n - 7]].forEach(([a, b]) => { x.fillStyle = '#fff'; x.fillRect(a - 1, b - 1, 9, 9); x.fillStyle = '#0b0e22'; x.fillRect(a, b, 7, 7); x.fillStyle = '#fff'; x.fillRect(a + 1, b + 1, 5, 5); x.fillStyle = '#0b0e22'; x.fillRect(a + 2, b + 2, 3, 3); });
+}
+
+/* ===================== VIEW: tablet sędziego ===================== */
+function viewSedzia() {
+  const bout = liveBout();
+  if (!bout) return `<section class="card done-box"><h2>Brak walki na Tatami 2</h2></section>`;
+  const v = sc.votes[2], open = sc.hantei;
+  return `<div class="device-row"><div class="tablet"><div class="tablet-in">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px"><div><div class="eyebrow">Fukushin 2 · Tatami 2</div><b style="font:900 22px var(--f-display);font-stretch:110%">Walka #${bout.no}</b></div>
+        ${open ? '<span class="pill live"><span class="dot"></span>hantei: oddaj głos</span>' : '<span class="pill">czekam na wezwanie do hantei</span>'}</div>
+      <div class="vote-row">
+        <button class="vbtn a ${v === 'a' ? 'sel' : ''}" data-act="tvote" data-arg="a" ${open ? '' : 'disabled'}>${flagSVG('a').replace('<svg', '<svg style="filter:drop-shadow(0 2px 0 rgba(0,0,0,.2))"')}AKA<small>${esc(F[bout.a].n)}</small></button>
+        <button class="vbtn d ${v === 'd' ? 'sel' : ''}" data-act="tvote" data-arg="d" ${open ? '' : 'disabled'}>${flagSVG('d')}Hikiwake<small>remis</small></button>
+        <button class="vbtn b ${v === 'b' ? 'sel' : ''}" data-act="tvote" data-arg="b" ${open ? '' : 'disabled'}>${flagSVG('b')}SHIRO<small>${esc(F[bout.b].n)}</small></button>
+      </div>
+      <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;font-size:13.5px;color:var(--ink-2)">${v ? `Głos wysłany do sekretarza T2. Możesz go zmienić, dopóki sekretarz nie zamknie hantei.` : open ? 'Wybierz flagę. Inni sędziowie nie widzą twojego głosu.' : 'Przyciski włączą się, gdy sekretarz wezwie do hantei.'}
+        ${open ? '' : `<button class="btn sm" data-act="hantei">Demo: wezwij do hantei</button>`}</div>
+    </div></div>
+    <div class="feat-list">
+      <div><span class="ic">旗</span><div><b>Elektroniczne flagi</b><p>Pięciu sędziów głosuje na tabletach lub telefonach. Wynik hantei liczy się sam, bez ręcznego przepisywania. Kumite Technology tego nie ma.</p></div></div>
+      <div><span class="ic">秘</span><div><b>Tajne głosowanie</b><p>Głosy odsłaniają się naraz, gdy zagłosują wszyscy. Sędziowie nie sugerują się nawzajem.</p></div></div>
+      <div><span class="ic">記</span><div><b>Ślad w protokole</b><p>Każdy głos trafia do historii walki: kto, kiedy, na kogo. Przy proteście wszystko jest pod ręką.</p></div></div>
+      <div>${fid('F-SCR-08', 'F-SCR-09')}</div>
+    </div></div>`;
+}
+
+/* ===================== VIEW: śledź ===================== */
+function viewSledz() {
+  const cat = CATS['b14-60'], B = buildBracket(cat, true), f = ui.follow;
+  const mine = Object.values(B).filter(b => b && b.id && (b.a === f || b.b === f)).sort((x, y) => x.r - y.r || (x.bronze ? 1 : -1));
+  const q = queueAhead(B, cat);
+  const nextB = mine.find(b => b.status !== 'done' && b.status !== 'bye');
+  let card;
+  if (nextB) {
+    const idx = q.indexOf(nextB.id), eta = simClock + Math.max(0, idx) * 4;
+    card = `<div class="next-card"><div class="eyebrow">${nextB.status === 'live' ? 'Walczy teraz' : 'Następna walka'}</div><div class="big">${nextB.status === 'live' ? 'Na macie' : 'ok. ' + hm(eta)}</div>
+      <div style="font-size:14px">Tatami 2 · walka #${nextB.no} · ${nextB.bronze ? 'o 3. miejsce' : roundName(nextB.r, nextB.rounds).toLowerCase()}</div>
+      <div style="font-size:13px;opacity:.75;margin-top:6px">${idx > 0 ? `przed nim ${idx} ${idx === 1 ? 'walka' : 'walki'}` : nextB.status === 'live' ? 'trwa walka' : 'następny na macie'} · rywal: ${(() => { const o = nextB.a === f ? nextB.b : nextB.a; return o ? esc(F[o].n) : placeholder(nextB, nextB.a === f ? 'b' : 'a'); })()}</div></div>`;
+  } else {
+    const fin = B._final, bz = B.b3;
+    const place = fin.win === f ? '1. miejsce' : fin.lose === f ? '2. miejsce' : bz && bz.win === f ? '3. miejsce' : bz && bz.lose === f ? '4. miejsce' : 'koniec udziału';
+    card = `<div class="next-card"><div class="eyebrow">Zakończył start</div><div class="big">${place}</div><div style="font-size:14px">${cat.name} ${cat.w}</div></div>`;
+  }
+  const steps = mine.map(b => {
+    if (b.status === 'bye') return `<div class="step w"><span class="sd">→</span><div><b>${roundName(b.r, b.rounds)}</b><div>wolny los</div></div></div>`;
+    const opp = b.a === f ? b.b : b.a, oppN = opp ? F[opp].n : placeholder(b, b.a === f ? 'b' : 'a');
+    if (b.status === 'done') { const w = b.win === f; return `<div class="step ${w ? 'w' : 'l'}"><span class="sd">${w ? '✓' : '×'}</span><div><b>${b.bronze ? 'O 3. miejsce' : roundName(b.r, b.rounds)} · #${b.no}</b><div>${w ? 'wygrana' : 'przegrana'} z ${esc(oppN)} · ${b.res.m}</div></div></div>`; }
+    return `<div class="step n"><span class="sd">${b.status === 'live' ? '●' : '?'}</span><div><b>${b.bronze ? 'O 3. miejsce' : roundName(b.r, b.rounds)} · #${b.no}</b><div>vs ${esc(oppN)}</div></div></div>`;
+  }).join('');
+  const idx = nextB ? q.indexOf(nextB.id) : -1;
+  const push = nextB ? (nextB.status === 'live' ? `${F[f].n.split(' ')[0]} jest teraz na macie (Tatami 2)` : idx <= 2 ? `${F[f].n.split(' ')[0]} wchodzi na matę za ${idx} ${idx === 1 ? 'walkę' : 'walki'} · Tatami 2` : `Następna walka ${F[f].n.split(' ')[0]}: ok. ${hm(simClock + idx * 4)}`) : `${F[f].n.split(' ')[0]} zakończył start`;
+  const opts = Object.keys(F).filter(k => k.startsWith('f'));
+  return `${offlineBanner()}<div class="device-row"><div class="phone"><div class="notch"></div><div class="phone-in">
+      <div class="push"><span class="hanko">始</span><div><b>Hajime</b> <span class="muted">· teraz</span><div>${esc(push)}</div></div></div>
+      <label class="field" for="follow" style="margin:6px 0 0">Śledzę<select id="follow" data-change="follow">${opts.map(k => `<option value="${k}" ${k === f ? 'selected' : ''}>${F[k].n} · ${club(k).s}</option>`).join('')}</select></label>
+      ${card}
+      <div class="card" style="padding:14px"><h3 style="margin-bottom:12px">Droga w turnieju</h3>${steps}</div>
+      <div class="card" style="padding:14px;display:flex;flex-direction:column;gap:10px"><h3>Powiadomienia</h3>
+        <label class="switch"><input type="checkbox" checked id="n1">2 walki przed wejściem</label><label class="switch"><input type="checkbox" checked id="n2">wynik walki</label><label class="switch"><input type="checkbox" id="n3">wyniki całego klubu</label></div>
+    </div></div>
+    <div class="feat-list"><div><span class="ic">追</span><div><b>Rodzic nie musi wpatrywać się w drabinkę</b><p>Wybiera dziecko i dostaje powiadomienie, gdy zbliża się walka. Czas liczymy z kolejki na macie, nie z harmonogramu z rana.</p></div></div>
+      <div><span class="ic">報</span><div><b>Wynik od razu w telefonie</b><p>Działa jako strona, bez instalowania aplikacji (PWA). Trener może śledzić cały klub naraz.</p></div></div>
+      <div><span class="ic">道</span><div><b>Ścieżka do finału</b><p>Zamiast całej drabinki: z kim już walczył, kto czeka w kolejnej rundzie.</p></div></div>
+      <div>${fid('F-PUB-04', 'F-PUB-06', 'F-SCH-04')}</div></div></div>`;
+}
+
+/* ===================== VIEW: organizator ===================== */
+const WEIGH = [
+  { n: 'Antoni Kowalski', club: 'zur', cat: 'Chłopcy 14–15 lat −60 kg', max: 60, w: 58.4, in: true },
+  { n: 'Leon Sadowski', club: 'bia', cat: 'Chłopcy 14–15 lat −60 kg', max: 60, w: null, in: true },
+  { n: 'Dawid Szulc', club: 'ory', cat: 'Chłopcy 14–15 lat −65 kg', max: 65, w: 65.8, in: true, up: ['Chłopcy 14–15 lat −70 kg', 70] },
+  { n: 'Maja Zielińska', club: 'zur', cat: 'Dziewczęta 12–13 lat −45 kg', max: 45, w: 44.1, in: true },
+  { n: 'Zofia Nowak', club: 'sam', cat: 'Dziewczęta 12–13 lat −45 kg', max: 45, w: null, in: false, up: ['Dziewczęta 12–13 lat −50 kg', 50] },
+  { n: 'Kuba Michalski', club: 'wil', cat: 'Chłopcy 10–11 lat −35 kg', max: 35, w: 35.4, in: true, up: ['Chłopcy 10–11 lat −40 kg', 40] },
+  { n: 'Natalia Wróbel', club: 'tor', cat: 'Kobiety seniorki +65 kg', min: 65, w: 71.2, in: true },
+  { n: 'Oliwia Kamińska', club: 'bia', cat: 'Dziewczęta 12–13 lat −45 kg', max: 45, w: null, in: false, up: ['Dziewczęta 12–13 lat −50 kg', 50] },
+];
+let ORGCATS = [
+  { id: 'c1', name: 'Chłopcy 14–15 lat −60 kg', n: 13, disc: 'Kumite', t: 2, st: 'w toku' },
+  { id: 'c2', name: 'Dziewczęta 12–13 lat −45 kg', n: 8, disc: 'Kumite', t: 3, st: 'czeka na losowanie' },
+  { id: 'c3', name: 'Dziewczęta 12–13 lat +50 kg', n: 1, disc: 'Kumite', t: 3, st: 'za mało zawodniczek', merge: 'c4' },
+  { id: 'c4', name: 'Dziewczęta 12–13 lat −50 kg', n: 4, disc: 'Kumite', t: 3, st: 'gotowa' },
+  { id: 'c5', name: 'Chłopcy 10–11 lat −35 kg', n: 21, disc: 'Kumite', t: 4, st: 'duża kategoria', split: true },
+  { id: 'c6', name: 'Kata Juniorzy 12–15 lat', n: 22, disc: 'Kata', t: 3, st: 'w toku' },
+  { id: 'c7', name: 'Kobiety seniorki +65 kg', n: 3, disc: 'Kumite', t: 1, st: 'zakończona' },
+];
+let SCHED = [
+  { id: 's1', t: 1, name: 'Kata Seniorzy', k: 'kata', s: 570, e: 620, n: 12 },
+  { id: 's2', t: 1, name: 'Kobiety +65 kg', k: 'kumite', s: 630, e: 665, n: 3 },
+  { id: 's3', t: 1, name: 'Mężczyźni −75 kg', k: 'kumite', s: 670, e: 750, n: 15 },
+  { id: 's4', t: 2, name: 'Kata Dzieci 8–9', k: 'kata', s: 570, e: 640, n: 18 },
+  { id: 's5', t: 2, name: 'Chłopcy 14–15 −60 kg', k: 'kumite', s: 665, e: 745, n: 13, live: true },
+  { id: 's6', t: 2, name: 'Chłopcy 14–15 −65 kg', k: 'kumite', s: 750, e: 810, n: 9 },
+  { id: 's7', t: 3, name: 'Kata Juniorzy 12–15', k: 'kata', s: 600, e: 720, n: 22 },
+  { id: 's8', t: 3, name: 'Dziewczęta 12–13 −45 kg', k: 'kumite', s: 730, e: 780, n: 8 },
+  { id: 's9', t: 4, name: 'Chłopcy 10–11 −30 kg', k: 'kumite', s: 570, e: 650, n: 14 },
+  { id: 's10', t: 4, name: 'Chłopcy 10–11 −35 kg', k: 'kumite', s: 660, e: 735, n: 21 },
+  { id: 's11', t: 4, name: 'Dziewczęta 10–11 −35 kg', k: 'kumite', s: 740, e: 790, n: 10 },
+];
+function weighStatus(r) {
+  if (r.w == null) return r.in ? '<span class="pill">do ważenia</span>' : '<span class="pill">nieobecny</span>';
+  const lim = (r.max ?? Infinity) + ui.tol;
+  if (r.min != null ? r.w > r.min : r.w <= lim) return '<span class="pill ok">✓ w limicie</span>';
+  const over = (r.w - r.max).toFixed(1).replace('.', ',');
+  return `<span class="pill bad">+${over} kg</span>`;
+}
+function viewOrganizator() {
+  const tabs = [['wazenie', 'Weryfikacja i ważenie'], ['kategorie', 'Kategorie'], ['harmonogram', 'Harmonogram tatami'], ['audyt', 'Historia zmian']];
+  let body = '';
+  if (ui.org === 'wazenie') {
+    const bad = WEIGH.filter(r => r.w != null && r.max != null && r.w > r.max + ui.tol).length;
+    body = `<div class="kpis"><div class="kpi"><b>${150 + WEIGH.filter(r => r.in).length}/186</b><span>obecnych (check-in)</span></div><div class="kpi"><b>${131 + WEIGH.filter(r => r.w != null).length}/186</b><span>zważonych</span></div><div class="kpi ${bad ? 'warn' : ''}"><b>${bad}</b><span>przekroczeń wagi</span></div><div class="kpi"><b>7:58</b><span>ostatnie ważenie</span></div></div>
+    <section class="card"><div class="card-h"><h3>Lista ważenia ${fid('F-DAY-01', 'F-DAY-02', 'F-CAT-05')}</h3>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><label class="field" for="tol" style="flex-direction:row;align-items:center;margin:0">Tolerancja <input class="w-in" id="tol" type="number" step="0.1" min="0" value="${ui.tol}" data-change="tol" style="width:64px"> kg</label><button class="btn sm" data-act="mockOnly">Protokół ważenia PDF</button></div></div>
+      <div class="scroll-x"><table class="t"><thead><tr><th>Zawodnik</th><th>Kategoria</th><th>Obecność</th><th>Waga</th><th>Status</th><th></th></tr></thead><tbody>
+      ${WEIGH.map((r, k) => {
+        const over = r.w != null && r.max != null && r.w > r.max + ui.tol;
+        return `<tr><td><b>${r.n}</b><div class="muted" style="font-size:12px;display:flex;gap:6px;align-items:center"><span class="club-dot" style="--c:${CLUBS[r.club].c}"></span>${CLUBS[r.club].name}</div></td><td style="font-size:13.5px">${r.cat}</td>
+        <td><button class="ci ${r.in ? 'on' : ''}" data-act="checkin" data-arg="${k}">${r.in ? '✓ obecny' : 'nieobecny'}</button></td>
+        <td><input class="w-in" id="w${k}" type="number" step="0.1" placeholder="—" value="${r.w ?? ''}" data-change="weight" data-arg="${k}" aria-label="Waga ${r.n}"></td><td>${weighStatus(r)}</td>
+        <td>${over && r.up ? `<button class="btn sm primary" data-act="moveUp" data-arg="${k}">Przenieś do ${r.up[0].split(' ').pop() === 'kg' ? r.up[0].split(' ').slice(-2).join(' ') : r.up[0]}</button>` : ''}</td></tr>`;
+      }).join('')}</tbody></table></div>
+      <p class="muted" style="font-size:12.5px;margin:12px 0 0">Wpisz wagę, a system od razu sprawdzi limit kategorii. Przeniesienie zawodnika przelosowuje tylko kategorie, których dotyczy, i trafia do historii zmian.</p></section>`;
+  }
+  if (ui.org === 'kategorie') {
+    body = `<div class="card-h"><h3>Kategorie po zamknięciu zgłoszeń ${fid('F-CAT-01', 'F-CAT-02', 'F-CAT-04')}</h3><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" data-act="mockOnly">Kopiuj z Pucharu Żurawia 2025</button><button class="btn sm" data-act="mockOnly">+ Nowa kategoria</button></div></div>
+    <div class="cats">${ORGCATS.map(c => {
+      const fmt = c.n <= 1 ? 'brak walk' : c.n <= 4 ? 'każdy z każdym' : `drabinka ${2 ** Math.ceil(Math.log2(c.n))}`;
+      const alert = c.merge || c.split;
+      return `<div class="catc ${alert ? 'alert' : ''}"><div style="display:flex;justify-content:space-between;gap:8px;align-items:flex-start"><b>${c.name}</b><span class="pill">T${c.t}</span></div>
+        <div class="cnt" title="${c.n} zawodników">${Array.from({ length: Math.max(c.n, 8) }, (_, k) => `<i class="${k < c.n ? '' : 'e'}"></i>`).join('')}</div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--ink-2)"><span>${c.n} os. · ${c.disc} · ${fmt}</span><span class="pill ${c.st === 'w toku' ? 'live' : alert ? 'warn' : c.st === 'zakończona' ? 'ok' : ''}">${c.st}</span></div>
+        ${c.merge ? `<div class="suggest"><span>Jedna zawodniczka nie ma z kim walczyć. Połącz z kategorią „${ORGCATS.find(x => x.id === c.merge)?.name}” (4 os.) w grupę 5 osób.</span><button class="btn sm primary" data-act="merge" data-arg="${c.id}">Połącz kategorie</button></div>` : ''}
+        ${c.split ? `<div class="suggest"><span>21 osób to drabinka 32 i 11 wolnych losów. Wagi z ważenia pozwalają podzielić: −32 kg (10) i −35 kg (11).</span><button class="btn sm primary" data-act="split" data-arg="${c.id}">Podziel kategorię</button></div>` : ''}
+      </div>`;
+    }).join('')}</div>`;
+  }
+  if (ui.org === 'harmonogram') {
+    const S = 540, E = 840, pct = m => ((m - S) / (E - S) * 100).toFixed(2) + '%';
+    const sel = SCHED.find(x => x.id === ui.gSel);
+    body = `<section class="card"><div class="card-h"><h3>Harmonogram tatami ${fid('F-SCH-01', 'F-SCH-02', 'F-SCH-04', 'F-SCH-05')}</h3><span class="muted" style="font-size:13px">Kliknij blok, żeby przenieść kategorię na inne tatami</span></div>
+      <div class="scroll-x"><div class="gantt">
+        <div class="g-axis">${[9, 10, 11, 12, 13, 14].map(h => `<span style="left:${pct(h * 60)}">${h}:00</span>`).join('')}</div>
+        <div style="position:relative">
+          <div style="position:absolute;left:90px;right:0;top:0;bottom:0;pointer-events:none"><div class="g-now" style="left:${pct(simClock)}"><span>teraz ${hm(simClock)}</span></div><div class="g-band" style="left:${pct(810)};right:0;top:0"><span>finały</span></div></div>
+          ${[1, 2, 3, 4].map(t => { const items = SCHED.filter(x => x.t === t); const end = Math.max(...items.map(x => x.e)); return `<div class="g-row"><b>T${t}<small>koniec ok. ${hm(end)}</small></b><div class="g-lane">${items.map(x => `<button class="g-b ${x.k} ${x.live ? 'livep' : ''} ${ui.gSel === x.id ? 'sel' : ''}" style="left:${pct(x.s)};width:calc(${pct(x.e + S - x.s)} - 3px)" data-act="gsel" data-arg="${x.id}" title="${x.name}">${x.name}<small>${hm(x.s)}–${hm(x.e)} · ${x.n} os.</small></button>`).join('')}</div></div>`; }).join('')}
+        </div>
+      </div></div>
+      ${sel ? `<div class="movebar"><b>${sel.name}</b><span class="muted">teraz na Tatami ${sel.t}. Przenieś na:</span>${[1, 2, 3, 4].filter(t => t !== sel.t).map(t => `<button class="btn sm" data-act="gmove" data-arg="${t}">Tatami ${t}</button>`).join('')}</div>` : ''}
+      <p class="muted" style="font-size:12.5px;margin:12px 0 0">Czasy liczone ze średniej długości walki w kategorii (dzieci 3:10, juniorzy 3:40, seniorzy 4:20) i aktualizowane po każdym wyniku.</p></section>`;
+  }
+  if (ui.org === 'audyt') {
+    body = `<section class="card"><div class="card-h"><h3>Historia zmian ${fid('NFR audyt', 'F-SCR-06')}</h3><button class="btn sm" data-act="mockOnly">Eksport CSV</button></div><div class="scroll-x"><table class="t"><thead><tr><th>Czas</th><th>Kto</th><th>Co</th></tr></thead><tbody>${AUDIT.map(a => `<tr><td class="mono muted" style="white-space:nowrap">${a.tm}</td><td style="white-space:nowrap">${a.who}</td><td>${a.what}</td></tr>`).join('')}</tbody></table></div></section>`;
+  }
+  return `<div class="bk-head"><div><div class="eyebrow">Panel organizatora · Puchar Żurawia 2026 · dzień zawodów</div><h2>Zaplecze turnieju</h2></div><span class="pill ai">rola: organizator ${fid('F-TRN-04')}</span></div>
+  <div class="subtabs">${tabs.map(([k, l]) => `<button class="${ui.org === k ? 'on' : ''}" data-act="org" data-arg="${k}">${l}</button>`).join('')}</div>${body}`;
+}
+
+/* ===================== VIEW: klub ===================== */
+const TDATE = new Date('2026-11-21T12:00:00');
+const MEMBERS = [
+  { n: 'Antoni Kowalski', dob: '2011-09-14', sex: 'M', kyu: 3, w: 58.4, reg: ['k60'] },
+  { n: 'Jan Pawlak', dob: '2011-03-02', sex: 'M', kyu: 5, w: 57.1, reg: ['k60'] },
+  { n: 'Hubert Nowicki', dob: '2012-06-30', sex: 'M', kyu: 5, w: 59.6, reg: ['k60'] },
+  { n: 'Bruno Sikora', dob: '2011-11-30', sex: 'M', kyu: 9, w: 55.0, reg: [] },
+  { n: 'Kornel Dudek', dob: '2010-10-05', sex: 'M', kyu: 4, w: 61.8, reg: [] },
+  { n: 'Wojtek Czarnecki', dob: '2012-02-17', sex: 'M', kyu: 6, w: 63.2, reg: [] },
+  { n: 'Staś Górski', dob: '2013-01-20', sex: 'M', kyu: 7, w: 47.0, reg: [] },
+  { n: 'Maja Zielińska', dob: '2013-12-01', sex: 'F', kyu: 6, w: 44.1, reg: [] },
+  { n: 'Ola Pietrzak', dob: '2012-04-11', sex: 'F', kyu: 5, w: 52.3, reg: [] },
+];
+const CLUBCATS = [
+  { id: 'k60', name: 'Kumite · Chłopcy 14–15 lat −60 kg', sex: 'M', amin: 14, amax: 15, wmax: 60, kmax: 8, fee: 80 },
+  { id: 'k65', name: 'Kumite · Chłopcy 14–15 lat −65 kg', sex: 'M', amin: 14, amax: 15, wmin: 60, wmax: 65, kmax: 8, fee: 80 },
+  { id: 'g45', name: 'Kumite · Dziewczęta 12–13 lat −45 kg', sex: 'F', amin: 12, amax: 13, wmax: 45, kmax: 9, fee: 80 },
+  { id: 'kata', name: 'Kata · Juniorzy 12–15 lat (open)', sex: null, amin: 12, amax: 15, kmax: 9, fee: 60 },
+];
+function ageOn(dob) { const d = new Date(dob + 'T12:00:00'); let a = TDATE.getFullYear() - d.getFullYear(); const m = TDATE.getMonth() - d.getMonth(); if (m < 0 || (m === 0 && TDATE.getDate() < d.getDate())) a--; return a; }
+function eligible(m, c) {
+  const age = ageOn(m.dob), why = [];
+  if (c.sex && m.sex !== c.sex) why.push(c.sex === 'M' ? 'kategoria dla chłopców' : 'kategoria dla dziewcząt');
+  if (age < c.amin) why.push(`ma ${age} lat w dniu zawodów (min. ${c.amin})`);
+  if (age > c.amax) why.push(`ma ${age} lat w dniu zawodów (maks. ${c.amax})`);
+  if (c.wmax && m.w > c.wmax) why.push(`waga ${kg(m.w)} > ${c.wmax} kg`);
+  if (c.wmin && m.w <= c.wmin) why.push(`waga ${kg(m.w)} poniżej przedziału ${c.wmin}–${c.wmax} kg`);
+  if (m.kyu > c.kmax) why.push(`stopień ${m.kyu} kyu, wymagane min. ${c.kmax} kyu`);
+  return { ok: !why.length, why, age };
+}
+function viewKlub() {
+  const c = CLUBCATS[ui.clubCat];
+  const sel = [...ui.clubSel];
+  const fee = i => { const m = MEMBERS[i]; return c.id === 'kata' && m.reg.some(r => r.startsWith('k')) ? 40 : c.fee; };
+  const total = sel.reduce((s, i) => s + fee(i), 0);
+  const can = sel.length && ui.consents.every(Boolean);
+  return `<div class="bk-head"><div><div class="eyebrow">Panel klubu · widok z okresu zgłoszeń</div><h2>Żuraw Dojo <span>· zgłoszenia na Puchar Żurawia</span></h2></div>
+    <span class="pill warn">zgłoszenia do 14.11.2026, 23:59 czasu polskiego (CET) ${fid('NFR strefy czasu')}</span></div>
+  <section class="card">
+    <div class="card-h"><h3>Zgłoś zawodników ${fid('F-REG-01', 'F-REG-02', 'F-REG-04', 'F-ORG-03')}</h3><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" data-act="mockOnly">Importuj członków z CSV / XLSX ${fid('F-ORG-04')}</button><button class="btn sm" data-act="mockOnly">+ Członek klubu</button></div></div>
+    <label class="field" for="clubCat" style="max-width:420px">Kategoria<select id="clubCat" data-change="clubCat">${CLUBCATS.map((x, k) => `<option value="${k}" ${k === ui.clubCat ? 'selected' : ''}>${x.name}</option>`).join('')}</select></label>
+    <div class="scroll-x"><table class="t"><thead><tr><th></th><th>Członek klubu</th><th>Wiek w dniu zawodów</th><th>Stopień</th><th>Waga</th><th>Czy może startować</th></tr></thead><tbody>
+    ${MEMBERS.map((m, i) => {
+      const e = eligible(m, c), reg = m.reg.includes(c.id);
+      return `<tr><td>${reg ? '' : `<input type="checkbox" class="pick" id="m${i}" data-act="pick" data-arg="${i}" ${e.ok ? '' : 'disabled'} ${ui.clubSel.has(i) ? 'checked' : ''} aria-label="Zgłoś ${m.n}">`}</td>
+        <td><b>${m.n}</b></td><td class="num">${e.age} lat</td><td>${belt(m.kyu)}</td><td class="num">${kg(m.w)}</td>
+        <td>${reg ? '<span class="pill ai">zgłoszony</span> <button class="btn sm" data-act="mockOnly" style="margin-left:4px">Wycofaj</button>' : e.ok ? '<span class="elig ok">✓ spełnia warunki</span>' : `<span class="elig no">✗ ${e.why.join(' · ')}</span>`}</td></tr>`;
+    }).join('')}</tbody></table></div>
+    <div class="consents">${['Akceptuję regulamin zawodów i zasady bezpieczeństwa.', 'Mam zgody rodziców lub opiekunów na start niepełnoletnich zawodników.', 'Mam zgody na publikację imienia, nazwiska i wizerunku w wynikach i transmisji.'].map((t, k) => `<label><input type="checkbox" id="cons${k}" data-act="consent" data-arg="${k}" ${ui.consents[k] ? 'checked' : ''}>${t}</label>`).join('')} ${fid('F-REG-06')}</div>
+    <div class="reg-sum"><div><b>${sel.length ? `Zgłaszasz ${sel.length} ${sel.length === 1 ? 'osobę' : 'osoby'}` : 'Zaznacz zawodników do zgłoszenia'}</b><div class="muted" style="font-size:13px">${sel.length ? `Wpisowe: ${total} zł${c.id === 'kata' ? ' · pakiet kumite + kata: dopłata 40 zł' : ''}` : 'System sam sprawdza wiek w dniu zawodów, stopień, płeć i wagę.'}</div></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" data-act="mockOnly" ${sel.length ? '' : 'disabled'}>Zapłać online · BLIK / karta ${fid('F-PAY-04')}</button><button class="btn primary" data-act="submitReg" ${can ? '' : 'disabled'}>Wyślij zgłoszenia</button></div></div>
+  </section>
+  <p class="mock-note">Prototyp: płatności i wysyłka są wyłączone, dane członków są przykładowe.</p>`;
+}
+
+/* ===================== VIEW: wyniki ===================== */
+const MEDALS = { zur: [3, 2, 4], ory: [2, 3, 2], sam: [2, 1, 5], bia: [1, 3, 3], tor: [2, 1, 1], wil: [1, 2, 3] };
+function podiumSteps(p) {
+  const [g, s, b, b2] = p;
+  const col = (x, cls, n) => `<div class="${cls}"><span class="nm">${x ? esc(x[0]) : '—'}</span>${x ? `<span class="club-dot" style="--c:${CLUBS[x[1]].c};margin:0 auto"></span>` : ''}<div class="blk">${n}</div></div>`;
+  return `<div class="pod-steps">${col(s, 'p2', 2)}${col(g, 'p1', 1)}${col(b, 'p3', 3)}</div>${b2 ? `<div class="pod-b3">3. miejsce: ${esc(b2[0])}</div>` : ''}`;
+}
+function viewWyniki() {
+  const cat = CATS['b14-60'], B = buildBracket(cat, true), fin = B._final;
+  const medals = JSON.parse(JSON.stringify(MEDALS));
+  const pods = [
+    { cat: 'Kobiety seniorki +65 kg', p: [['Karolina Dąbrowska', 'zur'], ['Natalia Wróbel', 'tor'], ['Ewa Lewandowska', 'sam']] },
+    { cat: 'Kata Dziewczęta 12–13 lat', p: [['Lena Sowa', 'ory'], ['Maja Zielińska', 'zur'], ['Iga Marczak', 'bia'], ['Pola Wiśniewska', 'sam']] },
+    { cat: 'Chłopcy 10–11 lat −30 kg', p: [['Kuba Lis', 'wil'], ['Franek Duda', 'zur'], ['Olek Wilk', 'tor'], ['Tadek Bryła', 'sam']] },
+  ];
+  let featured;
+  if (fin.status === 'done' && B.b3.status === 'done') {
+    const p = [fin.win, fin.lose, B.b3.win].map(id => [F[id].n, F[id].club]);
+    pods.unshift({ cat: `${cat.name} ${cat.w}`, p, fresh: true });
+    medals[F[fin.win].club][0]++; medals[F[fin.lose].club][1]++; medals[F[B.b3.win].club][2]++;
+  } else featured = `<div class="pod" style="display:flex;flex-direction:column;justify-content:center;gap:8px"><h4>${cat.name} ${cat.w}</h4><span class="pill live" style="align-self:flex-start"><span class="dot"></span>w toku na Tatami 2</span><p class="muted" style="font-size:13px;margin:0">Podium pojawi się po finale. <a href="#sekretarz">Dokończ walki w panelu sekretarza</a>, żeby zobaczyć efekt.</p></div>`;
+  const P = ui.pts;
+  const rows = Object.entries(medals).map(([k, m]) => ({ k, m, pts: m[0] * P[1] + m[1] * P[2] + m[2] * P[3] })).sort((a, b) => b.pts - a.pts || b.m[0] - a.m[0]);
+  const max = Math.max(...rows.map(r => r.pts), 1);
+  return `<div class="bk-head"><div><div class="eyebrow">Puchar Żurawia 2026 · wyniki na żywo</div><h2>Wyniki i klasyfikacja</h2></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" data-act="mockOnly">PDF wyników</button><button class="btn sm" data-act="mockOnly">CSV / XLSX</button>${fid('F-DOC-01', 'F-DOC-03')}</div></div>
+  <div class="res-grid">
+    <div><h3 style="font-size:16px;margin-bottom:12px">Podia kategorii ${fid('F-RES-01')}</h3><div class="podiums">${featured || ''}${pods.map(p => `<div class="pod" ${p.fresh ? 'style="border-color:var(--gold)"' : ''}><h4>${p.cat}</h4>${podiumSteps(p.p)}</div>`).join('')}</div>
+      <section class="card" style="margin-top:16px"><div class="card-h"><h3>Dyplomy ${fid('F-DOC-02')}</h3><button class="btn sm primary" data-act="mockOnly">Generuj wszystkie (84)</button></div>
+        <div class="diploma"><div class="k">押忍</div><h4>DYPLOM</h4><p>Puchar Żurawia 2026 · Kyokushin knockdown</p><b>Karolina Dąbrowska</b><p>I miejsce · Kobiety seniorki +65 kg</p><p class="muted" style="font-size:11px;margin-top:10px">Żuraw Dojo · 21 listopada 2026</p></div></section>
+    </div>
+    <div>
+      <section class="card"><div class="card-h"><h3>Klasyfikacja klubowa ${fid('F-RES-02')}</h3></div>
+        <div class="ptsin">Punkty za miejsce: <label for="p1">1.</label><input id="p1" type="number" min="0" value="${P[1]}" data-change="pts" data-arg="1"><label for="p2">2.</label><input id="p2" type="number" min="0" value="${P[2]}" data-change="pts" data-arg="2"><label for="p3">3.</label><input id="p3" type="number" min="0" value="${P[3]}" data-change="pts" data-arg="3"></div>
+        <div class="team-bars">${rows.map((r, k) => `<div class="tb"><span class="rk">${k + 1}</span><span class="tn"><span class="club-dot" style="--c:${CLUBS[r.k].c}"></span>${CLUBS[r.k].name}</span><span class="tr"><i style="--c:${CLUBS[r.k].c};width:${r.pts / max * 100}%"></i></span><span class="tv">${r.pts}</span></div>`).join('')}</div></section>
+      <section class="card" style="margin-top:16px"><h3>Tabela medalowa</h3><div class="scroll-x"><table class="t medals" style="margin-top:8px"><thead><tr><th>Klub</th><th style="text-align:center;color:var(--gold)">Złoto</th><th style="text-align:center;color:var(--silver)">Srebro</th><th style="text-align:center;color:var(--bronze)">Brąz</th></tr></thead><tbody>
+        ${rows.map(r => `<tr><td>${CLUBS[r.k].name}</td><td class="m">${r.m[0]}</td><td class="m">${r.m[1]}</td><td class="m">${r.m[2]}</td></tr>`).join('')}</tbody></table></div></section>
+      <section class="card" style="margin-top:16px"><h3>Statystyki turnieju ${fid('F-RES-03')}</h3><div class="kpis" style="margin:12px 0 0"><div class="kpi"><b>38%</b><span>walk kończy się ippon</span></div><div class="kpi"><b>24%</b><span>walk z encho</span></div><div class="kpi"><b>3:41</b><span>średni czas walki</span></div></div></section>
+    </div>
+  </div>`;
+}
+
+/* ===================== drawer ===================== */
+function openDrawer(title, html) { $('#dwTitle').textContent = title; $('#dwBody').innerHTML = html; $('#drawer').classList.add('on'); $('#scrim').classList.add('on'); $('#drawer').setAttribute('aria-hidden', 'false'); $('#drawer .x').focus(); }
+function closeDrawer() { $('#drawer').classList.remove('on'); $('#scrim').classList.remove('on'); $('#drawer').setAttribute('aria-hidden', 'true'); }
+function fighterDrawer(id) {
+  const f = F[id], c = club(id);
+  let path = '';
+  const catId = id.startsWith('f') ? 'b14-60' : null;
+  if (catId) {
+    const B = buildBracket(CATS[catId], true);
+    path = Object.values(B).filter(b => b && b.id && (b.a === id || b.b === id)).sort((x, y) => x.r - y.r).map(b => {
+      if (b.status === 'bye') return `<div class="step w"><span class="sd">→</span><div><b>${roundName(b.r, b.rounds)}</b><div>wolny los</div></div></div>`;
+      const o = b.a === id ? b.b : b.a, on = o ? F[o].n : placeholder(b, b.a === id ? 'b' : 'a');
+      if (b.status === 'done') { const w = b.win === id; return `<div class="step ${w ? 'w' : 'l'}"><span class="sd">${w ? '✓' : '×'}</span><div><b>${b.bronze ? 'O 3. miejsce' : roundName(b.r, b.rounds)} · #${b.no}</b><div>${w ? 'wygrana' : 'przegrana'} · ${esc(on)} · ${b.res.m}${b.res.d ? ' (' + b.res.d + ')' : ''}</div></div></div>`; }
+      return `<div class="step n"><span class="sd">${b.status === 'live' ? '●' : '?'}</span><div><b>${b.bronze ? 'O 3. miejsce' : roundName(b.r, b.rounds)} · #${b.no}</b><div>vs ${esc(on)}</div></div></div>`;
+    }).join('');
+  }
+  openDrawer('Zawodnik', `<div><h2 style="font-size:26px;font-stretch:95%">${f.n}</h2><div style="display:flex;gap:8px;align-items:center;margin-top:8px;color:var(--ink-2)"><span class="club-dot" style="--c:${c.c}"></span>${c.name}</div></div>
+    <dl class="dl"><dt>Stopień</dt><dd>${belt(f.kyu)}</dd><dt>Wiek</dt><dd>${f.age} lat</dd><dt>Waga z ważenia</dt><dd>${kg(f.w)} <span class="muted" style="font-size:12px">(widzi tylko organizator)</span></dd></dl>
+    ${path ? `<div><div class="eyebrow" style="margin-bottom:10px">Droga w turnieju</div>${path}</div>` : ''}
+    <div class="card" style="padding:14px"><div class="eyebrow" style="margin-bottom:6px">Historia startów ${fid('F-RES-04')}</div><div style="font-size:13.5px">Puchar Wiosny 2026 · 2. miejsce<br>Mistrzostwa Województwa 2025 · 3. miejsce<br><span class="muted">Bilans w systemie: 11 walk, 8 wygranych (5 przez ippon)</span></div></div>
+    ${catId ? `<button class="btn primary" data-act="followGo" data-arg="${id}">Śledź tego zawodnika</button>` : ''}`);
+}
+function boutDrawer(boutId) {
+  const cat = CATS[ui.cat], B = buildBracket(cat, true), b = B[boutId];
+  if (!b) return;
+  const nm = s => b[s] ? esc(F[b[s]].n) : placeholder(b, s);
+  let body = `<div class="vs"><div class="a"><b>${nm('a')}</b><small>${b.a ? club(b.a).name : ''}</small></div><div class="mid">vs</div><div class="b"><b>${nm('b')}</b><small>${b.b ? club(b.b).name : ''}</small></div></div>`;
+  if (b.status === 'done') {
+    const r = b.res, w = F[b.win].n;
+    const ev = r.ev && r.ev.length ? r.ev.map(e => `<div class="log-i" style="grid-template-columns:46px 62px 1fr"><span class="mono muted">${e.t}</span><span class="s ${e.side || 'x'}">${e.side === 'a' ? 'AKA' : e.side === 'b' ? 'SHIRO' : 'SYS'}</span><span>${e.txt}</span></div>`).join('')
+      : `<div class="log-i" style="grid-template-columns:46px 62px 1fr"><span class="mono muted">0:00</span><span class="s x">SYS</span><span>Hajime</span></div>` + (r.m === 'Ippon' || r.m === 'Waza-ari' ? `<div class="log-i" style="grid-template-columns:46px 62px 1fr"><span class="mono muted">${r.m === 'Ippon' ? '0:52' : '1:04'}</span><span class="s ${r.w}">${r.w === 'a' ? 'AKA' : 'SHIRO'}</span><span>${r.m} · ${r.d}</span></div>` : '') + (r.m.startsWith('Hantei') ? `<div class="log-i" style="grid-template-columns:46px 62px 1fr"><span class="mono muted">1:30</span><span class="s x">SYS</span><span>${r.m === 'Hantei po encho' ? 'Encho 1, następnie hantei' : 'Koniec czasu, hantei'} ${r.d}</span></div>` : '');
+    body += `<div><span class="pill ok">zakończona ${r.at || ''}</span></div><dl class="dl"><dt>Zwycięzca</dt><dd><b>${esc(w)}</b></dd><dt>Sposób</dt><dd>${r.m}${r.d ? ' · ' + r.d : ''}</dd></dl>
+      <div><div class="eyebrow" style="margin-bottom:6px">Przebieg walki</div><div class="log" style="max-height:none">${ev}</div></div>
+      <button class="btn sm" data-act="mockCorr">Korekta wyniku (wymaga uprawnień) ${fid('F-SCR-06')}</button>`;
+  } else if (b.status === 'live') body += `<span class="pill live"><span class="dot"></span>trwa · Tatami ${cat.tatami} · <span class="js-time">${mmss(sc.time)}</span></span>`;
+  else body += `<span class="pill">zaplanowana</span>`;
+  openDrawer(`Walka #${b.no} · ${b.bronze ? 'o 3. miejsce' : roundName(b.r, b.rounds)}`, body);
+}
+
+/* ===================== secretary actions ===================== */
+function phaseLen() { return sc.encho ? 60 : sc.base; }
+function scLog(side, type, txt) { sc.log.unshift({ t: mmss(phaseLen() - sc.time), side, type, txt, synced: !net.offline }); }
+function flash(k, txt, side) { sc.flash = { k, txt, side, until: Date.now() + 1800 }; setTimeout(() => { if (sc.flash && sc.flash.until <= Date.now()) { sc.flash = null; if (['sekretarz', 'ekran'].includes(ui.view)) render(); } }, 1850); }
+let tickLast = 0;
+function startTimer() { if (sc.time <= 0) return; sc.running = true; sc.ended = false; tickLast = performance.now(); scLog(null, 'sys', 'Hajime'); }
+function stopTimer(silent) { if (!sc.running) return; sc.running = false; if (!silent) scLog(null, 'sys', 'Yame'); }
+setInterval(() => {
+  if (!sc.running) return;
+  const now = performance.now(); sc.time = Math.max(0, sc.time - (now - tickLast) / 1000); tickLast = now;
+  if (sc.time <= 0) { sc.running = false; sc.ended = true; scLog(null, 'sys', 'Koniec czasu'); beep(); render(); return; }
+  $$('.js-time').forEach(el => el.textContent = mmss(sc.time));
+}, 100);
+function beep() { try { const C = new (window.AudioContext || window.webkitAudioContext)(); const o = C.createOscillator(), g = C.createGain(); o.frequency.value = 880; o.connect(g); g.connect(C.destination); g.gain.setValueAtTime(.15, C.currentTime); g.gain.exponentialRampToValueAtTime(.001, C.currentTime + .8); o.start(); o.stop(C.currentTime + .8); } catch (e) { } }
+function speak(txt) { try { const u = new SpeechSynthesisUtterance(txt); u.lang = 'pl-PL'; const v = speechSynthesis.getVoices().find(v => v.lang && v.lang.toLowerCase().startsWith('pl')); if (v) u.voice = v; speechSynthesis.cancel(); speechSynthesis.speak(u); return true; } catch (e) { return false; } }
+function simulateVotes() {
+  const bias = sc.a.wa > sc.b.wa ? 'a' : sc.b.wa > sc.a.wa ? 'b' : null;
+  [0, 1, 3, 4].forEach((k, n) => setTimeout(() => {
+    if (!sc.hantei || sc.votes[k]) return;
+    const r = Math.random();
+    sc.votes[k] = bias ? (r < .78 ? bias : r < .9 ? 'd' : (bias === 'a' ? 'b' : 'a')) : (r < .42 ? 'a' : r < .84 ? 'b' : 'd');
+    afterVote(); if (['sekretarz', 'sedzia', 'ekran'].includes(ui.view)) render();
+  }, 600 + n * 650));
+}
+function afterVote() {
+  const r = hanteiRes(); if (!r) return;
+  if (r.draw) { scLog(null, 'sys', `Hantei ${r.d}: remis`); return; }
+  sc.winner = r.w; sc.method = sc.encho ? 'Hantei po encho' : 'Hantei'; sc.tech = r.d;
+  scLog(r.w, 'hantei', `Hantei ${r.d}`);
+}
+function confirmBout() {
+  const cat = CATS['b14-60'], B = buildBracket(cat, false), bout = B[cat.live];
+  if (!bout || !sc.winner || !sc.method) return;
+  stopTimer(true);
+  const res = { w: sc.winner, m: sc.method, d: sc.tech, at: hm(simClock), pub: !net.offline, ev: sc.log.slice().reverse() };
+  cat.results[bout.id] = res;
+  const w = res.w === 'a' ? bout.a : bout.b, l = res.w === 'a' ? bout.b : bout.a;
+  const entry = { tm: hm(simClock), t: 2, txt: `Walka #${bout.no}: <b>${esc(F[w].n)}</b> wygrywa (${res.m}${res.d ? ' · ' + esc(res.d) : ''}) · vs ${esc(F[l].n)}`, fresh: true };
+  if (net.offline) net.pendingFeed.push(entry); else feed.unshift(entry);
+  AUDIT.unshift({ tm: hm(simClock) + ':' + String(new Date().getSeconds()).padStart(2, '0'), who: 'Sekretarz T2 · Anna W.', what: `Walka #${bout.no} · wynik: ${F[w].n}, ${res.m}${res.d ? ' (' + res.d + ')' : ''}` });
+  ann.unshift({ txt: `Zwycięża ${F[w].n}, ${club(w).name}.` });
+  simClock += 4;
+  const nextId = cat.order.find(id => id !== bout.id && !cat.results[id]);
+  cat.live = nextId || null;
+  ui.justDone = bout.id; setTimeout(() => { ui.justDone = null; }, 2500);
+  const pendingLog = sc.log.filter(l => !l.synced);
+  sc = SC0(); sc.log = pendingLog;
+  if (nextId) {
+    const nb = buildBracket(cat, false)[nextId];
+    ann.unshift({ txt: `Tatami dwa, walka ${nb.no}. Na czerwono: ${F[nb.a].n}, ${club(nb.a).name}. Na biało: ${F[nb.b].n}, ${club(nb.b).name}.` });
+  }
+  if (annAuto) speak(ann.slice(0, 2).reverse().map(a => a.txt).join(' '));
+  toast(net.offline ? `Zapisano lokalnie. Walka #${bout.no} wyśle się po powrocie sieci.` : `Walka #${bout.no} zatwierdzona. Drabinka i strona publiczna już to pokazują.`);
+  render();
+}
+function goOnline() {
+  const cat = CATS['b14-60'];
+  let n = net.pendingFeed.length + sc.log.filter(l => !l.synced).length;
+  Object.values(cat.results).forEach(r => r.pub = true);
+  net.pendingFeed.reverse().forEach(e => feed.unshift(e)); net.pendingFeed = [];
+  sc.log.forEach(l => l.synced = true);
+  net.offline = false;
+  toast(n ? `Sieć wróciła. Wysłano ${n} zdarzeń z kolejki.` : 'Sieć wróciła.');
+}
+
+/* ===================== actions ===================== */
+const ACT = {
+  fids() { document.body.classList.toggle('fids'); $('#fidBtn').setAttribute('aria-pressed', document.body.classList.contains('fids')); },
+  close: closeDrawer,
+  pubTab: a => { ui.pubTab = a.dataset.arg; render(); },
+  pClub: a => { ui.pClub = a.dataset.arg || null; render(); },
+  cat: a => { ui.cat = a.dataset.arg; render(); },
+  bmode: a => { ui.bmode = a.dataset.arg; render(); },
+  fighter: a => fighterDrawer(a.dataset.arg),
+  bout: a => boutDrawer(a.dataset.arg),
+  followGo: a => { ui.follow = a.dataset.arg; closeDrawer(); location.hash = 'sledz'; },
+  draw: () => {
+    const cat = CATS['g12-45'], ids = [...cat.pool];
+    for (let t = 0; t < 800; t++) {
+      for (let i = ids.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [ids[i], ids[j]] = [ids[j], ids[i]]; }
+      const half = ids.length / 2;
+      if (ids.every((x, k) => ids.every((y, m) => m <= k || F[x].club !== F[y].club || (k < half) !== (m < half)))) break;
+    }
+    cat.R1 = []; for (let i = 0; i < ids.length; i += 2) cat.R1.push([ids[i], ids[i + 1]]);
+    let no = 71; cat.num = {}; for (let r = 0; r < 3; r++) for (let i = 0; i < 4 / 2 ** r; i++) cat.num[`r${r}-${i}`] = no++;
+    cat.drawAnim = true; ui.bmode = 'tree';
+    AUDIT.unshift({ tm: hm(simClock) + ':00', who: 'Organizator · Michał S.', what: 'Losowanie: Dziewczęta 12–13 lat −45 kg' });
+    render(); setTimeout(() => { cat.drawAnim = false; }, 1600);
+    toast('Wylosowano. Kluby rozdzielone na przeciwne połówki.');
+  },
+  wa: a => { const s = a.dataset.arg; if (sc.winner) return; sc[s].wa++; scLog(s, 'wa', 'Waza-ari'); if (sc[s].wa >= 2) { sc.winner = s; sc.method = 'Ippon'; sc.tech = 'awase waza-ari'; stopTimer(true); scLog(s, 'ippon', 'Awase waza-ari = ippon'); flash('一本', 'IPPON', s); } else flash('技有', 'WAZA-ARI', s); render(); },
+  ippon: a => { const s = a.dataset.arg; sc.winner = s; sc.method = 'Ippon'; stopTimer(true); scLog(s, 'ippon', 'Ippon'); flash('一本', 'IPPON', s); render(); },
+  chui: a => { const s = a.dataset.arg; if (sc[s].chui >= 4) return; sc[s].chui++; const c = sc[s].chui; scLog(s, 'chui', c === 4 ? 'Hansoku (2 × genten)' : c % 2 ? 'Chui' : 'Genten'); if (c === 4) { sc.winner = s === 'a' ? 'b' : 'a'; sc.method = 'Hansoku'; stopTimer(true); } render(); },
+  win: a => { const s = a.dataset.arg; sc.winner = sc.winner === s ? null : s; render(); },
+  undo: () => { const l = sc.log.shift(); if (!l) return; if (l.type === 'wa') sc[l.side].wa = Math.max(0, sc[l.side].wa - 1); if (l.type === 'chui') sc[l.side].chui = Math.max(0, sc[l.side].chui - 1); if (['ippon', 'hantei'].includes(l.type)) { sc.winner = null; sc.method = ''; sc.tech = ''; } render(); },
+  timer: () => { sc.running ? stopTimer() : startTimer(); render(); },
+  reset: () => { stopTimer(true); sc.time = phaseLen(); sc.ended = false; render(); },
+  adj: a => { sc.time = Math.max(0, Math.min(phaseLen(), sc.time + +a.dataset.arg)); sc.ended = sc.time <= 0; render(); },
+  encho: () => { stopTimer(true); sc.encho++; sc.time = 60; sc.ended = false; sc.hantei = false; sc.votes = [null, null, null, null, null]; scLog(null, 'sys', `Encho ${sc.encho}`); render(); },
+  hantei: () => { stopTimer(true); sc.hantei = true; sc.votes = [null, null, null, null, null]; scLog(null, 'sys', 'Wezwanie do hantei'); simulateVotes(); render(); },
+  vote: a => { const k = +a.dataset.arg, cyc = [null, 'a', 'b', 'd']; sc.hantei = true; sc.votes[k] = cyc[(cyc.indexOf(sc.votes[k]) + 1) % 4]; afterVote(); render(); },
+  tvote: a => { sc.votes[2] = a.dataset.arg; afterVote(); render(); toast('Głos wysłany do sekretarza Tatami 2'); },
+  confirm: confirmBout,
+  net: a => { if (a.checked) { net.offline = true; toast('Tryb offline: panel działa dalej, zdarzenia czekają w kolejce.'); } else goOnline(); render(); },
+  annAuto: a => { annAuto = a.checked; },
+  annPlay: a => { if (!speak(ann[+a.dataset.arg].txt)) toast('Ta przeglądarka nie obsługuje syntezy mowy.'); },
+  resetDemo: () => location.reload(),
+  sbMode: a => { ui.sbMode = a.dataset.arg; render(); },
+  org: a => { ui.org = a.dataset.arg; render(); },
+  checkin: a => { const r = WEIGH[+a.dataset.arg]; r.in = !r.in; render(); },
+  moveUp: a => { const r = WEIGH[+a.dataset.arg]; const old = r.cat; r.cat = r.up[0]; r.max = r.up[1]; delete r.up; AUDIT.unshift({ tm: hm(simClock) + ':00', who: 'Weryfikacja · Kasia M.', what: `${r.n}: ${old} → ${r.cat} (waga ${kg(r.w)})` }); toast(`${r.n} przeniesiony do kategorii ${r.cat}`); render(); },
+  merge: a => { const c = ORGCATS.find(x => x.id === a.dataset.arg), t = ORGCATS.find(x => x.id === c.merge); t.name = 'Dziewczęta 12–13 lat −50 / +50 kg (open)'; t.n += c.n; t.st = 'połączona'; ORGCATS = ORGCATS.filter(x => x !== c); AUDIT.unshift({ tm: hm(simClock) + ':00', who: 'Organizator · Michał S.', what: `Połączono kategorie: ${c.name} + Dziewczęta 12–13 lat −50 kg` }); toast('Kategorie połączone. Kluby dostaną powiadomienie.'); render(); },
+  split: a => { const i = ORGCATS.findIndex(x => x.id === a.dataset.arg); ORGCATS.splice(i, 1, { id: 'c5a', name: 'Chłopcy 10–11 lat −32 kg', n: 10, disc: 'Kumite', t: 4, st: 'gotowa' }, { id: 'c5b', name: 'Chłopcy 10–11 lat −35 kg', n: 11, disc: 'Kumite', t: 4, st: 'gotowa' }); AUDIT.unshift({ tm: hm(simClock) + ':00', who: 'Organizator · Michał S.', what: 'Podział: Chłopcy 10–11 −35 kg → −32 kg (10) i −35 kg (11)' }); toast('Kategoria podzielona na dwie drabinki.'); render(); },
+  gsel: a => { ui.gSel = ui.gSel === a.dataset.arg ? null : a.dataset.arg; render(); },
+  gmove: a => { const x = SCHED.find(s => s.id === ui.gSel), t = +a.dataset.arg, from = x.t, dur = x.e - x.s; const last = Math.max(simClock, ...SCHED.filter(s => s.t === t).map(s => s.e)); x.t = t; x.s = Math.max(x.s, last + 5); x.e = x.s + dur; feed.unshift({ tm: hm(simClock), t, txt: `Kategoria ${x.name} przeniesiona z Tatami ${from} na Tatami ${t}`, sys: true, fresh: true }); AUDIT.unshift({ tm: hm(simClock) + ':00', who: 'Organizator · Michał S.', what: `${x.name}: Tatami ${from} → Tatami ${t}` }); toast(`${x.name} na Tatami ${t}, start ok. ${hm(x.s)}. Trenerzy dostaną powiadomienie.`); render(); },
+  pick: a => { const i = +a.dataset.arg; a.checked ? ui.clubSel.add(i) : ui.clubSel.delete(i); render(); },
+  consent: a => { ui.consents[+a.dataset.arg] = a.checked; render(); },
+  submitReg: () => { const c = CLUBCATS[ui.clubCat], n = ui.clubSel.size; ui.clubSel.forEach(i => MEMBERS[i].reg.push(c.id)); ui.clubSel.clear(); toast(`Zgłoszono ${n} ${n === 1 ? 'osobę' : 'osoby'}. Potwierdzenie przyjdzie na e-mail klubu.`); render(); },
+  mockOnly: () => toast('W prototypie ta funkcja jest wyłączona.'),
+  mockCorr: () => toast('Korektę zatwierdza sędzia główny. Zmiana trafi do historii zmian.'),
+};
+const CHANGE = {
+  method: e => { sc.method = e.value; render(); },
+  tech: e => { sc.tech = e.value; },
+  follow: e => { ui.follow = e.value; render(); },
+  tol: e => { ui.tol = Math.max(0, parseFloat(e.value) || 0); render(); },
+  weight: e => { const r = WEIGH[+e.dataset.arg]; const v = parseFloat(String(e.value).replace(',', '.')); r.w = isNaN(v) ? null : v; if (r.w != null) r.in = true; render(); },
+  clubCat: e => { ui.clubCat = +e.value; ui.clubSel.clear(); render(); },
+  pts: e => { ui.pts[e.dataset.arg] = Math.max(0, parseInt(e.value) || 0); render(); },
+};
+document.addEventListener('click', e => {
+  const a = e.target.closest('[data-act]'); if (!a) return;
+  const fn = ACT[a.dataset.act]; if (!fn) return;
+  if (a.tagName === 'INPUT') { fn(a, e); return; }
+  e.preventDefault(); fn(a, e);
+});
+document.addEventListener('change', e => { const el = e.target.closest('[data-change]'); if (el && CHANGE[el.dataset.change]) CHANGE[el.dataset.change](el); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeDrawer();
+  if (!['sekretarz', 'ekran'].includes(ui.view) || !liveBout()) return;
+  if (e.target.closest('input,select,textarea,button')) return;
+  if (e.code === 'Space') { e.preventDefault(); ACT.timer(); }
+  if (ui.view === 'sekretarz' && e.key.toLowerCase() === 'q') ACT.wa({ dataset: { arg: 'a' } });
+  if (ui.view === 'sekretarz' && e.key.toLowerCase() === 'p') ACT.wa({ dataset: { arg: 'b' } });
+});
+/* path highlight */
+function setHL(host, f) {
+  if (host._hl === f) return; host._hl = f;
+  $$('.hl', host).forEach(el => el.classList.remove('hl'));
+  host.classList.toggle('has-hl', !!f);
+  if (f) $$(`[data-f="${f}"]`, host).forEach(el => el.classList.add('hl'));
+}
+document.addEventListener('mouseover', e => { const host = e.target.closest('.bk'); $$('.bk').forEach(h => { if (h !== host) setHL(h, null); }); if (!host) return; const s = e.target.closest('[data-f]'); setHL(host, s ? s.dataset.f : null); });
+document.addEventListener('focusin', e => { const host = e.target.closest('.bk'); if (!host) return; const s = e.target.closest('[data-f]'); setHL(host, s ? s.dataset.f : null); });
+
+/* ===================== render ===================== */
+const RENDER = { turniej: viewTurniej, drabinki: viewDrabinki, wyniki: viewWyniki, sledz: viewSledz, sekretarz: viewSekretarz, sedzia: viewSedzia, ekran: viewEkran, organizator: viewOrganizator, klub: viewKlub };
+function render() {
+  const active = document.activeElement && document.activeElement.id;
+  $('#app').innerHTML = RENDER[ui.view]();
+  if (active) { const el = document.getElementById(active); if (el && el !== document.body) el.focus({ preventScroll: true }); }
+  if (ui.view === 'drabinki' && ui.cat === 'g12-45' && CATS['g12-45'].R1) { const w = $('.bk-wrap'); if (w && !$('.check', w)) w.insertAdjacentHTML('afterbegin', `<div style="padding-top:16px">${drawCheck(CATS['g12-45'])}</div>`); }
+  drawQR();
+  feed.forEach(f => { if (f.fresh) setTimeout(() => { f.fresh = false; }, 2500); });
+}
+function route() {
+  const h = location.hash.replace('#', '');
+  ui.view = RENDER[h] ? h : 'turniej';
+  renderNav(); closeDrawer(); render(); window.scrollTo(0, 0);
+}
+window.addEventListener('hashchange', route);
+route();
+</script>
+</body>
+</html>
