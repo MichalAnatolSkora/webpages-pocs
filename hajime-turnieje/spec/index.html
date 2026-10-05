@@ -244,7 +244,9 @@ table.t .r{text-align:right}
 /* ---------- brackets ---------- */
 .bk-layout{display:grid;grid-template-columns:260px minmax(0,1fr);gap:18px;align-items:start}
 .bk-layout>*{min-width:0}
-.cat-list{display:flex;flex-direction:column;gap:6px;position:sticky;top:130px;max-height:calc(100vh - 150px);overflow:auto;scrollbar-width:thin}
+.cat-side{display:flex;flex-direction:column;gap:8px;position:sticky;top:130px;max-height:calc(100vh - 150px);min-height:0}
+.cat-find{display:flex;flex-direction:column;gap:6px}
+.cat-list{display:flex;flex-direction:column;gap:6px;overflow:auto;scrollbar-width:thin;min-height:0}
 .cat-btn{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 12px;text-align:left;display:flex;flex-direction:column;gap:4px;text-decoration:none;color:var(--ink)}
 .cat-btn:hover{border-color:var(--ink-3)}
 .cat-btn.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
@@ -680,6 +682,44 @@ body.tv main{max-width:none;padding:0}
 .tv-fresh{animation:tvfresh 2.6s ease-out}
 @keyframes tvfresh{0%,35%{box-shadow:inset 0 0 0 calc(var(--u)*.5) #ffd23f}100%{box-shadow:inset 0 0 0 0 transparent}}
 @media (max-aspect-ratio:1/1){.tv{--u:2.4vw;position:static;min-height:100vh}.tv-cols{grid-template-columns:1fr}.tv-bot{grid-template-columns:1fr}}
+/* ---------- etap 3: bloki, wszystkie walki, informacje ---------- */
+.chip-s.on{background:var(--ink);color:var(--paper)}
+.blk-div{font:800 11.5px var(--f-mono)!important;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);border-top:2px dashed var(--line-2);border-radius:0!important;padding:6px 6px 0!important;margin-top:2px}
+.sch-blk{font:800 12px var(--f-mono);letter-spacing:.08em;background:var(--ink);color:var(--paper);border-radius:8px;padding:7px 10px;margin:12px 0 8px}
+.sch-blk:first-of-type{margin-top:4px}
+.sch-blk .req{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.5)}
+.hero-link{display:inline-block;margin-top:16px;color:#fff;font-weight:750;border:2px solid rgba(255,255,255,.65);border-radius:10px;padding:9px 13px;text-decoration:none}
+.hero-link:hover{background:rgba(255,255,255,.12)}
+.lf{display:grid;grid-template-columns:auto minmax(0,1fr) minmax(0,1fr) minmax(0,1.1fr) auto;gap:8px 10px;align-items:center;margin-bottom:10px}
+.lf select,.lf .lf-q{border:2px solid var(--line-2);background:var(--surface);border-radius:10px;padding:9px 10px;font-size:15px;min-height:46px;width:100%;color:var(--ink);min-width:0}
+.ab-list{display:flex;flex-direction:column;gap:6px}
+.ab{display:grid;grid-template-columns:66px minmax(0,1fr) auto;gap:10px;align-items:center;background:var(--surface);border:2px solid var(--line);border-radius:12px;padding:8px 10px;text-decoration:none;color:var(--ink)}
+.ab:hover{border-color:var(--ink-3)}
+.ab-code{font:900 22px/1 var(--f-display);font-variant-numeric:tabular-nums;text-align:center;background:var(--ink);color:var(--paper);border-radius:8px;padding:9px 0}
+.ab-m{min-width:0}
+.ab-m b{display:block;font:750 15.5px/1.25 var(--f-display);font-stretch:90%}
+.ab-m small{display:block;font-size:13px;color:var(--ink-2);margin-top:2px}
+.ab-st{font:800 13px var(--f-mono);white-space:nowrap;text-align:right}
+.ab-live{border-color:var(--aka)}
+.ab-live .ab-code{background:var(--aka);color:#fff}
+.ab-live .ab-st{color:var(--aka-t)}
+.ab-next{border-color:var(--go-ink);box-shadow:inset 6px 0 0 var(--go)}
+.ab-next .ab-st{background:var(--go);color:var(--go-ink);padding:3px 7px;border-radius:6px}
+.ab-done .ab-code{background:var(--surface-3);color:var(--ink)}
+.ab-done .ab-st{color:var(--ok)}
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;align-items:start}
+.prog{list-style:none;margin:10px 0;padding:0;display:flex;flex-direction:column}
+.prog li{display:grid;grid-template-columns:112px minmax(0,1fr);gap:10px;font-size:15px;padding:8px 0;border-top:1px solid var(--line)}
+.prog li:first-child{border-top:0}
+.prog .tm{font:700 14px var(--f-mono)}
+.prog small{display:block;color:var(--ink-3);font-size:13px}
+.cat-ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px}
+.cat-ul a{font-weight:700}
+.cat-ul small{display:block;color:var(--ink-3);font-size:13px}
+.info-note p{margin:8px 0 0;font-size:15px}
+.field textarea{border:1px solid var(--line-2);background:var(--surface);border-radius:9px;padding:10px;font:500 15px/1.5 var(--f-body);color:var(--ink);resize:vertical;min-height:120px;width:100%}
+@media (max-width:900px){.lf{grid-template-columns:1fr 1fr}.lf .seg,.lf .lf-q{grid-column:1/-1}}
+@media (max-width:440px){.ab{grid-template-columns:58px minmax(0,1fr)}.ab-st{grid-column:2;text-align:left;justify-self:start}}
 /* ---------- drawer, modal, toast ---------- */
 .scrim{position:fixed;inset:0;background:rgba(10,12,30,.4);z-index:40;opacity:0;pointer-events:none;transition:opacity .2s}
 .scrim.on{opacity:1;pointer-events:auto}
@@ -706,8 +746,11 @@ body.tv main{max-width:none;padding:0}
 @media (max-width:900px){
   .top{position:static}
   .bk-layout{grid-template-columns:minmax(0,1fr)}
+  .cat-side{position:static;max-height:none}
   .cat-list{display:none}
   .cat-sel{display:block}
+  .cat-side.act .cat-list{display:flex;max-height:340px;border:2px solid var(--line-2);border-radius:12px;padding:6px}
+  .cat-side.act .cat-sel{display:none}
   .ref-grid,.two-col,.br-aside{grid-template-columns:1fr}
   .ref-q{position:static}
   .qlist{max-height:none}
@@ -849,7 +892,7 @@ const NM = {
 const femSur = s => /(ski|cki|dzki)$/.test(s) ? s.slice(0, -1) + 'a' : s;
 
 /* ===================== stan ===================== */
-const VER = 5, KEY = 'hajime-spec-state';
+const VER = 7, KEY = 'hajime-spec-state';
 const TAB = Math.random().toString(36).slice(2, 8);
 let S = null;
 let qCache = null;
@@ -878,17 +921,25 @@ function elig(a, c) {
 }
 
 /* ---------- nazwy kategorii z kryteriów ---------- */
+/* grupy wiekowe jak w komunikatach turniejów kyokushin; kumite ma rodzaj kontaktu */
+const AGEG = [[0, 'dzieci (chłopcy)', 'dzieci (dziewczęta)', 'dzieci'], [8, 'kadeci młodsi', 'kadetki młodsze', 'kadeci młodsi'], [10, 'kadeci', 'kadetki', 'kadeci'], [12, 'młodzicy', 'młodziczki', 'młodzicy'], [14, 'juniorzy młodsi', 'juniorki młodsze', 'juniorzy młodsi'], [16, 'juniorzy', 'juniorki', 'juniorzy'], [18, 'seniorzy', 'seniorki', 'seniorzy']];
+const CONTACT = { full: 'full contact', semi: 'semi contact', none: 'no contact' };
 function who(c) {
-  const ad = c.age[0] >= 18, yr = `${c.age[0]}–${c.age[1]} lat`;
-  if (c.sex === 'M') return ad ? 'Seniorzy' : `Chłopcy ${yr}`;
-  if (c.sex === 'K') return ad ? 'Seniorki' : `Dziewczęta ${yr}`;
-  return ad ? 'Seniorzy (mix)' : `${yr} (mix)`;
+  const g = AGEG.filter(x => c.age[0] >= x[0]).pop(), n = c.sex === 'M' ? g[1] : c.sex === 'K' ? g[2] : g[3];
+  const cap = n[0].toUpperCase() + n.slice(1), mix = c.sex === 'X' && c.age[0] >= 8 ? ' (mix)' : '';
+  return c.age[0] >= 18 ? cap + mix : `${cap} ${c.age[0]}–${c.age[1]} lat${mix}`;
 }
-const wLbl = c => !c.w ? (c.type === 'kumite' ? 'open' : '') : c.w[1] != null ? `−${c.w[1]} kg` : `+${c.w[0]} kg`;
-const catShort = c => [who(c), wLbl(c)].filter(Boolean).join(' ');
+const kgS = v => String(v).replace('.', ',');
+const wLbl = c => !c.w ? (c.type === 'kumite' && c.contact !== 'none' ? 'open' : '') : c.w[0] != null && c.w[1] != null ? `${kgS(c.w[0])}–${kgS(c.w[1])} kg` : c.w[1] != null ? `−${kgS(c.w[1])} kg` : `+${kgS(c.w[0])} kg`;
+const lvl = c => c.type === 'kumite' && c.contact && c.contact !== 'full' ? `(${CONTACT[c.contact]})` : '';
+const catShort = c => [who(c), wLbl(c), lvl(c)].filter(Boolean).join(' ');
 const catName = c => `${TYPES[c.type]} · ${catShort(c)}`;
+/* bloki sesji na tatami (kata, no contact, kumite) wynikają z rodzaju kategorii i kolejności */
+const SESS = { kata: 'KATA', none: 'NO CONTACT', kumite: 'KUMITE' };
+const sessOf = c => c.type === 'kata' ? 'kata' : c.type === 'kumite' && c.contact === 'none' ? 'none' : 'kumite';
+const sessLbl = c => SESS[sessOf(c)];
 const gRange = c => c.g[0] <= 1 && c.g[1] >= 14 ? 'wszystkie stopnie' : `${gLabel(c.g[0])} – ${gLabel(c.g[1])}`;
-function criteria(c) { return [c.sex === 'X' ? 'płeć: mieszana' : c.sex === 'M' ? 'mężczyźni' : 'kobiety', c.age[0] >= 18 ? `wiek ${c.age[0]}+` : `wiek ${c.age[0]}–${c.age[1]}`, c.w ? `waga ${wLbl(c)}` : 'waga open', gRange(c)].join(' · '); }
+function criteria(c) { return [c.type === 'kumite' ? CONTACT[c.contact || 'full'] : '', c.sex === 'X' ? 'płeć: mieszana' : c.sex === 'M' ? 'mężczyźni' : 'kobiety', c.age[0] >= 18 ? `wiek ${c.age[0]}+` : `wiek ${c.age[0]}–${c.age[1]}`, c.w ? `waga ${wLbl(c)}` : 'waga open', gRange(c)].filter(Boolean).join(' · '); }
 
 /* ===================== drabinki ===================== */
 /* kolejność pozycji rozkładająca kolejne elementy jak najdalej od siebie (odwrócone bity) */
@@ -1104,18 +1155,21 @@ function seed() {
   S = { v: VER, rev: 1, seededAt: Date.now(), simAt: 0, ath: {}, teams: {}, tours: [], cats: [], feed: [], mats: {} };
   TABS.forEach(t => { S.mats[t] = { active: null, live: null, last: null, prev: null, ref: null, ticks: 0 }; });
   S.tours = [
-    { id: 't1', name: 'Puchar Żurawia 2026', date: '2026-10-10', place: 'Hala sportowa SP 12', status: 'live', teamClubs: ['zur', 'ory', 'sam', 'bia', 'tor'] },
-    { id: 't2', name: 'Turniej Jesienny Juniorów', date: '2026-11-21', place: 'Hala MOSiR', status: 'open', teamClubs: Object.keys(CLUBS) },
+    { id: 't1', name: 'Puchar Żurawia 2026', date: '2026-10-10', place: 'Hala sportowa SP 12', status: 'live', org: 'Żuraw Dojo', teamClubs: ['zur', 'ory', 'sam', 'bia', 'tor'],
+      note: 'Weryfikacja i ważenie: 08:00–08:50 w hali. Liczy się data urodzenia i waga w dniu zawodów, bez tolerancji — zmiana kategorii po weryfikacji jest płatna.\nWymagane: karta zdrowia sportowca z aktualnym orzeczeniem, ubezpieczenie NNW, dokument z datą urodzenia, zgoda rodzica lub opiekuna (osoby niepełnoletnie).\nOchraniacze w kumite: goleń–stopa (białe), piąstkówki, nakolanniki, suspensorium (chłopcy), ochraniacz piersi (dziewczęta), kask z kratką do 17 lat.\nOpłata startowa: kumite 120 zł, kata 120 zł, kumite + kata 200 zł, no contact 100 zł.\nKategorie z mniej niż 4 zawodnikami rozgrywane są systemem „każdy z każdym”.' },
+    { id: 't2', name: 'Turniej Jesienny Juniorów', date: '2026-11-21', place: 'Hala MOSiR', status: 'open', org: 'Żuraw Dojo', teamClubs: Object.keys(CLUBS),
+      note: 'Zgłoszenia przez panel klubu do 14 listopada, 23:59. Losowanie drabinek 18 listopada.\nWeryfikacja i ważenie w dniu zawodów 08:00–09:00.' },
     { id: 't3', name: 'Mikołajkowy Turniej Kata', date: '2026-12-05', place: 'Dojo Żuraw', status: 'draft', teamClubs: Object.keys(CLUBS) },
     { id: 't4', name: 'Wiosenny Puchar Kyokushin', date: '2026-04-18', place: 'Hala MOSiR', status: 'done', teamClubs: Object.keys(CLUBS) },
   ];
   const used = new Set(); let aid = 0;
   const dobFor = (age, tdate) => { const [y, m, d] = tdate.split('-').map(Number); return new Date(Date.UTC(y - age, m - 1, d) - (Math.floor(R() * 350) + 3) * 864e5).toISOString().slice(0, 10); };
-  const gFor = age => age <= 9 ? [1, 4] : age <= 11 ? [1, 6] : age <= 13 ? [2, 8] : age <= 15 ? [3, 9] : [4, 13];
+  const gFor = age => age <= 7 ? [1, 3] : age <= 9 ? [1, 4] : age <= 11 ? [1, 6] : age <= 13 ? [2, 8] : age <= 15 ? [3, 9] : [4, 13];
   const wFor = (c, sex, age) => {
+    if (c.w && c.w[0] != null && c.w[1] != null) return +(c.w[0] + .3 + R() * (c.w[1] - c.w[0] - .5)).toFixed(1);
     if (c.w && c.w[1] != null) return +(c.w[1] - .2 - R() * 6).toFixed(1);
     if (c.w && c.w[0] != null) return +(c.w[0] + .4 + R() * 16).toFixed(1);
-    const b = age <= 9 ? [24, 34] : age <= 11 ? [30, 42] : age <= 13 ? [36, 55] : age <= 15 ? [44, 66] : sex === 'M' ? [68, 95] : [54, 76];
+    const b = age <= 7 ? [19, 28] : age <= 9 ? [24, 34] : age <= 11 ? [30, 42] : age <= 13 ? [36, 55] : age <= 15 ? [44, 66] : sex === 'M' ? [68, 95] : [54, 76];
     return +(b[0] + R() * (b[1] - b[0])).toFixed(1);
   };
   const mkFor = (c, tdate, k) => {
@@ -1130,20 +1184,24 @@ function seed() {
     return id;
   };
   const others = ['ory', 'sam', 'bia', 'tor', 'wil'];
+  /* rano bloki kata i no contact, potem kumite — jak na turniejach dzieci i młodzieży */
   const C1 = [
-    { id: 'c1', type: 'kata', sex: 'X', age: [8, 9], w: null, g: [1, 6], tatami: 3, n: 6, adv: 4, zur: 1, play: 'all' },
-    { id: 'c2', type: 'kumite', sex: 'K', age: [10, 11], w: [null, 35], g: [1, 8], tatami: 1, n: 5, bronze: true, zur: 1, play: 'all' },
-    { id: 'c3', type: 'kumite', sex: 'M', age: [12, 13], w: [null, 45], g: [1, 8], tatami: 1, n: 11, bronze: true, zur: 3, play: 5 },
-    { id: 'c10', type: 'kumite', sex: 'M', age: [18, 99], w: [75, null], g: [1, 14], tatami: 1, n: 7, bronze: true, zur: 1, play: 0 },
+    { id: 'c13', type: 'kata', sex: 'M', age: [10, 11], w: null, g: [1, 8], tatami: 1, n: 5, adv: 4, zur: 1, play: 'all' },
+    { id: 'c2', type: 'kumite', contact: 'full', sex: 'K', age: [10, 11], w: [null, 35], g: [3, 10], tatami: 1, n: 5, bronze: true, zur: 1, play: 'all' },
+    { id: 'c3', type: 'kumite', contact: 'full', sex: 'M', age: [12, 13], w: [null, 45], g: [3, 10], tatami: 1, n: 11, bronze: true, zur: 3, play: 5 },
+    { id: 'c10', type: 'kumite', contact: 'full', sex: 'M', age: [18, 99], w: [75, null], g: [1, 14], tatami: 1, n: 7, bronze: true, zur: 1, play: 0 },
     { id: 'c8', type: 'team', sex: 'M', age: [18, 99], w: null, g: [1, 14], tatami: 1, bronze: false, play: 0 },
-    { id: 'c4', type: 'kumite', sex: 'K', age: [14, 15], w: [null, 55], g: [1, 10], tatami: 2, n: 6, bronze: false, odd: 'extra', zur: 1, play: 2 },
-    { id: 'c5', type: 'kumite', sex: 'M', age: [18, 99], w: [null, 75], g: [1, 14], tatami: 2, n: 8, bronze: true, zur: 2, play: 0 },
-    { id: 'c9', type: 'kumite', sex: 'M', age: [10, 11], w: [null, 35], g: [1, 8], tatami: 2, n: 9, bronze: true, zur: 2, play: null },
-    { id: 'c6', type: 'kumite', sex: 'K', age: [18, 99], w: null, g: [1, 14], tatami: 3, n: 3, bronze: false, zur: 1, play: 1 },
-    { id: 'c7', type: 'kata', sex: 'X', age: [12, 15], w: null, g: [1, 10], tatami: 3, n: 8, adv: 4, zur: 2, play: 0 },
+    { id: 'c12', type: 'kumite', contact: 'none', sex: 'M', age: [6, 7], w: null, g: [1, 3], tatami: 2, n: 5, bronze: false, zur: 1, play: 'all' },
+    { id: 'c4', type: 'kumite', contact: 'full', sex: 'K', age: [14, 15], w: [50, 55], g: [3, 10], tatami: 2, n: 6, bronze: false, odd: 'extra', zur: 1, play: 2 },
+    { id: 'c5', type: 'kumite', contact: 'full', sex: 'M', age: [18, 99], w: [null, 75], g: [1, 14], tatami: 2, n: 8, bronze: true, zur: 2, play: 0 },
+    { id: 'c9', type: 'kumite', contact: 'semi', sex: 'M', age: [10, 11], w: [30, 35], g: [1, 2], tatami: 2, n: 9, bronze: true, zur: 2, play: null },
+    { id: 'c1', type: 'kata', sex: 'M', age: [8, 9], w: null, g: [1, 6], tatami: 3, n: 6, adv: 4, zur: 1, play: 'all' },
+    { id: 'c11', type: 'kata', sex: 'K', age: [8, 9], w: null, g: [1, 6], tatami: 3, n: 5, adv: 4, zur: 1, play: 'all' },
+    { id: 'c7', type: 'kata', sex: 'K', age: [14, 17], w: null, g: [1, 10], tatami: 3, n: 8, adv: 4, zur: 2, play: 5 },
+    { id: 'c6', type: 'kumite', contact: 'full', sex: 'K', age: [18, 99], w: null, g: [1, 14], tatami: 3, n: 3, bronze: false, zur: 1, play: 0 },
   ];
   const ord = { 1: 0, 2: 0, 3: 0 };
-  const mkCat = (d, t) => ({ id: d.id, t, type: d.type, sex: d.sex, age: d.age, w: d.w, g: d.g, tatami: d.tatami, ord: ++ord[d.tatami], bronze: !!d.bronze, odd: d.odd || 'bye', adv: d.adv || 4, entries: [], br: null, res: {}, doneAt: null });
+  const mkCat = (d, t) => ({ id: d.id, t, type: d.type, sex: d.sex, age: d.age, w: d.w, g: d.g, tatami: d.tatami, ord: ++ord[d.tatami], contact: d.type === 'kumite' ? (d.contact || 'full') : null, bronze: !!d.bronze, odd: d.odd || 'bye', adv: d.adv || 4, entries: [], br: null, res: {}, doneAt: null });
   C1.forEach(d => {
     const c = mkCat(d, 't1'); c.play = d.play;
     if (d.type === 'team') ['zur', 'ory', 'sam', 'bia'].forEach(k => { const id = 'T-' + k; S.teams[id] = { id, club: k, name: CLUBS[k].name, members: [0, 1, 2].map(() => mkFor({ ...c, w: null }, '2026-10-10', k)) }; c.entries.push(id); });
@@ -1151,12 +1209,13 @@ function seed() {
     S.cats.push(c);
   });
   /* zawodnicy w bazie bez startu (do ręcznego dodawania i zgłoszeń klubowych) */
-  [['M', 10, 34, 'zur'], ['M', 11, 33, 'sam'], ['M', 11, 35, 'tor'], ['M', 12, 48, 'zur'], ['K', 13, 44, 'zur'], ['M', 14, 58, 'zur'], ['K', 11, 38, 'zur'], ['M', 13, 47, 'zur'], ['K', 12, 43, 'ory'], ['M', 15, 59, 'wil']]
-    .forEach(([sex, age, w, k]) => mkFor({ sex, age: [age, age], w: [null, w], g: [1, 14] }, '2026-10-10', k));
+  [['M', 10, [30, 35], 'zur', [1, 2]], ['M', 11, [30, 35], 'sam', [1, 2]], ['M', 11, [30, 35], 'tor', [3, 5]], ['M', 12, [40, 45], 'zur', [3, 6]], ['K', 13, [null, 45], 'zur'], ['M', 14, [55, 65], 'zur'], ['K', 11, [null, 38], 'zur'], ['M', 13, [40, 45], 'zur', [3, 6]], ['K', 12, [null, 45], 'ory'], ['M', 15, [55, 65], 'wil']]
+    .forEach(([sex, age, w, k, g]) => mkFor({ sex, age: [age, age], w, g: g || [1, 14] }, '2026-10-10', k));
   ord[1] = ord[2] = ord[3] = 0;
-  [{ id: 'd1', type: 'kumite', sex: 'M', age: [12, 13], w: [null, 50], g: [1, 8], tatami: 1, bronze: true },
-   { id: 'd2', type: 'kumite', sex: 'K', age: [12, 13], w: [null, 45], g: [1, 8], tatami: 2, bronze: true },
-   { id: 'd3', type: 'kumite', sex: 'M', age: [14, 15], w: [null, 60], g: [1, 10], tatami: 1, bronze: false, odd: 'extra' },
+  [{ id: 'd1', type: 'kumite', contact: 'full', sex: 'M', age: [12, 13], w: [null, 45], g: [3, 10], tatami: 1, bronze: true },
+   { id: 'd2', type: 'kumite', contact: 'full', sex: 'K', age: [14, 15], w: [50, 55], g: [3, 10], tatami: 2, bronze: true },
+   { id: 'd3', type: 'kumite', contact: 'full', sex: 'M', age: [14, 15], w: [55, 65], g: [3, 10], tatami: 1, bronze: false, odd: 'extra' },
+   { id: 'd5', type: 'kumite', contact: 'semi', sex: 'M', age: [10, 13], w: null, g: [1, 2], tatami: 2, bronze: true },
    { id: 'd4', type: 'kata', sex: 'X', age: [10, 15], w: null, g: [1, 10], tatami: 3, adv: 4 }]
     .forEach(d => { const c = mkCat(d, 't2'); S.cats.push(c); Object.values(S.ath).forEach(a => { if (elig(a, c).ok && R() < (a.club === 'zur' ? .3 : .55)) c.entries.push(a.id); }); });
   /* drabinki zatwierdzone rano i rozegrane walki */
@@ -1247,6 +1306,7 @@ const ui = {
   pf: { cat: '', club: '', q: '' }, addQ: '', addOnly: true,
   swap: null, edit: null, kd: {}, tf: null, cf: null, af: null,
   reqs: true, sim: true, scrolledLive: null, qAll: false, fq: '',
+  lf: { mat: '', club: '', cat: '', q: '', done: false }, lfAll: false, cq: '', cfav: false,
 };
 try { const u = JSON.parse(sessionStorage.getItem('hajime-spec-user') || 'null'); if (u) { ui.user = u.user; ui.refT = u.refT; } } catch (e) { }
 ui.reqs = innerWidth > 760; /* na telefonie numery REQ domyślnie ukryte — przeszkadzają w czytaniu */
@@ -1256,6 +1316,7 @@ const savePrefs = () => { try { localStorage.setItem('hajime-spec-prefs', JSON.s
 const adminT = () => tour(ui.at) || pubT();
 
 /* ===================== drobne elementy ===================== */
+const norm = v => String(v).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/ł/g, 'l').replace(/[–−]/g, '-');
 const liveStamp = () => `<span class="live-ind"><i></i>na żywo · ${new Date().toLocaleTimeString('pl-PL')}</span>`;
 const noTour = () => `<div class="gate"><h2>Brak opublikowanego turnieju</h2><p class="muted">Organizator nie opublikował jeszcze żadnych zawodów.</p></div>`;
 const noTourAdm = () => `<div class="gate"><h2>Nie ma jeszcze żadnego turnieju</h2><a class="btn primary" href="#/admin/turnieje">Utwórz turniej</a></div>`;
@@ -1282,8 +1343,8 @@ const entCount = c => pl(c.entries.length, c.type === 'team' ? 'drużyna' : 'zaw
 
 /* ---------- obserwowani: bez logowania, lista zapisana w przeglądarce widza ---------- */
 let FAV = [];
-try { FAV = JSON.parse(localStorage.getItem('hajime-spec-fav') || '[]') || []; } catch (e) { }
-const saveFav = () => { try { localStorage.setItem('hajime-spec-fav', JSON.stringify(FAV)); } catch (e) { } };
+try { const f = JSON.parse(localStorage.getItem('hajime-spec-fav') || 'null'); FAV = f && f.v === VER && Array.isArray(f.ids) ? f.ids : []; } catch (e) { }
+const saveFav = () => { try { localStorage.setItem('hajime-spec-fav', JSON.stringify({ v: VER, ids: FAV })); } catch (e) { } };
 const isFav = id => FAV.includes(id);
 const ORD = { now: 0, next: 1, soon: 2, later: 3, wait: 4, medal: 5, out: 6, draw: 7 };
 /* gdzie i kiedy walczy zawodnik w danej kategorii — to samo dla kibica i dla klubu */
@@ -1366,7 +1427,7 @@ function refreshFav() {
 }
 function boardRow(t) {
   const q = Q(t), live = q.find(i => i.status === 'live'), nx = q.find(i => !i.res && i.status !== 'live'), it = live || nx;
-  return `<a class="brow ${live ? 'live' : ''}" href="#/live"><span class="brow-t"><small>TATAMI</small>${TL(t)}</span><span class="brow-no"><small>${live ? 'TERAZ' : nx ? 'NASTĘPNA' : 'KONIEC'}</small><b>${it ? it.code : '✓'}</b></span><span class="brow-m"><b>${it ? itemNames(it, true) : 'Program zakończony'}</b><small>${it ? `${esc(catShort(cat(it.cat)))} · ${esc(it.label)}` : `${q.length} walk rozegranych`}</small></span></a>`;
+  return `<a class="brow ${live ? 'live' : ''}" href="#/live"><span class="brow-t"><small>TATAMI</small>${TL(t)}</span><span class="brow-no"><small>${live ? 'TERAZ' : nx ? 'NASTĘPNA' : 'KONIEC'}</small><b>${it ? it.code : '✓'}</b></span><span class="brow-m"><b>${it ? itemNames(it, true) : 'Program zakończony'}</b><small>${it ? `${sessLbl(cat(it.cat))} · ${esc(catShort(cat(it.cat)))} · ${esc(it.label)}` : `${q.length} walk rozegranych`}</small></span></a>`;
 }
 
 /* ---------- powiadomienia o obserwowanych (propozycja REQ-PUB-07*) ---------- */
@@ -1469,9 +1530,9 @@ function tvMat(t) {
     return `<div class="tv-side ${sd}"><div><small>${sd === 'a' ? 'AKA' : 'SHIRO'} · ${esc(club(e.club).name)}</small><b>${star(live[sd])}${esc(e.name)}</b></div>${sc}</div>`;
   }).join('')}</div>`;
   else body = `<div class="tv-idle">${rest[0] ? 'Przerwa' : 'Koniec programu ✓'}</div>`;
-  return `<section class="tv-mat ${live ? 'live' : ''} ${fresh ? 'tv-fresh' : ''}"><div class="tv-mh"><div class="tv-l"><small>TATAMI</small>${TL(t)}</div><div class="tv-code"><small>${live ? '● TERAZ' : rest.length ? 'NASTĘPNA' : 'KONIEC'}</small>${cur ? cur.code : '✓'}</div></div>
+  return `<section class="tv-mat ${live ? 'live' : ''} ${fresh ? 'tv-fresh' : ''}"><div class="tv-mh"><div class="tv-l"><small>TATAMI${c ? ' · ' + sessLbl(c) : ''}</small>${TL(t)}</div><div class="tv-code"><small>${live ? '● TERAZ' : rest.length ? 'NASTĘPNA' : 'KONIEC'}</small>${cur ? cur.code : '✓'}</div></div>
     <div class="tv-cat">${c ? `${esc(catName(c))} · ${esc(cur.label)}` : 'Wszystkie walki rozegrane'}</div>${body}
-    ${rest[0] ? `<div class="tv-next"><small>NA PRZYGOTOWANIE · ${rest[0].code}</small><b>${itemNames(rest[0], true)}</b></div>` : ''}
+    ${rest[0] ? `<div class="tv-next"><small>NA PRZYGOTOWANIE · ${rest[0].code}${c && sessOf(cat(rest[0].cat)) !== sessOf(c) ? ' · BLOK ' + sessLbl(cat(rest[0].cat)) : ''}</small><b>${itemNames(rest[0], true)}</b></div>` : ''}
     <ol class="tv-q">${rest.slice(1, 3).map(i => `<li><span class="c">${i.code}</span><span>${itemNames(i, true)}</span></li>`).join('')}</ol></section>`;
 }
 function vTV() {
@@ -1485,6 +1546,24 @@ function vTV() {
       <div class="tv-qr">${qrSVG ? `<div class="q">${qrSVG}</div>` : ''}<p>Gdzie i kiedy walczy Twój zawodnik? Zeskanuj i obserwuj.<small>${esc(pubURL().replace(/^https?:\/\//, ''))}</small></p></div></footer></div>`;
 }
 
+/* ---------- informacje i program dnia (propozycja REQ-PUB-09*) ---------- */
+function vInfo() {
+  const T = pubT(); if (!T) return noTour();
+  const cats = tourCats(T), sch = schedule(T);
+  const blocks = TABS.flatMap(t => sessBlocks(sch[t]).map(b => ({ ...b, t }))).sort((a, b) => a.start - b.start || a.t - b.t);
+  const end = Math.max(540, ...blocks.map(b => b.end));
+  const groups = [['kata', 'Kata'], ['full', 'Kumite full contact'], ['semi', 'Kumite semi contact'], ['none', 'Kumite no contact'], ['team', 'Drużynowe']];
+  const gOf = c => c.type === 'kata' ? 'kata' : c.type === 'team' ? 'team' : (c.contact || 'full');
+  return pageH('/info', 'Informacje i program dnia', ['REQ-PUB-09*'], `${fmtDate(T.date)} · ${esc(T.place)}${T.org ? ` · organizator: ${esc(T.org)}` : ''}`)
+    + `<div class="info-grid"><section class="card"><h3>Program dnia</h3><ol class="prog">
+      <li><span class="tm">08:00–08:50</span><span>Weryfikacja i ważenie</span></li><li><span class="tm">08:50</span><span>Otwarcie turnieju</span></li>
+      ${blocks.map(b => `<li><span class="tm">${fmtMin(b.start)}–${fmtMin(b.end)}</span><span><b>Tatami ${TL(b.t)} · ${b.lbl}</b><small>${pl(b.n, 'kategoria', 'kategorie', 'kategorii')}</small></span></li>`).join('')}
+      <li><span class="tm">ok. ${fmtMin(end + 15)}</span><span>Dekoracja i zakończenie</span></li></ol>
+      <p class="muted small" style="margin:0">Godziny bloków są szacowane z liczby walk i zmieniają się razem z harmonogramem.</p></section>
+     <section class="card"><h3>Kategorie (${cats.length})</h3>${groups.map(([k, l]) => { const cs = cats.filter(c => gOf(c) === k); return cs.length ? `<div class="sub-h">${l}</div><ul class="cat-ul">${cs.map(c => `<li><a href="#/drabinki/${c.id}">${esc(catShort(c))}</a><small>${entCount(c)} · tatami ${TL(c.tatami)}${c.g[0] > 1 || c.g[1] < 14 ? ' · ' + gRange(c) : ''}</small></li>`).join('')}</ul>` : ''; }).join('')}</section>
+     ${T.note ? `<section class="card info-note"><h3>Komunikat organizatora</h3>${T.note.split(/\n+/).map(x => `<p>${esc(x)}</p>`).join('')}</section>` : ''}</div>`;
+}
+
 /* ===================== strefa publiczna ===================== */
 function vHome() {
   const T = pubT(); if (!T) return noTour();
@@ -1495,6 +1574,7 @@ function vHome() {
     <h1 class="hero-title">${esc(T.name)}</h1>
     <div class="hero-stats"><div class="hs"><b>${ids.size}</b><span>zawodników</span></div><div class="hs"><b>${cats.length}</b><span>kategorii</span></div><div class="hs"><b>${clubs.size}</b><span>klubów</span></div><div class="hs"><b>${TABS.length}</b><span>tatami</span></div>
       <div class="hs hs-prog"><span>Rozegrane walki: ${done} z ${items.length}</span><div class="bar"><i style="width:${items.length ? done / items.length * 100 : 0}%"></i></div></div></div>
+    <a class="hero-link" href="#/info">Program dnia i informacje →</a>
   </section>
   <section class="card find"><h2>Gdzie i kiedy walczy Twój zawodnik? ${rq('REQ-PUB-06*')}</h2>
     <label class="sr" for="findIn">Szukaj zawodnika albo klubu</label>
@@ -1508,16 +1588,56 @@ function vHome() {
 function vLive() {
   if (!pubT()) return noTour();
   return pageH('/live', 'Na żywo — wszystkie tatami', ['REQ-PUB-04', 'REQ-NFR-01'], 'Aktualna walka i kolejka na każdym tatami. Walki mają kody jak w hali: <b>A22</b> to 22. walka na tatami A. Szukasz konkretnej osoby? <a href="#/">Obserwuj zawodnika</a>.', liveStamp() + ` <a class="btn" href="#/tv" target="_blank" rel="noopener">Ekran hali (TV) ↗ ${rq('REQ-PUB-08*')}</a>`)
-    + `<div class="mats">${TABS.map(matCard).join('')}</div><section class="card" style="margin-top:16px"><div class="card-h"><h3>Ostatnie wyniki</h3></div>${feedHTML(12)}</section>`;
+    + `<div class="mats">${TABS.map(matCard).join('')}</div>${allBoutsHTML()}<section class="card" style="margin-top:16px"><div class="card-h"><h3>Ostatnie wyniki</h3></div>${feedHTML(12)}</section>`;
+}
+
+/* ---------- wszystkie walki ze wszystkich mat, jedna lista w kolejności czasu (propozycja REQ-PUB-10*) ---------- */
+function allBoutRows() {
+  const f = ui.lf, q = norm(f.q.trim()), rows = [];
+  TABS.forEach(t => {
+    let acc = 0, first = true;
+    Q(t).forEach(i => {
+      const r = { i, eta: null, next: false };
+      if (!i.res) { r.eta = Math.round(acc); acc += DUR[i.kind] * (i.status === 'live' ? .5 : 1); if (i.status !== 'live' && first) { r.next = true; first = false; } }
+      rows.push(r);
+    });
+  });
+  const has = (i, fn) => [i.a, i.b].some(id => id && id !== 'BYE' && ent(id) && fn(ent(id)));
+  return rows.filter(({ i }) => (!f.mat || i.t === +f.mat) && (f.done || !i.res) && (!f.cat || i.cat === f.cat) && (!f.club || has(i, e => e.club === f.club)) && (!q || has(i, e => norm(e.name).includes(q))))
+    .sort((x, y) => (x.i.res ? 1 : 0) - (y.i.res ? 1 : 0) || (x.i.res ? (y.i.res.at || '').localeCompare(x.i.res.at || '') : x.eta - y.eta) || x.i.t - y.i.t);
+}
+function boutRowHTML({ i, eta, next }) {
+  const c = cat(i.cat);
+  let st, cls = '';
+  if (i.res) { cls = 'done'; st = i.kind === 'kata' ? `${fmt1(i.res.tot)} pkt` : `✓ ${esc(ent(i.res.w === 'a' ? i.a : i.b).name.split(' ').pop())} · ${esc(MSHORT[i.res.m] || i.res.m)}`; }
+  else if (i.status === 'live') { cls = 'live'; st = '● TERAZ'; }
+  else if (next) { cls = 'next'; st = 'NASTĘPNA'; }
+  else st = `ok. ${eta} min`;
+  return `<a class="ab ab-${cls}" href="#/drabinki/${c.id}"><span class="ab-code">${i.code}</span><span class="ab-m"><b>${itemNames(i, true)}</b><small>${sessLbl(c)} · ${esc(catShort(c))} · ${esc(i.label)}</small></span><span class="ab-st">${st}</span></a>`;
+}
+function allListHTML() {
+  const rows = allBoutRows(), lim = ui.lfAll ? rows.length : 30;
+  return `<div class="count muted">${pl(rows.length, 'walka', 'walki', 'walk')}${ui.lf.done ? '' : ' do rozegrania'}</div>${rows.length ? `<div class="ab-list">${rows.slice(0, lim).map(boutRowHTML).join('')}</div>${rows.length > lim ? `<button class="btn" style="margin-top:8px;width:100%" data-act="lfAll">Pokaż wszystkie (${rows.length})</button>` : ''}` : '<div class="card empty">Brak walk dla tych filtrów.</div>'}`;
+}
+function allBoutsHTML() {
+  const T = pubT(), f = ui.lf, cats = tourCats(T);
+  const clubsIn = Object.keys(CLUBS).filter(k => cats.some(c => c.entries.some(id => ent(id)?.club === k)));
+  return `<section class="sec" id="wszystkie"><div class="sec-h"><h2>Wszystkie walki ${rq('REQ-PUB-10*')}</h2><span class="muted small">kolejność według szacowanego czasu</span></div>
+   <div class="lf"><div class="seg">${['', ...TABS].map(t => `<button type="button" class="${String(f.mat) === String(t) ? 'on' : ''}" data-act="lfMat" data-v="${t}">${t ? 'Tatami ' + TL(t) : 'Wszystkie maty'}</button>`).join('')}</div>
+    <select data-ch="lf" data-k="club" aria-label="Klub"><option value="">Wszystkie kluby</option>${clubsIn.map(k => `<option value="${k}" ${f.club === k ? 'selected' : ''}>${esc(CLUBS[k].name)}</option>`).join('')}</select>
+    <select data-ch="lf" data-k="cat" aria-label="Kategoria"><option value="">Wszystkie kategorie</option>${cats.map(c => `<option value="${c.id}" ${f.cat === c.id ? 'selected' : ''}>${esc(catName(c))}</option>`).join('')}</select>
+    <input type="search" class="lf-q" data-in="lf" data-k="q" value="${esc(f.q)}" placeholder="Nazwisko zawodnika" autocomplete="off" aria-label="Szukaj zawodnika">
+    <label class="switch"><input type="checkbox" data-ch="lfDone" ${f.done ? 'checked' : ''}>pokaż rozegrane</label></div>
+   <div id="allList">${allListHTML()}</div></section>`;
 }
 function matCard(t) {
   const q = Q(t), live = q.find(i => i.status === 'live'), rest = q.filter(i => !i.res && i.status !== 'live'), done = q.filter(i => i.res).length;
   const cur = live || rest[0], c = cur ? cat(cur.cat) : null;
   return `<article class="mat ${live ? 'is-live' : ''}">
-    <div class="mat-h"><span class="mat-n"><small>TATAMI</small><b>${TL(t)}</b></span><span class="mat-no"><small>${live ? '● TERAZ WALKA' : rest.length ? 'NASTĘPNA WALKA' : 'KONIEC'}</small><b>${cur ? cur.code : '✓'}</b></span></div>
+    <div class="mat-h"><span class="mat-n"><small>TATAMI${c ? ' · ' + sessLbl(c) : ''}</small><b>${TL(t)}</b></span><span class="mat-no"><small>${live ? '● TERAZ WALKA' : rest.length ? 'NASTĘPNA WALKA' : 'KONIEC'}</small><b>${cur ? cur.code : '✓'}</b></span></div>
     <div class="mat-cat">${c ? `${esc(catName(c))} · ${esc(cur.label)}` : 'Wszystkie kategorie zakończone'}</div>
     ${live ? liveBlock(t, live) : `<div class="mat-idle">${rest[0] ? `Przerwa — za chwilę walka ${rest[0].code}` : 'Program tatami zakończony ✓'}</div>`}
-    <div class="next-list"><span class="eyebrow">Kolejka</span>${rest.slice(0, 4).map((i, k) => `<div class="${k === 0 ? 'nx' : ''}"><span class="mono">${i.code}</span><span>${itemNames(i, true)}</span></div>`).join('') || '<div class="muted">—</div>'}</div>
+    <div class="next-list"><span class="eyebrow">Kolejka</span>${(() => { let prev = c ? sessOf(c) : null; return rest.slice(0, 4).map((i, k) => { const s0 = sessOf(cat(i.cat)), dv = prev && s0 !== prev ? `<div class="blk-div">od tej walki: blok ${SESS[s0]}</div>` : ''; prev = s0; return `${dv}<div class="${k === 0 ? 'nx' : ''}"><span class="mono">${i.code}</span><span>${itemNames(i, true)}</span></div>`; }).join(''); })() || '<div class="muted">—</div>'}</div>
     <div class="mbar"><i style="width:${q.length ? done / q.length * 100 : 0}%"></i></div>
     <div class="mat-f"><span>${done}/${q.length} rozegranych</span><span>${refClaim(t) ? 'sędzia przy stoliku' : 'symulacja'}</span></div>
   </article>`;
@@ -1558,9 +1678,24 @@ function peopleList() {
 
 /* ---------- drabinki ---------- */
 const BX = { COLW: 190, GAP: 36, BH: 62, U: 86, TOP: 30 };
+let navCtx = null;
+function catMatch(c) {
+  if (ui.cfav && !c.entries.some(isFav)) return false;
+  const q = norm(ui.cq.trim()); if (!q) return true;
+  const hay = norm(`${catName(c)} ${criteria(c)} tatami ${TL(c.tatami)} ${sessLbl(c)}`);
+  /* pojedyncza litera = litera tatami ("tatami c"), reszta słów musi wystąpić w nazwie lub kryteriach */
+  return q.split(/\s+/).every(tk => tk.length === 1 && /[a-z]/.test(tk) ? TL(c.tatami).toLowerCase() === tk : hay.includes(tk));
+}
+function catNavList() {
+  const { ids, sel, base } = navCtx, list = ids.map(cat).filter(Boolean).filter(catMatch);
+  return list.map(c => `<a class="cat-btn ${c.id === sel ? 'on' : ''}" href="${base}${c.id}"><b>${esc(catShort(c))}</b><span class="row"><span>${TYPES[c.type]} · tatami ${TL(c.tatami)} · ${c.entries.length} ${c.type === 'team' ? 'dr.' : 'os.'}</span>${catPill(c)}</span></a>`).join('') || '<p class="muted small" style="margin:6px">Brak kategorii dla tego wyszukiwania.</p>';
+}
+function updCatNav() { const l = $('#catList'); if (l) l.innerHTML = catNavList(); const sd = $('#catSide'); if (sd) sd.classList.toggle('act', !!(ui.cq.trim() || ui.cfav)); }
 function catNav(cats, sel, base) {
-  return `<nav class="cat-list" aria-label="Kategorie">${cats.map(c => `<a class="cat-btn ${c === sel ? 'on' : ''}" href="${base}${c.id}"><b>${esc(catShort(c))}</b><span class="row"><span>${TYPES[c.type]} · tatami ${TL(c.tatami)} · ${c.entries.length} ${c.type === 'team' ? 'dr.' : 'os.'}</span>${catPill(c)}</span></a>`).join('')}</nav>
-  <label class="field cat-sel"><span>Kategoria</span><select data-ch="go" data-base="${base}">${cats.map(c => `<option value="${c.id}" ${c === sel ? 'selected' : ''}>${esc(catName(c))} — ${catState(c)[0]}</option>`).join('')}</select></label>`;
+  navCtx = { ids: cats.map(c => c.id), sel: sel ? sel.id : null, base };
+  return `<div class="cat-side ${ui.cq.trim() || ui.cfav ? 'act' : ''}" id="catSide"><div class="cat-find"><input type="search" class="inp" data-in="cq" value="${esc(ui.cq)}" placeholder="Szukaj, np. młodzicy 45" autocomplete="off" aria-label="Szukaj kategorii">${FAV.length ? `<button type="button" class="chip-s ${ui.cfav ? 'on' : ''}" data-act="cfav" aria-pressed="${ui.cfav}">★ z obserwowanymi</button>` : ''}</div>
+   <nav class="cat-list" id="catList" aria-label="Kategorie">${catNavList()}</nav>
+   <label class="field cat-sel"><span>Kategoria (${cats.length})</span><select data-ch="go" data-base="${base}">${cats.map(c => `<option value="${c.id}" ${c === sel ? 'selected' : ''}>${esc(catName(c))} — ${catState(c)[0]}</option>`).join('')}</select></label></div>`;
 }
 function vBrackets(id) {
   const T = pubT(); if (!T) return noTour();
@@ -1743,6 +1878,7 @@ function tourFormHTML() {
   return `<label class="field"><span>Nazwa ${rq('REQ-ADM-01')}</span><input data-in="tf" data-k="name" value="${esc(f.name)}" placeholder="np. Puchar Żurawia 2027" autocomplete="off"></label>
   <div class="form-grid"><label class="field"><span>Data</span><input type="date" data-in="tf" data-k="date" value="${f.date}"></label><label class="field"><span>Miejsce</span><input data-in="tf" data-k="place" value="${esc(f.place)}" placeholder="hala, miasto" autocomplete="off"></label></div>
   <div class="field"><span>Status</span><div class="seg">${segBtns('tf', 'status', Object.entries(ST).map(([k, v]) => [k, v[0]]), f.status)}</div></div>
+  <label class="field"><span>Komunikat dla zawodników i kibiców ${rq('REQ-PUB-09*')}</span><textarea data-in="tf" data-k="note" rows="6" placeholder="Weryfikacja, wymagane dokumenty, ochraniacze, opłaty…">${esc(f.note || '')}</textarea></label>
   <div class="note">Szkic — widzi tylko organizator · Zapisy otwarte — kluby zgłaszają zawodników · W trakcie — LIVE i panel sędziego · Zakończony — archiwum wyników.</div>
   <div class="err" id="tfErr"></div>
   <div class="dw-acts"><button class="btn primary" data-act="tourSave">Zapisz turniej</button><button class="btn" data-act="close">Anuluj</button></div>`;
@@ -1757,17 +1893,19 @@ function vAdmCats() {
     </tbody></table></div></section>`;
 }
 const num = v => parseFloat(String(v).replace(',', '.'));
-const cfCat = f => ({ type: f.type, sex: f.sex, age: [+f.a0, +f.a1], w: f.wm === 'open' ? null : f.wm === 'max' ? [null, num(f.wv)] : [num(f.wv), null], g: [+f.g0, +f.g1] });
+const cfCat = f => ({ type: f.type, contact: f.type === 'kumite' ? (f.contact || 'full') : null, sex: f.sex, age: [+f.a0, +f.a1], w: f.wm === 'open' ? null : f.wm === 'max' ? [null, num(f.wv)] : f.wm === 'min' ? [num(f.wv), null] : [num(f.wv), num(f.wv2)], g: [+f.g0, +f.g1] });
 function catFormHTML() {
   const f = ui.cf, c = f.id ? cat(f.id) : null, lockBr = !!(c && c.br && c.br.status === 'approved'), busy = !!(c && catBusy(c));
   return `${lockBr ? `<div class="note warn" style="margin-bottom:12px">Drabinka jest zatwierdzona — typ i ustawienia drabinki są zablokowane.${busy ? ' Kategoria ma już wyniki, więc nie zmienisz też tatami.' : ''}</div>` : ''}
   <div class="field"><span>Typ konkurencji ${rq('REQ-ADM-04')}</span><div class="seg">${segBtns('cf', 'type', [['kumite', 'Kumite'], ['kata', 'Kata'], ['team', 'Drużynowe']], f.type, lockBr)}</div></div>
+  ${f.type === 'kumite' ? `<div class="field"><span>Rodzaj kumite ${rq('REQ-ADM-13*')}</span><div class="seg">${segBtns('cf', 'contact', [['full', 'Full contact'], ['semi', 'Semi contact'], ['none', 'No contact']], f.contact || 'full')}</div></div>` : ''}
   <div class="field"><span>Płeć</span><div class="seg">${segBtns('cf', 'sex', [['M', 'Mężczyźni'], ['K', 'Kobiety'], ['X', 'Mieszana']], f.sex)}</div></div>
   <div class="form-grid">
    <label class="field"><span>Wiek od</span><input type="number" min="4" max="99" inputmode="numeric" data-in="cf" data-k="a0" value="${f.a0}"></label>
    <label class="field"><span>Wiek do (99 = bez limitu)</span><input type="number" min="4" max="99" inputmode="numeric" data-in="cf" data-k="a1" value="${f.a1}"></label>
-   <label class="field"><span>Waga</span><select data-ch="cf" data-k="wm"><option value="open" ${f.wm === 'open' ? 'selected' : ''}>open — bez limitu</option><option value="max" ${f.wm === 'max' ? 'selected' : ''}>do (−) kg</option><option value="min" ${f.wm === 'min' ? 'selected' : ''}>powyżej (+) kg</option></select></label>
-   <label class="field"><span>Limit [kg]</span><input type="text" inputmode="decimal" autocomplete="off" data-in="cf" data-k="wv" value="${esc(String(f.wv).replace('.', ','))}" ${f.wm === 'open' ? 'disabled' : ''}></label>
+   <label class="field"><span>Waga</span><select data-ch="cf" data-k="wm"><option value="open" ${f.wm === 'open' ? 'selected' : ''}>open — bez limitu</option><option value="max" ${f.wm === 'max' ? 'selected' : ''}>do (−) kg</option><option value="min" ${f.wm === 'min' ? 'selected' : ''}>powyżej (+) kg</option><option value="band" ${f.wm === 'band' ? 'selected' : ''}>przedział od–do</option></select></label>
+   <label class="field"><span>${f.wm === 'band' ? 'Od [kg]' : 'Limit [kg]'}</span><input type="text" inputmode="decimal" autocomplete="off" data-in="cf" data-k="wv" value="${esc(String(f.wv).replace('.', ','))}" ${f.wm === 'open' ? 'disabled' : ''}></label>
+   ${f.wm === 'band' ? `<label class="field"><span>Do [kg]</span><input type="text" inputmode="decimal" autocomplete="off" data-in="cf" data-k="wv2" value="${esc(String(f.wv2 ?? '').replace('.', ','))}"></label><span></span>` : ''}
    <label class="field"><span>Stopień od</span><select data-ch="cf" data-k="g0">${gOpts(f.g0)}</select></label>
    <label class="field"><span>Stopień do</span><select data-ch="cf" data-k="g1">${gOpts(f.g1)}</select></label>
   </div>
@@ -1862,6 +2000,7 @@ function checksHTML(c) {
 }
 function estItems(c) { if (c.br && c.br.status === 'approved') return catItems(c).length; const n = c.entries.length; if (c.type === 'kata') return n + (n > c.adv ? c.adv : 0); if (n < 2) return 0; if (n < 4) return n * (n - 1) / 2; return n - 1 + (c.bronze ? 1 : 0); }
 const DUR = { kumite: 4, kata: 3, team: 10 };
+function sessBlocks(rows) { const out = []; rows.forEach(r => { const s0 = sessOf(r.c), last = out[out.length - 1]; if (last && last.s === s0) { last.end = r.end; last.n++; } else out.push({ s: s0, lbl: SESS[s0], start: r.start, end: r.end, n: 1 }); }); return out; }
 function schedule(T) {
   const out = {};
   TABS.forEach(t => { let m = 9 * 60; out[t] = S.cats.filter(c => c.t === T.id && c.tatami === t).sort((a, b) => a.ord - b.ord).map(c => { const n = estItems(c), row = { c, n, start: m, end: m + n * DUR[c.type] }; m = row.end; return row; }); });
@@ -1870,11 +2009,12 @@ function schedule(T) {
 function vAdmSched() {
   const T = adminT(); if (!T) return noTourAdm();
   const sch = schedule(T);
-  return pageH('/admin/harmonogram', 'Harmonogram tatami', ['REQ-ADM-08', 'REQ-NFR-03'], 'Kolejność kategorii na tatami i szacowane godziny (kumite 4 min, kata 3 min, drużyny 10 min na walkę). Kategorie bez wyników możesz przesuwać i przenosić.', `<button class="btn" data-act="pdfSched">Harmonogram do PDF</button><button class="btn" data-act="pdfAll">Drabinki do PDF</button><a class="btn" href="#/tv" target="_blank" rel="noopener">Ekran hali (TV) ↗</a>`)
+  return pageH('/admin/harmonogram', 'Harmonogram tatami', ['REQ-ADM-08', 'REQ-NFR-03'], 'Kolejność kategorii na tatami i szacowane godziny (kumite 4 min, kata 3 min, drużyny 10 min na walkę). Bloki KATA / NO CONTACT / KUMITE tworzą się same z kolejności kategorii. Kategorie bez wyników możesz przesuwać i przenosić.', `<button class="btn" data-act="pdfSched">Harmonogram do PDF</button><button class="btn" data-act="pdfAll">Drabinki do PDF</button><a class="btn" href="#/tv" target="_blank" rel="noopener">Ekran hali (TV) ↗</a>`)
     + admCtx()
     + `<div class="sched">${TABS.map(t => `<section class="card sch-col"><h3>Tatami ${TL(t)}</h3>${sch[t].map((r, i) => {
       const busy = catBusy(r.c), up = i > 0 && !busy && !catBusy(sch[t][i - 1].c), down = i < sch[t].length - 1 && !busy && !catBusy(sch[t][i + 1].c);
-      return `<div class="sch-c"><div class="row"><span class="tm">${fmtMin(r.start)}–${fmtMin(r.end)}</span>${catPill(r.c)}</div><b>${esc(catName(r.c))}</b><div class="row"><span>${pl(r.n, 'walka', 'walki', 'walk')}${r.c.br?.status === 'approved' ? '' : ' (szacunek)'}</span><span class="mv"><button class="btn sm" data-act="catUp" data-id="${r.c.id}" ${up ? '' : 'disabled'} aria-label="Wyżej">↑</button><button class="btn sm" data-act="catDown" data-id="${r.c.id}" ${down ? '' : 'disabled'} aria-label="Niżej">↓</button><select data-ch="catMove" data-id="${r.c.id}" ${busy ? 'disabled' : ''} aria-label="Przenieś na tatami">${TABS.map(x => `<option value="${x}" ${x === t ? 'selected' : ''}>Tatami ${TL(x)}</option>`).join('')}</select></span></div></div>`;
+      const b = i === 0 || sessOf(sch[t][i - 1].c) !== sessOf(r.c) ? sessBlocks(sch[t]).find(x => x.start === r.start) : null;
+      return `${b ? `<div class="sch-blk">Blok ${b.lbl} · ${fmtMin(b.start)}–${fmtMin(b.end)} ${i === 0 ? rq('REQ-ADM-14*') : ''}</div>` : ''}<div class="sch-c"><div class="row"><span class="tm">${fmtMin(r.start)}–${fmtMin(r.end)}</span>${catPill(r.c)}</div><b>${esc(catName(r.c))}</b><div class="row"><span>${pl(r.n, 'walka', 'walki', 'walk')}${r.c.br?.status === 'approved' ? '' : ' (szacunek)'}</span><span class="mv"><button class="btn sm" data-act="catUp" data-id="${r.c.id}" ${up ? '' : 'disabled'} aria-label="Wyżej">↑</button><button class="btn sm" data-act="catDown" data-id="${r.c.id}" ${down ? '' : 'disabled'} aria-label="Niżej">↓</button><select data-ch="catMove" data-id="${r.c.id}" ${busy ? 'disabled' : ''} aria-label="Przenieś na tatami">${TABS.map(x => `<option value="${x}" ${x === t ? 'selected' : ''}>Tatami ${TL(x)}</option>`).join('')}</select></span></div></div>`;
     }).join('') || '<p class="muted">Brak kategorii.</p>'}</section>`).join('')}</div>`;
 }
 function vAdmTeam() {
@@ -2076,12 +2216,12 @@ const REQS = [
   ['REQ-ADM-02', 'Edycja i usuwanie turniejów', 'Panel → Turnieje', '#/admin/turnieje', 'ok'],
   ['REQ-ADM-03', 'Kategorie: dodawanie, edycja, usuwanie', 'Panel → Kategorie', '#/admin/kategorie', 'ok'],
   ['REQ-ADM-04', 'Kryteria: wiek, płeć, waga, stopień, typ', 'Formularz kategorii', '#/admin/kategorie', 'ok'],
-  ['REQ-ADM-05', 'Walka o 3. miejsce TAK / NIE', 'Formularz; Chłopcy 12–13 (TAK), Dziewczęta 14–15 (NIE)', '#/drabinki/c3', 'ok'],
-  ['REQ-ADM-06', 'Brak pary: wolny los albo walka eliminacyjna', 'Formularz; Dziewczęta 14–15 = eliminacje', '#/drabinki/c4', 'ok'],
-  ['REQ-ADM-07', 'Kata: liczba awansujących', 'Formularz kategorii kata; Kata 12–15 lat', '#/drabinki/c7', 'ok'],
+  ['REQ-ADM-05', 'Walka o 3. miejsce TAK / NIE', 'Formularz; Młodzicy 12–13 (TAK), Juniorki młodsze 14–15 (NIE)', '#/drabinki/c3', 'ok'],
+  ['REQ-ADM-06', 'Brak pary: wolny los albo walka eliminacyjna', 'Formularz; Juniorki młodsze 14–15 = eliminacje', '#/drabinki/c4', 'ok'],
+  ['REQ-ADM-07', 'Kata: liczba awansujących', 'Formularz kategorii kata; Kata juniorki młodsze 14–17', '#/drabinki/c7', 'ok'],
   ['REQ-ADM-08', 'Przypisanie kategorii do tatami', 'Formularz kategorii, Harmonogram', '#/admin/harmonogram', 'ok'],
   ['REQ-ADM-09', 'Ręczne dodawanie / usuwanie zawodnika z bazy', 'Kategorie → Zawodnicy', '#/admin/kategorie/c9', 'ok'],
-  ['REQ-ADM-10', 'Generator drabinek: kategoria lub cały turniej', 'Drabinki → Chłopcy 10–11 −35 kg', '#/admin/drabinki/c9', 'ok'],
+  ['REQ-ADM-10', 'Generator drabinek: kategoria lub cały turniej', 'Drabinki → Kadeci 10–11 lat 30–35 kg (semi contact)', '#/admin/drabinki/c9', 'ok'],
   ['REQ-ADM-11', 'Ręczna korekta przed zatwierdzeniem', 'Szkic drabinki → kliknij dwóch zawodników', '#/admin/drabinki/c9', 'ok'],
   ['REQ-ADM-12', 'Kluby w klasyfikacji drużynowej', 'Panel → Klasyfikacja drużynowa', '#/admin/klasyfikacja', 'ok'],
   ['3. Sędzia'],
@@ -2089,7 +2229,7 @@ const REQS = [
   ['REQ-REF-02', 'Lista walk tatami', 'Prawa kolumna panelu tatami', '#/referee', 'ok'],
   ['REQ-REF-03', 'Ręczne „Aktywuj walkę”', 'Panel tatami', '#/referee', 'ok'],
   ['REQ-REF-04', 'Kumite: punkty, kary, zwycięzca', 'Tatami A lub B', '#/referee', 'ok'],
-  ['REQ-REF-05', 'Kata: 4 oceny, bez skrajnych, suma dwóch', 'Tatami C (kata 12–15 lat)', '#/referee', 'ok'],
+  ['REQ-REF-05', 'Kata: 4 oceny, bez skrajnych, suma dwóch', 'Tatami C (blok KATA)', '#/referee', 'ok'],
   ['REQ-REF-06', 'Zatwierdzenie → awans w drabince', 'Zatwierdź wynik, potem otwórz Drabinki', '#/referee', 'ok'],
   ['REQ-REF-07', 'Edycja wyniku do startu kolejnej walki', 'Karta „Ostatni wynik” w panelu tatami', '#/referee', 'ok'],
   ['4. Klub / Sensei'],
@@ -2105,7 +2245,7 @@ const REQS = [
   ['6. Algorytmy'],
   ['REQ-ALG-01', 'Mniej niż 4 → każdy z każdym', 'Seniorki open (3 zawodniczki)', '#/drabinki/c6', 'ok'],
   ['REQ-ALG-02', 'Separator klubowy', '„Kontrola losowania” przy szkicu drabinki', '#/admin/drabinki/c9', 'ok'],
-  ['REQ-ALG-03', 'Wolny los najpierw dla wyższych stopni', '„Kontrola losowania”; Chłopcy 12–13 (5 wolnych losów)', '#/admin/drabinki/c9', 'ok'],
+  ['REQ-ALG-03', 'Wolny los najpierw dla wyższych stopni', '„Kontrola losowania”; Młodzicy 12–13 (5 wolnych losów)', '#/admin/drabinki/c9', 'ok'],
   ['REQ-ALG-04', 'Klasyfikacja: złoto → srebro → brąz', 'Klasyfikacja drużynowa', '#/klasyfikacja', 'ok'],
   ['7. Niefunkcjonalne'],
   ['REQ-NFR-01', 'Czas rzeczywisty bez odświeżania', 'BroadcastChannel między kartami zamiast WebSocket', '#/live', 'sim'],
@@ -2115,12 +2255,20 @@ const REQS = [
   ['REQ-PUB-06*', 'Obserwowani zawodnicy bez logowania: tatami, numer walki, czas, strona AKA/SHIRO, wyniki', 'Start → wpisz nazwisko lub klub → ☆', '#/', 'new'],
   ['REQ-PUB-07*', 'Powiadomienia o obserwowanych: na 2 walki przed, „idź pod matę”, wynik (wibracja, dźwięk, baner)', 'Start → Obserwowani → Włącz powiadomienia', '#/', 'new'],
   ['REQ-PUB-08*', 'Ekran hali (TV): wszystkie tatami, walka teraz, na przygotowanie, wyniki, kod QR do obserwowania', 'Na żywo → Ekran hali (TV)', '#/tv', 'new'],
+  ['REQ-PUB-09*', 'Informacje: komunikat organizatora, program dnia z blokami, lista kategorii', 'Informacje', '#/info', 'new'],
+  ['REQ-PUB-10*', 'Wszystkie walki ze wszystkich mat w kolejności czasu, z filtrem maty, klubu, kategorii i nazwiska', 'Na żywo → Wszystkie walki', '#/live', 'new'],
+  ['REQ-ADM-13*', 'Rodzaj kumite (full / semi / no contact) i przedziały wagi (np. 45–50 kg)', 'Formularz kategorii', '#/admin/kategorie', 'new'],
+  ['REQ-ADM-14*', 'Bloki sesji na tatami (KATA, NO CONTACT, KUMITE) w harmonogramie, na tablicy i na ekranie hali', 'Panel → Harmonogram', '#/admin/harmonogram', 'new'],
   ['REQ-NFR-04*', 'Czytelność w hali: kontrast tekstu min. 4,5:1, duże numery tatami i walki, dolny pasek na telefonie', 'Cały mock na telefonie', '#/live', 'new'],
 ];
 const QUESTIONS = [
   ['Feedback z hali', 'Na sali jest kilkaset osób i panuje chaos — rodzic, trener i zawodnik muszą od razu wiedzieć: kiedy walka, na które tatami iść i jaki był wynik. Specyfikacja tego nie obejmuje (REQ-CLUB-03 działa tylko po zalogowaniu klubu). Proponuję REQ-PUB-06: obserwowanie zawodników bez logowania (numer tatami i walki, szacowany czas, strona AKA/SHIRO, wyniki) oraz REQ-NFR-04: kontrast tekstu co najmniej 4,5:1 i numery tatami/walki czytelne z kilku metrów.'],
   ['REQ-ADM-06, REQ-ALG-03', 'Wolne losy są potrzebne zawsze, gdy liczba zawodników nie jest potęgą dwójki (np. 6 zawodników → 2 wolne losy), a nie tylko przy liczbie nieparzystej. Lepiej: „gdy liczba zawodników nie wypełnia drabinki”. Oba warianty — wolny los i walka eliminacyjna — dają tę samą liczbę walk (n − 2<sup>⌊log₂n⌋</sup> w rundzie wstępnej) i różnią się tylko opisem. Czy „walka eliminacyjna” miała znaczyć coś innego, np. repasaż?'],
   ['Powiadomienia push', 'Prawdziwe powiadomienia przy zablokowanym telefonie wymagają Web Push (service worker + serwer). Na Androidzie działa to w przeglądarce, na iPhonie tylko po dodaniu strony do ekranu głównego (PWA, iOS 16.4+). Wibracja z przeglądarki działa tylko na Androidzie. Mock pokazuje baner, dźwięk i wibrację, dopóki strona jest otwarta — do decyzji, czy robimy PWA, czy SMS/e-mail jako zapas.'],
+  ['Rodzaje kumite i poziomy', 'Turnieje kyokushin dzielą kumite na full contact (zaawansowani, np. od 8 kyu), semi contact (pomarańczowe pasy 10–9 kyu) i no contact (najmłodsi) — z innymi ochraniaczami i zasadami. Specyfikacja zna tylko „Kumite / Kata / Drużynowe”. Mock: rodzaj kontaktu jako cecha kategorii kumite oraz przedziały wagi typu 45–50 kg.'],
+  ['Bloki sesji na tatami', 'Rano na tatami idą zwykle bloki kata i no contact, potem kumite („Tatami A · KATA”). Specyfikacja przypisuje do tatami tylko kategorie. Mock: blok wynika z rodzaju kategorii i kolejności; harmonogram, tablica i ekran hali pokazują bloki z godzinami.'],
+  ['Informacje o turnieju', 'Kibice i kluby szukają programu dnia, zasad weryfikacji, opłat i ochraniaczy — specyfikacja nie przewiduje komunikatu turnieju. Mock: zakładka Informacje z programem liczonym z harmonogramu i komunikatem z formularza turnieju.'],
+  ['Wspólna lista walk', 'REQ-PUB-04 pokazuje tatami osobno; w hali przydaje się jedna lista wszystkich walk z filtrem klubu, maty, kategorii i nazwiska. Mock: „Wszystkie walki” na stronie Na żywo.'],
   ['REQ-ADM-05', '„egzekwo” → „ex aequo”.'],
   ['REQ-ADM-07, REQ-ALG-01', 'W tekście brakuje symboli (po wklejeniu zostały puste znaki) — zapewne „N zawodników” i „n < 4”.'],
   ['REQ-ALG-01', 'Brak zasad remisu w tabeli „każdy z każdym”. Mock: 2 pkt za wygraną → bezpośredni pojedynek → liczba waza-ari. Czy przy 3 zawodnikach trzecie miejsce daje brąz (mock: tak)?'],
@@ -2140,7 +2288,7 @@ function vSpec() {
       <div class="card"><h3>Na telefonie w hali</h3><p>Na stronie Start wpisz nazwisko albo klub i dotknij ☆. Karta pokaże tatami i kod walki (np. A22 = 22. walka na tatami A), ile walk zostało, stronę AKA/SHIRO i wyniki. „Włącz powiadomienia” — telefon da znać przed walką.</p></div>
       <div class="card"><h3>Ekran hali</h3><p><a href="#/tv" target="_blank" rel="noopener">Ekran na telewizor</a>: wszystkie tatami, walka teraz i na przygotowanie, ostatnie wyniki i kod QR, którym kibice otwierają obserwowanie zawodnika.</p></div>
       <div class="card"><h3>Czas rzeczywisty</h3><p>Otwórz <a href="#/live" target="_blank" rel="noopener">Na żywo w nowej karcie</a>. Tutaj zaloguj się jako sędzia, wybierz tatami i wpisuj punkty — druga karta zmienia się bez odświeżania.</p></div>
-      <div class="card"><h3>Drabinka od zera</h3><p>Zaloguj się jako administrator → Drabinki → „Chłopcy 10–11 −35 kg” → Generuj. Zamień dwóch zawodników, zatwierdź — walki trafią do sędziego Tatami B.</p></div>
+      <div class="card"><h3>Drabinka od zera</h3><p>Zaloguj się jako administrator → Drabinki → „Kadeci 10–11 lat 30–35 kg (semi contact)” → Generuj. Zamień dwóch zawodników, zatwierdź — walki trafią do sędziego Tatami B.</p></div>
       <div class="card"><h3>Widok klubu</h3><p>Zaloguj się jako klub (np. Żuraw Dojo) → Na żywo: zawodnicy klubu z numerem tatami i walki. Zgłoszenia działają dla Turnieju Jesiennego.</p></div>
     </div>
     <section class="card"><div class="scroll-x"><table class="t spec-t"><thead><tr><th>ID</th><th>Wymaganie</th><th>Gdzie w mocku</th><th>Stan</th></tr></thead><tbody>
@@ -2163,7 +2311,7 @@ function printCat(c) {
 }
 function printSched(T) {
   const sch = schedule(T), live = T === pubT();
-  return TABS.map(t => `<section class="pr-tat"><h2>Tatami ${TL(t)}</h2><table class="t"><thead><tr><th>Godz.</th><th>Kategoria</th><th>Walk</th><th>Status</th></tr></thead><tbody>${sch[t].map(r => `<tr><td>${fmtMin(r.start)}–${fmtMin(r.end)}</td><td>${esc(catName(r.c))}</td><td>${r.n}</td><td>${catState(r.c)[0]}</td></tr>`).join('')}</tbody></table>
+  return TABS.map(t => `<section class="pr-tat"><h2>Tatami ${TL(t)}</h2><table class="t"><thead><tr><th>Godz.</th><th>Blok</th><th>Kategoria</th><th>Walk</th><th>Status</th></tr></thead><tbody>${sch[t].map(r => `<tr><td>${fmtMin(r.start)}–${fmtMin(r.end)}</td><td>${sessLbl(r.c)}</td><td>${esc(catName(r.c))}</td><td>${r.n}</td><td>${catState(r.c)[0]}</td></tr>`).join('')}</tbody></table>
    ${live && Q(t).length ? `<table class="t" style="margin-top:8px"><thead><tr><th>Nr</th><th>Kategoria · runda</th><th>Aka / zawodnik</th><th>Shiro</th><th>Wynik</th></tr></thead><tbody>${Q(t).map(i => `<tr><td>${i.code}</td><td>${esc(catShort(cat(i.cat)))} · ${esc(i.label)}</td><td>${i.a ? esc(ent(i.a).name) : '—'}</td><td>${i.kind === 'kata' ? '' : i.b ? esc(ent(i.b).name) : '—'}</td><td>${i.res ? (i.kind === 'kata' ? fmt1(i.res.tot) + ' pkt' : esc(ent(i.res.w === 'a' ? i.a : i.b).name) + ' · ' + esc(i.res.m)) : ''}</td></tr>`).join('')}</tbody></table>` : ''}</section>`).join('');
 }
 
@@ -2184,6 +2332,9 @@ const ACT = {
   sim: () => { ui.sim = !ui.sim; savePrefs(); render(true); toast(ui.sim ? 'Symulacja włączona — tatami bez sędziego grają same' : 'Symulacja wstrzymana'); },
   reset: () => ask('Przywrócić dane demonstracyjne? Twoje zmiany znikną we wszystkich otwartych kartach.', 'Resetuj', () => { const r = S.rev; seed(); S.rev = r + 1; ui.edit = null; ui.kd = {}; ui.swap = null; commit(); toast('Dane demo przywrócone'); }),
   close: () => closeDrawer(),
+  lfMat: el => { ui.lf.mat = el.dataset.v; ui.lfAll = false; render(true); },
+  lfAll: () => { ui.lfAll = true; $('#allList').innerHTML = allListHTML(); },
+  cfav: () => { ui.cfav = !ui.cfav; render(true); },
   alertOk: () => { $('#alertBox').hidden = true; document.title = AL.title; },
   alerts: () => {
     AL.on = !AL.on;
@@ -2216,16 +2367,16 @@ const ACT = {
   },
   logout: () => { TABS.forEach(t => { if (S.mats[t].ref?.tab === TAB) S.mats[t].ref = null; }); ui.user = null; ui.edit = null; ui.refT = null; saveUser(); commit({ quiet: true }); location.hash = '#/'; render(true); toast('Wylogowano'); },
   /* turnieje */
-  tourNew: () => { ui.tf = { id: null, name: '', date: todayISO(), place: '', status: 'draft' }; openDrawer('Nowy turniej', tourFormHTML()); },
-  tourEdit: el => { const t = tour(el.dataset.id); ui.tf = { id: t.id, name: t.name, date: t.date, place: t.place, status: t.status }; openDrawer('Edytuj turniej', tourFormHTML()); },
+  tourNew: () => { ui.tf = { id: null, name: '', date: todayISO(), place: '', status: 'draft', note: '' }; openDrawer('Nowy turniej', tourFormHTML()); },
+  tourEdit: el => { const t = tour(el.dataset.id); ui.tf = { id: t.id, name: t.name, date: t.date, place: t.place, status: t.status, note: t.note || '' }; openDrawer('Edytuj turniej', tourFormHTML()); },
   tourUse: el => { ui.at = el.dataset.id; location.hash = '#/admin/kategorie'; },
   tourSave: () => {
     const f = ui.tf;
     if (!f.name.trim() || !f.date || !f.place.trim()) { $('#tfErr').textContent = 'Uzupełnij nazwę, datę i miejsce.'; return; }
     let note = '';
     if (f.status === 'live') S.tours.forEach(t => { if (t.id !== f.id && t.status === 'live') { t.status = 'done'; note = ` „${t.name}” oznaczono jako zakończony.`; } });
-    if (f.id) Object.assign(tour(f.id), { name: f.name.trim(), date: f.date, place: f.place.trim(), status: f.status });
-    else { const id = 't' + Date.now().toString(36); S.tours.push({ id, name: f.name.trim(), date: f.date, place: f.place.trim(), status: f.status, teamClubs: Object.keys(CLUBS) }); ui.at = id; }
+    if (f.id) Object.assign(tour(f.id), { name: f.name.trim(), date: f.date, place: f.place.trim(), status: f.status, note: (f.note || '').trim() });
+    else { const id = 't' + Date.now().toString(36); S.tours.push({ id, name: f.name.trim(), date: f.date, place: f.place.trim(), status: f.status, note: (f.note || '').trim(), teamClubs: Object.keys(CLUBS) }); ui.at = id; }
     closeDrawer(); commit(); toast((f.id ? 'Turniej zapisany.' : 'Turniej utworzony — dodaj kategorie.') + note);
   },
   tourDel: el => {
@@ -2237,19 +2388,20 @@ const ACT = {
     });
   },
   /* kategorie */
-  catNew: () => { ui.cf = { id: null, type: 'kumite', sex: 'M', a0: 12, a1: 13, wm: 'max', wv: 50, g0: 1, g1: 14, tatami: 1, bronze: 1, odd: 'bye', adv: 4 }; openDrawer('Nowa kategoria', catFormHTML()); },
-  catEdit: el => { const c = cat(el.dataset.id); ui.cf = { id: c.id, type: c.type, sex: c.sex, a0: c.age[0], a1: c.age[1], wm: !c.w ? 'open' : c.w[1] != null ? 'max' : 'min', wv: c.w ? (c.w[1] ?? c.w[0]) : '', g0: c.g[0], g1: c.g[1], tatami: c.tatami, bronze: c.bronze ? 1 : 0, odd: c.odd, adv: c.adv }; openDrawer('Edytuj kategorię', catFormHTML()); },
+  catNew: () => { ui.cf = { id: null, type: 'kumite', contact: 'full', sex: 'M', a0: 12, a1: 13, wm: 'max', wv: 50, wv2: '', g0: 1, g1: 14, tatami: 1, bronze: 1, odd: 'bye', adv: 4 }; openDrawer('Nowa kategoria', catFormHTML()); },
+  catEdit: el => { const c = cat(el.dataset.id); ui.cf = { id: c.id, type: c.type, contact: c.contact || 'full', sex: c.sex, a0: c.age[0], a1: c.age[1], wm: !c.w ? 'open' : c.w[0] != null && c.w[1] != null ? 'band' : c.w[1] != null ? 'max' : 'min', wv: !c.w ? '' : c.w[0] != null && c.w[1] != null ? c.w[0] : (c.w[1] ?? c.w[0]), wv2: c.w && c.w[0] != null && c.w[1] != null ? c.w[1] : '', g0: c.g[0], g1: c.g[1], tatami: c.tatami, bronze: c.bronze ? 1 : 0, odd: c.odd, adv: c.adv }; openDrawer('Edytuj kategorię', catFormHTML()); },
   catSave: () => {
     const f = ui.cf, err = m => { $('#cfErr').textContent = m; };
     const a0 = +f.a0, a1 = +f.a1, wv = num(f.wv), adv = +f.adv;
     if (!(a0 >= 4 && a1 <= 99 && a0 <= a1)) return err('Sprawdź przedział wieku.');
     if (f.wm !== 'open' && !(wv >= 10 && wv <= 150)) return err('Podaj limit wagi (10–150 kg).');
+    if (f.wm === 'band' && !(num(f.wv2) > wv && num(f.wv2) <= 150)) return err('Waga „do” musi być większa niż „od”.');
     if (+f.g0 > +f.g1) return err('Stopień „od” jest wyższy niż „do”.');
     if (f.type === 'kata' && !(adv >= 2 && adv <= 16)) return err('Do finału może awansować od 2 do 16 osób.');
     const base = { ...cfCat(f), bronze: !!+f.bronze, odd: f.odd, adv: f.type === 'kata' ? adv : 4 }, t = +f.tatami;
     if (f.id) {
       const c = cat(f.id), locked = !!(c.br && c.br.status === 'approved');
-      if (locked) Object.assign(c, { sex: base.sex, age: base.age, w: base.w, g: base.g });
+      if (locked) Object.assign(c, { sex: base.sex, age: base.age, w: base.w, g: base.g, contact: c.type === 'kumite' ? base.contact : c.contact });
       else { if (c.type !== base.type) { c.br = null; c.res = {}; c.entries = c.entries.filter(id => (base.type === 'team') === id.startsWith('T-')); } Object.assign(c, base); }
       if (c.tatami !== t && !catBusy(c)) moveCat(c, t);
     } else {
@@ -2393,6 +2545,8 @@ function shiftCat(id, dir) {
   [c.ord, o.ord] = [o.ord, c.ord]; commit();
 }
 const IN = {
+  lf: el => { ui.lf[el.dataset.k] = el.value; $('#allList').innerHTML = allListHTML(); },
+  cq: el => { ui.cq = el.value; updCatNav(); },
   fq: el => { ui.fq = el.value; $('#findRes').innerHTML = findHTML(); },
   pf: el => { ui.pf[el.dataset.k] = el.value; $('#peopleList').innerHTML = peopleList(); },
   addQ: el => { ui.addQ = el.value; const c = cat(el.dataset.c); $('#addList').innerHTML = addList(c, c.br?.status === 'approved'); },
@@ -2402,6 +2556,8 @@ const IN = {
   ks: el => { const key = el.dataset.key; (ui.kd[key] = ui.kd[key] || ['', '', '', ''])[+el.dataset.i] = el.value; updKata(key); },
 };
 const CH = {
+  lf: el => { ui.lf[el.dataset.k] = el.value; ui.lfAll = false; $('#allList').innerHTML = allListHTML(); },
+  lfDone: el => { ui.lf.done = el.checked; $('#allList').innerHTML = allListHTML(); },
   pf: el => { ui.pf[el.dataset.k] = el.value; $('#peopleList').innerHTML = peopleList(); },
   go: el => { location.hash = el.dataset.base + el.value; },
   at: el => { ui.at = el.value; render(true); },
@@ -2433,7 +2589,7 @@ function renderTop(r) {
   const z = zoneOf(r), p = '#/' + r.join('/'), role = ui.user?.role;
   $('#zones').innerHTML = ZONES.map(([k, h, l, s]) => `<a href="${h}" class="${k === z ? 'on' : ''}">${l}<small>${s}</small></a>`).join('');
   let links = [];
-  if (z === 'pub') links = [['#/', 'Start'], ['#/live', 'Na żywo'], ['#/uczestnicy', 'Uczestnicy'], ['#/drabinki', 'Drabinki'], ['#/klasyfikacja', 'Klasyfikacja drużynowa'], ['#/specyfikacja', 'Pokrycie specyfikacji']];
+  if (z === 'pub') links = [['#/', 'Start'], ['#/info', 'Informacje'], ['#/live', 'Na żywo'], ['#/uczestnicy', 'Uczestnicy'], ['#/drabinki', 'Drabinki'], ['#/klasyfikacja', 'Klasyfikacja drużynowa'], ['#/specyfikacja', 'Pokrycie specyfikacji']];
   else if (z === 'admin' && role === 'admin') links = [['#/admin/turnieje', 'Turnieje'], ['#/admin/kategorie', 'Kategorie'], ['#/admin/drabinki', 'Drabinki'], ['#/admin/harmonogram', 'Harmonogram'], ['#/admin/klasyfikacja', 'Klasyfikacja drużynowa']];
   else if (z === 'admin' && role === 'club') links = [['#/admin/klub/na-zywo', 'Na żywo'], ['#/admin/klub/zawodnicy', 'Moi zawodnicy'], ['#/admin/klub/zgloszenia', 'Zgłoszenia']];
   else if (z === 'referee' && role === 'ref') links = [['#/referee', 'Wybór tatami'], ...TABS.map(t => [`#/referee/tatami/${TL(t)}`, `Tatami ${TL(t)}`])];
@@ -2456,6 +2612,7 @@ function view(r) {
     case 'drabinki': return vBrackets(r[1]);
     case 'klasyfikacja': return vTeam();
     case 'specyfikacja': return vSpec();
+    case 'info': return vInfo();
     case 'tv': return vTV();
     case 'admin': return adminView(r.slice(1));
     case 'referee': return refView(r.slice(1));
@@ -2512,7 +2669,7 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Enter' && e.target.matches('[data-in="ks"]')) { e.preventDefault(); const nx = $('#ks' + (+e.target.dataset.i + 1)); if (nx) nx.focus(); else { const ok = $('#kataOk'); if (ok && !ok.disabled) ok.click(); } }
 });
 document.addEventListener('focusout', () => setTimeout(() => { if (pendingRender && !editing()) render(false); }, 60));
-window.addEventListener('hashchange', () => { ui.swap = null; ui.edit = null; closeDrawer(); render(true); window.scrollTo(0, 0); });
+window.addEventListener('hashchange', () => { ui.swap = null; ui.edit = null; if (innerWidth <= 900) ui.cq = ''; closeDrawer(); render(true); window.scrollTo(0, 0); });
 render(true);
 checkAlerts(true);
 setInterval(simTick, 1000);
