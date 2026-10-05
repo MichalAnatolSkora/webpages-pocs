@@ -12,13 +12,14 @@
 /* Mock wg specyfikacji REQ: trzy strefy (/, /admin, /referee) w jednym pliku, stan wspólny dla kart przeglądarki
    (BroadcastChannel udaje WebSocket). Wygląd z rodziny Hajime: indygo + aka/shiro jako jedyna głośna para. */
 :root{
-  --paper:#f1f2f8; --surface:#ffffff; --surface-2:#f6f7fc; --surface-3:#eceef7;
-  --ink:#14183a; --ink-2:#4b5175; --ink-3:#7c819a; --line:#dfe2ee; --line-2:#c7cbe0;
-  --ai:#2e3db3; --ai-ink:#ffffff; --ai-soft:#e6e9fb;
-  --aka:#d4213d; --aka-ink:#ffffff; --aka-soft:#fde7ea;
+  --paper:#eef0f6; --surface:#ffffff; --surface-2:#f6f7fc; --surface-3:#e6e9f3;
+  --ink:#0f1330; --ink-2:#2f3557; --ink-3:#4f5572; --line:#d3d7e6; --line-2:#868cab;
+  --ai:#2a37a8; --ai-ink:#ffffff; --ai-soft:#e3e7fb;
+  --aka:#b8142f; --aka-t:#b8142f; --aka-ink:#ffffff; --aka-soft:#fde4e8;
+  --go:#ffd23f; --go-ink:#0f1330;
   --shiro:#ffffff; --shiro-ink:#14183a; --shiro-edge:#bfc4db;
-  --gold:#c4951a; --silver:#8b95ab; --bronze:#b3683a;
-  --ok:#14895a; --ok-soft:#e0f4ea; --warn:#a96f00; --warn-soft:#fcf0d4; --bad:#c42a2a; --bad-soft:#fde5e5;
+  --gold:#c4951a; --silver:#8b95ab; --bronze:#c47a48;
+  --ok:#0a6440; --ok-soft:#dcf2e7; --warn:#6e4600; --warn-soft:#fbe9c0; --bad:#a51616; --bad-soft:#fde3e3;
   --hero-bg:#1a2370; --hero-ink:#ffffff; --hero-dim:#aab3ee;
   --shadow:0 1px 2px rgba(20,24,58,.06),0 10px 28px -14px rgba(20,24,58,.22);
   --f-display:'Archivo','Arial Narrow',system-ui,sans-serif;
@@ -28,9 +29,10 @@
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --paper:#0b0e22; --surface:#141834; --surface-2:#1a1f40; --surface-3:#21274d;
-  --ink:#eceefb; --ink-2:#b0b5d6; --ink-3:#8086ab; --line:#262c56; --line-2:#363d6e;
+  --ink:#f3f4fd; --ink-2:#c9cdea; --ink-3:#a3a9cf; --line:#2c3360; --line-2:#59619a;
   --ai:#8d9cff; --ai-ink:#0b0e22; --ai-soft:#222a5e;
-  --aka:#ff4a62; --aka-ink:#ffffff; --aka-soft:#3b1526;
+  --aka:#d81e3a; --aka-t:#ff7d8f; --aka-ink:#ffffff; --aka-soft:#3b1526;
+  --go:#ffd23f; --go-ink:#0f1330;
   --shiro:#eceefb; --shiro-ink:#0b0e22; --shiro-edge:#eceefb;
   --gold:#e5b843; --silver:#aab3c8; --bronze:#d48a55;
   --ok:#3ccf8e; --ok-soft:#11352a; --warn:#f0b53a; --warn-soft:#3a2d10; --bad:#ff6a6a; --bad-soft:#3d1717;
@@ -40,9 +42,10 @@
 }}
 :root[data-theme="dark"]{
   --paper:#0b0e22; --surface:#141834; --surface-2:#1a1f40; --surface-3:#21274d;
-  --ink:#eceefb; --ink-2:#b0b5d6; --ink-3:#8086ab; --line:#262c56; --line-2:#363d6e;
+  --ink:#f3f4fd; --ink-2:#c9cdea; --ink-3:#a3a9cf; --line:#2c3360; --line-2:#59619a;
   --ai:#8d9cff; --ai-ink:#0b0e22; --ai-soft:#222a5e;
-  --aka:#ff4a62; --aka-ink:#ffffff; --aka-soft:#3b1526;
+  --aka:#d81e3a; --aka-t:#ff7d8f; --aka-ink:#ffffff; --aka-soft:#3b1526;
+  --go:#ffd23f; --go-ink:#0f1330;
   --shiro:#eceefb; --shiro-ink:#0b0e22; --shiro-edge:#eceefb;
   --gold:#e5b843; --silver:#aab3c8; --bronze:#d48a55;
   --ok:#3ccf8e; --ok-soft:#11352a; --warn:#f0b53a; --warn-soft:#3a2d10; --bad:#ff6a6a; --bad-soft:#3d1717;
@@ -98,12 +101,12 @@ h1,h2,h3,h4{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:
 main{max-width:1360px;margin:0 auto;padding:22px 20px 60px}
 .req{display:none;font:600 10px/1 var(--f-mono);color:var(--ai);background:var(--ai-soft);border:1px dashed var(--ai);padding:3px 6px;border-radius:5px;vertical-align:middle;margin-left:6px;white-space:nowrap;letter-spacing:.02em;font-stretch:100%}
 body.reqs .req{display:inline-block}
-.eyebrow{font:600 11px/1.3 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.eyebrow{font:600 12px/1.3 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;min-width:0}
 .card h3{font-size:15px;font-stretch:105%;font-weight:800;display:flex;align-items:center;gap:4px 8px;flex-wrap:wrap}
 .card-h{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
-.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:3px 9px;font:600 11px/1.4 var(--f-mono);background:var(--surface-3);color:var(--ink-2);white-space:nowrap}
-.pill.ok{background:var(--ok-soft);color:var(--ok)} .pill.warn{background:var(--warn-soft);color:var(--warn)} .pill.bad{background:var(--bad-soft);color:var(--bad)} .pill.live{background:var(--aka-soft);color:var(--aka)} .pill.ai{background:var(--ai-soft);color:var(--ai)}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:3px 10px;font:700 12px/1.4 var(--f-mono);background:var(--surface-3);color:var(--ink-2);white-space:nowrap}
+.pill.ok{background:var(--ok-soft);color:var(--ok)} .pill.warn{background:var(--warn-soft);color:var(--warn)} .pill.bad{background:var(--bad-soft);color:var(--bad)} .pill.live{background:var(--aka-soft);color:var(--aka-t)} .pill.ai{background:var(--ai-soft);color:var(--ai)}
 .dot{width:7px;height:7px;border-radius:50%;background:currentColor;display:inline-block}
 .live .dot,.live-pill i{animation:pulse 1.4s ease-in-out infinite}
 @keyframes pulse{50%{opacity:.25}}
@@ -127,7 +130,7 @@ body.reqs .req{display:inline-block}
 .belt{display:inline-block;width:22px;height:7px;border-radius:2px;background:var(--b);position:relative;vertical-align:middle;box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
 .belt.st::after{content:"";position:absolute;right:3px;top:0;bottom:0;width:4px;background:var(--s)}
 table.t{width:100%;border-collapse:collapse;font-size:14px}
-table.t th{font:600 10.5px/1.2 var(--f-mono);text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+table.t th{font:700 11.5px/1.2 var(--f-mono);text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
 table.t td{padding:10px;border-bottom:1px solid var(--line);vertical-align:middle}
 table.t tr:last-child td{border-bottom:0}
 table.t .c{text-align:center}
@@ -186,32 +189,30 @@ table.t .r{text-align:right}
 .tile:hover{border-color:var(--ink-3)}
 .tile b{font:800 17px/1.15 var(--f-display);font-stretch:105%}
 .tile span{font-size:13.5px;color:var(--ink-2)}
-.mini-mat{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
-.mini-mat:first-of-type{border-top:0}
-.mini-mat .tn{font:900 13px/1 var(--f-display);font-stretch:120%;background:var(--ink);color:var(--paper);border-radius:8px;padding:8px 0;text-align:center}
-.mini-mat b{display:block;font:700 14px/1.25 var(--f-display);font-stretch:88%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.mini-mat small{display:block;font-size:12px;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .feed{display:flex;flex-direction:column}
-.feed-i{display:grid;grid-template-columns:44px 1fr;gap:10px;padding:9px 0;border-top:1px solid var(--line);font-size:13.5px}
+.feed-i{display:grid;grid-template-columns:46px 1fr;gap:10px;padding:9px 0;border-top:1px solid var(--line);font-size:14.5px}
 .feed-i:first-child{border-top:0}
 .feed-i .tm{font:600 12px/1.5 var(--f-mono);color:var(--ink-3)}
 .feed-i.k-medal{background:color-mix(in srgb,var(--gold) 9%,transparent)}
 .feed-i.k-fix{color:var(--warn)}
 .mats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-.mat{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:11px;min-width:0}
-.mat.is-live{border-color:color-mix(in srgb,var(--aka) 45%,var(--line))}
-.mat-h{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.mat-n{font:600 11px/1 var(--f-mono);letter-spacing:.12em;color:var(--ink-3)}
-.mat-n b{font:900 26px/1 var(--f-display);font-stretch:120%;color:var(--ink);margin-left:4px;vertical-align:-3px}
-.mat-cat{font-size:13px;color:var(--ink-2);font-weight:600}
-.mat-idle{background:var(--surface-2);border-radius:10px;padding:16px 12px;text-align:center;color:var(--ink-2);font-weight:600}
+.mat{background:var(--surface);border:2px solid var(--line-2);border-radius:16px;padding:0 14px 14px;display:flex;flex-direction:column;gap:11px;min-width:0;overflow:hidden}
+.mat.is-live{border-color:var(--aka)}
+.mat-h{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--ink);color:var(--paper);margin:0 -14px;padding:10px 14px}
+.mat.is-live .mat-h{background:var(--aka);color:#fff}
+.mat-n,.mat-no{display:flex;flex-direction:column;line-height:1;gap:3px}
+.mat-n small,.mat-no small{font:700 11.5px var(--f-mono);letter-spacing:.12em}
+.mat-n b,.mat-no b{font:900 38px/1 var(--f-display);font-stretch:112%;font-variant-numeric:tabular-nums}
+.mat-no{align-items:flex-end;text-align:right}
+.mat-cat{font-size:14.5px;color:var(--ink-2);font-weight:700}
+.mat-idle{background:var(--surface-2);border-radius:10px;padding:16px 12px;text-align:center;color:var(--ink);font-weight:700;font-size:16px}
 .vs{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:stretch;border-radius:12px;overflow:hidden;border:1px solid var(--line)}
 .vs>div{padding:10px;min-width:0}
 .vs .a{background:var(--aka);color:var(--aka-ink)}
 .vs .b{background:var(--shiro);color:var(--shiro-ink);text-align:right}
 .vs .mid{background:var(--surface-2);display:grid;place-items:center;padding:0 10px;font:700 15px/1 var(--f-mono)}
-.vs b{display:block;font:800 15px/1.15 var(--f-display);font-stretch:85%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.vs small{font-size:11.5px;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.vs b{display:block;font:800 17px/1.15 var(--f-display);font-stretch:85%;overflow-wrap:anywhere}
+.vs small{font-size:12.5px;opacity:.92;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
 .pts{display:flex;gap:8px;align-items:center;margin-top:6px;font:600 10px var(--f-mono);letter-spacing:.06em}
 .vs .b .pts{justify-content:flex-end}
 .wa-pips{display:inline-flex;gap:3px}
@@ -222,17 +223,19 @@ table.t .r{text-align:right}
 .pen-mini i.on{background:currentColor;opacity:1}
 .kata-live{background:var(--ai-soft);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:2px}
 .kata-live b{font:800 18px/1.15 var(--f-display);font-stretch:90%}
-.next-list{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--ink-2)}
-.next-list>div{display:flex;gap:8px;white-space:nowrap;overflow:hidden}
-.next-list .mono{color:var(--ink-3);font-size:11.5px;flex:none;padding-top:1px;width:22px}
-.next-list span:last-child{overflow:hidden;text-overflow:ellipsis}
+.next-list{display:flex;flex-direction:column;gap:3px;font-size:15px;color:var(--ink)}
+.next-list>div{display:flex;gap:10px;padding:4px 6px;border-radius:8px}
+.next-list>div.nx{background:var(--go);color:var(--go-ink);font-weight:700}
+.next-list>div.nx .muted{color:var(--go-ink)}
+.next-list .mono{color:inherit;font-size:15px;font-weight:800;flex:none;width:28px}
+.next-list span:last-child{min-width:0;overflow-wrap:anywhere}
 .mbar{height:4px;background:var(--surface-3);border-radius:9px;overflow:hidden}
 .mbar i{display:block;height:100%;background:var(--ai);transition:width .4s}
-.mat-f{display:flex;justify-content:space-between;font:600 11px var(--f-mono);color:var(--ink-3)}
+.mat-f{display:flex;justify-content:space-between;font:600 12px var(--f-mono);color:var(--ink-3)}
 .filterbar{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,1fr);gap:0 12px;align-items:end}
 .count{font:600 12px var(--f-mono);margin:0 0 8px}
 .plist{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
-.p-row{display:grid;grid-template-columns:10px minmax(0,1.3fr) minmax(0,1.2fr) 120px;gap:12px;align-items:center;padding:10px 14px;border-top:1px solid var(--line)}
+.p-row{display:grid;grid-template-columns:10px minmax(0,1.3fr) minmax(0,1.2fr) 120px auto;gap:12px;align-items:center;padding:10px 14px;border-top:1px solid var(--line)}
 .p-row:first-child{border-top:0}
 .p-row b{font-weight:650}
 .p-row small{display:block;font-size:12.5px;color:var(--ink-3)}
@@ -259,15 +262,15 @@ table.t .r{text-align:right}
 .cn{fill:none;stroke:var(--line-2);stroke-width:1.5}
 .cn.done{stroke:var(--ink-3);stroke-width:2}
 .cn.pend{stroke-dasharray:3 4}
-.r-head{position:absolute;top:0;font:600 10.5px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.r-head{position:absolute;top:0;font:700 11.5px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
 .bout{position:absolute}
-.bout-tag{position:absolute;left:0;right:0;top:-18px;height:16px;display:flex;justify-content:space-between;align-items:center;padding:0 2px;font:600 10.5px/1 var(--f-mono);color:var(--ink-3);letter-spacing:.02em;white-space:nowrap}
+.bout-tag{position:absolute;left:0;right:0;top:-18px;height:16px;display:flex;justify-content:space-between;align-items:center;padding:0 2px;font:600 11.5px/1 var(--f-mono);color:var(--ink-3);letter-spacing:.02em;white-space:nowrap}
 .bout-box{border:1px solid var(--line-2);border-radius:9px;background:var(--surface);overflow:hidden}
 .slot{display:grid;grid-template-columns:4px minmax(0,1fr) auto;align-items:center;gap:8px;height:30px;width:100%;border:0;background:none;text-align:left;padding:0 9px 0 0;color:var(--ink);font:inherit}
 .slot+.slot{border-top:1px solid var(--line)}
 .slot>i{align-self:stretch;background:var(--c,transparent)}
 .slot .nm{font:650 13.5px/1 var(--f-display);font-stretch:84%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.slot .cl{font:500 9.5px/1 var(--f-mono);color:var(--ink-3);letter-spacing:.04em;margin-left:6px;font-stretch:100%}
+.slot .cl{font:600 10.5px/1 var(--f-mono);color:var(--ink-3);letter-spacing:.04em;margin-left:6px;font-stretch:100%}
 .slot .rs{font:700 10px/1 var(--f-mono);text-align:right;color:var(--ink-3)}
 .slot.win{background:var(--surface-2)}
 .slot.win .nm{font-weight:850}
@@ -281,7 +284,7 @@ button.slot:hover{background:var(--ai-soft)}
 .slot.sel .nm,.slot.sel .cl{color:var(--ai-ink)!important}
 .slot.conf{box-shadow:inset 0 0 0 2px var(--bad)}
 .bout.s-live .bout-box{border-color:var(--aka);box-shadow:0 0 0 3px var(--aka-soft)}
-.bout.s-live .bout-tag .m{color:var(--aka)}
+.bout.s-live .bout-tag .m{color:var(--aka-t)}
 .bout.s-ready .bout-tag .m{color:var(--ai)}
 .bout.s-bye .bout-box{border-style:dashed;box-shadow:none}
 .bout.s-bye .slot.ph{opacity:.7}
@@ -289,10 +292,11 @@ button.slot:hover{background:var(--ai-soft)}
 .rlist{display:none;flex-direction:column;gap:14px}
 .rl-r h4{font:600 11px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:0 0 8px}
 .rl-b{border:1px solid var(--line);border-radius:12px;background:var(--surface);overflow:hidden;margin-bottom:8px}
-.rl-b .bt-h{display:flex;justify-content:space-between;gap:8px;padding:6px 10px;font:600 10.5px var(--f-mono);color:var(--ink-3);background:var(--surface-2);border-bottom:1px solid var(--line)}
-.rl-b .slot{height:38px}
+.rl-b .bt-h{display:flex;justify-content:space-between;gap:8px;padding:6px 10px;font:600 12px var(--f-mono);color:var(--ink-3);background:var(--surface-2);border-bottom:1px solid var(--line)}
+.rl-b .slot{height:44px}
+.rl-b .slot .nm{font-size:16px}
 .rl-b.s-live{border-color:var(--aka)}
-.rl-b.s-live .bt-h{color:var(--aka);background:var(--aka-soft)}
+.rl-b.s-live .bt-h{color:var(--aka-t);background:var(--aka-soft)}
 .rl-b.s-bye{border-style:dashed}
 .rl-byes{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;border:1px dashed var(--line-2);border-radius:12px;padding:10px 12px;font-size:13.5px}
 .rl-byes .eyebrow{flex-basis:100%}
@@ -300,7 +304,7 @@ button.slot:hover{background:var(--ai-soft)}
 .podium{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-bottom:14px}
 .pod{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--surface)}
 td .medal{margin:0 auto}
-.medal{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font:800 13px var(--f-mono);color:#fff;flex:none;background:var(--m)}
+.medal{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font:800 13px var(--f-mono);color:#0f1330;flex:none;background:var(--m)}
 .pod b{display:block;font:800 14px/1.2 var(--f-display);font-stretch:88%}
 .pod small{color:var(--ink-3);font-size:12px}
 .rr-t td.cell{text-align:center;font:700 12px var(--f-mono);width:56px}
@@ -371,18 +375,6 @@ td .medal{margin:0 auto}
 
 /* ---------- club ---------- */
 .sum-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
-.cl-list{display:flex;flex-direction:column;gap:10px}
-.cl-i{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
-.cl-i.now{border-color:var(--aka);box-shadow:0 0 0 3px var(--aka-soft)}
-.cl-i.soon{border-color:color-mix(in srgb,var(--ai) 50%,var(--line))}
-.cl-i.med{background:linear-gradient(100deg,color-mix(in srgb,var(--gold) 12%,var(--surface)),var(--surface) 60%)}
-.cl-i.out{opacity:.7}
-.cl-i b{font:800 16px/1.2 var(--f-display);font-stretch:92%}
-.cl-i small{display:block;color:var(--ink-3);font-size:12.5px}
-.cl-st{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;font-size:14px}
-.where{display:inline-flex;align-items:center;gap:6px;background:var(--ink);color:var(--paper);border-radius:9px;padding:6px 10px;font:700 13px var(--f-mono)}
-.cl-i.now .where{background:var(--aka);color:#fff}
-.now-l{color:var(--aka)}
 .ath-list{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
 .ath{display:grid;grid-template-columns:minmax(0,1fr) 110px 90px auto;gap:12px;align-items:center;padding:11px 14px;border-top:1px solid var(--line)}
 .ath:first-child{border-top:0}
@@ -485,7 +477,7 @@ td .medal{margin:0 auto}
 .q-i .no{font:800 14px var(--f-mono);color:var(--ink-3);text-align:center}
 .q-i b{display:block;font:700 13.5px/1.25 var(--f-display);font-stretch:88%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .q-i b .w{color:var(--ok)}
-.q-i small{display:block;font-size:11.5px;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.q-i small{display:block;font-size:12.5px;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .q-i.s-live{background:var(--aka-soft);border-radius:10px;border-color:transparent}
 .q-i.s-done{opacity:.62}
 .q-i.next{background:var(--ai-soft);border-radius:10px;border-color:transparent}
@@ -502,7 +494,7 @@ td .medal{margin:0 auto}
 .calc .tot{margin-left:auto;font:900 30px var(--f-display);font-variant-numeric:tabular-nums}
 .calc .tot small{font:600 9.5px var(--f-mono);color:var(--ink-3);display:block;text-align:right;letter-spacing:.1em}
 .team-names{display:grid;grid-template-columns:30px 1fr auto 1fr;gap:8px;font:800 14px var(--f-display);margin-bottom:6px}
-.team-names .a{grid-column:2;color:var(--aka)} .team-names .b{grid-column:4;text-align:right}
+.team-names .a{grid-column:2;color:var(--aka-t)} .team-names .b{grid-column:4;text-align:right}
 .sub-row{display:grid;grid-template-columns:30px minmax(0,1fr) auto minmax(0,1fr);gap:8px;align-items:center;margin-bottom:8px}
 .sub-n{font:800 14px var(--f-mono);color:var(--ink-3);text-align:center}
 .sub-b{border:2px solid var(--line-2);background:var(--surface);border-radius:12px;padding:12px 10px;font:700 14px/1.2 var(--f-display);font-stretch:90%;min-height:52px;min-width:0;overflow-wrap:anywhere}
@@ -521,6 +513,100 @@ td .medal{margin:0 auto}
 .howto .card p{margin:6px 0 0;font-size:13.5px;color:var(--ink-2)}
 .foot{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px 16px;justify-content:space-between;font-size:12.5px;color:var(--ink-3)}
 
+/* ---------- telefon w hali: kto, gdzie, kiedy, jaki wynik ---------- */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.sec{margin-top:18px}
+.sec-h{display:flex;justify-content:space-between;align-items:center;gap:6px 12px;margin-bottom:10px;flex-wrap:wrap}
+.sec-h h2,.find h2{font-size:clamp(20px,2.6vw,24px);font-weight:900;font-stretch:108%}
+.sec-h a{font-weight:700}
+.find{margin-top:16px;display:flex;flex-direction:column;gap:12px;border:2px solid var(--ink)}
+.find-in{width:100%;border:2px solid var(--line-2);border-radius:14px;padding:14px 16px;font-size:18px;font-weight:600;background:var(--surface-2);color:var(--ink);min-height:58px}
+.find-in:focus{border-color:var(--ink);outline:none;box-shadow:0 0 0 3px var(--ai-soft)}
+.find-in::placeholder{color:var(--ink-3);font-weight:500}
+.find-res{display:flex;flex-direction:column}
+.find-res:empty{display:none}
+.fr{display:grid;grid-template-columns:12px minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.fr:first-child{border-top:0}
+.fr b{font-weight:750;font-size:16px}
+.fr small{display:block;font-size:14px;color:var(--ink-2)}
+.fr .club-dot{width:12px;height:12px}
+.favbtn{border:2px solid var(--ink);background:var(--surface);color:var(--ink);border-radius:12px;padding:10px 12px;font-weight:800;font-size:14px;min-height:48px;white-space:nowrap}
+.favbtn.on{background:var(--ink);color:var(--paper)}
+.find-hint{margin:0;font-size:15px;color:var(--ink-2);display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chip-s{border:2px solid var(--ink);background:var(--surface);border-radius:999px;padding:8px 14px;font-weight:700;font-size:14.5px;min-height:44px;color:var(--ink)}
+.star{border:2px solid var(--ink);background:var(--surface);border-radius:12px;width:48px;height:48px;font-size:22px;line-height:1;flex:none;color:var(--ink)}
+.star.on{background:var(--ink);color:var(--go)}
+.star.sm{width:42px;height:42px;font-size:19px;border-radius:10px}
+.tc-list{display:flex;flex-direction:column;gap:12px}
+.tc{border-radius:18px;padding:14px;background:var(--surface);border:2px solid var(--line-2);display:flex;flex-direction:column;gap:12px;color:var(--ink)}
+.tc-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.tc-who{min-width:0}
+.tc-who b{display:block;font:850 21px/1.15 var(--f-display);font-stretch:92%}
+.tc-who span{display:block;font-size:14.5px;color:var(--ink-2);margin-top:3px}
+.tc-main{display:grid;grid-template-columns:auto auto minmax(0,1fr);gap:10px;align-items:stretch}
+.tc-box{background:var(--ink);color:var(--paper);border-radius:14px;padding:8px 14px;min-width:84px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.tc-box small{font:700 11.5px var(--f-mono);letter-spacing:.12em}
+.tc-box b{font:900 44px/1 var(--f-display);font-variant-numeric:tabular-nums}
+.tc-st{display:flex;flex-direction:column;justify-content:center;gap:5px;min-width:0;font-size:15px}
+.tc-msg{font:850 19px/1.2 var(--f-display);font-stretch:95%}
+.tc-vs{font-size:15px;color:var(--ink-2)}
+.side{align-self:flex-start;font:700 12.5px var(--f-mono);padding:4px 9px;border-radius:7px}
+.side.a{background:#b8142f;color:#fff}
+.side.b{background:#fff;color:#0f1330;box-shadow:inset 0 0 0 2px #0f1330}
+.tc-hist{list-style:none;margin:0;padding:10px 0 0;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:6px;font-size:14.5px}
+.tc-hist li{display:grid;grid-template-columns:30px 1fr;gap:8px}
+.tc-hist .mono{font-size:13.5px;font-weight:800;color:var(--ink-3)}
+.tc-hist li.w{color:var(--ok);font-weight:700}
+.tc-hist li.l{color:var(--bad);font-weight:700}
+.tc-medal{display:flex;align-items:center;gap:12px;flex-wrap:wrap;grid-column:1/-1}
+.tc-medal .medal{width:52px;height:52px;font-size:22px}
+.tc-medal b{font:900 28px/1 var(--f-display)}
+.tc.st-now{background:var(--aka);border-color:var(--aka);color:#fff}
+.tc.st-now .tc-who span,.tc.st-now .tc-vs,.tc.st-now .tc-hist li,.tc.st-now .tc-hist .mono{color:#fff}
+.tc.st-now .tc-box{background:#fff;color:#b8142f}
+.tc.st-now .tc-hist{border-color:rgba(255,255,255,.4)}
+.blink{animation:pulse 1.4s ease-in-out infinite}
+.tc.st-next{background:var(--go);border-color:var(--go-ink);color:var(--go-ink)}
+.tc.st-next .tc-who span,.tc.st-next .tc-vs,.tc.st-next .tc-hist li,.tc.st-next .tc-hist .mono{color:var(--go-ink)}
+.tc.st-next .tc-box{background:var(--go-ink);color:var(--go)}
+.tc.st-next .tc-hist{border-color:rgba(15,19,48,.25)}
+.tc.st-next .star.on{background:var(--go-ink)}
+.tc.st-soon{border-color:var(--go-ink);box-shadow:inset 8px 0 0 var(--go)}
+.tc.st-soon .tc-msg::after{content:"Przygotuj się";display:block;width:max-content;margin-top:5px;background:var(--go);color:var(--go-ink);font:800 13px var(--f-mono);letter-spacing:.04em;padding:3px 8px;border-radius:6px}
+.tc.st-medal{border-color:var(--gold);background:linear-gradient(120deg,color-mix(in srgb,var(--gold) 24%,var(--surface)),var(--surface) 70%)}
+.tc.st-out .tc-msg,.tc.st-draw .tc-msg,.tc.st-wait .tc-msg{color:var(--ink-2);font-size:17px}
+.board{display:flex;flex-direction:column;gap:8px}
+.brow{display:grid;grid-template-columns:64px 78px minmax(0,1fr);gap:10px;align-items:center;background:var(--surface);border:2px solid var(--line-2);border-radius:14px;padding:8px;text-decoration:none;color:var(--ink)}
+.brow-t,.brow-no{display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:10px;padding:7px 0;line-height:1}
+.brow-t{background:var(--ink);color:var(--paper);font:900 30px/1 var(--f-display)}
+.brow-t small,.brow-no small{font:700 10.5px var(--f-mono);letter-spacing:.08em;margin-bottom:3px}
+.brow-no b{font:900 30px/1 var(--f-display);font-variant-numeric:tabular-nums}
+.brow.live{border-color:var(--aka)}
+.brow.live .brow-t{background:var(--aka);color:#fff}
+.brow.live .brow-no small{color:var(--aka-t)}
+.brow-m{min-width:0}
+.brow-m b{display:block;font:750 16px/1.25 var(--f-display);font-stretch:90%}
+.brow-m small{display:block;font-size:13.5px;color:var(--ink-2);margin-top:2px}
+.slot.fav .nm::before{content:"★ ";color:var(--warn)}
+.tabbar{display:none}
+.tabbar svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linejoin:round;stroke-linecap:round}
+@media (max-width:760px){
+  body.z-pub .zones,body.z-pub .subnav{display:none}
+  body.z-pub .tabbar{display:grid;position:fixed;left:0;right:0;bottom:0;z-index:35;grid-template-columns:repeat(5,minmax(0,1fr));gap:2px;background:var(--surface);border-top:2px solid var(--ink);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px))}
+  .tabbar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:6px 2px;border-radius:12px;text-decoration:none;color:var(--ink);font-weight:700;font-size:12.5px;min-height:54px;white-space:nowrap}
+  .tabbar a.on{background:var(--ink);color:var(--paper)}
+  body.z-pub main{padding-bottom:110px}
+  body.z-pub .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+  .tools #simBtn,.tools #reqBtn{display:none}
+  .hero-c .hero-stats .hs:not(.hs-prog){display:none}
+  .hero-c .hero-title{font-size:34px;margin:10px 0 12px}
+  .hero-c{padding:18px}
+}
+@media (max-width:440px){
+  .tc-main{grid-template-columns:1fr 1fr}
+  .tc-st{grid-column:1/-1}
+  .tc-box b{font-size:48px}
+}
 /* ---------- drawer, modal, toast ---------- */
 .scrim{position:fixed;inset:0;background:rgba(10,12,30,.4);z-index:40;opacity:0;pointer-events:none;transition:opacity .2s}
 .scrim.on{opacity:1;pointer-events:auto}
@@ -562,13 +648,15 @@ td .medal{margin:0 auto}
   .mats,.sched{grid-template-columns:1fr}
   .filterbar{grid-template-columns:1fr 1fr}
   .filterbar .grow{grid-column:1/-1}
-  .p-row{grid-template-columns:10px minmax(0,1fr);row-gap:2px}
+  .p-row{grid-template-columns:10px minmax(0,1fr) auto;row-gap:2px}
+  .p-row .star{grid-row:1/4;grid-column:3}
   .p-row .p-cat,.p-row .p-g{grid-column:2}
   .ath{grid-template-columns:minmax(0,1fr) auto}
   .ath-s{display:none}
   .ath-acts{grid-column:1/-1}
 }
 @media (max-width:640px){
+  body{font-size:16px}
   main{padding:14px 14px 50px}
   .top-in{padding:8px 14px;gap:8px}
   .subnav{padding:0 14px 8px}
@@ -625,6 +713,7 @@ td .medal{margin:0 auto}
   <nav class="subnav" id="subnav" aria-label="Widoki strefy"></nav>
 </header>
 <main id="app"></main>
+<nav class="tabbar" id="tabbar" aria-label="Nawigacja strefy publicznej"></nav>
 <div class="scrim" id="scrim" data-act="close"></div>
 <aside class="drawer" id="drawer" aria-hidden="true" role="dialog" aria-labelledby="dwTitle"><div class="dw-h"><h2 id="dwTitle"></h2><button class="x" data-act="close" aria-label="Zamknij">×</button></div><div class="dw-b" id="dwBody"></div></aside>
 <div class="modal" id="modal" hidden><div class="modal-c" role="alertdialog" aria-modal="true" aria-labelledby="mdText"><p id="mdText"></p><div class="acts"><button class="btn" data-act="mdNo">Anuluj</button><button class="btn danger-solid" id="mdYes" data-act="mdYes">OK</button></div></div></div>
@@ -672,7 +761,7 @@ const ST = { draft: ['Szkic', ''], open: ['Zapisy otwarte', 'ai'], live: ['W tra
 const METHODS = ['Ippon', 'Waza-ari', 'Hantei', 'Hansoku', 'Kiken'];
 const MSHORT = { 'Ippon': 'IPPON', 'Waza-ari': 'WAZA', 'Hantei': 'HANTEI', 'Hansoku': 'HANS.', 'Kiken': 'KIKEN' };
 const TABS = [1, 2, 3];
-const SIM_MS = 8000;
+const SIM_MS = 10000;
 const NM = {
   boy: ['Antoni', 'Jan', 'Szymon', 'Filip', 'Kacper', 'Igor', 'Mikołaj', 'Oskar', 'Tymon', 'Leon', 'Wiktor', 'Bartek', 'Hubert', 'Franek', 'Olek', 'Kuba', 'Staś', 'Miłosz', 'Nikodem', 'Ignacy', 'Maks', 'Borys', 'Julian', 'Kajetan', 'Aleksander', 'Tadeusz'],
   girl: ['Maja', 'Zofia', 'Oliwia', 'Hania', 'Julia', 'Pola', 'Amelia', 'Laura', 'Lena', 'Iga', 'Nina', 'Ada', 'Roksana', 'Emilia', 'Zuzanna', 'Alicja', 'Antonina', 'Wiktoria', 'Liliana', 'Marcelina'],
@@ -1026,7 +1115,7 @@ function commit(o = {}) {
   if (!o.quiet) render(!o.sim);
 }
 function remote(data) {
-  if (!data || data.v !== VER || (data.seededAt === S.seededAt && data.rev < S.rev)) return;
+  if (!data || data.v !== VER || data.seededAt < S.seededAt || (data.seededAt === S.seededAt && data.rev < S.rev)) return;
   S = data; qCache = null;
   const li = $('#liveInd'); li.classList.remove('ping'); void li.offsetWidth; li.classList.add('ping');
   render(false);
@@ -1040,6 +1129,12 @@ function simTick() {
   if (!ui.sim || document.hidden || !S) return;
   if (Date.now() - (S.simAt || 0) < SIM_MS) return;
   S.simAt = Date.now();
+  /* po końcu turnieju demo po minucie zaczyna się od nowa, żeby link zawsze pokazywał trwające zawody */
+  qCache = null;
+  if (TABS.every(t => !S.mats[t].active && Q(t).every(i => i.res))) {
+    S.doneSince = S.doneSince || Date.now();
+    if (Date.now() - S.doneSince > 60000) { seed(); save(); commit({ sim: true }); toast('Turniej się skończył — demo zaczyna się od nowa'); return; }
+  } else S.doneSince = null;
   TABS.forEach(t => {
     if (refClaim(t)) return;
     qCache = null;
@@ -1071,9 +1166,10 @@ const ui = {
   user: null, refT: null, at: null, ct: null,
   pf: { cat: '', club: '', q: '' }, addQ: '', addOnly: true,
   swap: null, edit: null, kd: {}, tf: null, cf: null, af: null,
-  reqs: true, sim: true, scrolledLive: null, qAll: false,
+  reqs: true, sim: true, scrolledLive: null, qAll: false, fq: '',
 };
 try { const u = JSON.parse(sessionStorage.getItem('hajime-spec-user') || 'null'); if (u) { ui.user = u.user; ui.refT = u.refT; } } catch (e) { }
+ui.reqs = innerWidth > 760; /* na telefonie numery REQ domyślnie ukryte — przeszkadzają w czytaniu */
 try { const p = JSON.parse(localStorage.getItem('hajime-spec-prefs') || 'null'); if (p) { ui.reqs = p.reqs !== false; ui.sim = p.sim !== false; } } catch (e) { }
 const saveUser = () => { try { sessionStorage.setItem('hajime-spec-user', JSON.stringify({ user: ui.user, refT: ui.refT })); } catch (e) { } };
 const savePrefs = () => { try { localStorage.setItem('hajime-spec-prefs', JSON.stringify({ reqs: ui.reqs, sim: ui.sim })); } catch (e) { } };
@@ -1084,7 +1180,8 @@ const liveStamp = () => `<span class="live-ind"><i></i>na żywo · ${new Date().
 const noTour = () => `<div class="gate"><h2>Brak opublikowanego turnieju</h2><p class="muted">Organizator nie opublikował jeszcze żadnych zawodów.</p></div>`;
 const noTourAdm = () => `<div class="gate"><h2>Nie ma jeszcze żadnego turnieju</h2><a class="btn primary" href="#/admin/turnieje">Utwórz turniej</a></div>`;
 const nm = (id, ph = 'czeka na rywala') => id && id !== 'BYE' ? esc(ent(id).name) : `<i class="muted">${ph}</i>`;
-const itemNames = i => i.kind === 'kata' ? nm(i.a, 'awans z rundy 1') : `${nm(i.a)} <span class="muted">vs</span> ${nm(i.b)}`;
+const star = id => id && isFav(id) ? '★ ' : '';
+const itemNames = (i, f) => { const n = (id, ph) => (f ? star(id) : '') + nm(id, ph); return i.kind === 'kata' ? n(i.a, 'awans z rundy 1') : `${n(i.a)} <span class="muted">vs</span> ${n(i.b)}`; };
 const medalDot = p => `<span class="medal" style="--m:var(--${p === 1 ? 'gold' : p === 2 ? 'silver' : 'bronze'})">${p}</span>`;
 const pageH = (path, title, reqs, desc, acts) => `<div class="page-h"><div><div class="eyebrow">${esc(path)}</div><h1>${esc(title)} ${rq(...reqs)}</h1>${desc ? `<p>${desc}</p>` : ''}</div>${acts ? `<div class="acts">${acts}</div>` : ''}</div>`;
 const segBtns = (form, key, opts, val, dis) => opts.map(([v, l]) => `<button type="button" class="${String(v) === String(val) ? 'on' : ''}" data-act="seg" data-f="${form}" data-k="${key}" data-v="${v}" ${dis ? 'disabled' : ''}>${l}</button>`).join('');
@@ -1102,51 +1199,137 @@ function catState(c) {
 const catPill = c => { const [l, k] = catState(c); return `<span class="pill ${k}">${l}</span>`; };
 const entCount = c => pl(c.entries.length, c.type === 'team' ? 'drużyna' : 'zawodnik', c.type === 'team' ? 'drużyny' : 'zawodników', c.type === 'team' ? 'drużyn' : 'zawodników');
 
+
+/* ---------- obserwowani: bez logowania, lista zapisana w przeglądarce widza ---------- */
+let FAV = [];
+try { FAV = JSON.parse(localStorage.getItem('hajime-spec-fav') || '[]') || []; } catch (e) { }
+const saveFav = () => { try { localStorage.setItem('hajime-spec-fav', JSON.stringify(FAV)); } catch (e) { } };
+const isFav = id => FAV.includes(id);
+const ORD = { now: 0, next: 1, soon: 2, later: 3, wait: 4, medal: 5, out: 6, draw: 7 };
+/* gdzie i kiedy walczy zawodnik w danej kategorii — to samo dla kibica i dla klubu */
+function trackOne(c, id) {
+  const base = { c, id };
+  if (!c.br || c.br.status !== 'approved') return { ...base, st: 'draw', hist: [] };
+  const q = Q(c.tatami), mine = q.filter(i => i.cat === c.id && (i.a === id || i.b === id));
+  const hist = mine.filter(i => i.res).map(i => {
+    if (i.kind === 'kata') return { no: i.no, label: i.label, w: null, txt: `${fmt1(i.res.tot)} pkt` };
+    const won = (i.res.w === 'a' ? i.a : i.b) === id;
+    return { no: i.no, label: i.label, w: won, txt: `${won ? 'wygrana' : 'przegrana'} · ${i.res.m}`, opp: i.a === id ? i.b : i.a };
+  });
+  const side = i => i.kind === 'kata' ? null : i.a === id ? 'a' : 'b', opp = i => i.kind === 'kata' ? null : i.a === id ? i.b : i.a;
+  const live = mine.find(i => i.status === 'live');
+  if (live) return { ...base, st: 'now', it: live, side: side(live), opp: opp(live), hist, eta: 0 };
+  const next = mine.find(i => !i.res);
+  if (next) {
+    const before = q.filter(i => !i.res && i.no < next.no), ahead = before.length;
+    const eta = Math.max(1, Math.round(before.reduce((m, i) => m + DUR[i.kind] * (i.status === 'live' ? .5 : 1), 0)));
+    return { ...base, st: ahead === 0 ? 'next' : ahead <= 2 ? 'soon' : 'later', it: next, ahead, eta, side: side(next), opp: opp(next), hist };
+  }
+  const P = catPlaces(c), place = P.places.find(x => x.id === id);
+  if (place) return { ...base, st: 'medal', place: place.p, final: P.done, hist };
+  if (c.br.sys === 'rr') return { ...base, st: P.done ? 'out' : 'wait', hist, msg: P.done ? 'Koniec udziału' : 'Czeka na pozostałe walki w grupie' };
+  if (c.br.sys === 'kata') {
+    const two = kataTwo(c), r = kataRank(c, two ? 2 : 1).findIndex(x => x.id === id), fin = two ? kataRound(c, 2) : [];
+    return { ...base, st: 'out', hist, msg: two && fin.length && !fin.some(x => x.id === id) ? 'Koniec udziału · bez awansu do finału' : P.done && r >= 0 ? `${r + 1}. miejsce` : 'Czeka na wyniki' };
+  }
+  const lost = hist.find(h => h.w === false);
+  return { ...base, st: 'out', hist, msg: lost ? `Koniec udziału · ${lost.label.toLowerCase()}` : 'Koniec udziału' };
+}
+const trackEntries = id => tourCats(pubT()).filter(c => c.entries.includes(id)).map(c => trackOne(c, id));
+const byTrack = (a, b) => ORD[a.st] - ORD[b.st] || (a.eta ?? 0) - (b.eta ?? 0);
+function trackCard(x, withFav) {
+  const e = ent(x.id), c = x.c, it = x.it;
+  const head = `<div class="tc-top"><div class="tc-who"><b>${esc(e.name)}</b><span>${esc(club(e.club).name)} · ${TYPES[c.type]} · ${esc(catShort(c))}</span></div>${withFav ? `<button class="star on" data-act="fav" data-id="${x.id}" aria-pressed="true" aria-label="Przestań obserwować: ${esc(e.name)}">★</button>` : ''}</div>`;
+  let main;
+  if (it) {
+    const msg = { now: '<span class="blink">●</span> Teraz na macie', next: 'Następna walka — idź pod matę', soon: `Za ${pl(x.ahead, 'walkę', 'walki', 'walk')} · ok. ${x.eta} min`, later: `Za ${pl(x.ahead, 'walkę', 'walki', 'walk')} · ok. ${x.eta} min` }[x.st];
+    const who = x.side ? `<span class="tc-vs">${esc(it.label)} · vs ${x.opp ? `<b>${esc(ent(x.opp).name)}</b>` : 'rywal jeszcze nieznany'}</span><span class="side ${x.side}">${x.side === 'a' ? 'AKA · czerwony' : 'SHIRO · biały'}</span>` : `<span class="tc-vs">${esc(it.label)}</span>`;
+    main = `<div class="tc-main"><div class="tc-box"><small>TATAMI</small><b>${c.tatami}</b></div><div class="tc-box"><small>WALKA</small><b>${it.no}</b></div><div class="tc-st"><b class="tc-msg">${msg}</b>${who}</div></div>`;
+  } else if (x.st === 'medal') main = `<div class="tc-main"><div class="tc-medal">${medalDot(x.place)}<b>${x.place}. miejsce</b>${x.final ? '' : '<span class="tc-vs">kategoria jeszcze trwa</span>'}</div></div>`;
+  else if (x.st === 'draw') main = `<div class="tc-st"><b class="tc-msg">Losowanie jeszcze się nie odbyło</b><span class="tc-vs">Tatami ${c.tatami} · numer walki pojawi się po zatwierdzeniu drabinki</span></div>`;
+  else main = `<div class="tc-st"><b class="tc-msg">${esc(x.msg)}</b></div>`;
+  const hist = x.hist.length ? `<ol class="tc-hist">${x.hist.map(h => `<li class="${h.w === true ? 'w' : h.w === false ? 'l' : ''}"><span class="mono">${h.no}</span><span>${h.w === true ? '✓' : h.w === false ? '✗' : '•'} ${esc(h.label)} — ${esc(h.txt)}${h.opp ? ` · vs ${esc(ent(h.opp).name)}` : ''}</span></li>`).join('')}</ol>` : '';
+  return `<article class="tc st-${x.st}">${head}${main}${hist}</article>`;
+}
+const favBtn = id => `<button class="favbtn ${isFav(id) ? 'on' : ''}" data-act="fav" data-id="${id}" aria-pressed="${isFav(id)}">${isFav(id) ? '★ Obserwujesz' : '☆ Obserwuj'}</button>`;
+function findHTML() {
+  const q = ui.fq.trim().toLowerCase(), T = pubT();
+  if (q.length < 2) {
+    if (FAV.length) return '';
+    const sug = [...new Set(TABS.flatMap(t => Q(t).filter(i => !i.res && i.kind === 'kumite' && i.a && i.b).slice(0, 1).map(i => i.a)))].slice(0, 2);
+    return `<p class="find-hint">Na przykład: ${sug.map(id => `<button class="chip-s" data-act="fav" data-id="${id}">☆ ${esc(ent(id).name)}</button>`).join('')}<button class="chip-s" data-act="favClub" data-k="zur">☆ cały klub ${esc(CLUBS.zur.name)}</button></p>`;
+  }
+  const map = new Map();
+  tourCats(T).forEach(c => c.entries.forEach(id => {
+    const e = ent(id); if (!e || !(e.name.toLowerCase().includes(q) || club(e.club).name.toLowerCase().includes(q))) return;
+    if (!map.has(id)) map.set(id, { id, e, cats: [] }); map.get(id).cats.push(c);
+  }));
+  const rows = [...map.values()].sort((a, b) => a.e.name.localeCompare(b.e.name, 'pl'));
+  const cl = Object.keys(CLUBS).filter(k => CLUBS[k].name.toLowerCase().includes(q) && rows.some(r => r.e.club === k));
+  const html = cl.map(k => `<div class="fr"><span class="club-dot" style="--c:${club(k).c}"></span><div><b>Cały klub: ${esc(CLUBS[k].name)}</b><small>${pl(rows.filter(r => r.e.club === k).length, 'osoba', 'osoby', 'osób')} w turnieju</small></div><button class="favbtn" data-act="favClub" data-k="${k}">☆ Wszystkich</button></div>`).join('')
+    + rows.slice(0, 10).map(r => `<div class="fr"><span class="club-dot" style="--c:${club(r.e.club).c}"></span><div><b>${esc(r.e.name)}</b><small>${esc(club(r.e.club).name)} · ${r.cats.map(c => esc(catShort(c))).join(', ')}</small></div>${favBtn(r.id)}</div>`).join('')
+    + (rows.length > 10 ? `<p class="muted small">…i ${rows.length - 10} więcej — wpisz więcej liter.</p>` : '');
+  return html || '<p class="muted" style="margin:0">Nikogo nie znaleziono. Sprawdź pisownię albo wpisz nazwę klubu.</p>';
+}
+function favHTML() {
+  if (!FAV.length) return '';
+  const T = pubT(), list = FAV.filter(id => ent(id)).flatMap(id => trackEntries(id)).sort(byTrack);
+  const off = FAV.filter(id => ent(id) && !tourCats(T).some(c => c.entries.includes(id)));
+  return `<section class="sec"><div class="sec-h"><h2>Obserwowani (${FAV.length}) ${rq('REQ-PUB-06*')}</h2>${liveStamp()}</div><div class="tc-list">${list.map(x => trackCard(x, true)).join('')}</div>${off.length ? `<p class="muted small">Nie startują w tym turnieju: ${off.map(id => esc(ent(id).name)).join(', ')}</p>` : ''}<p class="muted small" style="margin:10px 0 0">Lista jest zapisana tylko na tym telefonie — bez logowania.</p></section>`;
+}
+function refreshFav() {
+  if ($('#favWrap')) { $('#favWrap').innerHTML = favHTML(); $('#findRes').innerHTML = findHTML(); renderTop(route()); }
+  else render(true);
+}
+function boardRow(t) {
+  const q = Q(t), live = q.find(i => i.status === 'live'), nx = q.find(i => !i.res && i.status !== 'live'), it = live || nx;
+  return `<a class="brow ${live ? 'live' : ''}" href="#/live"><span class="brow-t"><small>TATAMI</small>${t}</span><span class="brow-no"><small>${live ? 'TERAZ' : nx ? 'NASTĘPNA' : 'KONIEC'}</small><b>${it ? it.no : '✓'}</b></span><span class="brow-m"><b>${it ? itemNames(it, true) : 'Program zakończony'}</b><small>${it ? `${esc(catShort(cat(it.cat)))} · ${esc(it.label)}` : `${q.length} walk rozegranych`}</small></span></a>`;
+}
+
 /* ===================== strefa publiczna ===================== */
 function vHome() {
   const T = pubT(); if (!T) return noTour();
   const cats = tourCats(T), ids = new Set(cats.flatMap(c => c.type === 'team' ? [] : c.entries));
   const clubs = new Set([...ids].map(id => ent(id).club)), items = allItems(), done = items.filter(i => i.res).length;
-  return `<section class="hero"><div class="hero-kanji" aria-hidden="true">押忍</div>
+  return `<section class="hero hero-c"><div class="hero-kanji" aria-hidden="true">押忍</div>
     <div class="hero-eyebrow">${T.status === 'live' ? '<span class="live-pill"><i></i>Trwa turniej</span>' : `<span class="pill">${ST[T.status][0]}</span>`}<span>${fmtDate(T.date)} · ${esc(T.place)}</span>${rq('REQ-PUB-01', 'REQ-GEN-02.1')}</div>
     <h1 class="hero-title">${esc(T.name)}</h1>
     <div class="hero-stats"><div class="hs"><b>${ids.size}</b><span>zawodników</span></div><div class="hs"><b>${cats.length}</b><span>kategorii</span></div><div class="hs"><b>${clubs.size}</b><span>klubów</span></div><div class="hs"><b>${TABS.length}</b><span>tatami</span></div>
       <div class="hs hs-prog"><span>Rozegrane walki: ${done} z ${items.length}</span><div class="bar"><i style="width:${items.length ? done / items.length * 100 : 0}%"></i></div></div></div>
   </section>
-  <div class="home-grid">
-    <section class="card"><div class="card-h"><h3>Teraz na tatami ${rq('REQ-PUB-04')}</h3><a href="#/live">wszystkie tatami →</a></div>${TABS.map(miniMat).join('')}</section>
-    <section class="card"><div class="card-h"><h3>Ostatnie wyniki</h3>${liveStamp()}</div>${feedHTML(7)}</section>
-  </div>
+  <section class="card find"><h2>Gdzie i kiedy walczy Twój zawodnik? ${rq('REQ-PUB-06*')}</h2>
+    <label class="sr" for="findIn">Szukaj zawodnika albo klubu</label>
+    <input id="findIn" type="search" class="find-in" data-in="fq" value="${esc(ui.fq)}" placeholder="Nazwisko zawodnika albo klub" autocomplete="off" enterkeyhint="search">
+    <div id="findRes" class="find-res">${findHTML()}</div></section>
+  <div id="favWrap">${favHTML()}</div>
+  <section class="sec"><div class="sec-h"><h2>Teraz na tatami ${rq('REQ-PUB-04')}</h2><a href="#/live">kolejki walk →</a></div><div class="board">${TABS.map(boardRow).join('')}</div></section>
+  <section class="card sec"><div class="card-h"><h3>Ostatnie wyniki</h3>${liveStamp()}</div>${feedHTML(6)}</section>
   <div class="tiles">${[['#/uczestnicy', 'Uczestnicy', `${ids.size} zawodników z ${clubs.size} klubów, filtr po kategorii i klubie`, 'REQ-PUB-02'], ['#/drabinki', 'Drabinki i tabele', `${cats.length} kategorii, wydruk do PDF`, 'REQ-PUB-03'], ['#/klasyfikacja', 'Klasyfikacja drużynowa', 'liczona automatycznie z medali', 'REQ-PUB-05'], ['#/admin', 'Strefa prywatna', 'organizator, kluby i sędziowie — po zalogowaniu', 'REQ-GEN-02.2']].map(([h, b, s, r]) => `<a class="tile" href="${h}"><b>${b} ${rq(r)}</b><span>${s}</span></a>`).join('')}</div>`;
-}
-function miniMat(t) {
-  const q = Q(t), live = q.find(i => i.status === 'live'), nx = q.find(i => !i.res && i.status !== 'live'), it = live || nx;
-  return `<a class="mini-mat" href="#/live" style="text-decoration:none;color:inherit"><span class="tn">T${t}</span><span style="min-width:0"><b>${it ? itemNames(it) : 'Program zakończony'}</b><small>${it ? `${esc(catShort(cat(it.cat)))} · ${esc(it.label)}` : `${q.length} walk rozegranych`}</small></span>${live ? `<span class="pill live"><span class="dot"></span>walka ${live.no}</span>` : nx ? `<span class="pill">następna: ${nx.no}</span>` : '<span class="pill ok">koniec</span>'}</a>`;
 }
 function vLive() {
   if (!pubT()) return noTour();
-  return pageH('/live', 'Na żywo — wszystkie tatami', ['REQ-PUB-04', 'REQ-NFR-01'], 'Aktualna walka i kolejka na każdym tatami. Strona odświeża się sama: punkty i wyniki pojawiają się, gdy sędzia je wprowadzi.', liveStamp())
+  return pageH('/live', 'Na żywo — wszystkie tatami', ['REQ-PUB-04', 'REQ-NFR-01'], 'Aktualna walka i kolejka na każdym tatami. Strona odświeża się sama. Szukasz konkretnej osoby? <a href="#/">Obserwuj zawodnika</a> — zobaczysz numer tatami i walki.', liveStamp())
     + `<div class="mats">${TABS.map(matCard).join('')}</div><section class="card" style="margin-top:16px"><div class="card-h"><h3>Ostatnie wyniki</h3></div>${feedHTML(12)}</section>`;
 }
 function matCard(t) {
   const q = Q(t), live = q.find(i => i.status === 'live'), rest = q.filter(i => !i.res && i.status !== 'live'), done = q.filter(i => i.res).length;
   const cur = live || rest[0], c = cur ? cat(cur.cat) : null;
   return `<article class="mat ${live ? 'is-live' : ''}">
-    <div class="mat-h"><span class="mat-n">TATAMI<b>${t}</b></span>${live ? `<span class="pill live"><span class="dot"></span>walka ${live.no}</span>` : rest.length ? '<span class="pill">przerwa</span>' : '<span class="pill ok">koniec</span>'}</div>
+    <div class="mat-h"><span class="mat-n"><small>TATAMI</small><b>${t}</b></span><span class="mat-no"><small>${live ? '● TERAZ WALKA' : rest.length ? 'NASTĘPNA WALKA' : 'KONIEC'}</small><b>${cur ? cur.no : '✓'}</b></span></div>
     <div class="mat-cat">${c ? `${esc(catName(c))} · ${esc(cur.label)}` : 'Wszystkie kategorie zakończone'}</div>
-    ${live ? liveBlock(t, live) : `<div class="mat-idle">${rest[0] ? `Za chwilę walka ${rest[0].no}` : 'Program tatami zakończony ✓'}</div>`}
-    <div class="next-list"><span class="eyebrow">Kolejka</span>${rest.slice(0, 4).map(i => `<div><span class="mono">${i.no}</span><span>${itemNames(i)}</span></div>`).join('') || '<div class="muted">—</div>'}</div>
+    ${live ? liveBlock(t, live) : `<div class="mat-idle">${rest[0] ? `Przerwa — za chwilę walka ${rest[0].no}` : 'Program tatami zakończony ✓'}</div>`}
+    <div class="next-list"><span class="eyebrow">Kolejka</span>${rest.slice(0, 4).map((i, k) => `<div class="${k === 0 ? 'nx' : ''}"><span class="mono">${i.no}</span><span>${itemNames(i, true)}</span></div>`).join('') || '<div class="muted">—</div>'}</div>
     <div class="mbar"><i style="width:${q.length ? done / q.length * 100 : 0}%"></i></div>
     <div class="mat-f"><span>${done}/${q.length} rozegranych</span><span>${refClaim(t) ? 'sędzia przy stoliku' : 'symulacja'}</span></div>
   </article>`;
 }
 function liveBlock(t, it) {
   const L = S.mats[t].live || { wa: [0, 0], ip: [0, 0], pen: [0, 0], sub: [] };
-  if (it.kind === 'kata') { const e = ent(it.a); return `<div class="kata-live"><span class="eyebrow">wykonuje kata</span><b>${esc(e.name)}</b><small class="muted">${esc(club(e.club).name)} · ${gLabel(e.g)}</small></div>`; }
+  if (it.kind === 'kata') { const e = ent(it.a); return `<div class="kata-live"><span class="eyebrow">wykonuje kata</span><b>${star(it.a)}${esc(e.name)}</b><small class="muted">${esc(club(e.club).name)} · ${gLabel(e.g)}</small></div>`; }
   const A = ent(it.a), B = ent(it.b);
   const pts = i => it.kind === 'team' ? '' : `<div class="pts"><span class="wa-pips" title="waza-ari"><i class="${L.wa[i] > 0 || L.ip[i] ? 'on' : ''}"></i><i class="${L.wa[i] > 1 || L.ip[i] ? 'on' : ''}"></i></span><span class="pen-mini" title="kary">${[0, 1, 2, 3].map(k => `<i class="${L.pen[i] > k ? 'on' : ''}"></i>`).join('')}</span></div>`;
   const mid = it.kind === 'team' ? `${L.sub.filter(x => x === 'a').length}:${L.sub.filter(x => x === 'b').length}` : 'vs';
-  return `<div class="vs"><div class="a"><b>${esc(A.name)}</b><small>${esc(club(A.club).name)}</small>${pts(0)}</div><div class="mid">${mid}</div><div class="b"><b>${esc(B.name)}</b><small>${esc(club(B.club).name)}</small>${pts(1)}</div></div>`;
+  return `<div class="vs"><div class="a"><b>${star(it.a)}${esc(A.name)}</b><small>${esc(club(A.club).name)}</small>${pts(0)}</div><div class="mid">${mid}</div><div class="b"><b>${star(it.b)}${esc(B.name)}</b><small>${esc(club(B.club).name)}</small>${pts(1)}</div></div>`;
 }
 function vPeople() {
   const T = pubT(); if (!T) return noTour();
@@ -1171,7 +1354,7 @@ function peopleList() {
     });
   });
   rows.sort((a, b) => (a.e.a?.ln || a.e.name).localeCompare(b.e.a?.ln || b.e.name, 'pl'));
-  return `<div class="count muted">${pl(rows.length, 'zgłoszenie', 'zgłoszenia', 'zgłoszeń')}</div>${rows.length ? `<div class="plist">${rows.map(({ e, c, mem }) => `<div class="p-row"><span class="club-dot" style="--c:${club(e.club).c}"></span><div><b>${esc(e.name)}</b><small>${esc(club(e.club).name)}${mem ? ' · skład: ' + esc(mem) : ''}</small></div><div class="p-cat"><a href="#/drabinki/${c.id}">${esc(catShort(c))}</a><small>${TYPES[c.type]} · Tatami ${c.tatami}</small></div><div class="p-g">${e.team ? '<span class="pill">drużyna</span>' : `${belt(e.g)} ${gLabel(e.g)}`}</div></div>`).join('')}</div>` : '<div class="card empty">Nikt nie pasuje do filtrów.</div>'}`;
+  return `<div class="count muted">${pl(rows.length, 'zgłoszenie', 'zgłoszenia', 'zgłoszeń')}</div>${rows.length ? `<div class="plist">${rows.map(({ e, c, mem }) => `<div class="p-row"><span class="club-dot" style="--c:${club(e.club).c}"></span><div><b>${esc(e.name)}</b><small>${esc(club(e.club).name)}${mem ? ' · skład: ' + esc(mem) : ''}</small></div><div class="p-cat"><a href="#/drabinki/${c.id}">${esc(catShort(c))}</a><small>${TYPES[c.type]} · Tatami ${c.tatami}</small></div><div class="p-g">${e.team ? '<span class="pill">drużyna</span>' : `${belt(e.g)} ${gLabel(e.g)}`}</div><button class="star sm ${isFav(e.id) ? 'on' : ''}" data-act="fav" data-id="${e.id}" aria-pressed="${isFav(e.id)}" aria-label="Obserwuj: ${esc(e.name)}">${isFav(e.id) ? '★' : '☆'}</button></div>`).join('')}</div>` : '<div class="card empty">Nikt nie pasuje do filtrów.</div>'}`;
 }
 
 /* ---------- drabinki ---------- */
@@ -1249,7 +1432,7 @@ function slotHTML(c, bt, side, mode) {
   if (id === 'BYE') { cls += ' ph bye'; name = c.odd === 'extra' ? 'bez walki' : 'wolny los'; }
   else if (!id) { cls += ' ph'; name = phText(c, bt, side); }
   else {
-    const e = ent(id); col = club(e.club).c; name = esc(e.name);
+    const e = ent(id); col = club(e.club).c; name = esc(e.name); if (isFav(id)) cls += ' fav';
     sub = club(e.club).s + (edit && !e.team ? ' · ' + gLabel(e.g) : '');
     title = `${e.name} · ${club(e.club).name}${e.team ? '' : ' · ' + gLabel(e.g)}`;
     if (bt.win && !bt.bye && bt.win !== 'BYE') { cls += bt.win === id ? ' win' : ' lose'; if (bt.win === id && bt.res) rs = MSHORT[bt.res.m] || esc(bt.res.m); }
@@ -1506,38 +1689,13 @@ function vAdmTeam() {
 
 /* ===================== klub / sensei ===================== */
 function myEntries(k, T) { const out = []; tourCats(T).forEach(c => c.entries.forEach(id => { const e = ent(id); if (e && e.club === k) out.push({ id, c }); })); return out; }
-function athStatus(c, id) {
-  if (!c.br || c.br.status !== 'approved') return { ord: 5, cls: '', html: '<span class="pill">czeka na losowanie</span>' };
-  const q = Q(c.tatami), mine = q.filter(i => i.cat === c.id && (i.a === id || i.b === id));
-  const opp = i => { if (i.kind === 'kata') return ''; const o = i.a === id ? i.b : i.a; return ` · vs ${o ? esc(ent(o).name) : 'rywal jeszcze nieznany'}`; };
-  const live = mine.find(i => i.status === 'live');
-  if (live) return { ord: 0, cls: 'now', html: `<span class="where">T${c.tatami} · walka ${live.no}</span><b class="now-l">● walczy teraz</b><span class="muted">${esc(live.label)}${opp(live)}</span>` };
-  const next = mine.find(i => !i.res);
-  if (next) {
-    const ahead = q.filter(i => !i.res && i.no < next.no).length;
-    return { ord: 1, eta: ahead, cls: ahead <= 2 ? 'soon' : '', html: `<span class="where">T${c.tatami} · walka ${next.no}</span><b>${ahead === 0 ? 'następna na macie' : `za ${pl(ahead, 'walkę', 'walki', 'walk')}`}</b><span class="muted">${esc(next.label)}${opp(next)}</span>` };
-  }
-  const P = catPlaces(c), place = P.places.find(x => x.id === id);
-  if (place) return { ord: 2, cls: 'med', html: `${medalDot(place.p)}<b>${place.p}. miejsce</b>${!P.done ? '<span class="muted">kategoria jeszcze trwa</span>' : ''}` };
-  if (c.br.sys === 'kata') {
-    const r1 = kataRound(c, 1).find(x => x.id === id), fin = kataRound(c, 2), f = fin.find(x => x.id === id);
-    if (f && f.res) return { ord: 3, cls: 'out', html: `<span class="pill">finał: ${fmt1(f.res.tot)} pkt · ${kataRank(c, 2).findIndex(x => x.id === id) + 1}. miejsce</span>` };
-    if (r1 && r1.res && fin.length) return { ord: 3, cls: 'out', html: `<span class="pill">runda 1: ${fmt1(r1.res.tot)} pkt — bez awansu do finału</span>` };
-    return { ord: 4, html: '<span class="pill">czeka na wyniki</span>' };
-  }
-  const lost = mine.find(i => i.res && (i.res.w === 'a' ? i.b : i.a) === id);
-  if (c.br.sys === 'se' && lost) return { ord: 3, cls: 'out', html: `<span class="pill">odpadł(a): ${esc(lost.label.toLowerCase())}</span><span class="muted">walka ${lost.no}</span>` };
-  if (c.br.sys === 'rr') { const s = rrStand(c), i = s.findIndex(x => x.id === id); return { ord: 3, cls: 'out', html: `<span class="pill">${P.done ? `${i + 1}. miejsce` : 'czeka na pozostałe walki'} · ${s[i].pts} pkt</span>` }; }
-  return { ord: 4, html: '<span class="pill">czeka</span>' };
-}
 function vClubLive() {
   const k = ui.user.club, T = pubT(); if (!T) return noTour();
-  const rows = myEntries(k, T).map(x => ({ ...x, st: athStatus(x.c, x.id) })).sort((a, b) => a.st.ord - b.st.ord || (a.st.eta ?? 99) - (b.st.eta ?? 99));
-  const now = rows.filter(r => r.st.ord === 0).length, soon = rows.filter(r => r.st.ord === 1 && r.st.eta <= 2).length;
-  const med = rows.filter(r => r.st.ord === 2);
+  const rows = myEntries(k, T).map(x => trackOne(x.c, x.id)).sort(byTrack);
+  const now = rows.filter(r => r.st === 'now').length, soon = rows.filter(r => r.st === 'next' || r.st === 'soon').length, med = rows.filter(r => r.st === 'medal').length;
   return pageH('/admin/klub/na-zywo', `${club(k).name} — na żywo`, ['REQ-CLUB-03', 'REQ-NFR-01'], `Tylko zawodnicy Twojego klubu zgłoszeni do „${esc(T.name)}”. Numer tatami i walki aktualizuje się sam.`, liveStamp())
-    + `<div class="sum-row"><span class="pill">${pl(rows.length, 'start', 'starty', 'startów')}</span>${now ? `<span class="pill live"><span class="dot"></span>teraz na macie: ${now}</span>` : ''}${soon ? `<span class="pill ai">wkrótce: ${soon}</span>` : ''}${med.length ? `<span class="pill ok">medale: ${med.length}</span>` : ''}</div>`
-    + (rows.length ? `<div class="cl-list">${rows.map(x => { const e = ent(x.id); return `<article class="cl-i ${x.st.cls}"><div><b>${esc(e.name)}</b><small>${esc(catName(x.c))}${e.team ? '' : ' · ' + gLabel(e.g)}</small></div><span class="pill">${TYPES[x.c.type]}</span><div class="cl-st">${x.st.html}</div></article>`; }).join('')}</div>` : '<div class="card empty">Klub nie ma zawodników w tym turnieju.</div>');
+    + `<div class="sum-row"><span class="pill">${pl(rows.length, 'start', 'starty', 'startów')}</span>${now ? `<span class="pill live"><span class="dot"></span>teraz na macie: ${now}</span>` : ''}${soon ? `<span class="pill ai">zaraz walczą: ${soon}</span>` : ''}${med ? `<span class="pill ok">medale: ${med}</span>` : ''}</div>`
+    + (rows.length ? `<div class="tc-list">${rows.map(x => trackCard(x, false)).join('')}</div>` : '<div class="card empty">Klub nie ma zawodników w tym turnieju.</div>');
 }
 function vClubAth() {
   const k = ui.user.club, list = Object.values(S.ath).filter(a => a.club === k).sort((a, b) => a.ln.localeCompare(b.ln, 'pl') || a.fn.localeCompare(b.fn, 'pl')), today = todayISO();
@@ -1754,8 +1912,12 @@ const REQS = [
   ['REQ-NFR-01', 'Czas rzeczywisty bez odświeżania', 'BroadcastChannel między kartami zamiast WebSocket', '#/live', 'sim'],
   ['REQ-NFR-02', 'Sędzia i trener: dotyk, od 360 px', 'Duże przyciski, układ jednokolumnowy', '#/referee', 'ok'],
   ['REQ-NFR-03', 'Drabinki i harmonogram do PDF', 'Przycisk PDF → okno druku → „Zapisz jako PDF”', '#/drabinki', 'sim'],
+  ['8. Propozycje po feedbacku z hali (poza dokumentem)'],
+  ['REQ-PUB-06*', 'Obserwowani zawodnicy bez logowania: tatami, numer walki, czas, strona AKA/SHIRO, wyniki', 'Start → wpisz nazwisko lub klub → ☆', '#/', 'new'],
+  ['REQ-NFR-04*', 'Czytelność w hali: kontrast tekstu min. 4,5:1, duże numery tatami i walki, dolny pasek na telefonie', 'Cały mock na telefonie', '#/live', 'new'],
 ];
 const QUESTIONS = [
+  ['Feedback z hali', 'Na sali jest kilkaset osób i panuje chaos — rodzic, trener i zawodnik muszą od razu wiedzieć: kiedy walka, na które tatami iść i jaki był wynik. Specyfikacja tego nie obejmuje (REQ-CLUB-03 działa tylko po zalogowaniu klubu). Proponuję REQ-PUB-06: obserwowanie zawodników bez logowania (numer tatami i walki, szacowany czas, strona AKA/SHIRO, wyniki) oraz REQ-NFR-04: kontrast tekstu co najmniej 4,5:1 i numery tatami/walki czytelne z kilku metrów.'],
   ['REQ-ADM-06, REQ-ALG-03', 'Wolne losy są potrzebne zawsze, gdy liczba zawodników nie jest potęgą dwójki (np. 6 zawodników → 2 wolne losy), a nie tylko przy liczbie nieparzystej. Lepiej: „gdy liczba zawodników nie wypełnia drabinki”. Oba warianty — wolny los i walka eliminacyjna — dają tę samą liczbę walk (n − 2<sup>⌊log₂n⌋</sup> w rundzie wstępnej) i różnią się tylko opisem. Czy „walka eliminacyjna” miała znaczyć coś innego, np. repasaż?'],
   ['REQ-ADM-05', '„egzekwo” → „ex aequo”.'],
   ['REQ-ADM-07, REQ-ALG-01', 'W tekście brakuje symboli (po wklejeniu zostały puste znaki) — zapewne „N zawodników” i „n < 4”.'],
@@ -1770,15 +1932,16 @@ const QUESTIONS = [
   ['Czego brakuje', 'Ważenie i weryfikacja w dniu zawodów, praca przy stoliku sędziego bez internetu, godziny w harmonogramie (mock je szacuje), czas walki na tablicy wyników, opłaty startowe.'],
 ];
 function vSpec() {
-  const n = REQS.filter(r => r.length > 1).length, sim = REQS.filter(r => r[4] === 'sim').length;
-  return pageH('/specyfikacja', 'Pokrycie specyfikacji', [], `Każde wymaganie z dokumentu ma swój ekran w mocku. ${n} wymagań: ${n - sim} pokazanych wprost, ${sim} zasymulowanych (logowanie, czas rzeczywisty, PDF). Numery REQ przy elementach włączasz przyciskiem „REQ” u góry.`)
+  const n = REQS.filter(r => r.length > 1 && r[4] !== 'new').length, sim = REQS.filter(r => r[4] === 'sim').length;
+  return pageH('/specyfikacja', 'Pokrycie specyfikacji', [], `Każde wymaganie z dokumentu ma swój ekran w mocku. ${n} wymagań: ${n - sim} pokazanych wprost, ${sim} zasymulowanych (logowanie, czas rzeczywisty, PDF). Numery REQ przy elementach włączasz przyciskiem „REQ” u góry (na telefonie — w stopce). Gwiazdka (*) oznacza propozycję spoza dokumentu.`)
     + `<div class="howto">
+      <div class="card"><h3>Na telefonie w hali</h3><p>Na stronie Start wpisz nazwisko albo klub i dotknij ☆. Karta pokaże numer tatami i walki, ile walk zostało, stronę AKA/SHIRO i wyniki.</p></div>
       <div class="card"><h3>Czas rzeczywisty</h3><p>Otwórz <a href="#/live" target="_blank" rel="noopener">Na żywo w nowej karcie</a>. Tutaj zaloguj się jako sędzia, wybierz tatami i wpisuj punkty — druga karta zmienia się bez odświeżania.</p></div>
       <div class="card"><h3>Drabinka od zera</h3><p>Zaloguj się jako administrator → Drabinki → „Chłopcy 10–11 −35 kg” → Generuj. Zamień dwóch zawodników, zatwierdź — walki trafią do sędziego Tatami 2.</p></div>
       <div class="card"><h3>Widok klubu</h3><p>Zaloguj się jako klub (np. Żuraw Dojo) → Na żywo: zawodnicy klubu z numerem tatami i walki. Zgłoszenia działają dla Turnieju Jesiennego.</p></div>
     </div>
     <section class="card"><div class="scroll-x"><table class="t spec-t"><thead><tr><th>ID</th><th>Wymaganie</th><th>Gdzie w mocku</th><th>Stan</th></tr></thead><tbody>
-    ${REQS.map(r => r.length === 1 ? `<tr class="sec"><td colspan="4">${r[0]}</td></tr>` : `<tr><td>${r[0]}</td><td>${esc(r[1])}</td><td><a href="${r[3]}">${esc(r[2])}</a></td><td>${r[4] === 'ok' ? '<span class="pill ok">✓ w mocku</span>' : '<span class="pill warn">◐ symulacja</span>'}</td></tr>`).join('')}
+    ${REQS.map(r => r.length === 1 ? `<tr class="sec"><td colspan="4">${r[0]}</td></tr>` : `<tr><td>${r[0]}</td><td>${esc(r[1])}</td><td><a href="${r[3]}">${esc(r[2])}</a></td><td>${r[4] === 'ok' ? '<span class="pill ok">✓ w mocku</span>' : r[4] === 'new' ? '<span class="pill ai">+ propozycja</span>' : '<span class="pill warn">◐ symulacja</span>'}</td></tr>`).join('')}
     </tbody></table></div></section>
     <section class="card" style="margin-top:16px"><h3>Uwagi i pytania do specyfikacji</h3><p class="muted small" style="margin:6px 0 14px">Miejsca, w których dokument jest niejednoznaczny albo czegoś brakuje — i jak mock je na razie rozstrzyga.</p><ol class="qs">${QUESTIONS.map(([k, t]) => `<li><b>${k}</b> — ${t}</li>`).join('')}</ol></section>`;
 }
@@ -1814,10 +1977,12 @@ function ask(html, yes, fn) { $('#mdText').innerHTML = html; $('#mdYes').textCon
 
 /* ===================== akcje ===================== */
 const ACT = {
-  reqs: () => { ui.reqs = !ui.reqs; savePrefs(); renderTop(route()); },
-  sim: () => { ui.sim = !ui.sim; savePrefs(); renderTop(route()); toast(ui.sim ? 'Symulacja włączona — tatami bez sędziego grają same' : 'Symulacja wstrzymana'); },
+  reqs: () => { ui.reqs = !ui.reqs; savePrefs(); render(true); },
+  sim: () => { ui.sim = !ui.sim; savePrefs(); render(true); toast(ui.sim ? 'Symulacja włączona — tatami bez sędziego grają same' : 'Symulacja wstrzymana'); },
   reset: () => ask('Przywrócić dane demonstracyjne? Twoje zmiany znikną we wszystkich otwartych kartach.', 'Resetuj', () => { const r = S.rev; seed(); S.rev = r + 1; ui.edit = null; ui.kd = {}; ui.swap = null; commit(); toast('Dane demo przywrócone'); }),
   close: () => closeDrawer(),
+  fav: el => { const id = el.dataset.id, on = !isFav(id); FAV = on ? [...FAV, id] : FAV.filter(x => x !== id); saveFav(); refreshFav(); toast(on ? `Obserwujesz: ${ent(id).name}` : `Nie obserwujesz: ${ent(id).name}`); },
+  favClub: el => { const k = el.dataset.k, ids = [...new Set(tourCats(pubT()).flatMap(c => c.entries).filter(id => ent(id)?.club === k))]; FAV = [...new Set([...FAV, ...ids])]; saveFav(); ui.fq = ''; if ($('#findIn')) $('#findIn').value = ''; refreshFav(); toast(`Obserwujesz ${pl(ids.length, 'osobę', 'osoby', 'osób')} z klubu ${CLUBS[k].name}`); },
   mdNo: () => { $('#modal').hidden = true; mdFn = null; },
   mdYes: () => { $('#modal').hidden = true; const f = mdFn; mdFn = null; if (f) f(); },
   login: el => {
@@ -2009,6 +2174,7 @@ function shiftCat(id, dir) {
   [c.ord, o.ord] = [o.ord, c.ord]; commit();
 }
 const IN = {
+  fq: el => { ui.fq = el.value; $('#findRes').innerHTML = findHTML(); },
   pf: el => { ui.pf[el.dataset.k] = el.value; $('#peopleList').innerHTML = peopleList(); },
   addQ: el => { ui.addQ = el.value; const c = cat(el.dataset.c); $('#addList').innerHTML = addList(c, c.br?.status === 'approved'); },
   tf: el => { ui.tf[el.dataset.k] = el.value; },
@@ -2030,6 +2196,13 @@ const CH = {
 /* ===================== render ===================== */
 const route = () => location.hash.replace(/^#\/?/, '').split('/').filter(Boolean).map(decodeURIComponent);
 const zoneOf = r => r[0] === 'admin' ? 'admin' : r[0] === 'referee' ? 'referee' : 'pub';
+const TABBAR = [
+  ['#/', 'Moi', '<path d="M12 3.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/>'],
+  ['#/live', 'Na żywo', '<circle cx="12" cy="12" r="2.4"/><path d="M8 8a5.7 5.7 0 0 0 0 8M16 8a5.7 5.7 0 0 1 0 8M5.2 5.2a9.6 9.6 0 0 0 0 13.6M18.8 5.2a9.6 9.6 0 0 1 0 13.6"/>'],
+  ['#/drabinki', 'Drabinki', '<path d="M3 5h6v4H3zM3 15h6v4H3zM9 7h3v10H9M12 12h3M15 10h6v4h-6z"/>'],
+  ['#/uczestnicy', 'Lista', '<circle cx="9" cy="8" r="3.2"/><path d="M3 20c.6-3.4 3-5.4 6-5.4s5.4 2 6 5.4"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14.7c2.6.2 4.4 2 5 5"/>'],
+  ['#/klasyfikacja', 'Medale', '<circle cx="12" cy="15" r="5"/><path d="M8.5 3.5h7L13.5 10h-3z"/>'],
+];
 const ZONES = [['pub', '#/', 'Publiczna', '/'], ['admin', '#/admin', 'Panel', '/admin'], ['referee', '#/referee', 'Sędzia', '/referee']];
 function canon(r) {
   const role = ui.user?.role;
@@ -2051,6 +2224,9 @@ function renderTop(r) {
   $('#userBox').innerHTML = u ? `<span class="user-chip"><span class="avatar ${u.role === 'club' ? 'club' : u.role === 'ref' ? 'ref' : ''}" ${u.role === 'club' ? `style="--c:${club(u.club).c}"` : ''}>${esc(u.ini)}</span><span><b>${esc(u.name)}</b><small>${esc(u.sub)}</small></span><button data-act="logout">Wyloguj</button></span>` : '<a class="chipbtn" href="#/admin" style="text-decoration:none">Zaloguj</a>';
   $('#reqBtn').setAttribute('aria-pressed', String(ui.reqs)); $('#simBtn').setAttribute('aria-pressed', String(ui.sim));
   document.body.classList.toggle('reqs', ui.reqs);
+  document.body.classList.toggle('z-pub', z === 'pub');
+  const tOn = h => h === '#/' ? p === '#/' : p === h || p.startsWith(h + '/');
+  $('#tabbar').innerHTML = z === 'pub' ? TABBAR.map(([h, l, d]) => `<a href="${h}" class="${tOn(h) ? 'on' : ''}" ${tOn(h) ? 'aria-current="page"' : ''}><svg viewBox="0 0 24 24" aria-hidden="true">${d}</svg><span>${l}${h === '#/' && FAV.length ? ` (${FAV.length})` : ''}</span></a>`).join('') : '';
 }
 function view(r) {
   switch (r[0]) {
@@ -2065,7 +2241,7 @@ function view(r) {
   }
   return '<div class="gate"><h2>Nie ma takiej strony</h2><a class="btn" href="#/">Strona główna</a></div>';
 }
-const footHTML = () => `<footer class="foot"><span>Mock wg specyfikacji wymagań (REQ). Dane przykładowe; stan zapisuje się w tej przeglądarce i synchronizuje między kartami.</span><span><a href="#/specyfikacja">Pokrycie specyfikacji</a> · <button class="lnk" data-act="reset">Resetuj dane demo</button></span></footer>`;
+const footHTML = () => `<footer class="foot"><span>Mock wg specyfikacji wymagań (REQ). Dane przykładowe; stan zapisuje się w tej przeglądarce i synchronizuje między kartami.</span><span><a href="#/specyfikacja">Pokrycie specyfikacji</a> · <button class="lnk" data-act="sim">Symulacja: ${ui.sim ? 'wł.' : 'wył.'}</button> · <button class="lnk" data-act="reqs">Numery REQ: ${ui.reqs ? 'wł.' : 'wył.'}</button> · <button class="lnk" data-act="reset">Resetuj dane demo</button></span></footer>`;
 function claimIfRef(r) {
   if (ui.user?.role !== 'ref' || r[0] !== 'referee' || r[1] !== 'tatami') return;
   const t = +r[2]; if (!TABS.includes(t)) return;
