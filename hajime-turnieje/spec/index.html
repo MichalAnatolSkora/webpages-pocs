@@ -690,7 +690,7 @@ body.tv main{max-width:none;padding:0}
 .sch-blk .req{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.5)}
 .hero-link{display:inline-block;margin-top:16px;color:#fff;font-weight:750;border:2px solid rgba(255,255,255,.65);border-radius:10px;padding:9px 13px;text-decoration:none}
 .hero-link:hover{background:rgba(255,255,255,.12)}
-.lf{display:grid;grid-template-columns:auto minmax(0,1fr) minmax(0,1fr) minmax(0,1.1fr) auto;gap:8px 10px;align-items:center;margin-bottom:10px}
+.lf{display:grid;grid-template-columns:auto minmax(0,1fr) minmax(0,1fr) auto;gap:8px 10px;align-items:center;margin-bottom:10px}
 .lf select,.lf .lf-q{border:2px solid var(--line-2);background:var(--surface);border-radius:10px;padding:9px 10px;font-size:15px;min-height:46px;width:100%;color:var(--ink);min-width:0}
 .ab-list{display:flex;flex-direction:column;gap:6px}
 .ab{display:grid;grid-template-columns:66px minmax(0,1fr) auto;gap:10px;align-items:center;background:var(--surface);border:2px solid var(--line);border-radius:12px;padding:8px 10px;text-decoration:none;color:var(--ink)}
@@ -720,6 +720,19 @@ body.tv main{max-width:none;padding:0}
 .field textarea{border:1px solid var(--line-2);background:var(--surface);border-radius:9px;padding:10px;font:500 15px/1.5 var(--f-body);color:var(--ink);resize:vertical;min-height:120px;width:100%}
 @media (max-width:900px){.lf{grid-template-columns:1fr 1fr}.lf .seg,.lf .lf-q{grid-column:1/-1}}
 @media (max-width:440px){.ab{grid-template-columns:58px minmax(0,1fr)}.ab-st{grid-column:2;text-align:left;justify-self:start}}
+/* ---------- uproszczenie widoku kibica ---------- */
+.hero-meta{font:600 12.5px/1.5 var(--f-mono);color:var(--hero-dim);letter-spacing:.04em;text-transform:uppercase}
+.hero-c .hero-title{font-size:clamp(32px,4.6vw,56px);margin:10px 0 8px}
+.bell.sm{min-height:44px;padding:8px 12px;font-size:14px}
+.tc-last{border-top:1px solid var(--line);padding-top:10px;font-size:14.5px;font-weight:700;color:var(--ink-2)}
+.tc-last.w{color:var(--ok)} .tc-last.l{color:var(--bad)}
+.tc.st-now .tc-last{color:#fff;border-color:rgba(255,255,255,.4)}
+.tc.st-next .tc-last{color:var(--go-ink);border-color:rgba(15,19,48,.25)}
+.lf-top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;margin-bottom:10px}
+.lf-top .lf-q{border:2px solid var(--line-2);background:var(--surface);border-radius:10px;padding:9px 12px;font-size:16px;min-height:48px;width:100%;color:var(--ink);min-width:0}
+.lf-top .btn{min-height:48px}
+body.z-pub .page-h .eyebrow{display:none}
+@media (max-width:760px){.desk-only{display:none!important}.legend{display:none}.foot>span:first-child{display:none}.page-h{margin-bottom:12px}}
 /* ---------- drawer, modal, toast ---------- */
 .scrim{position:fixed;inset:0;background:rgba(10,12,30,.4);z-index:40;opacity:0;pointer-events:none;transition:opacity .2s}
 .scrim.on{opacity:1;pointer-events:auto}
@@ -1306,7 +1319,7 @@ const ui = {
   pf: { cat: '', club: '', q: '' }, addQ: '', addOnly: true,
   swap: null, edit: null, kd: {}, tf: null, cf: null, af: null,
   reqs: true, sim: true, scrolledLive: null, qAll: false, fq: '',
-  lf: { mat: '', club: '', cat: '', q: '', done: false }, lfAll: false, cq: '', cfav: false,
+  lf: { mat: '', club: '', cat: '', q: '', done: false }, lfAll: false, lfMore: false, cq: '', cfav: false,
 };
 try { const u = JSON.parse(sessionStorage.getItem('hajime-spec-user') || 'null'); if (u) { ui.user = u.user; ui.refT = u.refT; } } catch (e) { }
 ui.reqs = innerWidth > 760; /* na telefonie numery REQ domyślnie ukryte — przeszkadzają w czytaniu */
@@ -1380,7 +1393,7 @@ const trackEntries = id => tourCats(pubT()).filter(c => c.entries.includes(id)).
 const byTrack = (a, b) => ORD[a.st] - ORD[b.st] || (a.eta ?? 0) - (b.eta ?? 0);
 function trackCard(x, withFav) {
   const e = ent(x.id), c = x.c, it = x.it;
-  const head = `<div class="tc-top"><div class="tc-who"><b>${esc(e.name)}</b><span>${esc(club(e.club).name)} · ${TYPES[c.type]} · ${esc(catShort(c))}</span></div>${withFav ? `<button class="star on" data-act="fav" data-id="${x.id}" aria-pressed="true" aria-label="Przestań obserwować: ${esc(e.name)}">★</button>` : ''}</div>`;
+  const head = `<div class="tc-top"><div class="tc-who"><b>${esc(e.name)}</b><span>${esc(club(e.club).name)} · ${c.type === 'kumite' ? '' : TYPES[c.type] + ' · '}${esc(catShort(c))}</span></div>${withFav ? `<button class="star on" data-act="fav" data-id="${x.id}" aria-pressed="true" aria-label="Przestań obserwować: ${esc(e.name)}">★</button>` : ''}</div>`;
   let main;
   if (it) {
     const msg = { now: '<span class="blink">●</span> Teraz na macie', next: 'Następna walka — idź pod matę', soon: `Za ${pl(x.ahead, 'walkę', 'walki', 'walk')} · ok. ${x.eta} min`, later: `Za ${pl(x.ahead, 'walkę', 'walki', 'walk')} · ok. ${x.eta} min` }[x.st];
@@ -1389,7 +1402,8 @@ function trackCard(x, withFav) {
   } else if (x.st === 'medal') main = `<div class="tc-main"><div class="tc-medal">${medalDot(x.place)}<b>${x.place}. miejsce</b>${x.final ? '' : '<span class="tc-vs">kategoria jeszcze trwa</span>'}</div></div>`;
   else if (x.st === 'draw') main = `<div class="tc-st"><b class="tc-msg">Losowanie jeszcze się nie odbyło</b><span class="tc-vs">Tatami ${TL(c.tatami)} · numer walki pojawi się po zatwierdzeniu drabinki</span></div>`;
   else main = `<div class="tc-st"><b class="tc-msg">${esc(x.msg)}</b></div>`;
-  const hist = x.hist.length ? `<ol class="tc-hist">${x.hist.map(h => `<li class="${h.w === true ? 'w' : h.w === false ? 'l' : ''}"><span class="mono">${h.no}</span><span>${h.w === true ? '✓' : h.w === false ? '✗' : '•'} ${esc(h.label)} — ${esc(h.txt)}${h.opp ? ` · vs ${esc(ent(h.opp).name)}` : ''}</span></li>`).join('')}</ol>` : '';
+  const h = x.hist[x.hist.length - 1];
+  const hist = h ? `<div class="tc-last ${h.w === true ? 'w' : h.w === false ? 'l' : ''}">${h.w === true ? '✓' : h.w === false ? '✗' : '•'} Ostatnio: ${esc(h.label.toLowerCase())} — ${esc(h.txt)}</div>` : '';
   return `<article class="tc st-${x.st}">${head}${main}${hist}</article>`;
 }
 const favBtn = id => `<button class="favbtn ${isFav(id) ? 'on' : ''}" data-act="fav" data-id="${id}" aria-pressed="${isFav(id)}">${isFav(id) ? '★ Obserwujesz' : '☆ Obserwuj'}</button>`;
@@ -1416,9 +1430,8 @@ function favHTML() {
   if (!FAV.length) return '';
   const T = pubT(), list = FAV.filter(id => ent(id)).flatMap(id => trackEntries(id)).sort(byTrack);
   const off = FAV.filter(id => ent(id) && !tourCats(T).some(c => c.entries.includes(id)));
-  return `<section class="sec"><div class="sec-h"><h2>Obserwowani (${FAV.length}) ${rq('REQ-PUB-06*')}</h2>${liveStamp()}</div>
-    <div class="al-ctl"><button class="bell ${AL.on ? 'on' : ''}" data-act="alerts" aria-pressed="${AL.on}">${BELL}${AL.on ? 'Powiadomienia włączone' : 'Włącz powiadomienia'}</button><span class="muted small">${AL.on ? 'Damy znać na 2 walki przed, gdy trzeba iść pod matę, i po wyniku: baner, dźwięk, wibracja (Android).' : 'Telefon zawibruje i zapika na 2 walki przed walką, gdy trzeba iść pod matę, i po wyniku.'} ${rq('REQ-PUB-07*')}</span></div>
-    <div class="tc-list">${list.map(x => trackCard(x, true)).join('')}</div>${off.length ? `<p class="muted small">Nie startują w tym turnieju: ${off.map(id => esc(ent(id).name)).join(', ')}</p>` : ''}<p class="muted small" style="margin:10px 0 0">Lista jest zapisana tylko na tym telefonie — bez logowania.</p></section>`;
+  return `<section class="sec"><div class="sec-h"><h2>Obserwowani (${FAV.length}) ${rq('REQ-PUB-06*', 'REQ-PUB-07*')}</h2><button class="bell sm ${AL.on ? 'on' : ''}" data-act="alerts" aria-pressed="${AL.on}" title="Wibracja i dźwięk na 2 walki przed, gdy trzeba iść pod matę, i po wyniku">${BELL}${AL.on ? 'Powiadomienia wł.' : 'Powiadom mnie'}</button></div>
+    <div class="tc-list">${list.map(x => trackCard(x, true)).join('')}</div>${off.length ? `<p class="muted small">Nie startują w tym turnieju: ${off.map(id => esc(ent(id).name)).join(', ')}</p>` : ''}</section>`;
 }
 function refreshFav() {
   checkAlerts(true);
@@ -1427,7 +1440,7 @@ function refreshFav() {
 }
 function boardRow(t) {
   const q = Q(t), live = q.find(i => i.status === 'live'), nx = q.find(i => !i.res && i.status !== 'live'), it = live || nx;
-  return `<a class="brow ${live ? 'live' : ''}" href="#/live"><span class="brow-t"><small>TATAMI</small>${TL(t)}</span><span class="brow-no"><small>${live ? 'TERAZ' : nx ? 'NASTĘPNA' : 'KONIEC'}</small><b>${it ? it.code : '✓'}</b></span><span class="brow-m"><b>${it ? itemNames(it, true) : 'Program zakończony'}</b><small>${it ? `${sessLbl(cat(it.cat))} · ${esc(catShort(cat(it.cat)))} · ${esc(it.label)}` : `${q.length} walk rozegranych`}</small></span></a>`;
+  return `<a class="brow ${live ? 'live' : ''}" href="#/live"><span class="brow-t"><small>TATAMI</small>${TL(t)}</span><span class="brow-no"><small>${live ? 'TERAZ' : nx ? 'NASTĘPNA' : 'KONIEC'}</small><b>${it ? it.code : '✓'}</b></span><span class="brow-m"><b>${it ? itemNames(it, true) : 'Program zakończony'}</b><small>${it ? `${esc(catShort(cat(it.cat)))} · ${esc(it.label)}` : `${q.length} walk rozegranych`}</small></span></a>`;
 }
 
 /* ---------- powiadomienia o obserwowanych (propozycja REQ-PUB-07*) ---------- */
@@ -1487,7 +1500,8 @@ function showAlerts(list) {
   const cls = top.kind === 'now' ? 'now' : top.kind === 'next' || top.kind === 'soon' ? 'go' : top.kind === 'medal' ? 'medal' : top.h.w === false ? 'lost' : 'won';
   alertBox(cls, t1, t2, list.length > 1 ? `+ ${pl(list.length - 1, 'inne powiadomienie', 'inne powiadomienia', 'innych powiadomień')}: ${list.slice(1, 3).map(e => esc(alertText(e)[0])).join(' · ')}` : '');
   if (top.kind === 'res' || top.kind === 'soon' || top.kind === 'medal') AL.t = setTimeout(() => { $('#alertBox').hidden = true; }, 15000);
-  try { if (navigator.vibrate) navigator.vibrate({ now: [600, 120, 600], next: [300, 100, 300, 100, 300], soon: [200, 100, 200] }[top.kind] || [120]); } catch (e) { }
+  /* przeglądarka pozwala wibrować dopiero po pierwszym dotknięciu strony */
+  try { if (navigator.vibrate && (!navigator.userActivation || navigator.userActivation.hasBeenActive)) navigator.vibrate({ now: [600, 120, 600], next: [300, 100, 300, 100, 300], soon: [200, 100, 200] }[top.kind] || [120]); } catch (e) { }
   beep(top.kind);
   if (document.hidden) {
     document.title = `● ${t1}`;
@@ -1567,28 +1581,24 @@ function vInfo() {
 /* ===================== strefa publiczna ===================== */
 function vHome() {
   const T = pubT(); if (!T) return noTour();
-  const cats = tourCats(T), ids = new Set(cats.flatMap(c => c.type === 'team' ? [] : c.entries));
-  const clubs = new Set([...ids].map(id => ent(id).club)), items = allItems(), done = items.filter(i => i.res).length;
+  const items = allItems(), done = items.filter(i => i.res).length;
   return `<section class="hero hero-c"><div class="hero-kanji" aria-hidden="true">押忍</div>
-    <div class="hero-eyebrow">${T.status === 'live' ? '<span class="live-pill"><i></i>Trwa turniej</span>' : `<span class="pill">${ST[T.status][0]}</span>`}<span>${fmtDate(T.date)} · ${esc(T.place)}</span>${rq('REQ-PUB-01', 'REQ-GEN-02.1')}</div>
+    <div class="hero-eyebrow">${T.status === 'live' ? '<span class="live-pill"><i></i>Trwa turniej</span>' : `<span class="pill">${ST[T.status][0]}</span>`}${rq('REQ-PUB-01', 'REQ-GEN-02.1')}</div>
     <h1 class="hero-title">${esc(T.name)}</h1>
-    <div class="hero-stats"><div class="hs"><b>${ids.size}</b><span>zawodników</span></div><div class="hs"><b>${cats.length}</b><span>kategorii</span></div><div class="hs"><b>${clubs.size}</b><span>klubów</span></div><div class="hs"><b>${TABS.length}</b><span>tatami</span></div>
-      <div class="hs hs-prog"><span>Rozegrane walki: ${done} z ${items.length}</span><div class="bar"><i style="width:${items.length ? done / items.length * 100 : 0}%"></i></div></div></div>
-    <a class="hero-link" href="#/info">Program dnia i informacje →</a>
+    <div class="hero-meta">${fmtDate(T.date)} · ${esc(T.place)} · rozegrane ${done} z ${items.length} walk</div>
+    <a class="hero-link" href="#/info">Program dnia →</a>
   </section>
-  <section class="card find"><h2>Gdzie i kiedy walczy Twój zawodnik? ${rq('REQ-PUB-06*')}</h2>
+  <section class="card find"><h2>Gdzie walczy Twój zawodnik? ${rq('REQ-PUB-06*')}</h2>
     <label class="sr" for="findIn">Szukaj zawodnika albo klubu</label>
     <input id="findIn" type="search" class="find-in" data-in="fq" value="${esc(ui.fq)}" placeholder="Nazwisko zawodnika albo klub" autocomplete="off" enterkeyhint="search">
     <div id="findRes" class="find-res">${findHTML()}</div></section>
   <div id="favWrap">${favHTML()}</div>
-  <section class="sec"><div class="sec-h"><h2>Teraz na tatami ${rq('REQ-PUB-04')}</h2><a href="#/live">kolejki walk →</a></div><div class="board">${TABS.map(boardRow).join('')}</div></section>
-  <section class="card sec"><div class="card-h"><h3>Ostatnie wyniki</h3>${liveStamp()}</div>${feedHTML(6)}</section>
-  <div class="tiles">${[['#/uczestnicy', 'Uczestnicy', `${ids.size} zawodników z ${clubs.size} klubów, filtr po kategorii i klubie`, 'REQ-PUB-02'], ['#/drabinki', 'Drabinki i tabele', `${cats.length} kategorii, wydruk do PDF`, 'REQ-PUB-03'], ['#/klasyfikacja', 'Klasyfikacja drużynowa', 'liczona automatycznie z medali', 'REQ-PUB-05'], ['#/admin', 'Strefa prywatna', 'organizator, kluby i sędziowie — po zalogowaniu', 'REQ-GEN-02.2']].map(([h, b, s, r]) => `<a class="tile" href="${h}"><b>${b} ${rq(r)}</b><span>${s}</span></a>`).join('')}</div>`;
+  <section class="sec"><div class="sec-h"><h2>Teraz na tatami ${rq('REQ-PUB-04')}</h2><a href="#/live">kolejki →</a></div><div class="board">${TABS.map(boardRow).join('')}</div></section>`;
 }
 function vLive() {
   if (!pubT()) return noTour();
-  return pageH('/live', 'Na żywo — wszystkie tatami', ['REQ-PUB-04', 'REQ-NFR-01'], 'Aktualna walka i kolejka na każdym tatami. Walki mają kody jak w hali: <b>A22</b> to 22. walka na tatami A. Szukasz konkretnej osoby? <a href="#/">Obserwuj zawodnika</a>.', liveStamp() + ` <a class="btn" href="#/tv" target="_blank" rel="noopener">Ekran hali (TV) ↗ ${rq('REQ-PUB-08*')}</a>`)
-    + `<div class="mats">${TABS.map(matCard).join('')}</div>${allBoutsHTML()}<section class="card" style="margin-top:16px"><div class="card-h"><h3>Ostatnie wyniki</h3></div>${feedHTML(12)}</section>`;
+  return pageH('/live', 'Na żywo', ['REQ-PUB-04', 'REQ-NFR-01'], 'Kod walki <b>A22</b> = 22. walka na tatami A.', liveStamp() + ` <a class="btn desk-only" href="#/tv" target="_blank" rel="noopener">Ekran hali (TV) ↗ ${rq('REQ-PUB-08*')}</a>`)
+    + `<div class="mats">${TABS.map(matCard).join('')}</div>${allBoutsHTML()}<section class="card" style="margin-top:16px"><div class="card-h"><h3>Ostatnie wyniki</h3></div>${feedHTML(5)}</section>`;
 }
 
 /* ---------- wszystkie walki ze wszystkich mat, jedna lista w kolejności czasu (propozycja REQ-PUB-10*) ---------- */
@@ -1622,12 +1632,13 @@ function allListHTML() {
 function allBoutsHTML() {
   const T = pubT(), f = ui.lf, cats = tourCats(T);
   const clubsIn = Object.keys(CLUBS).filter(k => cats.some(c => c.entries.some(id => ent(id)?.club === k)));
-  return `<section class="sec" id="wszystkie"><div class="sec-h"><h2>Wszystkie walki ${rq('REQ-PUB-10*')}</h2><span class="muted small">kolejność według szacowanego czasu</span></div>
-   <div class="lf"><div class="seg">${['', ...TABS].map(t => `<button type="button" class="${String(f.mat) === String(t) ? 'on' : ''}" data-act="lfMat" data-v="${t}">${t ? 'Tatami ' + TL(t) : 'Wszystkie maty'}</button>`).join('')}</div>
+  const nAct = [f.mat, f.club, f.cat, f.done].filter(Boolean).length;
+  return `<section class="sec" id="wszystkie"><div class="sec-h"><h2>Wszystkie walki ${rq('REQ-PUB-10*')}</h2></div>
+   <div class="lf-top"><input type="search" class="lf-q" data-in="lf" data-k="q" value="${esc(f.q)}" placeholder="Nazwisko zawodnika" autocomplete="off" aria-label="Szukaj zawodnika"><button type="button" class="btn ${ui.lfMore || nAct ? 'dark' : ''}" data-act="lfMore" aria-expanded="${ui.lfMore}">Filtry${nAct ? ` (${nAct})` : ''}</button></div>
+   ${ui.lfMore ? `<div class="lf"><div class="seg">${['', ...TABS].map(t => `<button type="button" class="${String(f.mat) === String(t) ? 'on' : ''}" data-act="lfMat" data-v="${t}">${t ? 'Tatami ' + TL(t) : 'Wszystkie maty'}</button>`).join('')}</div>
     <select data-ch="lf" data-k="club" aria-label="Klub"><option value="">Wszystkie kluby</option>${clubsIn.map(k => `<option value="${k}" ${f.club === k ? 'selected' : ''}>${esc(CLUBS[k].name)}</option>`).join('')}</select>
     <select data-ch="lf" data-k="cat" aria-label="Kategoria"><option value="">Wszystkie kategorie</option>${cats.map(c => `<option value="${c.id}" ${f.cat === c.id ? 'selected' : ''}>${esc(catName(c))}</option>`).join('')}</select>
-    <input type="search" class="lf-q" data-in="lf" data-k="q" value="${esc(f.q)}" placeholder="Nazwisko zawodnika" autocomplete="off" aria-label="Szukaj zawodnika">
-    <label class="switch"><input type="checkbox" data-ch="lfDone" ${f.done ? 'checked' : ''}>pokaż rozegrane</label></div>
+    <label class="switch"><input type="checkbox" data-ch="lfDone" ${f.done ? 'checked' : ''}>pokaż rozegrane</label></div>` : ''}
    <div id="allList">${allListHTML()}</div></section>`;
 }
 function matCard(t) {
@@ -1637,9 +1648,7 @@ function matCard(t) {
     <div class="mat-h"><span class="mat-n"><small>TATAMI${c ? ' · ' + sessLbl(c) : ''}</small><b>${TL(t)}</b></span><span class="mat-no"><small>${live ? '● TERAZ WALKA' : rest.length ? 'NASTĘPNA WALKA' : 'KONIEC'}</small><b>${cur ? cur.code : '✓'}</b></span></div>
     <div class="mat-cat">${c ? `${esc(catName(c))} · ${esc(cur.label)}` : 'Wszystkie kategorie zakończone'}</div>
     ${live ? liveBlock(t, live) : `<div class="mat-idle">${rest[0] ? `Przerwa — za chwilę walka ${rest[0].code}` : 'Program tatami zakończony ✓'}</div>`}
-    <div class="next-list"><span class="eyebrow">Kolejka</span>${(() => { let prev = c ? sessOf(c) : null; return rest.slice(0, 4).map((i, k) => { const s0 = sessOf(cat(i.cat)), dv = prev && s0 !== prev ? `<div class="blk-div">od tej walki: blok ${SESS[s0]}</div>` : ''; prev = s0; return `${dv}<div class="${k === 0 ? 'nx' : ''}"><span class="mono">${i.code}</span><span>${itemNames(i, true)}</span></div>`; }).join(''); })() || '<div class="muted">—</div>'}</div>
-    <div class="mbar"><i style="width:${q.length ? done / q.length * 100 : 0}%"></i></div>
-    <div class="mat-f"><span>${done}/${q.length} rozegranych</span><span>${refClaim(t) ? 'sędzia przy stoliku' : 'symulacja'}</span></div>
+    <div class="next-list"><span class="eyebrow">Kolejka</span>${(() => { let prev = c ? sessOf(c) : null; return rest.slice(0, 3).map((i, k) => { const s0 = sessOf(cat(i.cat)), dv = prev && s0 !== prev ? `<div class="blk-div">od tej walki: blok ${SESS[s0]}</div>` : ''; prev = s0; return `${dv}<div class="${k === 0 ? 'nx' : ''}"><span class="mono">${i.code}</span><span>${itemNames(i, true)}</span></div>`; }).join(''); })() || '<div class="muted">—</div>'}</div>
   </article>`;
 }
 function liveBlock(t, it) {
@@ -1654,7 +1663,7 @@ function vPeople() {
   const T = pubT(); if (!T) return noTour();
   const cats = tourCats(T), f = ui.pf;
   const clubsIn = Object.keys(CLUBS).filter(k => cats.some(c => c.entries.some(id => ent(id)?.club === k)));
-  return pageH('/uczestnicy', 'Uczestnicy', ['REQ-PUB-02'], `Zgłoszeni zawodnicy turnieju „${esc(T.name)}”. Filtruj po kategorii i klubie.`)
+  return pageH('/uczestnicy', 'Uczestnicy', ['REQ-PUB-02'], '')
     + `<div class="filterbar">
       <label class="field"><span>Kategoria</span><select data-ch="pf" data-k="cat"><option value="">Wszystkie kategorie</option>${cats.map(c => `<option value="${c.id}" ${f.cat === c.id ? 'selected' : ''}>${esc(catName(c))}</option>`).join('')}</select></label>
       <label class="field"><span>Klub</span><select data-ch="pf" data-k="club"><option value="">Wszystkie kluby</option>${clubsIn.map(k => `<option value="${k}" ${f.club === k ? 'selected' : ''}>${esc(CLUBS[k].name)}</option>`).join('')}</select></label>
@@ -1700,16 +1709,16 @@ function catNav(cats, sel, base) {
 function vBrackets(id) {
   const T = pubT(); if (!T) return noTour();
   const cats = tourCats(T), c = cats.find(x => x.id === id) || cats.find(x => catState(x)[1] === 'live') || cats[0];
-  return pageH('/drabinki', 'Drabinki i tabele', ['REQ-PUB-03'], 'Drabinki pucharowe, tabele „każdy z każdym” i rankingi kata wszystkich kategorii. Aktualizują się same po każdym wyniku.', `<button class="btn" data-act="pdfAll">Wszystkie do PDF ${rq('REQ-NFR-03')}</button>`)
+  return pageH('/drabinki', 'Drabinki', ['REQ-PUB-03'], '', `<button class="btn" data-act="pdfAll">Wszystkie do PDF ${rq('REQ-NFR-03')}</button>`)
     + (c ? `<div class="bk-layout">${catNav(cats, c, '#/drabinki/')}<div>${catBlock(c, 'pub')}</div></div>` : '<div class="card empty">Brak kategorii.</div>');
 }
-function catHead(c, acts = '') {
+function catHead(c, acts = '', full = true) {
   return `<div class="bk-head"><div><div class="eyebrow">${TYPES[c.type]} · Tatami ${TL(c.tatami)}</div><h2>${esc(catShort(c))}</h2>
-   <div class="meta-row">${catPill(c)}<span class="pill">${sysLabel(c)}</span><span class="pill">${entCount(c)}</span>${c.type === 'kata' ? `<span class="pill">do finału: ${c.adv}</span>` : sysLabel(c) === 'każdy z każdym' ? '' : `<span class="pill">${c.bronze ? 'walka o 3. miejsce' : 'dwa brązy ex aequo'}</span>`}<span class="pill">${gRange(c)}</span></div></div>
+   <div class="meta-row">${catPill(c)}<span class="pill">${entCount(c)}</span>${full ? `<span class="pill">${sysLabel(c)}</span>${c.type === 'kata' ? `<span class="pill">do finału: ${c.adv}</span>` : sysLabel(c) === 'każdy z każdym' ? '' : `<span class="pill">${c.bronze ? 'walka o 3. miejsce' : 'dwa brązy ex aequo'}</span>`}<span class="pill">${gRange(c)}</span>` : ''}</div></div>
    <div class="acts">${acts}</div></div>`;
 }
 function catBlock(c, mode, extra = '') {
-  const head = catHead(c, extra + `<button class="btn sm" data-act="pdfCat" data-id="${c.id}">Pobierz PDF ${rq('REQ-NFR-03')}</button>`);
+  const head = catHead(c, extra + `<button class="btn sm" data-act="pdfCat" data-id="${c.id}">PDF ${rq('REQ-NFR-03')}</button>`, mode !== 'pub');
   if (!c.br) return head + `<div class="card empty">Losowanie jeszcze się nie odbyło.</div>`;
   if (c.br.status === 'draft' && mode === 'pub') return head + `<div class="card empty">Drabinka jest w przygotowaniu — organizator jeszcze jej nie zatwierdził.</div>`;
   return head + podiumHTML(c) + bracketBody(c, mode);
@@ -1819,7 +1828,7 @@ function kataHTML(c) {
 }
 function vTeam() {
   const T = pubT(); if (!T) return noTour();
-  return pageH('/klasyfikacja', 'Klasyfikacja drużynowa', ['REQ-PUB-05'], `Tabela medalowa klubów turnieju „${esc(T.name)}”, liczona automatycznie po każdej zakończonej kategorii.`, liveStamp())
+  return pageH('/klasyfikacja', 'Klasyfikacja drużynowa', ['REQ-PUB-05'], '', liveStamp())
     + `<div class="team-grid">${medalTableHTML(T)}<aside class="card"><h3>Jak liczymy ${rq('REQ-ALG-04')}</h3><ol class="rules-l"><li>Więcej złotych medali.</li><li>Przy równej liczbie złotych — więcej srebrnych.</li><li>Przy równej liczbie złotych i srebrnych — więcej brązowych.</li></ol><p class="muted small" style="margin:10px 0 0">Kluby z identycznym bilansem dzielą miejsce (=). Bez walki o 3. miejsce obaj przegrani półfinałów dostają brąz. Medal drużynowy liczy się jak indywidualny.</p></aside></div>`;
 }
 function medalTableHTML(T) {
@@ -2332,6 +2341,7 @@ const ACT = {
   sim: () => { ui.sim = !ui.sim; savePrefs(); render(true); toast(ui.sim ? 'Symulacja włączona — tatami bez sędziego grają same' : 'Symulacja wstrzymana'); },
   reset: () => ask('Przywrócić dane demonstracyjne? Twoje zmiany znikną we wszystkich otwartych kartach.', 'Resetuj', () => { const r = S.rev; seed(); S.rev = r + 1; ui.edit = null; ui.kd = {}; ui.swap = null; commit(); toast('Dane demo przywrócone'); }),
   close: () => closeDrawer(),
+  lfMore: () => { ui.lfMore = !ui.lfMore; render(true); },
   lfMat: el => { ui.lf.mat = el.dataset.v; ui.lfAll = false; render(true); },
   lfAll: () => { ui.lfAll = true; $('#allList').innerHTML = allListHTML(); },
   cfav: () => { ui.cfav = !ui.cfav; render(true); },
