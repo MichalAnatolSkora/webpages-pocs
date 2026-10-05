@@ -607,6 +607,79 @@ td .medal{margin:0 auto}
   .tc-st{grid-column:1/-1}
   .tc-box b{font-size:48px}
 }
+/* ---------- powiadomienia o obserwowanych ---------- */
+.al-ctl{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin:0 0 12px}
+.al-ctl .muted{flex:1;min-width:220px}
+.bell{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--ink);background:var(--surface);color:var(--ink);border-radius:12px;padding:10px 14px;font-weight:800;font-size:15px;min-height:48px}
+.bell.on{background:var(--go);color:var(--go-ink);border-color:var(--go-ink)}
+.bell svg,.al-i svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.albox{position:fixed;left:50%;top:calc(10px + env(safe-area-inset-top,0px));transform:translateX(-50%);width:min(640px,calc(100% - 16px));z-index:70;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding:14px;border-radius:16px;border:3px solid #0f1330;box-shadow:0 18px 40px -12px rgba(0,0,0,.55);animation:alin .35s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes alin{from{transform:translate(-50%,-24px);opacity:0}to{transform:translateX(-50%);opacity:1}}
+.albox.al-go{background:#ffd23f;color:#0f1330}
+.albox.al-now{background:#b8142f;color:#fff;border-color:#fff}
+.albox.al-won{background:#0a6440;color:#fff;border-color:#fff}
+.albox.al-lost{background:#2f3557;color:#fff;border-color:#fff}
+.albox.al-medal{background:#e2b23a;color:#0f1330}
+.albox.al-info{background:#0f1330;color:#fff;border-color:#ffd23f}
+.al-i svg{width:30px;height:30px}
+.al-t b{display:block;font:850 19px/1.2 var(--f-display);font-stretch:95%}
+.al-t span{display:block;font-size:15px;margin-top:3px}
+.al-t small{display:block;font:700 12px var(--f-mono);margin-top:5px;opacity:.9}
+.al-x{border:2px solid currentColor;background:transparent;color:inherit;border-radius:12px;min-width:58px;min-height:48px;font-weight:800;font-size:16px}
+/* ---------- ekran hali (TV) ---------- */
+body.tv .top,body.tv .tabbar{display:none!important}
+body.tv main{max-width:none;padding:0}
+.tv{--u:min(1vw,1.7778vh);position:fixed;inset:0;background:#070a1c;color:#fff;display:grid;grid-template-rows:auto minmax(0,1fr) auto;font-family:var(--f-display);overflow:hidden}
+.tv .muted{color:#a9aed6}
+.tv-top{display:flex;align-items:center;gap:calc(var(--u)*1.4);padding:calc(var(--u)*.7) calc(var(--u)*1.6);border-bottom:calc(var(--u)*.2) solid #232a5a}
+.tv-top .hanko{width:calc(var(--u)*3.6);height:calc(var(--u)*3.6);font-size:calc(var(--u)*2.1);border-radius:calc(var(--u)*.6)}
+.tv-title{font-weight:900;font-size:calc(var(--u)*2.5);font-stretch:115%;line-height:1.05}
+.tv-meta{font:600 calc(var(--u)*1.15) var(--f-mono);color:#c3c8ec;margin-top:calc(var(--u)*.3)}
+.tv-ctl{margin-left:auto;display:flex;gap:8px;opacity:.35;transition:opacity .2s}
+.tv-ctl:hover,.tv-ctl:focus-within{opacity:1}
+.tv-ctl .btn{background:#1d2456;color:#fff;border-color:#3a427a}
+.tv-clock{font:800 calc(var(--u)*2.8) var(--f-mono);font-variant-numeric:tabular-nums}
+.tv-cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:calc(var(--u)*1.2);padding:calc(var(--u)*1.2) calc(var(--u)*1.6);min-height:0}
+.tv-mat{background:#11163a;border-radius:calc(var(--u)*1.2);display:flex;flex-direction:column;gap:calc(var(--u)*.6);overflow:hidden;min-width:0;min-height:0;padding-bottom:calc(var(--u)*.8)}
+.tv-mh{display:flex;justify-content:space-between;align-items:flex-end;padding:calc(var(--u)*.6) calc(var(--u)*1.2);background:#232a5e}
+.tv-mat.live .tv-mh{background:#c41a35}
+.tv-l,.tv-code{font-weight:900;line-height:1;font-variant-numeric:tabular-nums}
+.tv-l{font-size:calc(var(--u)*5)}
+.tv-code{font-size:calc(var(--u)*4.6);text-align:right}
+.tv-l small,.tv-code small{display:block;font:700 calc(var(--u)*1.05) var(--f-mono);letter-spacing:.14em;margin-bottom:calc(var(--u)*.3)}
+.tv-cat{padding:0 calc(var(--u)*1.2);font-size:calc(var(--u)*1.3);font-weight:700;color:#d3d7f2}
+.tv-f{display:flex;flex-direction:column;gap:calc(var(--u)*.4);padding:0 calc(var(--u)*1.2)}
+.tv-side{display:flex;justify-content:space-between;align-items:center;gap:calc(var(--u)*.8);border-radius:calc(var(--u)*.7);padding:calc(var(--u)*.55) calc(var(--u)*1)}
+.tv-side.a{background:#c41a35;color:#fff}
+.tv-side.b{background:#f4f5fb;color:#0f1330}
+.tv-side>div{min-width:0}
+.tv-side small{display:block;font-size:calc(var(--u)*1.15);opacity:.92}
+.tv-side b{display:block;font-size:calc(var(--u)*2.3);font-weight:850;font-stretch:88%;line-height:1.05;overflow-wrap:anywhere}
+.tv-side .sc{font-size:calc(var(--u)*3.4);font-weight:900}
+.tv-pts{display:flex;gap:calc(var(--u)*.5);flex:none}
+.tv-pts i{width:calc(var(--u)*1.7);height:calc(var(--u)*1.7);border-radius:50%;border:calc(var(--u)*.25) solid currentColor;opacity:.4}
+.tv-pts i.on{background:currentColor;opacity:1}
+.tv-idle{margin:0 calc(var(--u)*1.2);padding:calc(var(--u)*1.4) calc(var(--u)*1);text-align:center;font-size:calc(var(--u)*2.1);font-weight:800;background:#1d2456;border-radius:calc(var(--u)*.7)}
+.tv-next{margin:0 calc(var(--u)*1.2);background:#ffd23f;color:#0f1330;border-radius:calc(var(--u)*.7);padding:calc(var(--u)*.55) calc(var(--u)*1)}
+.tv-next .muted{color:#0f1330}
+.tv-next small{display:block;font:800 calc(var(--u)*1.05) var(--f-mono);letter-spacing:.12em}
+.tv-next b{display:block;font-size:calc(var(--u)*1.85);font-weight:850;font-stretch:88%;line-height:1.15;margin-top:calc(var(--u)*.2)}
+.tv-q{list-style:none;margin:0;padding:0 calc(var(--u)*1.2);display:flex;flex-direction:column;gap:calc(var(--u)*.3);overflow:hidden;min-height:0;font-size:calc(var(--u)*1.5);font-weight:650;color:#e2e5f8}
+.tv-q li{display:flex;gap:calc(var(--u)*.8)}
+.tv-q .c{font-family:var(--f-mono);font-weight:800;color:#fff;min-width:calc(var(--u)*4.2)}
+.tv-bot{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:calc(var(--u)*2);align-items:center;padding:calc(var(--u)*.6) calc(var(--u)*1.6);border-top:calc(var(--u)*.2) solid #232a5a}
+.tv-res{display:flex;flex-direction:column;gap:calc(var(--u)*.3);font-size:calc(var(--u)*1.5);color:#e2e5f8;min-width:0}
+.tv-res small{font:700 calc(var(--u)*1) var(--f-mono);letter-spacing:.14em;color:#c3c8ec}
+.tv-res span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tv-res b{color:#fff}
+.tv-qr{display:flex;align-items:center;gap:calc(var(--u)*1.2)}
+.tv-qr .q{background:#fff;padding:calc(var(--u)*.4);border-radius:calc(var(--u)*.5);width:calc(var(--u)*8);height:calc(var(--u)*8)}
+.tv-qr .q svg{width:100%;height:100%;display:block}
+.tv-qr p{margin:0;font-size:calc(var(--u)*1.6);font-weight:800;max-width:calc(var(--u)*20);line-height:1.2}
+.tv-qr p small{display:block;font:600 calc(var(--u)*1.05) var(--f-mono);color:#c3c8ec;word-break:break-all;margin-top:calc(var(--u)*.5)}
+.tv-fresh{animation:tvfresh 2.6s ease-out}
+@keyframes tvfresh{0%,35%{box-shadow:inset 0 0 0 calc(var(--u)*.5) #ffd23f}100%{box-shadow:inset 0 0 0 0 transparent}}
+@media (max-aspect-ratio:1/1){.tv{--u:2.4vw;position:static;min-height:100vh}.tv-cols{grid-template-columns:1fr}.tv-bot{grid-template-columns:1fr}}
 /* ---------- drawer, modal, toast ---------- */
 .scrim{position:fixed;inset:0;background:rgba(10,12,30,.4);z-index:40;opacity:0;pointer-events:none;transition:opacity .2s}
 .scrim.on{opacity:1;pointer-events:auto}
@@ -714,6 +787,7 @@ td .medal{margin:0 auto}
 </header>
 <main id="app"></main>
 <nav class="tabbar" id="tabbar" aria-label="Nawigacja strefy publicznej"></nav>
+<div class="albox" id="alertBox" role="alert" hidden></div>
 <div class="scrim" id="scrim" data-act="close"></div>
 <aside class="drawer" id="drawer" aria-hidden="true" role="dialog" aria-labelledby="dwTitle"><div class="dw-h"><h2 id="dwTitle"></h2><button class="x" data-act="close" aria-label="Zamknij">×</button></div><div class="dw-b" id="dwBody"></div></aside>
 <div class="modal" id="modal" hidden><div class="modal-c" role="alertdialog" aria-modal="true" aria-labelledby="mdText"><p id="mdText"></p><div class="acts"><button class="btn" data-act="mdNo">Anuluj</button><button class="btn danger-solid" id="mdYes" data-act="mdYes">OK</button></div></div></div>
@@ -1117,12 +1191,14 @@ function commit(o = {}) {
   S.rev++; qCache = null; save();
   try { if (bc) bc.postMessage(S); } catch (e) { }
   if (!o.quiet) render(!o.sim);
+  checkAlerts();
 }
 function remote(data) {
   if (!data || data.v !== VER || data.seededAt < S.seededAt || (data.seededAt === S.seededAt && data.rev < S.rev)) return;
   S = data; qCache = null;
   const li = $('#liveInd'); li.classList.remove('ping'); void li.offsetWidth; li.classList.add('ping');
   render(false);
+  checkAlerts();
 }
 if (bc) bc.onmessage = e => remote(e.data);
 else window.addEventListener('storage', e => { if (e.key === KEY && e.newValue) { try { remote(JSON.parse(e.newValue)); } catch (err) { } } });
@@ -1216,9 +1292,9 @@ function trackOne(c, id) {
   if (!c.br || c.br.status !== 'approved') return { ...base, st: 'draw', hist: [] };
   const q = Q(c.tatami), mine = q.filter(i => i.cat === c.id && (i.a === id || i.b === id));
   const hist = mine.filter(i => i.res).map(i => {
-    if (i.kind === 'kata') return { no: i.code, label: i.label, w: null, txt: `${fmt1(i.res.tot)} pkt` };
+    if (i.kind === 'kata') return { key: i.key, no: i.code, label: i.label, w: null, txt: `${fmt1(i.res.tot)} pkt` };
     const won = (i.res.w === 'a' ? i.a : i.b) === id;
-    return { no: i.code, label: i.label, w: won, txt: `${won ? 'wygrana' : 'przegrana'} · ${i.res.m}`, opp: i.a === id ? i.b : i.a };
+    return { key: i.key, no: i.code, label: i.label, w: won, txt: `${won ? 'wygrana' : 'przegrana'} · ${i.res.m}`, opp: i.a === id ? i.b : i.a };
   });
   const side = i => i.kind === 'kata' ? null : i.a === id ? 'a' : 'b', opp = i => i.kind === 'kata' ? null : i.a === id ? i.b : i.a;
   const live = mine.find(i => i.status === 'live');
@@ -1279,15 +1355,134 @@ function favHTML() {
   if (!FAV.length) return '';
   const T = pubT(), list = FAV.filter(id => ent(id)).flatMap(id => trackEntries(id)).sort(byTrack);
   const off = FAV.filter(id => ent(id) && !tourCats(T).some(c => c.entries.includes(id)));
-  return `<section class="sec"><div class="sec-h"><h2>Obserwowani (${FAV.length}) ${rq('REQ-PUB-06*')}</h2>${liveStamp()}</div><div class="tc-list">${list.map(x => trackCard(x, true)).join('')}</div>${off.length ? `<p class="muted small">Nie startują w tym turnieju: ${off.map(id => esc(ent(id).name)).join(', ')}</p>` : ''}<p class="muted small" style="margin:10px 0 0">Lista jest zapisana tylko na tym telefonie — bez logowania.</p></section>`;
+  return `<section class="sec"><div class="sec-h"><h2>Obserwowani (${FAV.length}) ${rq('REQ-PUB-06*')}</h2>${liveStamp()}</div>
+    <div class="al-ctl"><button class="bell ${AL.on ? 'on' : ''}" data-act="alerts" aria-pressed="${AL.on}">${BELL}${AL.on ? 'Powiadomienia włączone' : 'Włącz powiadomienia'}</button><span class="muted small">${AL.on ? 'Damy znać na 2 walki przed, gdy trzeba iść pod matę, i po wyniku: baner, dźwięk, wibracja (Android).' : 'Telefon zawibruje i zapika na 2 walki przed walką, gdy trzeba iść pod matę, i po wyniku.'} ${rq('REQ-PUB-07*')}</span></div>
+    <div class="tc-list">${list.map(x => trackCard(x, true)).join('')}</div>${off.length ? `<p class="muted small">Nie startują w tym turnieju: ${off.map(id => esc(ent(id).name)).join(', ')}</p>` : ''}<p class="muted small" style="margin:10px 0 0">Lista jest zapisana tylko na tym telefonie — bez logowania.</p></section>`;
 }
 function refreshFav() {
+  checkAlerts(true);
   if ($('#favWrap')) { $('#favWrap').innerHTML = favHTML(); $('#findRes').innerHTML = findHTML(); renderTop(route()); }
   else render(true);
 }
 function boardRow(t) {
   const q = Q(t), live = q.find(i => i.status === 'live'), nx = q.find(i => !i.res && i.status !== 'live'), it = live || nx;
   return `<a class="brow ${live ? 'live' : ''}" href="#/live"><span class="brow-t"><small>TATAMI</small>${TL(t)}</span><span class="brow-no"><small>${live ? 'TERAZ' : nx ? 'NASTĘPNA' : 'KONIEC'}</small><b>${it ? it.code : '✓'}</b></span><span class="brow-m"><b>${it ? itemNames(it, true) : 'Program zakończony'}</b><small>${it ? `${esc(catShort(cat(it.cat)))} · ${esc(it.label)}` : `${q.length} walk rozegranych`}</small></span></a>`;
+}
+
+/* ---------- powiadomienia o obserwowanych (propozycja REQ-PUB-07*) ---------- */
+const BELL = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16.5V11a6 6 0 1 1 12 0v5.5l1.6 2H4.4zM10 21a2.2 2.2 0 0 0 4 0"/></svg>';
+const AL = { on: false, seen: new Set(), ac: null, t: null, title: document.title };
+try { AL.on = localStorage.getItem('hajime-spec-alerts') === '1'; AL.seen = new Set(JSON.parse(sessionStorage.getItem('hajime-spec-seen') || '[]')); } catch (e) { }
+const saveSeen = () => { try { sessionStorage.setItem('hajime-spec-seen', JSON.stringify([...AL.seen].slice(-500))); } catch (e) { } };
+const AL_ORD = { now: 0, next: 1, soon: 2, medal: 3, res: 4 };
+function alertEvents() {
+  const ev = [];
+  FAV.filter(id => ent(id)).flatMap(trackEntries).forEach(x => {
+    if (x.it && (x.st === 'now' || x.st === 'next' || x.st === 'soon')) ev.push({ k: `${x.id}|${x.it.key}|${x.st}`, kind: x.st, x });
+    x.hist.forEach(h => ev.push({ k: `${x.id}|${h.key}|res`, kind: 'res', x, h }));
+    if (x.st === 'medal' && x.final) ev.push({ k: `${x.id}|${x.c.id}|medal`, kind: 'medal', x });
+  });
+  return ev;
+}
+/* silent: tylko zapamiętaj stan (włączenie, nowy obserwowany, start strony) — bez zalewu starymi zdarzeniami */
+function checkAlerts(silent) {
+  if (!S || !AL.on || !FAV.length || !pubT()) return;
+  const fresh = alertEvents().filter(e => !AL.seen.has(e.k));
+  if (!fresh.length) return;
+  fresh.forEach(e => AL.seen.add(e.k)); saveSeen();
+  if (!silent) showAlerts(fresh);
+}
+function alertText(e) {
+  const x = e.x, n = ent(x.id).name, it = x.it, side = x.side ? (x.side === 'a' ? ' · AKA (czerwony)' : ' · SHIRO (biały)') : '';
+  if (e.kind === 'now') return [`${n} walczy teraz`, `Tatami ${TL(x.c.tatami)} · walka ${it.code}${side}`];
+  if (e.kind === 'next') return [`${n}: idź pod tatami ${TL(x.c.tatami)}`, `Następna walka: ${it.code} · ${it.label}${side}`];
+  if (e.kind === 'soon') return [`${n}: za ${pl(x.ahead, 'walkę', 'walki', 'walk')}`, `Tatami ${TL(x.c.tatami)} · walka ${it.code} · ok. ${x.eta} min — przygotuj się`];
+  if (e.kind === 'medal') return [`${n}: ${x.place}. miejsce!`, catName(x.c)];
+  const h = e.h;
+  return h.w === null ? [`${n}: ${h.txt}`, `Walka ${h.no} · ${h.label}`] : [`${n}: ${h.w ? 'wygrana' : 'przegrana'}`, `Walka ${h.no} · ${h.label} · ${h.txt.split(' · ')[1]}`];
+}
+function beep(kind) {
+  try {
+    const C = AL.ac || (AL.ac = new (window.AudioContext || window.webkitAudioContext)());
+    if (C.state === 'suspended') C.resume();
+    (kind === 'now' || kind === 'next' ? [880, 1175, 880] : [988]).forEach((f, i) => {
+      const o = C.createOscillator(), g = C.createGain(), t0 = C.currentTime + i * .22;
+      o.frequency.value = f; o.connect(g); g.connect(C.destination);
+      g.gain.setValueAtTime(.0001, t0); g.gain.exponentialRampToValueAtTime(.25, t0 + .02); g.gain.exponentialRampToValueAtTime(.0001, t0 + .2);
+      o.start(t0); o.stop(t0 + .21);
+    });
+  } catch (e) { }
+}
+function alertBox(cls, t1, t2, more) {
+  const box = $('#alertBox');
+  box.className = `albox al-${cls}`;
+  box.innerHTML = `<div class="al-i">${BELL}</div><div class="al-t"><b>${esc(t1)}</b><span>${esc(t2)}</span>${more ? `<small>${more}</small>` : ''}</div><button class="al-x" data-act="alertOk">OK</button>`;
+  box.hidden = false;
+  clearTimeout(AL.t);
+}
+function showAlerts(list) {
+  list.sort((a, b) => AL_ORD[a.kind] - AL_ORD[b.kind]);
+  const top = list[0], [t1, t2] = alertText(top);
+  const cls = top.kind === 'now' ? 'now' : top.kind === 'next' || top.kind === 'soon' ? 'go' : top.kind === 'medal' ? 'medal' : top.h.w === false ? 'lost' : 'won';
+  alertBox(cls, t1, t2, list.length > 1 ? `+ ${pl(list.length - 1, 'inne powiadomienie', 'inne powiadomienia', 'innych powiadomień')}: ${list.slice(1, 3).map(e => esc(alertText(e)[0])).join(' · ')}` : '');
+  if (top.kind === 'res' || top.kind === 'soon' || top.kind === 'medal') AL.t = setTimeout(() => { $('#alertBox').hidden = true; }, 15000);
+  try { if (navigator.vibrate) navigator.vibrate({ now: [600, 120, 600], next: [300, 100, 300, 100, 300], soon: [200, 100, 200] }[top.kind] || [120]); } catch (e) { }
+  beep(top.kind);
+  if (document.hidden) {
+    document.title = `● ${t1}`;
+    if ('Notification' in window && Notification.permission === 'granted') { try { new Notification(t1, { body: t2, tag: top.k }); } catch (e) { } }
+  }
+}
+document.addEventListener('visibilitychange', () => { if (!document.hidden) document.title = AL.title; });
+document.addEventListener('pointerdown', () => { if (AL.on && !AL.ac) { try { AL.ac = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { } } }, { once: true });
+
+/* ---------- ekran hali (propozycja REQ-PUB-08*) ---------- */
+let qrSVG = null, qrLoading = false;
+const pubURL = () => location.origin + location.pathname + '#/';
+function ensureQR() {
+  if (qrSVG || qrLoading) return;
+  qrLoading = true;
+  const sc = document.createElement('script');
+  sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js';
+  sc.onload = () => {
+    try {
+      const q = qrcode(0, 'M'); q.addData(pubURL()); q.make();
+      const n = q.getModuleCount(); let d = '';
+      for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (q.isDark(r, c)) d += `M${c} ${r}h1v1h-1z`;
+      qrSVG = `<svg viewBox="-1 -1 ${n + 2} ${n + 2}" shape-rendering="crispEdges" role="img" aria-label="Kod QR strony turnieju"><path d="${d}" fill="#0f1330"/></svg>`;
+    } catch (e) { }
+    render(false);
+  };
+  sc.onerror = () => { qrLoading = false; };
+  document.head.appendChild(sc);
+}
+const tvLast = {};
+function tvMat(t) {
+  const q = Q(t), live = q.find(i => i.status === 'live'), rest = q.filter(i => !i.res && i.status !== 'live'), cur = live || rest[0];
+  const c = cur ? cat(cur.cat) : null, L = S.mats[t].live;
+  const fresh = !!(cur && tvLast[t] && tvLast[t] !== cur.code); tvLast[t] = cur ? cur.code : null;
+  let body;
+  if (live && live.kind === 'kata') { const e = ent(live.a); body = `<div class="tv-f"><div class="tv-side b"><div><small>KATA · ${esc(club(e.club).name)}</small><b>${star(live.a)}${esc(e.name)}</b></div></div></div>`; }
+  else if (live) body = `<div class="tv-f">${['a', 'b'].map((sd, i) => {
+    const e = ent(live[sd]);
+    const sc = !L ? '' : live.kind === 'team' ? `<span class="sc">${L.sub.filter(x => x === sd).length}</span>` : `<div class="tv-pts"><i class="${L.wa[i] > 0 || L.ip[i] ? 'on' : ''}"></i><i class="${L.wa[i] > 1 || L.ip[i] ? 'on' : ''}"></i></div>`;
+    return `<div class="tv-side ${sd}"><div><small>${sd === 'a' ? 'AKA' : 'SHIRO'} · ${esc(club(e.club).name)}</small><b>${star(live[sd])}${esc(e.name)}</b></div>${sc}</div>`;
+  }).join('')}</div>`;
+  else body = `<div class="tv-idle">${rest[0] ? 'Przerwa' : 'Koniec programu ✓'}</div>`;
+  return `<section class="tv-mat ${live ? 'live' : ''} ${fresh ? 'tv-fresh' : ''}"><div class="tv-mh"><div class="tv-l"><small>TATAMI</small>${TL(t)}</div><div class="tv-code"><small>${live ? '● TERAZ' : rest.length ? 'NASTĘPNA' : 'KONIEC'}</small>${cur ? cur.code : '✓'}</div></div>
+    <div class="tv-cat">${c ? `${esc(catName(c))} · ${esc(cur.label)}` : 'Wszystkie walki rozegrane'}</div>${body}
+    ${rest[0] ? `<div class="tv-next"><small>NA PRZYGOTOWANIE · ${rest[0].code}</small><b>${itemNames(rest[0], true)}</b></div>` : ''}
+    <ol class="tv-q">${rest.slice(1, 3).map(i => `<li><span class="c">${i.code}</span><span>${itemNames(i, true)}</span></li>`).join('')}</ol></section>`;
+}
+function vTV() {
+  const T = pubT(); if (!T) return noTour();
+  ensureQR();
+  const res = S.feed.filter(f => f.kind !== 'fix').slice(0, 3);
+  return `<div class="tv"><header class="tv-top"><span class="hanko" aria-hidden="true">始</span><div><div class="tv-title">${esc(T.name)}</div><div class="tv-meta">${fmtDate(T.date)} · ${esc(T.place)} · kod walki: litera tatami + numer (A22)</div></div>
+    <div class="tv-ctl"><button class="btn sm" data-act="tvFull">Pełny ekran</button><a class="btn sm" href="#/live">Zamknij</a></div><div class="tv-clock" id="tvClock">${hhmm()}</div></header>
+    <div class="tv-cols">${TABS.map(tvMat).join('')}</div>
+    <footer class="tv-bot"><div class="tv-res"><small>OSTATNIE WYNIKI</small>${res.map(f => `<span>${f.html}</span>`).join('') || '<span>—</span>'}</div>
+      <div class="tv-qr">${qrSVG ? `<div class="q">${qrSVG}</div>` : ''}<p>Gdzie i kiedy walczy Twój zawodnik? Zeskanuj i obserwuj.<small>${esc(pubURL().replace(/^https?:\/\//, ''))}</small></p></div></footer></div>`;
 }
 
 /* ===================== strefa publiczna ===================== */
@@ -1312,7 +1507,7 @@ function vHome() {
 }
 function vLive() {
   if (!pubT()) return noTour();
-  return pageH('/live', 'Na żywo — wszystkie tatami', ['REQ-PUB-04', 'REQ-NFR-01'], 'Aktualna walka i kolejka na każdym tatami. Walki mają kody jak w hali: <b>A22</b> to 22. walka na tatami A. Szukasz konkretnej osoby? <a href="#/">Obserwuj zawodnika</a>.', liveStamp())
+  return pageH('/live', 'Na żywo — wszystkie tatami', ['REQ-PUB-04', 'REQ-NFR-01'], 'Aktualna walka i kolejka na każdym tatami. Walki mają kody jak w hali: <b>A22</b> to 22. walka na tatami A. Szukasz konkretnej osoby? <a href="#/">Obserwuj zawodnika</a>.', liveStamp() + ` <a class="btn" href="#/tv" target="_blank" rel="noopener">Ekran hali (TV) ↗ ${rq('REQ-PUB-08*')}</a>`)
     + `<div class="mats">${TABS.map(matCard).join('')}</div><section class="card" style="margin-top:16px"><div class="card-h"><h3>Ostatnie wyniki</h3></div>${feedHTML(12)}</section>`;
 }
 function matCard(t) {
@@ -1675,7 +1870,7 @@ function schedule(T) {
 function vAdmSched() {
   const T = adminT(); if (!T) return noTourAdm();
   const sch = schedule(T);
-  return pageH('/admin/harmonogram', 'Harmonogram tatami', ['REQ-ADM-08', 'REQ-NFR-03'], 'Kolejność kategorii na tatami i szacowane godziny (kumite 4 min, kata 3 min, drużyny 10 min na walkę). Kategorie bez wyników możesz przesuwać i przenosić.', `<button class="btn" data-act="pdfSched">Harmonogram do PDF</button><button class="btn" data-act="pdfAll">Drabinki do PDF</button>`)
+  return pageH('/admin/harmonogram', 'Harmonogram tatami', ['REQ-ADM-08', 'REQ-NFR-03'], 'Kolejność kategorii na tatami i szacowane godziny (kumite 4 min, kata 3 min, drużyny 10 min na walkę). Kategorie bez wyników możesz przesuwać i przenosić.', `<button class="btn" data-act="pdfSched">Harmonogram do PDF</button><button class="btn" data-act="pdfAll">Drabinki do PDF</button><a class="btn" href="#/tv" target="_blank" rel="noopener">Ekran hali (TV) ↗</a>`)
     + admCtx()
     + `<div class="sched">${TABS.map(t => `<section class="card sch-col"><h3>Tatami ${TL(t)}</h3>${sch[t].map((r, i) => {
       const busy = catBusy(r.c), up = i > 0 && !busy && !catBusy(sch[t][i - 1].c), down = i < sch[t].length - 1 && !busy && !catBusy(sch[t][i + 1].c);
@@ -1918,11 +2113,14 @@ const REQS = [
   ['REQ-NFR-03', 'Drabinki i harmonogram do PDF', 'Przycisk PDF → okno druku → „Zapisz jako PDF”', '#/drabinki', 'sim'],
   ['8. Propozycje po feedbacku z hali (poza dokumentem)'],
   ['REQ-PUB-06*', 'Obserwowani zawodnicy bez logowania: tatami, numer walki, czas, strona AKA/SHIRO, wyniki', 'Start → wpisz nazwisko lub klub → ☆', '#/', 'new'],
+  ['REQ-PUB-07*', 'Powiadomienia o obserwowanych: na 2 walki przed, „idź pod matę”, wynik (wibracja, dźwięk, baner)', 'Start → Obserwowani → Włącz powiadomienia', '#/', 'new'],
+  ['REQ-PUB-08*', 'Ekran hali (TV): wszystkie tatami, walka teraz, na przygotowanie, wyniki, kod QR do obserwowania', 'Na żywo → Ekran hali (TV)', '#/tv', 'new'],
   ['REQ-NFR-04*', 'Czytelność w hali: kontrast tekstu min. 4,5:1, duże numery tatami i walki, dolny pasek na telefonie', 'Cały mock na telefonie', '#/live', 'new'],
 ];
 const QUESTIONS = [
   ['Feedback z hali', 'Na sali jest kilkaset osób i panuje chaos — rodzic, trener i zawodnik muszą od razu wiedzieć: kiedy walka, na które tatami iść i jaki był wynik. Specyfikacja tego nie obejmuje (REQ-CLUB-03 działa tylko po zalogowaniu klubu). Proponuję REQ-PUB-06: obserwowanie zawodników bez logowania (numer tatami i walki, szacowany czas, strona AKA/SHIRO, wyniki) oraz REQ-NFR-04: kontrast tekstu co najmniej 4,5:1 i numery tatami/walki czytelne z kilku metrów.'],
   ['REQ-ADM-06, REQ-ALG-03', 'Wolne losy są potrzebne zawsze, gdy liczba zawodników nie jest potęgą dwójki (np. 6 zawodników → 2 wolne losy), a nie tylko przy liczbie nieparzystej. Lepiej: „gdy liczba zawodników nie wypełnia drabinki”. Oba warianty — wolny los i walka eliminacyjna — dają tę samą liczbę walk (n − 2<sup>⌊log₂n⌋</sup> w rundzie wstępnej) i różnią się tylko opisem. Czy „walka eliminacyjna” miała znaczyć coś innego, np. repasaż?'],
+  ['Powiadomienia push', 'Prawdziwe powiadomienia przy zablokowanym telefonie wymagają Web Push (service worker + serwer). Na Androidzie działa to w przeglądarce, na iPhonie tylko po dodaniu strony do ekranu głównego (PWA, iOS 16.4+). Wibracja z przeglądarki działa tylko na Androidzie. Mock pokazuje baner, dźwięk i wibrację, dopóki strona jest otwarta — do decyzji, czy robimy PWA, czy SMS/e-mail jako zapas.'],
   ['REQ-ADM-05', '„egzekwo” → „ex aequo”.'],
   ['REQ-ADM-07, REQ-ALG-01', 'W tekście brakuje symboli (po wklejeniu zostały puste znaki) — zapewne „N zawodników” i „n < 4”.'],
   ['REQ-ALG-01', 'Brak zasad remisu w tabeli „każdy z każdym”. Mock: 2 pkt za wygraną → bezpośredni pojedynek → liczba waza-ari. Czy przy 3 zawodnikach trzecie miejsce daje brąz (mock: tak)?'],
@@ -1939,7 +2137,8 @@ function vSpec() {
   const n = REQS.filter(r => r.length > 1 && r[4] !== 'new').length, sim = REQS.filter(r => r[4] === 'sim').length;
   return pageH('/specyfikacja', 'Pokrycie specyfikacji', [], `Każde wymaganie z dokumentu ma swój ekran w mocku. ${n} wymagań: ${n - sim} pokazanych wprost, ${sim} zasymulowanych (logowanie, czas rzeczywisty, PDF). Numery REQ przy elementach włączasz przyciskiem „REQ” u góry (na telefonie — w stopce). Gwiazdka (*) oznacza propozycję spoza dokumentu.`)
     + `<div class="howto">
-      <div class="card"><h3>Na telefonie w hali</h3><p>Na stronie Start wpisz nazwisko albo klub i dotknij ☆. Karta pokaże tatami i kod walki (np. A22 = 22. walka na tatami A), ile walk zostało, stronę AKA/SHIRO i wyniki.</p></div>
+      <div class="card"><h3>Na telefonie w hali</h3><p>Na stronie Start wpisz nazwisko albo klub i dotknij ☆. Karta pokaże tatami i kod walki (np. A22 = 22. walka na tatami A), ile walk zostało, stronę AKA/SHIRO i wyniki. „Włącz powiadomienia” — telefon da znać przed walką.</p></div>
+      <div class="card"><h3>Ekran hali</h3><p><a href="#/tv" target="_blank" rel="noopener">Ekran na telewizor</a>: wszystkie tatami, walka teraz i na przygotowanie, ostatnie wyniki i kod QR, którym kibice otwierają obserwowanie zawodnika.</p></div>
       <div class="card"><h3>Czas rzeczywisty</h3><p>Otwórz <a href="#/live" target="_blank" rel="noopener">Na żywo w nowej karcie</a>. Tutaj zaloguj się jako sędzia, wybierz tatami i wpisuj punkty — druga karta zmienia się bez odświeżania.</p></div>
       <div class="card"><h3>Drabinka od zera</h3><p>Zaloguj się jako administrator → Drabinki → „Chłopcy 10–11 −35 kg” → Generuj. Zamień dwóch zawodników, zatwierdź — walki trafią do sędziego Tatami B.</p></div>
       <div class="card"><h3>Widok klubu</h3><p>Zaloguj się jako klub (np. Żuraw Dojo) → Na żywo: zawodnicy klubu z numerem tatami i walki. Zgłoszenia działają dla Turnieju Jesiennego.</p></div>
@@ -1985,6 +2184,22 @@ const ACT = {
   sim: () => { ui.sim = !ui.sim; savePrefs(); render(true); toast(ui.sim ? 'Symulacja włączona — tatami bez sędziego grają same' : 'Symulacja wstrzymana'); },
   reset: () => ask('Przywrócić dane demonstracyjne? Twoje zmiany znikną we wszystkich otwartych kartach.', 'Resetuj', () => { const r = S.rev; seed(); S.rev = r + 1; ui.edit = null; ui.kd = {}; ui.swap = null; commit(); toast('Dane demo przywrócone'); }),
   close: () => closeDrawer(),
+  alertOk: () => { $('#alertBox').hidden = true; document.title = AL.title; },
+  alerts: () => {
+    AL.on = !AL.on;
+    try { localStorage.setItem('hajime-spec-alerts', AL.on ? '1' : '0'); } catch (e) { }
+    if (AL.on) {
+      try { AL.ac = AL.ac || new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { }
+      if ('Notification' in window && Notification.permission === 'default') { try { Notification.requestPermission(); } catch (e) { } }
+      checkAlerts(true);
+      const first = FAV.filter(id => ent(id)).flatMap(trackEntries).filter(x => x.it).sort(byTrack)[0];
+      alertBox('info', 'Powiadomienia włączone', first ? `Najbliżej: ${ent(first.id).name} — tatami ${TL(first.c.tatami)}, walka ${first.it.code}` : 'Damy znać przed walką i po wyniku.', 'Telefon zawibruje i zapika. Strona musi być otwarta — w aplikacji docelowej przyjdzie push.');
+      AL.t = setTimeout(() => { $('#alertBox').hidden = true; }, 8000);
+      try { if (navigator.vibrate) navigator.vibrate(80); } catch (e) { }
+    } else $('#alertBox').hidden = true;
+    refreshFav();
+  },
+  tvFull: () => { try { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen(); } catch (e) { } },
   fav: el => { const id = el.dataset.id, on = !isFav(id); FAV = on ? [...FAV, id] : FAV.filter(x => x !== id); saveFav(); refreshFav(); toast(on ? `Obserwujesz: ${ent(id).name}` : `Nie obserwujesz: ${ent(id).name}`); },
   favClub: el => { const k = el.dataset.k, ids = [...new Set(tourCats(pubT()).flatMap(c => c.entries).filter(id => ent(id)?.club === k))]; FAV = [...new Set([...FAV, ...ids])]; saveFav(); ui.fq = ''; if ($('#findIn')) $('#findIn').value = ''; refreshFav(); toast(`Obserwujesz ${pl(ids.length, 'osobę', 'osoby', 'osób')} z klubu ${CLUBS[k].name}`); },
   mdNo: () => { $('#modal').hidden = true; mdFn = null; },
@@ -2229,6 +2444,7 @@ function renderTop(r) {
   $('#reqBtn').setAttribute('aria-pressed', String(ui.reqs)); $('#simBtn').setAttribute('aria-pressed', String(ui.sim));
   document.body.classList.toggle('reqs', ui.reqs);
   document.body.classList.toggle('z-pub', z === 'pub');
+  document.body.classList.toggle('tv', r[0] === 'tv');
   const tOn = h => h === '#/' ? p === '#/' : p === h || p.startsWith(h + '/');
   $('#tabbar').innerHTML = z === 'pub' ? TABBAR.map(([h, l, d]) => `<a href="${h}" class="${tOn(h) ? 'on' : ''}" ${tOn(h) ? 'aria-current="page"' : ''}><svg viewBox="0 0 24 24" aria-hidden="true">${d}</svg><span>${l}${h === '#/' && FAV.length ? ` (${FAV.length})` : ''}</span></a>`).join('') : '';
 }
@@ -2240,6 +2456,7 @@ function view(r) {
     case 'drabinki': return vBrackets(r[1]);
     case 'klasyfikacja': return vTeam();
     case 'specyfikacja': return vSpec();
+    case 'tv': return vTV();
     case 'admin': return adminView(r.slice(1));
     case 'referee': return refView(r.slice(1));
   }
@@ -2267,7 +2484,7 @@ function render(force) {
   if (c.join('/') !== r.join('/')) { history.replaceState(null, '', '#/' + c.join('/')); r = c; }
   claimIfRef(r);
   renderTop(r);
-  $('#app').innerHTML = view(r) + footHTML();
+  $('#app').innerHTML = view(r) + (r[0] === 'tv' ? '' : footHTML());
   if (r[0] === 'referee') {
     const el = $('#qLive') || $('.q-i.next'), box = $('.qlist');
     if (el && box && ui.scrolledLive !== el.dataset.key) { ui.scrolledLive = el.dataset.key; box.scrollTop = Math.max(0, el.offsetTop - 60); }
@@ -2297,7 +2514,9 @@ document.addEventListener('keydown', e => {
 document.addEventListener('focusout', () => setTimeout(() => { if (pendingRender && !editing()) render(false); }, 60));
 window.addEventListener('hashchange', () => { ui.swap = null; ui.edit = null; closeDrawer(); render(true); window.scrollTo(0, 0); });
 render(true);
+checkAlerts(true);
 setInterval(simTick, 1000);
+setInterval(() => { const el = $('#tvClock'); if (el) el.textContent = new Date().toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit' }); }, 1000);
 setInterval(() => claimIfRef(route()), 5000);
 </script>
 </body>
