@@ -227,7 +227,7 @@ table.t .r{text-align:right}
 .next-list>div{display:flex;gap:10px;padding:4px 6px;border-radius:8px}
 .next-list>div.nx{background:var(--go);color:var(--go-ink);font-weight:700}
 .next-list>div.nx .muted{color:var(--go-ink)}
-.next-list .mono{color:inherit;font-size:15px;font-weight:800;flex:none;width:28px}
+.next-list .mono{color:inherit;font-size:15px;font-weight:800;flex:none;width:42px}
 .next-list span:last-child{min-width:0;overflow-wrap:anywhere}
 .mbar{height:4px;background:var(--surface-3);border-radius:9px;overflow:hidden}
 .mbar i{display:block;height:100%;background:var(--ai);transition:width .4s}
@@ -472,7 +472,7 @@ td .medal{margin:0 auto}
 .big-k{font:900 54px/1 var(--f-jp);color:var(--aka);margin-bottom:8px}
 .ref-q{position:sticky;top:130px}
 .qlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;position:relative;max-height:calc(100vh - 230px);overflow:auto;scrollbar-width:thin}
-.q-i{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:8px;align-items:center;padding:9px 6px;border-top:1px solid var(--line)}
+.q-i{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:8px;align-items:center;padding:9px 6px;border-top:1px solid var(--line)}
 .q-i:first-child{border-top:0}
 .q-i .no{font:800 14px var(--f-mono);color:var(--ink-3);text-align:center}
 .q-i b{display:block;font:700 13.5px/1.25 var(--f-display);font-stretch:88%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -554,7 +554,7 @@ td .medal{margin:0 auto}
 .side.a{background:#b8142f;color:#fff}
 .side.b{background:#fff;color:#0f1330;box-shadow:inset 0 0 0 2px #0f1330}
 .tc-hist{list-style:none;margin:0;padding:10px 0 0;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:6px;font-size:14.5px}
-.tc-hist li{display:grid;grid-template-columns:30px 1fr;gap:8px}
+.tc-hist li{display:grid;grid-template-columns:40px 1fr;gap:8px}
 .tc-hist .mono{font-size:13.5px;font-weight:800;color:var(--ink-3)}
 .tc-hist li.w{color:var(--ok);font-weight:700}
 .tc-hist li.l{color:var(--bad);font-weight:700}
@@ -576,7 +576,7 @@ td .medal{margin:0 auto}
 .tc.st-medal{border-color:var(--gold);background:linear-gradient(120deg,color-mix(in srgb,var(--gold) 24%,var(--surface)),var(--surface) 70%)}
 .tc.st-out .tc-msg,.tc.st-draw .tc-msg,.tc.st-wait .tc-msg{color:var(--ink-2);font-size:17px}
 .board{display:flex;flex-direction:column;gap:8px}
-.brow{display:grid;grid-template-columns:64px 78px minmax(0,1fr);gap:10px;align-items:center;background:var(--surface);border:2px solid var(--line-2);border-radius:14px;padding:8px;text-decoration:none;color:var(--ink)}
+.brow{display:grid;grid-template-columns:64px 86px minmax(0,1fr);gap:10px;align-items:center;background:var(--surface);border:2px solid var(--line-2);border-radius:14px;padding:8px;text-decoration:none;color:var(--ink)}
 .brow-t,.brow-no{display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:10px;padding:7px 0;line-height:1}
 .brow-t{background:var(--ink);color:var(--paper);font:900 30px/1 var(--f-display)}
 .brow-t small,.brow-no small{font:700 10.5px var(--f-mono);letter-spacing:.08em;margin-bottom:3px}
@@ -761,6 +761,9 @@ const ST = { draft: ['Szkic', ''], open: ['Zapisy otwarte', 'ai'], live: ['W tra
 const METHODS = ['Ippon', 'Waza-ari', 'Hantei', 'Hansoku', 'Kiken'];
 const MSHORT = { 'Ippon': 'IPPON', 'Waza-ari': 'WAZA', 'Hantei': 'HANTEI', 'Hansoku': 'HANS.', 'Kiken': 'KIKEN' };
 const TABS = [1, 2, 3];
+/* tatami oznacza się literą, walkę kodem: A22 = 22. walka na tatami A */
+const TL = t => String.fromCharCode(64 + t);
+const tParse = v => { const n = /^[a-z]$/i.test(v || '') ? v.toUpperCase().charCodeAt(0) - 64 : +v; return TABS.includes(n) ? n : null; };
 const SIM_MS = 10000;
 const NM = {
   boy: ['Antoni', 'Jan', 'Szymon', 'Filip', 'Kacper', 'Igor', 'Mikołaj', 'Oskar', 'Tymon', 'Leon', 'Wiktor', 'Bartek', 'Hubert', 'Franek', 'Olek', 'Kuba', 'Staś', 'Miłosz', 'Nikodem', 'Ignacy', 'Maks', 'Borys', 'Julian', 'Kajetan', 'Aleksander', 'Tadeusz'],
@@ -933,14 +936,15 @@ function Q(t) {
     TABS.forEach(tt => {
       const items = [];
       if (T) S.cats.filter(c => c.t === T.id && c.tatami === tt).sort((a, b) => a.ord - b.ord).forEach(c => items.push(...catItems(c)));
-      items.forEach((it, k) => { it.no = k + 1; it.t = tt; it.status = it.res ? 'done' : S.mats[tt].active === it.key ? 'live' : it.ready ? 'ready' : 'wait'; });
+      items.forEach((it, k) => { it.no = k + 1; it.code = TL(tt) + it.no; it.t = tt; it.status = it.res ? 'done' : S.mats[tt].active === it.key ? 'live' : it.ready ? 'ready' : 'wait'; });
       qCache[tt] = items;
     });
   }
   return qCache[t];
 }
 const allItems = () => TABS.flatMap(Q);
-const noOf = (c, id) => { const T = pubT(); if (!T || c.t !== T.id) return null; const it = Q(c.tatami).find(i => i.key === `${c.id}:${id}`); return it ? it.no : null; };
+const itemOf = (c, id) => { const T = pubT(); if (!T || c.t !== T.id) return null; return Q(c.tatami).find(i => i.key === `${c.id}:${id}`) || null; };
+const noOf = (c, id) => itemOf(c, id)?.code ?? null;
 
 /* ---------- miejsca i klasyfikacja ---------- */
 function catPlaces(c) {
@@ -973,9 +977,9 @@ function medalTable(T) {
 /* ---------- wyniki ---------- */
 function feedAdd(t, html, at, kind) { S.feed.unshift({ tm: at || hhmm(), t, html, kind: kind || '' }); if (S.feed.length > 40) S.feed.length = 40; }
 function resultText(it, r) {
-  if (it.kind === 'kata') return `T${it.t} · ${esc(catShort(cat(it.cat)))}: <b>${esc(ent(it.a).name)}</b> — ${fmt1(r.tot)} pkt`;
+  if (it.kind === 'kata') return `${it.code} · ${esc(catShort(cat(it.cat)))}: <b>${esc(ent(it.a).name)}</b> — ${fmt1(r.tot)} pkt`;
   const w = r.w === 'a' ? it.a : it.b, l = r.w === 'a' ? it.b : it.a;
-  return `T${it.t} · walka ${it.no}: <b>${esc(ent(w).name)}</b> pokonuje ${esc(ent(l).name)} (${esc(r.m)})`;
+  return `Walka ${it.code}: <b>${esc(ent(w).name)}</b> pokonuje ${esc(ent(l).name)} (${esc(r.m)})`;
 }
 function activate(t, key) {
   const m = S.mats[t];
@@ -1212,9 +1216,9 @@ function trackOne(c, id) {
   if (!c.br || c.br.status !== 'approved') return { ...base, st: 'draw', hist: [] };
   const q = Q(c.tatami), mine = q.filter(i => i.cat === c.id && (i.a === id || i.b === id));
   const hist = mine.filter(i => i.res).map(i => {
-    if (i.kind === 'kata') return { no: i.no, label: i.label, w: null, txt: `${fmt1(i.res.tot)} pkt` };
+    if (i.kind === 'kata') return { no: i.code, label: i.label, w: null, txt: `${fmt1(i.res.tot)} pkt` };
     const won = (i.res.w === 'a' ? i.a : i.b) === id;
-    return { no: i.no, label: i.label, w: won, txt: `${won ? 'wygrana' : 'przegrana'} · ${i.res.m}`, opp: i.a === id ? i.b : i.a };
+    return { no: i.code, label: i.label, w: won, txt: `${won ? 'wygrana' : 'przegrana'} · ${i.res.m}`, opp: i.a === id ? i.b : i.a };
   });
   const side = i => i.kind === 'kata' ? null : i.a === id ? 'a' : 'b', opp = i => i.kind === 'kata' ? null : i.a === id ? i.b : i.a;
   const live = mine.find(i => i.status === 'live');
@@ -1244,9 +1248,9 @@ function trackCard(x, withFav) {
   if (it) {
     const msg = { now: '<span class="blink">●</span> Teraz na macie', next: 'Następna walka — idź pod matę', soon: `Za ${pl(x.ahead, 'walkę', 'walki', 'walk')} · ok. ${x.eta} min`, later: `Za ${pl(x.ahead, 'walkę', 'walki', 'walk')} · ok. ${x.eta} min` }[x.st];
     const who = x.side ? `<span class="tc-vs">${esc(it.label)} · vs ${x.opp ? `<b>${esc(ent(x.opp).name)}</b>` : 'rywal jeszcze nieznany'}</span><span class="side ${x.side}">${x.side === 'a' ? 'AKA · czerwony' : 'SHIRO · biały'}</span>` : `<span class="tc-vs">${esc(it.label)}</span>`;
-    main = `<div class="tc-main"><div class="tc-box"><small>TATAMI</small><b>${c.tatami}</b></div><div class="tc-box"><small>WALKA</small><b>${it.no}</b></div><div class="tc-st"><b class="tc-msg">${msg}</b>${who}</div></div>`;
+    main = `<div class="tc-main"><div class="tc-box"><small>TATAMI</small><b>${TL(c.tatami)}</b></div><div class="tc-box"><small>WALKA</small><b>${it.code}</b></div><div class="tc-st"><b class="tc-msg">${msg}</b>${who}</div></div>`;
   } else if (x.st === 'medal') main = `<div class="tc-main"><div class="tc-medal">${medalDot(x.place)}<b>${x.place}. miejsce</b>${x.final ? '' : '<span class="tc-vs">kategoria jeszcze trwa</span>'}</div></div>`;
-  else if (x.st === 'draw') main = `<div class="tc-st"><b class="tc-msg">Losowanie jeszcze się nie odbyło</b><span class="tc-vs">Tatami ${c.tatami} · numer walki pojawi się po zatwierdzeniu drabinki</span></div>`;
+  else if (x.st === 'draw') main = `<div class="tc-st"><b class="tc-msg">Losowanie jeszcze się nie odbyło</b><span class="tc-vs">Tatami ${TL(c.tatami)} · numer walki pojawi się po zatwierdzeniu drabinki</span></div>`;
   else main = `<div class="tc-st"><b class="tc-msg">${esc(x.msg)}</b></div>`;
   const hist = x.hist.length ? `<ol class="tc-hist">${x.hist.map(h => `<li class="${h.w === true ? 'w' : h.w === false ? 'l' : ''}"><span class="mono">${h.no}</span><span>${h.w === true ? '✓' : h.w === false ? '✗' : '•'} ${esc(h.label)} — ${esc(h.txt)}${h.opp ? ` · vs ${esc(ent(h.opp).name)}` : ''}</span></li>`).join('')}</ol>` : '';
   return `<article class="tc st-${x.st}">${head}${main}${hist}</article>`;
@@ -1283,7 +1287,7 @@ function refreshFav() {
 }
 function boardRow(t) {
   const q = Q(t), live = q.find(i => i.status === 'live'), nx = q.find(i => !i.res && i.status !== 'live'), it = live || nx;
-  return `<a class="brow ${live ? 'live' : ''}" href="#/live"><span class="brow-t"><small>TATAMI</small>${t}</span><span class="brow-no"><small>${live ? 'TERAZ' : nx ? 'NASTĘPNA' : 'KONIEC'}</small><b>${it ? it.no : '✓'}</b></span><span class="brow-m"><b>${it ? itemNames(it, true) : 'Program zakończony'}</b><small>${it ? `${esc(catShort(cat(it.cat)))} · ${esc(it.label)}` : `${q.length} walk rozegranych`}</small></span></a>`;
+  return `<a class="brow ${live ? 'live' : ''}" href="#/live"><span class="brow-t"><small>TATAMI</small>${TL(t)}</span><span class="brow-no"><small>${live ? 'TERAZ' : nx ? 'NASTĘPNA' : 'KONIEC'}</small><b>${it ? it.code : '✓'}</b></span><span class="brow-m"><b>${it ? itemNames(it, true) : 'Program zakończony'}</b><small>${it ? `${esc(catShort(cat(it.cat)))} · ${esc(it.label)}` : `${q.length} walk rozegranych`}</small></span></a>`;
 }
 
 /* ===================== strefa publiczna ===================== */
@@ -1308,17 +1312,17 @@ function vHome() {
 }
 function vLive() {
   if (!pubT()) return noTour();
-  return pageH('/live', 'Na żywo — wszystkie tatami', ['REQ-PUB-04', 'REQ-NFR-01'], 'Aktualna walka i kolejka na każdym tatami. Strona odświeża się sama. Szukasz konkretnej osoby? <a href="#/">Obserwuj zawodnika</a> — zobaczysz numer tatami i walki.', liveStamp())
+  return pageH('/live', 'Na żywo — wszystkie tatami', ['REQ-PUB-04', 'REQ-NFR-01'], 'Aktualna walka i kolejka na każdym tatami. Walki mają kody jak w hali: <b>A22</b> to 22. walka na tatami A. Szukasz konkretnej osoby? <a href="#/">Obserwuj zawodnika</a>.', liveStamp())
     + `<div class="mats">${TABS.map(matCard).join('')}</div><section class="card" style="margin-top:16px"><div class="card-h"><h3>Ostatnie wyniki</h3></div>${feedHTML(12)}</section>`;
 }
 function matCard(t) {
   const q = Q(t), live = q.find(i => i.status === 'live'), rest = q.filter(i => !i.res && i.status !== 'live'), done = q.filter(i => i.res).length;
   const cur = live || rest[0], c = cur ? cat(cur.cat) : null;
   return `<article class="mat ${live ? 'is-live' : ''}">
-    <div class="mat-h"><span class="mat-n"><small>TATAMI</small><b>${t}</b></span><span class="mat-no"><small>${live ? '● TERAZ WALKA' : rest.length ? 'NASTĘPNA WALKA' : 'KONIEC'}</small><b>${cur ? cur.no : '✓'}</b></span></div>
+    <div class="mat-h"><span class="mat-n"><small>TATAMI</small><b>${TL(t)}</b></span><span class="mat-no"><small>${live ? '● TERAZ WALKA' : rest.length ? 'NASTĘPNA WALKA' : 'KONIEC'}</small><b>${cur ? cur.code : '✓'}</b></span></div>
     <div class="mat-cat">${c ? `${esc(catName(c))} · ${esc(cur.label)}` : 'Wszystkie kategorie zakończone'}</div>
-    ${live ? liveBlock(t, live) : `<div class="mat-idle">${rest[0] ? `Przerwa — za chwilę walka ${rest[0].no}` : 'Program tatami zakończony ✓'}</div>`}
-    <div class="next-list"><span class="eyebrow">Kolejka</span>${rest.slice(0, 4).map((i, k) => `<div class="${k === 0 ? 'nx' : ''}"><span class="mono">${i.no}</span><span>${itemNames(i, true)}</span></div>`).join('') || '<div class="muted">—</div>'}</div>
+    ${live ? liveBlock(t, live) : `<div class="mat-idle">${rest[0] ? `Przerwa — za chwilę walka ${rest[0].code}` : 'Program tatami zakończony ✓'}</div>`}
+    <div class="next-list"><span class="eyebrow">Kolejka</span>${rest.slice(0, 4).map((i, k) => `<div class="${k === 0 ? 'nx' : ''}"><span class="mono">${i.code}</span><span>${itemNames(i, true)}</span></div>`).join('') || '<div class="muted">—</div>'}</div>
     <div class="mbar"><i style="width:${q.length ? done / q.length * 100 : 0}%"></i></div>
     <div class="mat-f"><span>${done}/${q.length} rozegranych</span><span>${refClaim(t) ? 'sędzia przy stoliku' : 'symulacja'}</span></div>
   </article>`;
@@ -1354,13 +1358,13 @@ function peopleList() {
     });
   });
   rows.sort((a, b) => (a.e.a?.ln || a.e.name).localeCompare(b.e.a?.ln || b.e.name, 'pl'));
-  return `<div class="count muted">${pl(rows.length, 'zgłoszenie', 'zgłoszenia', 'zgłoszeń')}</div>${rows.length ? `<div class="plist">${rows.map(({ e, c, mem }) => `<div class="p-row"><span class="club-dot" style="--c:${club(e.club).c}"></span><div><b>${esc(e.name)}</b><small>${esc(club(e.club).name)}${mem ? ' · skład: ' + esc(mem) : ''}</small></div><div class="p-cat"><a href="#/drabinki/${c.id}">${esc(catShort(c))}</a><small>${TYPES[c.type]} · Tatami ${c.tatami}</small></div><div class="p-g">${e.team ? '<span class="pill">drużyna</span>' : `${belt(e.g)} ${gLabel(e.g)}`}</div><button class="star sm ${isFav(e.id) ? 'on' : ''}" data-act="fav" data-id="${e.id}" aria-pressed="${isFav(e.id)}" aria-label="Obserwuj: ${esc(e.name)}">${isFav(e.id) ? '★' : '☆'}</button></div>`).join('')}</div>` : '<div class="card empty">Nikt nie pasuje do filtrów.</div>'}`;
+  return `<div class="count muted">${pl(rows.length, 'zgłoszenie', 'zgłoszenia', 'zgłoszeń')}</div>${rows.length ? `<div class="plist">${rows.map(({ e, c, mem }) => `<div class="p-row"><span class="club-dot" style="--c:${club(e.club).c}"></span><div><b>${esc(e.name)}</b><small>${esc(club(e.club).name)}${mem ? ' · skład: ' + esc(mem) : ''}</small></div><div class="p-cat"><a href="#/drabinki/${c.id}">${esc(catShort(c))}</a><small>${TYPES[c.type]} · Tatami ${TL(c.tatami)}</small></div><div class="p-g">${e.team ? '<span class="pill">drużyna</span>' : `${belt(e.g)} ${gLabel(e.g)}`}</div><button class="star sm ${isFav(e.id) ? 'on' : ''}" data-act="fav" data-id="${e.id}" aria-pressed="${isFav(e.id)}" aria-label="Obserwuj: ${esc(e.name)}">${isFav(e.id) ? '★' : '☆'}</button></div>`).join('')}</div>` : '<div class="card empty">Nikt nie pasuje do filtrów.</div>'}`;
 }
 
 /* ---------- drabinki ---------- */
 const BX = { COLW: 190, GAP: 36, BH: 62, U: 86, TOP: 30 };
 function catNav(cats, sel, base) {
-  return `<nav class="cat-list" aria-label="Kategorie">${cats.map(c => `<a class="cat-btn ${c === sel ? 'on' : ''}" href="${base}${c.id}"><b>${esc(catShort(c))}</b><span class="row"><span>${TYPES[c.type]} · T${c.tatami} · ${c.entries.length} ${c.type === 'team' ? 'dr.' : 'os.'}</span>${catPill(c)}</span></a>`).join('')}</nav>
+  return `<nav class="cat-list" aria-label="Kategorie">${cats.map(c => `<a class="cat-btn ${c === sel ? 'on' : ''}" href="${base}${c.id}"><b>${esc(catShort(c))}</b><span class="row"><span>${TYPES[c.type]} · tatami ${TL(c.tatami)} · ${c.entries.length} ${c.type === 'team' ? 'dr.' : 'os.'}</span>${catPill(c)}</span></a>`).join('')}</nav>
   <label class="field cat-sel"><span>Kategoria</span><select data-ch="go" data-base="${base}">${cats.map(c => `<option value="${c.id}" ${c === sel ? 'selected' : ''}>${esc(catName(c))} — ${catState(c)[0]}</option>`).join('')}</select></label>`;
 }
 function vBrackets(id) {
@@ -1370,7 +1374,7 @@ function vBrackets(id) {
     + (c ? `<div class="bk-layout">${catNav(cats, c, '#/drabinki/')}<div>${catBlock(c, 'pub')}</div></div>` : '<div class="card empty">Brak kategorii.</div>');
 }
 function catHead(c, acts = '') {
-  return `<div class="bk-head"><div><div class="eyebrow">${TYPES[c.type]} · Tatami ${c.tatami}</div><h2>${esc(catShort(c))}</h2>
+  return `<div class="bk-head"><div><div class="eyebrow">${TYPES[c.type]} · Tatami ${TL(c.tatami)}</div><h2>${esc(catShort(c))}</h2>
    <div class="meta-row">${catPill(c)}<span class="pill">${sysLabel(c)}</span><span class="pill">${entCount(c)}</span>${c.type === 'kata' ? `<span class="pill">do finału: ${c.adv}</span>` : sysLabel(c) === 'każdy z każdym' ? '' : `<span class="pill">${c.bronze ? 'walka o 3. miejsce' : 'dwa brązy ex aequo'}</span>`}<span class="pill">${gRange(c)}</span></div></div>
    <div class="acts">${acts}</div></div>`;
 }
@@ -1410,14 +1414,14 @@ function treeHTML(c, mode, T = seTree(c)) {
   return `<div class="bk-wrap tree-only"><div class="bk" data-w="${W}" style="width:${W}px;height:${H}px"><svg class="cn-layer" width="${W}" height="${H}" aria-hidden="true">${paths}</svg>${heads}${boxes}</div></div>`;
 }
 function boutState(c, bt, mode) {
-  const no = mode === 'edit' ? null : noOf(c, bt.id), it = no ? Q(c.tatami)[no - 1] : null;
+  const it = mode === 'edit' ? null : itemOf(c, bt.id), no = it ? it.code : null;
   const st = bt.bye ? 'bye' : it ? it.status : bt.win ? 'done' : 'wait';
   const lab = st === 'live' ? '● na macie' : st === 'done' ? (bt.res?.at || '') : st === 'bye' ? (c.odd === 'extra' ? 'bez eliminacji' : 'wolny los') : st === 'ready' ? 'gotowa' : '';
   return { no, st, lab };
 }
 function boutBox(c, bt, x, y, w, mode) {
   const { no, st, lab } = boutState(c, bt, mode);
-  const tag = mode === 'edit' ? '' : `<div class="bout-tag"><span class="no">${no ? `T${c.tatami} · walka ${no}` : ''}</span><span class="m">${lab}</span></div>`;
+  const tag = mode === 'edit' ? '' : `<div class="bout-tag"><span class="no">${no ? `walka ${no}` : ''}</span><span class="m">${lab}</span></div>`;
   return `<div class="bout s-${st}" style="left:${x}px;top:${y}px;width:${w}px">${tag}<div class="bout-box">${slotHTML(c, bt, 'a', mode)}${slotHTML(c, bt, 'b', mode)}</div></div>`;
 }
 function phText(c, bt, side) {
@@ -1449,7 +1453,7 @@ function roundsHTML(c, mode, T) {
     const list = row.filter(bt => !bt.bye || mode === 'edit');
     const byes = mode === 'edit' || hide ? [] : row.filter(bt => bt.bye && bt.win && bt.win !== 'BYE');
     if (r === T.R - 1 && T.b3) list.unshift(T.b3);
-    return list.length || byes.length ? `<section class="rl-r"><h4>${r === T.R - 1 && T.b3 ? 'Walka o 3. miejsce i finał' : roundName(r, T.R, c)}</h4>${list.map(bt => { const { no, st, lab } = boutState(c, bt, mode); return `<div class="rl-b s-${st}"><div class="bt-h"><span>${bt.bronze ? 'O 3. miejsce' : ''}${bt.bronze && no ? ' · ' : ''}${no ? `T${c.tatami} · walka ${no}` : ''}</span><span>${lab}</span></div>${slotHTML(c, bt, 'a', mode)}${slotHTML(c, bt, 'b', mode)}</div>`; }).join('')}${byes.length ? `<div class="rl-byes"><span class="eyebrow">Wolny los · przechodzą dalej bez walki</span>${byes.map(bt => { const e = ent(bt.win); return `<span class="rl-bye"><span class="club-dot" style="--c:${club(e.club).c}"></span>${esc(e.name)}</span>`; }).join('')}</div>` : ''}</section>` : '';
+    return list.length || byes.length ? `<section class="rl-r"><h4>${r === T.R - 1 && T.b3 ? 'Walka o 3. miejsce i finał' : roundName(r, T.R, c)}</h4>${list.map(bt => { const { no, st, lab } = boutState(c, bt, mode); return `<div class="rl-b s-${st}"><div class="bt-h"><span>${bt.bronze ? 'O 3. miejsce' : ''}${bt.bronze && no ? ' · ' : ''}${no ? `walka ${no}` : ''}</span><span>${lab}</span></div>${slotHTML(c, bt, 'a', mode)}${slotHTML(c, bt, 'b', mode)}</div>`; }).join('')}${byes.length ? `<div class="rl-byes"><span class="eyebrow">Wolny los · przechodzą dalej bez walki</span>${byes.map(bt => { const e = ent(bt.win); return `<span class="rl-bye"><span class="club-dot" style="--c:${club(e.club).c}"></span>${esc(e.name)}</span>`; }).join('')}</div>` : ''}</section>` : '';
   }).join('')}</div>`;
 }
 function rrHTML(c) {
@@ -1458,7 +1462,7 @@ function rrHTML(c) {
   const cell = (x, y) => {
     if (x === y) return '<td class="self"></td>';
     const k = P.findIndex(p => (p[0] === x && p[1] === y) || (p[0] === y && p[1] === x)), r = c.res[`rr-${k}`];
-    if (!r) { const no = noOf(c, `rr-${k}`); return `<td class="cell muted">${no ? 'w.' + no : '·'}</td>`; }
+    if (!r) { const no = noOf(c, `rr-${k}`); return `<td class="cell muted">${no || '·'}</td>`; }
     const win = r.w === 'a' ? P[k][0] : P[k][1];
     return `<td class="cell ${win === x ? 'W' : 'L'}">${win === x ? 'W' : 'P'}<small>${MSHORT[r.m] || ''}</small></td>`;
   };
@@ -1466,7 +1470,7 @@ function rrHTML(c) {
   <section class="card"><div class="scroll-x"><table class="t rr-t"><thead><tr><th>#</th><th>Zawodnik</th>${o.map((_, i) => `<th class="c">${i + 1}</th>`).join('')}<th class="c">Wyg.</th><th class="c">Pkt</th><th class="c">Miejsce</th></tr></thead><tbody>
   ${o.map((id, i) => { const e = ent(id), s = sx[id]; return `<tr><td class="muted">${i + 1}</td><td><span class="club-dot" style="--c:${club(e.club).c}"></span> <b>${esc(e.name)}</b><br><small class="muted">${esc(club(e.club).name)}</small></td>${o.map(y => cell(id, y)).join('')}<td class="c">${s.w}</td><td class="c"><b>${s.pts}</b></td><td class="c">${done ? (s.place <= 3 ? medalDot(s.place) : s.place) : '–'}</td></tr>`; }).join('')}
   </tbody></table></div>
-  <div class="sub-h">Walki</div>${P.map((p, k) => { const r = c.res[`rr-${k}`], no = noOf(c, `rr-${k}`); return `<div class="feed-i"><span class="tm">${no ? 'w.' + no : ''}</span><span>${nm(p[0])} vs ${nm(p[1])}${r ? ` — <b>${esc(ent(r.w === 'a' ? p[0] : p[1]).name)}</b> (${esc(r.m)})` : ''}</span></div>`; }).join('')}</section>`;
+  <div class="sub-h">Walki</div>${P.map((p, k) => { const r = c.res[`rr-${k}`], no = noOf(c, `rr-${k}`); return `<div class="feed-i"><span class="tm">${no || ''}</span><span>${nm(p[0])} vs ${nm(p[1])}${r ? ` — <b>${esc(ent(r.w === 'a' ? p[0] : p[1]).name)}</b> (${esc(r.m)})` : ''}</span></div>`; }).join('')}</section>`;
 }
 const scoreChips = s => { const [a, b] = dropIdx(s); return s.map((v, i) => `<span class="sc-chip ${i === a || i === b ? 'x' : ''}">${fmt1(v)}</span>`).join(''); };
 function kataHTML(c) {
@@ -1477,7 +1481,7 @@ function kataHTML(c) {
     const ranked = rows.filter(x => x.res).sort((a, b) => b.res.tot - a.res.tot || sum4(b.res.s) - sum4(a.res.s)), pend = rows.filter(x => !x.res);
     return `<section class="card"><div class="card-h"><h3>${title}</h3>${cut ? `<span class="pill ok">awans: ${c.adv} najlepszych</span>` : ''}</div><div class="scroll-x"><table class="t rank-t"><thead><tr><th>M.</th><th>Zawodnik</th><th>Oceny 4 sędziów</th><th class="r">Suma</th></tr></thead><tbody>
      ${ranked.map((x, i) => { const e = ent(x.id); return `<tr class="${cut && i === c.adv - 1 ? 'cut' : ''}"><td>${!cut && fin && i < 3 ? medalDot(i + 1) : i + 1}</td><td><b>${esc(e.name)}</b><br><small class="muted">${esc(club(e.club).name)}</small></td><td><div class="chips">${scoreChips(x.res.s)}</div></td><td class="tot">${fmt1(x.res.tot)}</td></tr>`; }).join('')}
-     ${pend.map(x => { const e = ent(x.id), key = `${c.id}:k${round}-${x.k}`, no = noOf(c, `k${round}-${x.k}`); return `<tr class="${liveKey === key ? 'cur' : ''}"><td class="muted">—</td><td><b>${esc(e.name)}</b><br><small class="muted">${esc(club(e.club).name)}</small></td><td class="muted">${liveKey === key ? '● wykonuje teraz' : no ? `występ ${no} · Tatami ${c.tatami}` : 'czeka'}</td><td class="tot muted">—</td></tr>`; }).join('')}
+     ${pend.map(x => { const e = ent(x.id), key = `${c.id}:k${round}-${x.k}`, no = noOf(c, `k${round}-${x.k}`); return `<tr class="${liveKey === key ? 'cur' : ''}"><td class="muted">—</td><td><b>${esc(e.name)}</b><br><small class="muted">${esc(club(e.club).name)}</small></td><td class="muted">${liveKey === key ? '● wykonuje teraz' : no ? `występ ${no}` : 'czeka'}</td><td class="tot muted">—</td></tr>`; }).join('')}
     </tbody></table></div></section>`;
   };
   return `<div class="note" style="margin-bottom:12px">System punktowy: 4 sędziów, najniższa i najwyższa ocena odpada, liczy się suma dwóch środkowych. ${two ? `Do finału awansuje ${c.adv} najlepszych.` : 'Jedna runda — zawodników jest nie więcej niż miejsc w finale.'} ${rq('REQ-REF-05', 'REQ-ADM-07')}</div>
@@ -1554,7 +1558,7 @@ function vAdmCats() {
   return pageH('/admin/kategorie', 'Kategorie', ['REQ-ADM-03', 'REQ-ADM-04', 'REQ-ADM-08'], 'Kryteria kategorii, tatami i ustawienia drabinki. „Zawodnicy” — ręczne dodawanie i usuwanie osób z bazy.', `<button class="btn primary" data-act="catNew">+ Nowa kategoria</button>`)
     + admCtx()
     + `<section class="card"><div class="scroll-x"><table class="t cat-t"><thead><tr><th>Kategoria</th><th>Kryteria</th><th class="c">Tatami</th><th class="c">Os.</th><th>Ustawienia drabinki</th><th>Status</th><th></th></tr></thead><tbody>
-    ${cats.map(c => `<tr><td><b>${esc(catShort(c))}</b><small>${TYPES[c.type]}</small></td><td><small>${esc(criteria(c))}</small></td><td class="c"><b>${c.tatami}</b></td><td class="c">${c.entries.length}</td><td><small>${c.type === 'kata' ? `do finału: ${c.adv}` : `3. miejsce: ${c.bronze ? 'walka' : 'ex aequo'}<br>brak pary: ${c.odd === 'extra' ? 'eliminacje' : 'wolny los'}`}</small></td><td>${catPill(c)}</td><td><div class="acts"><a class="btn sm" href="#/admin/kategorie/${c.id}">Zawodnicy</a><button class="btn sm" data-act="catEdit" data-id="${c.id}">Edytuj</button><button class="btn sm danger" data-act="catDel" data-id="${c.id}">Usuń</button></div></td></tr>`).join('') || '<tr><td colspan="7" class="empty">Brak kategorii — dodaj pierwszą.</td></tr>'}
+    ${cats.map(c => `<tr><td><b>${esc(catShort(c))}</b><small>${TYPES[c.type]}</small></td><td><small>${esc(criteria(c))}</small></td><td class="c"><b>${TL(c.tatami)}</b></td><td class="c">${c.entries.length}</td><td><small>${c.type === 'kata' ? `do finału: ${c.adv}` : `3. miejsce: ${c.bronze ? 'walka' : 'ex aequo'}<br>brak pary: ${c.odd === 'extra' ? 'eliminacje' : 'wolny los'}`}</small></td><td>${catPill(c)}</td><td><div class="acts"><a class="btn sm" href="#/admin/kategorie/${c.id}">Zawodnicy</a><button class="btn sm" data-act="catEdit" data-id="${c.id}">Edytuj</button><button class="btn sm danger" data-act="catDel" data-id="${c.id}">Usuń</button></div></td></tr>`).join('') || '<tr><td colspan="7" class="empty">Brak kategorii — dodaj pierwszą.</td></tr>'}
     </tbody></table></div></section>`;
 }
 const num = v => parseFloat(String(v).replace(',', '.'));
@@ -1572,7 +1576,7 @@ function catFormHTML() {
    <label class="field"><span>Stopień od</span><select data-ch="cf" data-k="g0">${gOpts(f.g0)}</select></label>
    <label class="field"><span>Stopień do</span><select data-ch="cf" data-k="g1">${gOpts(f.g1)}</select></label>
   </div>
-  <div class="field"><span>Tatami ${rq('REQ-ADM-08')}</span><div class="seg">${segBtns('cf', 'tatami', TABS.map(t => [t, 'Tatami ' + t]), f.tatami, busy)}</div></div>
+  <div class="field"><span>Tatami ${rq('REQ-ADM-08')}</span><div class="seg">${segBtns('cf', 'tatami', TABS.map(t => [t, 'Tatami ' + TL(t)]), f.tatami, busy)}</div></div>
   ${f.type !== 'kata' ? `<div class="field"><span>Walka o 3. miejsce ${rq('REQ-ADM-05')}</span><div class="seg">${segBtns('cf', 'bronze', [[1, 'TAK — dodatkowa walka'], [0, 'NIE — dwa brązy ex aequo']], f.bronze, lockBr)}</div></div>
   <div class="field"><span>Gdy zawodników jest mniej niż miejsc w drabince ${rq('REQ-ADM-06')}</span><div class="seg">${segBtns('cf', 'odd', [['bye', 'Wolny los (BYE)'], ['extra', 'Walka eliminacyjna']], f.odd, lockBr)}</div></div>`
     : `<label class="field"><span>Ilu zawodników przechodzi do finału ${rq('REQ-ADM-07')}</span><input type="number" min="2" max="16" inputmode="numeric" data-in="cf" data-k="adv" value="${f.adv}" ${lockBr ? 'disabled' : ''}></label>`}
@@ -1584,7 +1588,7 @@ function moveCat(c, t) { c.ord = Math.max(0, ...S.cats.filter(x => x.t === c.t &
 function vAdmCat(id) {
   const c = cat(id); if (!c) return `<div class="gate"><h2>Nie ma takiej kategorii</h2><a class="btn" href="#/admin/kategorie">Kategorie</a></div>`;
   const locked = !!(c.br && c.br.status === 'approved');
-  return pageH(`/admin/kategorie/${c.id}`, catName(c), ['REQ-ADM-09'], `${esc(criteria(c))} · Tatami ${c.tatami} · ${esc(tour(c.t).name)}`, `<a class="btn" href="#/admin/kategorie">← Kategorie</a><button class="btn" data-act="catEdit" data-id="${c.id}">Edytuj kryteria</button><a class="btn primary" href="#/admin/drabinki/${c.id}">Drabinka →</a>`)
+  return pageH(`/admin/kategorie/${c.id}`, catName(c), ['REQ-ADM-09'], `${esc(criteria(c))} · Tatami ${TL(c.tatami)} · ${esc(tour(c.t).name)}`, `<a class="btn" href="#/admin/kategorie">← Kategorie</a><button class="btn" data-act="catEdit" data-id="${c.id}">Edytuj kryteria</button><a class="btn primary" href="#/admin/drabinki/${c.id}">Drabinka →</a>`)
     + (locked ? `<div class="banner info">Drabinka jest zatwierdzona — skład jest zamknięty. Aby go zmienić, cofnij zatwierdzenie w Drabinkach (możliwe, dopóki nie ma wyników).</div>` : c.br ? `<div class="banner">Zmiana składu usunie szkic drabinki — trzeba będzie wygenerować ją ponownie.</div>` : '')
     + `<div class="two-col"><section class="card"><div class="card-h"><h3>W kategorii (${c.entries.length})</h3></div>${c.entries.map(eid => entryRow(c, eid, locked)).join('') || '<p class="muted">Pusto — dodaj zawodników z bazy.</p>'}</section>
       <section class="card">${c.type === 'team' ? teamAddHTML(c, locked) : `<div class="card-h"><h3>Dodaj z ogólnej bazy</h3><label class="switch"><input type="checkbox" data-ch="addOnly" ${ui.addOnly ? 'checked' : ''}>tylko pasujący</label></div>
@@ -1634,7 +1638,7 @@ function admBrMain(c) {
     if (c.br.sys === 'se') { const T = seTree(c); body = treeHTML(c, 'edit', T) + roundsHTML(c, 'edit', T); } else body = orderEdit(c);
     return catHead(c, `<button class="btn sm" data-act="regen" data-id="${c.id}">Losuj ponownie</button><button class="btn sm danger" data-act="brDel" data-id="${c.id}">Usuń szkic</button>`)
       + `<div class="edit-bar"><b>Korekta przed zatwierdzeniem ${rq('REQ-ADM-11')}</b><span>${c.br.sys === 'se' ? 'Kliknij zawodnika (albo wolny los), potem drugiego — zamienią się miejscami.' : 'Kliknij dwie pozycje, aby zamienić kolejność.'}</span></div>`
-      + `<div class="br-grid"><aside class="card br-aside"><div>${checksHTML(c)}</div><div><button class="btn primary big" data-act="approve" data-id="${c.id}" ${draftBlock(c) ? 'disabled' : ''}>Zatwierdź drabinkę</button><p class="muted small" style="margin:8px 0 0">Po zatwierdzeniu walki trafią na listę sędziego Tatami ${c.tatami}${tour(c.t).status !== 'live' ? ', gdy turniej przejdzie w status „W trakcie”' : ''}.</p></div></aside><div>${body}</div></div>`;
+      + `<div class="br-grid"><aside class="card br-aside"><div>${checksHTML(c)}</div><div><button class="btn primary big" data-act="approve" data-id="${c.id}" ${draftBlock(c) ? 'disabled' : ''}>Zatwierdź drabinkę</button><p class="muted small" style="margin:8px 0 0">Po zatwierdzeniu walki trafią na listę sędziego Tatami ${TL(c.tatami)}${tour(c.t).status !== 'live' ? ', gdy turniej przejdzie w status „W trakcie”' : ''}.</p></div></aside><div>${body}</div></div>`;
   }
   return catBlock(c, 'adm', catBusy(c) ? '' : `<button class="btn sm" data-act="unapprove" data-id="${c.id}">Cofnij zatwierdzenie</button>`);
 }
@@ -1673,9 +1677,9 @@ function vAdmSched() {
   const sch = schedule(T);
   return pageH('/admin/harmonogram', 'Harmonogram tatami', ['REQ-ADM-08', 'REQ-NFR-03'], 'Kolejność kategorii na tatami i szacowane godziny (kumite 4 min, kata 3 min, drużyny 10 min na walkę). Kategorie bez wyników możesz przesuwać i przenosić.', `<button class="btn" data-act="pdfSched">Harmonogram do PDF</button><button class="btn" data-act="pdfAll">Drabinki do PDF</button>`)
     + admCtx()
-    + `<div class="sched">${TABS.map(t => `<section class="card sch-col"><h3>Tatami ${t}</h3>${sch[t].map((r, i) => {
+    + `<div class="sched">${TABS.map(t => `<section class="card sch-col"><h3>Tatami ${TL(t)}</h3>${sch[t].map((r, i) => {
       const busy = catBusy(r.c), up = i > 0 && !busy && !catBusy(sch[t][i - 1].c), down = i < sch[t].length - 1 && !busy && !catBusy(sch[t][i + 1].c);
-      return `<div class="sch-c"><div class="row"><span class="tm">${fmtMin(r.start)}–${fmtMin(r.end)}</span>${catPill(r.c)}</div><b>${esc(catName(r.c))}</b><div class="row"><span>${pl(r.n, 'walka', 'walki', 'walk')}${r.c.br?.status === 'approved' ? '' : ' (szacunek)'}</span><span class="mv"><button class="btn sm" data-act="catUp" data-id="${r.c.id}" ${up ? '' : 'disabled'} aria-label="Wyżej">↑</button><button class="btn sm" data-act="catDown" data-id="${r.c.id}" ${down ? '' : 'disabled'} aria-label="Niżej">↓</button><select data-ch="catMove" data-id="${r.c.id}" ${busy ? 'disabled' : ''} aria-label="Przenieś na tatami">${TABS.map(x => `<option value="${x}" ${x === t ? 'selected' : ''}>T${x}</option>`).join('')}</select></span></div></div>`;
+      return `<div class="sch-c"><div class="row"><span class="tm">${fmtMin(r.start)}–${fmtMin(r.end)}</span>${catPill(r.c)}</div><b>${esc(catName(r.c))}</b><div class="row"><span>${pl(r.n, 'walka', 'walki', 'walk')}${r.c.br?.status === 'approved' ? '' : ' (szacunek)'}</span><span class="mv"><button class="btn sm" data-act="catUp" data-id="${r.c.id}" ${up ? '' : 'disabled'} aria-label="Wyżej">↑</button><button class="btn sm" data-act="catDown" data-id="${r.c.id}" ${down ? '' : 'disabled'} aria-label="Niżej">↓</button><select data-ch="catMove" data-id="${r.c.id}" ${busy ? 'disabled' : ''} aria-label="Przenieś na tatami">${TABS.map(x => `<option value="${x}" ${x === t ? 'selected' : ''}>Tatami ${TL(x)}</option>`).join('')}</select></span></div></div>`;
     }).join('') || '<p class="muted">Brak kategorii.</p>'}</section>`).join('')}</div>`;
 }
 function vAdmTeam() {
@@ -1732,14 +1736,14 @@ function refView(r) {
   if (!ui.user) return vLogin('referee');
   if (ui.user.role !== 'ref') return vNoAccess('referee');
   if (!pubT()) return noTour();
-  if (r[0] === 'tatami' && TABS.includes(+r[1])) return vRefMat(+r[1]);
+  if (r[0] === 'tatami' && tParse(r[1])) return vRefMat(tParse(r[1]));
   return vRefPick();
 }
 function vRefPick() {
   return pageH('/referee', 'Wybierz tatami', ['REQ-REF-01'], 'Sędzia prowadzi jedno tatami. Pozostałe w mocku prowadzi symulacja — przejmiesz tatami w dowolnym momencie.')
     + `<div class="pick-grid">${TABS.map(t => {
       const q = Q(t), done = q.filter(i => i.res).length, live = q.find(i => i.status === 'live'), nx = q.find(i => !i.res && i.status !== 'live'), cl = refClaim(t);
-      return `<button class="pick" data-act="pickT" data-t="${t}"><span class="pick-n">${t}</span><span class="pick-b"><b>Tatami ${t}</b><small>${live ? `Trwa walka ${live.no}` : nx ? `Następna: walka ${nx.no}` : 'Program zakończony'} · ${done}/${q.length}</small><small class="muted">${esc([...new Set(q.map(i => catShort(cat(i.cat))))].join(' · ') || 'brak kategorii')}</small>${cl && cl.tab !== TAB ? '<span class="pill warn">otwarte w innej karcie</span>' : cl ? '<span class="pill ok">Twoje tatami</span>' : ''}</span></button>`;
+      return `<button class="pick" data-act="pickT" data-t="${t}"><span class="pick-n">${TL(t)}</span><span class="pick-b"><b>Tatami ${TL(t)}</b><small>${live ? `Trwa walka ${live.code}` : nx ? `Następna: walka ${nx.code}` : 'Program zakończony'} · ${done}/${q.length}</small><small class="muted">${esc([...new Set(q.map(i => catShort(cat(i.cat))))].join(' · ') || 'brak kategorii')}</small>${cl && cl.tab !== TAB ? '<span class="pill warn">otwarte w innej karcie</span>' : cl ? '<span class="pill ok">Twoje tatami</span>' : ''}</span></button>`;
     }).join('')}</div>`;
 }
 function vRefMat(t) {
@@ -1748,7 +1752,7 @@ function vRefMat(t) {
   if (ui.edit && ui.edit.t === t) { const it = q.find(i => i.key === ui.edit.key); main = it ? panel(t, it, ui.edit.d, true) : ''; }
   else if (live) main = panel(t, live, m.live, false);
   else main = idlePanel(t, q);
-  return `<div class="ref-head"><div><div class="eyebrow">/referee/tatami/${t} · ${esc(ui.user.name)}</div><h1>Tatami ${t}</h1></div><div class="acts">${liveStamp()}<a class="btn sm" href="#/referee">Zmień tatami</a><a class="btn sm" href="#/live" target="_blank" rel="noopener">LIVE w nowej karcie ↗</a></div></div>
+  return `<div class="ref-head"><div><div class="eyebrow">/referee/tatami/${TL(t)} · ${esc(ui.user.name)}</div><h1>Tatami ${TL(t)}</h1></div><div class="acts">${liveStamp()}<a class="btn sm" href="#/referee">Zmień tatami</a><a class="btn sm" href="#/live" target="_blank" rel="noopener">LIVE w nowej karcie ↗</a></div></div>
   <div class="ref-grid"><div class="ref-main">${main}</div>
    <aside class="card ref-q"><div class="card-h"><h3>Lista walk ${rq('REQ-REF-02')}</h3><span class="muted small">${q.filter(i => i.res).length}/${q.length} rozegranych</span></div>${qList(t, q, live)}</aside></div>`;
 }
@@ -1760,12 +1764,12 @@ function resLine(it) {
 }
 function idlePanel(t, q) {
   const m = S.mats[t], nx = q.find(i => i.status === 'ready'), last = m.last ? q.find(i => i.key === m.last) : null;
-  const lastCard = last && last.res ? `<section class="card"><div class="card-h"><h3>Ostatni wynik · walka ${last.no}</h3><span class="pill ok">zatwierdzony ${last.res.at}</span></div><p style="margin:0 0 12px">${resLine(last)}</p><button class="btn" data-act="editRes" data-key="${last.key}">Edytuj wynik ${rq('REQ-REF-07')}</button><p class="muted small" style="margin:8px 0 0">Poprawka jest możliwa, dopóki nie aktywujesz kolejnej walki na tym tatami.</p></section>` : '';
+  const lastCard = last && last.res ? `<section class="card"><div class="card-h"><h3>Ostatni wynik · walka ${last.code}</h3><span class="pill ok">zatwierdzony ${last.res.at}</span></div><p style="margin:0 0 12px">${resLine(last)}</p><button class="btn" data-act="editRes" data-key="${last.key}">Edytuj wynik ${rq('REQ-REF-07')}</button><p class="muted small" style="margin:8px 0 0">Poprawka jest możliwa, dopóki nie aktywujesz kolejnej walki na tym tatami.</p></section>` : '';
   if (!nx) return `${lastCard}<section class="card done-box"><div class="big-k" aria-hidden="true">${q.length && q.every(i => i.res) ? '終' : '待'}</div><h2>${q.length && q.every(i => i.res) ? 'Program tatami zakończony' : 'Brak walki gotowej do startu'}</h2><p class="muted">${q.length && q.every(i => i.res) ? 'Wszystkie walki mają wyniki.' : 'Kolejne walki czekają na rozstrzygnięcia albo na zatwierdzenie drabinek.'}</p></section>`;
   const c = cat(nx.cat);
-  return `<section class="card next-up"><div class="eyebrow">Następna · ${esc(catName(c))} · ${esc(nx.label)}</div><div class="nu-no">Walka ${nx.no}</div>
+  return `<section class="card next-up"><div class="eyebrow">Następna · ${esc(catName(c))} · ${esc(nx.label)}</div><div class="nu-no">Walka ${nx.code}</div>
     ${nx.kind === 'kata' ? `<div class="nu-k">${nm(nx.a)}</div>` : `<div class="nu-vs"><span class="a">${nm(nx.a)}</span><span class="v">vs</span><span class="b">${nm(nx.b)}</span></div>`}
-    <button class="btn primary big" data-act="activate" data-key="${nx.key}">Aktywuj walkę ${nx.no} ${rq('REQ-REF-03')}</button></section>${lastCard}`;
+    <button class="btn primary big" data-act="activate" data-key="${nx.key}">Aktywuj walkę ${nx.code} ${rq('REQ-REF-03')}</button></section>${lastCard}`;
 }
 function qList(t, q, live) {
   const firstReady = live ? null : q.find(i => i.status === 'ready'), m = S.mats[t];
@@ -1779,12 +1783,12 @@ function qList(t, q, live) {
     else right = '<span class="pill">czeka</span>';
     const w = i.res && i.kind !== 'kata' ? (i.res.w === 'a' ? 'a' : 'b') : null;
     const names = i.kind === 'kata' ? nm(i.a, 'awans z rundy 1') : `${w === 'a' ? `<span class="w">${nm(i.a)}</span>` : nm(i.a)} <span class="muted">vs</span> ${w === 'b' ? `<span class="w">${nm(i.b)}</span>` : nm(i.b)}`;
-    return `<li class="q-i s-${i.status} ${i === firstReady ? 'next' : ''}" data-key="${i.key}" ${i.status === 'live' ? 'id="qLive"' : ''}><span class="no">${i.no}</span><div><b>${names}</b><small>${esc(catShort(cat(i.cat)))} · ${esc(i.label)}</small></div>${right}</li>`;
+    return `<li class="q-i s-${i.status} ${i === firstReady ? 'next' : ''}" data-key="${i.key}" ${i.status === 'live' ? 'id="qLive"' : ''}><span class="no">${i.code}</span><div><b>${names}</b><small>${esc(catShort(cat(i.cat)))} · ${esc(i.label)}</small></div>${right}</li>`;
   }).join('') || '<li class="muted">Brak walk — organizator nie zatwierdził jeszcze drabinek dla tego tatami.</li>'}</ol>`;
 }
 function panel(t, it, d, editing) {
   const c = cat(it.cat), m = S.mats[t], prev = !editing && m.prev ? Q(t).find(i => i.key === m.prev) : null;
-  const head = `<div class="match-h"><div><div class="eyebrow">${editing ? 'Poprawka wyniku' : '● Trwa'} · ${TYPES[c.type]} · ${esc(catShort(c))}</div><h2>Walka ${it.no} <span>${esc(it.label)}</span></h2>${prev ? `<div class="lock-note">Wynik walki ${prev.no} jest już zablokowany — rozpoczęto kolejną walkę. ${rq('REQ-REF-07')}</div>` : ''}</div>${editing ? '<button class="btn sm" data-act="cancelEdit">Anuluj poprawkę</button>' : '<button class="btn sm" data-act="deact">Cofnij aktywację</button>'}</div>`;
+  const head = `<div class="match-h"><div><div class="eyebrow">${editing ? 'Poprawka wyniku' : '● Trwa'} · ${TYPES[c.type]} · ${esc(catShort(c))}</div><h2>Walka ${it.code} <span>${esc(it.label)}</span></h2>${prev ? `<div class="lock-note">Wynik walki ${prev.code} jest już zablokowany — rozpoczęto kolejną walkę. ${rq('REQ-REF-07')}</div>` : ''}</div>${editing ? '<button class="btn sm" data-act="cancelEdit">Anuluj poprawkę</button>' : '<button class="btn sm" data-act="deact">Cofnij aktywację</button>'}</div>`;
   if (it.kind === 'kata') return head + kataPanel(it, editing);
   if (it.kind === 'team') return head + teamPanel(it, d, editing);
   return head + kumitePanel(it, d, editing);
@@ -1859,10 +1863,10 @@ function advMsg(it, w) {
 function saveEdit(t, it, res) {
   const c = cat(it.cat), old = c.res[it.id];
   c.res[it.id] = { ...res, at: old.at, ed: hhmm() };
-  feedAdd(t, `Korekta wyniku walki ${it.no}: ${resultText(it, c.res[it.id]).replace(/^T\d+ · (walka \d+|[^:]+): /, '')}`, null, 'fix');
+  feedAdd(t, `Korekta wyniku walki ${it.code}: ${resultText(it, c.res[it.id]).replace(/^(Walka )?[A-Z]\d+( · [^:]+)?: /, '')}`, null, 'fix');
   if (!catPlaces(c).done) c.doneAt = null;
   ui.edit = null; delete ui.kd[it.key];
-  commit(); toast(`Wynik walki ${it.no} poprawiony — drabinka przeliczona`);
+  commit(); toast(`Wynik walki ${it.code} poprawiony — drabinka przeliczona`);
 }
 
 /* ===================== pokrycie specyfikacji ===================== */
@@ -1889,8 +1893,8 @@ const REQS = [
   ['REQ-REF-01', 'Wybór tatami po zalogowaniu', '/referee', '#/referee', 'ok'],
   ['REQ-REF-02', 'Lista walk tatami', 'Prawa kolumna panelu tatami', '#/referee', 'ok'],
   ['REQ-REF-03', 'Ręczne „Aktywuj walkę”', 'Panel tatami', '#/referee', 'ok'],
-  ['REQ-REF-04', 'Kumite: punkty, kary, zwycięzca', 'Tatami 1 lub 2', '#/referee', 'ok'],
-  ['REQ-REF-05', 'Kata: 4 oceny, bez skrajnych, suma dwóch', 'Tatami 3 (kata 12–15 lat)', '#/referee', 'ok'],
+  ['REQ-REF-04', 'Kumite: punkty, kary, zwycięzca', 'Tatami A lub B', '#/referee', 'ok'],
+  ['REQ-REF-05', 'Kata: 4 oceny, bez skrajnych, suma dwóch', 'Tatami C (kata 12–15 lat)', '#/referee', 'ok'],
   ['REQ-REF-06', 'Zatwierdzenie → awans w drabince', 'Zatwierdź wynik, potem otwórz Drabinki', '#/referee', 'ok'],
   ['REQ-REF-07', 'Edycja wyniku do startu kolejnej walki', 'Karta „Ostatni wynik” w panelu tatami', '#/referee', 'ok'],
   ['4. Klub / Sensei'],
@@ -1935,9 +1939,9 @@ function vSpec() {
   const n = REQS.filter(r => r.length > 1 && r[4] !== 'new').length, sim = REQS.filter(r => r[4] === 'sim').length;
   return pageH('/specyfikacja', 'Pokrycie specyfikacji', [], `Każde wymaganie z dokumentu ma swój ekran w mocku. ${n} wymagań: ${n - sim} pokazanych wprost, ${sim} zasymulowanych (logowanie, czas rzeczywisty, PDF). Numery REQ przy elementach włączasz przyciskiem „REQ” u góry (na telefonie — w stopce). Gwiazdka (*) oznacza propozycję spoza dokumentu.`)
     + `<div class="howto">
-      <div class="card"><h3>Na telefonie w hali</h3><p>Na stronie Start wpisz nazwisko albo klub i dotknij ☆. Karta pokaże numer tatami i walki, ile walk zostało, stronę AKA/SHIRO i wyniki.</p></div>
+      <div class="card"><h3>Na telefonie w hali</h3><p>Na stronie Start wpisz nazwisko albo klub i dotknij ☆. Karta pokaże tatami i kod walki (np. A22 = 22. walka na tatami A), ile walk zostało, stronę AKA/SHIRO i wyniki.</p></div>
       <div class="card"><h3>Czas rzeczywisty</h3><p>Otwórz <a href="#/live" target="_blank" rel="noopener">Na żywo w nowej karcie</a>. Tutaj zaloguj się jako sędzia, wybierz tatami i wpisuj punkty — druga karta zmienia się bez odświeżania.</p></div>
-      <div class="card"><h3>Drabinka od zera</h3><p>Zaloguj się jako administrator → Drabinki → „Chłopcy 10–11 −35 kg” → Generuj. Zamień dwóch zawodników, zatwierdź — walki trafią do sędziego Tatami 2.</p></div>
+      <div class="card"><h3>Drabinka od zera</h3><p>Zaloguj się jako administrator → Drabinki → „Chłopcy 10–11 −35 kg” → Generuj. Zamień dwóch zawodników, zatwierdź — walki trafią do sędziego Tatami B.</p></div>
       <div class="card"><h3>Widok klubu</h3><p>Zaloguj się jako klub (np. Żuraw Dojo) → Na żywo: zawodnicy klubu z numerem tatami i walki. Zgłoszenia działają dla Turnieju Jesiennego.</p></div>
     </div>
     <section class="card"><div class="scroll-x"><table class="t spec-t"><thead><tr><th>ID</th><th>Wymaganie</th><th>Gdzie w mocku</th><th>Stan</th></tr></thead><tbody>
@@ -1956,12 +1960,12 @@ function printCat(c) {
   if (!c.br || c.br.status !== 'approved') body = '<p>Drabinka nie jest jeszcze zatwierdzona.</p>';
   else if (c.br.sys === 'se') { const T = seTree(c), W = T.R * BX.COLW + (T.R - 1) * BX.GAP + 44, H = BX.TOP + T.size / 2 * BX.U + (T.b3 ? 112 : 0) + 44, z = Math.min(1, 1000 / W, 600 / H); body = podiumHTML(c) + `<div style="zoom:${z.toFixed(3)}">${treeHTML(c, 'print', T)}</div>`; }
   else body = podiumHTML(c) + (c.br.sys === 'rr' ? rrHTML(c) : kataHTML(c));
-  return `<section class="pr-page"><h2>${esc(catName(c))}</h2><p class="pr-meta">Tatami ${c.tatami} · ${sysLabel(c)} · ${entCount(c)} · ${esc(criteria(c))}</p>${body}</section>`;
+  return `<section class="pr-page"><h2>${esc(catName(c))}</h2><p class="pr-meta">Tatami ${TL(c.tatami)} · ${sysLabel(c)} · ${entCount(c)} · ${esc(criteria(c))}</p>${body}</section>`;
 }
 function printSched(T) {
   const sch = schedule(T), live = T === pubT();
-  return TABS.map(t => `<section class="pr-tat"><h2>Tatami ${t}</h2><table class="t"><thead><tr><th>Godz.</th><th>Kategoria</th><th>Walk</th><th>Status</th></tr></thead><tbody>${sch[t].map(r => `<tr><td>${fmtMin(r.start)}–${fmtMin(r.end)}</td><td>${esc(catName(r.c))}</td><td>${r.n}</td><td>${catState(r.c)[0]}</td></tr>`).join('')}</tbody></table>
-   ${live && Q(t).length ? `<table class="t" style="margin-top:8px"><thead><tr><th>Nr</th><th>Kategoria · runda</th><th>Aka / zawodnik</th><th>Shiro</th><th>Wynik</th></tr></thead><tbody>${Q(t).map(i => `<tr><td>${i.no}</td><td>${esc(catShort(cat(i.cat)))} · ${esc(i.label)}</td><td>${i.a ? esc(ent(i.a).name) : '—'}</td><td>${i.kind === 'kata' ? '' : i.b ? esc(ent(i.b).name) : '—'}</td><td>${i.res ? (i.kind === 'kata' ? fmt1(i.res.tot) + ' pkt' : esc(ent(i.res.w === 'a' ? i.a : i.b).name) + ' · ' + esc(i.res.m)) : ''}</td></tr>`).join('')}</tbody></table>` : ''}</section>`).join('');
+  return TABS.map(t => `<section class="pr-tat"><h2>Tatami ${TL(t)}</h2><table class="t"><thead><tr><th>Godz.</th><th>Kategoria</th><th>Walk</th><th>Status</th></tr></thead><tbody>${sch[t].map(r => `<tr><td>${fmtMin(r.start)}–${fmtMin(r.end)}</td><td>${esc(catName(r.c))}</td><td>${r.n}</td><td>${catState(r.c)[0]}</td></tr>`).join('')}</tbody></table>
+   ${live && Q(t).length ? `<table class="t" style="margin-top:8px"><thead><tr><th>Nr</th><th>Kategoria · runda</th><th>Aka / zawodnik</th><th>Shiro</th><th>Wynik</th></tr></thead><tbody>${Q(t).map(i => `<tr><td>${i.code}</td><td>${esc(catShort(cat(i.cat)))} · ${esc(i.label)}</td><td>${i.a ? esc(ent(i.a).name) : '—'}</td><td>${i.kind === 'kata' ? '' : i.b ? esc(ent(i.b).name) : '—'}</td><td>${i.res ? (i.kind === 'kata' ? fmt1(i.res.tot) + ' pkt' : esc(ent(i.res.w === 'a' ? i.a : i.b).name) + ' · ' + esc(i.res.m)) : ''}</td></tr>`).join('')}</tbody></table>` : ''}</section>`).join('');
 }
 
 /* ===================== szuflada, modal ===================== */
@@ -2062,7 +2066,7 @@ const ACT = {
   regen: el => { const c = cat(el.dataset.id); generate(c); ui.swap = null; commit(); toast('Wylosowano ponownie'); },
   genAll: () => { const T = adminT(), list = tourCats(T).filter(x => !x.br && x.entries.length >= 2); list.forEach(c => generate(c)); commit(); toast(`Wygenerowano ${pl(list.length, 'szkic', 'szkice', 'szkiców')} — każdy trzeba zatwierdzić`); },
   brDel: el => { const c = cat(el.dataset.id); c.br = null; c.res = {}; ui.swap = null; commit(); toast('Szkic usunięty'); },
-  approve: el => { const c = cat(el.dataset.id); if (draftBlock(c)) return; c.br.status = 'approved'; c.br.at = hhmm(); ui.swap = null; commit(); const n = catItems(c).length; toast(tour(c.t) === pubT() ? `Zatwierdzono — ${pl(n, 'walka trafiła', 'walki trafiły', 'walk trafiło')} na listę Tatami ${c.tatami}` : 'Zatwierdzono'); },
+  approve: el => { const c = cat(el.dataset.id); if (draftBlock(c)) return; c.br.status = 'approved'; c.br.at = hhmm(); ui.swap = null; commit(); const n = catItems(c).length; toast(tour(c.t) === pubT() ? `Zatwierdzono — ${pl(n, 'walka trafiła', 'walki trafiły', 'walk trafiło')} na listę Tatami ${TL(c.tatami)}` : 'Zatwierdzono'); },
   unapprove: el => { const c = cat(el.dataset.id); if (catBusy(c)) return; c.br.status = 'draft'; commit(); toast('Drabinka wróciła do szkicu'); },
   swap: el => {
     const c = cat(el.dataset.c), s = +el.dataset.s;
@@ -2110,14 +2114,14 @@ const ACT = {
     commit(); toast(on ? `Wycofano: ${ent(id).name}` : `Zgłoszono: ${ent(id).name} → ${catShort(c)}`);
   },
   /* sędzia */
-  pickT: el => { const t = +el.dataset.t; TABS.forEach(x => { if (S.mats[x].ref?.tab === TAB) S.mats[x].ref = null; }); S.mats[t].ref = { tab: TAB, at: Date.now() }; ui.refT = t; saveUser(); commit({ quiet: true }); location.hash = `#/referee/tatami/${t}`; },
+  pickT: el => { const t = +el.dataset.t; TABS.forEach(x => { if (S.mats[x].ref?.tab === TAB) S.mats[x].ref = null; }); S.mats[t].ref = { tab: TAB, at: Date.now() }; ui.refT = t; saveUser(); commit({ quiet: true }); location.hash = `#/referee/tatami/${TL(t)}`; },
   activate: el => {
     const t = ui.refT, m = S.mats[t];
     if (m.active) return toast('Najpierw zatwierdź trwającą walkę');
     if (ui.edit) return toast('Najpierw zapisz albo anuluj poprawkę wyniku');
     const it = Q(t).find(i => i.key === el.dataset.key); if (!it || it.status !== 'ready') return;
     const locked = m.last ? Q(t).find(i => i.key === m.last) : null;
-    activate(t, it.key); commit(); toast(`Walka ${it.no} aktywna${locked ? ` · wynik walki ${locked.no} zablokowany` : ''}`); window.scrollTo(0, 0);
+    activate(t, it.key); commit(); toast(`Walka ${it.code} aktywna${locked ? ` · wynik walki ${locked.code} zablokowany` : ''}`); window.scrollTo(0, 0);
   },
   deact: () => { const m = S.mats[ui.refT]; if (!m.active) return; ask('Cofnąć aktywację? Wpisane punkty tej walki zostaną wyczyszczone, a walka wróci do kolejki.', 'Cofnij aktywację', () => { m.active = null; m.live = null; m.last = m.prev; m.prev = null; commit(); toast('Walka wróciła do kolejki'); }); },
   sc: el => {
@@ -2148,7 +2152,7 @@ const ACT = {
     const t = ui.refT, it = curItem(), d = curDraft(); if (!it || !d || !d.w || !d.m) return;
     const res = { w: d.w, m: d.m, wa: d.wa.slice(), pen: d.pen.slice(), ip: d.ip.slice(), ...(it.kind === 'team' ? { sub: d.sub.slice() } : {}) };
     if (ui.edit) return saveEdit(t, it, res);
-    applyResult(t, it, res); commit(); toast(`Walka ${it.no}: ${advMsg(it, d.w === 'a' ? it.a : it.b)}`);
+    applyResult(t, it, res); commit(); toast(`Walka ${it.code}: ${advMsg(it, d.w === 'a' ? it.a : it.b)}`);
   },
   confirmKata: () => {
     const t = ui.refT, it = curItem(); if (!it) return;
@@ -2190,7 +2194,7 @@ const CH = {
   addOnly: el => { ui.addOnly = el.checked; render(true); },
   cf: el => { ui.cf[el.dataset.k] = el.value; $('#dwBody').innerHTML = catFormHTML(); },
   af: el => { ui.af[el.dataset.k] = el.value; },
-  catMove: el => { const c = cat(el.dataset.id); if (catBusy(c)) return; moveCat(c, +el.value); commit(); toast(`${catShort(c)} → Tatami ${c.tatami}`); },
+  catMove: el => { const c = cat(el.dataset.id); if (catBusy(c)) return; moveCat(c, +el.value); commit(); toast(`${catShort(c)} → Tatami ${TL(c.tatami)}`); },
 };
 
 /* ===================== render ===================== */
@@ -2217,7 +2221,7 @@ function renderTop(r) {
   if (z === 'pub') links = [['#/', 'Start'], ['#/live', 'Na żywo'], ['#/uczestnicy', 'Uczestnicy'], ['#/drabinki', 'Drabinki'], ['#/klasyfikacja', 'Klasyfikacja drużynowa'], ['#/specyfikacja', 'Pokrycie specyfikacji']];
   else if (z === 'admin' && role === 'admin') links = [['#/admin/turnieje', 'Turnieje'], ['#/admin/kategorie', 'Kategorie'], ['#/admin/drabinki', 'Drabinki'], ['#/admin/harmonogram', 'Harmonogram'], ['#/admin/klasyfikacja', 'Klasyfikacja drużynowa']];
   else if (z === 'admin' && role === 'club') links = [['#/admin/klub/na-zywo', 'Na żywo'], ['#/admin/klub/zawodnicy', 'Moi zawodnicy'], ['#/admin/klub/zgloszenia', 'Zgłoszenia']];
-  else if (z === 'referee' && role === 'ref') links = [['#/referee', 'Wybór tatami'], ...TABS.map(t => [`#/referee/tatami/${t}`, `Tatami ${t}`])];
+  else if (z === 'referee' && role === 'ref') links = [['#/referee', 'Wybór tatami'], ...TABS.map(t => [`#/referee/tatami/${TL(t)}`, `Tatami ${TL(t)}`])];
   const on = h => h === '#/' ? p === '#/' : p === h || (p.startsWith(h + '/') && h.split('/').length > 2);
   $('#subnav').innerHTML = links.map(([h, l]) => `<a href="${h}" class="${on(h) ? 'on' : ''}">${l}</a>`).join('');
   const u = ui.user;
@@ -2244,7 +2248,7 @@ function view(r) {
 const footHTML = () => `<footer class="foot"><span>Mock wg specyfikacji wymagań (REQ). Dane przykładowe; stan zapisuje się w tej przeglądarce i synchronizuje między kartami.</span><span><a href="#/specyfikacja">Pokrycie specyfikacji</a> · <button class="lnk" data-act="sim">Symulacja: ${ui.sim ? 'wł.' : 'wył.'}</button> · <button class="lnk" data-act="reqs">Numery REQ: ${ui.reqs ? 'wł.' : 'wył.'}</button> · <button class="lnk" data-act="reset">Resetuj dane demo</button></span></footer>`;
 function claimIfRef(r) {
   if (ui.user?.role !== 'ref' || r[0] !== 'referee' || r[1] !== 'tatami') return;
-  const t = +r[2]; if (!TABS.includes(t)) return;
+  const t = tParse(r[2]); if (!t) return;
   ui.refT = t;
   const c = S.mats[t].ref;
   if (!c || c.tab !== TAB || Date.now() - c.at > 8000) {
