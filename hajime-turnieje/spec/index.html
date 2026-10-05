@@ -1,0 +1,2122 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="Klikalny mock systemu zarządzania turniejem karate zgodny ze specyfikacją wymagań REQ: strefa publiczna, panel organizatora i klubu, panel sędziego tatami.">
+<title>Hajime – mock wg specyfikacji</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Instrument+Sans:wght@400..700&family=JetBrains+Mono:wght@500;700&family=Noto+Serif+JP:wght@700;900&display=swap" rel="stylesheet">
+<style>
+/* Mock wg specyfikacji REQ: trzy strefy (/, /admin, /referee) w jednym pliku, stan wspólny dla kart przeglądarki
+   (BroadcastChannel udaje WebSocket). Wygląd z rodziny Hajime: indygo + aka/shiro jako jedyna głośna para. */
+:root{
+  --paper:#f1f2f8; --surface:#ffffff; --surface-2:#f6f7fc; --surface-3:#eceef7;
+  --ink:#14183a; --ink-2:#4b5175; --ink-3:#7c819a; --line:#dfe2ee; --line-2:#c7cbe0;
+  --ai:#2e3db3; --ai-ink:#ffffff; --ai-soft:#e6e9fb;
+  --aka:#d4213d; --aka-ink:#ffffff; --aka-soft:#fde7ea;
+  --shiro:#ffffff; --shiro-ink:#14183a; --shiro-edge:#bfc4db;
+  --gold:#c4951a; --silver:#8b95ab; --bronze:#b3683a;
+  --ok:#14895a; --ok-soft:#e0f4ea; --warn:#a96f00; --warn-soft:#fcf0d4; --bad:#c42a2a; --bad-soft:#fde5e5;
+  --hero-bg:#1a2370; --hero-ink:#ffffff; --hero-dim:#aab3ee;
+  --shadow:0 1px 2px rgba(20,24,58,.06),0 10px 28px -14px rgba(20,24,58,.22);
+  --f-display:'Archivo','Arial Narrow',system-ui,sans-serif;
+  --f-body:'Instrument Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+  --f-jp:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0b0e22; --surface:#141834; --surface-2:#1a1f40; --surface-3:#21274d;
+  --ink:#eceefb; --ink-2:#b0b5d6; --ink-3:#8086ab; --line:#262c56; --line-2:#363d6e;
+  --ai:#8d9cff; --ai-ink:#0b0e22; --ai-soft:#222a5e;
+  --aka:#ff4a62; --aka-ink:#ffffff; --aka-soft:#3b1526;
+  --shiro:#eceefb; --shiro-ink:#0b0e22; --shiro-edge:#eceefb;
+  --gold:#e5b843; --silver:#aab3c8; --bronze:#d48a55;
+  --ok:#3ccf8e; --ok-soft:#11352a; --warn:#f0b53a; --warn-soft:#3a2d10; --bad:#ff6a6a; --bad-soft:#3d1717;
+  --hero-bg:#1a2058; --hero-ink:#ffffff; --hero-dim:#9aa4e6;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 30px -14px rgba(0,0,0,.6);
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --paper:#0b0e22; --surface:#141834; --surface-2:#1a1f40; --surface-3:#21274d;
+  --ink:#eceefb; --ink-2:#b0b5d6; --ink-3:#8086ab; --line:#262c56; --line-2:#363d6e;
+  --ai:#8d9cff; --ai-ink:#0b0e22; --ai-soft:#222a5e;
+  --aka:#ff4a62; --aka-ink:#ffffff; --aka-soft:#3b1526;
+  --shiro:#eceefb; --shiro-ink:#0b0e22; --shiro-edge:#eceefb;
+  --gold:#e5b843; --silver:#aab3c8; --bronze:#d48a55;
+  --ok:#3ccf8e; --ok-soft:#11352a; --warn:#f0b53a; --warn-soft:#3a2d10; --bad:#ff6a6a; --bad-soft:#3d1717;
+  --hero-bg:#1a2058; --hero-ink:#ffffff; --hero-dim:#9aa4e6;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 30px -14px rgba(0,0,0,.6);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 var(--f-body);-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;touch-action:manipulation}
+a{color:var(--ai)}
+:focus-visible{outline:2px solid var(--ai);outline-offset:2px;border-radius:4px}
+h1,h2,h3,h4{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.1}
+.num{font-variant-numeric:tabular-nums}
+.mono{font-family:var(--f-mono)}
+.muted{color:var(--ink-3)}
+.small{font-size:12.5px}
+
+/* ---------- top bar ---------- */
+.top{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+.top-in{max-width:1360px;margin:0 auto;padding:8px 20px;display:flex;align-items:center;gap:10px 18px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);flex:none}
+.hanko{width:34px;height:34px;border-radius:7px;background:var(--aka);color:var(--aka-ink);display:grid;place-items:center;font:900 20px/1 var(--f-jp);transform:rotate(-4deg);box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--aka-ink) 35%,transparent);flex:none}
+.brand b{font:900 19px/1 var(--f-display);font-stretch:118%;letter-spacing:.01em}
+.brand small{display:block;font:500 10.5px/1.2 var(--f-mono);color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
+.zones{display:flex;gap:2px;background:var(--surface-3);border-radius:12px;padding:3px}
+.zones a{display:flex;flex-direction:column;padding:5px 13px;border-radius:9px;text-decoration:none;color:var(--ink-2);font-weight:650;font-size:13.5px;line-height:1.2;white-space:nowrap}
+.zones a small{font:500 10px/1.2 var(--f-mono);color:var(--ink-3)}
+.zones a.on{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.zones a:not(.on):hover{color:var(--ink)}
+.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-left:auto}
+.chipbtn{border:1px solid var(--line-2);background:var(--surface);border-radius:999px;padding:6px 11px;font:600 12px/1 var(--f-mono);color:var(--ink-2);white-space:nowrap}
+.chipbtn[aria-pressed="true"]{background:var(--ai);border-color:var(--ai);color:var(--ai-ink)}
+.live-ind{display:inline-flex;align-items:center;gap:6px;font:600 11px/1 var(--f-mono);color:var(--ok);white-space:nowrap}
+.live-ind i{width:8px;height:8px;border-radius:50%;background:currentColor;flex:none}
+.live-ind.ping i{animation:ping .9s ease-out}
+@keyframes ping{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--ok) 70%,transparent)}100%{box-shadow:0 0 0 10px transparent}}
+.subnav{max-width:1360px;margin:0 auto;padding:0 20px 8px;display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+.subnav:empty{display:none}
+.subnav a{padding:6px 11px;border-radius:999px;text-decoration:none;color:var(--ink-2);font-weight:600;font-size:13.5px;white-space:nowrap}
+.subnav a:hover{background:var(--surface-3);color:var(--ink)}
+.subnav a.on{background:var(--ink);color:var(--paper)}
+.user-chip{display:flex;align-items:center;gap:8px;border:1px solid var(--line-2);background:var(--surface);border-radius:999px;padding:3px 4px 3px 3px;font-size:13px;line-height:1.15}
+.user-chip small{display:block;font:500 10.5px var(--f-mono);color:var(--ink-3)}
+.user-chip button{border:0;background:var(--surface-3);border-radius:999px;padding:6px 10px;font:600 11.5px var(--f-mono);color:var(--ink-2)}
+.avatar{width:28px;height:28px;border-radius:50%;background:var(--ai);color:var(--ai-ink);display:grid;place-items:center;font:700 11px var(--f-mono);flex:none}
+.avatar.club{background:var(--c)}
+.avatar.ref{background:var(--ink);color:var(--paper)}
+.avatar.ghost{background:var(--surface-3);color:var(--ink-3)}
+
+main{max-width:1360px;margin:0 auto;padding:22px 20px 60px}
+.req{display:none;font:600 10px/1 var(--f-mono);color:var(--ai);background:var(--ai-soft);border:1px dashed var(--ai);padding:3px 6px;border-radius:5px;vertical-align:middle;margin-left:6px;white-space:nowrap;letter-spacing:.02em;font-stretch:100%}
+body.reqs .req{display:inline-block}
+.eyebrow{font:600 11px/1.3 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;min-width:0}
+.card h3{font-size:15px;font-stretch:105%;font-weight:800;display:flex;align-items:center;gap:4px 8px;flex-wrap:wrap}
+.card-h{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:3px 9px;font:600 11px/1.4 var(--f-mono);background:var(--surface-3);color:var(--ink-2);white-space:nowrap}
+.pill.ok{background:var(--ok-soft);color:var(--ok)} .pill.warn{background:var(--warn-soft);color:var(--warn)} .pill.bad{background:var(--bad-soft);color:var(--bad)} .pill.live{background:var(--aka-soft);color:var(--aka)} .pill.ai{background:var(--ai-soft);color:var(--ai)}
+.dot{width:7px;height:7px;border-radius:50%;background:currentColor;display:inline-block}
+.live .dot,.live-pill i{animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.25}}
+.btn{border:1px solid var(--line-2);background:var(--surface);border-radius:10px;padding:9px 14px;font-weight:600;font-size:14px;display:inline-flex;align-items:center;gap:8px;justify-content:center;text-decoration:none;color:var(--ink);line-height:1.2}
+.btn:hover{background:var(--surface-3)}
+.btn.primary{background:var(--ai);border-color:var(--ai);color:var(--ai-ink)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.dark{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.btn.danger{color:var(--bad)}
+.btn.danger-solid{background:var(--bad);border-color:var(--bad);color:#fff}
+.btn:disabled{opacity:.45;cursor:not-allowed;filter:none}
+.btn.sm{padding:6px 10px;font-size:12.5px;border-radius:8px}
+.btn.big{width:100%;padding:15px;font-size:16px;border-radius:14px;min-height:56px;font-family:var(--f-display);font-weight:800;font-stretch:105%}
+.btn .req{margin-left:2px}
+.lnk{border:0;background:none;padding:0;color:var(--ai);font:inherit;text-decoration:underline}
+.seg{display:inline-flex;flex-wrap:wrap;background:var(--surface-3);border-radius:10px;padding:3px;gap:2px}
+.seg button{border:0;background:none;padding:7px 12px;border-radius:8px;font-weight:600;font-size:13px;color:var(--ink-2)}
+.seg button.on{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.seg button:disabled{opacity:.45;cursor:not-allowed}
+.club-dot{width:10px;height:10px;border-radius:3px;background:var(--c);display:inline-block;flex:none}
+.belt{display:inline-block;width:22px;height:7px;border-radius:2px;background:var(--b);position:relative;vertical-align:middle;box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
+.belt.st::after{content:"";position:absolute;right:3px;top:0;bottom:0;width:4px;background:var(--s)}
+table.t{width:100%;border-collapse:collapse;font-size:14px}
+table.t th{font:600 10.5px/1.2 var(--f-mono);text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+table.t td{padding:10px;border-bottom:1px solid var(--line);vertical-align:middle}
+table.t tr:last-child td{border-bottom:0}
+table.t .c{text-align:center}
+table.t .r{text-align:right}
+.scroll-x{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;font-size:12.5px;color:var(--ink-2);font-weight:600;min-width:0}
+.field select,.field input,.inp{border:1px solid var(--line-2);background:var(--surface);border-radius:9px;padding:9px 10px;font-size:15px;font-weight:500;color:var(--ink);width:100%;min-width:0}
+.field input:disabled{opacity:.5}
+.field.inline{flex-direction:row;align-items:center;margin:0;max-width:100%}
+.field.inline select{width:auto;max-width:100%}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 12px}
+.switch{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-2);cursor:pointer;user-select:none;font-weight:600}
+.switch input{appearance:none;width:34px;height:20px;border-radius:99px;background:var(--line-2);position:relative;margin:0;cursor:pointer;transition:background .15s;flex:none}
+.switch input::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:var(--surface);transition:transform .15s}
+.switch input:checked{background:var(--ai)}
+.switch input:checked::after{transform:translateX(14px)}
+.note{background:var(--surface-2);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--ink-2)}
+.note b{color:var(--ink)}
+.note.warn{background:var(--warn-soft);color:var(--warn)}
+.banner{display:flex;gap:10px;align-items:center;background:var(--warn-soft);color:var(--warn);border-radius:12px;padding:11px 14px;font-weight:600;font-size:14px;margin-bottom:14px}
+.banner.info{background:var(--ai-soft);color:var(--ai)}
+.sub-h{font:700 11px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:16px 0 8px}
+.empty{color:var(--ink-3);text-align:center;padding:30px 16px}
+.err{color:var(--bad);font-size:13px;font-weight:600;min-height:1em;margin-bottom:6px}
+.toggles{display:flex;flex-wrap:wrap;gap:8px}
+.tog{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--line-2);border-radius:10px;padding:9px 12px;font-weight:600;font-size:13.5px;background:var(--surface);color:var(--ink-2)}
+.tog::before{content:"";width:14px;height:14px;border-radius:4px;border:2px solid var(--line-2);flex:none}
+.tog.on{border-color:var(--ai);background:var(--ai-soft);color:var(--ink)}
+.tog.on::before{background:var(--ai);border-color:var(--ai);box-shadow:inset 0 0 0 2px var(--ai-soft)}
+.tog small{font-weight:500;color:var(--ink-3)}
+
+.page-h{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px 20px;margin-bottom:18px}
+.page-h>div{min-width:0;max-width:100%}
+.page-h h1{font-size:clamp(24px,3.2vw,34px);font-weight:900;font-stretch:112%;margin-top:4px}
+.page-h p{margin:8px 0 0;color:var(--ink-2);max-width:760px}
+.acts{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+
+/* ---------- public ---------- */
+.hero{position:relative;overflow:hidden;background:var(--hero-bg);color:var(--hero-ink);border-radius:20px;padding:30px 30px 26px;isolation:isolate}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;background:repeating-linear-gradient(90deg,transparent 0 118px,rgba(255,255,255,.05) 118px 120px),repeating-linear-gradient(0deg,transparent 0 58px,rgba(255,255,255,.035) 58px 60px)}
+.hero-kanji{position:absolute;right:22px;top:-6px;z-index:-1;font:900 150px/1 var(--f-jp);writing-mode:vertical-rl;color:rgba(255,255,255,.07)}
+.hero-eyebrow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font:600 12px/1.4 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--hero-dim)}
+.hero .req{background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.4)}
+.live-pill{display:inline-flex;align-items:center;gap:7px;background:var(--aka);color:#fff;border-radius:999px;padding:4px 10px}
+.live-pill i{width:7px;height:7px;border-radius:50%;background:#fff}
+.hero-title{font-size:clamp(36px,6vw,72px);font-weight:900;font-stretch:122%;letter-spacing:-.01em;margin:14px 0 18px;line-height:.95}
+.hero-stats{display:flex;flex-wrap:wrap;gap:12px 30px;align-items:flex-end}
+.hs b{display:block;font:800 26px/1 var(--f-display);font-stretch:110%}
+.hs span{font:500 11px/1.3 var(--f-mono);color:var(--hero-dim);text-transform:uppercase;letter-spacing:.08em}
+.hs-prog{flex:1;min-width:200px;max-width:360px}
+.bar{height:6px;border-radius:9px;background:rgba(255,255,255,.15);overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,#fff,var(--hero-dim));border-radius:9px;transition:width .4s}
+.home-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px;margin-top:16px;align-items:start}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:16px}
+.tile{display:flex;flex-direction:column;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;text-decoration:none;color:var(--ink)}
+.tile:hover{border-color:var(--ink-3)}
+.tile b{font:800 17px/1.15 var(--f-display);font-stretch:105%}
+.tile span{font-size:13.5px;color:var(--ink-2)}
+.mini-mat{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.mini-mat:first-of-type{border-top:0}
+.mini-mat .tn{font:900 13px/1 var(--f-display);font-stretch:120%;background:var(--ink);color:var(--paper);border-radius:8px;padding:8px 0;text-align:center}
+.mini-mat b{display:block;font:700 14px/1.25 var(--f-display);font-stretch:88%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini-mat small{display:block;font-size:12px;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.feed{display:flex;flex-direction:column}
+.feed-i{display:grid;grid-template-columns:44px 1fr;gap:10px;padding:9px 0;border-top:1px solid var(--line);font-size:13.5px}
+.feed-i:first-child{border-top:0}
+.feed-i .tm{font:600 12px/1.5 var(--f-mono);color:var(--ink-3)}
+.feed-i.k-medal{background:color-mix(in srgb,var(--gold) 9%,transparent)}
+.feed-i.k-fix{color:var(--warn)}
+.mats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.mat{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:11px;min-width:0}
+.mat.is-live{border-color:color-mix(in srgb,var(--aka) 45%,var(--line))}
+.mat-h{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.mat-n{font:600 11px/1 var(--f-mono);letter-spacing:.12em;color:var(--ink-3)}
+.mat-n b{font:900 26px/1 var(--f-display);font-stretch:120%;color:var(--ink);margin-left:4px;vertical-align:-3px}
+.mat-cat{font-size:13px;color:var(--ink-2);font-weight:600}
+.mat-idle{background:var(--surface-2);border-radius:10px;padding:16px 12px;text-align:center;color:var(--ink-2);font-weight:600}
+.vs{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:stretch;border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+.vs>div{padding:10px;min-width:0}
+.vs .a{background:var(--aka);color:var(--aka-ink)}
+.vs .b{background:var(--shiro);color:var(--shiro-ink);text-align:right}
+.vs .mid{background:var(--surface-2);display:grid;place-items:center;padding:0 10px;font:700 15px/1 var(--f-mono)}
+.vs b{display:block;font:800 15px/1.15 var(--f-display);font-stretch:85%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vs small{font-size:11.5px;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.pts{display:flex;gap:8px;align-items:center;margin-top:6px;font:600 10px var(--f-mono);letter-spacing:.06em}
+.vs .b .pts{justify-content:flex-end}
+.wa-pips{display:inline-flex;gap:3px}
+.wa-pips i{width:9px;height:9px;border-radius:50%;border:1.5px solid currentColor;opacity:.6}
+.wa-pips i.on{background:currentColor;opacity:1}
+.pen-mini{display:inline-flex;gap:2px}
+.pen-mini i{width:6px;height:9px;border-radius:2px;border:1.5px solid currentColor;opacity:.45}
+.pen-mini i.on{background:currentColor;opacity:1}
+.kata-live{background:var(--ai-soft);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:2px}
+.kata-live b{font:800 18px/1.15 var(--f-display);font-stretch:90%}
+.next-list{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--ink-2)}
+.next-list>div{display:flex;gap:8px;white-space:nowrap;overflow:hidden}
+.next-list .mono{color:var(--ink-3);font-size:11.5px;flex:none;padding-top:1px;width:22px}
+.next-list span:last-child{overflow:hidden;text-overflow:ellipsis}
+.mbar{height:4px;background:var(--surface-3);border-radius:9px;overflow:hidden}
+.mbar i{display:block;height:100%;background:var(--ai);transition:width .4s}
+.mat-f{display:flex;justify-content:space-between;font:600 11px var(--f-mono);color:var(--ink-3)}
+.filterbar{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,1fr);gap:0 12px;align-items:end}
+.count{font:600 12px var(--f-mono);margin:0 0 8px}
+.plist{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.p-row{display:grid;grid-template-columns:10px minmax(0,1.3fr) minmax(0,1.2fr) 120px;gap:12px;align-items:center;padding:10px 14px;border-top:1px solid var(--line)}
+.p-row:first-child{border-top:0}
+.p-row b{font-weight:650}
+.p-row small{display:block;font-size:12.5px;color:var(--ink-3)}
+.p-g{font-size:13px;color:var(--ink-2);white-space:nowrap}
+
+/* ---------- brackets ---------- */
+.bk-layout{display:grid;grid-template-columns:260px minmax(0,1fr);gap:18px;align-items:start}
+.bk-layout>*{min-width:0}
+.cat-list{display:flex;flex-direction:column;gap:6px;position:sticky;top:130px;max-height:calc(100vh - 150px);overflow:auto;scrollbar-width:thin}
+.cat-btn{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 12px;text-align:left;display:flex;flex-direction:column;gap:4px;text-decoration:none;color:var(--ink)}
+.cat-btn:hover{border-color:var(--ink-3)}
+.cat-btn.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.cat-btn b{font:800 14px/1.2 var(--f-display);font-stretch:92%}
+.cat-btn .row{display:flex;justify-content:space-between;gap:6px;align-items:center;font-size:12px;color:var(--ink-3)}
+.cat-sel{display:none}
+.bk-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px;align-items:flex-end;margin-bottom:12px}
+.bk-head h2{font-size:clamp(22px,2.8vw,32px);font-weight:900;font-stretch:110%;margin-top:4px}
+.meta-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;color:var(--ink-2);margin:6px 0 12px;align-items:center}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.bk-wrap{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:auto;-webkit-overflow-scrolling:touch}
+.bk{position:relative;margin:22px 22px 22px}
+.bk svg.cn-layer{position:absolute;inset:0;overflow:visible;pointer-events:none}
+.cn{fill:none;stroke:var(--line-2);stroke-width:1.5}
+.cn.done{stroke:var(--ink-3);stroke-width:2}
+.cn.pend{stroke-dasharray:3 4}
+.r-head{position:absolute;top:0;font:600 10.5px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.bout{position:absolute}
+.bout-tag{position:absolute;left:0;right:0;top:-18px;height:16px;display:flex;justify-content:space-between;align-items:center;padding:0 2px;font:600 10.5px/1 var(--f-mono);color:var(--ink-3);letter-spacing:.02em;white-space:nowrap}
+.bout-box{border:1px solid var(--line-2);border-radius:9px;background:var(--surface);overflow:hidden}
+.slot{display:grid;grid-template-columns:4px minmax(0,1fr) auto;align-items:center;gap:8px;height:30px;width:100%;border:0;background:none;text-align:left;padding:0 9px 0 0;color:var(--ink);font:inherit}
+.slot+.slot{border-top:1px solid var(--line)}
+.slot>i{align-self:stretch;background:var(--c,transparent)}
+.slot .nm{font:650 13.5px/1 var(--f-display);font-stretch:84%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.slot .cl{font:500 9.5px/1 var(--f-mono);color:var(--ink-3);letter-spacing:.04em;margin-left:6px;font-stretch:100%}
+.slot .rs{font:700 10px/1 var(--f-mono);text-align:right;color:var(--ink-3)}
+.slot.win{background:var(--surface-2)}
+.slot.win .nm{font-weight:850}
+.slot.win .rs{color:var(--ok)}
+.slot.lose .nm{color:var(--ink-3);font-weight:500}
+.slot.ph .nm{color:var(--ink-3);font-weight:500;font-style:italic;font-family:var(--f-body);font-size:12px}
+.slot.bye .nm{font-style:normal;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase}
+button.slot{cursor:pointer}
+button.slot:hover{background:var(--ai-soft)}
+.slot.sel{background:var(--ai)!important;color:var(--ai-ink)}
+.slot.sel .nm,.slot.sel .cl{color:var(--ai-ink)!important}
+.slot.conf{box-shadow:inset 0 0 0 2px var(--bad)}
+.bout.s-live .bout-box{border-color:var(--aka);box-shadow:0 0 0 3px var(--aka-soft)}
+.bout.s-live .bout-tag .m{color:var(--aka)}
+.bout.s-ready .bout-tag .m{color:var(--ai)}
+.bout.s-bye .bout-box{border-style:dashed;box-shadow:none}
+.bout.s-bye .slot.ph{opacity:.7}
+.bronze-lbl{position:absolute;font:600 10.5px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--bronze)}
+.rlist{display:none;flex-direction:column;gap:14px}
+.rl-r h4{font:600 11px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:0 0 8px}
+.rl-b{border:1px solid var(--line);border-radius:12px;background:var(--surface);overflow:hidden;margin-bottom:8px}
+.rl-b .bt-h{display:flex;justify-content:space-between;gap:8px;padding:6px 10px;font:600 10.5px var(--f-mono);color:var(--ink-3);background:var(--surface-2);border-bottom:1px solid var(--line)}
+.rl-b .slot{height:38px}
+.rl-b.s-live{border-color:var(--aka)}
+.rl-b.s-live .bt-h{color:var(--aka);background:var(--aka-soft)}
+.rl-b.s-bye{border-style:dashed}
+.rl-byes{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;border:1px dashed var(--line-2);border-radius:12px;padding:10px 12px;font-size:13.5px}
+.rl-byes .eyebrow{flex-basis:100%}
+.rl-bye{display:inline-flex;align-items:center;gap:6px;font-weight:600}
+.podium{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-bottom:14px}
+.pod{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--surface)}
+td .medal{margin:0 auto}
+.medal{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font:800 13px var(--f-mono);color:#fff;flex:none;background:var(--m)}
+.pod b{display:block;font:800 14px/1.2 var(--f-display);font-stretch:88%}
+.pod small{color:var(--ink-3);font-size:12px}
+.rr-t td.cell{text-align:center;font:700 12px var(--f-mono);width:56px}
+.rr-t td.cell small{display:block;font-size:9.5px;font-weight:500;color:var(--ink-3)}
+.rr-t td.self{background:repeating-linear-gradient(45deg,var(--surface-3) 0 4px,transparent 4px 8px)}
+.rr-t td.W{color:var(--ok)} .rr-t td.L{color:var(--ink-3)}
+.rank-t .tot{font:800 16px var(--f-display);font-variant-numeric:tabular-nums;text-align:right}
+.rank-t tr.cut td{border-bottom:2px dashed var(--ok)}
+.rank-t tr.cur{background:var(--aka-soft)}
+.chips{display:flex;gap:4px;flex-wrap:wrap}
+.sc-chip{font:700 13px var(--f-mono);padding:3px 7px;border-radius:7px;background:var(--surface);border:1px solid var(--line)}
+.sc-chip.x{text-decoration:line-through;color:var(--ink-3);background:transparent;border-style:dashed}
+.edit-bar{display:flex;gap:10px;align-items:center;background:var(--ai-soft);color:var(--ink);border-radius:12px;padding:11px 14px;font-size:14px;margin-bottom:12px;flex-wrap:wrap}
+.edit-bar b{color:var(--ai)}
+.chk-list{display:flex;flex-direction:column;gap:8px}
+.chk{display:grid;grid-template-columns:22px minmax(0,1fr);gap:8px;font-size:13.5px;align-items:start}
+.chk>span:first-child{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font:800 12px var(--f-mono);color:#fff;background:var(--ok)}
+.chk.warn>span:first-child{background:var(--warn)}
+.chk.bad>span:first-child{background:var(--bad)}
+.chk small{display:block;color:var(--ink-3);font-size:12.5px}
+.br-grid{display:flex;flex-direction:column;gap:14px}
+.br-aside{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:12px 20px;align-items:end}
+.br-aside .chk-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px 16px}
+.order-list{display:flex;flex-direction:column;gap:6px}
+.order-list .slot{border:1px solid var(--line);border-radius:10px;height:42px;background:var(--surface)}
+.order-list .slot .nm{font-size:15px}
+.gen-box{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.gen-box ul{margin:0;padding-left:18px;color:var(--ink-2);font-size:14px}
+
+/* ---------- admin ---------- */
+.tour-list{display:flex;flex-direction:column;gap:10px}
+.tour{display:grid;grid-template-columns:minmax(0,1fr) 90px 90px auto;gap:14px;align-items:center}
+.tour.cur{border-color:var(--ai);box-shadow:inset 3px 0 0 var(--ai)}
+.tour h3{font-size:18px;margin:6px 0 2px}
+.tour-kpi b{display:block;font:800 22px/1 var(--f-display)}
+.tour-kpi span{font-size:12px;color:var(--ink-3)}
+.adm-ctx{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:-6px 0 16px;font-size:13.5px;color:var(--ink-2)}
+.adm-ctx select{border:1px solid var(--line-2);background:var(--surface);border-radius:9px;padding:6px 8px;font-weight:600;max-width:100%;min-width:0}
+.cat-t{min-width:820px}
+.cat-t td b{font-family:var(--f-display);font-stretch:92%}
+.cat-t td small{display:block;color:var(--ink-3);font-size:12px}
+.cat-t .acts{flex-wrap:nowrap}
+.two-col{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+.e-row{display:grid;grid-template-columns:10px minmax(0,1fr) auto auto;gap:10px;align-items:center;padding:9px 0;border-top:1px solid var(--line);font-size:14px}
+.e-row:first-of-type{border-top:0}
+.e-row small{display:block;font-size:12px;color:var(--ink-3)}
+.eb{display:inline-flex;gap:3px;flex-wrap:wrap}
+.eb span{font:600 10px var(--f-mono);padding:2px 5px;border-radius:5px;background:var(--ok-soft);color:var(--ok)}
+.eb span.no{background:var(--bad-soft);color:var(--bad)}
+.x-btn{border:0;background:var(--surface-3);border-radius:8px;width:30px;height:30px;font-size:16px;line-height:1;color:var(--ink-2)}
+.x-btn:hover{background:var(--bad-soft);color:var(--bad)}
+.x-btn:disabled{opacity:.3;cursor:not-allowed}
+.sched{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-items:start}
+.sch-col h3{font:900 18px var(--f-display);font-stretch:118%;margin-bottom:10px}
+.sch-c{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px;background:var(--surface-2);display:flex;flex-direction:column;gap:6px}
+.sch-c b{font:800 14px/1.2 var(--f-display);font-stretch:92%}
+.sch-c .row{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12.5px;color:var(--ink-3);flex-wrap:wrap}
+.sch-c .tm{font:700 12px var(--f-mono);color:var(--ink-2)}
+.sch-c select{border:1px solid var(--line-2);background:var(--surface);border-radius:8px;padding:4px 6px;font-size:12.5px}
+.sch-c .mv{display:flex;gap:4px}
+.medals td.m{font:700 15px var(--f-mono);text-align:center}
+.medals td.rk{font:800 14px var(--f-mono);color:var(--ink-3);width:44px}
+.medals th.g{color:var(--gold)} .medals th.s{color:var(--silver)} .medals th.b{color:var(--bronze)}
+.medals tr.lead td{background:color-mix(in srgb,var(--gold) 8%,transparent)}
+.team-grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:16px;align-items:start}
+.rules-l{margin:8px 0 0;padding-left:20px;font-size:14px;color:var(--ink-2)}
+.rules-l li{margin-bottom:4px}
+
+/* ---------- club ---------- */
+.sum-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.cl-list{display:flex;flex-direction:column;gap:10px}
+.cl-i{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.cl-i.now{border-color:var(--aka);box-shadow:0 0 0 3px var(--aka-soft)}
+.cl-i.soon{border-color:color-mix(in srgb,var(--ai) 50%,var(--line))}
+.cl-i.med{background:linear-gradient(100deg,color-mix(in srgb,var(--gold) 12%,var(--surface)),var(--surface) 60%)}
+.cl-i.out{opacity:.7}
+.cl-i b{font:800 16px/1.2 var(--f-display);font-stretch:92%}
+.cl-i small{display:block;color:var(--ink-3);font-size:12.5px}
+.cl-st{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;font-size:14px}
+.where{display:inline-flex;align-items:center;gap:6px;background:var(--ink);color:var(--paper);border-radius:9px;padding:6px 10px;font:700 13px var(--f-mono)}
+.cl-i.now .where{background:var(--aka);color:#fff}
+.now-l{color:var(--aka)}
+.ath-list{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.ath{display:grid;grid-template-columns:minmax(0,1fr) 110px 90px auto;gap:12px;align-items:center;padding:11px 14px;border-top:1px solid var(--line)}
+.ath:first-child{border-top:0}
+.ath b{font-weight:650}
+.ath small{display:block;font-size:12.5px;color:var(--ink-3)}
+.ath-g{font-size:13px;white-space:nowrap}
+.reg-list{display:flex;flex-direction:column;gap:10px}
+.reg{display:grid;grid-template-columns:220px minmax(0,1fr);gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.reg b{font-weight:650}
+.reg small{display:block;font-size:12.5px;color:var(--ink-3)}
+.reg-c{display:flex;flex-wrap:wrap;gap:6px}
+.regchip{border:1px solid var(--line-2);background:var(--surface);border-radius:999px;padding:8px 12px;font-size:13px;font-weight:600;color:var(--ink-2);min-height:40px;text-align:left}
+.regchip.on{background:var(--ok-soft);border-color:transparent;color:var(--ok)}
+.regchip:disabled{opacity:.55;cursor:not-allowed}
+
+/* ---------- login ---------- */
+.login{max-width:980px;margin:10px auto;display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.login .hanko{width:50px;height:50px;font-size:27px;border-radius:12px}
+.login h1{font-size:clamp(28px,4vw,40px);font-weight:900;font-stretch:112%}
+.acc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;width:100%;margin-top:8px}
+.acc{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.acc.hl{border-color:var(--ai);box-shadow:0 0 0 3px var(--ai-soft)}
+.acc.ghost{background:transparent;border-style:dashed}
+.acc-i{display:flex;gap:10px;align-items:center}
+.acc-i b{display:block;font:800 16px/1.15 var(--f-display)}
+.acc-i small{font-size:12.5px;color:var(--ink-3)}
+.acc p{margin:0;font-size:13.5px;color:var(--ink-2);flex:1}
+.acc .field{margin:0}
+.gate{max-width:560px;margin:40px auto;text-align:center;display:flex;flex-direction:column;gap:14px;align-items:center}
+.gate .acts{justify-content:center}
+
+/* ---------- referee ---------- */
+.pick-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.pick{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:center;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;color:var(--ink);min-height:120px}
+.pick:hover{border-color:var(--ink)}
+.pick-n{width:64px;height:64px;border-radius:10px;background:repeating-linear-gradient(90deg,#c9bf86 0 16px,#b4aa71 16px 32px);box-shadow:inset 0 0 0 4px var(--aka),inset 0 0 0 7px #c9bf86;display:grid;place-items:center;font:900 26px var(--f-display);color:#2b2a1a}
+.pick-b b{display:block;font:800 19px var(--f-display);font-stretch:110%}
+.pick-b small{display:block;font-size:13px;color:var(--ink-2);margin-top:2px}
+.pick-b .pill{margin-top:6px}
+.ref-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:10px;margin-bottom:14px}
+.ref-head h1{font:900 clamp(30px,4vw,42px)/1 var(--f-display);font-stretch:118%;margin-top:4px}
+.ref-grid{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:16px;align-items:start}
+.ref-main{display:flex;flex-direction:column;gap:12px;min-width:0}
+.match-h{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;flex-wrap:wrap}
+.match-h h2{font:900 26px/1.1 var(--f-display);font-stretch:110%;margin-top:4px}
+.match-h h2 span{font-stretch:85%;font-weight:600;color:var(--ink-2);font-size:18px}
+.lock-note{font-size:12.5px;color:var(--ink-3);display:flex;gap:6px;align-items:center}
+.corners{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.corner{border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden;min-width:0}
+.corner.aka{background:var(--aka);color:var(--aka-ink)}
+.corner.shiro{background:var(--shiro);color:var(--shiro-ink);border:2px solid var(--shiro-edge)}
+.corner .kj{position:absolute;right:12px;top:4px;font:900 80px/1 var(--f-jp);opacity:.12;pointer-events:none}
+.corner .side{font:700 11px var(--f-mono);letter-spacing:.16em;opacity:.85}
+.corner .fname{font:900 clamp(20px,2.4vw,28px)/1.05 var(--f-display);font-stretch:90%}
+.corner .fmeta{font-size:13px;opacity:.85}
+.corner.won{outline:4px solid var(--gold);outline-offset:-4px}
+.score-row{display:flex;gap:18px;align-items:flex-end;flex-wrap:wrap}
+.score-row .lbl{font:700 10px var(--f-mono);letter-spacing:.12em;opacity:.8;margin-bottom:6px}
+.wa-big{display:flex;gap:8px}
+.wa-big i{width:32px;height:32px;border-radius:50%;border:3px solid currentColor;opacity:.4}
+.wa-big i.on{background:currentColor;opacity:1}
+.chui{display:flex;gap:5px}
+.chui i{width:14px;height:22px;border-radius:4px;border:2px solid currentColor;opacity:.4}
+.chui i.on{background:currentColor;opacity:1}
+.ip-badge{font:900 15px var(--f-display);letter-spacing:.1em;border:2px solid currentColor;border-radius:8px;padding:5px 9px}
+.corner-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cbtn{border:0;border-radius:12px;padding:12px 8px;font:800 15px/1.1 var(--f-display);font-stretch:95%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:58px}
+.cbtn small{font:500 10px var(--f-mono);opacity:.75;letter-spacing:.06em}
+.aka .cbtn{background:rgba(255,255,255,.16);color:inherit}
+.aka .cbtn:hover{background:rgba(255,255,255,.26)}
+.aka .cbtn.main{background:#fff;color:var(--aka)}
+.shiro .cbtn{background:rgba(12,15,36,.07);color:var(--shiro-ink)}
+.shiro .cbtn:hover{background:rgba(12,15,36,.13)}
+.shiro .cbtn.main{background:var(--shiro-ink);color:var(--shiro)}
+.cbtn:active{transform:scale(.97)}
+.win-pick{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.win-pick button{border:2px solid var(--line-2);border-radius:12px;padding:10px 12px;font-weight:700;background:var(--surface);text-align:left;min-width:0;min-height:58px}
+.win-pick button small{display:block;font:600 10px var(--f-mono);letter-spacing:.12em;color:var(--ink-3)}
+.win-pick button span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:var(--f-display);font-stretch:88%;font-size:15px}
+.win-pick button.a.on{border-color:var(--aka);background:var(--aka-soft)}
+.win-pick button.b.on{border-color:var(--ink);background:var(--surface-3)}
+.methods{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
+.methods button{border:1px solid var(--line-2);background:var(--surface);border-radius:999px;padding:9px 15px;font-weight:650;min-height:44px}
+.methods button.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.decide p{margin:10px 0 0}
+.next-up{display:flex;flex-direction:column;gap:12px}
+.nu-no{font:900 44px/1 var(--f-display);font-stretch:115%}
+.nu-vs{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:10px;align-items:center}
+.nu-vs span{font:800 19px/1.15 var(--f-display);font-stretch:88%;padding:12px;border-radius:12px;min-width:0;overflow-wrap:anywhere}
+.nu-vs .a{background:var(--aka);color:#fff}
+.nu-vs .b{background:var(--shiro);color:var(--shiro-ink);border:2px solid var(--shiro-edge);text-align:right}
+.nu-vs .v{font:700 13px var(--f-mono);color:var(--ink-3);padding:0}
+.nu-k{font:800 22px var(--f-display);background:var(--ai-soft);border-radius:12px;padding:12px}
+.done-box{text-align:center;padding:30px 20px}
+.big-k{font:900 54px/1 var(--f-jp);color:var(--aka);margin-bottom:8px}
+.ref-q{position:sticky;top:130px}
+.qlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;position:relative;max-height:calc(100vh - 230px);overflow:auto;scrollbar-width:thin}
+.q-i{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:8px;align-items:center;padding:9px 6px;border-top:1px solid var(--line)}
+.q-i:first-child{border-top:0}
+.q-i .no{font:800 14px var(--f-mono);color:var(--ink-3);text-align:center}
+.q-i b{display:block;font:700 13.5px/1.25 var(--f-display);font-stretch:88%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.q-i b .w{color:var(--ok)}
+.q-i small{display:block;font-size:11.5px;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.q-i.s-live{background:var(--aka-soft);border-radius:10px;border-color:transparent}
+.q-i.s-done{opacity:.62}
+.q-i.next{background:var(--ai-soft);border-radius:10px;border-color:transparent}
+.q-res{font:700 11px var(--f-mono);color:var(--ok);white-space:nowrap}
+.kata-now{display:flex;flex-direction:column;gap:12px}
+.kata-who{display:flex;gap:12px;align-items:center}
+.kata-who .club-dot{width:14px;height:44px;border-radius:5px}
+.kata-name{font:900 clamp(24px,3vw,34px)/1.05 var(--f-display);font-stretch:95%}
+.judges{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.judges label{min-width:0;display:flex;flex-direction:column;gap:5px;font:600 10px var(--f-mono);color:var(--ink-3);letter-spacing:.06em;text-align:center;text-transform:uppercase}
+.judges input{min-width:0;width:100%;border:1px solid var(--line-2);border-radius:12px;padding:14px 4px;text-align:center;font:800 24px var(--f-display);font-variant-numeric:tabular-nums;background:var(--surface);color:var(--ink)}
+.judges input.bad{border-color:var(--bad);background:var(--bad-soft)}
+.calc{display:flex;flex-wrap:wrap;align-items:center;gap:8px;background:var(--surface-2);border-radius:12px;padding:12px;min-height:62px}
+.calc .tot{margin-left:auto;font:900 30px var(--f-display);font-variant-numeric:tabular-nums}
+.calc .tot small{font:600 9.5px var(--f-mono);color:var(--ink-3);display:block;text-align:right;letter-spacing:.1em}
+.team-names{display:grid;grid-template-columns:30px 1fr auto 1fr;gap:8px;font:800 14px var(--f-display);margin-bottom:6px}
+.team-names .a{grid-column:2;color:var(--aka)} .team-names .b{grid-column:4;text-align:right}
+.sub-row{display:grid;grid-template-columns:30px minmax(0,1fr) auto minmax(0,1fr);gap:8px;align-items:center;margin-bottom:8px}
+.sub-n{font:800 14px var(--f-mono);color:var(--ink-3);text-align:center}
+.sub-b{border:2px solid var(--line-2);background:var(--surface);border-radius:12px;padding:12px 10px;font:700 14px/1.2 var(--f-display);font-stretch:90%;min-height:52px;min-width:0;overflow-wrap:anywhere}
+.sub-b.a.on{border-color:var(--aka);background:var(--aka);color:#fff}
+.sub-b.b.on{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+.sub-row .v{font:600 11px var(--f-mono);color:var(--ink-3)}
+.team-score{font:900 24px var(--f-display)}
+
+/* ---------- spec ---------- */
+.spec-t td:first-child{white-space:nowrap;font:600 12px var(--f-mono);color:var(--ai)}
+.spec-t td small{display:block;color:var(--ink-3);font-size:12.5px}
+.spec-t tr.sec td{background:var(--surface-2);font:700 11px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.qs{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:10px;font-size:14px;color:var(--ink-2)}
+.qs b{color:var(--ink)}
+.howto{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:16px}
+.howto .card p{margin:6px 0 0;font-size:13.5px;color:var(--ink-2)}
+.foot{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px 16px;justify-content:space-between;font-size:12.5px;color:var(--ink-3)}
+
+/* ---------- drawer, modal, toast ---------- */
+.scrim{position:fixed;inset:0;background:rgba(10,12,30,.4);z-index:40;opacity:0;pointer-events:none;transition:opacity .2s}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(460px,100%);background:var(--surface);z-index:41;transform:translateX(105%);transition:transform .25s ease;display:flex;flex-direction:column;border-left:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+.drawer.on{transform:none}
+.dw-h{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--line)}
+.dw-h h2{font-size:20px;font-weight:900;font-stretch:108%}
+.dw-b{padding:18px;overflow:auto;flex:1}
+.dw-acts{display:flex;gap:8px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.x{border:0;background:var(--surface-3);border-radius:50%;width:34px;height:34px;font-size:18px;line-height:1;flex:none}
+.modal{position:fixed;inset:0;z-index:55;display:grid;place-items:center;background:rgba(10,12,30,.45);padding:16px}
+.modal-c{background:var(--surface);border-radius:16px;padding:20px;max-width:420px;width:100%;box-shadow:var(--shadow)}
+.modal-c p{margin:0 0 16px;font-size:15px}
+.modal-c .acts{justify-content:flex-end}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:var(--ink);color:var(--paper);padding:11px 18px;border-radius:12px;font-weight:600;font-size:14px;opacity:0;transition:.25s;z-index:60;max-width:calc(100% - 32px);text-align:center;pointer-events:none}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+#print{display:none}
+
+@media (max-width:1100px){
+  .mats{grid-template-columns:1fr 1fr}
+  .home-grid,.team-grid,.br-grid{grid-template-columns:1fr}
+  .sched{grid-template-columns:1fr 1fr}
+}
+@media (max-width:900px){
+  .top{position:static}
+  .bk-layout{grid-template-columns:minmax(0,1fr)}
+  .cat-list{display:none}
+  .cat-sel{display:block}
+  .ref-grid,.two-col,.br-aside{grid-template-columns:1fr}
+  .ref-q{position:static}
+  .qlist{max-height:none}
+  .tour{grid-template-columns:1fr 1fr;gap:10px}
+  .tour-main,.tour-acts{grid-column:1/-1}
+  .reg{grid-template-columns:1fr}
+}
+@media (max-width:760px){
+  .tree-only{display:none}
+  .rlist{display:flex}
+  .mats,.sched{grid-template-columns:1fr}
+  .filterbar{grid-template-columns:1fr 1fr}
+  .filterbar .grow{grid-column:1/-1}
+  .p-row{grid-template-columns:10px minmax(0,1fr);row-gap:2px}
+  .p-row .p-cat,.p-row .p-g{grid-column:2}
+  .ath{grid-template-columns:minmax(0,1fr) auto}
+  .ath-s{display:none}
+  .ath-acts{grid-column:1/-1}
+}
+@media (max-width:640px){
+  main{padding:14px 14px 50px}
+  .top-in{padding:8px 14px;gap:8px}
+  .subnav{padding:0 14px 8px}
+  .brand small{display:none}
+  .zones{order:3;flex:1 1 100%}
+  .zones a{flex:1;align-items:center;padding:5px 6px}
+  .tools .chipbtn{padding:6px 8px}
+  .user-chip>span:not(.avatar){display:none}
+  .tools .live-ind span{display:none}
+  .hero{padding:22px 18px}
+  .hero-kanji{font-size:96px}
+  .corners{grid-template-columns:1fr}
+  .form-grid{grid-template-columns:1fr 1fr}
+  .judges input{font-size:20px;padding:12px 2px}
+  .card{padding:14px}
+  .nu-no{font-size:36px}
+  .nu-vs span{font-size:16px}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+@media print{
+  body>*:not(#print){display:none!important}
+  body{background:#fff}
+  #print{display:block;color:#14183a;font:12px/1.4 var(--f-body);
+    --paper:#fff; --surface:#fff; --surface-2:#f6f7fc; --surface-3:#eceef7; --ink:#14183a; --ink-2:#4b5175; --ink-3:#6e7390; --line:#d5d9e8; --line-2:#b9bed6;
+    --ai:#2e3db3; --ai-soft:#e6e9fb; --aka:#d4213d; --aka-soft:#fde7ea; --ok:#14895a; --ok-soft:#e0f4ea; --gold:#c4951a; --silver:#8b95ab; --bronze:#b3683a}
+  #print .tree-only{display:block!important}
+  #print .rlist,#print .req,#print button.btn{display:none!important}
+  #print .bk-wrap{border:0;overflow:visible}
+  #print .pr-page{break-after:page}
+  #print .pr-page:last-child{break-after:auto}
+  #print h1{font-size:20px;margin:6px 0 10px}
+  #print h2{font-size:17px;margin:0 0 4px}
+  #print .pr-h{display:flex;justify-content:space-between;gap:12px;border-bottom:2px solid #14183a;padding-bottom:6px;margin-bottom:10px;font-size:11px}
+  #print .pr-meta{margin:0 0 10px;color:#4b5175}
+  #print table.t{font-size:11px}
+  #print table.t td,#print table.t th{padding:5px 6px}
+  #print .pr-tat{break-inside:avoid;margin-bottom:14px}
+}
+</style>
+</head>
+<body class="reqs">
+
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="#/"><span class="hanko" aria-hidden="true">始</span><span><b>HAJIME</b><small>mock wg specyfikacji</small></span></a>
+    <nav class="zones" id="zones" aria-label="Strefy systemu"></nav>
+    <div class="tools">
+      <span class="live-ind" id="liveInd" title="Zmiany z innych kart i z symulacji pojawiają się bez odświeżania (w mocku BroadcastChannel zamiast WebSocket)"><i></i><span>na żywo</span></span>
+      <button class="chipbtn" id="simBtn" data-act="sim" aria-pressed="true" title="Symulacja prowadzi walki na tatami, których nie obsługuje sędzia">Symulacja</button>
+      <button class="chipbtn" id="reqBtn" data-act="reqs" aria-pressed="true" title="Pokaż numery wymagań ze specyfikacji">REQ</button>
+      <div id="userBox"></div>
+    </div>
+  </div>
+  <nav class="subnav" id="subnav" aria-label="Widoki strefy"></nav>
+</header>
+<main id="app"></main>
+<div class="scrim" id="scrim" data-act="close"></div>
+<aside class="drawer" id="drawer" aria-hidden="true" role="dialog" aria-labelledby="dwTitle"><div class="dw-h"><h2 id="dwTitle"></h2><button class="x" data-act="close" aria-label="Zamknij">×</button></div><div class="dw-b" id="dwBody"></div></aside>
+<div class="modal" id="modal" hidden><div class="modal-c" role="alertdialog" aria-modal="true" aria-labelledby="mdText"><p id="mdText"></p><div class="acts"><button class="btn" data-act="mdNo">Anuluj</button><button class="btn danger-solid" id="mdYes" data-act="mdYes">OK</button></div></div></div>
+<div class="toast" id="toast" role="status"></div>
+<div id="print"></div>
+
+<script>
+/* ===================== utils ===================== */
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const rq = (...ids) => ids.length ? `<span class="req">${ids.join(' · ')}</span>` : '';
+const pad = n => String(n).padStart(2, '0');
+const hhmm = (d = new Date()) => `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+const fmtMin = m => `${pad(Math.floor(m / 60))}:${pad(m % 60)}`;
+const kg = x => x == null || x === '' ? '—' : (+x).toFixed(1).replace('.', ',') + ' kg';
+const fmt1 = v => (+v).toFixed(1).replace('.', ',');
+const pl = (n, one, few, many) => { const a = Math.abs(n) % 100, b = a % 10; return `${n} ${n === 1 ? one : b >= 2 && b <= 4 && (a < 12 || a > 14) ? few : many}`; };
+const MONTHS = ['stycznia', 'lutego', 'marca', 'kwietnia', 'maja', 'czerwca', 'lipca', 'sierpnia', 'września', 'października', 'listopada', 'grudnia'];
+const fmtDate = s => { if (!s) return '—'; const [y, m, d] = s.split('-').map(Number); return `${d} ${MONTHS[m - 1]} ${y}`; };
+const fmtDob = s => s ? s.split('-').reverse().join('.') : '—';
+const todayISO = () => { const d = new Date(); return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`; };
+let toastT;
+function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), 3000); }
+function mulberry32(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+const shuffle = (arr, R = Math.random) => { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(R() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const pickR = (arr, R = Math.random) => arr[Math.floor(R() * arr.length)];
+
+/* ===================== słowniki ===================== */
+const CLUBS = {
+  zur: { name: 'Żuraw Dojo', s: 'ŻUR', c: '#12a89a' },
+  ory: { name: 'Orzeł Kyokushin', s: 'ORZ', c: '#e2762b' },
+  sam: { name: 'Samuraj Team', s: 'SAM', c: '#7c5cd6' },
+  bia: { name: 'Biała Gwardia Dojo', s: 'BGD', c: '#3f7fe0' },
+  tor: { name: 'Torii Club', s: 'TOR', c: '#d94f8c' },
+  wil: { name: 'Wilki Karate', s: 'WLK', c: '#5fa043' },
+};
+const club = k => CLUBS[k] || { name: '—', s: '—', c: '#999' };
+/* stopień jako liczba rosnąca z poziomem: 1 = 10 kyu … 10 = 1 kyu, 11 = 1 dan … 14 = 4 dan */
+const GRADES = Array.from({ length: 14 }, (_, i) => i + 1);
+const gLabel = g => g <= 10 ? `${11 - g} kyu` : `${g - 10} dan`;
+const BELT_C = { 10: '#ef7d1a', 9: '#ef7d1a', 8: '#2c63d1', 7: '#2c63d1', 6: '#e6bf12', 5: '#e6bf12', 4: '#2c9a4c', 3: '#2c9a4c', 2: '#7b4a26', 1: '#7b4a26' };
+const belt = g => { if (g > 10) return `<span class="belt" style="--b:#15151a"></span>`; const k = 11 - g; return `<span class="belt${k % 2 ? ' st' : ''}" style="--b:${BELT_C[k]};--s:${BELT_C[k - 1] || '#15151a'}"></span>`; };
+const TYPES = { kumite: 'Kumite', kata: 'Kata', team: 'Drużynowe' };
+const ST = { draft: ['Szkic', ''], open: ['Zapisy otwarte', 'ai'], live: ['W trakcie', 'live'], done: ['Zakończony', 'ok'] };
+const METHODS = ['Ippon', 'Waza-ari', 'Hantei', 'Hansoku', 'Kiken'];
+const MSHORT = { 'Ippon': 'IPPON', 'Waza-ari': 'WAZA', 'Hantei': 'HANTEI', 'Hansoku': 'HANS.', 'Kiken': 'KIKEN' };
+const TABS = [1, 2, 3];
+const SIM_MS = 8000;
+const NM = {
+  boy: ['Antoni', 'Jan', 'Szymon', 'Filip', 'Kacper', 'Igor', 'Mikołaj', 'Oskar', 'Tymon', 'Leon', 'Wiktor', 'Bartek', 'Hubert', 'Franek', 'Olek', 'Kuba', 'Staś', 'Miłosz', 'Nikodem', 'Ignacy', 'Maks', 'Borys', 'Julian', 'Kajetan', 'Aleksander', 'Tadeusz'],
+  girl: ['Maja', 'Zofia', 'Oliwia', 'Hania', 'Julia', 'Pola', 'Amelia', 'Laura', 'Lena', 'Iga', 'Nina', 'Ada', 'Roksana', 'Emilia', 'Zuzanna', 'Alicja', 'Antonina', 'Wiktoria', 'Liliana', 'Marcelina'],
+  man: ['Paweł', 'Damian', 'Marek', 'Łukasz', 'Robert', 'Tomasz', 'Krzysztof', 'Piotr', 'Grzegorz', 'Rafał', 'Dawid', 'Sebastian', 'Adrian', 'Mateusz', 'Kamil', 'Bartosz'],
+  woman: ['Natalia', 'Ewa', 'Karolina', 'Agnieszka', 'Magdalena', 'Joanna', 'Katarzyna', 'Monika'],
+  sur: ['Kowalski', 'Wrona', 'Bąk', 'Lis', 'Jaworski', 'Mazur', 'Pawlak', 'Wójcik', 'Krawczyk', 'Sadowski', 'Zając', 'Kubiak', 'Nowicki', 'Duda', 'Wilk', 'Michalski', 'Grad', 'Sowa', 'Ryba', 'Kos', 'Hajduk', 'Stępień', 'Mróz', 'Zieliński', 'Nowak', 'Kamiński', 'Kurek', 'Wiśniewski', 'Kruk', 'Bednarz', 'Wróbel', 'Lewandowski', 'Dąbrowski', 'Jasiński', 'Marczak', 'Pyka', 'Sikora', 'Baran', 'Górski', 'Pietrzak', 'Czarnecki', 'Ostrowski', 'Sobczak', 'Kaczmarek', 'Szewczyk', 'Majewski', 'Witkowski', 'Rutkowski', 'Głowacki', 'Zawadzki'],
+};
+const femSur = s => /(ski|cki|dzki)$/.test(s) ? s.slice(0, -1) + 'a' : s;
+
+/* ===================== stan ===================== */
+const VER = 4, KEY = 'hajime-spec-state';
+const TAB = Math.random().toString(36).slice(2, 8);
+let S = null;
+let qCache = null;
+const cat = id => S.cats.find(c => c.id === id);
+const tour = id => S.tours.find(t => t.id === id);
+const pubT = () => S.tours.find(t => t.status === 'live') || S.tours.find(t => t.status === 'open') || S.tours[0] || null;
+const tourCats = T => T ? S.cats.filter(c => c.t === T.id).sort((a, b) => a.tatami - b.tatami || a.ord - b.ord) : [];
+
+function ent(id) {
+  if (!id || id === 'BYE') return null;
+  if (id.startsWith('T-')) { const t = S.teams[id]; return t ? { id, name: t.name, club: t.club, g: 0, team: true } : { id, name: '(drużyna usunięta)', club: '', g: 0, team: true }; }
+  const a = S.ath[id];
+  return a ? { id, name: `${a.fn} ${a.ln}`, club: a.club, g: a.g, a } : { id, name: '(usunięty)', club: '', g: 0 };
+}
+function ageAt(dob, date) { const [y, m, d] = dob.split('-').map(Number), [Y, M, D] = date.split('-').map(Number); let a = Y - y; if (M < m || (M === m && D < d)) a--; return a; }
+function elig(a, c) {
+  const T = tour(c.t), age = ageAt(a.dob, T ? T.date : todayISO());
+  const r = {
+    sex: c.sex === 'X' || a.sex === c.sex,
+    age: age >= c.age[0] && age <= c.age[1],
+    w: !c.w || ((c.w[0] == null || a.w > c.w[0]) && (c.w[1] == null || a.w <= c.w[1])),
+    g: a.g >= c.g[0] && a.g <= c.g[1], ageV: age,
+  };
+  r.ok = c.type !== 'team' && r.sex && r.age && r.w && r.g;
+  return r;
+}
+
+/* ---------- nazwy kategorii z kryteriów ---------- */
+function who(c) {
+  const ad = c.age[0] >= 18, yr = `${c.age[0]}–${c.age[1]} lat`;
+  if (c.sex === 'M') return ad ? 'Seniorzy' : `Chłopcy ${yr}`;
+  if (c.sex === 'K') return ad ? 'Seniorki' : `Dziewczęta ${yr}`;
+  return ad ? 'Seniorzy (mix)' : `${yr} (mix)`;
+}
+const wLbl = c => !c.w ? (c.type === 'kumite' ? 'open' : '') : c.w[1] != null ? `−${c.w[1]} kg` : `+${c.w[0]} kg`;
+const catShort = c => [who(c), wLbl(c)].filter(Boolean).join(' ');
+const catName = c => `${TYPES[c.type]} · ${catShort(c)}`;
+const gRange = c => c.g[0] <= 1 && c.g[1] >= 14 ? 'wszystkie stopnie' : `${gLabel(c.g[0])} – ${gLabel(c.g[1])}`;
+function criteria(c) { return [c.sex === 'X' ? 'płeć: mieszana' : c.sex === 'M' ? 'mężczyźni' : 'kobiety', c.age[0] >= 18 ? `wiek ${c.age[0]}+` : `wiek ${c.age[0]}–${c.age[1]}`, c.w ? `waga ${wLbl(c)}` : 'waga open', gRange(c)].join(' · '); }
+
+/* ===================== drabinki ===================== */
+/* kolejność pozycji rozkładająca kolejne elementy jak najdalej od siebie (odwrócone bity) */
+function bitrev(n) { const bits = Math.round(Math.log2(n)), out = []; for (let i = 0; i < n; i++) { let r = 0; for (let b = 0; b < bits; b++) if (i & (1 << b)) r |= 1 << (bits - 1 - b); out.push(r); } return out; }
+/* runda, w której spotkają się pozycje s1 i s2 (0 = pierwsza runda) */
+const meetR = (s1, s2) => Math.floor(Math.log2(s1 ^ s2));
+const ROUNDS = ['Finał', 'Półfinał', 'Ćwierćfinał', '1/8 finału', '1/16 finału', '1/32 finału'];
+const hasByes = c => !!(c.br && c.br.slots && c.br.slots.includes('BYE'));
+const roundName = (r, R, c) => r === 0 && R > 1 && c && c.odd === 'extra' && hasByes(c) ? 'Eliminacje' : ROUNDS[R - 1 - r];
+const sysLabel = c => !c.br ? (c.type === 'kata' ? 'kata · system punktowy' : c.entries.length < 4 ? 'każdy z każdym' : 'pucharowy') : c.br.sys === 'kata' ? 'kata · system punktowy' : c.br.sys === 'rr' ? 'każdy z każdym' : `pucharowy · ${c.br.slots.length} miejsc`;
+
+/* REQ-ALG-02 + REQ-ALG-03: najpierw wolne losy dla najwyższych stopni, potem rozstawienie z separacją klubów */
+function genSE(ids, R) {
+  const n = ids.length, size = 2 ** Math.ceil(Math.log2(n)), byes = size - n;
+  const slots = Array(size).fill(null);
+  const byePairs = bitrev(size / 2).slice(0, byes);
+  byePairs.forEach(p => { slots[2 * p + 1] = 'BYE'; });
+  const jit = {}; ids.forEach(id => { jit[id] = R(); });
+  const cnt = {}; ids.forEach(id => { const k = ent(id).club; cnt[k] = (cnt[k] || 0) + 1; });
+  const byGrade = ids.slice().sort((a, b) => ent(b).g - ent(a).g || jit[a] - jit[b]);
+  const recv = byGrade.slice(0, byes), rest = byGrade.slice(byes);
+  const order = list => list.slice().sort((a, b) => cnt[ent(b).club] - cnt[ent(a).club] || ent(a).club.localeCompare(ent(b).club) || ent(b).g - ent(a).g);
+  const placed = [];
+  const place = (list, free) => {
+    for (const id of order(list)) {
+      const k = ent(id).club;
+      let best = -1, cands = [];
+      for (const s of free) {
+        if (slots[s] !== null) continue;
+        let sc = 99; for (const p of placed) if (p.k === k) sc = Math.min(sc, meetR(s, p.s));
+        if (sc > best) { best = sc; cands = [s]; } else if (sc === best) cands.push(s);
+      }
+      const s = cands[Math.floor(R() * cands.length)];
+      slots[s] = id; placed.push({ s, k });
+    }
+  };
+  place(recv, byePairs.map(p => 2 * p));
+  place(rest, [...Array(size).keys()]);
+  return slots;
+}
+function generate(c, R = Math.random) {
+  const ids = c.entries.slice();
+  if (c.type === 'kata') c.br = { sys: 'kata', status: 'draft', order: shuffle(ids, R) };
+  else if (ids.length < 4) c.br = { sys: 'rr', status: 'draft', order: shuffle(ids, R) };
+  else c.br = { sys: 'se', status: 'draft', slots: genSE(ids, R) };
+  c.res = {}; c.doneAt = null;
+}
+function seTree(c) {
+  const sl = c.br.slots, size = sl.length, R = Math.log2(size), res = c.res, rounds = [];
+  for (let r = 0; r < R; r++) {
+    const row = [];
+    for (let i = 0; i < size >> (r + 1); i++) {
+      const id = `r${r}-${i}`;
+      const a = r === 0 ? sl[2 * i] : rounds[r - 1][2 * i].win, b = r === 0 ? sl[2 * i + 1] : rounds[r - 1][2 * i + 1].win;
+      const bt = { id, r, i, a: a || null, b: b || null, res: res[id] || null, win: null, lose: null, bye: false };
+      if (bt.a === 'BYE' || bt.b === 'BYE') {
+        bt.bye = true;
+        if (bt.a === 'BYE' && bt.b === 'BYE') bt.win = 'BYE';
+        else if (bt.a && bt.b) bt.win = bt.a === 'BYE' ? bt.b : bt.a;
+      } else if (bt.res && bt.a && bt.b) { bt.win = bt.res.w === 'a' ? bt.a : bt.b; bt.lose = bt.res.w === 'a' ? bt.b : bt.a; }
+      row.push(bt);
+    }
+    rounds.push(row);
+  }
+  let b3 = null;
+  if (c.bronze && R >= 2) {
+    const [s1, s2] = rounds[R - 2];
+    b3 = { id: 'b3', r: R - 1, i: 1, a: s1.lose, b: s2.lose, res: res.b3 || null, win: null, lose: null, bye: false, bronze: true };
+    if (b3.res && b3.a && b3.b) { b3.win = b3.res.w === 'a' ? b3.a : b3.b; b3.lose = b3.res.w === 'a' ? b3.b : b3.a; }
+  }
+  return { R, size, rounds, b3, final: rounds[R - 1][0] };
+}
+function rrPairs(c) { const o = c.br.order, out = []; if (o.length === 3) return [[o[0], o[1]], [o[1], o[2]], [o[0], o[2]]]; for (let i = 0; i < o.length; i++) for (let j = i + 1; j < o.length; j++) out.push([o[i], o[j]]); return out; }
+function rrStand(c) {
+  const o = c.br.order, st = Object.fromEntries(o.map(id => [id, { id, w: 0, l: 0, pts: 0, wa: 0 }])), h2h = {};
+  rrPairs(c).forEach(([a, b], k) => {
+    const r = c.res[`rr-${k}`]; if (!r) return;
+    const win = r.w === 'a' ? a : b, los = r.w === 'a' ? b : a;
+    st[win].w++; st[win].pts += 2; st[los].l++; st[a].wa += (r.wa?.[0] || 0); st[b].wa += (r.wa?.[1] || 0); h2h[win + '>' + los] = 1;
+  });
+  return Object.values(st).sort((x, y) => y.pts - x.pts || (h2h[y.id + '>' + x.id] ? 1 : h2h[x.id + '>' + y.id] ? -1 : 0) || y.wa - x.wa);
+}
+/* REQ-REF-05: odrzucamy najniższą i najwyższą z 4 ocen, sumujemy dwie środkowe */
+function dropIdx(s) { let lo = 0, hi = 0; s.forEach((v, i) => { if (v < s[lo]) lo = i; if (v > s[hi]) hi = i; }); if (lo === hi) hi = lo === 3 ? 2 : 3; return [lo, hi]; }
+const kataTot = s => { const [a, b] = dropIdx(s); return Math.round(s.reduce((acc, v, i) => i === a || i === b ? acc : acc + v, 0) * 10) / 10; };
+const sum4 = s => s.reduce((a, b) => a + b, 0);
+const kataTwo = c => c.br.order.length > c.adv;
+function kataRound(c, round) {
+  const o = c.br.order;
+  if (round === 1) return o.map((id, k) => ({ id, k, res: c.res[`k1-${k}`] || null }));
+  if (!o.every((_, k) => c.res[`k1-${k}`])) return [];
+  return kataRank(c, 1).slice(0, c.adv).map(x => x.id).reverse().map((id, k) => ({ id, k, res: c.res[`k2-${k}`] || null }));
+}
+const kataRank = (c, round) => kataRound(c, round).filter(x => x.res).sort((a, b) => b.res.tot - a.res.tot || sum4(b.res.s) - sum4(a.res.s));
+
+/* ---------- pozycje kolejki tatami ---------- */
+function catItems(c) {
+  const br = c.br; if (!br || br.status !== 'approved') return [];
+  const kind = c.type === 'kata' ? 'kata' : c.type === 'team' ? 'team' : 'kumite';
+  const mk = (id, a, b, label) => ({ key: `${c.id}:${id}`, cat: c.id, id, kind, a: a || null, b: b || null, res: c.res[id] || null, label, ready: !!(a && b && a !== 'BYE' && b !== 'BYE') });
+  if (br.sys === 'se') {
+    const T = seTree(c), out = [];
+    T.rounds.forEach((row, r) => {
+      if (r === T.R - 1 && T.b3) out.push(mk('b3', T.b3.a, T.b3.b, 'O 3. miejsce'));
+      row.forEach(bt => { if (!bt.bye) out.push(mk(bt.id, bt.a, bt.b, roundName(r, T.R, c))); });
+    });
+    return out;
+  }
+  if (br.sys === 'rr') { const P = rrPairs(c); return P.map((p, k) => mk(`rr-${k}`, p[0], p[1], `Każdy z każdym ${k + 1}/${P.length}`)); }
+  const two = kataTwo(c), out = [];
+  br.order.forEach((a, k) => out.push({ ...mk(`k1-${k}`, a, null, two ? 'Kata · runda 1' : 'Kata · finał'), ready: true, round: 1 }));
+  if (two) { const fin = kataRound(c, 2); for (let k = 0; k < c.adv; k++) out.push({ ...mk(`k2-${k}`, fin[k]?.id, null, 'Kata · finał'), ready: !!fin[k], round: 2 }); }
+  return out;
+}
+function Q(t) {
+  if (!qCache) {
+    qCache = {};
+    const T = pubT();
+    TABS.forEach(tt => {
+      const items = [];
+      if (T) S.cats.filter(c => c.t === T.id && c.tatami === tt).sort((a, b) => a.ord - b.ord).forEach(c => items.push(...catItems(c)));
+      items.forEach((it, k) => { it.no = k + 1; it.t = tt; it.status = it.res ? 'done' : S.mats[tt].active === it.key ? 'live' : it.ready ? 'ready' : 'wait'; });
+      qCache[tt] = items;
+    });
+  }
+  return qCache[t];
+}
+const allItems = () => TABS.flatMap(Q);
+const noOf = (c, id) => { const T = pubT(); if (!T || c.t !== T.id) return null; const it = Q(c.tatami).find(i => i.key === `${c.id}:${id}`); return it ? it.no : null; };
+
+/* ---------- miejsca i klasyfikacja ---------- */
+function catPlaces(c) {
+  const br = c.br; if (!br || br.status !== 'approved') return { done: false, places: [] };
+  if (br.sys === 'se') {
+    const T = seTree(c), f = T.final, places = [];
+    if (f.win && f.win !== 'BYE') places.push({ p: 1, id: f.win }, { p: 2, id: f.lose });
+    let third;
+    if (T.b3) { if (T.b3.win) places.push({ p: 3, id: T.b3.win }); third = !!T.b3.win; }
+    else { const semis = T.R >= 2 ? T.rounds[T.R - 2] : []; semis.forEach(s => { if (s.lose) places.push({ p: 3, id: s.lose }); }); third = semis.every(s => s.lose); }
+    return { done: !!(f.win && f.lose) && third, places };
+  }
+  if (br.sys === 'rr') { const done = rrPairs(c).every((_, k) => c.res[`rr-${k}`]); return { done, places: done ? rrStand(c).slice(0, 3).map((x, i) => ({ p: i + 1, id: x.id })) : [] }; }
+  const r = kataTwo(c) ? 2 : 1, rows = kataRound(c, r), done = rows.length > 0 && rows.every(x => x.res);
+  return { done, places: done ? kataRank(c, r).slice(0, 3).map((x, i) => ({ p: i + 1, id: x.id })) : [] };
+}
+/* REQ-ALG-04: złoto → srebro → brąz; tylko kluby wskazane przez organizatora (REQ-ADM-12) */
+function medalTable(T) {
+  const M = {}; Object.keys(CLUBS).forEach(k => { M[k] = { club: k, g: 0, s: 0, b: 0 }; });
+  const cats = tourCats(T); let doneCats = 0;
+  cats.forEach(c => { const P = catPlaces(c); if (!P.done) return; doneCats++; P.places.forEach(x => { const e = ent(x.id); if (e && M[e.club]) M[e.club][x.p === 1 ? 'g' : x.p === 2 ? 's' : 'b']++; }); });
+  const inCls = T.teamClubs || [];
+  const rows = Object.values(M).filter(r => inCls.includes(r.club)).sort((a, b) => b.g - a.g || b.s - a.s || b.b - a.b);
+  rows.forEach((r, i) => { const p = rows[i - 1]; if (p && p.g === r.g && p.s === r.s && p.b === r.b) { r.rank = p.rank; r.tie = p.tie = true; } else r.rank = i + 1; });
+  const present = new Set(cats.flatMap(c => c.entries.map(id => ent(id)?.club)));
+  const out = Object.values(M).filter(r => !inCls.includes(r.club) && present.has(r.club));
+  return { rows, out, doneCats, total: cats.length };
+}
+
+/* ---------- wyniki ---------- */
+function feedAdd(t, html, at, kind) { S.feed.unshift({ tm: at || hhmm(), t, html, kind: kind || '' }); if (S.feed.length > 40) S.feed.length = 40; }
+function resultText(it, r) {
+  if (it.kind === 'kata') return `T${it.t} · ${esc(catShort(cat(it.cat)))}: <b>${esc(ent(it.a).name)}</b> — ${fmt1(r.tot)} pkt`;
+  const w = r.w === 'a' ? it.a : it.b, l = r.w === 'a' ? it.b : it.a;
+  return `T${it.t} · walka ${it.no}: <b>${esc(ent(w).name)}</b> pokonuje ${esc(ent(l).name)} (${esc(r.m)})`;
+}
+function activate(t, key) {
+  const m = S.mats[t];
+  m.prev = m.last; m.last = null; m.active = key; m.ticks = 0;
+  m.live = { wa: [0, 0], ip: [0, 0], pen: [0, 0], w: null, m: null, auto: false, sub: [null, null, null], hist: [] };
+  qCache = null;
+}
+function applyResult(t, it, res, at) {
+  const c = cat(it.cat), m = S.mats[t];
+  c.res[it.id] = { ...res, at: at || hhmm() };
+  if (m.active === it.key) { m.active = null; m.live = null; }
+  m.last = it.key; m.prev = null;
+  qCache = null;
+  feedAdd(t, resultText(it, c.res[it.id]), at);
+  const P = catPlaces(c);
+  if (P.done && !c.doneAt) {
+    c.doneAt = at || hhmm();
+    const g = P.places.find(x => x.p === 1);
+    feedAdd(t, `${esc(catName(c))} zakończona. Złoto: <b>${esc(ent(g.id).name)}</b> (${esc(club(ent(g.id).club).name)})`, at, 'medal');
+  }
+}
+function autoRes(it, live, R = Math.random) {
+  if (it.kind === 'kata') {
+    const base = 7 + R() * 2.2;
+    const s = [0, 1, 2, 3].map(() => Math.min(10, Math.max(5, Math.round((base + (R() - .5) * .9) * 10) / 10)));
+    return { s, tot: kataTot(s) };
+  }
+  let pA = Math.min(.8, Math.max(.2, .5 + (ent(it.a).g - ent(it.b).g) * .07));
+  if (live && live.wa[0] !== live.wa[1]) pA = live.wa[0] > live.wa[1] ? .85 : .15;
+  if (it.kind === 'team') {
+    const sub = (live?.sub || [null, null, null]).map(x => x || (R() < pA ? 'a' : 'b'));
+    const wa = sub.filter(x => x === 'a').length, w = wa >= 2 ? 'a' : 'b';
+    return { w, sub, m: w === 'a' ? `${wa}:${3 - wa}` : `${3 - wa}:${wa}` };
+  }
+  const w = R() < pA ? 'a' : 'b', wi = w === 'a' ? 0 : 1, x = R();
+  const m = x < .28 ? 'Ippon' : x < .58 ? 'Waza-ari' : x < .93 ? 'Hantei' : x < .97 ? 'Kiken' : 'Hansoku';
+  const wa = live ? live.wa.slice() : [0, 0], pen = live ? live.pen.slice() : [0, 0], ip = [0, 0];
+  if (m === 'Waza-ari' && wa[wi] < 1) wa[wi] = 1;
+  if (m === 'Ippon') { if (R() < .4) wa[wi] = 2; else ip[wi] = 1; }
+  if (m === 'Hansoku') pen[1 - wi] = 4;
+  if (m === 'Hantei' && R() < .3) pen[1 - wi] = Math.max(pen[1 - wi], 1);
+  return { w, m, wa, pen, ip };
+}
+
+/* ===================== dane przykładowe ===================== */
+function seed() {
+  const R = mulberry32(20261010);
+  S = { v: VER, rev: 1, seededAt: Date.now(), simAt: 0, ath: {}, teams: {}, tours: [], cats: [], feed: [], mats: {} };
+  TABS.forEach(t => { S.mats[t] = { active: null, live: null, last: null, prev: null, ref: null, ticks: 0 }; });
+  S.tours = [
+    { id: 't1', name: 'Puchar Żurawia 2026', date: '2026-10-10', place: 'Hala sportowa SP 12', status: 'live', teamClubs: ['zur', 'ory', 'sam', 'bia', 'tor'] },
+    { id: 't2', name: 'Turniej Jesienny Juniorów', date: '2026-11-21', place: 'Hala MOSiR', status: 'open', teamClubs: Object.keys(CLUBS) },
+    { id: 't3', name: 'Mikołajkowy Turniej Kata', date: '2026-12-05', place: 'Dojo Żuraw', status: 'draft', teamClubs: Object.keys(CLUBS) },
+    { id: 't4', name: 'Wiosenny Puchar Kyokushin', date: '2026-04-18', place: 'Hala MOSiR', status: 'done', teamClubs: Object.keys(CLUBS) },
+  ];
+  const used = new Set(); let aid = 0;
+  const dobFor = (age, tdate) => { const [y, m, d] = tdate.split('-').map(Number); return new Date(Date.UTC(y - age, m - 1, d) - (Math.floor(R() * 350) + 3) * 864e5).toISOString().slice(0, 10); };
+  const gFor = age => age <= 9 ? [1, 4] : age <= 11 ? [1, 6] : age <= 13 ? [2, 8] : age <= 15 ? [3, 9] : [4, 13];
+  const wFor = (c, sex, age) => {
+    if (c.w && c.w[1] != null) return +(c.w[1] - .2 - R() * 6).toFixed(1);
+    if (c.w && c.w[0] != null) return +(c.w[0] + .4 + R() * 16).toFixed(1);
+    const b = age <= 9 ? [24, 34] : age <= 11 ? [30, 42] : age <= 13 ? [36, 55] : age <= 15 ? [44, 66] : sex === 'M' ? [68, 95] : [54, 76];
+    return +(b[0] + R() * (b[1] - b[0])).toFixed(1);
+  };
+  const mkFor = (c, tdate, k) => {
+    const age = c.age[0] + Math.floor(R() * (Math.min(c.age[1], c.age[0] >= 18 ? 34 : c.age[1]) - c.age[0] + 1));
+    const sex = c.sex === 'X' ? (R() < .5 ? 'M' : 'K') : c.sex, ad = age >= 18;
+    const gr = gFor(age), lo = Math.max(c.g[0], gr[0]), hi = Math.max(lo, Math.min(c.g[1], gr[1]));
+    let fn, ln, n = 0;
+    do { fn = pickR(sex === 'M' ? (ad ? NM.man : NM.boy) : (ad ? NM.woman : NM.girl), R); ln = pickR(NM.sur, R); if (sex === 'K') ln = femSur(ln); } while (used.has(fn + ln) && ++n < 60);
+    used.add(fn + ln);
+    const id = 'a' + (++aid);
+    S.ath[id] = { id, fn, ln, dob: dobFor(age, tdate), sex, g: lo + Math.floor(Math.pow(R(), 1.3) * (hi - lo + 1)), w: wFor(c, sex, age), club: k };
+    return id;
+  };
+  const others = ['ory', 'sam', 'bia', 'tor', 'wil'];
+  const C1 = [
+    { id: 'c1', type: 'kata', sex: 'X', age: [8, 9], w: null, g: [1, 6], tatami: 3, n: 6, adv: 4, zur: 1, play: 'all' },
+    { id: 'c2', type: 'kumite', sex: 'K', age: [10, 11], w: [null, 35], g: [1, 8], tatami: 1, n: 5, bronze: true, zur: 1, play: 'all' },
+    { id: 'c3', type: 'kumite', sex: 'M', age: [12, 13], w: [null, 45], g: [1, 8], tatami: 1, n: 11, bronze: true, zur: 3, play: 5 },
+    { id: 'c10', type: 'kumite', sex: 'M', age: [18, 99], w: [75, null], g: [1, 14], tatami: 1, n: 7, bronze: true, zur: 1, play: 0 },
+    { id: 'c8', type: 'team', sex: 'M', age: [18, 99], w: null, g: [1, 14], tatami: 1, bronze: false, play: 0 },
+    { id: 'c4', type: 'kumite', sex: 'K', age: [14, 15], w: [null, 55], g: [1, 10], tatami: 2, n: 6, bronze: false, odd: 'extra', zur: 1, play: 2 },
+    { id: 'c5', type: 'kumite', sex: 'M', age: [18, 99], w: [null, 75], g: [1, 14], tatami: 2, n: 8, bronze: true, zur: 2, play: 0 },
+    { id: 'c9', type: 'kumite', sex: 'M', age: [10, 11], w: [null, 35], g: [1, 8], tatami: 2, n: 9, bronze: true, zur: 2, play: null },
+    { id: 'c6', type: 'kumite', sex: 'K', age: [18, 99], w: null, g: [1, 14], tatami: 3, n: 3, bronze: false, zur: 1, play: 1 },
+    { id: 'c7', type: 'kata', sex: 'X', age: [12, 15], w: null, g: [1, 10], tatami: 3, n: 8, adv: 4, zur: 2, play: 0 },
+  ];
+  const ord = { 1: 0, 2: 0, 3: 0 };
+  const mkCat = (d, t) => ({ id: d.id, t, type: d.type, sex: d.sex, age: d.age, w: d.w, g: d.g, tatami: d.tatami, ord: ++ord[d.tatami], bronze: !!d.bronze, odd: d.odd || 'bye', adv: d.adv || 4, entries: [], br: null, res: {}, doneAt: null });
+  C1.forEach(d => {
+    const c = mkCat(d, 't1'); c.play = d.play;
+    if (d.type === 'team') ['zur', 'ory', 'sam', 'bia'].forEach(k => { const id = 'T-' + k; S.teams[id] = { id, club: k, name: CLUBS[k].name, members: [0, 1, 2].map(() => mkFor({ ...c, w: null }, '2026-10-10', k)) }; c.entries.push(id); });
+    else { for (let i = 0; i < d.n; i++) c.entries.push(mkFor(c, '2026-10-10', i < (d.zur || 0) ? 'zur' : pickR(others, R))); c.entries = shuffle(c.entries, R); }
+    S.cats.push(c);
+  });
+  /* zawodnicy w bazie bez startu (do ręcznego dodawania i zgłoszeń klubowych) */
+  [['M', 10, 34, 'zur'], ['M', 11, 33, 'sam'], ['M', 11, 35, 'tor'], ['M', 12, 48, 'zur'], ['K', 13, 44, 'zur'], ['M', 14, 58, 'zur'], ['K', 11, 38, 'zur'], ['M', 13, 47, 'zur'], ['K', 12, 43, 'ory'], ['M', 15, 59, 'wil']]
+    .forEach(([sex, age, w, k]) => mkFor({ sex, age: [age, age], w: [null, w], g: [1, 14] }, '2026-10-10', k));
+  ord[1] = ord[2] = ord[3] = 0;
+  [{ id: 'd1', type: 'kumite', sex: 'M', age: [12, 13], w: [null, 50], g: [1, 8], tatami: 1, bronze: true },
+   { id: 'd2', type: 'kumite', sex: 'K', age: [12, 13], w: [null, 45], g: [1, 8], tatami: 2, bronze: true },
+   { id: 'd3', type: 'kumite', sex: 'M', age: [14, 15], w: [null, 60], g: [1, 10], tatami: 1, bronze: false, odd: 'extra' },
+   { id: 'd4', type: 'kata', sex: 'X', age: [10, 15], w: null, g: [1, 10], tatami: 3, adv: 4 }]
+    .forEach(d => { const c = mkCat(d, 't2'); S.cats.push(c); Object.values(S.ath).forEach(a => { if (elig(a, c).ok && R() < (a.club === 'zur' ? .3 : .55)) c.entries.push(a.id); }); });
+  /* drabinki zatwierdzone rano i rozegrane walki */
+  S.cats.filter(c => c.t === 't1' && c.play != null).forEach(c => { generate(c, R); c.br.status = 'approved'; c.br.at = '08:40'; });
+  const clock = { 1: 540, 2: 560, 3: 545 };
+  TABS.forEach(t => {
+    S.cats.filter(c => c.t === 't1' && c.tatami === t).sort((a, b) => a.ord - b.ord).forEach(c => {
+      if (c.play == null) return;
+      const lim = c.play === 'all' ? 1e9 : c.play;
+      for (let k = 0; ; k++) {
+        qCache = null;
+        const it = Q(t).find(i => i.cat === c.id && !i.res && i.ready);
+        if (!it) break;
+        if (k >= lim) { if (!S.mats[t].active) { activate(t, it.key); if (it.kind === 'kumite') S.mats[t].live.wa[0] = 1; } break; }
+        clock[t] += it.kind === 'kata' ? 3 : it.kind === 'team' ? 9 : 4;
+        applyResult(t, it, autoRes(it, null, R), fmtMin(clock[t]));
+      }
+    });
+  });
+  S.cats.forEach(c => { delete c.play; });
+  S.feed.sort((a, b) => b.tm.localeCompare(a.tm));
+  qCache = null;
+  return S;
+}
+
+/* ===================== zapis i synchronizacja kart (REQ-NFR-01) ===================== */
+/* dane demo starsze niż 12 h wracają do stanu początkowego, żeby pokaz nie zaczynał się od zakończonego turnieju */
+function load() { try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.v === VER && Date.now() - (s.seededAt || 0) < 12 * 3600e3) return s; } catch (e) { } return null; }
+function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { } }
+const bc = 'BroadcastChannel' in window ? new BroadcastChannel(KEY) : null;
+function commit(o = {}) {
+  S.rev++; qCache = null; save();
+  try { if (bc) bc.postMessage(S); } catch (e) { }
+  if (!o.quiet) render(!o.sim);
+}
+function remote(data) {
+  if (!data || data.v !== VER || (data.seededAt === S.seededAt && data.rev < S.rev)) return;
+  S = data; qCache = null;
+  const li = $('#liveInd'); li.classList.remove('ping'); void li.offsetWidth; li.classList.add('ping');
+  render(false);
+}
+if (bc) bc.onmessage = e => remote(e.data);
+else window.addEventListener('storage', e => { if (e.key === KEY && e.newValue) { try { remote(JSON.parse(e.newValue)); } catch (err) { } } });
+const refClaim = t => { const r = S.mats[t].ref; return r && Date.now() - r.at < 25000 ? r : null; };
+
+/* symulacja: prowadzi walki na tatami bez sędziego, żeby LIVE i widok klubu żyły */
+function simTick() {
+  if (!ui.sim || document.hidden || !S) return;
+  if (Date.now() - (S.simAt || 0) < SIM_MS) return;
+  S.simAt = Date.now();
+  TABS.forEach(t => {
+    if (refClaim(t)) return;
+    qCache = null;
+    const m = S.mats[t], q = Q(t);
+    if (m.active) {
+      const it = q.find(i => i.key === m.active);
+      if (!it || it.res) { m.active = null; m.live = null; return; }
+      m.ticks = (m.ticks || 0) + 1;
+      if (it.kind === 'kumite' && m.ticks <= 2 && Math.random() < .5) {
+        const s = Math.random() < .5 ? 0 : 1;
+        if (m.live.wa[s] < 1) m.live.wa[s] = 1; else m.live.pen[1 - s] = Math.min(3, m.live.pen[1 - s] + 1);
+        return;
+      }
+      if (it.kind === 'team') {
+        const k = m.live.sub.indexOf(null);
+        if (k >= 0 && m.ticks <= 3) { m.live.sub[k] = Math.random() < .5 ? 'a' : 'b'; const wa = m.live.sub.filter(x => x === 'a').length, wb = m.live.sub.filter(x => x === 'b').length; if (wa < 2 && wb < 2) return; }
+      }
+      if (m.ticks >= (it.kind === 'kumite' ? 3 : 2)) applyResult(t, it, autoRes(it, m.live));
+    } else {
+      const nx = q.find(i => i.status === 'ready');
+      if (nx) activate(t, nx.key);
+    }
+  });
+  commit({ sim: true });
+}
+
+/* ===================== stan interfejsu (per karta) ===================== */
+const ui = {
+  user: null, refT: null, at: null, ct: null,
+  pf: { cat: '', club: '', q: '' }, addQ: '', addOnly: true,
+  swap: null, edit: null, kd: {}, tf: null, cf: null, af: null,
+  reqs: true, sim: true, scrolledLive: null, qAll: false,
+};
+try { const u = JSON.parse(sessionStorage.getItem('hajime-spec-user') || 'null'); if (u) { ui.user = u.user; ui.refT = u.refT; } } catch (e) { }
+try { const p = JSON.parse(localStorage.getItem('hajime-spec-prefs') || 'null'); if (p) { ui.reqs = p.reqs !== false; ui.sim = p.sim !== false; } } catch (e) { }
+const saveUser = () => { try { sessionStorage.setItem('hajime-spec-user', JSON.stringify({ user: ui.user, refT: ui.refT })); } catch (e) { } };
+const savePrefs = () => { try { localStorage.setItem('hajime-spec-prefs', JSON.stringify({ reqs: ui.reqs, sim: ui.sim })); } catch (e) { } };
+const adminT = () => tour(ui.at) || pubT();
+
+/* ===================== drobne elementy ===================== */
+const liveStamp = () => `<span class="live-ind"><i></i>na żywo · ${new Date().toLocaleTimeString('pl-PL')}</span>`;
+const noTour = () => `<div class="gate"><h2>Brak opublikowanego turnieju</h2><p class="muted">Organizator nie opublikował jeszcze żadnych zawodów.</p></div>`;
+const noTourAdm = () => `<div class="gate"><h2>Nie ma jeszcze żadnego turnieju</h2><a class="btn primary" href="#/admin/turnieje">Utwórz turniej</a></div>`;
+const nm = (id, ph = 'czeka na rywala') => id && id !== 'BYE' ? esc(ent(id).name) : `<i class="muted">${ph}</i>`;
+const itemNames = i => i.kind === 'kata' ? nm(i.a, 'awans z rundy 1') : `${nm(i.a)} <span class="muted">vs</span> ${nm(i.b)}`;
+const medalDot = p => `<span class="medal" style="--m:var(--${p === 1 ? 'gold' : p === 2 ? 'silver' : 'bronze'})">${p}</span>`;
+const pageH = (path, title, reqs, desc, acts) => `<div class="page-h"><div><div class="eyebrow">${esc(path)}</div><h1>${esc(title)} ${rq(...reqs)}</h1>${desc ? `<p>${desc}</p>` : ''}</div>${acts ? `<div class="acts">${acts}</div>` : ''}</div>`;
+const segBtns = (form, key, opts, val, dis) => opts.map(([v, l]) => `<button type="button" class="${String(v) === String(val) ? 'on' : ''}" data-act="seg" data-f="${form}" data-k="${key}" data-v="${v}" ${dis ? 'disabled' : ''}>${l}</button>`).join('');
+const gOpts = v => GRADES.map(g => `<option value="${g}" ${+v === g ? 'selected' : ''}>${gLabel(g)}</option>`).join('');
+const catBusy = c => !!(Object.keys(c.res).length || TABS.some(t => (S.mats[t].active || '').startsWith(c.id + ':')));
+function feedHTML(n) { const f = S.feed.slice(0, n); return f.length ? `<div class="feed">${f.map(x => `<div class="feed-i ${x.kind ? 'k-' + x.kind : ''}"><span class="tm">${x.tm}</span><span>${x.html}</span></div>`).join('')}</div>` : '<p class="muted">Jeszcze nie ma wyników.</p>'; }
+function catState(c) {
+  if (!c.br) return ['przed losowaniem', ''];
+  if (c.br.status === 'draft') return ['szkic drabinki', 'warn'];
+  if (catPlaces(c).done) return ['zakończona', 'ok'];
+  const T = pubT(), k = S.mats[c.tatami].active || '';
+  if (T && c.t === T.id && (Object.keys(c.res).length || k.startsWith(c.id + ':'))) return ['w trakcie', 'live'];
+  return ['zatwierdzona', 'ai'];
+}
+const catPill = c => { const [l, k] = catState(c); return `<span class="pill ${k}">${l}</span>`; };
+const entCount = c => pl(c.entries.length, c.type === 'team' ? 'drużyna' : 'zawodnik', c.type === 'team' ? 'drużyny' : 'zawodników', c.type === 'team' ? 'drużyn' : 'zawodników');
+
+/* ===================== strefa publiczna ===================== */
+function vHome() {
+  const T = pubT(); if (!T) return noTour();
+  const cats = tourCats(T), ids = new Set(cats.flatMap(c => c.type === 'team' ? [] : c.entries));
+  const clubs = new Set([...ids].map(id => ent(id).club)), items = allItems(), done = items.filter(i => i.res).length;
+  return `<section class="hero"><div class="hero-kanji" aria-hidden="true">押忍</div>
+    <div class="hero-eyebrow">${T.status === 'live' ? '<span class="live-pill"><i></i>Trwa turniej</span>' : `<span class="pill">${ST[T.status][0]}</span>`}<span>${fmtDate(T.date)} · ${esc(T.place)}</span>${rq('REQ-PUB-01', 'REQ-GEN-02.1')}</div>
+    <h1 class="hero-title">${esc(T.name)}</h1>
+    <div class="hero-stats"><div class="hs"><b>${ids.size}</b><span>zawodników</span></div><div class="hs"><b>${cats.length}</b><span>kategorii</span></div><div class="hs"><b>${clubs.size}</b><span>klubów</span></div><div class="hs"><b>${TABS.length}</b><span>tatami</span></div>
+      <div class="hs hs-prog"><span>Rozegrane walki: ${done} z ${items.length}</span><div class="bar"><i style="width:${items.length ? done / items.length * 100 : 0}%"></i></div></div></div>
+  </section>
+  <div class="home-grid">
+    <section class="card"><div class="card-h"><h3>Teraz na tatami ${rq('REQ-PUB-04')}</h3><a href="#/live">wszystkie tatami →</a></div>${TABS.map(miniMat).join('')}</section>
+    <section class="card"><div class="card-h"><h3>Ostatnie wyniki</h3>${liveStamp()}</div>${feedHTML(7)}</section>
+  </div>
+  <div class="tiles">${[['#/uczestnicy', 'Uczestnicy', `${ids.size} zawodników z ${clubs.size} klubów, filtr po kategorii i klubie`, 'REQ-PUB-02'], ['#/drabinki', 'Drabinki i tabele', `${cats.length} kategorii, wydruk do PDF`, 'REQ-PUB-03'], ['#/klasyfikacja', 'Klasyfikacja drużynowa', 'liczona automatycznie z medali', 'REQ-PUB-05'], ['#/admin', 'Strefa prywatna', 'organizator, kluby i sędziowie — po zalogowaniu', 'REQ-GEN-02.2']].map(([h, b, s, r]) => `<a class="tile" href="${h}"><b>${b} ${rq(r)}</b><span>${s}</span></a>`).join('')}</div>`;
+}
+function miniMat(t) {
+  const q = Q(t), live = q.find(i => i.status === 'live'), nx = q.find(i => !i.res && i.status !== 'live'), it = live || nx;
+  return `<a class="mini-mat" href="#/live" style="text-decoration:none;color:inherit"><span class="tn">T${t}</span><span style="min-width:0"><b>${it ? itemNames(it) : 'Program zakończony'}</b><small>${it ? `${esc(catShort(cat(it.cat)))} · ${esc(it.label)}` : `${q.length} walk rozegranych`}</small></span>${live ? `<span class="pill live"><span class="dot"></span>walka ${live.no}</span>` : nx ? `<span class="pill">następna: ${nx.no}</span>` : '<span class="pill ok">koniec</span>'}</a>`;
+}
+function vLive() {
+  if (!pubT()) return noTour();
+  return pageH('/live', 'Na żywo — wszystkie tatami', ['REQ-PUB-04', 'REQ-NFR-01'], 'Aktualna walka i kolejka na każdym tatami. Strona odświeża się sama: punkty i wyniki pojawiają się, gdy sędzia je wprowadzi.', liveStamp())
+    + `<div class="mats">${TABS.map(matCard).join('')}</div><section class="card" style="margin-top:16px"><div class="card-h"><h3>Ostatnie wyniki</h3></div>${feedHTML(12)}</section>`;
+}
+function matCard(t) {
+  const q = Q(t), live = q.find(i => i.status === 'live'), rest = q.filter(i => !i.res && i.status !== 'live'), done = q.filter(i => i.res).length;
+  const cur = live || rest[0], c = cur ? cat(cur.cat) : null;
+  return `<article class="mat ${live ? 'is-live' : ''}">
+    <div class="mat-h"><span class="mat-n">TATAMI<b>${t}</b></span>${live ? `<span class="pill live"><span class="dot"></span>walka ${live.no}</span>` : rest.length ? '<span class="pill">przerwa</span>' : '<span class="pill ok">koniec</span>'}</div>
+    <div class="mat-cat">${c ? `${esc(catName(c))} · ${esc(cur.label)}` : 'Wszystkie kategorie zakończone'}</div>
+    ${live ? liveBlock(t, live) : `<div class="mat-idle">${rest[0] ? `Za chwilę walka ${rest[0].no}` : 'Program tatami zakończony ✓'}</div>`}
+    <div class="next-list"><span class="eyebrow">Kolejka</span>${rest.slice(0, 4).map(i => `<div><span class="mono">${i.no}</span><span>${itemNames(i)}</span></div>`).join('') || '<div class="muted">—</div>'}</div>
+    <div class="mbar"><i style="width:${q.length ? done / q.length * 100 : 0}%"></i></div>
+    <div class="mat-f"><span>${done}/${q.length} rozegranych</span><span>${refClaim(t) ? 'sędzia przy stoliku' : 'symulacja'}</span></div>
+  </article>`;
+}
+function liveBlock(t, it) {
+  const L = S.mats[t].live || { wa: [0, 0], ip: [0, 0], pen: [0, 0], sub: [] };
+  if (it.kind === 'kata') { const e = ent(it.a); return `<div class="kata-live"><span class="eyebrow">wykonuje kata</span><b>${esc(e.name)}</b><small class="muted">${esc(club(e.club).name)} · ${gLabel(e.g)}</small></div>`; }
+  const A = ent(it.a), B = ent(it.b);
+  const pts = i => it.kind === 'team' ? '' : `<div class="pts"><span class="wa-pips" title="waza-ari"><i class="${L.wa[i] > 0 || L.ip[i] ? 'on' : ''}"></i><i class="${L.wa[i] > 1 || L.ip[i] ? 'on' : ''}"></i></span><span class="pen-mini" title="kary">${[0, 1, 2, 3].map(k => `<i class="${L.pen[i] > k ? 'on' : ''}"></i>`).join('')}</span></div>`;
+  const mid = it.kind === 'team' ? `${L.sub.filter(x => x === 'a').length}:${L.sub.filter(x => x === 'b').length}` : 'vs';
+  return `<div class="vs"><div class="a"><b>${esc(A.name)}</b><small>${esc(club(A.club).name)}</small>${pts(0)}</div><div class="mid">${mid}</div><div class="b"><b>${esc(B.name)}</b><small>${esc(club(B.club).name)}</small>${pts(1)}</div></div>`;
+}
+function vPeople() {
+  const T = pubT(); if (!T) return noTour();
+  const cats = tourCats(T), f = ui.pf;
+  const clubsIn = Object.keys(CLUBS).filter(k => cats.some(c => c.entries.some(id => ent(id)?.club === k)));
+  return pageH('/uczestnicy', 'Uczestnicy', ['REQ-PUB-02'], `Zgłoszeni zawodnicy turnieju „${esc(T.name)}”. Filtruj po kategorii i klubie.`)
+    + `<div class="filterbar">
+      <label class="field"><span>Kategoria</span><select data-ch="pf" data-k="cat"><option value="">Wszystkie kategorie</option>${cats.map(c => `<option value="${c.id}" ${f.cat === c.id ? 'selected' : ''}>${esc(catName(c))}</option>`).join('')}</select></label>
+      <label class="field"><span>Klub</span><select data-ch="pf" data-k="club"><option value="">Wszystkie kluby</option>${clubsIn.map(k => `<option value="${k}" ${f.club === k ? 'selected' : ''}>${esc(CLUBS[k].name)}</option>`).join('')}</select></label>
+      <label class="field grow"><span>Szukaj</span><input type="search" data-in="pf" data-k="q" value="${esc(f.q)}" placeholder="imię lub nazwisko" autocomplete="off"></label>
+    </div><div id="peopleList">${peopleList()}</div>`;
+}
+function peopleList() {
+  const T = pubT(), f = ui.pf, q = f.q.trim().toLowerCase(), rows = [];
+  tourCats(T).forEach(c => {
+    if (f.cat && c.id !== f.cat) return;
+    c.entries.forEach(id => {
+      const e = ent(id); if (!e || (f.club && e.club !== f.club)) return;
+      const mem = e.team ? S.teams[id].members.map(m => ent(m).name).join(', ') : '';
+      if (q && !(e.name + ' ' + mem).toLowerCase().includes(q)) return;
+      rows.push({ e, c, mem });
+    });
+  });
+  rows.sort((a, b) => (a.e.a?.ln || a.e.name).localeCompare(b.e.a?.ln || b.e.name, 'pl'));
+  return `<div class="count muted">${pl(rows.length, 'zgłoszenie', 'zgłoszenia', 'zgłoszeń')}</div>${rows.length ? `<div class="plist">${rows.map(({ e, c, mem }) => `<div class="p-row"><span class="club-dot" style="--c:${club(e.club).c}"></span><div><b>${esc(e.name)}</b><small>${esc(club(e.club).name)}${mem ? ' · skład: ' + esc(mem) : ''}</small></div><div class="p-cat"><a href="#/drabinki/${c.id}">${esc(catShort(c))}</a><small>${TYPES[c.type]} · Tatami ${c.tatami}</small></div><div class="p-g">${e.team ? '<span class="pill">drużyna</span>' : `${belt(e.g)} ${gLabel(e.g)}`}</div></div>`).join('')}</div>` : '<div class="card empty">Nikt nie pasuje do filtrów.</div>'}`;
+}
+
+/* ---------- drabinki ---------- */
+const BX = { COLW: 190, GAP: 36, BH: 62, U: 86, TOP: 30 };
+function catNav(cats, sel, base) {
+  return `<nav class="cat-list" aria-label="Kategorie">${cats.map(c => `<a class="cat-btn ${c === sel ? 'on' : ''}" href="${base}${c.id}"><b>${esc(catShort(c))}</b><span class="row"><span>${TYPES[c.type]} · T${c.tatami} · ${c.entries.length} ${c.type === 'team' ? 'dr.' : 'os.'}</span>${catPill(c)}</span></a>`).join('')}</nav>
+  <label class="field cat-sel"><span>Kategoria</span><select data-ch="go" data-base="${base}">${cats.map(c => `<option value="${c.id}" ${c === sel ? 'selected' : ''}>${esc(catName(c))} — ${catState(c)[0]}</option>`).join('')}</select></label>`;
+}
+function vBrackets(id) {
+  const T = pubT(); if (!T) return noTour();
+  const cats = tourCats(T), c = cats.find(x => x.id === id) || cats.find(x => catState(x)[1] === 'live') || cats[0];
+  return pageH('/drabinki', 'Drabinki i tabele', ['REQ-PUB-03'], 'Drabinki pucharowe, tabele „każdy z każdym” i rankingi kata wszystkich kategorii. Aktualizują się same po każdym wyniku.', `<button class="btn" data-act="pdfAll">Wszystkie do PDF ${rq('REQ-NFR-03')}</button>`)
+    + (c ? `<div class="bk-layout">${catNav(cats, c, '#/drabinki/')}<div>${catBlock(c, 'pub')}</div></div>` : '<div class="card empty">Brak kategorii.</div>');
+}
+function catHead(c, acts = '') {
+  return `<div class="bk-head"><div><div class="eyebrow">${TYPES[c.type]} · Tatami ${c.tatami}</div><h2>${esc(catShort(c))}</h2>
+   <div class="meta-row">${catPill(c)}<span class="pill">${sysLabel(c)}</span><span class="pill">${entCount(c)}</span>${c.type === 'kata' ? `<span class="pill">do finału: ${c.adv}</span>` : sysLabel(c) === 'każdy z każdym' ? '' : `<span class="pill">${c.bronze ? 'walka o 3. miejsce' : 'dwa brązy ex aequo'}</span>`}<span class="pill">${gRange(c)}</span></div></div>
+   <div class="acts">${acts}</div></div>`;
+}
+function catBlock(c, mode, extra = '') {
+  const head = catHead(c, extra + `<button class="btn sm" data-act="pdfCat" data-id="${c.id}">Pobierz PDF ${rq('REQ-NFR-03')}</button>`);
+  if (!c.br) return head + `<div class="card empty">Losowanie jeszcze się nie odbyło.</div>`;
+  if (c.br.status === 'draft' && mode === 'pub') return head + `<div class="card empty">Drabinka jest w przygotowaniu — organizator jeszcze jej nie zatwierdził.</div>`;
+  return head + podiumHTML(c) + bracketBody(c, mode);
+}
+function podiumHTML(c) {
+  const P = catPlaces(c); if (!P.done) return '';
+  return `<div class="podium">${P.places.map(x => { const e = ent(x.id); return `<div class="pod">${medalDot(x.p)}<div><b>${esc(e.name)}</b><small>${esc(club(e.club).name)}</small></div></div>`; }).join('')}</div>`;
+}
+function bracketBody(c, mode) {
+  if (c.br.sys === 'se') { const T = seTree(c); return legendHTML(c) + treeHTML(c, mode, T) + roundsHTML(c, mode, T); }
+  if (c.br.sys === 'rr') return rrHTML(c);
+  return kataHTML(c);
+}
+function legendHTML(c) {
+  const used = [...new Set(c.entries.map(id => ent(id)?.club).filter(Boolean))];
+  return `<div class="legend">${used.map(k => `<span><span class="club-dot" style="--c:${club(k).c}"></span>${esc(club(k).name)}</span>`).join('')}</div>`;
+}
+function treeHTML(c, mode, T = seTree(c)) {
+  const { COLW, GAP, BH, U, TOP } = BX, R = T.R, n1 = T.size / 2, hide = c.odd === 'extra' && mode !== 'edit';
+  const W = R * COLW + (R - 1) * GAP, H = TOP + n1 * U + (T.b3 ? 112 : 0);
+  const y = (r, i) => TOP + (i + .5) * U * 2 ** r, x = r => r * (COLW + GAP);
+  let boxes = '', paths = '', heads = '';
+  T.rounds.forEach((row, r) => {
+    heads += `<div class="r-head" style="left:${x(r)}px;width:${COLW}px">${roundName(r, R, c)}</div>`;
+    row.forEach(bt => {
+      if (bt.bye && hide) return;
+      boxes += boutBox(c, bt, x(r), y(r, bt.i) - BH / 2, COLW, mode);
+      if (r < R - 1) { const x1 = x(r) + COLW, y1 = y(r, bt.i), x2 = x(r + 1), y2 = y(r + 1, bt.i >> 1); paths += `<path class="cn ${bt.win && bt.win !== 'BYE' ? 'done' : 'pend'}" d="M${x1} ${y1} H${x1 + GAP / 2} V${y2} H${x2}"/>`; }
+    });
+  });
+  if (T.b3) { const by = TOP + n1 * U + 64; boxes += `<div class="bronze-lbl" style="left:${x(R - 1)}px;top:${by - BH / 2 - 40}px">O 3. miejsce</div>` + boutBox(c, T.b3, x(R - 1), by - BH / 2, COLW, mode); }
+  return `<div class="bk-wrap tree-only"><div class="bk" data-w="${W}" style="width:${W}px;height:${H}px"><svg class="cn-layer" width="${W}" height="${H}" aria-hidden="true">${paths}</svg>${heads}${boxes}</div></div>`;
+}
+function boutState(c, bt, mode) {
+  const no = mode === 'edit' ? null : noOf(c, bt.id), it = no ? Q(c.tatami)[no - 1] : null;
+  const st = bt.bye ? 'bye' : it ? it.status : bt.win ? 'done' : 'wait';
+  const lab = st === 'live' ? '● na macie' : st === 'done' ? (bt.res?.at || '') : st === 'bye' ? (c.odd === 'extra' ? 'bez eliminacji' : 'wolny los') : st === 'ready' ? 'gotowa' : '';
+  return { no, st, lab };
+}
+function boutBox(c, bt, x, y, w, mode) {
+  const { no, st, lab } = boutState(c, bt, mode);
+  const tag = mode === 'edit' ? '' : `<div class="bout-tag"><span class="no">${no ? `T${c.tatami} · walka ${no}` : ''}</span><span class="m">${lab}</span></div>`;
+  return `<div class="bout s-${st}" style="left:${x}px;top:${y}px;width:${w}px">${tag}<div class="bout-box">${slotHTML(c, bt, 'a', mode)}${slotHTML(c, bt, 'b', mode)}</div></div>`;
+}
+function phText(c, bt, side) {
+  if (bt.bronze) return 'przegrany półfinału';
+  if (bt.r === 0) return '—';
+  const no = noOf(c, `r${bt.r - 1}-${2 * bt.i + (side === 'b' ? 1 : 0)}`);
+  return no ? `zwycięzca walki ${no}` : 'zwycięzca poprzedniej';
+}
+function slotHTML(c, bt, side, mode) {
+  const id = bt[side], edit = mode === 'edit' && bt.r === 0 && !bt.bronze, si = 2 * bt.i + (side === 'b' ? 1 : 0);
+  let cls = 'slot', col = 'transparent', name, sub = '', rs = '', title = '';
+  if (id === 'BYE') { cls += ' ph bye'; name = c.odd === 'extra' ? 'bez walki' : 'wolny los'; }
+  else if (!id) { cls += ' ph'; name = phText(c, bt, side); }
+  else {
+    const e = ent(id); col = club(e.club).c; name = esc(e.name);
+    sub = club(e.club).s + (edit && !e.team ? ' · ' + gLabel(e.g) : '');
+    title = `${e.name} · ${club(e.club).name}${e.team ? '' : ' · ' + gLabel(e.g)}`;
+    if (bt.win && !bt.bye && bt.win !== 'BYE') { cls += bt.win === id ? ' win' : ' lose'; if (bt.win === id && bt.res) rs = MSHORT[bt.res.m] || esc(bt.res.m); }
+    if (edit) { const o = bt[side === 'a' ? 'b' : 'a']; if (o && o !== 'BYE' && ent(o).club === e.club) cls += ' conf'; }
+  }
+  if (edit && ui.swap === si) cls += ' sel';
+  const inner = `<i></i><span class="nm">${name}${sub ? `<span class="cl">${sub}</span>` : ''}</span><span class="rs">${rs}</span>`;
+  return edit ? `<button type="button" class="${cls}" style="--c:${col}" data-act="swap" data-c="${c.id}" data-s="${si}" title="${esc(title || 'wolny los')}">${inner}</button>`
+    : `<div class="${cls}" style="--c:${col}" ${title ? `title="${esc(title)}"` : ''}>${inner}</div>`;
+}
+function roundsHTML(c, mode, T) {
+  const hide = c.odd === 'extra' && mode !== 'edit';
+  return `<div class="rlist">${T.rounds.map((row, r) => {
+    const list = row.filter(bt => !bt.bye || mode === 'edit');
+    const byes = mode === 'edit' || hide ? [] : row.filter(bt => bt.bye && bt.win && bt.win !== 'BYE');
+    if (r === T.R - 1 && T.b3) list.unshift(T.b3);
+    return list.length || byes.length ? `<section class="rl-r"><h4>${r === T.R - 1 && T.b3 ? 'Walka o 3. miejsce i finał' : roundName(r, T.R, c)}</h4>${list.map(bt => { const { no, st, lab } = boutState(c, bt, mode); return `<div class="rl-b s-${st}"><div class="bt-h"><span>${bt.bronze ? 'O 3. miejsce' : ''}${bt.bronze && no ? ' · ' : ''}${no ? `T${c.tatami} · walka ${no}` : ''}</span><span>${lab}</span></div>${slotHTML(c, bt, 'a', mode)}${slotHTML(c, bt, 'b', mode)}</div>`; }).join('')}${byes.length ? `<div class="rl-byes"><span class="eyebrow">Wolny los · przechodzą dalej bez walki</span>${byes.map(bt => { const e = ent(bt.win); return `<span class="rl-bye"><span class="club-dot" style="--c:${club(e.club).c}"></span>${esc(e.name)}</span>`; }).join('')}</div>` : ''}</section>` : '';
+  }).join('')}</div>`;
+}
+function rrHTML(c) {
+  const o = c.br.order, P = rrPairs(c), st = rrStand(c), done = P.every((_, k) => c.res[`rr-${k}`]);
+  const sx = Object.fromEntries(st.map((s, i) => [s.id, { ...s, place: i + 1 }]));
+  const cell = (x, y) => {
+    if (x === y) return '<td class="self"></td>';
+    const k = P.findIndex(p => (p[0] === x && p[1] === y) || (p[0] === y && p[1] === x)), r = c.res[`rr-${k}`];
+    if (!r) { const no = noOf(c, `rr-${k}`); return `<td class="cell muted">${no ? 'w.' + no : '·'}</td>`; }
+    const win = r.w === 'a' ? P[k][0] : P[k][1];
+    return `<td class="cell ${win === x ? 'W' : 'L'}">${win === x ? 'W' : 'P'}<small>${MSHORT[r.m] || ''}</small></td>`;
+  };
+  return `<div class="note" style="margin-bottom:12px">Mniej niż 4 zawodników, więc kategoria idzie systemem <b>każdy z każdym</b>. Wygrana = 2 pkt; przy równej liczbie punktów decyduje bezpośredni pojedynek, potem liczba waza-ari. ${rq('REQ-ALG-01')}</div>
+  <section class="card"><div class="scroll-x"><table class="t rr-t"><thead><tr><th>#</th><th>Zawodnik</th>${o.map((_, i) => `<th class="c">${i + 1}</th>`).join('')}<th class="c">Wyg.</th><th class="c">Pkt</th><th class="c">Miejsce</th></tr></thead><tbody>
+  ${o.map((id, i) => { const e = ent(id), s = sx[id]; return `<tr><td class="muted">${i + 1}</td><td><span class="club-dot" style="--c:${club(e.club).c}"></span> <b>${esc(e.name)}</b><br><small class="muted">${esc(club(e.club).name)}</small></td>${o.map(y => cell(id, y)).join('')}<td class="c">${s.w}</td><td class="c"><b>${s.pts}</b></td><td class="c">${done ? (s.place <= 3 ? medalDot(s.place) : s.place) : '–'}</td></tr>`; }).join('')}
+  </tbody></table></div>
+  <div class="sub-h">Walki</div>${P.map((p, k) => { const r = c.res[`rr-${k}`], no = noOf(c, `rr-${k}`); return `<div class="feed-i"><span class="tm">${no ? 'w.' + no : ''}</span><span>${nm(p[0])} vs ${nm(p[1])}${r ? ` — <b>${esc(ent(r.w === 'a' ? p[0] : p[1]).name)}</b> (${esc(r.m)})` : ''}</span></div>`; }).join('')}</section>`;
+}
+const scoreChips = s => { const [a, b] = dropIdx(s); return s.map((v, i) => `<span class="sc-chip ${i === a || i === b ? 'x' : ''}">${fmt1(v)}</span>`).join(''); };
+function kataHTML(c) {
+  const two = kataTwo(c), fin = catPlaces(c).done, liveKey = S.mats[c.tatami].active;
+  const tbl = (round, title, cut) => {
+    const rows = kataRound(c, round);
+    if (!rows.length) return `<section class="card"><h3>${title}</h3><p class="muted" style="margin:8px 0 0">Finaliści będą znani po zakończeniu rundy 1 (awansuje ${c.adv}).</p></section>`;
+    const ranked = rows.filter(x => x.res).sort((a, b) => b.res.tot - a.res.tot || sum4(b.res.s) - sum4(a.res.s)), pend = rows.filter(x => !x.res);
+    return `<section class="card"><div class="card-h"><h3>${title}</h3>${cut ? `<span class="pill ok">awans: ${c.adv} najlepszych</span>` : ''}</div><div class="scroll-x"><table class="t rank-t"><thead><tr><th>M.</th><th>Zawodnik</th><th>Oceny 4 sędziów</th><th class="r">Suma</th></tr></thead><tbody>
+     ${ranked.map((x, i) => { const e = ent(x.id); return `<tr class="${cut && i === c.adv - 1 ? 'cut' : ''}"><td>${!cut && fin && i < 3 ? medalDot(i + 1) : i + 1}</td><td><b>${esc(e.name)}</b><br><small class="muted">${esc(club(e.club).name)}</small></td><td><div class="chips">${scoreChips(x.res.s)}</div></td><td class="tot">${fmt1(x.res.tot)}</td></tr>`; }).join('')}
+     ${pend.map(x => { const e = ent(x.id), key = `${c.id}:k${round}-${x.k}`, no = noOf(c, `k${round}-${x.k}`); return `<tr class="${liveKey === key ? 'cur' : ''}"><td class="muted">—</td><td><b>${esc(e.name)}</b><br><small class="muted">${esc(club(e.club).name)}</small></td><td class="muted">${liveKey === key ? '● wykonuje teraz' : no ? `występ ${no} · Tatami ${c.tatami}` : 'czeka'}</td><td class="tot muted">—</td></tr>`; }).join('')}
+    </tbody></table></div></section>`;
+  };
+  return `<div class="note" style="margin-bottom:12px">System punktowy: 4 sędziów, najniższa i najwyższa ocena odpada, liczy się suma dwóch środkowych. ${two ? `Do finału awansuje ${c.adv} najlepszych.` : 'Jedna runda — zawodników jest nie więcej niż miejsc w finale.'} ${rq('REQ-REF-05', 'REQ-ADM-07')}</div>
+   <div style="display:flex;flex-direction:column;gap:12px">${two ? tbl(2, 'Finał', false) + tbl(1, 'Runda 1', true) : tbl(1, 'Finał', false)}</div>`;
+}
+function vTeam() {
+  const T = pubT(); if (!T) return noTour();
+  return pageH('/klasyfikacja', 'Klasyfikacja drużynowa', ['REQ-PUB-05'], `Tabela medalowa klubów turnieju „${esc(T.name)}”, liczona automatycznie po każdej zakończonej kategorii.`, liveStamp())
+    + `<div class="team-grid">${medalTableHTML(T)}<aside class="card"><h3>Jak liczymy ${rq('REQ-ALG-04')}</h3><ol class="rules-l"><li>Więcej złotych medali.</li><li>Przy równej liczbie złotych — więcej srebrnych.</li><li>Przy równej liczbie złotych i srebrnych — więcej brązowych.</li></ol><p class="muted small" style="margin:10px 0 0">Kluby z identycznym bilansem dzielą miejsce (=). Bez walki o 3. miejsce obaj przegrani półfinałów dostają brąz. Medal drużynowy liczy się jak indywidualny.</p></aside></div>`;
+}
+function medalTableHTML(T) {
+  const M = medalTable(T);
+  return `<section class="card"><div class="card-h"><h3>Tabela medalowa</h3><span class="muted small">${M.doneCats} z ${M.total} kategorii zakończonych</span></div>
+   <div class="scroll-x"><table class="t medals"><thead><tr><th>#</th><th>Klub</th><th class="c g">Złoto</th><th class="c s">Srebro</th><th class="c b">Brąz</th><th class="c">Razem</th></tr></thead><tbody>
+   ${M.rows.map(r => `<tr class="${r.rank === 1 && r.g + r.s + r.b ? 'lead' : ''}"><td class="rk">${r.tie ? '=' : ''}${r.rank}</td><td><span class="club-dot" style="--c:${club(r.club).c}"></span> <b>${esc(club(r.club).name)}</b></td><td class="m">${r.g}</td><td class="m">${r.s}</td><td class="m">${r.b}</td><td class="m muted">${r.g + r.s + r.b}</td></tr>`).join('') || '<tr><td colspan="6" class="empty">Żaden klub nie jest w klasyfikacji.</td></tr>'}
+   </tbody></table></div>${M.out.length ? `<p class="muted small" style="margin:12px 0 0">Poza klasyfikacją (decyzja organizatora): ${M.out.map(r => `${esc(club(r.club).name)} (${r.g}/${r.s}/${r.b})`).join(', ')}</p>` : ''}</section>`;
+}
+
+/* ===================== logowanie ===================== */
+function vLogin(zone) {
+  const want = zone === 'referee' ? 'ref' : null;
+  const acc = (role, av, title, who, desc, extra = '') => `<div class="acc ${want === role ? 'hl' : ''}"><div class="acc-i">${av}<div><b>${title}</b><small>${who}</small></div></div><p>${desc}</p>${extra}<button class="btn ${want === role || (!want && role === 'admin') ? 'primary' : ''}" data-act="login" data-role="${role}">Zaloguj</button></div>`;
+  return `<div class="login"><span class="hanko" aria-hidden="true">始</span><div class="eyebrow">Strefa prywatna · ${zone === 'referee' ? '/referee' : '/admin'}</div><h1>Zaloguj się ${rq('REQ-GEN-02.2', 'REQ-GEN-03')}</h1><p class="muted" style="margin:0">W docelowym systemie: e-mail i hasło, konta zakłada organizator. W mocku wybierz konto demonstracyjne.</p>
+   <div class="acc-grid">
+    ${acc('admin', '<span class="avatar">OR</span>', 'Administrator', 'organizator turnieju', 'Turnieje, kategorie, zawodnicy, drabinki, harmonogram. Wchodzi do /admin.')}
+    ${acc('club', `<span class="avatar club" style="--c:${CLUBS.zur.c}">KL</span>`, 'Klub / Sensei', 'przedstawiciel klubu', 'Zawodnicy klubu, zgłoszenia, podgląd swoich zawodników na żywo. Wchodzi do /admin (widok klubu).', `<label class="field"><span>Klub</span><select id="clubSel">${Object.entries(CLUBS).map(([k, v]) => `<option value="${k}">${esc(v.name)}</option>`).join('')}</select></label>`)}
+    ${acc('ref', '<span class="avatar ref">JK</span>', 'Sędzia', 'Jan Kowalczyk', 'Wybiera tatami, aktywuje walki, wpisuje punkty, kary i oceny kata. Wchodzi do /referee.')}
+    <div class="acc ghost"><div class="acc-i"><span class="avatar ghost">K</span><div><b>Użytkownik / Kibic</b><small>bez konta</small></div></div><p>Nie loguje się — ma dostęp do całej strefy publicznej. ${rq('REQ-PUB-01')}</p><a class="btn" href="#/">Strefa publiczna</a></div>
+   </div></div>`;
+}
+function vNoAccess(zone) {
+  const u = ui.user;
+  return `<div class="gate"><span class="hanko" aria-hidden="true">止</span><h2>Brak dostępu do ${zone === 'referee' ? '/referee' : '/admin'}</h2><p class="muted">Zalogowano jako: <b>${esc(u.sub)}</b>. ${zone === 'referee' ? 'Panel sędziego jest tylko dla roli Sędzia.' : 'Panel /admin jest dla Administratora i Klubu.'} ${rq('REQ-GEN-03')}</p><div class="acts"><a class="btn" href="${u.role === 'ref' ? '#/referee' : '#/admin'}">Wróć do swojego panelu</a><button class="btn primary" data-act="logout">Wyloguj i zmień konto</button></div></div>`;
+}
+
+/* ===================== panel administratora ===================== */
+function adminView(r) {
+  if (!ui.user) return vLogin('admin');
+  if (ui.user.role === 'ref') return vNoAccess('admin');
+  if (ui.user.role === 'club') return r[1] === 'zawodnicy' ? vClubAth() : r[1] === 'zgloszenia' ? vClubReg() : vClubLive();
+  switch (r[0]) {
+    case 'kategorie': return r[1] ? vAdmCat(r[1]) : vAdmCats();
+    case 'drabinki': return vAdmBr(r[1]);
+    case 'harmonogram': return vAdmSched();
+    case 'klasyfikacja': return vAdmTeam();
+    default: return vAdmTours();
+  }
+}
+function admCtx() {
+  const T = adminT();
+  return `<div class="adm-ctx"><span>Turniej:</span><select data-ch="at" aria-label="Turniej">${S.tours.map(t => `<option value="${t.id}" ${t === T ? 'selected' : ''}>${esc(t.name)} — ${ST[t.status][0]}</option>`).join('')}</select>${T && T.status !== 'live' ? `<span class="pill">${ST[T.status][0].toLowerCase()} — walki nie trafiają jeszcze do sędziów</span>` : ''}</div>`;
+}
+function vAdmTours() {
+  return pageH('/admin/turnieje', 'Turnieje', ['REQ-ADM-01', 'REQ-ADM-02'], 'Twórz, edytuj i usuwaj turnieje. Status decyduje, co widzą kluby (zapisy) i kibice (LIVE).', `<button class="btn primary" data-act="tourNew">+ Nowy turniej</button>`)
+    + `<div class="tour-list">${S.tours.map(t => {
+      const cs = S.cats.filter(c => c.t === t.id), n = new Set(cs.flatMap(c => c.entries)).size;
+      return `<article class="card tour ${t === adminT() ? 'cur' : ''}"><div class="tour-main"><span class="pill ${ST[t.status][1]}">${ST[t.status][0]}</span><h3>${esc(t.name)}</h3><div class="muted small">${fmtDate(t.date)} · ${esc(t.place)}</div></div>
+        <div class="tour-kpi"><b>${cs.length}</b><span>kategorii</span></div><div class="tour-kpi"><b>${n}</b><span>zgłoszeń</span></div>
+        <div class="tour-acts acts"><button class="btn sm primary" data-act="tourUse" data-id="${t.id}">Kategorie →</button><button class="btn sm" data-act="tourEdit" data-id="${t.id}">Edytuj</button><button class="btn sm danger" data-act="tourDel" data-id="${t.id}">Usuń</button></div></article>`;
+    }).join('') || '<div class="card empty">Brak turniejów.</div>'}</div>`;
+}
+function tourFormHTML() {
+  const f = ui.tf;
+  return `<label class="field"><span>Nazwa ${rq('REQ-ADM-01')}</span><input data-in="tf" data-k="name" value="${esc(f.name)}" placeholder="np. Puchar Żurawia 2027" autocomplete="off"></label>
+  <div class="form-grid"><label class="field"><span>Data</span><input type="date" data-in="tf" data-k="date" value="${f.date}"></label><label class="field"><span>Miejsce</span><input data-in="tf" data-k="place" value="${esc(f.place)}" placeholder="hala, miasto" autocomplete="off"></label></div>
+  <div class="field"><span>Status</span><div class="seg">${segBtns('tf', 'status', Object.entries(ST).map(([k, v]) => [k, v[0]]), f.status)}</div></div>
+  <div class="note">Szkic — widzi tylko organizator · Zapisy otwarte — kluby zgłaszają zawodników · W trakcie — LIVE i panel sędziego · Zakończony — archiwum wyników.</div>
+  <div class="err" id="tfErr"></div>
+  <div class="dw-acts"><button class="btn primary" data-act="tourSave">Zapisz turniej</button><button class="btn" data-act="close">Anuluj</button></div>`;
+}
+function vAdmCats() {
+  const T = adminT(); if (!T) return noTourAdm();
+  const cats = tourCats(T);
+  return pageH('/admin/kategorie', 'Kategorie', ['REQ-ADM-03', 'REQ-ADM-04', 'REQ-ADM-08'], 'Kryteria kategorii, tatami i ustawienia drabinki. „Zawodnicy” — ręczne dodawanie i usuwanie osób z bazy.', `<button class="btn primary" data-act="catNew">+ Nowa kategoria</button>`)
+    + admCtx()
+    + `<section class="card"><div class="scroll-x"><table class="t cat-t"><thead><tr><th>Kategoria</th><th>Kryteria</th><th class="c">Tatami</th><th class="c">Os.</th><th>Ustawienia drabinki</th><th>Status</th><th></th></tr></thead><tbody>
+    ${cats.map(c => `<tr><td><b>${esc(catShort(c))}</b><small>${TYPES[c.type]}</small></td><td><small>${esc(criteria(c))}</small></td><td class="c"><b>${c.tatami}</b></td><td class="c">${c.entries.length}</td><td><small>${c.type === 'kata' ? `do finału: ${c.adv}` : `3. miejsce: ${c.bronze ? 'walka' : 'ex aequo'}<br>brak pary: ${c.odd === 'extra' ? 'eliminacje' : 'wolny los'}`}</small></td><td>${catPill(c)}</td><td><div class="acts"><a class="btn sm" href="#/admin/kategorie/${c.id}">Zawodnicy</a><button class="btn sm" data-act="catEdit" data-id="${c.id}">Edytuj</button><button class="btn sm danger" data-act="catDel" data-id="${c.id}">Usuń</button></div></td></tr>`).join('') || '<tr><td colspan="7" class="empty">Brak kategorii — dodaj pierwszą.</td></tr>'}
+    </tbody></table></div></section>`;
+}
+const num = v => parseFloat(String(v).replace(',', '.'));
+const cfCat = f => ({ type: f.type, sex: f.sex, age: [+f.a0, +f.a1], w: f.wm === 'open' ? null : f.wm === 'max' ? [null, num(f.wv)] : [num(f.wv), null], g: [+f.g0, +f.g1] });
+function catFormHTML() {
+  const f = ui.cf, c = f.id ? cat(f.id) : null, lockBr = !!(c && c.br && c.br.status === 'approved'), busy = !!(c && catBusy(c));
+  return `${lockBr ? `<div class="note warn" style="margin-bottom:12px">Drabinka jest zatwierdzona — typ i ustawienia drabinki są zablokowane.${busy ? ' Kategoria ma już wyniki, więc nie zmienisz też tatami.' : ''}</div>` : ''}
+  <div class="field"><span>Typ konkurencji ${rq('REQ-ADM-04')}</span><div class="seg">${segBtns('cf', 'type', [['kumite', 'Kumite'], ['kata', 'Kata'], ['team', 'Drużynowe']], f.type, lockBr)}</div></div>
+  <div class="field"><span>Płeć</span><div class="seg">${segBtns('cf', 'sex', [['M', 'Mężczyźni'], ['K', 'Kobiety'], ['X', 'Mieszana']], f.sex)}</div></div>
+  <div class="form-grid">
+   <label class="field"><span>Wiek od</span><input type="number" min="4" max="99" inputmode="numeric" data-in="cf" data-k="a0" value="${f.a0}"></label>
+   <label class="field"><span>Wiek do (99 = bez limitu)</span><input type="number" min="4" max="99" inputmode="numeric" data-in="cf" data-k="a1" value="${f.a1}"></label>
+   <label class="field"><span>Waga</span><select data-ch="cf" data-k="wm"><option value="open" ${f.wm === 'open' ? 'selected' : ''}>open — bez limitu</option><option value="max" ${f.wm === 'max' ? 'selected' : ''}>do (−) kg</option><option value="min" ${f.wm === 'min' ? 'selected' : ''}>powyżej (+) kg</option></select></label>
+   <label class="field"><span>Limit [kg]</span><input type="text" inputmode="decimal" autocomplete="off" data-in="cf" data-k="wv" value="${esc(String(f.wv).replace('.', ','))}" ${f.wm === 'open' ? 'disabled' : ''}></label>
+   <label class="field"><span>Stopień od</span><select data-ch="cf" data-k="g0">${gOpts(f.g0)}</select></label>
+   <label class="field"><span>Stopień do</span><select data-ch="cf" data-k="g1">${gOpts(f.g1)}</select></label>
+  </div>
+  <div class="field"><span>Tatami ${rq('REQ-ADM-08')}</span><div class="seg">${segBtns('cf', 'tatami', TABS.map(t => [t, 'Tatami ' + t]), f.tatami, busy)}</div></div>
+  ${f.type !== 'kata' ? `<div class="field"><span>Walka o 3. miejsce ${rq('REQ-ADM-05')}</span><div class="seg">${segBtns('cf', 'bronze', [[1, 'TAK — dodatkowa walka'], [0, 'NIE — dwa brązy ex aequo']], f.bronze, lockBr)}</div></div>
+  <div class="field"><span>Gdy zawodników jest mniej niż miejsc w drabince ${rq('REQ-ADM-06')}</span><div class="seg">${segBtns('cf', 'odd', [['bye', 'Wolny los (BYE)'], ['extra', 'Walka eliminacyjna']], f.odd, lockBr)}</div></div>`
+    : `<label class="field"><span>Ilu zawodników przechodzi do finału ${rq('REQ-ADM-07')}</span><input type="number" min="2" max="16" inputmode="numeric" data-in="cf" data-k="adv" value="${f.adv}" ${lockBr ? 'disabled' : ''}></label>`}
+  <div class="note">Nazwa w systemie: <b id="cfName">${esc(catName(cfCat(f)))}</b></div>
+  <div class="err" id="cfErr"></div>
+  <div class="dw-acts"><button class="btn primary" data-act="catSave">Zapisz kategorię</button><button class="btn" data-act="close">Anuluj</button></div>`;
+}
+function moveCat(c, t) { c.ord = Math.max(0, ...S.cats.filter(x => x.t === c.t && x.tatami === t && x !== c).map(x => x.ord)) + 1; c.tatami = t; }
+function vAdmCat(id) {
+  const c = cat(id); if (!c) return `<div class="gate"><h2>Nie ma takiej kategorii</h2><a class="btn" href="#/admin/kategorie">Kategorie</a></div>`;
+  const locked = !!(c.br && c.br.status === 'approved');
+  return pageH(`/admin/kategorie/${c.id}`, catName(c), ['REQ-ADM-09'], `${esc(criteria(c))} · Tatami ${c.tatami} · ${esc(tour(c.t).name)}`, `<a class="btn" href="#/admin/kategorie">← Kategorie</a><button class="btn" data-act="catEdit" data-id="${c.id}">Edytuj kryteria</button><a class="btn primary" href="#/admin/drabinki/${c.id}">Drabinka →</a>`)
+    + (locked ? `<div class="banner info">Drabinka jest zatwierdzona — skład jest zamknięty. Aby go zmienić, cofnij zatwierdzenie w Drabinkach (możliwe, dopóki nie ma wyników).</div>` : c.br ? `<div class="banner">Zmiana składu usunie szkic drabinki — trzeba będzie wygenerować ją ponownie.</div>` : '')
+    + `<div class="two-col"><section class="card"><div class="card-h"><h3>W kategorii (${c.entries.length})</h3></div>${c.entries.map(eid => entryRow(c, eid, locked)).join('') || '<p class="muted">Pusto — dodaj zawodników z bazy.</p>'}</section>
+      <section class="card">${c.type === 'team' ? teamAddHTML(c, locked) : `<div class="card-h"><h3>Dodaj z ogólnej bazy</h3><label class="switch"><input type="checkbox" data-ch="addOnly" ${ui.addOnly ? 'checked' : ''}>tylko pasujący</label></div>
+        <input type="search" class="inp" data-in="addQ" data-c="${c.id}" placeholder="Szukaj w bazie (${Object.keys(S.ath).length} zawodników)" value="${esc(ui.addQ)}" ${locked ? 'disabled' : ''} autocomplete="off">
+        <div id="addList" style="margin-top:8px">${addList(c, locked)}</div>`}</section></div>`;
+}
+const eligBadges = e => `<span class="eb">${[['płeć', e.sex], [`wiek ${e.ageV}`, e.age], ['waga', e.w], ['stopień', e.g]].map(([l, ok]) => `<span class="${ok ? '' : 'no'}">${ok ? '✓' : '✗'} ${l}</span>`).join('')}</span>`;
+function entryRow(c, id, locked) {
+  const e = ent(id), rm = `<button class="x-btn" data-act="entRm" data-c="${c.id}" data-id="${id}" ${locked ? 'disabled' : ''} aria-label="Usuń z kategorii">×</button>`;
+  if (e.team) return `<div class="e-row"><span class="club-dot" style="--c:${club(e.club).c}"></span><div><b>${esc(e.name)}</b><small>skład: ${(S.teams[id]?.members || []).map(m => esc(ent(m).name)).join(', ')}</small></div><span></span>${rm}</div>`;
+  if (!e.a) return `<div class="e-row"><span></span><div><b>${esc(e.name)}</b></div><span></span>${rm}</div>`;
+  const el = elig(e.a, c);
+  return `<div class="e-row"><span class="club-dot" style="--c:${club(e.club).c}"></span><div><b>${esc(e.name)}</b><small>${esc(club(e.club).name)} · ${el.ageV} l. · ${kg(e.a.w)} · ${gLabel(e.g)}</small></div>${el.ok ? '<span class="pill ok">pasuje</span>' : eligBadges(el)}${rm}</div>`;
+}
+function addList(c, locked) {
+  const q = ui.addQ.trim().toLowerCase();
+  const rows = Object.values(S.ath).filter(a => !c.entries.includes(a.id)).map(a => ({ a, el: elig(a, c) })).filter(x => (!ui.addOnly || x.el.ok) && (!q || `${x.a.fn} ${x.a.ln}`.toLowerCase().includes(q)));
+  rows.sort((x, y) => (y.el.ok - x.el.ok) || x.a.ln.localeCompare(y.a.ln, 'pl'));
+  const html = rows.slice(0, 40).map(({ a, el }) => `<div class="e-row"><span class="club-dot" style="--c:${club(a.club).c}"></span><div><b>${esc(a.fn)} ${esc(a.ln)}</b><small>${esc(club(a.club).name)} · ${el.ageV} l. · ${kg(a.w)} · ${gLabel(a.g)}</small></div>${el.ok ? '<span class="pill ok">pasuje</span>' : eligBadges(el)}<button class="btn sm ${el.ok ? 'primary' : ''}" data-act="entAdd" data-c="${c.id}" data-id="${a.id}" ${locked ? 'disabled' : ''}>${el.ok ? 'Dodaj' : 'Dodaj mimo to'}</button></div>`).join('');
+  return html ? html + (rows.length > 40 ? `<p class="muted small">…i ${rows.length - 40} więcej — zawęź wyszukiwanie.</p>` : '') : `<p class="muted">${ui.addOnly ? 'Nikt więcej nie pasuje do kryteriów. Wyłącz „tylko pasujący”, aby dodać kogoś ręcznie.' : 'Brak zawodników do dodania.'}</p>`;
+}
+function teamAddHTML(c, locked) {
+  const inCat = new Set(c.entries.map(id => S.teams[id]?.club)), avail = Object.keys(CLUBS).filter(k => !inCat.has(k));
+  return `<div class="card-h"><h3>Dodaj drużynę klubu</h3></div><p class="muted small" style="margin:0 0 8px">Skład: 3 zawodników klubu spełniających kryteria kategorii. Specyfikacja nie opisuje zasad drużyn — patrz uwagi w „Pokryciu specyfikacji”.</p>${avail.map(k => {
+    const mem = Object.values(S.ath).filter(a => a.club === k && elig(a, { ...c, type: 'kumite' }).ok).slice(0, 3);
+    return `<div class="e-row"><span class="club-dot" style="--c:${CLUBS[k].c}"></span><div><b>${esc(CLUBS[k].name)}</b><small>${mem.length >= 3 ? mem.map(a => esc(a.fn + ' ' + a.ln)).join(', ') : `za mało zawodników (${mem.length}/3)`}</small></div><span></span><button class="btn sm primary" data-act="teamAdd" data-c="${c.id}" data-k="${k}" ${locked || mem.length < 3 ? 'disabled' : ''}>Dodaj</button></div>`;
+  }).join('') || '<p class="muted">Wszystkie kluby mają już drużynę.</p>'}`;
+}
+function vAdmBr(id) {
+  const T = adminT(); if (!T) return noTourAdm();
+  const cats = tourCats(T), c = cats.find(x => x.id === id) || cats.find(x => !x.br || x.br.status === 'draft') || cats[0];
+  const pend = cats.filter(x => !x.br && x.entries.length >= 2);
+  return pageH('/admin/drabinki', 'Drabinki', ['REQ-ADM-10', 'REQ-ADM-11'], 'Generator rozstawia zawodników sam. Przed zatwierdzeniem możesz ręcznie zamienić miejsca. Zatwierdzona drabinka trafia na listę walk sędziego tatami.', `<button class="btn primary" data-act="genAll" ${pend.length ? '' : 'disabled'}>Generuj dla całego turnieju (${pend.length})</button>`)
+    + admCtx() + (c ? `<div class="bk-layout">${catNav(cats, c, '#/admin/drabinki/')}<div>${admBrMain(c)}</div></div>` : '<div class="card empty">Brak kategorii w tym turnieju.</div>');
+}
+function admBrMain(c) {
+  const n = c.entries.length;
+  if (!c.br) {
+    const size = n >= 4 ? 2 ** Math.ceil(Math.log2(n)) : 0;
+    const plan = c.type === 'kata' ? ['kata, system punktowy: losowa kolejność występów', n > c.adv ? `runda 1, potem finał ${c.adv} najlepszych` : 'jedna runda (zawodników nie więcej niż miejsc w finale)']
+      : n < 2 ? ['za mało uczestników do losowania'] : n < 4 ? [`${n} < 4, więc system „każdy z każdym” (${n * (n - 1) / 2} walki) ${rq('REQ-ALG-01')}`]
+        : [`drabinka pucharowa na ${size} miejsc`, size - n ? (c.odd === 'extra' ? `${n - size / 2} walk eliminacyjnych; ${size - n} zawodników o najwyższym stopniu zaczyna od kolejnej rundy ${rq('REQ-ALG-03')}` : `${size - n} wolnych losów dla zawodników o najwyższym stopniu ${rq('REQ-ALG-03')}`) : 'pełna drabinka, bez wolnych losów', `zawodnicy jednego klubu rozstawieni jak najdalej od siebie ${rq('REQ-ALG-02')}`, c.bronze ? 'walka o 3. miejsce' : 'dwa brązy, bez walki o 3. miejsce'];
+    return catHead(c) + `<section class="card gen-box"><h3>Drabinka nie jest jeszcze wygenerowana</h3><ul>${plan.map(p => `<li>${p}</li>`).join('')}</ul><button class="btn primary" data-act="gen" data-id="${c.id}" ${n < 2 ? 'disabled' : ''}>Generuj drabinkę ${rq('REQ-ADM-10')}</button></section>`;
+  }
+  if (c.br.status === 'draft') {
+    let body;
+    if (c.br.sys === 'se') { const T = seTree(c); body = treeHTML(c, 'edit', T) + roundsHTML(c, 'edit', T); } else body = orderEdit(c);
+    return catHead(c, `<button class="btn sm" data-act="regen" data-id="${c.id}">Losuj ponownie</button><button class="btn sm danger" data-act="brDel" data-id="${c.id}">Usuń szkic</button>`)
+      + `<div class="edit-bar"><b>Korekta przed zatwierdzeniem ${rq('REQ-ADM-11')}</b><span>${c.br.sys === 'se' ? 'Kliknij zawodnika (albo wolny los), potem drugiego — zamienią się miejscami.' : 'Kliknij dwie pozycje, aby zamienić kolejność.'}</span></div>`
+      + `<div class="br-grid"><aside class="card br-aside"><div>${checksHTML(c)}</div><div><button class="btn primary big" data-act="approve" data-id="${c.id}" ${draftBlock(c) ? 'disabled' : ''}>Zatwierdź drabinkę</button><p class="muted small" style="margin:8px 0 0">Po zatwierdzeniu walki trafią na listę sędziego Tatami ${c.tatami}${tour(c.t).status !== 'live' ? ', gdy turniej przejdzie w status „W trakcie”' : ''}.</p></div></aside><div>${body}</div></div>`;
+  }
+  return catBlock(c, 'adm', catBusy(c) ? '' : `<button class="btn sm" data-act="unapprove" data-id="${c.id}">Cofnij zatwierdzenie</button>`);
+}
+function orderEdit(c) {
+  const o = c.br.order;
+  return `<section class="card"><h3>${c.br.sys === 'kata' ? 'Kolejność występów w rundzie 1' : 'Kolejność w tabeli „każdy z każdym”'}</h3><div class="order-list" style="margin-top:10px">${o.map((id, i) => { const e = ent(id); return `<button type="button" class="slot ${ui.swap === i ? 'sel' : ''}" style="--c:${club(e.club).c}" data-act="swapO" data-c="${c.id}" data-s="${i}"><i></i><span class="nm">${i + 1}. ${esc(e.name)}<span class="cl">${club(e.club).s}${e.team ? '' : ' · ' + gLabel(e.g)}</span></span><span class="rs"></span></button>`; }).join('')}</div>${c.br.sys === 'rr' ? `<div class="sub-h">Walki w tej kolejności</div>${rrPairs(c).map((p, k) => `<div class="feed-i"><span class="tm">${k + 1}.</span><span>${nm(p[0])} vs ${nm(p[1])}</span></div>`).join('')}` : ''}</section>`;
+}
+function seChecks(c) {
+  const sl = c.br.slots, size = sl.length, R = Math.log2(size), by = {};
+  sl.forEach((id, s) => { if (id && id !== 'BYE') { const k = ent(id).club; (by[k] = by[k] || []).push(s); } });
+  const clubs = Object.entries(by).filter(([, v]) => v.length > 1).map(([k, v]) => { let mn = 99; for (let i = 0; i < v.length; i++) for (let j = i + 1; j < v.length; j++) mn = Math.min(mn, meetR(v[i], v[j])); return { k, n: v.length, meet: mn, ideal: R - Math.ceil(Math.log2(v.length)) }; });
+  const recv = [], fight = []; let empty = 0;
+  for (let p = 0; p < size / 2; p++) { const a = sl[2 * p], b = sl[2 * p + 1]; if (a === 'BYE' && b === 'BYE') empty++; else if (a === 'BYE' || b === 'BYE') recv.push(a === 'BYE' ? b : a); else fight.push(a, b); }
+  const minR = recv.length ? Math.min(...recv.map(id => ent(id).g)) : 99, maxF = fight.length ? Math.max(...fight.map(id => ent(id).g)) : 0;
+  return { R, clubs, recv, byeOk: !recv.length || minR >= maxF, empty };
+}
+const draftBlock = c => c.br.sys === 'se' && seChecks(c).empty > 0;
+function checksHTML(c) {
+  if (c.br.sys !== 'se') return `<h3>Kontrola</h3><div class="chk-list" style="margin-top:10px"><div class="chk"><span>✓</span><div>${c.br.sys === 'rr' ? `${entCount(c)} → każdy z każdym ${rq('REQ-ALG-01')}` : `Kolejność wylosowana · do finału ${c.adv} ${rq('REQ-ADM-07')}`}</div></div></div>`;
+  const K = seChecks(c), rn = r => ROUNDS[K.R - 1 - r].toLowerCase(), items = [];
+  if (!K.clubs.length) items.push(['ok', `Separator klubowy ${rq('REQ-ALG-02')}`, 'Każdy klub ma w tej kategorii jednego zawodnika.']);
+  K.clubs.forEach((x, i) => items.push([x.meet >= x.ideal ? 'ok' : 'warn', `${esc(club(x.k).name)} (${x.n})${i === 0 ? ' ' + rq('REQ-ALG-02') : ''}`, `najwcześniej spotkają się: ${rn(x.meet)}${x.meet >= x.ideal ? '' : ` — da się później (${rn(x.ideal)})`}`]));
+  items.push([K.byeOk ? 'ok' : 'warn', `${c.odd === 'extra' ? 'Bez eliminacji' : 'Wolne losy'}: ${K.recv.length} ${rq('REQ-ALG-03')}`, K.recv.length ? `${K.recv.map(id => `${esc(ent(id).name)} (${gLabel(ent(id).g)})`).join(', ')}${K.byeOk ? ' — najwyższe stopnie ✓' : ' — ktoś z niższym stopniem ma wolny los, a wyższy walczy'}` : 'Liczba zawodników wypełnia drabinkę.']);
+  if (K.empty) items.push(['bad', 'Para bez zawodników', 'Dwa wolne losy w jednej parze — zamień przed zatwierdzeniem.']);
+  return `<h3>Kontrola losowania</h3><div class="chk-list" style="margin-top:10px">${items.map(([k, t, d]) => `<div class="chk ${k === 'ok' ? '' : k}"><span>${k === 'ok' ? '✓' : '!'}</span><div><b>${t}</b><small>${d}</small></div></div>`).join('')}</div>`;
+}
+function estItems(c) { if (c.br && c.br.status === 'approved') return catItems(c).length; const n = c.entries.length; if (c.type === 'kata') return n + (n > c.adv ? c.adv : 0); if (n < 2) return 0; if (n < 4) return n * (n - 1) / 2; return n - 1 + (c.bronze ? 1 : 0); }
+const DUR = { kumite: 4, kata: 3, team: 10 };
+function schedule(T) {
+  const out = {};
+  TABS.forEach(t => { let m = 9 * 60; out[t] = S.cats.filter(c => c.t === T.id && c.tatami === t).sort((a, b) => a.ord - b.ord).map(c => { const n = estItems(c), row = { c, n, start: m, end: m + n * DUR[c.type] }; m = row.end; return row; }); });
+  return out;
+}
+function vAdmSched() {
+  const T = adminT(); if (!T) return noTourAdm();
+  const sch = schedule(T);
+  return pageH('/admin/harmonogram', 'Harmonogram tatami', ['REQ-ADM-08', 'REQ-NFR-03'], 'Kolejność kategorii na tatami i szacowane godziny (kumite 4 min, kata 3 min, drużyny 10 min na walkę). Kategorie bez wyników możesz przesuwać i przenosić.', `<button class="btn" data-act="pdfSched">Harmonogram do PDF</button><button class="btn" data-act="pdfAll">Drabinki do PDF</button>`)
+    + admCtx()
+    + `<div class="sched">${TABS.map(t => `<section class="card sch-col"><h3>Tatami ${t}</h3>${sch[t].map((r, i) => {
+      const busy = catBusy(r.c), up = i > 0 && !busy && !catBusy(sch[t][i - 1].c), down = i < sch[t].length - 1 && !busy && !catBusy(sch[t][i + 1].c);
+      return `<div class="sch-c"><div class="row"><span class="tm">${fmtMin(r.start)}–${fmtMin(r.end)}</span>${catPill(r.c)}</div><b>${esc(catName(r.c))}</b><div class="row"><span>${pl(r.n, 'walka', 'walki', 'walk')}${r.c.br?.status === 'approved' ? '' : ' (szacunek)'}</span><span class="mv"><button class="btn sm" data-act="catUp" data-id="${r.c.id}" ${up ? '' : 'disabled'} aria-label="Wyżej">↑</button><button class="btn sm" data-act="catDown" data-id="${r.c.id}" ${down ? '' : 'disabled'} aria-label="Niżej">↓</button><select data-ch="catMove" data-id="${r.c.id}" ${busy ? 'disabled' : ''} aria-label="Przenieś na tatami">${TABS.map(x => `<option value="${x}" ${x === t ? 'selected' : ''}>T${x}</option>`).join('')}</select></span></div></div>`;
+    }).join('') || '<p class="muted">Brak kategorii.</p>'}</section>`).join('')}</div>`;
+}
+function vAdmTeam() {
+  const T = adminT(); if (!T) return noTourAdm();
+  const present = new Set(tourCats(T).flatMap(c => c.entries.map(id => ent(id)?.club)));
+  return pageH('/admin/klasyfikacja', 'Klasyfikacja drużynowa', ['REQ-ADM-12'], 'Wskaż kluby, które biorą udział w klasyfikacji drużynowej. Pozostałe startują normalnie, ale nie są liczone w tabeli.')
+    + admCtx()
+    + `<section class="card" style="margin-bottom:16px"><h3>Kluby w klasyfikacji</h3><div class="toggles" style="margin-top:12px">${Object.keys(CLUBS).map(k => `<button class="tog ${(T.teamClubs || []).includes(k) ? 'on' : ''}" data-act="clsTog" data-k="${k}"><span class="club-dot" style="--c:${CLUBS[k].c}"></span>${esc(CLUBS[k].name)}${present.has(k) ? '' : ' <small>(brak zawodników)</small>'}</button>`).join('')}</div></section>`
+    + medalTableHTML(T);
+}
+
+/* ===================== klub / sensei ===================== */
+function myEntries(k, T) { const out = []; tourCats(T).forEach(c => c.entries.forEach(id => { const e = ent(id); if (e && e.club === k) out.push({ id, c }); })); return out; }
+function athStatus(c, id) {
+  if (!c.br || c.br.status !== 'approved') return { ord: 5, cls: '', html: '<span class="pill">czeka na losowanie</span>' };
+  const q = Q(c.tatami), mine = q.filter(i => i.cat === c.id && (i.a === id || i.b === id));
+  const opp = i => { if (i.kind === 'kata') return ''; const o = i.a === id ? i.b : i.a; return ` · vs ${o ? esc(ent(o).name) : 'rywal jeszcze nieznany'}`; };
+  const live = mine.find(i => i.status === 'live');
+  if (live) return { ord: 0, cls: 'now', html: `<span class="where">T${c.tatami} · walka ${live.no}</span><b class="now-l">● walczy teraz</b><span class="muted">${esc(live.label)}${opp(live)}</span>` };
+  const next = mine.find(i => !i.res);
+  if (next) {
+    const ahead = q.filter(i => !i.res && i.no < next.no).length;
+    return { ord: 1, eta: ahead, cls: ahead <= 2 ? 'soon' : '', html: `<span class="where">T${c.tatami} · walka ${next.no}</span><b>${ahead === 0 ? 'następna na macie' : `za ${pl(ahead, 'walkę', 'walki', 'walk')}`}</b><span class="muted">${esc(next.label)}${opp(next)}</span>` };
+  }
+  const P = catPlaces(c), place = P.places.find(x => x.id === id);
+  if (place) return { ord: 2, cls: 'med', html: `${medalDot(place.p)}<b>${place.p}. miejsce</b>${!P.done ? '<span class="muted">kategoria jeszcze trwa</span>' : ''}` };
+  if (c.br.sys === 'kata') {
+    const r1 = kataRound(c, 1).find(x => x.id === id), fin = kataRound(c, 2), f = fin.find(x => x.id === id);
+    if (f && f.res) return { ord: 3, cls: 'out', html: `<span class="pill">finał: ${fmt1(f.res.tot)} pkt · ${kataRank(c, 2).findIndex(x => x.id === id) + 1}. miejsce</span>` };
+    if (r1 && r1.res && fin.length) return { ord: 3, cls: 'out', html: `<span class="pill">runda 1: ${fmt1(r1.res.tot)} pkt — bez awansu do finału</span>` };
+    return { ord: 4, html: '<span class="pill">czeka na wyniki</span>' };
+  }
+  const lost = mine.find(i => i.res && (i.res.w === 'a' ? i.b : i.a) === id);
+  if (c.br.sys === 'se' && lost) return { ord: 3, cls: 'out', html: `<span class="pill">odpadł(a): ${esc(lost.label.toLowerCase())}</span><span class="muted">walka ${lost.no}</span>` };
+  if (c.br.sys === 'rr') { const s = rrStand(c), i = s.findIndex(x => x.id === id); return { ord: 3, cls: 'out', html: `<span class="pill">${P.done ? `${i + 1}. miejsce` : 'czeka na pozostałe walki'} · ${s[i].pts} pkt</span>` }; }
+  return { ord: 4, html: '<span class="pill">czeka</span>' };
+}
+function vClubLive() {
+  const k = ui.user.club, T = pubT(); if (!T) return noTour();
+  const rows = myEntries(k, T).map(x => ({ ...x, st: athStatus(x.c, x.id) })).sort((a, b) => a.st.ord - b.st.ord || (a.st.eta ?? 99) - (b.st.eta ?? 99));
+  const now = rows.filter(r => r.st.ord === 0).length, soon = rows.filter(r => r.st.ord === 1 && r.st.eta <= 2).length;
+  const med = rows.filter(r => r.st.ord === 2);
+  return pageH('/admin/klub/na-zywo', `${club(k).name} — na żywo`, ['REQ-CLUB-03', 'REQ-NFR-01'], `Tylko zawodnicy Twojego klubu zgłoszeni do „${esc(T.name)}”. Numer tatami i walki aktualizuje się sam.`, liveStamp())
+    + `<div class="sum-row"><span class="pill">${pl(rows.length, 'start', 'starty', 'startów')}</span>${now ? `<span class="pill live"><span class="dot"></span>teraz na macie: ${now}</span>` : ''}${soon ? `<span class="pill ai">wkrótce: ${soon}</span>` : ''}${med.length ? `<span class="pill ok">medale: ${med.length}</span>` : ''}</div>`
+    + (rows.length ? `<div class="cl-list">${rows.map(x => { const e = ent(x.id); return `<article class="cl-i ${x.st.cls}"><div><b>${esc(e.name)}</b><small>${esc(catName(x.c))}${e.team ? '' : ' · ' + gLabel(e.g)}</small></div><span class="pill">${TYPES[x.c.type]}</span><div class="cl-st">${x.st.html}</div></article>`; }).join('')}</div>` : '<div class="card empty">Klub nie ma zawodników w tym turnieju.</div>');
+}
+function vClubAth() {
+  const k = ui.user.club, list = Object.values(S.ath).filter(a => a.club === k).sort((a, b) => a.ln.localeCompare(b.ln, 'pl') || a.fn.localeCompare(b.fn, 'pl')), today = todayISO();
+  return pageH('/admin/klub/zawodnicy', 'Moi zawodnicy', ['REQ-CLUB-01', 'REQ-NFR-02'], `Baza zawodników klubu ${esc(club(k).name)}. Organizator widzi te dane przy kategoriach i drabinkach.`, `<button class="btn primary" data-act="athNew">+ Dodaj zawodnika</button>`)
+    + (list.length ? `<div class="ath-list">${list.map(a => { const n = S.cats.filter(c => c.entries.includes(a.id)).length; return `<article class="ath"><div><b>${esc(a.fn)} ${esc(a.ln)}</b><small>${a.sex === 'M' ? 'M' : 'K'} · ur. ${fmtDob(a.dob)} (${ageAt(a.dob, today)} l.) · ${kg(a.w)}</small></div><div class="ath-g">${belt(a.g)} ${gLabel(a.g)}</div><div class="ath-s muted small">${n ? pl(n, 'start', 'starty', 'startów') : 'bez startów'}</div><div class="acts ath-acts"><button class="btn sm" data-act="athEdit" data-id="${a.id}">Edytuj</button><button class="btn sm danger" data-act="athDel" data-id="${a.id}">Usuń</button></div></article>`; }).join('')}</div>` : '<div class="card empty">Klub nie ma jeszcze zawodników.</div>');
+}
+function athFormHTML() {
+  const f = ui.af;
+  return `<div class="form-grid"><label class="field"><span>Imię</span><input data-in="af" data-k="fn" value="${esc(f.fn)}" autocomplete="off"></label><label class="field"><span>Nazwisko</span><input data-in="af" data-k="ln" value="${esc(f.ln)}" autocomplete="off"></label>
+   <label class="field"><span>Data urodzenia</span><input type="date" data-in="af" data-k="dob" value="${f.dob}"></label>
+   <label class="field"><span>Waga [kg]</span><input type="text" inputmode="decimal" autocomplete="off" placeholder="np. 43,5" data-in="af" data-k="w" value="${esc(String(f.w).replace('.', ','))}"></label></div>
+   <div class="field"><span>Płeć</span><div class="seg">${segBtns('af', 'sex', [['M', 'Mężczyzna'], ['K', 'Kobieta']], f.sex)}</div></div>
+   <label class="field"><span>Stopień (kyu / dan)</span><select data-ch="af" data-k="g">${gOpts(f.g)}</select></label>
+   <div class="err" id="afErr"></div>
+   <div class="dw-acts"><button class="btn primary" data-act="athSave">Zapisz zawodnika</button><button class="btn" data-act="close">Anuluj</button></div>`;
+}
+function vClubReg() {
+  const k = ui.user.club, opts = S.tours.filter(t => t.status !== 'draft');
+  const T = tour(ui.ct) || S.tours.find(t => t.status === 'open') || pubT();
+  if (!T) return noTour();
+  const open = T.status === 'open', cats = tourCats(T).filter(c => c.type !== 'team');
+  const list = Object.values(S.ath).filter(a => a.club === k).sort((a, b) => a.ln.localeCompare(b.ln, 'pl'));
+  const n = cats.reduce((s, c) => s + c.entries.filter(id => ent(id)?.club === k).length, 0);
+  return pageH('/admin/klub/zgloszenia', 'Zgłoszenia do turnieju', ['REQ-CLUB-02', 'REQ-NFR-02'], 'Dotknij kategorii, żeby zgłosić lub wycofać zawodnika. Widać tylko kategorie pasujące do wieku, płci, wagi i stopnia.', `<label class="field inline"><span>Turniej&nbsp;</span><select data-ch="ct">${opts.map(t => `<option value="${t.id}" ${t === T ? 'selected' : ''}>${esc(t.name)} — ${ST[t.status][0]}</option>`).join('')}</select></label>`)
+    + (open ? `<div class="banner info">Zapisy otwarte · ${fmtDate(T.date)} · ${esc(T.place)} · zgłoszeń z klubu: ${n}</div>` : `<div class="banner">Zapisy do „${esc(T.name)}” są zamknięte (${ST[T.status][0].toLowerCase()}). Zgłoszeń z klubu: ${n}. Zmiany — tylko przez organizatora.</div>`)
+    + `<div class="reg-list">${list.map(a => {
+      const el = cats.map(c => ({ c, e: elig(a, c), on: c.entries.includes(a.id) })).filter(x => x.e.ok || x.on);
+      return `<article class="reg"><div><b>${esc(a.fn)} ${esc(a.ln)}</b><small>${ageAt(a.dob, T.date)} l. w dniu zawodów · ${kg(a.w)} · ${gLabel(a.g)}</small></div><div class="reg-c">${el.length ? el.map(x => `<button class="regchip ${x.on ? 'on' : ''}" data-act="reg" data-a="${a.id}" data-c="${x.c.id}" ${!open || x.c.br ? 'disabled' : ''}>${x.on ? '✓ ' : '+ '}${esc(catName(x.c))}${x.e.ok ? '' : ' ⚠'}</button>`).join('') : '<span class="muted small">brak pasującej kategorii</span>'}</div></article>`;
+    }).join('')}</div>`;
+}
+
+/* ===================== sędzia ===================== */
+function refView(r) {
+  if (!ui.user) return vLogin('referee');
+  if (ui.user.role !== 'ref') return vNoAccess('referee');
+  if (!pubT()) return noTour();
+  if (r[0] === 'tatami' && TABS.includes(+r[1])) return vRefMat(+r[1]);
+  return vRefPick();
+}
+function vRefPick() {
+  return pageH('/referee', 'Wybierz tatami', ['REQ-REF-01'], 'Sędzia prowadzi jedno tatami. Pozostałe w mocku prowadzi symulacja — przejmiesz tatami w dowolnym momencie.')
+    + `<div class="pick-grid">${TABS.map(t => {
+      const q = Q(t), done = q.filter(i => i.res).length, live = q.find(i => i.status === 'live'), nx = q.find(i => !i.res && i.status !== 'live'), cl = refClaim(t);
+      return `<button class="pick" data-act="pickT" data-t="${t}"><span class="pick-n">${t}</span><span class="pick-b"><b>Tatami ${t}</b><small>${live ? `Trwa walka ${live.no}` : nx ? `Następna: walka ${nx.no}` : 'Program zakończony'} · ${done}/${q.length}</small><small class="muted">${esc([...new Set(q.map(i => catShort(cat(i.cat))))].join(' · ') || 'brak kategorii')}</small>${cl && cl.tab !== TAB ? '<span class="pill warn">otwarte w innej karcie</span>' : cl ? '<span class="pill ok">Twoje tatami</span>' : ''}</span></button>`;
+    }).join('')}</div>`;
+}
+function vRefMat(t) {
+  const q = Q(t), m = S.mats[t], live = q.find(i => i.status === 'live');
+  let main;
+  if (ui.edit && ui.edit.t === t) { const it = q.find(i => i.key === ui.edit.key); main = it ? panel(t, it, ui.edit.d, true) : ''; }
+  else if (live) main = panel(t, live, m.live, false);
+  else main = idlePanel(t, q);
+  return `<div class="ref-head"><div><div class="eyebrow">/referee/tatami/${t} · ${esc(ui.user.name)}</div><h1>Tatami ${t}</h1></div><div class="acts">${liveStamp()}<a class="btn sm" href="#/referee">Zmień tatami</a><a class="btn sm" href="#/live" target="_blank" rel="noopener">LIVE w nowej karcie ↗</a></div></div>
+  <div class="ref-grid"><div class="ref-main">${main}</div>
+   <aside class="card ref-q"><div class="card-h"><h3>Lista walk ${rq('REQ-REF-02')}</h3><span class="muted small">${q.filter(i => i.res).length}/${q.length} rozegranych</span></div>${qList(t, q, live)}</aside></div>`;
+}
+function resLine(it) {
+  const r = it.res;
+  if (it.kind === 'kata') return `<b>${esc(ent(it.a).name)}</b> — ${fmt1(r.tot)} pkt <span class="chips" style="display:inline-flex;margin-left:6px">${scoreChips(r.s)}</span>`;
+  const w = r.w === 'a' ? it.a : it.b, l = r.w === 'a' ? it.b : it.a;
+  return `<b>${esc(ent(w).name)}</b> pokonuje ${esc(ent(l).name)} · ${esc(r.m)}${r.ed ? ` <span class="pill warn">poprawiony ${r.ed}</span>` : ''}`;
+}
+function idlePanel(t, q) {
+  const m = S.mats[t], nx = q.find(i => i.status === 'ready'), last = m.last ? q.find(i => i.key === m.last) : null;
+  const lastCard = last && last.res ? `<section class="card"><div class="card-h"><h3>Ostatni wynik · walka ${last.no}</h3><span class="pill ok">zatwierdzony ${last.res.at}</span></div><p style="margin:0 0 12px">${resLine(last)}</p><button class="btn" data-act="editRes" data-key="${last.key}">Edytuj wynik ${rq('REQ-REF-07')}</button><p class="muted small" style="margin:8px 0 0">Poprawka jest możliwa, dopóki nie aktywujesz kolejnej walki na tym tatami.</p></section>` : '';
+  if (!nx) return `${lastCard}<section class="card done-box"><div class="big-k" aria-hidden="true">${q.length && q.every(i => i.res) ? '終' : '待'}</div><h2>${q.length && q.every(i => i.res) ? 'Program tatami zakończony' : 'Brak walki gotowej do startu'}</h2><p class="muted">${q.length && q.every(i => i.res) ? 'Wszystkie walki mają wyniki.' : 'Kolejne walki czekają na rozstrzygnięcia albo na zatwierdzenie drabinek.'}</p></section>`;
+  const c = cat(nx.cat);
+  return `<section class="card next-up"><div class="eyebrow">Następna · ${esc(catName(c))} · ${esc(nx.label)}</div><div class="nu-no">Walka ${nx.no}</div>
+    ${nx.kind === 'kata' ? `<div class="nu-k">${nm(nx.a)}</div>` : `<div class="nu-vs"><span class="a">${nm(nx.a)}</span><span class="v">vs</span><span class="b">${nm(nx.b)}</span></div>`}
+    <button class="btn primary big" data-act="activate" data-key="${nx.key}">Aktywuj walkę ${nx.no} ${rq('REQ-REF-03')}</button></section>${lastCard}`;
+}
+function qList(t, q, live) {
+  const firstReady = live ? null : q.find(i => i.status === 'ready'), m = S.mats[t];
+  const done = q.filter(i => i.status === 'done'), hidden = ui.qAll ? [] : done.slice(0, Math.max(0, done.length - 2));
+  const shown = q.filter(i => !hidden.includes(i));
+  return `${hidden.length ? `<button class="btn sm" style="width:100%;margin-bottom:6px" data-act="qAll">Pokaż ${pl(hidden.length, 'wcześniejszą walkę', 'wcześniejsze walki', 'wcześniejszych walk')}</button>` : done.length > 2 ? '<button class="btn sm" style="width:100%;margin-bottom:6px" data-act="qAll">Zwiń rozegrane</button>' : ''}<ol class="qlist">${shown.map(i => {
+    let right;
+    if (i.status === 'done') right = `<span class="q-res">${i.kind === 'kata' ? fmt1(i.res.tot) : esc(MSHORT[i.res.m] || i.res.m)}${m.last === i.key && !live && !ui.edit ? ` · <button class="lnk" data-act="editRes" data-key="${i.key}">popraw</button>` : ''}</span>`;
+    else if (i.status === 'live') right = '<span class="pill live"><span class="dot"></span>trwa</span>';
+    else if (i.status === 'ready') right = live || ui.edit ? '<span class="pill">gotowa</span>' : `<button class="btn sm ${i === firstReady ? 'primary' : ''}" data-act="activate" data-key="${i.key}">Aktywuj</button>`;
+    else right = '<span class="pill">czeka</span>';
+    const w = i.res && i.kind !== 'kata' ? (i.res.w === 'a' ? 'a' : 'b') : null;
+    const names = i.kind === 'kata' ? nm(i.a, 'awans z rundy 1') : `${w === 'a' ? `<span class="w">${nm(i.a)}</span>` : nm(i.a)} <span class="muted">vs</span> ${w === 'b' ? `<span class="w">${nm(i.b)}</span>` : nm(i.b)}`;
+    return `<li class="q-i s-${i.status} ${i === firstReady ? 'next' : ''}" data-key="${i.key}" ${i.status === 'live' ? 'id="qLive"' : ''}><span class="no">${i.no}</span><div><b>${names}</b><small>${esc(catShort(cat(i.cat)))} · ${esc(i.label)}</small></div>${right}</li>`;
+  }).join('') || '<li class="muted">Brak walk — organizator nie zatwierdził jeszcze drabinek dla tego tatami.</li>'}</ol>`;
+}
+function panel(t, it, d, editing) {
+  const c = cat(it.cat), m = S.mats[t], prev = !editing && m.prev ? Q(t).find(i => i.key === m.prev) : null;
+  const head = `<div class="match-h"><div><div class="eyebrow">${editing ? 'Poprawka wyniku' : '● Trwa'} · ${TYPES[c.type]} · ${esc(catShort(c))}</div><h2>Walka ${it.no} <span>${esc(it.label)}</span></h2>${prev ? `<div class="lock-note">Wynik walki ${prev.no} jest już zablokowany — rozpoczęto kolejną walkę. ${rq('REQ-REF-07')}</div>` : ''}</div>${editing ? '<button class="btn sm" data-act="cancelEdit">Anuluj poprawkę</button>' : '<button class="btn sm" data-act="deact">Cofnij aktywację</button>'}</div>`;
+  if (it.kind === 'kata') return head + kataPanel(it, editing);
+  if (it.kind === 'team') return head + teamPanel(it, d, editing);
+  return head + kumitePanel(it, d, editing);
+}
+function kumitePanel(it, d, editing) {
+  const corner = (s, i) => {
+    const e = ent(it[s]);
+    return `<section class="corner ${s === 'a' ? 'aka' : 'shiro'} ${d.w === s ? 'won' : ''}"><div class="kj" aria-hidden="true">${s === 'a' ? '赤' : '白'}</div>
+    <div class="side">${s === 'a' ? 'AKA' : 'SHIRO'}</div><div class="fname">${esc(e.name)}</div><div class="fmeta">${esc(club(e.club).name)} · ${gLabel(e.g)}</div>
+    <div class="score-row"><div><div class="lbl">WAZA-ARI</div><div class="wa-big"><i class="${d.wa[i] > 0 ? 'on' : ''}"></i><i class="${d.wa[i] > 1 ? 'on' : ''}"></i></div></div><div><div class="lbl">KARY</div><div class="chui">${[0, 1, 2, 3].map(k => `<i class="${d.pen[i] > k ? 'on' : ''}"></i>`).join('')}</div></div>${d.ip[i] ? '<span class="ip-badge">IPPON</span>' : ''}</div>
+    <div class="corner-btns"><button class="cbtn" data-act="sc" data-s="${s}" data-k="wa">+ Waza-ari<small>punkt</small></button><button class="cbtn main" data-act="sc" data-s="${s}" data-k="ip">Ippon<small>koniec walki</small></button><button class="cbtn" data-act="sc" data-s="${s}" data-k="pen">+ Chui<small>kara</small></button><button class="cbtn" data-act="sc" data-s="${s}" data-k="undo">↶ Cofnij<small>ostatni wpis</small></button></div></section>`;
+  };
+  return `<div class="corners">${corner('a', 0)}${corner('b', 1)}</div>${decideHTML(it, d, editing, METHODS)}`;
+}
+function teamPanel(it, d, editing) {
+  const A = S.teams[it.a], B = S.teams[it.b], wa = d.sub.filter(x => x === 'a').length, wb = d.sub.filter(x => x === 'b').length;
+  return `<section class="card"><div class="card-h"><h3>Pojedynki drużynowe</h3><span class="team-score">${wa}:${wb}</span></div><div class="team-names"><b class="a">${esc(A.name)}</b><b class="b">${esc(B.name)}</b></div>
+   ${[0, 1, 2].map(k => `<div class="sub-row"><span class="sub-n">${k + 1}</span><button class="sub-b a ${d.sub[k] === 'a' ? 'on' : ''}" data-act="sub" data-i="${k}" data-v="a">${esc(ent(A.members[k]).name)}</button><span class="v">vs</span><button class="sub-b b ${d.sub[k] === 'b' ? 'on' : ''}" data-act="sub" data-i="${k}" data-v="b">${esc(ent(B.members[k]).name)}</button></div>`).join('')}
+   <p class="muted small" style="margin:6px 0 0">Dotknij zwycięzcy każdego pojedynku. Drużyna z 2 wygranymi przechodzi dalej.</p></section>${decideHTML(it, d, editing, null)}`;
+}
+function decideHTML(it, d, editing, methods) {
+  const c = cat(it.cat), ok = d.w && d.m;
+  return `<section class="card decide"><div class="card-h"><h3>Zwycięzca${methods ? ' i sposób' : ''} ${rq('REQ-REF-04')}</h3>${d.auto ? '<span class="pill ok">ustawione automatycznie</span>' : ''}</div>
+   <div class="win-pick"><button class="a ${d.w === 'a' ? 'on' : ''}" data-act="win" data-s="a"><small>AKA</small><span>${esc(ent(it.a).name)}</span></button><button class="b ${d.w === 'b' ? 'on' : ''}" data-act="win" data-s="b"><small>SHIRO</small><span>${esc(ent(it.b).name)}</span></button></div>
+   ${methods ? `<div class="methods">${methods.map(x => `<button class="${d.m === x ? 'on' : ''}" data-act="method" data-v="${x}">${x}</button>`).join('')}</div>` : '<div style="height:12px"></div>'}
+   ${d.w && methods && (d.ip[d.w === 'a' ? 1 : 0] || d.wa[d.w === 'a' ? 1 : 0] >= 2) ? '<div class="note warn" style="margin-bottom:10px">Punkty wskazują na drugiego zawodnika — popraw je przyciskiem „Cofnij”, zanim zatwierdzisz.</div>' : ''}
+   <button class="btn primary big" data-act="confirm" ${ok ? '' : 'disabled'}>${editing ? 'Zapisz poprawiony wynik' : 'Zatwierdź wynik'} ${rq('REQ-REF-06')}</button>
+   <p class="muted small">${c.br.sys === 'se' ? 'Zwycięzca od razu przechodzi do kolejnej rundy drabinki.' : 'Wynik od razu trafia do tabeli kategorii.'} 2 × waza-ari = ippon · 4 × chui = hansoku.</p></section>`;
+}
+const parseSc = v => { const n = parseFloat(String(v).replace(',', '.')); return isNaN(n) ? null : n; };
+const kataValid = d => d.every(v => { const n = parseSc(v); return n != null && n >= 5 && n <= 10; });
+function kataCalcHTML(d) {
+  if (!kataValid(d)) return '<span class="muted">Wpisz 4 oceny (5,0–10,0) — suma policzy się sama.</span>';
+  const s = d.map(v => Math.round(parseSc(v) * 10) / 10);
+  return `${scoreChips(s)}<span class="tot"><small>SUMA DWÓCH ŚRODKOWYCH</small>${fmt1(kataTot(s))}</span>`;
+}
+function kataPanel(it, editing) {
+  const e = ent(it.a), key = it.key;
+  if (!ui.kd[key]) ui.kd[key] = editing && it.res ? it.res.s.map(fmt1) : ['', '', '', ''];
+  const d = ui.kd[key];
+  return `<section class="card kata-now"><div class="kata-who"><span class="club-dot" style="--c:${club(e.club).c}"></span><div><div class="kata-name">${esc(e.name)}</div><div class="muted">${esc(club(e.club).name)} · ${gLabel(e.g)} · ${esc(it.label)}</div></div></div>
+   <div class="sub-h" style="margin:4px 0 0">Oceny 4 sędziów ${rq('REQ-REF-05')}</div>
+   <div class="judges">${[0, 1, 2, 3].map(i => `<label>Sędzia ${i + 1}<input id="ks${i}" type="text" inputmode="decimal" autocomplete="off" data-in="ks" data-key="${key}" data-i="${i}" value="${esc(d[i])}" placeholder="–"></label>`).join('')}</div>
+   <div class="calc" id="kataCalc">${kataCalcHTML(d)}</div>
+   <button class="btn primary big" id="kataOk" data-act="confirmKata" ${kataValid(d) ? '' : 'disabled'}>${editing ? 'Zapisz poprawione oceny' : 'Zatwierdź oceny'} ${rq('REQ-REF-06')}</button>
+   <p class="muted small" style="margin:0">Najniższa i najwyższa ocena odpada automatycznie. Enter przechodzi do następnego pola.</p></section>`;
+}
+function updKata(key) {
+  const d = ui.kd[key], calc = $('#kataCalc'), ok = $('#kataOk');
+  if (calc) calc.innerHTML = kataCalcHTML(d);
+  if (ok) ok.disabled = !kataValid(d);
+  d.forEach((v, i) => { const inp = $('#ks' + i); if (inp) { const n = parseSc(v); inp.classList.toggle('bad', v !== '' && (n == null || n < 5 || n > 10)); } });
+}
+const curDraft = () => { if (ui.edit) return ui.edit.d; const m = S.mats[ui.refT]; return m && m.active ? m.live : null; };
+const curItem = () => { const key = ui.edit ? ui.edit.key : S.mats[ui.refT]?.active; return key ? Q(ui.refT).find(i => i.key === key) : null; };
+const saveDraft = () => { if (ui.edit) render(true); else commit(); };
+function autoWin(d) {
+  if (d.ip[0] || d.wa[0] >= 2) { d.w = 'a'; d.m = 'Ippon'; d.auto = true; return; }
+  if (d.ip[1] || d.wa[1] >= 2) { d.w = 'b'; d.m = 'Ippon'; d.auto = true; return; }
+  if (d.pen[0] >= 4) { d.w = 'b'; d.m = 'Hansoku'; d.auto = true; return; }
+  if (d.pen[1] >= 4) { d.w = 'a'; d.m = 'Hansoku'; d.auto = true; return; }
+  if (d.auto) { d.w = null; d.m = null; d.auto = false; }
+}
+function advMsg(it, w) {
+  const c = cat(it.cat), name = ent(w).name;
+  if (catPlaces(c).done) return `${c.br.sys === 'kata' ? '' : `${name} wygrywa. `}Kategoria zakończona — medale w klasyfikacji`;
+  if (c.br.sys !== 'se') return `${name} wygrywa — tabela zaktualizowana`;
+  if (it.id === 'b3') return `${name} zdobywa brąz`;
+  const r = +it.id.slice(1).split('-')[0], R = Math.log2(c.br.slots.length);
+  return r >= R - 1 ? `${name} wygrywa kategorię` : `${name} przechodzi do rundy: ${roundName(r + 1, R, c).toLowerCase()}`;
+}
+function saveEdit(t, it, res) {
+  const c = cat(it.cat), old = c.res[it.id];
+  c.res[it.id] = { ...res, at: old.at, ed: hhmm() };
+  feedAdd(t, `Korekta wyniku walki ${it.no}: ${resultText(it, c.res[it.id]).replace(/^T\d+ · (walka \d+|[^:]+): /, '')}`, null, 'fix');
+  if (!catPlaces(c).done) c.doneAt = null;
+  ui.edit = null; delete ui.kd[it.key];
+  commit(); toast(`Wynik walki ${it.no} poprawiony — drabinka przeliczona`);
+}
+
+/* ===================== pokrycie specyfikacji ===================== */
+const REQS = [
+  ['1. Ogólne i architektura'],
+  ['REQ-GEN-01', 'Aplikacja webowa RWD: telefon, tablet, komputer', 'Cały mock — zwęź okno do 360 px', '#/', 'ok'],
+  ['REQ-GEN-02.1', 'Strefa publiczna /', 'Start, Na żywo, Uczestnicy, Drabinki, Klasyfikacja', '#/', 'ok'],
+  ['REQ-GEN-02.2', 'Strefa prywatna /admin i /referee z autoryzacją', 'Ekran logowania; konta demo zamiast haseł', '#/admin', 'sim'],
+  ['REQ-GEN-03', '4 role: Administrator, Sędzia, Klub/Sensei, Kibic', 'Logowanie; kibic bez konta', '#/admin', 'ok'],
+  ['2. Administrator'],
+  ['REQ-ADM-01', 'Nowy turniej: nazwa, data, miejsce, status', 'Panel → Turnieje → Nowy turniej', '#/admin/turnieje', 'ok'],
+  ['REQ-ADM-02', 'Edycja i usuwanie turniejów', 'Panel → Turnieje', '#/admin/turnieje', 'ok'],
+  ['REQ-ADM-03', 'Kategorie: dodawanie, edycja, usuwanie', 'Panel → Kategorie', '#/admin/kategorie', 'ok'],
+  ['REQ-ADM-04', 'Kryteria: wiek, płeć, waga, stopień, typ', 'Formularz kategorii', '#/admin/kategorie', 'ok'],
+  ['REQ-ADM-05', 'Walka o 3. miejsce TAK / NIE', 'Formularz; Chłopcy 12–13 (TAK), Dziewczęta 14–15 (NIE)', '#/drabinki/c3', 'ok'],
+  ['REQ-ADM-06', 'Brak pary: wolny los albo walka eliminacyjna', 'Formularz; Dziewczęta 14–15 = eliminacje', '#/drabinki/c4', 'ok'],
+  ['REQ-ADM-07', 'Kata: liczba awansujących', 'Formularz kategorii kata; Kata 12–15 lat', '#/drabinki/c7', 'ok'],
+  ['REQ-ADM-08', 'Przypisanie kategorii do tatami', 'Formularz kategorii, Harmonogram', '#/admin/harmonogram', 'ok'],
+  ['REQ-ADM-09', 'Ręczne dodawanie / usuwanie zawodnika z bazy', 'Kategorie → Zawodnicy', '#/admin/kategorie/c9', 'ok'],
+  ['REQ-ADM-10', 'Generator drabinek: kategoria lub cały turniej', 'Drabinki → Chłopcy 10–11 −35 kg', '#/admin/drabinki/c9', 'ok'],
+  ['REQ-ADM-11', 'Ręczna korekta przed zatwierdzeniem', 'Szkic drabinki → kliknij dwóch zawodników', '#/admin/drabinki/c9', 'ok'],
+  ['REQ-ADM-12', 'Kluby w klasyfikacji drużynowej', 'Panel → Klasyfikacja drużynowa', '#/admin/klasyfikacja', 'ok'],
+  ['3. Sędzia'],
+  ['REQ-REF-01', 'Wybór tatami po zalogowaniu', '/referee', '#/referee', 'ok'],
+  ['REQ-REF-02', 'Lista walk tatami', 'Prawa kolumna panelu tatami', '#/referee', 'ok'],
+  ['REQ-REF-03', 'Ręczne „Aktywuj walkę”', 'Panel tatami', '#/referee', 'ok'],
+  ['REQ-REF-04', 'Kumite: punkty, kary, zwycięzca', 'Tatami 1 lub 2', '#/referee', 'ok'],
+  ['REQ-REF-05', 'Kata: 4 oceny, bez skrajnych, suma dwóch', 'Tatami 3 (kata 12–15 lat)', '#/referee', 'ok'],
+  ['REQ-REF-06', 'Zatwierdzenie → awans w drabince', 'Zatwierdź wynik, potem otwórz Drabinki', '#/referee', 'ok'],
+  ['REQ-REF-07', 'Edycja wyniku do startu kolejnej walki', 'Karta „Ostatni wynik” w panelu tatami', '#/referee', 'ok'],
+  ['4. Klub / Sensei'],
+  ['REQ-CLUB-01', 'Profil zawodnika: dodaj, edytuj, usuń', 'Klub → Moi zawodnicy', '#/admin/klub/zawodnicy', 'ok'],
+  ['REQ-CLUB-02', 'Zgłaszanie i wycofywanie z kategorii', 'Klub → Zgłoszenia (Turniej Jesienny)', '#/admin/klub/zgloszenia', 'ok'],
+  ['REQ-CLUB-03', 'Tylko swoi zawodnicy + tatami i nr walki na żywo', 'Klub → Na żywo', '#/admin/klub/na-zywo', 'ok'],
+  ['5. Publiczny / kibic'],
+  ['REQ-PUB-01', 'Bez logowania', 'Strefa /', '#/', 'ok'],
+  ['REQ-PUB-02', 'Uczestnicy z filtrem kategorii i klubu', 'Uczestnicy', '#/uczestnicy', 'ok'],
+  ['REQ-PUB-03', 'Drabinki i tabele wszystkich kategorii', 'Drabinki', '#/drabinki', 'ok'],
+  ['REQ-PUB-04', 'LIVE: wszystkie tatami równolegle', 'Na żywo', '#/live', 'ok'],
+  ['REQ-PUB-05', 'Automatyczna klasyfikacja drużynowa', 'Klasyfikacja drużynowa', '#/klasyfikacja', 'ok'],
+  ['6. Algorytmy'],
+  ['REQ-ALG-01', 'Mniej niż 4 → każdy z każdym', 'Seniorki open (3 zawodniczki)', '#/drabinki/c6', 'ok'],
+  ['REQ-ALG-02', 'Separator klubowy', '„Kontrola losowania” przy szkicu drabinki', '#/admin/drabinki/c9', 'ok'],
+  ['REQ-ALG-03', 'Wolny los najpierw dla wyższych stopni', '„Kontrola losowania”; Chłopcy 12–13 (5 wolnych losów)', '#/admin/drabinki/c9', 'ok'],
+  ['REQ-ALG-04', 'Klasyfikacja: złoto → srebro → brąz', 'Klasyfikacja drużynowa', '#/klasyfikacja', 'ok'],
+  ['7. Niefunkcjonalne'],
+  ['REQ-NFR-01', 'Czas rzeczywisty bez odświeżania', 'BroadcastChannel między kartami zamiast WebSocket', '#/live', 'sim'],
+  ['REQ-NFR-02', 'Sędzia i trener: dotyk, od 360 px', 'Duże przyciski, układ jednokolumnowy', '#/referee', 'ok'],
+  ['REQ-NFR-03', 'Drabinki i harmonogram do PDF', 'Przycisk PDF → okno druku → „Zapisz jako PDF”', '#/drabinki', 'sim'],
+];
+const QUESTIONS = [
+  ['REQ-ADM-06, REQ-ALG-03', 'Wolne losy są potrzebne zawsze, gdy liczba zawodników nie jest potęgą dwójki (np. 6 zawodników → 2 wolne losy), a nie tylko przy liczbie nieparzystej. Lepiej: „gdy liczba zawodników nie wypełnia drabinki”. Oba warianty — wolny los i walka eliminacyjna — dają tę samą liczbę walk (n − 2<sup>⌊log₂n⌋</sup> w rundzie wstępnej) i różnią się tylko opisem. Czy „walka eliminacyjna” miała znaczyć coś innego, np. repasaż?'],
+  ['REQ-ADM-05', '„egzekwo” → „ex aequo”.'],
+  ['REQ-ADM-07, REQ-ALG-01', 'W tekście brakuje symboli (po wklejeniu zostały puste znaki) — zapewne „N zawodników” i „n < 4”.'],
+  ['REQ-ALG-01', 'Brak zasad remisu w tabeli „każdy z każdym”. Mock: 2 pkt za wygraną → bezpośredni pojedynek → liczba waza-ari. Czy przy 3 zawodnikach trzecie miejsce daje brąz (mock: tak)?'],
+  ['REQ-REF-05', 'Brak skali ocen kata i zasad remisu. Mock: 5,0–10,0 co 0,1; przy równej sumie decyduje suma wszystkich 4 ocen; podium wyłania finał.'],
+  ['REQ-REF-04', '„Punkty i kary” nie mają typów. Mock: waza-ari, ippon (2 × waza-ari = ippon), chui (4 × chui = hansoku); sposób zwycięstwa: ippon, waza-ari, hantei, hansoku, kiken. Brak czasu walki i dogrywek (encho).'],
+  ['REQ-REF-07', 'Poprawka zmienia awans w drabince — mock przelicza ją od razu. Kto może poprawić wynik, gdy jest już zablokowany (np. administrator)?'],
+  ['REQ-ALG-04', 'Brak reguły przy pełnym remisie medalowym (mock: miejsce ex aequo). Czy medale drużynowe wliczają się do klasyfikacji i czy dwa brązy bez walki o 3. miejsce liczą się jako dwa (mock: tak i tak)?'],
+  ['REQ-ADM-04 · Drużynowe', 'Specyfikacja nie opisuje drużyn: skład, liczba pojedynków, kto wygrywa. Mock: 3 zawodników, 3 pojedynki, wygrywa drużyna z co najmniej 2 wygranymi.'],
+  ['REQ-GEN-02.2', 'Panel klubu nie ma własnej ścieżki. Mock: klub loguje się do /admin i widzi tylko widoki klubu.'],
+  ['REQ-CLUB-02', '„Aktywny turniej” — może być kilka turniejów z otwartymi zapisami. Mock: zgłoszenia tylko w statusie „Zapisy otwarte”; klub widzi tylko pasujące kategorie; administrator może dodać zawodnika spoza kryteriów z ostrzeżeniem.'],
+  ['Czego brakuje', 'Ważenie i weryfikacja w dniu zawodów, praca przy stoliku sędziego bez internetu, godziny w harmonogramie (mock je szacuje), czas walki na tablicy wyników, opłaty startowe.'],
+];
+function vSpec() {
+  const n = REQS.filter(r => r.length > 1).length, sim = REQS.filter(r => r[4] === 'sim').length;
+  return pageH('/specyfikacja', 'Pokrycie specyfikacji', [], `Każde wymaganie z dokumentu ma swój ekran w mocku. ${n} wymagań: ${n - sim} pokazanych wprost, ${sim} zasymulowanych (logowanie, czas rzeczywisty, PDF). Numery REQ przy elementach włączasz przyciskiem „REQ” u góry.`)
+    + `<div class="howto">
+      <div class="card"><h3>Czas rzeczywisty</h3><p>Otwórz <a href="#/live" target="_blank" rel="noopener">Na żywo w nowej karcie</a>. Tutaj zaloguj się jako sędzia, wybierz tatami i wpisuj punkty — druga karta zmienia się bez odświeżania.</p></div>
+      <div class="card"><h3>Drabinka od zera</h3><p>Zaloguj się jako administrator → Drabinki → „Chłopcy 10–11 −35 kg” → Generuj. Zamień dwóch zawodników, zatwierdź — walki trafią do sędziego Tatami 2.</p></div>
+      <div class="card"><h3>Widok klubu</h3><p>Zaloguj się jako klub (np. Żuraw Dojo) → Na żywo: zawodnicy klubu z numerem tatami i walki. Zgłoszenia działają dla Turnieju Jesiennego.</p></div>
+    </div>
+    <section class="card"><div class="scroll-x"><table class="t spec-t"><thead><tr><th>ID</th><th>Wymaganie</th><th>Gdzie w mocku</th><th>Stan</th></tr></thead><tbody>
+    ${REQS.map(r => r.length === 1 ? `<tr class="sec"><td colspan="4">${r[0]}</td></tr>` : `<tr><td>${r[0]}</td><td>${esc(r[1])}</td><td><a href="${r[3]}">${esc(r[2])}</a></td><td>${r[4] === 'ok' ? '<span class="pill ok">✓ w mocku</span>' : '<span class="pill warn">◐ symulacja</span>'}</td></tr>`).join('')}
+    </tbody></table></div></section>
+    <section class="card" style="margin-top:16px"><h3>Uwagi i pytania do specyfikacji</h3><p class="muted small" style="margin:6px 0 14px">Miejsca, w których dokument jest niejednoznaczny albo czegoś brakuje — i jak mock je na razie rozstrzyga.</p><ol class="qs">${QUESTIONS.map(([k, t]) => `<li><b>${k}</b> — ${t}</li>`).join('')}</ol></section>`;
+}
+
+/* ===================== PDF (druk) ===================== */
+function printDoc(T, title, body, landscape) {
+  $('#print').innerHTML = `<style>@page{size:A4 ${landscape ? 'landscape' : 'portrait'};margin:10mm}</style><div class="pr-h"><b>${esc(T ? T.name : 'Turniej')}</b><span>${T ? `${fmtDate(T.date)} · ${esc(T.place)}` : ''}</span><span>wydruk ${new Date().toLocaleString('pl-PL')}</span></div><h1>${esc(title)}</h1>${body}`;
+  setTimeout(() => window.print(), 60);
+}
+function printCat(c) {
+  let body;
+  if (!c.br || c.br.status !== 'approved') body = '<p>Drabinka nie jest jeszcze zatwierdzona.</p>';
+  else if (c.br.sys === 'se') { const T = seTree(c), W = T.R * BX.COLW + (T.R - 1) * BX.GAP + 44, H = BX.TOP + T.size / 2 * BX.U + (T.b3 ? 112 : 0) + 44, z = Math.min(1, 1000 / W, 600 / H); body = podiumHTML(c) + `<div style="zoom:${z.toFixed(3)}">${treeHTML(c, 'print', T)}</div>`; }
+  else body = podiumHTML(c) + (c.br.sys === 'rr' ? rrHTML(c) : kataHTML(c));
+  return `<section class="pr-page"><h2>${esc(catName(c))}</h2><p class="pr-meta">Tatami ${c.tatami} · ${sysLabel(c)} · ${entCount(c)} · ${esc(criteria(c))}</p>${body}</section>`;
+}
+function printSched(T) {
+  const sch = schedule(T), live = T === pubT();
+  return TABS.map(t => `<section class="pr-tat"><h2>Tatami ${t}</h2><table class="t"><thead><tr><th>Godz.</th><th>Kategoria</th><th>Walk</th><th>Status</th></tr></thead><tbody>${sch[t].map(r => `<tr><td>${fmtMin(r.start)}–${fmtMin(r.end)}</td><td>${esc(catName(r.c))}</td><td>${r.n}</td><td>${catState(r.c)[0]}</td></tr>`).join('')}</tbody></table>
+   ${live && Q(t).length ? `<table class="t" style="margin-top:8px"><thead><tr><th>Nr</th><th>Kategoria · runda</th><th>Aka / zawodnik</th><th>Shiro</th><th>Wynik</th></tr></thead><tbody>${Q(t).map(i => `<tr><td>${i.no}</td><td>${esc(catShort(cat(i.cat)))} · ${esc(i.label)}</td><td>${i.a ? esc(ent(i.a).name) : '—'}</td><td>${i.kind === 'kata' ? '' : i.b ? esc(ent(i.b).name) : '—'}</td><td>${i.res ? (i.kind === 'kata' ? fmt1(i.res.tot) + ' pkt' : esc(ent(i.res.w === 'a' ? i.a : i.b).name) + ' · ' + esc(i.res.m)) : ''}</td></tr>`).join('')}</tbody></table>` : ''}</section>`).join('');
+}
+
+/* ===================== szuflada, modal ===================== */
+const FORMS = { tf: tourFormHTML, cf: catFormHTML, af: athFormHTML };
+function openDrawer(title, html) {
+  $('#dwTitle').textContent = title; $('#dwBody').innerHTML = html;
+  $('#drawer').classList.add('on'); $('#scrim').classList.add('on'); $('#drawer').setAttribute('aria-hidden', 'false');
+  if (matchMedia('(hover:hover)').matches) setTimeout(() => { const f = $('#dwBody input:not([disabled])'); if (f) f.focus(); }, 260);
+}
+function closeDrawer() { $('#drawer').classList.remove('on'); $('#scrim').classList.remove('on'); $('#drawer').setAttribute('aria-hidden', 'true'); }
+let mdFn = null;
+function ask(html, yes, fn) { $('#mdText').innerHTML = html; $('#mdYes').textContent = yes; mdFn = fn; $('#modal').hidden = false; $('#mdYes').focus(); }
+
+/* ===================== akcje ===================== */
+const ACT = {
+  reqs: () => { ui.reqs = !ui.reqs; savePrefs(); renderTop(route()); },
+  sim: () => { ui.sim = !ui.sim; savePrefs(); renderTop(route()); toast(ui.sim ? 'Symulacja włączona — tatami bez sędziego grają same' : 'Symulacja wstrzymana'); },
+  reset: () => ask('Przywrócić dane demonstracyjne? Twoje zmiany znikną we wszystkich otwartych kartach.', 'Resetuj', () => { const r = S.rev; seed(); S.rev = r + 1; ui.edit = null; ui.kd = {}; ui.swap = null; commit(); toast('Dane demo przywrócone'); }),
+  close: () => closeDrawer(),
+  mdNo: () => { $('#modal').hidden = true; mdFn = null; },
+  mdYes: () => { $('#modal').hidden = true; const f = mdFn; mdFn = null; if (f) f(); },
+  login: el => {
+    const role = el.dataset.role;
+    if (role === 'admin') ui.user = { role, name: 'Organizator', sub: 'Administrator', ini: 'OR' };
+    else if (role === 'ref') ui.user = { role, name: 'Jan Kowalczyk', sub: 'Sędzia', ini: 'JK' };
+    else { const k = ($('#clubSel') || {}).value || 'zur'; ui.user = { role: 'club', club: k, name: 'Trener klubu', sub: club(k).name, ini: club(k).s.slice(0, 2) }; }
+    saveUser();
+    const to = role === 'ref' ? '#/referee' : role === 'admin' ? '#/admin/turnieje' : '#/admin/klub/na-zywo';
+    if (location.hash === to) render(true); else location.hash = to;
+    toast(`Zalogowano: ${ui.user.sub}`);
+  },
+  logout: () => { TABS.forEach(t => { if (S.mats[t].ref?.tab === TAB) S.mats[t].ref = null; }); ui.user = null; ui.edit = null; ui.refT = null; saveUser(); commit({ quiet: true }); location.hash = '#/'; render(true); toast('Wylogowano'); },
+  /* turnieje */
+  tourNew: () => { ui.tf = { id: null, name: '', date: todayISO(), place: '', status: 'draft' }; openDrawer('Nowy turniej', tourFormHTML()); },
+  tourEdit: el => { const t = tour(el.dataset.id); ui.tf = { id: t.id, name: t.name, date: t.date, place: t.place, status: t.status }; openDrawer('Edytuj turniej', tourFormHTML()); },
+  tourUse: el => { ui.at = el.dataset.id; location.hash = '#/admin/kategorie'; },
+  tourSave: () => {
+    const f = ui.tf;
+    if (!f.name.trim() || !f.date || !f.place.trim()) { $('#tfErr').textContent = 'Uzupełnij nazwę, datę i miejsce.'; return; }
+    let note = '';
+    if (f.status === 'live') S.tours.forEach(t => { if (t.id !== f.id && t.status === 'live') { t.status = 'done'; note = ` „${t.name}” oznaczono jako zakończony.`; } });
+    if (f.id) Object.assign(tour(f.id), { name: f.name.trim(), date: f.date, place: f.place.trim(), status: f.status });
+    else { const id = 't' + Date.now().toString(36); S.tours.push({ id, name: f.name.trim(), date: f.date, place: f.place.trim(), status: f.status, teamClubs: Object.keys(CLUBS) }); ui.at = id; }
+    closeDrawer(); commit(); toast((f.id ? 'Turniej zapisany.' : 'Turniej utworzony — dodaj kategorie.') + note);
+  },
+  tourDel: el => {
+    const t = tour(el.dataset.id), n = S.cats.filter(c => c.t === t.id).length;
+    ask(`Usunąć turniej <b>${esc(t.name)}</b>?${n ? ` Razem z nim znikną ${pl(n, 'kategoria', 'kategorie', 'kategorii')} i wszystkie wyniki.` : ''}`, 'Usuń turniej', () => {
+      S.tours = S.tours.filter(x => x !== t); S.cats = S.cats.filter(c => c.t !== t.id);
+      TABS.forEach(x => { const m = S.mats[x]; ['active', 'last', 'prev'].forEach(k => { if (m[k] && !cat(m[k].split(':')[0])) m[k] = null; }); if (!m.active) m.live = null; });
+      if (ui.at === t.id) ui.at = null; commit(); toast('Turniej usunięty');
+    });
+  },
+  /* kategorie */
+  catNew: () => { ui.cf = { id: null, type: 'kumite', sex: 'M', a0: 12, a1: 13, wm: 'max', wv: 50, g0: 1, g1: 14, tatami: 1, bronze: 1, odd: 'bye', adv: 4 }; openDrawer('Nowa kategoria', catFormHTML()); },
+  catEdit: el => { const c = cat(el.dataset.id); ui.cf = { id: c.id, type: c.type, sex: c.sex, a0: c.age[0], a1: c.age[1], wm: !c.w ? 'open' : c.w[1] != null ? 'max' : 'min', wv: c.w ? (c.w[1] ?? c.w[0]) : '', g0: c.g[0], g1: c.g[1], tatami: c.tatami, bronze: c.bronze ? 1 : 0, odd: c.odd, adv: c.adv }; openDrawer('Edytuj kategorię', catFormHTML()); },
+  catSave: () => {
+    const f = ui.cf, err = m => { $('#cfErr').textContent = m; };
+    const a0 = +f.a0, a1 = +f.a1, wv = num(f.wv), adv = +f.adv;
+    if (!(a0 >= 4 && a1 <= 99 && a0 <= a1)) return err('Sprawdź przedział wieku.');
+    if (f.wm !== 'open' && !(wv >= 10 && wv <= 150)) return err('Podaj limit wagi (10–150 kg).');
+    if (+f.g0 > +f.g1) return err('Stopień „od” jest wyższy niż „do”.');
+    if (f.type === 'kata' && !(adv >= 2 && adv <= 16)) return err('Do finału może awansować od 2 do 16 osób.');
+    const base = { ...cfCat(f), bronze: !!+f.bronze, odd: f.odd, adv: f.type === 'kata' ? adv : 4 }, t = +f.tatami;
+    if (f.id) {
+      const c = cat(f.id), locked = !!(c.br && c.br.status === 'approved');
+      if (locked) Object.assign(c, { sex: base.sex, age: base.age, w: base.w, g: base.g });
+      else { if (c.type !== base.type) { c.br = null; c.res = {}; c.entries = c.entries.filter(id => (base.type === 'team') === id.startsWith('T-')); } Object.assign(c, base); }
+      if (c.tatami !== t && !catBusy(c)) moveCat(c, t);
+    } else {
+      const T = adminT(), c = { id: 'c' + Date.now().toString(36), t: T.id, ...base, tatami: t, ord: 0, entries: [], br: null, res: {}, doneAt: null };
+      S.cats.push(c); moveCat(c, t);
+    }
+    closeDrawer(); commit(); toast(f.id ? 'Kategoria zapisana' : 'Kategoria dodana — dodaj zawodników');
+  },
+  catDel: el => {
+    const c = cat(el.dataset.id);
+    ask(`Usunąć kategorię <b>${esc(catName(c))}</b>?${Object.keys(c.res).length ? ' Ma już wyniki — znikną razem z nią.' : ''}`, 'Usuń kategorię', () => {
+      S.cats = S.cats.filter(x => x !== c);
+      TABS.forEach(x => { const m = S.mats[x]; ['active', 'last', 'prev'].forEach(k => { if (m[k] && m[k].startsWith(c.id + ':')) m[k] = null; }); if (!m.active) m.live = null; });
+      commit(); toast('Kategoria usunięta');
+    });
+  },
+  seg: el => { const f = el.dataset.f; ui[f][el.dataset.k] = el.dataset.v; $('#dwBody').innerHTML = FORMS[f](); },
+  entAdd: el => { const c = cat(el.dataset.c); if (c.br?.status === 'approved') return; c.entries.push(el.dataset.id); let m = `Dodano: ${ent(el.dataset.id).name}`; if (c.br) { c.br = null; c.res = {}; m += ' · szkic drabinki usunięty'; } commit(); toast(m); },
+  entRm: el => { const c = cat(el.dataset.c); if (c.br?.status === 'approved') return; c.entries = c.entries.filter(x => x !== el.dataset.id); let m = `Usunięto z kategorii: ${ent(el.dataset.id).name}`; if (c.br) { c.br = null; c.res = {}; m += ' · szkic drabinki usunięty'; } commit(); toast(m); },
+  teamAdd: el => {
+    const c = cat(el.dataset.c), k = el.dataset.k, mem = Object.values(S.ath).filter(a => a.club === k && elig(a, { ...c, type: 'kumite' }).ok).slice(0, 3);
+    if (mem.length < 3) return;
+    const id = `T-${k}-${c.id}`; S.teams[id] = { id, club: k, name: CLUBS[k].name, members: mem.map(a => a.id) }; c.entries.push(id);
+    if (c.br) { c.br = null; c.res = {}; }
+    commit(); toast(`Dodano drużynę: ${CLUBS[k].name}`);
+  },
+  /* drabinki */
+  gen: el => { const c = cat(el.dataset.id); generate(c); ui.swap = null; commit(); toast(`Wygenerowano (${sysLabel(c)}) — sprawdź i zatwierdź`); },
+  regen: el => { const c = cat(el.dataset.id); generate(c); ui.swap = null; commit(); toast('Wylosowano ponownie'); },
+  genAll: () => { const T = adminT(), list = tourCats(T).filter(x => !x.br && x.entries.length >= 2); list.forEach(c => generate(c)); commit(); toast(`Wygenerowano ${pl(list.length, 'szkic', 'szkice', 'szkiców')} — każdy trzeba zatwierdzić`); },
+  brDel: el => { const c = cat(el.dataset.id); c.br = null; c.res = {}; ui.swap = null; commit(); toast('Szkic usunięty'); },
+  approve: el => { const c = cat(el.dataset.id); if (draftBlock(c)) return; c.br.status = 'approved'; c.br.at = hhmm(); ui.swap = null; commit(); const n = catItems(c).length; toast(tour(c.t) === pubT() ? `Zatwierdzono — ${pl(n, 'walka trafiła', 'walki trafiły', 'walk trafiło')} na listę Tatami ${c.tatami}` : 'Zatwierdzono'); },
+  unapprove: el => { const c = cat(el.dataset.id); if (catBusy(c)) return; c.br.status = 'draft'; commit(); toast('Drabinka wróciła do szkicu'); },
+  swap: el => {
+    const c = cat(el.dataset.c), s = +el.dataset.s;
+    if (ui.swap == null || ui.swap === s) { ui.swap = ui.swap === s ? null : s; render(true); return; }
+    const sl = c.br.slots; [sl[ui.swap], sl[s]] = [sl[s], sl[ui.swap]]; ui.swap = null; commit(); toast('Zamieniono miejsca — sprawdź kontrolę losowania');
+  },
+  swapO: el => {
+    const c = cat(el.dataset.c), s = +el.dataset.s;
+    if (ui.swap == null || ui.swap === s) { ui.swap = ui.swap === s ? null : s; render(true); return; }
+    const o = c.br.order; [o[ui.swap], o[s]] = [o[s], o[ui.swap]]; ui.swap = null; commit(); toast('Zamieniono kolejność');
+  },
+  catUp: el => shiftCat(el.dataset.id, -1),
+  catDown: el => shiftCat(el.dataset.id, 1),
+  clsTog: el => { const T = adminT(), k = el.dataset.k; T.teamClubs = (T.teamClubs || []).includes(k) ? T.teamClubs.filter(x => x !== k) : [...(T.teamClubs || []), k]; commit(); },
+  /* PDF */
+  pdfCat: el => { const c = cat(el.dataset.id); printDoc(tour(c.t), 'Drabinka', printCat(c), true); },
+  pdfAll: () => { const T = route()[0] === 'admin' ? adminT() : pubT(); printDoc(T, 'Drabinki i tabele', tourCats(T).map(printCat).join(''), true); },
+  pdfSched: () => { const T = adminT(); printDoc(T, 'Harmonogram tatami', printSched(T), false); },
+  /* klub */
+  athNew: () => { ui.af = { id: null, fn: '', ln: '', dob: '', sex: 'M', g: 1, w: '' }; openDrawer('Nowy zawodnik', athFormHTML()); },
+  athEdit: el => { const a = S.ath[el.dataset.id]; if (!a || a.club !== ui.user.club) return; ui.af = { ...a }; openDrawer('Edytuj zawodnika', athFormHTML()); },
+  athSave: () => {
+    const f = ui.af, err = m => { $('#afErr').textContent = m; }, w = parseFloat(String(f.w).replace(',', '.'));
+    if (!f.fn.trim() || !f.ln.trim()) return err('Podaj imię i nazwisko.');
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(f.dob) || f.dob > todayISO() || ageAt(f.dob, todayISO()) > 90) return err('Podaj poprawną datę urodzenia.');
+    if (!(w >= 15 && w <= 150)) return err('Podaj wagę 15–150 kg.');
+    const data = { fn: f.fn.trim(), ln: f.ln.trim(), dob: f.dob, sex: f.sex, g: +f.g, w: Math.round(w * 10) / 10 };
+    if (f.id) Object.assign(S.ath[f.id], data); else { const id = 'a' + Date.now().toString(36); S.ath[id] = { id, club: ui.user.club, ...data }; }
+    closeDrawer(); commit(); toast(f.id ? 'Zapisano zmiany' : `Dodano: ${data.fn} ${data.ln}`);
+  },
+  athDel: el => {
+    const id = el.dataset.id, a = S.ath[id]; if (!a || a.club !== ui.user.club) return;
+    if (S.cats.some(c => c.br?.status === 'approved' && c.entries.includes(id)) || Object.values(S.teams).some(t => t.members.includes(id))) return toast('Nie można usunąć — zawodnik startuje w zatwierdzonej drabince lub w drużynie.');
+    const n = S.cats.filter(c => c.entries.includes(id)).length;
+    ask(`Usunąć <b>${esc(a.fn)} ${esc(a.ln)}</b> z bazy klubu?${n ? ` Zostanie wycofany z ${pl(n, 'kategorii', 'kategorii', 'kategorii')}.` : ''}`, 'Usuń', () => {
+      S.cats.forEach(c => { if (c.entries.includes(id)) { c.entries = c.entries.filter(x => x !== id); if (c.br) { c.br = null; c.res = {}; } } });
+      delete S.ath[id]; commit(); toast('Zawodnik usunięty');
+    });
+  },
+  reg: el => {
+    const c = cat(el.dataset.c), id = el.dataset.a;
+    if (tour(c.t).status !== 'open' || c.br) return toast('Zgłoszenia do tej kategorii są zamknięte');
+    const on = c.entries.includes(id);
+    c.entries = on ? c.entries.filter(x => x !== id) : [...c.entries, id];
+    commit(); toast(on ? `Wycofano: ${ent(id).name}` : `Zgłoszono: ${ent(id).name} → ${catShort(c)}`);
+  },
+  /* sędzia */
+  pickT: el => { const t = +el.dataset.t; TABS.forEach(x => { if (S.mats[x].ref?.tab === TAB) S.mats[x].ref = null; }); S.mats[t].ref = { tab: TAB, at: Date.now() }; ui.refT = t; saveUser(); commit({ quiet: true }); location.hash = `#/referee/tatami/${t}`; },
+  activate: el => {
+    const t = ui.refT, m = S.mats[t];
+    if (m.active) return toast('Najpierw zatwierdź trwającą walkę');
+    if (ui.edit) return toast('Najpierw zapisz albo anuluj poprawkę wyniku');
+    const it = Q(t).find(i => i.key === el.dataset.key); if (!it || it.status !== 'ready') return;
+    const locked = m.last ? Q(t).find(i => i.key === m.last) : null;
+    activate(t, it.key); commit(); toast(`Walka ${it.no} aktywna${locked ? ` · wynik walki ${locked.no} zablokowany` : ''}`); window.scrollTo(0, 0);
+  },
+  deact: () => { const m = S.mats[ui.refT]; if (!m.active) return; ask('Cofnąć aktywację? Wpisane punkty tej walki zostaną wyczyszczone, a walka wróci do kolejki.', 'Cofnij aktywację', () => { m.active = null; m.live = null; m.last = m.prev; m.prev = null; commit(); toast('Walka wróciła do kolejki'); }); },
+  sc: el => {
+    const d = curDraft(); if (!d) return;
+    const i = el.dataset.s === 'a' ? 0 : 1, k = el.dataset.k;
+    if (k === 'undo') { for (let j = d.hist.length - 1; j >= 0; j--) if (d.hist[j].i === i) { const x = d.hist.splice(j, 1)[0]; d[x.k][i] = Math.max(0, d[x.k][i] - 1); break; } }
+    else if ((k === 'wa' && d.wa[i] < 2) || (k === 'ip' && d.ip[i] < 1) || (k === 'pen' && d.pen[i] < 4)) { d[k][i]++; d.hist.push({ i, k }); }
+    autoWin(d); saveDraft();
+  },
+  win: el => {
+    const d = curDraft(), it = curItem(); if (!d || !it) return;
+    d.w = el.dataset.s; d.auto = false;
+    const i = d.w === 'a' ? 0 : 1, sa = d.sub.filter(x => x === 'a').length, sb = d.sub.filter(x => x === 'b').length;
+    if (it.kind === 'team') d.m = (d.w === 'a' ? `${sa}:${sb}` : `${sb}:${sa}`) + (sa === sb ? ' · dogrywka' : '');
+    else if (!d.m || (d.m === 'Ippon' && !d.ip[i] && d.wa[i] < 2)) d.m = d.wa[i] > d.wa[1 - i] ? 'Waza-ari' : 'Hantei';
+    saveDraft();
+  },
+  method: el => { const d = curDraft(); if (!d) return; d.m = el.dataset.v; d.auto = false; saveDraft(); },
+  sub: el => {
+    const d = curDraft(); if (!d) return;
+    const i = +el.dataset.i; d.sub[i] = d.sub[i] === el.dataset.v ? null : el.dataset.v;
+    const wa = d.sub.filter(x => x === 'a').length, wb = d.sub.filter(x => x === 'b').length;
+    if (wa >= 2 || wb >= 2) { d.w = wa >= 2 ? 'a' : 'b'; d.m = `${Math.max(wa, wb)}:${Math.min(wa, wb)}`; d.auto = true; }
+    else if (d.auto) { d.w = null; d.m = null; d.auto = false; }
+    saveDraft();
+  },
+  confirm: () => {
+    const t = ui.refT, it = curItem(), d = curDraft(); if (!it || !d || !d.w || !d.m) return;
+    const res = { w: d.w, m: d.m, wa: d.wa.slice(), pen: d.pen.slice(), ip: d.ip.slice(), ...(it.kind === 'team' ? { sub: d.sub.slice() } : {}) };
+    if (ui.edit) return saveEdit(t, it, res);
+    applyResult(t, it, res); commit(); toast(`Walka ${it.no}: ${advMsg(it, d.w === 'a' ? it.a : it.b)}`);
+  },
+  confirmKata: () => {
+    const t = ui.refT, it = curItem(); if (!it) return;
+    const d = ui.kd[it.key]; if (!d || !kataValid(d)) return;
+    const s = d.map(v => Math.round(parseSc(v) * 10) / 10), res = { s, tot: kataTot(s) };
+    if (ui.edit) return saveEdit(t, it, res);
+    applyResult(t, it, res); delete ui.kd[it.key]; commit(); toast(`${ent(it.a).name}: ${fmt1(res.tot)} pkt${catPlaces(cat(it.cat)).done ? ' · kategoria zakończona' : ''}`);
+  },
+  editRes: el => {
+    const t = ui.refT, m = S.mats[t], key = el.dataset.key;
+    if (m.active || m.last !== key) return toast('Poprawka zablokowana — rozpoczęto kolejną walkę (REQ-REF-07)');
+    const it = Q(t).find(i => i.key === key), r = it.res;
+    if (it.kind === 'kata') ui.kd[key] = r.s.map(fmt1);
+    ui.edit = { t, key, d: { wa: (r.wa || [0, 0]).slice(), ip: (r.ip || [0, 0]).slice(), pen: (r.pen || [0, 0]).slice(), w: r.w || null, m: r.m || null, auto: false, sub: (r.sub || [null, null, null]).slice(), hist: [] } };
+    render(true); window.scrollTo(0, 0);
+  },
+  qAll: () => { ui.qAll = !ui.qAll; ui.scrolledLive = null; render(true); },
+  cancelEdit: () => { if (ui.edit) delete ui.kd[ui.edit.key]; ui.edit = null; render(true); },
+};
+function shiftCat(id, dir) {
+  const c = cat(id), list = S.cats.filter(x => x.t === c.t && x.tatami === c.tatami).sort((a, b) => a.ord - b.ord), i = list.indexOf(c), o = list[i + dir];
+  if (!o || catBusy(c) || catBusy(o)) return;
+  [c.ord, o.ord] = [o.ord, c.ord]; commit();
+}
+const IN = {
+  pf: el => { ui.pf[el.dataset.k] = el.value; $('#peopleList').innerHTML = peopleList(); },
+  addQ: el => { ui.addQ = el.value; const c = cat(el.dataset.c); $('#addList').innerHTML = addList(c, c.br?.status === 'approved'); },
+  tf: el => { ui.tf[el.dataset.k] = el.value; },
+  cf: el => { ui.cf[el.dataset.k] = el.value; const n = $('#cfName'); if (n) n.textContent = catName(cfCat(ui.cf)); },
+  af: el => { ui.af[el.dataset.k] = el.value; },
+  ks: el => { const key = el.dataset.key; (ui.kd[key] = ui.kd[key] || ['', '', '', ''])[+el.dataset.i] = el.value; updKata(key); },
+};
+const CH = {
+  pf: el => { ui.pf[el.dataset.k] = el.value; $('#peopleList').innerHTML = peopleList(); },
+  go: el => { location.hash = el.dataset.base + el.value; },
+  at: el => { ui.at = el.value; render(true); },
+  ct: el => { ui.ct = el.value; render(true); },
+  addOnly: el => { ui.addOnly = el.checked; render(true); },
+  cf: el => { ui.cf[el.dataset.k] = el.value; $('#dwBody').innerHTML = catFormHTML(); },
+  af: el => { ui.af[el.dataset.k] = el.value; },
+  catMove: el => { const c = cat(el.dataset.id); if (catBusy(c)) return; moveCat(c, +el.value); commit(); toast(`${catShort(c)} → Tatami ${c.tatami}`); },
+};
+
+/* ===================== render ===================== */
+const route = () => location.hash.replace(/^#\/?/, '').split('/').filter(Boolean).map(decodeURIComponent);
+const zoneOf = r => r[0] === 'admin' ? 'admin' : r[0] === 'referee' ? 'referee' : 'pub';
+const ZONES = [['pub', '#/', 'Publiczna', '/'], ['admin', '#/admin', 'Panel', '/admin'], ['referee', '#/referee', 'Sędzia', '/referee']];
+function canon(r) {
+  const role = ui.user?.role;
+  if (r[0] === 'admin' && role === 'club' && r[1] !== 'klub') return ['admin', 'klub', 'na-zywo'];
+  if (r[0] === 'admin' && role === 'admin' && (!r[1] || r[1] === 'klub')) return ['admin', 'turnieje'];
+  return r;
+}
+function renderTop(r) {
+  const z = zoneOf(r), p = '#/' + r.join('/'), role = ui.user?.role;
+  $('#zones').innerHTML = ZONES.map(([k, h, l, s]) => `<a href="${h}" class="${k === z ? 'on' : ''}">${l}<small>${s}</small></a>`).join('');
+  let links = [];
+  if (z === 'pub') links = [['#/', 'Start'], ['#/live', 'Na żywo'], ['#/uczestnicy', 'Uczestnicy'], ['#/drabinki', 'Drabinki'], ['#/klasyfikacja', 'Klasyfikacja drużynowa'], ['#/specyfikacja', 'Pokrycie specyfikacji']];
+  else if (z === 'admin' && role === 'admin') links = [['#/admin/turnieje', 'Turnieje'], ['#/admin/kategorie', 'Kategorie'], ['#/admin/drabinki', 'Drabinki'], ['#/admin/harmonogram', 'Harmonogram'], ['#/admin/klasyfikacja', 'Klasyfikacja drużynowa']];
+  else if (z === 'admin' && role === 'club') links = [['#/admin/klub/na-zywo', 'Na żywo'], ['#/admin/klub/zawodnicy', 'Moi zawodnicy'], ['#/admin/klub/zgloszenia', 'Zgłoszenia']];
+  else if (z === 'referee' && role === 'ref') links = [['#/referee', 'Wybór tatami'], ...TABS.map(t => [`#/referee/tatami/${t}`, `Tatami ${t}`])];
+  const on = h => h === '#/' ? p === '#/' : p === h || (p.startsWith(h + '/') && h.split('/').length > 2);
+  $('#subnav').innerHTML = links.map(([h, l]) => `<a href="${h}" class="${on(h) ? 'on' : ''}">${l}</a>`).join('');
+  const u = ui.user;
+  $('#userBox').innerHTML = u ? `<span class="user-chip"><span class="avatar ${u.role === 'club' ? 'club' : u.role === 'ref' ? 'ref' : ''}" ${u.role === 'club' ? `style="--c:${club(u.club).c}"` : ''}>${esc(u.ini)}</span><span><b>${esc(u.name)}</b><small>${esc(u.sub)}</small></span><button data-act="logout">Wyloguj</button></span>` : '<a class="chipbtn" href="#/admin" style="text-decoration:none">Zaloguj</a>';
+  $('#reqBtn').setAttribute('aria-pressed', String(ui.reqs)); $('#simBtn').setAttribute('aria-pressed', String(ui.sim));
+  document.body.classList.toggle('reqs', ui.reqs);
+}
+function view(r) {
+  switch (r[0]) {
+    case undefined: return vHome();
+    case 'live': return vLive();
+    case 'uczestnicy': return vPeople();
+    case 'drabinki': return vBrackets(r[1]);
+    case 'klasyfikacja': return vTeam();
+    case 'specyfikacja': return vSpec();
+    case 'admin': return adminView(r.slice(1));
+    case 'referee': return refView(r.slice(1));
+  }
+  return '<div class="gate"><h2>Nie ma takiej strony</h2><a class="btn" href="#/">Strona główna</a></div>';
+}
+const footHTML = () => `<footer class="foot"><span>Mock wg specyfikacji wymagań (REQ). Dane przykładowe; stan zapisuje się w tej przeglądarce i synchronizuje między kartami.</span><span><a href="#/specyfikacja">Pokrycie specyfikacji</a> · <button class="lnk" data-act="reset">Resetuj dane demo</button></span></footer>`;
+function claimIfRef(r) {
+  if (ui.user?.role !== 'ref' || r[0] !== 'referee' || r[1] !== 'tatami') return;
+  const t = +r[2]; if (!TABS.includes(t)) return;
+  ui.refT = t;
+  const c = S.mats[t].ref;
+  if (!c || c.tab !== TAB || Date.now() - c.at > 8000) {
+    TABS.forEach(x => { if (x !== t && S.mats[x].ref?.tab === TAB) S.mats[x].ref = null; });
+    S.mats[t].ref = { tab: TAB, at: Date.now() }; saveUser();
+    setTimeout(() => commit({ quiet: true }), 0);
+  }
+}
+let pendingRender = false;
+const editing = () => { const a = document.activeElement; return !!a && a.matches('input:not([type=checkbox]),textarea') && $('#app').contains(a); };
+function render(force) {
+  if (!force && editing()) { pendingRender = true; return; }
+  pendingRender = false; qCache = null;
+  let r = route();
+  const c = canon(r);
+  if (c.join('/') !== r.join('/')) { history.replaceState(null, '', '#/' + c.join('/')); r = c; }
+  claimIfRef(r);
+  renderTop(r);
+  $('#app').innerHTML = view(r) + footHTML();
+  if (r[0] === 'referee') {
+    const el = $('#qLive') || $('.q-i.next'), box = $('.qlist');
+    if (el && box && ui.scrolledLive !== el.dataset.key) { ui.scrolledLive = el.dataset.key; box.scrollTop = Math.max(0, el.offsetTop - 60); }
+  }
+  fitTrees();
+}
+/* drabinka bez przewijania w bok: zmniejszamy ją do szerokości kolumny (do 60%) */
+function fitTrees() { document.querySelectorAll('#app .bk[data-w]').forEach(bk => { const z = bk.parentElement.clientWidth / (+bk.dataset.w + 44); bk.style.zoom = z < 1 && z >= .6 ? z.toFixed(3) : ''; }); }
+let fitT; window.addEventListener('resize', () => { clearTimeout(fitT); fitT = setTimeout(fitTrees, 120); });
+
+/* ===================== start ===================== */
+S = load();
+if (!S) { seed(); save(); }
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-act]'); if (!el || el.disabled) return;
+  const fn = ACT[el.dataset.act]; if (!fn) return;
+  e.preventDefault(); fn(el, e);
+});
+document.addEventListener('input', e => { const el = e.target.closest('[data-in]'); if (el && IN[el.dataset.in]) IN[el.dataset.in](el); });
+document.addEventListener('change', e => { const el = e.target.closest('[data-ch]'); if (el && CH[el.dataset.ch]) CH[el.dataset.ch](el); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { if (!$('#modal').hidden) { $('#modal').hidden = true; mdFn = null; } else closeDrawer(); }
+  if (e.key === 'Enter' && e.target.matches('[data-in="ks"]')) { e.preventDefault(); const nx = $('#ks' + (+e.target.dataset.i + 1)); if (nx) nx.focus(); else { const ok = $('#kataOk'); if (ok && !ok.disabled) ok.click(); } }
+});
+document.addEventListener('focusout', () => setTimeout(() => { if (pendingRender && !editing()) render(false); }, 60));
+window.addEventListener('hashchange', () => { ui.swap = null; ui.edit = null; closeDrawer(); render(true); window.scrollTo(0, 0); });
+render(true);
+setInterval(simTick, 1000);
+setInterval(() => claimIfRef(route()), 5000);
+</script>
+</body>
+</html>
