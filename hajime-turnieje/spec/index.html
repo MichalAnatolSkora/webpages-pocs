@@ -772,7 +772,7 @@ const NM = {
 const femSur = s => /(ski|cki|dzki)$/.test(s) ? s.slice(0, -1) + 'a' : s;
 
 /* ===================== stan ===================== */
-const VER = 4, KEY = 'hajime-spec-state';
+const VER = 5, KEY = 'hajime-spec-state';
 const TAB = Math.random().toString(36).slice(2, 8);
 let S = null;
 let qCache = null;
@@ -2276,6 +2276,8 @@ let fitT; window.addEventListener('resize', () => { clearTimeout(fitT); fitT = s
 
 /* ===================== start ===================== */
 S = load();
+/* zapisany turniej, który już się skończył, nie ma czego pokazać — startujemy od nowa */
+if (S && TABS.every(t => !S.mats[t].active && Q(t).every(i => i.res))) S = null;
 if (!S) { seed(); save(); }
 document.addEventListener('click', e => {
   const el = e.target.closest('[data-act]'); if (!el || el.disabled) return;
