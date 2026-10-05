@@ -813,11 +813,7 @@ body.z-pub .page-h .eyebrow{display:none}
   #print{display:block;color:#0d0f14;font:12px/1.4 var(--f-body);
     --paper:#fff; --surface:#fff; --surface-2:#f6f7fc; --surface-3:#eceef7; --ink:#0d0f14; --ink-2:#4b5175; --ink-3:#6e7390; --line:#d5d9e8; --line-2:#b9bed6;
     --ai:#2e3db3; --ai-soft:#e6e9fb; --aka:#d4213d; --aka-soft:#fde7ea; --ok:#14895a; --ok-soft:#e0f4ea; --gold:#c4951a; --silver:#8b95ab; --bronze:#b3683a}
-  #print .tree-only{display:block!important}
-  #print .rlist,#print .req,#print button.btn{display:none!important}
-  #print .bk-wrap{border:0;overflow:visible}
-  #print .pr-page{break-after:page}
-  #print .pr-page:last-child{break-after:auto}
+  #print .req,#print button.btn{display:none!important}
   #print h1{font-size:20px;margin:6px 0 10px}
   #print h2{font-size:17px;margin:0 0 4px}
   #print .pr-h{display:flex;justify-content:space-between;gap:12px;border-bottom:2px solid #0d0f14;padding-bottom:6px;margin-bottom:10px;font-size:11px}
@@ -1711,7 +1707,7 @@ function catNav(cats, sel, base) {
 function vBrackets(id) {
   const T = pubT(); if (!T) return noTour();
   const cats = tourCats(T), c = cats.find(x => x.id === id) || cats.find(x => catState(x)[1] === 'live') || cats[0];
-  return pageH('/drabinki', 'Drabinki', ['REQ-PUB-03'], '', `<button class="btn" data-act="pdfAll">Wszystkie do PDF ${rq('REQ-NFR-03')}</button>`)
+  return pageH('/drabinki', 'Drabinki', ['REQ-PUB-03'], '')
     + (c ? `<div class="bk-layout">${catNav(cats, c, '#/drabinki/')}<div>${catBlock(c, 'pub')}</div></div>` : '<div class="card empty">Brak kategorii.</div>');
 }
 function catHead(c, acts = '', full = true) {
@@ -1720,7 +1716,7 @@ function catHead(c, acts = '', full = true) {
    <div class="acts">${acts}</div></div>`;
 }
 function catBlock(c, mode, extra = '') {
-  const head = catHead(c, extra + `<button class="btn sm" data-act="pdfCat" data-id="${c.id}">PDF ${rq('REQ-NFR-03')}</button>`, mode !== 'pub');
+  const head = catHead(c, extra, mode !== 'pub');
   if (!c.br) return head + `<div class="card empty">Losowanie jeszcze się nie odbyło.</div>`;
   if (c.br.status === 'draft' && mode === 'pub') return head + `<div class="card empty">Drabinka jest w przygotowaniu — organizator jeszcze jej nie zatwierdził.</div>`;
   return head + podiumHTML(c) + bracketBody(c, mode);
@@ -2020,7 +2016,7 @@ function schedule(T) {
 function vAdmSched() {
   const T = adminT(); if (!T) return noTourAdm();
   const sch = schedule(T);
-  return pageH('/admin/harmonogram', 'Harmonogram tatami', ['REQ-ADM-08', 'REQ-NFR-03'], 'Kolejność kategorii na tatami i szacowane godziny (kumite 4 min, kata 3 min, drużyny 10 min na walkę). Bloki KATA / NO CONTACT / KUMITE tworzą się same z kolejności kategorii. Kategorie bez wyników możesz przesuwać i przenosić.', `<button class="btn" data-act="pdfSched">Harmonogram do PDF</button><button class="btn" data-act="pdfAll">Drabinki do PDF</button><a class="btn" href="#/tv" target="_blank" rel="noopener">Ekran hali (TV) ↗</a>`)
+  return pageH('/admin/harmonogram', 'Harmonogram tatami', ['REQ-ADM-08'], 'Kolejność kategorii na tatami i szacowane godziny (kumite 4 min, kata 3 min, drużyny 10 min na walkę). Bloki KATA / NO CONTACT / KUMITE tworzą się same z kolejności kategorii. Kategorie bez wyników możesz przesuwać i przenosić.', `<button class="btn" data-act="pdfSched">Harmonogram do PDF ${rq('REQ-NFR-03')}</button><a class="btn" href="#/tv" target="_blank" rel="noopener">Ekran hali (TV) ↗</a>`)
     + admCtx()
     + `<div class="sched">${TABS.map(t => `<section class="card sch-col"><h3>Tatami ${TL(t)}</h3>${sch[t].map((r, i) => {
       const busy = catBusy(r.c), up = i > 0 && !busy && !catBusy(sch[t][i - 1].c), down = i < sch[t].length - 1 && !busy && !catBusy(sch[t][i + 1].c);
@@ -2261,7 +2257,7 @@ const REQS = [
   ['7. Niefunkcjonalne'],
   ['REQ-NFR-01', 'Czas rzeczywisty bez odświeżania', 'BroadcastChannel między kartami zamiast WebSocket', '#/live', 'sim'],
   ['REQ-NFR-02', 'Sędzia i trener: dotyk, od 360 px', 'Duże przyciski, układ jednokolumnowy', '#/referee', 'ok'],
-  ['REQ-NFR-03', 'Drabinki i harmonogram do PDF', 'Przycisk PDF → okno druku → „Zapisz jako PDF”', '#/drabinki', 'sim'],
+  ['REQ-NFR-03', 'Drabinki i harmonogram do PDF', 'Tylko harmonogram (Panel → Harmonogram); PDF drabinek usunięty — patrz uwagi', '#/admin/harmonogram', 'cut'],
   ['8. Propozycje po feedbacku z hali (poza dokumentem)'],
   ['REQ-PUB-06*', 'Obserwowani zawodnicy bez logowania: tatami, numer walki, czas, strona AKA/SHIRO, wyniki', 'Start → wpisz nazwisko lub klub → ☆', '#/', 'new'],
   ['REQ-PUB-07*', 'Powiadomienia o obserwowanych: na 2 walki przed, „idź pod matę”, wynik (wibracja, dźwięk, baner)', 'Start → Obserwowani → Włącz powiadomienia', '#/', 'new'],
@@ -2280,6 +2276,7 @@ const QUESTIONS = [
   ['Bloki sesji na tatami', 'Rano na tatami idą zwykle bloki kata i no contact, potem kumite („Tatami A · KATA”). Specyfikacja przypisuje do tatami tylko kategorie. Mock: blok wynika z rodzaju kategorii i kolejności; harmonogram, tablica i ekran hali pokazują bloki z godzinami.'],
   ['Informacje o turnieju', 'Kibice i kluby szukają programu dnia, zasad weryfikacji, opłat i ochraniaczy — specyfikacja nie przewiduje komunikatu turnieju. Mock: zakładka Informacje z programem liczonym z harmonogramu i komunikatem z formularza turnieju.'],
   ['Wspólna lista walk', 'REQ-PUB-04 pokazuje tatami osobno; w hali przydaje się jedna lista wszystkich walk z filtrem klubu, maty, kategorii i nazwiska. Mock: „Wszystkie walki” na stronie Na żywo.'],
+  ['REQ-NFR-03 · PDF drabinek', 'Drabinki ogłasza się w dniu zawodów, po weryfikacji i ważeniu, a w hali wszyscy patrzą w telefon — nikt ich nie drukuje. Mock: PDF tylko dla harmonogramu w panelu organizatora. Proponuję usunąć drabinki z REQ-NFR-03 (albo całe wymaganie, jeśli harmonogram też nie jest drukowany).'],
   ['REQ-ADM-05', '„egzekwo” → „ex aequo”.'],
   ['REQ-ADM-07, REQ-ALG-01', 'W tekście brakuje symboli (po wklejeniu zostały puste znaki) — zapewne „N zawodników” i „n < 4”.'],
   ['REQ-ALG-01', 'Brak zasad remisu w tabeli „każdy z każdym”. Mock: 2 pkt za wygraną → bezpośredni pojedynek → liczba waza-ari. Czy przy 3 zawodnikach trzecie miejsce daje brąz (mock: tak)?'],
@@ -2293,8 +2290,8 @@ const QUESTIONS = [
   ['Czego brakuje', 'Ważenie i weryfikacja w dniu zawodów, praca przy stoliku sędziego bez internetu, godziny w harmonogramie (mock je szacuje), czas walki na tablicy wyników, opłaty startowe.'],
 ];
 function vSpec() {
-  const n = REQS.filter(r => r.length > 1 && r[4] !== 'new').length, sim = REQS.filter(r => r[4] === 'sim').length;
-  return pageH('/specyfikacja', 'Pokrycie specyfikacji', [], `Każde wymaganie z dokumentu ma swój ekran w mocku. ${n} wymagań: ${n - sim} pokazanych wprost, ${sim} zasymulowanych (logowanie, czas rzeczywisty, PDF). Numery REQ przy elementach włączasz przyciskiem „REQ” u góry (na telefonie — w stopce). Gwiazdka (*) oznacza propozycję spoza dokumentu.`)
+  const n = REQS.filter(r => r.length > 1 && r[4] !== 'new').length, sim = REQS.filter(r => r[4] === 'sim').length, cut = REQS.filter(r => r[4] === 'cut').length;
+  return pageH('/specyfikacja', 'Pokrycie specyfikacji', [], `Każde wymaganie z dokumentu ma swój ekran w mocku. ${n} wymagań: ${n - sim - cut} pokazanych wprost, ${sim} zasymulowane (logowanie, czas rzeczywisty), ${cut} zakwestionowane (PDF drabinek). Numery REQ przy elementach włączasz przyciskiem „REQ” u góry (na telefonie — w stopce). Gwiazdka (*) oznacza propozycję spoza dokumentu.`)
     + `<div class="howto">
       <div class="card"><h3>Na telefonie w hali</h3><p>Na stronie Start wpisz nazwisko albo klub i dotknij ☆. Karta pokaże tatami i kod walki (np. A22 = 22. walka na tatami A), ile walk zostało, stronę AKA/SHIRO i wyniki. „Włącz powiadomienia” — telefon da znać przed walką.</p></div>
       <div class="card"><h3>Ekran hali</h3><p><a href="#/tv" target="_blank" rel="noopener">Ekran na telewizor</a>: wszystkie tatami, walka teraz i na przygotowanie, ostatnie wyniki i kod QR, którym kibice otwierają obserwowanie zawodnika.</p></div>
@@ -2303,7 +2300,7 @@ function vSpec() {
       <div class="card"><h3>Widok klubu</h3><p>Zaloguj się jako klub (np. Żuraw Dojo) → Na żywo: zawodnicy klubu z numerem tatami i walki. Zgłoszenia działają dla Turnieju Jesiennego.</p></div>
     </div>
     <section class="card"><div class="scroll-x"><table class="t spec-t"><thead><tr><th>ID</th><th>Wymaganie</th><th>Gdzie w mocku</th><th>Stan</th></tr></thead><tbody>
-    ${REQS.map(r => r.length === 1 ? `<tr class="sec"><td colspan="4">${r[0]}</td></tr>` : `<tr><td>${r[0]}</td><td>${esc(r[1])}</td><td><a href="${r[3]}">${esc(r[2])}</a></td><td>${r[4] === 'ok' ? '<span class="pill ok">✓ w mocku</span>' : r[4] === 'new' ? '<span class="pill ai">+ propozycja</span>' : '<span class="pill warn">◐ symulacja</span>'}</td></tr>`).join('')}
+    ${REQS.map(r => r.length === 1 ? `<tr class="sec"><td colspan="4">${r[0]}</td></tr>` : `<tr><td>${r[0]}</td><td>${esc(r[1])}</td><td><a href="${r[3]}">${esc(r[2])}</a></td><td>${r[4] === 'ok' ? '<span class="pill ok">✓ w mocku</span>' : r[4] === 'new' ? '<span class="pill ai">+ propozycja</span>' : r[4] === 'cut' ? '<span class="pill bad">✕ zakwestionowane</span>' : '<span class="pill warn">◐ symulacja</span>'}</td></tr>`).join('')}
     </tbody></table></div></section>
     <section class="card" style="margin-top:16px"><h3>Uwagi i pytania do specyfikacji</h3><p class="muted small" style="margin:6px 0 14px">Miejsca, w których dokument jest niejednoznaczny albo czegoś brakuje — i jak mock je na razie rozstrzyga.</p><ol class="qs">${QUESTIONS.map(([k, t]) => `<li><b>${k}</b> — ${t}</li>`).join('')}</ol></section>`;
 }
@@ -2312,13 +2309,6 @@ function vSpec() {
 function printDoc(T, title, body, landscape) {
   $('#print').innerHTML = `<style>@page{size:A4 ${landscape ? 'landscape' : 'portrait'};margin:10mm}</style><div class="pr-h"><b>${esc(T ? T.name : 'Turniej')}</b><span>${T ? `${fmtDate(T.date)} · ${esc(T.place)}` : ''}</span><span>wydruk ${new Date().toLocaleString('pl-PL')}</span></div><h1>${esc(title)}</h1>${body}`;
   setTimeout(() => window.print(), 60);
-}
-function printCat(c) {
-  let body;
-  if (!c.br || c.br.status !== 'approved') body = '<p>Drabinka nie jest jeszcze zatwierdzona.</p>';
-  else if (c.br.sys === 'se') { const T = seTree(c), W = T.R * BX.COLW + (T.R - 1) * BX.GAP + 44, H = BX.TOP + T.size / 2 * BX.U + (T.b3 ? 112 : 0) + 44, z = Math.min(1, 1000 / W, 600 / H); body = podiumHTML(c) + `<div style="zoom:${z.toFixed(3)}">${treeHTML(c, 'print', T)}</div>`; }
-  else body = podiumHTML(c) + (c.br.sys === 'rr' ? rrHTML(c) : kataHTML(c));
-  return `<section class="pr-page"><h2>${esc(catName(c))}</h2><p class="pr-meta">Tatami ${TL(c.tatami)} · ${sysLabel(c)} · ${entCount(c)} · ${esc(criteria(c))}</p>${body}</section>`;
 }
 function printSched(T) {
   const sch = schedule(T), live = T === pubT();
@@ -2461,8 +2451,6 @@ const ACT = {
   catDown: el => shiftCat(el.dataset.id, 1),
   clsTog: el => { const T = adminT(), k = el.dataset.k; T.teamClubs = (T.teamClubs || []).includes(k) ? T.teamClubs.filter(x => x !== k) : [...(T.teamClubs || []), k]; commit(); },
   /* PDF */
-  pdfCat: el => { const c = cat(el.dataset.id); printDoc(tour(c.t), 'Drabinka', printCat(c), true); },
-  pdfAll: () => { const T = route()[0] === 'admin' ? adminT() : pubT(); printDoc(T, 'Drabinki i tabele', tourCats(T).map(printCat).join(''), true); },
   pdfSched: () => { const T = adminT(); printDoc(T, 'Harmonogram tatami', printSched(T), false); },
   /* klub */
   athNew: () => { ui.af = { id: null, fn: '', ln: '', dob: '', sex: 'M', g: 1, w: '' }; openDrawer('Nowy zawodnik', athFormHTML()); },
