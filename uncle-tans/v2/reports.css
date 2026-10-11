@@ -9,14 +9,12 @@
 /* filters – one row above everything they scope */
 .rfilters{position:sticky;top:0;z-index:30;background:rgba(250,246,240,.94);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
 .rfilters__inner{display:flex;align-items:center;gap:.6rem;padding-top:.55rem;padding-bottom:.55rem}
-.rchips{flex:1;min-width:0;display:flex;gap:.4rem;overflow-x:auto;scrollbar-width:none;
-  -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 24px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 24px),transparent)}
-.rchips button:last-child{margin-right:20px}
-.rchips::-webkit-scrollbar{display:none}
+.rchips{flex:1;min-width:0;display:flex;flex-wrap:wrap;gap:.4rem}   /* wraps on tablets – every period stays in view */
 .rchips button{flex:none;font-size:.86rem;font-weight:600;padding:.42rem .85rem;border-radius:999px;background:var(--white);border:1px solid var(--line);color:var(--ink-2);cursor:pointer;white-space:nowrap;transition:.15s}
 .rchips button:hover{color:var(--ink);border-color:var(--ink-3)}
 .rchips button.is-active{background:var(--ink);border-color:var(--ink);color:#fff}
-.rfilters__actions{flex:none;display:flex;gap:.4rem}
+.rchip__short{display:none}
+.rfilters__actions{flex:none;align-self:flex-start;display:flex;gap:.4rem}
 .rbtn{display:flex;align-items:center;gap:.35rem;height:34px;padding:0 .8rem;border-radius:999px;border:1px solid var(--line);background:var(--white);font-size:.82rem;font-weight:700;cursor:pointer;white-space:nowrap}
 .rbtn:hover{border-color:var(--ink-3)}
 
@@ -174,7 +172,15 @@
   .rkpi--hero{grid-column:1/-1}
 }
 @media (max-width:600px){
-  .rbtn{padding:0 .65rem}
+  /* every period in view at once: 4 presets, then 3 months + export / print – not a strip scrolled sideways */
+  .rfilters{position:static}
+  .rfilters__inner{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+  .rchips{display:contents}
+  .rchips button{padding:.45rem .2rem;font-size:.82rem;min-width:0;overflow:hidden;text-overflow:ellipsis}
+  .rchip__long{display:none}
+  .rchip__short{display:inline}
+  .rfilters__actions{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  .rbtn{justify-content:center;height:auto;min-height:34px;padding:0}
   .rbtn span{display:none}
   .rkpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
   .rkpi:last-child{grid-column:1/-1}
@@ -187,11 +193,20 @@
   .rseg{min-width:0;width:100%}
   .rchart__y,.rchart__plot{height:180px}
   .rheat__c{height:24px}
+  .rrank__top span{white-space:normal;overflow:visible}  /* long dish names and reasons wrap instead of being cut */
+  .rtable{font-size:.8rem}
+  .rtable th,.rtable td{padding:.35rem .3rem}
+  .rtable th{white-space:normal;vertical-align:bottom}
   .rrank li{grid-template-columns:1.2rem 32px minmax(0,1fr)}
   .rrank img{width:32px;height:32px}
   .rrank__alt{display:none}
   .rrow{grid-template-columns:minmax(0,1fr) 5.5rem}
   .rrow .muted{display:none}
+}
+@media (max-width:360px){
+  .rchips button{padding-left:.1rem;padding-right:.1rem;font-size:.76rem}
+  .rtable{font-size:.76rem}
+  .rtable th:nth-child(4),.rtable td:nth-child(4){display:none}   /* the average – sales ÷ orders – to fit the table */
 }
 
 /* print = the report for the selected period */

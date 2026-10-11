@@ -160,7 +160,7 @@ function periods() {
     { id: 'yesterday', label: t('r.p.yesterday'), from: addDays(today, -1), to: today, back: weekBefore, by: 'hour' },
     { id: '7d', label: t('r.p.7d'), from: addDays(today, -6), to: now, back: weekBefore, by: 'day' },
     { id: '30d', label: t('r.p.30d'), from: addDays(today, -29), to: now, back: ms => addDays(ms, -30), by: 'day' },
-    ...[0, 1, 2].map(k => ({ id: `m${k}`, label: cap(fmtDate(month(k), { month: 'long' })),
+    ...[0, 1, 2].map(k => ({ id: `m${k}`, label: cap(fmtDate(month(k), { month: 'long' })), short: cap(fmtDate(month(k), { month: 'short' })),
       from: month(k), to: k ? month(k - 1) : now, back: ms => addMonths(ms, -1), by: 'day' })),
   ];
 }
@@ -183,7 +183,8 @@ function render() {
   const live = p.to > dayStart(Date.now());
   document.title = `${t('r.title')} – ${R.name}`;
   $('#rPeriods').innerHTML = periods().map(x =>
-    `<button data-period="${x.id}" class="${x.id === ui.period ? 'is-active' : ''}">${x.label}</button>`).join('');
+    `<button data-period="${x.id}" class="${x.id === ui.period ? 'is-active' : ''}">${x.short             // short month names on phones
+      ? `<span class="rchip__long">${x.label}</span><span class="rchip__short">${x.short}</span>` : x.label}</button>`).join('');
   $('#rRange').innerHTML = `<strong>${fmtRange(p.from, p.to)}</strong>${live ? `<span class="rlive">${t('r.live')}</span>` : ''}
     <span class="muted">${t('r.vs', { range: fmtRange(p.back(p.from), p.back(p.to)) })}</span>`;
   $('#rPrintHead').textContent = `${R.name} · ${t('r.title')} · ${fmtRange(p.from, p.to)}`;
@@ -397,7 +398,7 @@ function serviceCard(s, cls) {
     : `<p class="muted">${t('r.s.no_rejects')}</p>`}</div></div>`);
 }
 
-/* ---------- tooltip: hover or keyboard focus; every value is also in a label, the table or the legend ---------- */
+/* ---------- tooltip: hover, tap or keyboard focus; every value is also in a label, the table or the legend ---------- */
 const tip = $('#rTip');
 let tipFor = null;
 function showTip(el) {
@@ -408,7 +409,11 @@ function showTip(el) {
   $('strong', tip).textContent = el.dataset.v;
   $('span', tip).textContent = el.dataset.l;
   tip.hidden = false;
-  const r = ($('i', el) ?? el).getBoundingClientRect(), w = tip.offsetWidth;
+  placeTip();
+}
+function placeTip() {                            // also on scroll – a tap on a phone can nudge the page, so it follows the mark
+  if (!tipFor) return;
+  const r = ($('i', tipFor) ?? tipFor).getBoundingClientRect(), w = tip.offsetWidth;
   tip.style.left = `${Math.min(innerWidth - w - 8, Math.max(8, r.left + r.width / 2 - w / 2))}px`;
   tip.style.top = `${Math.max(8, r.top - tip.offsetHeight - 8)}px`;
 }
@@ -447,7 +452,8 @@ document.addEventListener('click', e => {
 });
 document.addEventListener('pointerover', e => { const el = e.target.closest('[data-v]'); if (el) showTip(el); else hideTip(); });
 document.addEventListener('focusin', e => { const el = e.target.closest('[data-v]'); if (el) showTip(el); else hideTip(); });
-addEventListener('scroll', hideTip, { passive: true });
+addEventListener('scroll', placeTip, { passive: true });
+addEventListener('resize', placeTip);
 $$('.lang select').forEach(s => s.addEventListener('change', e => {
   LANG = e.target.value;
   store.set('v2_panel_lang', LANG);
