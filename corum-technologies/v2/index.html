@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Corum Technologies — Tech transfer EU ⇄ Asia</title>
+<title>Corum Technologies — Transfer technologii Europa ⇄ Azja</title>
 <meta name="description" content="Corum Technologies — transfer technologii i produkcja technologiczna między Europą a Azją.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -22,10 +22,10 @@
   --muted: #8a94a7;
   --dim: #5a6376;
   --a1: #5cf2c6;
-  --a2: #6d7bff;
-  --a3: #c86dff;
-  --grad: linear-gradient(100deg, var(--a1) 0%, var(--a2) 55%, var(--a3) 100%);
-  --mono: 'JetBrains Mono', ui-monospace, monospace;
+  --a2: #3d8bff;
+  --a3: #ffb547;
+  --grad: linear-gradient(100deg, var(--a1) 0%, var(--a2) 100%);
+  --mono: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   --sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   --r: 18px;
 }
@@ -72,7 +72,7 @@ nav.scrolled { background: rgba(10,13,20,0.85); border-color: var(--line-2); }
 .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 60px; padding: 0 12px 0 18px; }
 .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -0.02em; font-size: 1.05rem; }
 .logo svg { width: 26px; height: 26px; }
-.logo small { font-family: var(--mono); font-weight: 400; font-size: .7rem; color: var(--dim); margin-left: 2px; }
+.logo small { font-weight: 400; font-size: .95rem; color: var(--muted); margin-left: -4px; }
 .nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
 .nav-links a { padding: 8px 14px; border-radius: 9px; font-size: .9rem; color: var(--muted); transition: color .2s, background .2s; }
 .nav-links a:hover { color: var(--text); background: var(--panel-2); }
@@ -94,8 +94,8 @@ nav.scrolled { background: rgba(10,13,20,0.85); border-color: var(--line-2); }
   border: 1px solid transparent; cursor: pointer; font-family: inherit;
   transition: transform .2s, box-shadow .3s, background .2s, border-color .2s;
 }
-.btn-primary { background: var(--grad); color: #05070b; box-shadow: 0 0 0 0 rgba(109,123,255,0); }
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 40px -8px rgba(109,123,255,.6); }
+.btn-primary { background: var(--grad); color: #05070b; box-shadow: 0 0 0 0 rgba(61,139,255,0); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 40px -8px rgba(61,139,255,.6); }
 .btn-ghost { background: var(--panel); border-color: var(--line-2); color: var(--text); }
 .btn-ghost:hover { background: var(--panel-2); border-color: rgba(255,255,255,.25); }
 .btn .arrow { transition: transform .2s; }
@@ -106,13 +106,13 @@ nav.scrolled { background: rgba(10,13,20,0.85); border-color: var(--line-2); }
 #net { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
 .hero::after {
   content: ''; position: absolute; left: 50%; top: 18%; width: 900px; height: 500px; transform: translateX(-50%);
-  background: radial-gradient(closest-side, rgba(109,123,255,.22), transparent 70%);
+  background: radial-gradient(closest-side, rgba(61,139,255,.22), transparent 70%);
   filter: blur(20px); pointer-events: none; z-index: 0;
 }
 .hero .container { position: relative; z-index: 1; display: grid; grid-template-columns: 1.15fr .85fr; gap: 56px; align-items: center; }
 .pill {
   display: inline-flex; align-items: center; gap: 10px;
-  padding: 6px 14px 6px 8px; border-radius: 999px;
+  padding: 7px 16px 7px 12px; letter-spacing: .04em; border-radius: 999px;
   border: 1px solid var(--line-2); background: var(--panel);
   font-family: var(--mono); font-size: .75rem; color: var(--muted);
   margin-bottom: 28px;
@@ -124,33 +124,46 @@ nav.scrolled { background: rgba(10,13,20,0.85); border-color: var(--line-2); }
 .hero p.lead { font-size: 1.15rem; color: var(--muted); max-width: 540px; margin-bottom: 36px; }
 .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
 .hero-meta { display: flex; gap: 28px; margin-top: 48px; font-family: var(--mono); font-size: .75rem; color: var(--dim); flex-wrap: wrap; }
-.hero-meta span::before { content: '// '; color: var(--a2); }
+.hero-meta span { display: inline-flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: .1em; }
+.hero-meta span::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--a1); }
 
-/* console card */
-.console {
-  background: linear-gradient(180deg, rgba(20,25,38,.85), rgba(10,13,20,.9));
+/* project card */
+.project {
+  background: linear-gradient(180deg, rgba(20,26,38,.85), rgba(10,13,20,.9));
   border: 1px solid var(--line-2); border-radius: var(--r);
   box-shadow: 0 30px 80px -20px rgba(0,0,0,.8), inset 0 1px 0 rgba(255,255,255,.06);
-  overflow: hidden; font-family: var(--mono); font-size: .8rem;
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  overflow: hidden; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
 }
-.console-bar { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-bottom: 1px solid var(--line); color: var(--dim); }
-.console-bar i { width: 10px; height: 10px; border-radius: 50%; background: #2a3142; }
-.console-bar i:nth-child(1) { background: #ff5f57; } .console-bar i:nth-child(2) { background: #febc2e; } .console-bar i:nth-child(3) { background: #28c840; }
-.console-bar span { margin-left: auto; font-size: .7rem; }
-.console-body { padding: 18px 18px 8px; min-height: 252px; }
-.console-body .ln { white-space: pre-wrap; color: var(--muted); line-height: 1.75; }
-.console-body .ln .k { color: var(--a1); }
-.console-body .ln .v { color: var(--a2); }
-.console-body .ln .ok { color: #28c840; }
-.console-body .ln .p { color: var(--a3); }
-.caret { display: inline-block; width: 8px; height: 15px; background: var(--a1); vertical-align: -2px; animation: blink 1s steps(1) infinite; }
-@keyframes blink { 50% { opacity: 0; } }
-.console-foot { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); }
-.console-foot div { padding: 14px 16px; border-right: 1px solid var(--line); }
-.console-foot div:last-child { border-right: 0; }
-.console-foot small { display: block; color: var(--dim); font-size: .65rem; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 4px; }
-.console-foot strong { font-family: var(--sans); font-size: 1.05rem; font-weight: 600; }
+.project-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 18px 20px; border-bottom: 1px solid var(--line); }
+.project-head small { display: block; font-size: .68rem; color: var(--dim); text-transform: uppercase; letter-spacing: .1em; }
+.project-head strong { font-size: 1.05rem; font-weight: 600; }
+.status { font-size: .72rem; font-weight: 600; color: var(--a3); border: 1px solid rgba(255,181,71,.35); background: rgba(255,181,71,.08); padding: 5px 10px; border-radius: 999px; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
+.status::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--a3); }
+.route { padding: 18px 20px 6px; }
+.route svg { width: 100%; height: auto; display: block; overflow: visible; }
+.route .path { fill: none; stroke: var(--line-2); stroke-width: 1.5; stroke-dasharray: 4 6; }
+.route .path-on { fill: none; stroke: url(#rg); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 420; stroke-dashoffset: 420; transition: stroke-dashoffset 2.2s cubic-bezier(.2,.8,.2,1) .3s; }
+.project.in .route .path-on { stroke-dashoffset: 134; }
+.route .end { fill: var(--bg); stroke-width: 2; }
+.route .lbl-city { font-size: 12px; fill: var(--text); font-weight: 600; }
+.route .lbl-c { font-size: 10px; fill: var(--dim); letter-spacing: .08em; }
+.stages { list-style: none; padding: 6px 20px 18px; display: grid; gap: 2px; }
+.stages li { display: grid; grid-template-columns: 22px 1fr auto; align-items: center; gap: 12px; padding: 9px 0; font-size: .9rem; color: var(--muted); border-bottom: 1px solid var(--line); }
+.stages li:last-child { border-bottom: 0; }
+.stages .ck { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: .7rem; border: 1px solid var(--line-2); color: var(--dim); }
+.stages li.done { color: var(--text); }
+.stages li.done .ck { background: rgba(92,242,198,.12); border-color: rgba(92,242,198,.4); color: var(--a1); }
+.stages li.now .ck { border-color: var(--a3); color: var(--a3); }
+.stages li.now { color: var(--text); }
+.stages em { font-style: normal; font-size: .75rem; color: var(--dim); }
+.stages .prog { grid-column: 2 / 4; height: 4px; border-radius: 4px; background: var(--line); overflow: hidden; margin-top: -2px; }
+.stages .prog i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--a3), #ffd27a); border-radius: 4px; transition: width 1.6s cubic-bezier(.2,.8,.2,1) .4s; }
+.project.in .stages .prog i { width: 68%; }
+.project-foot { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); }
+.project-foot div { padding: 14px 18px; border-right: 1px solid var(--line); }
+.project-foot div:last-child { border-right: 0; }
+.project-foot small { display: block; color: var(--dim); font-size: .65rem; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 4px; }
+.project-foot strong { font-size: 1rem; font-weight: 600; }
 
 /* ── MARQUEE ── */
 .marquee { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: rgba(255,255,255,.015); overflow: hidden; padding: 20px 0; }
@@ -185,24 +198,24 @@ section { padding: 120px 0; position: relative; }
 /* ── BENTO ── */
 .bento { display: grid; grid-template-columns: repeat(6, 1fr); grid-auto-rows: minmax(220px, auto); gap: 16px; }
 .card {
-  position: relative; border-radius: var(--r); padding: 30px;
+  position: relative; border-radius: var(--r); padding: 64px 30px 30px;
   background: var(--panel); border: 1px solid var(--line);
   overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end;
   transition: border-color .3s, transform .3s;
 }
 .card::before {
   content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .3s;
-  background: radial-gradient(400px circle at var(--mx, 50%) var(--my, 50%), rgba(109,123,255,.14), transparent 60%);
+  background: radial-gradient(400px circle at var(--mx, 50%) var(--my, 50%), rgba(61,139,255,.14), transparent 60%);
 }
 .card:hover { border-color: var(--line-2); }
 .card:hover::before { opacity: 1; }
-.card .tag { position: absolute; top: 24px; left: 30px; font-family: var(--mono); font-size: .7rem; color: var(--dim); }
+.card .tag { position: absolute; top: 24px; left: 30px; font-size: .8rem; font-weight: 600; color: var(--dim); letter-spacing: .1em; }
 .card h3 { font-size: 1.5rem; letter-spacing: -0.025em; margin-bottom: 10px; position: relative; }
 .card p { color: var(--muted); font-size: .95rem; max-width: 440px; position: relative; }
 .c-trust { grid-column: span 4; grid-row: span 2; }
 .c-eff { grid-column: span 2; }
 .c-sup { grid-column: span 2; }
-.c-disc { grid-column: span 6; flex-direction: row; align-items: center; justify-content: space-between; gap: 40px; min-height: 0; }
+.c-disc { padding: 36px 30px; grid-column: span 6; flex-direction: row; align-items: center; justify-content: space-between; gap: 40px; min-height: 0; }
 .c-disc .txt { max-width: 520px; }
 
 .viz-orbit { position: absolute; top: 40px; right: -60px; width: 460px; height: 460px; opacity: .9; }
@@ -213,21 +226,21 @@ section { padding: 120px 0; position: relative; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 .viz-bars { display: flex; align-items: flex-end; gap: 6px; height: 70px; margin-bottom: 26px; }
-.viz-bars i { flex: 1; border-radius: 4px 4px 0 0; background: linear-gradient(180deg, var(--a2), rgba(109,123,255,.15)); height: 20%; transition: height 1s cubic-bezier(.2,.8,.2,1); }
+.viz-bars i { flex: 1; border-radius: 4px 4px 0 0; background: linear-gradient(180deg, var(--a2), rgba(61,139,255,.15)); height: 20%; transition: height 1s cubic-bezier(.2,.8,.2,1); }
 .card.in .viz-bars i { height: var(--h); }
 
-.viz-flow { display: flex; flex-direction: column; gap: 8px; margin-bottom: 26px; font-family: var(--mono); font-size: .72rem; }
+.viz-flow { display: flex; flex-direction: column; gap: 8px; margin-bottom: 26px; font-size: .82rem; }
 .viz-flow div { display: flex; align-items: center; gap: 10px; color: var(--muted); }
 .viz-flow div::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--a1); flex: none; }
 .viz-flow div span { margin-left: auto; color: var(--a1); }
 
-.lock { flex: none; width: 260px; font-family: var(--mono); font-size: .72rem; color: var(--dim); border: 1px dashed var(--line-2); border-radius: 12px; padding: 16px; line-height: 1.8; position: relative; }
-.lock b { color: var(--a3); font-weight: 400; }
-.lock .redact { background: var(--text); color: transparent; border-radius: 2px; user-select: none; }
+.lock { flex: none; width: 380px; list-style: none; display: grid; gap: 10px; }
+.lock li { display: flex; align-items: center; gap: 12px; font-size: .92rem; color: var(--text); padding: 12px 16px; border: 1px solid var(--line); border-radius: 12px; background: rgba(255,255,255,.02); }
+.lock span { width: 22px; height: 22px; flex: none; border-radius: 50%; display: grid; place-items: center; font-size: .7rem; background: rgba(92,242,198,.12); color: var(--a1); }
 
 /* ── MISSION / MAP ── */
 .mission { display: grid; grid-template-columns: .9fr 1.1fr; gap: 64px; align-items: center; }
-.map-wrap { position: relative; border: 1px solid var(--line); border-radius: var(--r); background: radial-gradient(ellipse at center, rgba(109,123,255,.08), transparent 70%), var(--bg-2); aspect-ratio: 16/11; overflow: hidden; }
+.map-wrap { position: relative; border: 1px solid var(--line); border-radius: var(--r); background: radial-gradient(ellipse at center, rgba(61,139,255,.08), transparent 70%), var(--bg-2); aspect-ratio: 16/11; overflow: hidden; }
 .map-wrap svg { width: 100%; height: 100%; display: block; }
 .map-wrap .lbl { font-family: var(--mono); font-size: 11px; fill: var(--muted); }
 .map-wrap .city { fill: var(--a1); }
@@ -248,7 +261,7 @@ section { padding: 120px 0; position: relative; }
 .pillars span { color: var(--muted); font-size: .92rem; }
 
 /* ── CONTACT ── */
-.contact-box { border: 1px solid var(--line-2); border-radius: 24px; overflow: hidden; display: grid; grid-template-columns: 1fr 1fr; background: linear-gradient(135deg, rgba(92,242,198,.06), rgba(109,123,255,.06) 50%, rgba(200,109,255,.05)); position: relative; }
+.contact-box { border: 1px solid var(--line-2); border-radius: 24px; overflow: hidden; display: grid; grid-template-columns: 1fr 1fr; background: linear-gradient(135deg, rgba(92,242,198,.06), rgba(61,139,255,.06) 50%, rgba(200,109,255,.05)); position: relative; }
 .contact-left { padding: 56px; border-right: 1px solid var(--line); display: flex; flex-direction: column; }
 .contact-left .h2 { font-size: clamp(2rem, 3.6vw, 2.8rem); }
 .reg { margin-top: auto; padding-top: 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
@@ -268,7 +281,7 @@ form { padding: 56px; display: grid; gap: 16px; align-content: start; }
 }
 .field select { appearance: none; -webkit-appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%); background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%; background-size: 5px 5px; background-repeat: no-repeat; }
 .field textarea { resize: vertical; min-height: 110px; }
-.field input:focus, .field textarea:focus, .field select:focus { border-color: var(--a2); box-shadow: 0 0 0 4px rgba(109,123,255,.15); }
+.field input:focus, .field textarea:focus, .field select:focus { border-color: var(--a2); box-shadow: 0 0 0 4px rgba(61,139,255,.15); }
 .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .chips input { display: none; }
@@ -294,7 +307,7 @@ footer { border-top: 1px solid var(--line); padding: 40px 0 48px; }
 /* ── RESPONSIVE ── */
 @media (max-width: 1000px) {
   .hero .container { grid-template-columns: 1fr; }
-  .console { max-width: 560px; }
+  .project { max-width: 560px; }
   .steps { grid-template-columns: 1fr 1fr; }
   .step:nth-child(2) { border-right: 0; }
   .step:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
@@ -326,7 +339,7 @@ footer { border-top: 1px solid var(--line); padding: 40px 0 48px; }
   .viz-orbit { width: 340px; height: 340px; right: -110px; top: 10px; opacity: .5; }
   .contact-left, form { padding: 32px 22px; }
   .row2 { grid-template-columns: 1fr; }
-  .console-foot strong { font-size: .9rem; }
+  .project-foot strong { font-size: .9rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -342,17 +355,17 @@ footer { border-top: 1px solid var(--line); padding: 40px 0 48px; }
   <div class="nav-inner">
     <a href="#" class="logo" aria-label="Corum Technologies">
       <svg viewBox="0 0 32 32" fill="none">
-        <defs><linearGradient id="lg" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#5cf2c6"/><stop offset=".55" stop-color="#6d7bff"/><stop offset="1" stop-color="#c86dff"/></linearGradient></defs>
+        <defs><linearGradient id="lg" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#5cf2c6"/><stop offset=".55" stop-color="#3d8bff"/><stop offset="1" stop-color="#ffb547"/></linearGradient></defs>
         <path d="M22.5 8.5A10 10 0 1 0 22.5 23.5" stroke="url(#lg)" stroke-width="3" stroke-linecap="round"/>
         <circle cx="16" cy="16" r="3" fill="url(#lg)"/>
       </svg>
-      corum<small>/tech</small>
+      Corum<small>Technologies</small>
     </a>
     <ul class="nav-links" id="links">
       <li><a href="#proces">Proces</a></li>
       <li><a href="#o-nas">O nas</a></li>
       <li><a href="#misja">Misja</a></li>
-      <li><a href="#kontakt" class="cta">Umów rozmowę</a></li>
+      <li><a href="#kontakt" class="cta">Kontakt</a></li>
     </ul>
     <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
@@ -364,27 +377,50 @@ footer { border-top: 1px solid var(--line); padding: 40px 0 48px; }
   <canvas id="net"></canvas>
   <div class="container">
     <div>
-      <div class="pill rv"><span class="dot"></span><b>NEW</b> Tech transfer EU ⇄ Asia</div>
+      <div class="pill rv"><span class="dot"></span>Transfer technologii · Europa ⇄ Azja</div>
       <h1 class="rv">Zbuduj z nami swój <span class="grad-text">rozwój gospodarczy.</span></h1>
       <p class="lead rv">Przenosimy technologie i produkcję między Europą a Azją — szybko, bezpiecznie i bez barier. Jeden partner od pierwszego kontaktu do skalowania.</p>
       <div class="hero-cta rv">
-        <a href="#kontakt" class="btn btn-primary">Zacznij projekt <span class="arrow">→</span></a>
+        <a href="#kontakt" class="btn btn-primary">Porozmawiajmy o projekcie <span class="arrow">→</span></a>
         <a href="#proces" class="btn btn-ghost">Jak to działa</a>
       </div>
       <div class="hero-meta rv">
         <span>transfer technologii</span>
         <span>produkcja technologiczna</span>
-        <span>B2B matching</span>
+        <span>partnerstwa B2B</span>
       </div>
     </div>
 
-    <div class="console rv" aria-hidden="true">
-      <div class="console-bar"><i></i><i></i><i></i><span>corum://pipeline</span></div>
-      <div class="console-body" id="term"></div>
-      <div class="console-foot">
-        <div><small>Rynki</small><strong>EU + Asia</strong></div>
+    <div class="project rv" aria-hidden="true">
+      <div class="project-head">
+        <div><small>Przykładowy projekt</small><strong>Moduł czujnikowy — transfer produkcji</strong></div>
+        <span class="status">W realizacji</span>
+      </div>
+      <div class="route">
+        <svg viewBox="0 0 400 96">
+          <defs><linearGradient id="rg" x1="0" x2="1"><stop stop-color="#5cf2c6"/><stop offset="1" stop-color="#3d8bff"/></linearGradient></defs>
+          <path class="path" d="M20 50 C 130 -6, 270 -6, 380 50"/>
+          <path class="path-on" id="routeOn" d="M20 50 C 130 -6, 270 -6, 380 50"/>
+          <circle r="5" fill="#ffb547"><animateMotion dur="5s" repeatCount="indefinite" keyPoints="0;0.68;0.68" keyTimes="0;0.7;1" calcMode="linear" path="M20 50 C 130 -6, 270 -6, 380 50"/></circle>
+          <circle class="end" cx="20" cy="50" r="6" stroke="#5cf2c6"/>
+          <circle class="end" cx="380" cy="50" r="6" stroke="#3d8bff"/>
+          <text class="lbl-city" x="20" y="76" text-anchor="start">Łódź</text>
+          <text class="lbl-c" x="20" y="88" text-anchor="start">POLSKA</text>
+          <text class="lbl-city" x="380" y="76" text-anchor="end">Shenzhen</text>
+          <text class="lbl-c" x="380" y="88" text-anchor="end">CHINY</text>
+        </svg>
+      </div>
+      <ul class="stages">
+        <li class="done"><span class="ck">✓</span>Analiza technologii<em>zakończone</em></li>
+        <li class="done"><span class="ck">✓</span>Dobór partnera produkcyjnego<em>zakończone</em></li>
+        <li class="done"><span class="ck">✓</span>Transfer dokumentacji<em>zakończone</em></li>
+        <li class="now"><span class="ck">4</span>Seria pilotażowa + kontrola jakości<em>68%</em><span class="prog"><i></i></span></li>
+        <li><span class="ck">5</span>Produkcja seryjna<em>następny etap</em></li>
+      </ul>
+      <div class="project-foot">
+        <div><small>Rynki</small><strong>Europa + Azja</strong></div>
         <div><small>Model</small><strong>B2B</strong></div>
-        <div><small>Status</small><strong class="grad-text">online</strong></div>
+        <div><small>Poufność</small><strong>NDA</strong></div>
       </div>
     </div>
   </div>
@@ -409,10 +445,10 @@ footer { border-top: 1px solid var(--line); padding: 40px 0 48px; }
       <p class="sub rv">Zamiast miesięcy negocjacji i niepewności — jasny pipeline, w którym w każdym momencie wiesz, na jakim etapie jest Twój projekt.</p>
     </div>
     <div class="steps rv" id="steps">
-      <div class="step"><div class="num"><em>01</em><span>discover</span></div><h3>Analiza</h3><p>Poznajemy technologię, rynek docelowy i cele biznesowe. Identyfikujemy bariery zanim staną się problemem.</p><span class="bar"></span></div>
-      <div class="step"><div class="num"><em>02</em><span>match</span></div><h3>Dopasowanie</h3><p>Łączymy Cię ze sprawdzonymi partnerami w Europie i Azji — producentami, dostawcami, inwestorami.</p><span class="bar"></span></div>
-      <div class="step"><div class="num"><em>03</em><span>transfer</span></div><h3>Transfer</h3><p>Przeprowadzamy transfer technologii i uruchomienie produkcji z kontrolą jakości na każdym etapie.</p><span class="bar"></span></div>
-      <div class="step"><div class="num"><em>04</em><span>scale</span></div><h3>Skalowanie</h3><p>Optymalizujemy przepływy produktów i usług, aby Twój biznes rósł szybciej i taniej.</p><span class="bar"></span></div>
+      <div class="step"><div class="num"><em>01</em><span>etap</span></div><h3>Analiza</h3><p>Poznajemy technologię, rynek docelowy i cele biznesowe. Identyfikujemy bariery zanim staną się problemem.</p><span class="bar"></span></div>
+      <div class="step"><div class="num"><em>02</em><span>etap</span></div><h3>Dopasowanie</h3><p>Łączymy Cię ze sprawdzonymi partnerami w Europie i Azji — producentami, dostawcami, inwestorami.</p><span class="bar"></span></div>
+      <div class="step"><div class="num"><em>03</em><span>etap</span></div><h3>Transfer</h3><p>Przeprowadzamy transfer technologii i uruchomienie produkcji z kontrolą jakości na każdym etapie.</p><span class="bar"></span></div>
+      <div class="step"><div class="num"><em>04</em><span>etap</span></div><h3>Skalowanie</h3><p>Optymalizujemy przepływy produktów i usług, aby Twój biznes rósł szybciej i taniej.</p><span class="bar"></span></div>
     </div>
   </div>
 </section>
@@ -425,24 +461,24 @@ footer { border-top: 1px solid var(--line); padding: 40px 0 48px; }
         <div class="eyebrow rv">O nas</div>
         <h2 class="h2 rv">Zbudowani na czterech fundamentach.</h2>
       </div>
-      <p class="sub rv">Działamy jak zespół startupowy — szybko i elastycznie — ale z odpowiedzialnością partnera, któremu powierzasz kluczowe know-how.</p>
+      <p class="sub rv">Działamy szybko i elastycznie, ale z odpowiedzialnością partnera, któremu powierzasz kluczowe know-how.</p>
     </div>
 
     <div class="bento">
       <article class="card c-trust rv">
-        <span class="tag">01 / trust</span>
+        <span class="tag">01</span>
         <svg class="viz-orbit" viewBox="0 0 460 460" aria-hidden="true">
           <circle cx="230" cy="230" r="80"/><circle cx="230" cy="230" r="140"/><circle cx="230" cy="230" r="200" stroke-dasharray="3 6"/>
-          <g class="rot"><circle class="sat" cx="370" cy="230" r="5"/><circle class="sat" cx="90" cy="230" r="3" style="fill:#6d7bff"/></g>
-          <g class="rot r2"><circle class="sat" cx="230" cy="30" r="4" style="fill:#c86dff"/><circle class="sat" cx="230" cy="310" r="3"/></g>
-          <circle cx="230" cy="230" r="22" style="fill:rgba(109,123,255,.2);stroke:#6d7bff"/>
+          <g class="rot"><circle class="sat" cx="370" cy="230" r="5"/><circle class="sat" cx="90" cy="230" r="3" style="fill:#3d8bff"/></g>
+          <g class="rot r2"><circle class="sat" cx="230" cy="30" r="4" style="fill:#ffb547"/><circle class="sat" cx="230" cy="310" r="3"/></g>
+          <circle cx="230" cy="230" r="22" style="fill:rgba(61,139,255,.2);stroke:#3d8bff"/>
         </svg>
         <h3>Zaufanie</h3>
         <p>Specjalizujemy się w obsłudze transferów technologii oraz produkcji technologicznej. Jesteśmy zaufanym partnerem dla zespołów z Europy i Azji.</p>
       </article>
 
       <article class="card c-eff rv">
-        <span class="tag">02 / efficiency</span>
+        <span class="tag">02</span>
         <div class="viz-bars" aria-hidden="true">
           <i style="--h:30%"></i><i style="--h:42%"></i><i style="--h:38%"></i><i style="--h:55%"></i><i style="--h:63%"></i><i style="--h:78%"></i><i style="--h:100%"></i>
         </div>
@@ -451,7 +487,7 @@ footer { border-top: 1px solid var(--line); padding: 40px 0 48px; }
       </article>
 
       <article class="card c-sup rv">
-        <span class="tag">03 / support</span>
+        <span class="tag">03</span>
         <div class="viz-flow" aria-hidden="true">
           <div>bariery technologiczne<span>↓</span></div>
           <div>przepływ produktów<span>↑</span></div>
@@ -463,17 +499,15 @@ footer { border-top: 1px solid var(--line); padding: 40px 0 48px; }
 
       <article class="card c-disc rv">
         <div class="txt">
-          <span class="tag" style="position:static;display:block;margin-bottom:28px;">04 / discretion</span>
+          <span class="tag" style="position:static;display:block;margin-bottom:28px;">04</span>
           <h3>Dyskrecja</h3>
           <p>Transparentne zasady relacji biznesowych i pozycja zaufanego partnera. Twoje know-how pozostaje Twoje.</p>
         </div>
-        <div class="lock" aria-hidden="true">
-          <b>// NDA: active</b><br>
-          project: <span class="redact">██████████</span><br>
-          partner: <span class="redact">████████</span><br>
-          ip_owner: client<br>
-          access: need-to-know
-        </div>
+        <ul class="lock" aria-hidden="true">
+          <li><span>✓</span>Umowa NDA przed pierwszą wymianą danych</li>
+          <li><span>✓</span>Ochrona własności intelektualnej klienta</li>
+          <li><span>✓</span>Dostęp wyłącznie dla zaangażowanych osób</li>
+        </ul>
       </article>
     </div>
   </div>
@@ -505,7 +539,7 @@ footer { border-top: 1px solid var(--line); padding: 40px 0 48px; }
     <div class="map-wrap rv">
       <svg viewBox="0 0 640 440" id="map" aria-label="Połączenia Europa — Azja">
         <defs>
-          <linearGradient id="arcg" x1="0" x2="1"><stop stop-color="#5cf2c6"/><stop offset=".6" stop-color="#6d7bff"/><stop offset="1" stop-color="#c86dff"/></linearGradient>
+          <linearGradient id="arcg" x1="0" x2="1"><stop stop-color="#5cf2c6"/><stop offset=".6" stop-color="#3d8bff"/><stop offset="1" stop-color="#ffb547"/></linearGradient>
         </defs>
         <g id="dots"></g>
         <path class="arc" d="M150 150 Q 300 40 470 170"/>
@@ -578,7 +612,7 @@ footer { border-top: 1px solid var(--line); padding: 40px 0 48px; }
     <div class="foot">
       <span>© 2026 Corum Technologies Sp. z o.o.</span>
       <div class="links"><a href="#proces">Proces</a><a href="#o-nas">O nas</a><a href="#misja">Misja</a><a href="#kontakt">Kontakt</a></div>
-      <span>EU ⇄ Asia · built for builders</span>
+      <span>Europa ⇄ Azja</span>
     </div>
     <div class="big-word">corum</div>
   </div>
@@ -628,33 +662,7 @@ document.getElementById('form').addEventListener('submit', e => {
   showToast('Dziękujemy! Odezwiemy się wkrótce.');
 });
 
-// terminal typing
-const lines = [
-  '<span class="p">$</span> corum init --project <span class="v">"sensor-line"</span>',
-  '<span class="k">→</span> origin:   <span class="v">EU</span>  target: <span class="v">ASIA</span>',
-  '<span class="k">→</span> scanning partners… <span class="ok">12 matched</span>',
-  '<span class="k">→</span> NDA signed           <span class="ok">✓</span>',
-  '<span class="k">→</span> tech transfer        <span class="ok">✓</span>',
-  '<span class="k">→</span> QA pilot batch       <span class="ok">✓ passed</span>',
-  '<span class="p">$</span> corum scale <span class="k">--go</span>'
-];
-const term = document.getElementById('term');
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-function runTerm() {
-  term.innerHTML = '';
-  let i = 0;
-  const caret = '<span class="caret"></span>';
-  const tick = () => {
-    if (i < lines.length) {
-      const prev = term.querySelector('.caret'); if (prev) prev.remove();
-      const d = document.createElement('div'); d.className = 'ln'; d.innerHTML = lines[i] + ' ' + caret;
-      term.appendChild(d); i++;
-      setTimeout(tick, reduce ? 0 : 650 + Math.random() * 400);
-    } else if (!reduce) setTimeout(runTerm, 4000);
-  };
-  tick();
-}
-runTerm();
 
 // map dot grid (rough Eurasia silhouette)
 (function () {
@@ -698,7 +706,7 @@ runTerm();
       for (let j = i + 1; j < pts.length; j++) {
         const b = pts[j], dx = a.x - b.x, dy = a.y - b.y, d = dx * dx + dy * dy;
         if (d < 15000) {
-          ctx.strokeStyle = `rgba(109,123,255,${.18 * (1 - d / 15000)})`;
+          ctx.strokeStyle = `rgba(61,139,255,${.18 * (1 - d / 15000)})`;
           ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
         }
       }
