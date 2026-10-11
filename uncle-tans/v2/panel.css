@@ -18,6 +18,9 @@
 .ptop__sound{flex:none;display:flex;align-items:center;gap:.4rem;height:34px;padding:0 .75rem;border-radius:999px;border:1px solid var(--line);background:var(--white);cursor:pointer;font-size:.82rem;font-weight:700}
 .ptop__sound:hover{border-color:var(--ink-3)}
 .ptop__sound[aria-pressed=false]{color:var(--ink-3)}
+/* panel ⇄ reports (reports.html) */
+.ptop__nav{flex:none;display:flex;align-items:center;gap:.4rem;height:34px;padding:0 .75rem;border-radius:999px;border:1px solid var(--line);background:var(--white);font-size:.82rem;font-weight:700;text-decoration:none;white-space:nowrap}
+.ptop__nav:hover{border-color:var(--ink-3)}
 .ptop .lang__code{display:none}
 .punlock{flex:none;border:0;background:var(--amber-soft);color:var(--amber);font-size:.9rem;font-weight:700;padding:.65rem 16px;cursor:pointer;border-bottom:1px solid #f3e1b8}
 
@@ -135,8 +138,8 @@
   .pactions{padding-left:16px;padding-right:16px}
   .pfact strong{font-size:1.1rem}
   .ptop__stats{display:none}
-  .ptop__sound{margin-left:auto}
-  .ptop__sound span,.ptop .lang__name{display:none}
+  .ptop__nav{margin-left:auto}
+  .ptop__nav span,.ptop__sound span,.ptop .lang__name{display:none}
   .ptop .lang__code{display:inline}
   .peta button{height:44px;font-size:.88rem}
 }

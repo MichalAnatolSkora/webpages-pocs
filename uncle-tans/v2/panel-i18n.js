@@ -2,7 +2,7 @@
 // progress (`track.*`), reject reasons (`reason.*`) – live in i18n.js.
 Object.entries({
   pl: {
-    'p.title': 'Panel zamówień', 'p.today': 'Dziś: {n} zam. · {sum}',
+    'p.title': 'Panel zamówień', 'p.reports': 'Raporty', 'p.today': 'Dziś: {n} zam. · {sum}',
     'p.sound_on': 'Dźwięk włączony', 'p.sound_off': 'Dźwięk wyłączony',
     'p.unlock': '🔔 Dotknij ekranu, aby włączyć dźwięk nowych zamówień',
     'p.tab.active': 'Aktywne', 'p.tab.closed': 'Zakończone',
@@ -29,7 +29,7 @@ Object.entries({
     'p.demo.hint': 'Złóż zamówienie w menu klienta albo użyj „Symuluj zamówienie” na górze.',
   },
   en: {
-    'p.title': 'Orders panel', 'p.today': 'Today: {n} orders · {sum}',
+    'p.title': 'Orders panel', 'p.reports': 'Reports', 'p.today': 'Today: {n} orders · {sum}',
     'p.sound_on': 'Sound on', 'p.sound_off': 'Sound off',
     'p.unlock': '🔔 Tap the screen to turn on the new-order sound',
     'p.tab.active': 'Active', 'p.tab.closed': 'Completed',
@@ -56,7 +56,7 @@ Object.entries({
     'p.demo.hint': 'Place an order in the customer menu or use “Simulate an order” at the top.',
   },
   de: {
-    'p.title': 'Bestell-Panel', 'p.today': 'Heute: {n} Best. · {sum}',
+    'p.title': 'Bestell-Panel', 'p.reports': 'Berichte', 'p.today': 'Heute: {n} Best. · {sum}',
     'p.sound_on': 'Ton an', 'p.sound_off': 'Ton aus',
     'p.unlock': '🔔 Tippe auf den Bildschirm, um den Ton für neue Bestellungen einzuschalten',
     'p.tab.active': 'Aktiv', 'p.tab.closed': 'Abgeschlossen',
@@ -83,7 +83,7 @@ Object.entries({
     'p.demo.hint': 'Bestelle im Kundenmenü oder nutze oben „Bestellung simulieren“.',
   },
   vi: {
-    'p.title': 'Quản lý đơn hàng', 'p.today': 'Hôm nay: {n} đơn · {sum}',
+    'p.title': 'Quản lý đơn hàng', 'p.reports': 'Báo cáo', 'p.today': 'Hôm nay: {n} đơn · {sum}',
     'p.sound_on': 'Âm thanh: bật', 'p.sound_off': 'Âm thanh: tắt',
     'p.unlock': '🔔 Chạm vào màn hình để bật âm báo đơn mới',
     'p.tab.active': 'Đang xử lý', 'p.tab.closed': 'Đã xong',

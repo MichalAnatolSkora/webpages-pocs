@@ -1,0 +1,204 @@
+/* Reports (reports.html), on top of styles.css and panel.css (demo bar, top bar). A normal scrolling page – the owner
+   reads it on a laptop or a phone, not on the counter tablet.
+   Charts: one series = the brand orange; a two-part split = blue + orange (validated for colour blindness);
+   the heatmap = orange from light to dark. Thin bars with 4px rounded ends, 2px gaps, hairline grid. */
+.reports-page{--blue:#1d5fbf;--c-a:#2a78d6;--c-b:var(--accent)}
+.reports-page .ptop__nav{margin-left:auto}
+.rwrap{max-width:1180px;margin:0 auto;padding-left:16px;padding-right:16px}
+
+/* filters – one row above everything they scope */
+.rfilters{position:sticky;top:0;z-index:30;background:rgba(250,246,240,.94);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
+.rfilters__inner{display:flex;align-items:center;gap:.6rem;padding-top:.55rem;padding-bottom:.55rem}
+.rchips{flex:1;min-width:0;display:flex;gap:.4rem;overflow-x:auto;scrollbar-width:none;
+  -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 24px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 24px),transparent)}
+.rchips button:last-child{margin-right:20px}
+.rchips::-webkit-scrollbar{display:none}
+.rchips button{flex:none;font-size:.86rem;font-weight:600;padding:.42rem .85rem;border-radius:999px;background:var(--white);border:1px solid var(--line);color:var(--ink-2);cursor:pointer;white-space:nowrap;transition:.15s}
+.rchips button:hover{color:var(--ink);border-color:var(--ink-3)}
+.rchips button.is-active{background:var(--ink);border-color:var(--ink);color:#fff}
+.rfilters__actions{flex:none;display:flex;gap:.4rem}
+.rbtn{display:flex;align-items:center;gap:.35rem;height:34px;padding:0 .8rem;border-radius:999px;border:1px solid var(--line);background:var(--white);font-size:.82rem;font-weight:700;cursor:pointer;white-space:nowrap}
+.rbtn:hover{border-color:var(--ink-3)}
+
+.rmain{padding-top:1rem;padding-bottom:2.5rem}
+.rrange{display:flex;flex-wrap:wrap;align-items:center;gap:.25rem .6rem;font-size:.88rem;margin-bottom:.8rem}
+.rrange strong{font-size:1.05rem}
+.rlive{display:inline-flex;align-items:center;gap:.35rem;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--green);background:var(--green-soft);padding:.12rem .55rem;border-radius:999px}
+.rlive::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor;animation:rpulse 1.6s ease-in-out infinite}
+@keyframes rpulse{50%{opacity:.25}}
+
+/* KPI tiles – sales leads */
+.rkpis{display:grid;grid-template-columns:1.5fr repeat(3,minmax(0,1fr));gap:12px;margin-bottom:12px}
+.rkpi{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:.9rem 1rem;box-shadow:var(--shadow-sm);min-width:0}
+.rkpi small{display:block;font-size:.82rem;font-weight:700;color:var(--ink-2)}
+.rkpi strong{display:block;font-size:1.9rem;font-weight:800;line-height:1.2;margin-top:.15rem;letter-spacing:-.01em;white-space:nowrap}
+.rkpi--hero strong{font-size:3rem;line-height:1.1}
+.rkpi--bad strong{color:var(--red)}
+.rdelta{font-size:.8rem;color:var(--ink-2);margin-top:.25rem}
+.rdelta b{font-weight:800;margin-right:.15rem}
+.rdelta .is-good{color:var(--green)}
+.rdelta .is-bad{color:var(--red)}
+.rkpi__sub{font-size:.78rem;color:var(--ink-3);margin-top:.3rem}
+.rkpi__sub:empty{display:none}
+.rkpi__open{color:var(--blue);font-weight:700}
+
+/* cards */
+.rgrid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+.rcard{grid-column:span 3;background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:1rem 1.15rem 1.15rem;box-shadow:var(--shadow-sm);min-width:0}
+.rcard--full{grid-column:1/-1}
+.rcard--wide{grid-column:span 4}
+.rcard--narrow{grid-column:span 2}
+.rcard__head{display:flex;align-items:flex-start;justify-content:space-between;gap:.8rem;margin-bottom:.9rem}
+.rcard__head h2{font-size:1.05rem;font-weight:800;line-height:1.3}
+.rcard__sub{font-size:.82rem;color:var(--ink-2)}
+.rseg{flex:none;min-width:200px}
+.rseg button{padding:.38rem .7rem;font-size:.8rem}
+.rempty{text-align:center;color:var(--ink-2);padding:3rem 1rem}
+.rh3{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);margin:1.2rem 0 .45rem}
+
+/* column chart: y ticks | plot, then the x labels */
+.rchart{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:.5rem}
+.rchart__y,.rchart__plot{position:relative;height:220px}
+.rchart__y{min-width:2rem}
+.rchart__y span{position:absolute;right:0;transform:translateY(50%);font-size:.72rem;line-height:1;color:var(--ink-3);font-variant-numeric:tabular-nums;white-space:nowrap}
+.rchart__grid{position:absolute;left:0;right:0;height:1px;background:var(--line)}
+.rchart__grid:first-child{background:#d8cdc1}
+.rchart__bars{position:absolute;inset:0;display:flex;gap:2px}
+.rcol{flex:1;min-width:0;height:100%;display:flex;align-items:flex-end;justify-content:center;border:0;background:none;padding:0;border-radius:6px 6px 0 0;cursor:default}
+.rcol i{display:block;width:min(24px,72%);background:var(--accent);border-radius:4px 4px 0 0;transition:filter .15s}
+.rcol.is-now i{background:color-mix(in srgb,var(--accent) 45%,var(--white))}
+.rcol.is-hover{background:rgba(31,26,23,.045)}
+.rcol.is-hover i{filter:brightness(1.12)}
+.rcol:focus-visible{outline-offset:-2px}
+.rchart__x{display:flex;gap:2px;margin-top:.4rem}
+.rchart__x span{flex:1;min-width:0;display:flex;justify-content:center;font-size:.72rem;color:var(--ink-3);white-space:nowrap;font-variant-numeric:tabular-nums}
+
+/* the chart's table view */
+.rtable{margin-top:.9rem;font-size:.86rem}
+.rtable summary{cursor:pointer;font-weight:700;color:var(--ink-2);font-size:.84rem;width:max-content}
+.rtable__scroll{overflow:auto;max-height:340px;margin-top:.5rem}
+.rtable table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.rtable th,.rtable td{text-align:right;padding:.4rem .6rem;border-bottom:1px solid var(--line);white-space:nowrap}
+.rtable th:first-child,.rtable td:first-child{text-align:left}
+.rtable th{position:sticky;top:0;background:var(--white);font-size:.75rem;font-weight:700;color:var(--ink-2)}
+.rtable tfoot td{font-weight:800;border-bottom:0}
+
+/* two-part split + legend */
+.rstack{display:flex;gap:2px;height:14px;border-radius:4px;overflow:hidden}
+.rstack i{min-width:2px}
+.rstack--a{background:var(--c-a)}
+.rstack--b{background:var(--c-b)}
+.rlegend{list-style:none;display:flex;flex-wrap:wrap;gap:.3rem 1.2rem;margin-top:.6rem;font-size:.86rem}
+.rlegend li{display:flex;align-items:center;gap:.4rem}
+.rlegend li>i{width:10px;height:10px;border-radius:3px;flex:none}
+.rlegend b{font-weight:800}
+
+/* payments */
+.rrows{margin-top:1rem;font-size:.9rem}
+.rrow{display:grid;grid-template-columns:minmax(0,1fr) auto 6.5rem;gap:.8rem;align-items:baseline;padding:.45rem 0;border-bottom:1px solid var(--line)}
+.rrow>:last-child{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.rrow .muted{font-size:.82rem;white-space:nowrap}
+.rrow--total{font-weight:800;border-bottom:0;padding-top:.65rem}
+.rrow--total b{font-size:1.05rem}
+.rrow--sub{font-size:.82rem;color:var(--ink-2);border-bottom:0;padding-top:0}
+.rrow--refund{border-top:1px solid var(--line);border-bottom:0;margin-top:.3rem;color:var(--red)}
+.rnote{font-size:.8rem;background:#fff6e5;color:#8a5a00;border-radius:10px;padding:.55rem .75rem;margin-top:.9rem}
+
+/* small figures */
+.rsplit{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:1rem}
+.rmini{border:1.5px solid var(--line);border-radius:14px;padding:.7rem .85rem;min-width:0}
+.rmini small{display:block;font-size:.8rem;font-weight:700;color:var(--ink-2)}
+.rmini strong{display:block;font-size:1.35rem;font-weight:800;line-height:1.25;margin-top:.1rem}
+.rmini p{font-size:.78rem;color:var(--ink-3);margin-top:.15rem}
+.rmini--bad strong{color:var(--red)}
+
+/* rankings – value at the tip of a thin bar */
+.rrank{list-style:none}
+.rrank li{display:grid;grid-template-columns:1.3rem 36px minmax(0,1fr) 4.8rem;gap:.6rem;align-items:center;padding:.38rem 0}
+.rrank__n{font-size:.8rem;font-weight:800;color:var(--ink-3);text-align:right;font-variant-numeric:tabular-nums}
+.rrank img{width:36px;height:36px;border-radius:10px;object-fit:cover;background:var(--paper)}
+.rrank__top{display:flex;justify-content:space-between;align-items:baseline;gap:.6rem;font-size:.9rem;font-weight:600}
+.rrank__top span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rrank__top b{font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums}
+.rrank__alt{font-size:.8rem;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.rbarh{height:6px;margin-top:.3rem}
+.rbarh i{display:block;height:100%;min-width:2px;background:var(--accent);border-radius:0 4px 4px 0}
+.rbarh--bad i{background:var(--red)}
+.rlink{margin-top:.6rem;background:none;border:0;padding:0;color:var(--accent-d);font-weight:700;font-size:.86rem;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.rcats{list-style:none}
+.rcats li{padding:.28rem 0}
+.rcats .rrank__top span{flex:1}
+.rcats small{font-size:.76rem;font-weight:500;white-space:nowrap;font-variant-numeric:tabular-nums}
+.rcats b{min-width:2.4rem;text-align:right}
+.rcats .is-other .rbarh i{background:var(--ink-3)}
+
+/* customers */
+.rbig{font-size:.88rem;color:var(--ink-2);margin-bottom:.8rem}
+.rbig strong{font-size:1.9rem;font-weight:800;color:var(--ink);margin-right:.25rem}
+.rlangs{list-style:none}
+.rlangs li{display:grid;grid-template-columns:21px 6.2rem minmax(0,1fr) 2.6rem;gap:.55rem;align-items:center;padding:.28rem 0;font-size:.88rem}
+.rlangs .rbarh{margin-top:0}
+.rlangs b{text-align:right;font-variant-numeric:tabular-nums}
+
+/* heatmap */
+.rheat{display:grid;grid-template-columns:auto repeat(var(--cols),minmax(0,1fr));gap:2px;align-items:center}
+.rheat__h{font-size:.72rem;color:var(--ink-3);text-align:center;font-variant-numeric:tabular-nums;padding-bottom:.15rem}
+.rheat__d{font-size:.78rem;font-weight:600;color:var(--ink-2);padding-right:.45rem;white-space:nowrap}
+.rheat__c{display:block;height:30px;border-radius:4px;background:color-mix(in srgb,var(--accent) var(--v),var(--paper))}
+.rheat__c.is-hover{outline:2px solid var(--ink);outline-offset:-1px}
+.rheat__legend{display:flex;align-items:center;gap:.5rem;margin-top:.75rem;font-size:.75rem;color:var(--ink-3)}
+.rheat__legend i{width:120px;height:8px;border-radius:4px;background:linear-gradient(90deg,color-mix(in srgb,var(--accent) 12%,var(--paper)),var(--accent))}
+
+/* service */
+.rservice{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:1.2rem}
+.rcard--wide .rservice{grid-template-columns:minmax(0,3fr) minmax(0,2fr)}
+.rminis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.6rem;align-content:start}
+.rreasons .rh3{margin-top:0}
+.rreasons ul{list-style:none}
+.rreasons li{padding:.3rem 0}
+.rreasons .rrank__top span::first-letter{text-transform:uppercase}
+
+/* tooltip – value first, label second */
+.rtip{position:fixed;z-index:120;pointer-events:none;max-width:260px;background:var(--ink);color:#fff;border-radius:10px;padding:.45rem .7rem;box-shadow:var(--shadow);font-size:.8rem;line-height:1.35}
+.rtip strong{display:block;font-size:.95rem;font-weight:800}
+.rtip span{color:rgba(255,255,255,.75)}
+
+.rfoot{margin-top:1.5rem;font-size:.8rem;color:var(--ink-3);text-align:center}
+.rprint-head{display:none}
+
+@media (max-width:899px){
+  .rgrid{grid-template-columns:minmax(0,1fr)}
+  .rcard,.rcard--wide,.rcard--narrow{grid-column:1/-1}
+  .rservice,.rcard--wide .rservice{grid-template-columns:minmax(0,1fr)}
+  .rkpis{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .rkpi--hero{grid-column:1/-1}
+}
+@media (max-width:600px){
+  .rbtn{padding:0 .65rem}
+  .rbtn span{display:none}
+  .rkpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .rkpi:last-child{grid-column:1/-1}
+  .rkpi{padding:.7rem .75rem}
+  .rkpi strong{font-size:1.3rem}
+  .rkpi--hero strong{font-size:2.4rem}
+  .rdelta{font-size:.74rem}
+  .rcard{padding:.9rem .9rem 1rem}
+  .rcard__head{flex-wrap:wrap}
+  .rseg{min-width:0;width:100%}
+  .rchart__y,.rchart__plot{height:180px}
+  .rheat__c{height:24px}
+  .rrank li{grid-template-columns:1.2rem 32px minmax(0,1fr)}
+  .rrank img{width:32px;height:32px}
+  .rrank__alt{display:none}
+  .rrow{grid-template-columns:minmax(0,1fr) 5.5rem}
+  .rrow .muted{display:none}
+}
+
+/* print = the report for the selected period */
+@media print{
+  .reports-page{background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .rfilters,.rtip,.rlink,.rseg,.rtable,.rlive{display:none!important}
+  .rmain{padding:0}
+  .rprint-head{display:block;font-size:1.1rem;font-weight:800;margin-bottom:.3rem}
+  .rkpi,.rcard{box-shadow:none;break-inside:avoid}
+}
