@@ -29,7 +29,16 @@
   <main class="term-body" id="termBody">
 
     <!-- Welcome panel -->
-    <section class="welcome">
+    <section class="welcome" id="welcome">
+      <button class="welcome-toggle" id="welcomeToggle" type="button" aria-label="toggle welcome">
+        <span class="wt-mini" hidden>
+          <span class="brand-mark-sm">✻</span>
+          <span class="wt-name">LOCK-IN CREW</span>
+          <span class="dim">· deep work as a service</span>
+          <span class="ok">● locked_in</span>
+        </span>
+        <span class="wt-caret">▴</span>
+      </button>
       <div class="welcome-cmd">
         <span class="brand-mark">✻</span>
         <span class="dim">$</span> <span class="cmd">./lockincrew</span> <span class="dim">--status</span>
@@ -45,7 +54,7 @@
       </h1>
 
       <div class="welcome-tag">
-        <div class="welcome-pet" title="locked">
+        <div class="welcome-pet" title="locked" aria-hidden="true">
           <svg class="pet-svg" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
             <!-- shackle (hollow U) -->
             <rect x="5"  y="0"  width="6"  height="1" fill="#d97757"/>
@@ -93,15 +102,16 @@
     <!-- Live prompt (above the fold) -->
     <section class="prompt-area prompt-top">
       <div class="prompt-row">
-        <span class="prompt-arrow lit">&gt;</span>
+        <span class="prompt-prefix"><span class="dim">claude@lockincrew</span><span class="prompt-sep">:</span><span class="path">~</span><span class="prompt-arrow lit">$</span></span>
         <input
           type="text"
           id="promptInput"
           class="prompt-input"
           autocomplete="off"
           spellcheck="false"
-          placeholder="ask anything · try /lockin, /pricing, /timezone, /availability"
+          placeholder="type a command · /lockin /pricing /timezone /stack /availability"
         />
+        <span class="prompt-caret" aria-hidden="true">▍</span>
         <span class="prompt-hint dim">↵ run · esc clear</span>
       </div>
       <div class="reply-stream" id="replyStream"></div>
@@ -109,25 +119,25 @@
 
     <!-- Tab bar -->
     <nav class="tabs" id="tabs" role="tablist">
-      <button class="tab active" role="tab" data-tab="manifesto" aria-selected="true">
+      <button class="tab active" role="tab" data-tab="manifesto" aria-selected="true" aria-controls="p-manifesto" id="tab-manifesto">
         <span class="tab-key">/manifesto</span>
         <span class="tab-meta">6 rules</span>
       </button>
-      <button class="tab" role="tab" data-tab="services" aria-selected="false">
+      <button class="tab" role="tab" data-tab="services" aria-selected="false" aria-controls="p-services" id="tab-services">
         <span class="tab-key">/services</span>
         <span class="tab-meta">4 shapes</span>
       </button>
-      <button class="tab" role="tab" data-tab="crew" aria-selected="false">
+      <button class="tab" role="tab" data-tab="crew" aria-selected="false" aria-controls="p-crew" id="tab-crew">
         <span class="tab-key">/crew</span>
-        <span class="tab-meta">5 + 1 open</span>
+        <span class="tab-meta">6 operators</span>
       </button>
-      <button class="tab" role="tab" data-tab="receipts" aria-selected="false">
+      <button class="tab" role="tab" data-tab="receipts" aria-selected="false" aria-controls="p-receipts" id="tab-receipts">
         <span class="tab-key">/receipts</span>
-        <span class="tab-meta">12 mo.</span>
+        <span class="tab-meta">12 months</span>
       </button>
-      <button class="tab tab-cta" role="tab" data-tab="hire" aria-selected="false">
+      <button class="tab tab-cta" role="tab" data-tab="hire" aria-selected="false" aria-controls="p-hire" id="tab-hire">
         <span class="tab-key">/hire</span>
-        <span class="tab-meta">send brief →</span>
+        <span class="tab-arrow">→</span>
       </button>
     </nav>
 

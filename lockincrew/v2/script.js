@@ -1,8 +1,11 @@
-// ===== Tabs =====
+// ===== Tabs + welcome collapse =====
 const tabs = document.querySelectorAll('.tab');
 const panels = document.querySelectorAll('.panel');
+const welcome = document.getElementById('welcome');
+const welcomeToggle = document.getElementById('welcomeToggle');
+let welcomeAutoCollapsed = false;
 
-function setTab(name) {
+function setTab(name, opts = {}) {
   tabs.forEach(t => {
     const on = t.dataset.tab === name;
     t.classList.toggle('active', on);
@@ -13,8 +16,17 @@ function setTab(name) {
     p.classList.toggle('active', on);
     p.hidden = !on;
   });
+  if (!welcomeAutoCollapsed && !opts.skipCollapse) {
+    welcome.classList.add('collapsed');
+    welcomeAutoCollapsed = true;
+  }
 }
 tabs.forEach(t => t.addEventListener('click', () => setTab(t.dataset.tab)));
+
+welcomeToggle.addEventListener('click', () => {
+  welcome.classList.toggle('collapsed');
+  welcomeAutoCollapsed = true;
+});
 
 // ===== Live prompt =====
 const promptInput = document.getElementById('promptInput');
