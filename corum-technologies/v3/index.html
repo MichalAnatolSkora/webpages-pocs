@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Corum Technologies — Transfer technologii i produkcja</title>
+<meta name="description" content="Corum Technologies — transfer technologii i produkcja technologiczna między Europą a Azją.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --paper: #f1eee6;
+  --paper-2: #e8e4d9;
+  --white: #fbfaf6;
+  --ink: #16150f;
+  --ink-2: #4a4840;
+  --ink-3: #8b887c;
+  --line: rgba(22,21,15,.14);
+  --line-2: rgba(22,21,15,.28);
+  --orange: #ff5a1f;
+  --steel: #2b4c7e;
+  --r: 4px;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Archivo', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+::selection { background: var(--orange); color: #fff; }
+
+.container { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
+.wide { font-stretch: 118%; }
+.label {
+  font-stretch: 80%; font-weight: 600; font-size: .78rem;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2);
+}
+.label .o { color: var(--orange); }
+
+/* ── NAV ── */
+nav { position: sticky; top: 0; z-index: 50; background: rgba(241,238,230,.88); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.nav-inner { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+.logo { display: flex; align-items: center; gap: 12px; }
+.logo-mark { width: 34px; height: 34px; background: var(--ink); display: grid; place-items: center; border-radius: 2px; }
+.logo-mark svg { width: 20px; height: 20px; }
+.logo-text { line-height: 1; }
+.logo-text b { display: block; font-stretch: 120%; font-weight: 800; font-size: 1.05rem; letter-spacing: .02em; }
+.logo-text small { font-stretch: 80%; font-size: .68rem; letter-spacing: .22em; text-transform: uppercase; color: var(--ink-3); }
+.nav-links { display: flex; align-items: center; gap: 34px; list-style: none; }
+.nav-links a { font-stretch: 85%; font-weight: 600; font-size: .85rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); transition: color .2s; }
+.nav-links a:hover { color: var(--ink); }
+.nav-links .cta { background: var(--orange); color: #fff; padding: 11px 18px; border-radius: var(--r); }
+.nav-links .cta:hover { background: var(--ink); color: #fff; }
+.burger { display: none; background: none; border: 0; width: 40px; height: 40px; cursor: pointer; position: relative; }
+.burger span { position: absolute; left: 9px; width: 22px; height: 2px; background: var(--ink); transition: .3s; }
+.burger span:nth-child(1) { top: 14px; } .burger span:nth-child(2) { top: 20px; } .burger span:nth-child(3) { top: 26px; }
+.burger.open span:nth-child(1) { top: 20px; transform: rotate(45deg); }
+.burger.open span:nth-child(2) { opacity: 0; }
+.burger.open span:nth-child(3) { top: 20px; transform: rotate(-45deg); }
+
+/* ── BUTTONS ── */
+.btn { display: inline-flex; align-items: center; gap: 14px; padding: 17px 24px; border-radius: var(--r); font-weight: 700; font-stretch: 90%; font-size: .9rem; letter-spacing: .08em; text-transform: uppercase; border: 1.5px solid var(--ink); cursor: pointer; font-family: inherit; transition: background .2s, color .2s, transform .2s; }
+.btn-ink { background: var(--ink); color: var(--paper); }
+.btn-ink:hover { background: var(--orange); border-color: var(--orange); }
+.btn-line { background: transparent; color: var(--ink); }
+.btn-line:hover { background: var(--ink); color: var(--paper); }
+.btn .arr { transition: transform .2s; }
+.btn:hover .arr { transform: translateX(4px); }
+
+/* ── HERO ── */
+.hero {
+  position: relative; overflow: hidden;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px),
+    linear-gradient(rgba(22,21,15,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(22,21,15,.05) 1px, transparent 1px);
+  background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+  background-position: -1px -1px;
+  border-bottom: 1px solid var(--ink);
+}
+.hero .container { display: grid; grid-template-columns: 1fr 1.05fr; gap: 40px; align-items: center; min-height: calc(100vh - 68px - 54px); padding-top: 56px; padding-bottom: 56px; }
+.hero-tag { display: flex; gap: 18px; align-items: center; margin-bottom: 34px; flex-wrap: wrap; }
+.hero-tag .chip { background: var(--ink); color: var(--paper); padding: 6px 10px; border-radius: 2px; }
+.hero h1 { font-size: clamp(2.8rem, 6.4vw, 5.6rem); line-height: .94; font-weight: 800; font-stretch: 112%; letter-spacing: -0.035em; margin-bottom: 30px; }
+.hero h1 .hl { color: var(--orange); }
+.hero h1 .thin { font-weight: 300; font-stretch: 100%; }
+.hero p.lead { font-size: 1.18rem; color: var(--ink-2); max-width: 500px; margin-bottom: 40px; }
+.hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+
+.drawing { position: relative; }
+.drawing svg { width: 100%; height: auto; display: block; overflow: visible; }
+.drawing .sheet { position: absolute; right: 0; bottom: -8px; border: 1px solid var(--ink); background: var(--white); display: grid; grid-template-columns: auto auto; font-stretch: 80%; font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; }
+.drawing .sheet div { padding: 6px 10px; border-right: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+.drawing .sheet div:nth-child(2n) { border-right: 0; }
+.drawing .sheet div:nth-last-child(-n+2) { border-bottom: 0; }
+.drawing .sheet b { font-weight: 700; color: var(--ink); }
+.drawing .sheet span { color: var(--ink-3); }
+
+/* ── TICKER ── */
+.ticker { background: var(--ink); color: var(--paper); overflow: hidden; height: 54px; display: flex; align-items: center; }
+.ticker-track { display: flex; width: max-content; animation: tick 45s linear infinite; }
+.ticker-track span { font-stretch: 120%; font-weight: 700; font-size: .95rem; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; display: flex; align-items: center; gap: 28px; padding-right: 28px; }
+.ticker-track span::after { content: ''; width: 9px; height: 9px; background: var(--orange); transform: rotate(45deg); }
+@keyframes tick { to { transform: translateX(-50%); } }
+
+/* ── SECTIONS ── */
+section { padding: 130px 0; }
+.sec-head { display: grid; grid-template-columns: 280px 1fr; gap: 40px; margin-bottom: 70px; align-items: start; }
+.sec-head .label { padding-top: 14px; border-top: 2px solid var(--ink); }
+.h2 { font-size: clamp(2rem, 4.4vw, 3.6rem); line-height: 1; font-weight: 800; font-stretch: 112%; letter-spacing: -0.03em; }
+.h2 .hl { color: var(--orange); }
+.sec-head p { color: var(--ink-2); font-size: 1.1rem; max-width: 620px; margin-top: 22px; }
+
+/* ── TWO MARKETS / CLOCKS ── */
+.markets { display: grid; grid-template-columns: 1fr auto 1fr; border: 1px solid var(--ink); background: var(--white); }
+.market { padding: 40px; position: relative; }
+.market .label { margin-bottom: 26px; display: flex; justify-content: space-between; gap: 12px; }
+.market .city { font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 800; font-stretch: 115%; letter-spacing: -0.02em; line-height: 1; }
+.market .country { color: var(--ink-3); font-stretch: 85%; letter-spacing: .12em; text-transform: uppercase; font-size: .8rem; margin-top: 6px; }
+.market .time { font-size: clamp(3.4rem, 7vw, 6rem); font-weight: 300; font-stretch: 75%; letter-spacing: -0.02em; line-height: 1; margin: 34px 0 18px; font-variant-numeric: tabular-nums; }
+.market .time .sec { color: var(--ink-3); font-size: .4em; vertical-align: top; margin-left: 4px; }
+.market .role { font-size: 1rem; color: var(--ink-2); max-width: 340px; }
+.status { display: inline-flex; align-items: center; gap: 8px; }
+.status i { width: 8px; height: 8px; border-radius: 50%; background: var(--ink-3); }
+.status.on i { background: #1fa560; box-shadow: 0 0 0 4px rgba(31,165,96,.18); }
+.bridge { border-left: 1px solid var(--ink); border-right: 1px solid var(--ink); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px 26px; gap: 16px; background: var(--paper-2); }
+.bridge svg { width: 60px; height: 60px; }
+.bridge .label { writing-mode: vertical-rl; transform: rotate(180deg); }
+.markets-note { display: flex; justify-content: space-between; gap: 20px; margin-top: 18px; color: var(--ink-3); font-size: .9rem; flex-wrap: wrap; }
+
+/* ── PROCESS ── */
+.process { background: var(--ink); color: var(--paper); }
+.process .label { color: rgba(241,238,230,.6); }
+.process .sec-head .label { border-color: var(--paper); }
+.process .sec-head p { color: rgba(241,238,230,.7); }
+.line { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); }
+.line-rail { position: absolute; left: 0; right: 0; top: 34px; height: 2px; background: rgba(241,238,230,.18); }
+.line-rail i { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: var(--orange); }
+.station { position: relative; padding-right: 30px; }
+.station .node { width: 70px; height: 70px; border: 2px solid rgba(241,238,230,.35); background: var(--ink); display: grid; place-items: center; font-stretch: 120%; font-weight: 800; font-size: 1.25rem; position: relative; z-index: 1; transition: border-color .4s, background .4s, color .4s; }
+.station.on .node { border-color: var(--orange); background: var(--orange); color: #fff; }
+.station h3 { font-size: 1.5rem; font-weight: 800; font-stretch: 112%; margin: 34px 0 12px; letter-spacing: -0.01em; }
+.station p { color: rgba(241,238,230,.7); font-size: .98rem; }
+.station .label { display: block; margin-top: 20px; color: var(--orange); }
+
+/* ── DATASHEET ── */
+.datasheet { border: 1px solid var(--ink); background: var(--white); }
+.ds-head { display: grid; grid-template-columns: 1fr auto; border-bottom: 1px solid var(--ink); }
+.ds-head > div { padding: 18px 26px; }
+.ds-head > div + div { border-left: 1px solid var(--ink); }
+.ds-row { display: grid; grid-template-columns: 90px 260px 1fr 200px; border-bottom: 1px solid var(--line-2); transition: background .25s; }
+.ds-row:last-child { border-bottom: 0; }
+.ds-row:hover { background: var(--paper); }
+.ds-row > div { padding: 30px 26px; }
+.ds-row > div + div { border-left: 1px solid var(--line); }
+.ds-num { font-stretch: 120%; font-weight: 800; font-size: 1.1rem; color: var(--orange); }
+.ds-name { font-size: 1.55rem; font-weight: 800; font-stretch: 112%; letter-spacing: -0.01em; line-height: 1.1; }
+.ds-desc { color: var(--ink-2); }
+.ds-desc ul { list-style: none; display: grid; gap: 6px; }
+.ds-desc li { display: flex; gap: 12px; }
+.ds-desc li::before { content: ''; flex: none; width: 10px; height: 2px; background: var(--ink); margin-top: 12px; }
+.ds-spec { display: flex; flex-direction: column; justify-content: center; gap: 8px; }
+.meter { height: 8px; background: var(--paper-2); position: relative; overflow: hidden; }
+.meter i { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--ink); transition: width 1.2s cubic-bezier(.2,.8,.2,1); }
+.datasheet.in .meter i { width: 100%; }
+.ds-spec .label { font-size: .7rem; }
+
+/* ── MISSION ── */
+.mission { padding: 150px 0; border-top: 1px solid var(--line-2); }
+.mission blockquote { font-size: clamp(2rem, 4.6vw, 4rem); font-weight: 300; line-height: 1.08; letter-spacing: -0.025em; max-width: 1060px; }
+.mission blockquote b { font-weight: 800; font-stretch: 112%; }
+.mission blockquote .hl { color: var(--orange); font-weight: 800; font-stretch: 112%; }
+.mission-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 80px; border-top: 2px solid var(--ink); }
+.mission-grid div { padding: 26px 30px 0 0; }
+.mission-grid div + div { padding-left: 30px; border-left: 1px solid var(--line-2); }
+.mission-grid h4 { font-size: 1.15rem; font-weight: 800; font-stretch: 110%; margin: 14px 0 8px; }
+.mission-grid p { color: var(--ink-2); font-size: .98rem; }
+
+/* ── CONTACT ── */
+.contact { background: var(--paper-2); border-top: 1px solid var(--ink); }
+.contact-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 70px; align-items: start; }
+.plate {
+  margin-top: 50px; position: relative; padding: 34px 38px;
+  background: linear-gradient(135deg, #d9d7d0 0%, #f4f3ef 35%, #c9c7bf 60%, #ecebe6 100%);
+  border-radius: 6px; box-shadow: inset 0 1px 0 rgba(255,255,255,.8), inset 0 -2px 0 rgba(0,0,0,.12), 0 18px 40px -18px rgba(22,21,15,.45);
+  border: 1px solid #a9a69c;
+}
+.plate::before, .plate::after, .plate .rv1, .plate .rv2 { content: ''; position: absolute; width: 12px; height: 12px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #fff, #9c998f 60%, #6f6c63); box-shadow: 0 1px 1px rgba(0,0,0,.3); }
+.plate::before { top: 12px; left: 12px; } .plate::after { top: 12px; right: 12px; }
+.plate .rv1 { bottom: 12px; left: 12px; } .plate .rv2 { bottom: 12px; right: 12px; }
+.plate-title { font-stretch: 125%; font-weight: 800; font-size: 1.25rem; letter-spacing: .04em; text-transform: uppercase; border-bottom: 2px solid var(--ink); padding-bottom: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.plate-title small { font-size: .7rem; font-stretch: 80%; letter-spacing: .16em; color: var(--ink-2); }
+.plate dl { display: grid; grid-template-columns: auto 1fr; gap: 8px 22px; font-size: .95rem; }
+.plate dt { font-stretch: 80%; font-weight: 700; font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); padding-top: 3px; }
+.plate dd { font-weight: 600; font-variant-numeric: tabular-nums; }
+.plate dd.copy { cursor: pointer; text-decoration: underline dotted var(--ink-3); text-underline-offset: 4px; }
+.plate dd.copy:hover { color: var(--orange); }
+
+form { background: var(--white); border: 1px solid var(--ink); padding: 40px; display: grid; gap: 22px; }
+.field { display: grid; gap: 8px; }
+.field > label, .field > .label { font-stretch: 80%; font-weight: 700; font-size: .74rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); }
+.field input, .field textarea, .field select {
+  font-family: inherit; font-size: 1.02rem; color: var(--ink);
+  background: transparent; border: 0; border-bottom: 1.5px solid var(--line-2);
+  padding: 10px 0; outline: none; border-radius: 0; transition: border-color .2s; width: 100%;
+}
+.field select { appearance: none; -webkit-appearance: none; cursor: pointer; background-image: linear-gradient(45deg, transparent 50%, var(--ink) 50%), linear-gradient(135deg, var(--ink) 50%, transparent 50%); background-position: calc(100% - 10px) 55%, calc(100% - 5px) 55%; background-size: 5px 5px; background-repeat: no-repeat; }
+.field textarea { resize: vertical; min-height: 90px; }
+.field input:focus, .field textarea:focus, .field select:focus { border-color: var(--orange); }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.seg { display: grid; grid-template-columns: repeat(3, 1fr); border: 1.5px solid var(--ink); border-radius: var(--r); overflow: hidden; }
+.seg input { display: none; }
+.seg label { text-align: center; padding: 12px 8px; cursor: pointer; font-weight: 600; font-size: .9rem; transition: .2s; }
+.seg label + input + label { border-left: 1.5px solid var(--ink); }
+.seg input:checked + label { background: var(--ink); color: var(--paper); }
+form .btn { justify-content: space-between; width: 100%; margin-top: 4px; }
+.form-note { font-size: .85rem; color: var(--ink-3); }
+
+.toast { position: fixed; left: 50%; bottom: 28px; transform: translate(-50%, 140px); background: var(--ink); color: var(--paper); padding: 14px 20px; border-left: 4px solid var(--orange); font-weight: 600; font-size: .92rem; z-index: 200; transition: transform .4s cubic-bezier(.2,.8,.2,1); }
+.toast.show { transform: translate(-50%, 0); }
+
+/* ── FOOTER ── */
+footer { background: var(--ink); color: rgba(241,238,230,.6); padding: 70px 0 34px; }
+.foot-big { font-size: clamp(3rem, 12vw, 11rem); font-weight: 800; font-stretch: 125%; letter-spacing: -0.04em; line-height: .85; color: var(--paper); }
+.foot-big .hl { color: var(--orange); }
+.foot-row { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-top: 50px; padding-top: 22px; border-top: 1px solid rgba(241,238,230,.18); font-size: .85rem; }
+.foot-row nav { position: static; background: none; border: 0; backdrop-filter: none; -webkit-backdrop-filter: none; display: flex; gap: 22px; }
+.foot-row a:hover { color: var(--paper); }
+
+/* reveal */
+.rv { opacity: 0; transform: translateY(20px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.8,.2,1); }
+.rv.in { opacity: 1; transform: none; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1040px) {
+  .hero .container { grid-template-columns: 1fr; min-height: 0; padding-top: 48px; }
+  .drawing { max-width: 620px; }
+  .sec-head { grid-template-columns: 1fr; gap: 20px; }
+  .sec-head .label { justify-self: start; padding-right: 30px; }
+  .line { grid-template-columns: 1fr 1fr; row-gap: 56px; }
+  .line-rail { display: none; }
+  .ds-row { grid-template-columns: 70px 1fr 1fr; }
+  .ds-spec { grid-column: 2 / 4; border-left: 0 !important; padding-top: 0 !important; }
+  .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+}
+@media (max-width: 760px) {
+  .container { padding: 0 16px; }
+  .burger { display: block; }
+  .nav-links { position: absolute; top: 68px; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0; background: var(--paper); border-bottom: 1px solid var(--ink); padding: 8px 16px 16px; display: none; }
+  .nav-links.open { display: flex; }
+  .nav-links a { display: block; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .nav-links .cta { margin-top: 12px; text-align: center; border: 0; }
+  section { padding: 86px 0; }
+  .mission { padding: 96px 0; }
+  .markets { grid-template-columns: 1fr; }
+  .bridge { border: 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); flex-direction: row; padding: 14px; }
+  .bridge svg { width: 36px; height: 36px; transform: rotate(90deg); }
+  .bridge .label { writing-mode: horizontal-tb; transform: none; }
+  .market { padding: 28px 22px; }
+  .line { grid-template-columns: 1fr; }
+  .ds-head { grid-template-columns: 1fr; }
+  .ds-head > div + div { border-left: 0; border-top: 1px solid var(--ink); }
+  .ds-row { grid-template-columns: 1fr; }
+  .ds-row > div { padding: 18px 20px; }
+  .ds-row > div + div { border-left: 0; padding-top: 0; }
+  .ds-spec { grid-column: auto; }
+  .mission-grid { grid-template-columns: 1fr; }
+  .mission-grid div + div { padding-left: 0; border-left: 0; border-top: 1px solid var(--line-2); margin-top: 20px; }
+  form { padding: 26px 20px; }
+  .row2 { grid-template-columns: 1fr; }
+  .plate { padding: 30px 24px; }
+  .drawing .sheet { position: static; margin-top: 10px; width: max-content; max-width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .rv { opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="container nav-inner">
+    <a href="#" class="logo" aria-label="Corum Technologies">
+      <span class="logo-mark"><svg viewBox="0 0 20 20" fill="none"><path d="M15 5.2A7 7 0 1 0 15 14.8" stroke="#f1eee6" stroke-width="2.4" stroke-linecap="square"/><rect x="8" y="8" width="4" height="4" fill="#ff5a1f"/></svg></span>
+      <span class="logo-text"><b>CORUM</b><small>Technologies</small></span>
+    </a>
+    <ul class="nav-links" id="links">
+      <li><a href="#rynki">Rynki</a></li>
+      <li><a href="#proces">Proces</a></li>
+      <li><a href="#o-nas">O nas</a></li>
+      <li><a href="#misja">Misja</a></li>
+      <li><a href="#kontakt" class="cta">Kontakt</a></li>
+    </ul>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container">
+    <div>
+      <div class="hero-tag rv">
+        <span class="label chip">Transfer technologii</span>
+        <span class="label">Europa <span class="o">⇄</span> Azja</span>
+      </div>
+      <h1 class="rv">Zbuduj z nami swój <span class="hl">rozwój</span> <span class="thin">gospodarczy.</span></h1>
+      <p class="lead rv">Projekt powstaje w Europie, produkcja rusza w Azji — albo odwrotnie. Prowadzimy cały transfer: od dokumentacji, przez dobór zakładu, po kontrolę jakości gotowego wyrobu.</p>
+      <div class="hero-cta rv">
+        <a href="#kontakt" class="btn btn-ink">Omów projekt <span class="arr">→</span></a>
+        <a href="#proces" class="btn btn-line">Jak pracujemy</a>
+      </div>
+    </div>
+
+    <div class="drawing rv" aria-hidden="true">
+      <svg id="iso" viewBox="96 20 520 480"></svg>
+      <div class="sheet">
+        <div><span>Rys.</span> <b>CT-001</b></div><div><span>Skala</span> <b>1:2</b></div>
+        <div><span>Widok</span> <b>rozstrzelony</b></div><div><span>Ark.</span> <b>1/1</b></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span>Transfer technologii</span><span>Produkcja technologiczna</span><span>Dobór partnerów</span><span>Kontrola jakości</span><span>Europa ⇄ Azja</span><span>Łączenie biznesów</span>
+    <span>Transfer technologii</span><span>Produkcja technologiczna</span><span>Dobór partnerów</span><span>Kontrola jakości</span><span>Europa ⇄ Azja</span><span>Łączenie biznesów</span>
+  </div>
+</div>
+
+<main>
+<!-- MARKETS -->
+<section id="rynki">
+  <div class="container">
+    <div class="sec-head">
+      <div class="label rv">01 — Rynki</div>
+      <div>
+        <h2 class="h2 rv">Dwa rynki. <span class="hl">Jeden partner.</span></h2>
+        <p class="rv">Łączymy zespoły z Europy i Azji. Różnica czasu pracuje na korzyść projektu — gdy jedna strona kończy dzień, druga właśnie go zaczyna.</p>
+      </div>
+    </div>
+
+    <div class="markets rv">
+      <div class="market">
+        <div class="label"><span>Biuro · Europa</span><span class="status" id="st-pl"><i></i><em></em></span></div>
+        <div class="city">Konstantynów Łódzki</div>
+        <div class="country">Polska · CET</div>
+        <div class="time" id="t-pl">--:--</div>
+        <p class="role">Projekt, dokumentacja, wymagania jakościowe i relacje z klientami z Unii Europejskiej.</p>
+      </div>
+      <div class="bridge">
+        <svg viewBox="0 0 60 60" fill="none" stroke="#16150f" stroke-width="2"><path d="M8 22h40l-9-9"/><path d="M52 38H12l9 9"/></svg>
+        <span class="label">Transfer</span>
+      </div>
+      <div class="market">
+        <div class="label"><span>Partnerzy · Azja</span><span class="status" id="st-cn"><i></i><em></em></span></div>
+        <div class="city">Shenzhen</div>
+        <div class="country">Chiny · CST</div>
+        <div class="time" id="t-cn">--:--</div>
+        <p class="role">Zakłady produkcyjne, dostawcy komponentów i seria pilotażowa pod nadzorem jakości.</p>
+      </div>
+    </div>
+    <div class="markets-note"><span>Czas lokalny na żywo</span><span>Status według typowych godzin pracy, pn–pt 8:00–18:00</span></div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="proces">
+  <div class="container">
+    <div class="sec-head">
+      <div class="label rv">02 — Proces</div>
+      <div>
+        <h2 class="h2 rv">Cztery stanowiska.<br>Jedna linia.</h2>
+        <p class="rv">Każdy projekt przechodzi przez te same etapy. Wiesz, na którym stanowisku jest Twój wyrób i co dzieje się dalej.</p>
+      </div>
+    </div>
+    <div class="line" id="line">
+      <div class="line-rail"><i id="rail"></i></div>
+      <div class="station"><div class="node">01</div><h3>Analiza</h3><p>Poznajemy technologię, rynek docelowy i bariery, zanim staną się kosztem.</p><span class="label">Wejście: dokumentacja</span></div>
+      <div class="station"><div class="node">02</div><h3>Dobór</h3><p>Wskazujemy sprawdzonych partnerów — zakłady, dostawców, kooperantów.</p><span class="label">Wyjście: lista partnerów</span></div>
+      <div class="station"><div class="node">03</div><h3>Transfer</h3><p>Przenosimy know-how i uruchamiamy serię pilotażową z pełną kontrolą jakości.</p><span class="label">Wyjście: seria próbna</span></div>
+      <div class="station"><div class="node">04</div><h3>Produkcja</h3><p>Skalujemy i usprawniamy przepływ produktów oraz usług między rynkami.</p><span class="label">Wyjście: wyrób seryjny</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- DATASHEET -->
+<section id="o-nas">
+  <div class="container">
+    <div class="sec-head">
+      <div class="label rv">03 — O nas</div>
+      <div>
+        <h2 class="h2 rv">Karta katalogowa <span class="hl">współpracy.</span></h2>
+        <p class="rv">Cztery parametry, które gwarantujemy w każdym projekcie — bez względu na jego skalę.</p>
+      </div>
+    </div>
+
+    <div class="datasheet rv" id="ds">
+      <div class="ds-head">
+        <div class="label">Corum Technologies Sp. z o.o. — parametry współpracy</div>
+        <div class="label">Wyd. 2026</div>
+      </div>
+      <div class="ds-row">
+        <div class="ds-num">P1</div>
+        <div class="ds-name">Zaufanie</div>
+        <div class="ds-desc"><ul><li>Specjalizacja w transferach technologii i produkcji technologicznej</li><li>Zaufany partner zespołów z Europy i Azji</li></ul></div>
+        <div class="ds-spec"><span class="label">Partnerzy: EU + Azja</span><div class="meter"><i></i></div></div>
+      </div>
+      <div class="ds-row">
+        <div class="ds-num">P2</div>
+        <div class="ds-name">Efektywność</div>
+        <div class="ds-desc"><ul><li>Rozwiązania technologiczne maksymalizujące zyski</li><li>Łączenie biznesów wspólnie z partnerami międzynarodowymi</li></ul></div>
+        <div class="ds-spec"><span class="label">Cel: niższy koszt jednostkowy</span><div class="meter"><i></i></div></div>
+      </div>
+      <div class="ds-row">
+        <div class="ds-num">P3</div>
+        <div class="ds-name">Wsparcie biznesowe</div>
+        <div class="ds-desc"><ul><li>Usprawnianie kluczowych przepływów produktów i usług</li><li>Ograniczanie barier technologicznych</li><li>Gwarancja wysokiej jakości</li></ul></div>
+        <div class="ds-spec"><span class="label">Kontrola: każdy etap</span><div class="meter"><i></i></div></div>
+      </div>
+      <div class="ds-row">
+        <div class="ds-num">P4</div>
+        <div class="ds-name">Dyskrecja</div>
+        <div class="ds-desc"><ul><li>Transparentne zasady relacji biznesowych</li><li>Know-how klienta pozostaje własnością klienta</li></ul></div>
+        <div class="ds-spec"><span class="label">Poufność: NDA</span><div class="meter"><i></i></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MISSION -->
+<section class="mission" id="misja">
+  <div class="container">
+    <div class="label rv" style="margin-bottom:34px;">04 — Misja</div>
+    <blockquote class="rv">Technologia nie powinna zatrzymywać się na granicach. <b>Budujemy mosty</b> między rynkami Europy i Azji, żeby dobre rozwiązania trafiały tam, <span class="hl">gdzie mogą rosnąć najszybciej.</span></blockquote>
+    <div class="mission-grid">
+      <div class="rv"><span class="label">→ 01</span><h4>Transfery technologii</h4><p>Kompleksowa obsługa procesów transferu technologii między rynkami.</p></div>
+      <div class="rv"><span class="label">→ 02</span><h4>Produkcja technologiczna</h4><p>Wsparcie w optymalizacji i wdrażaniu procesów produkcyjnych.</p></div>
+      <div class="rv"><span class="label">→ 03</span><h4>Gwarancja jakości</h4><p>Najwyższe standardy jakości na każdym etapie współpracy.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="kontakt">
+  <div class="container contact-grid">
+    <div>
+      <div class="label rv" style="margin-bottom:24px;">05 — Kontakt</div>
+      <h2 class="h2 rv">Masz wyrób do przeniesienia? <span class="hl">Porozmawiajmy.</span></h2>
+      <div class="plate rv">
+        <span class="rv1"></span><span class="rv2"></span>
+        <div class="plate-title">Corum Technologies <small>Sp. z o.o.</small></div>
+        <dl>
+          <dt>Adres</dt><dd>ul. Lipowa 19, 95-050 Konstantynów Łódzki</dd>
+          <dt>KRS</dt><dd class="copy" data-copy="0000946211" title="Kopiuj">0000946211</dd>
+          <dt>NIP</dt><dd class="copy" data-copy="7312074957" title="Kopiuj">7312074957</dd>
+          <dt>REGON</dt><dd class="copy" data-copy="520990394" title="Kopiuj">520990394</dd>
+        </dl>
+      </div>
+    </div>
+
+    <form id="form" class="rv" novalidate>
+      <div class="field">
+        <span class="label">Kierunek transferu</span>
+        <div class="seg">
+          <input type="radio" name="dir" id="d1" checked><label for="d1">Europa → Azja</label>
+          <input type="radio" name="dir" id="d2"><label for="d2">Azja → Europa</label>
+          <input type="radio" name="dir" id="d3"><label for="d3">Oba</label>
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field"><label for="f-name">Imię i nazwisko</label><input id="f-name" placeholder="Jan Kowalski"></div>
+        <div class="field"><label for="f-company">Firma</label><input id="f-company" placeholder="Nazwa firmy"></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label for="f-email">E-mail</label><input id="f-email" type="email" placeholder="jan@firma.pl"></div>
+        <div class="field">
+          <label for="f-type">Rodzaj projektu</label>
+          <select id="f-type"><option>Transfer technologii</option><option>Uruchomienie produkcji</option><option>Partnerstwo / łączenie biznesów</option><option>Inne</option></select>
+        </div>
+      </div>
+      <div class="field"><label for="f-msg">Opis</label><textarea id="f-msg" placeholder="Czym jest wyrób, na jakim etapie jest projekt, jaki jest cel?"></textarea></div>
+      <button class="btn btn-ink" type="submit">Wyślij zapytanie <span class="arr">→</span></button>
+      <p class="form-note">Wszystkie informacje traktujemy jako poufne.</p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="foot-big">CORUM<span class="hl">.</span></div>
+    <div class="foot-row">
+      <span>© 2026 Corum Technologies Sp. z o.o.</span>
+      <nav aria-label="Stopka"><a href="#rynki">Rynki</a><a href="#proces">Proces</a><a href="#o-nas">O nas</a><a href="#misja">Misja</a><a href="#kontakt">Kontakt</a></nav>
+      <span>Europa ⇄ Azja</span>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// nav
+const burger = document.getElementById('burger'), links = document.getElementById('links');
+burger.addEventListener('click', () => { burger.classList.toggle('open'); links.classList.toggle('open'); });
+links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { burger.classList.remove('open'); links.classList.remove('open'); }));
+
+// reveal
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+}), { threshold: 0.12 });
+document.querySelectorAll('.rv').forEach((el, i) => { el.style.transitionDelay = (i % 3) * 80 + 'ms'; io.observe(el); });
+
+// toast
+const toast = document.getElementById('toast');
+function showToast(t) {
+  toast.textContent = t; toast.classList.add('show');
+  clearTimeout(showToast.t); showToast.t = setTimeout(() => toast.classList.remove('show'), 2600);
+}
+document.querySelectorAll('.copy').forEach(el => el.addEventListener('click', () => {
+  navigator.clipboard?.writeText(el.dataset.copy).catch(() => {});
+  showToast('Skopiowano: ' + el.dataset.copy);
+}));
+document.getElementById('form').addEventListener('submit', e => {
+  e.preventDefault();
+  const name = document.getElementById('f-name'), email = document.getElementById('f-email');
+  if (!name.value.trim() || !email.value.includes('@')) { showToast('Uzupełnij imię i e-mail'); return; }
+  e.target.reset();
+  showToast('Dziękujemy — odezwiemy się wkrótce.');
+});
+
+// live clocks
+function clock(tz, timeEl, statusEl) {
+  const now = new Date();
+  const parts = Object.fromEntries(new Intl.DateTimeFormat('pl-PL', { timeZone: tz, hour: '2-digit', minute: '2-digit', second: '2-digit', weekday: 'short', hour12: false })
+    .formatToParts(now).map(p => [p.type, p.value]));
+  timeEl.innerHTML = `${parts.hour}:${parts.minute}<span class="sec">${parts.second}</span>`;
+  const day = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'short' }).format(now);
+  const h = +parts.hour;
+  const on = !['Sat', 'Sun'].includes(day) && h >= 8 && h < 18;
+  statusEl.classList.toggle('on', on);
+  statusEl.querySelector('em').textContent = on ? 'W godzinach pracy' : 'Poza godzinami';
+  statusEl.querySelector('em').style.fontStyle = 'normal';
+}
+const tick = () => {
+  clock('Europe/Warsaw', document.getElementById('t-pl'), document.getElementById('st-pl'));
+  clock('Asia/Shanghai', document.getElementById('t-cn'), document.getElementById('st-cn'));
+};
+tick(); setInterval(tick, 1000);
+
+// process rail fills with scroll
+const line = document.getElementById('line'), rail = document.getElementById('rail');
+const stations = [...line.querySelectorAll('.station')];
+function railUpdate() {
+  const r = line.getBoundingClientRect();
+  const p = Math.min(1, Math.max(0, (innerHeight * .75 - r.top) / (r.height + innerHeight * .25)));
+  rail.style.width = (p * 100) + '%';
+  stations.forEach((s, i) => s.classList.toggle('on', p >= i / stations.length + .02 || (p > 0 && i === 0)));
+}
+addEventListener('scroll', railUpdate, { passive: true }); railUpdate();
+
+// isometric exploded drawing
+(function () {
+  const svg = document.getElementById('iso');
+  const C = Math.cos(Math.PI / 6), S = .5, OX = 250, OY = 250;
+  const P = (x, y, z) => [OX + (x - y) * C, OY + (x + y) * S - z];
+  const pts = a => a.map(p => P(...p).map(n => n.toFixed(1)).join(',')).join(' ');
+  const W = 230, D = 160;
+  const INK = '#16150f';
+
+  function box(x, y, z, w, d, h, top, left, right, sw = 1.4) {
+    return `<polygon points="${pts([[x, y + d, z], [x + w, y + d, z], [x + w, y + d, z + h], [x, y + d, z + h]])}" fill="${left}" stroke="${INK}" stroke-width="${sw}" stroke-linejoin="round"/>` +
+      `<polygon points="${pts([[x + w, y, z], [x + w, y + d, z], [x + w, y + d, z + h], [x + w, y, z + h]])}" fill="${right}" stroke="${INK}" stroke-width="${sw}" stroke-linejoin="round"/>` +
+      `<polygon points="${pts([[x, y, z + h], [x + w, y, z + h], [x + w, y + d, z + h], [x, y + d, z + h]])}" fill="${top}" stroke="${INK}" stroke-width="${sw}" stroke-linejoin="round"/>`;
+  }
+  function circle(cx, cy, z, r, fill, stroke, sw = 1.4) {
+    const a = [];
+    for (let i = 0; i < 36; i++) { const t = i / 36 * Math.PI * 2; a.push([cx + Math.cos(t) * r, cy + Math.sin(t) * r, z]); }
+    return `<polygon points="${pts(a)}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}"/>`;
+  }
+  function leader(from, toX, toY, num, title, sub) {
+    const [fx, fy] = P(...from);
+    return `<circle cx="${fx}" cy="${fy}" r="3.5" fill="#ff5a1f"/>` +
+      `<polyline points="${fx},${fy} ${toX - 30},${toY} ${toX},${toY}" fill="none" stroke="${INK}" stroke-width="1"/>` +
+      `<text x="${toX + 8}" y="${toY - 4}" font-size="15" font-weight="800" fill="${INK}" style="font-stretch:115%">${num} ${title}</text>` +
+      `<text x="${toX + 8}" y="${toY + 15}" font-size="12" fill="#8b887c" letter-spacing="1.2" style="font-stretch:80%;text-transform:uppercase">${sub}</text>`;
+  }
+
+  let t = 0;
+  function render() {
+    const k = reduce ? 1 : (.5 + .5 * Math.sin(t / 70 - Math.PI / 2));
+    const gap = 22 + 46 * k;
+    const zBase = 0, hBase = 36;
+    const zPcb = hBase + gap, hPcb = 6;
+    const zCov = zPcb + hPcb + gap, hCov = 14;
+    let s = '';
+
+    // dimension line along front edge
+    const d1 = P(0, D + 30, 0), d2 = P(W, D + 30, 0), e1 = P(0, D, 0), e2 = P(W, D, 0);
+    s += `<g stroke="#8b887c" stroke-width="1"><line x1="${e1[0]}" y1="${e1[1]}" x2="${d1[0]}" y2="${d1[1]}"/><line x1="${e2[0]}" y1="${e2[1]}" x2="${d2[0]}" y2="${d2[1]}"/><line x1="${d1[0]}" y1="${d1[1]}" x2="${d2[0]}" y2="${d2[1]}" marker-start="url(#ar)" marker-end="url(#ar)"/></g>`;
+    const mid = P(W / 2, D + 30, 0);
+    s += `<text x="${mid[0] - 18}" y="${mid[1] + 24}" font-size="12" fill="#8b887c" transform="rotate(30 ${mid[0]} ${mid[1]})">230 mm</text>`;
+
+    // centre axis
+    const a1 = P(W / 2, D / 2, -20), a2 = P(W / 2, D / 2, zCov + hCov + 40);
+    s += `<line x1="${a1[0]}" y1="${a1[1]}" x2="${a2[0]}" y2="${a2[1]}" stroke="#ff5a1f" stroke-width="1" stroke-dasharray="10 4 2 4"/>`;
+
+    // base housing (open box)
+    s += box(0, 0, zBase, W, D, hBase, '#fbfaf6', '#e8e4d9', '#d6d1c3');
+    s += `<polygon points="${pts([[10, 10, hBase], [W - 10, 10, hBase], [W - 10, D - 10, hBase], [10, D - 10, hBase]])}" fill="#cfc9b9" stroke="${INK}" stroke-width="1"/>`;
+    for (let i = 0; i < 6; i++) { const [x1, y1] = P(30 + i * 30, D, 10), [x2, y2] = P(30 + i * 30, D, 26); s += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${INK}" stroke-width="1"/>`; }
+
+    // PCB with components
+    s += box(14, 14, zPcb, W - 28, D - 28, hPcb, '#2b4c7e', '#1f3a62', '#183052');
+    const zt = zPcb + hPcb;
+    s += box(W / 2 - 26, D / 2 - 26, zt, 52, 52, 8, '#16150f', '#2a2822', '#201f1a', 1);
+    s += circle(W / 2, D / 2, zt + 8, 6, '#ff5a1f', 'none');
+    s += box(30, 26, zt, 34, 18, 12, '#fbfaf6', '#e8e4d9', '#d6d1c3', 1);
+    s += box(W - 60, 30, zt, 24, 24, 6, '#16150f', '#2a2822', '#201f1a', 1);
+    s += box(36, D - 52, zt, 16, 10, 8, '#fbfaf6', '#e8e4d9', '#d6d1c3', 1);
+    s += box(60, D - 52, zt, 16, 10, 8, '#fbfaf6', '#e8e4d9', '#d6d1c3', 1);
+    s += box(W - 66, D - 56, zt, 30, 14, 14, '#ff5a1f', '#e2470f', '#c93c0b', 1);
+
+    // cover
+    s += box(0, 0, zCov, W, D, hCov, '#fbfaf6', '#ece8de', '#ddd8ca');
+    s += circle(W - 50, 46, zCov + hCov, 16, '#ff5a1f', INK);
+    s += circle(W - 50, 46, zCov + hCov, 7, '#fbfaf6', INK, 1);
+    for (let i = 0; i < 4; i++) { const [x1, y1] = P(26, 36 + i * 14, zCov + hCov), [x2, y2] = P(120, 36 + i * 14, zCov + hCov); s += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${INK}" stroke-width="1"/>`; }
+
+    // leaders
+    const LX = 470;
+    s += leader([W, D * .5, zCov + hCov / 2], LX, P(W, D * .5, zCov + hCov / 2)[1] - 30, '01', 'Pokrywa', 'Projekt · Europa');
+    s += leader([W, D * .55, zPcb + hPcb], LX, P(W, D * .55, zPcb)[1] - 18, '02', 'Elektronika', 'Produkcja · Azja');
+    s += leader([W, D * .6, hBase / 2], LX, P(W, D * .6, hBase / 2)[1] - 6, '03', 'Obudowa', 'Kontrola jakości');
+
+    svg.innerHTML = `<defs><marker id="ar" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8b887c"/></marker></defs>` + s;
+    t++;
+    if (!reduce) requestAnimationFrame(render);
+  }
+  render();
+})();
+</script>
+</body>
+</html>
