@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Corum Technologies — Transfer technologii i produkcja</title>
+<meta name="description" content="Corum Technologies — transfer technologii i produkcja technologiczna między Europą a Azją.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@600;800;900&family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0b0d0a;
+  --bg-2: #11140f;
+  --bg-3: #181c15;
+  --olive: #4a5440;
+  --olive-2: #2a3024;
+  --sand: #d6cfb8;
+  --sand-2: #a39d86;
+  --dim: #6d6c5e;
+  --lime: #c3f53c;
+  --red: #ff4b3a;
+  --line: rgba(214,207,184,.12);
+  --line-2: rgba(214,207,184,.24);
+  --stencil: 'Big Shoulders Stencil Display', Impact, sans-serif;
+  --cond: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --body: 'Barlow', -apple-system, BlinkMacSystemFont, sans-serif;
+  --mono: 'Share Tech Mono', ui-monospace, monospace;
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: var(--body); background: var(--bg); color: var(--sand); line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+a { color: inherit; text-decoration: none; }
+::selection { background: var(--lime); color: var(--bg); }
+.container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+.tag { font-family: var(--cond); font-weight: 600; font-size: .8rem; letter-spacing: .22em; text-transform: uppercase; color: var(--sand-2); }
+.mono { font-family: var(--mono); }
+.lime { color: var(--lime); }
+
+/* bracket frame helper */
+.brk { position: relative; }
+.brk::before, .brk::after { content: ''; position: absolute; width: 18px; height: 18px; border-color: var(--lime); border-style: solid; pointer-events: none; }
+.brk::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+.brk::after { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+/* ── NAV ── */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 60; transition: background .3s, border-color .3s; border-bottom: 1px solid transparent; }
+nav.solid { background: rgba(11,13,10,.88); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-color: var(--line); }
+.nav-inner { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+.logo { display: flex; align-items: center; gap: 14px; }
+.logo svg { width: 34px; height: 34px; }
+.logo b { font-family: var(--stencil); font-weight: 800; font-size: 1.6rem; letter-spacing: .06em; line-height: 1; color: var(--sand); }
+.logo small { display: block; font-family: var(--cond); font-weight: 600; font-size: .66rem; letter-spacing: .34em; color: var(--sand-2); margin-top: 2px; }
+.nav-links { display: flex; align-items: center; gap: 34px; list-style: none; }
+.nav-links a { font-family: var(--cond); font-weight: 600; font-size: .92rem; letter-spacing: .16em; text-transform: uppercase; color: var(--sand-2); transition: color .2s; }
+.nav-links a:hover { color: var(--sand); }
+.nav-links .cta { color: var(--bg); background: var(--lime); padding: 10px 18px; clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px); }
+.nav-links .cta:hover { color: var(--bg); background: var(--sand); }
+.burger { display: none; background: none; border: 1px solid var(--line-2); width: 44px; height: 44px; cursor: pointer; position: relative; }
+.burger span { position: absolute; left: 11px; width: 20px; height: 2px; background: var(--sand); transition: .3s; }
+.burger span:nth-child(1) { top: 14px; } .burger span:nth-child(2) { top: 20px; } .burger span:nth-child(3) { top: 26px; }
+.burger.open span:nth-child(1) { top: 20px; transform: rotate(45deg); }
+.burger.open span:nth-child(2) { opacity: 0; }
+.burger.open span:nth-child(3) { top: 20px; transform: rotate(-45deg); }
+
+/* ── BUTTONS ── */
+.btn { display: inline-flex; align-items: center; gap: 14px; padding: 17px 26px; font-family: var(--cond); font-weight: 700; font-size: 1rem; letter-spacing: .16em; text-transform: uppercase; cursor: pointer; border: 0; transition: background .2s, color .2s; clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px); }
+.btn-lime { background: var(--lime); color: var(--bg); }
+.btn-lime:hover { background: var(--sand); }
+.btn-line { background: rgba(214,207,184,.06); color: var(--sand); box-shadow: inset 0 0 0 1px var(--line-2); }
+.btn-line:hover { background: rgba(214,207,184,.12); }
+.btn .arr { transition: transform .2s; }
+.btn:hover .arr { transform: translateX(4px); }
+
+/* ── HERO ── */
+.hero { position: relative; min-height: 100vh; display: flex; align-items: flex-end; overflow: hidden; background: radial-gradient(ellipse 80% 70% at 70% 40%, #151a12, var(--bg) 70%); }
+#topo { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hero::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(11,13,10,.5) 0%, transparent 25%, transparent 55%, var(--bg) 100%), repeating-linear-gradient(0deg, rgba(0,0,0,.12) 0 1px, transparent 1px 3px); }
+.hud { position: absolute; inset: 96px 32px 32px; pointer-events: none; z-index: 1; }
+.hud i { position: absolute; width: 34px; height: 34px; border-color: rgba(214,207,184,.45); border-style: solid; }
+.hud i:nth-child(1) { top: 0; left: 0; border-width: 1px 0 0 1px; }
+.hud i:nth-child(2) { top: 0; right: 0; border-width: 1px 1px 0 0; }
+.hud i:nth-child(3) { bottom: 0; left: 0; border-width: 0 0 1px 1px; }
+.hud i:nth-child(4) { bottom: 0; right: 0; border-width: 0 1px 1px 0; }
+.hud .rd { position: absolute; font-family: var(--mono); font-size: .74rem; color: var(--sand-2); letter-spacing: .06em; }
+.hud .rd.tl { top: 10px; left: 46px; } .hud .rd.tr { top: 10px; right: 46px; text-align: right; }
+.hud .rd.br { bottom: 10px; right: 46px; text-align: right; }
+.reticle { position: absolute; z-index: 2; width: 0; height: 0; pointer-events: none; transition: left .25s ease-out, top .25s ease-out; }
+.reticle .ring { position: absolute; left: -26px; top: -26px; width: 52px; height: 52px; border: 1px solid var(--lime); border-radius: 50%; }
+.reticle .ring::before { content: ''; position: absolute; left: 50%; top: 50%; width: 4px; height: 4px; background: var(--lime); transform: translate(-50%, -50%); }
+.reticle .h, .reticle .v { position: absolute; background: rgba(195,245,60,.5); }
+.reticle .h { left: -60px; width: 120px; top: 0; height: 1px; }
+.reticle .v { top: -60px; height: 120px; left: 0; width: 1px; }
+.reticle .h::after { content: ''; position: absolute; left: 34px; right: 34px; top: 0; height: 1px; background: var(--bg); }
+.reticle .v::after { content: ''; position: absolute; top: 34px; bottom: 34px; left: 0; width: 1px; background: var(--bg); }
+.reticle .lbl { position: absolute; left: 36px; top: -46px; font-family: var(--mono); font-size: .72rem; color: var(--lime); white-space: nowrap; line-height: 1.5; text-shadow: 0 0 8px rgba(0,0,0,.9); }
+
+.hero .container { position: relative; z-index: 3; width: 100%; padding-top: 140px; padding-bottom: 90px; }
+.hero .tag { display: inline-flex; align-items: center; gap: 12px; margin-bottom: 26px; }
+.hero .tag .blink { width: 8px; height: 8px; background: var(--lime); animation: bl 1.2s steps(1) infinite; }
+@keyframes bl { 50% { opacity: .15; } }
+.hero h1 { font-family: var(--stencil); font-weight: 900; font-size: clamp(3.4rem, 9.6vw, 9.2rem); line-height: .86; letter-spacing: .01em; text-transform: uppercase; color: var(--sand); max-width: 1100px; }
+.hero h1 .lime { color: var(--lime); }
+.hero-bottom { display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; margin-top: 40px; flex-wrap: wrap; }
+.hero-bottom p { max-width: 500px; font-size: 1.15rem; color: var(--sand-2); }
+.hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* ── STATUS STRIP ── */
+.strip { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--bg-2); }
+.strip .container { display: grid; grid-template-columns: repeat(4, 1fr); }
+.strip div { padding: 20px 22px; border-left: 1px solid var(--line); display: grid; gap: 4px; }
+.strip div:first-child { border-left: 0; padding-left: 0; }
+.strip strong { font-family: var(--mono); font-weight: 400; font-size: 1.15rem; color: var(--sand); letter-spacing: .04em; font-variant-numeric: tabular-nums; }
+
+/* ── SECTIONS ── */
+section { padding: 130px 0; position: relative; }
+.sec-head { display: grid; grid-template-columns: 300px 1fr; gap: 40px; margin-bottom: 70px; }
+.sec-head .tag { display: flex; align-items: center; gap: 10px; color: var(--lime); padding-top: 12px; }
+.sec-head .tag::before { content: ''; width: 26px; height: 1px; background: var(--lime); }
+.h2 { font-family: var(--stencil); font-weight: 800; font-size: clamp(2.6rem, 5.6vw, 5rem); line-height: .9; text-transform: uppercase; letter-spacing: .01em; }
+.h2 .lime { color: var(--lime); }
+.sec-head p { margin-top: 22px; color: var(--sand-2); font-size: 1.08rem; max-width: 600px; }
+
+/* capabilities */
+.caps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.cap { background: var(--bg-2); padding: 34px 30px 36px; position: relative; overflow: hidden; transition: background .3s; }
+.cap:hover { background: var(--bg-3); }
+.cap .cap-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 60px; }
+.cap .code { font-family: var(--mono); color: var(--lime); font-size: .85rem; }
+.cap .ico { width: 64px; height: 64px; border: 1px solid var(--line-2); display: grid; place-items: center; }
+.cap .ico svg { width: 30px; height: 30px; stroke: var(--sand); fill: none; stroke-width: 1.4; }
+.cap h3 { font-family: var(--cond); font-weight: 700; font-size: 1.8rem; letter-spacing: .02em; text-transform: uppercase; line-height: 1.05; margin-bottom: 14px; }
+.cap p { color: var(--sand-2); }
+.cap .specs { margin-top: 28px; border-top: 1px dashed var(--line-2); padding-top: 16px; display: grid; gap: 6px; font-family: var(--mono); font-size: .78rem; color: var(--dim); }
+.cap .specs span { display: flex; justify-content: space-between; gap: 10px; }
+.cap .specs b { font-weight: 400; color: var(--sand); }
+.cap .scan { position: absolute; left: 0; right: 0; height: 60px; top: -60px; background: linear-gradient(180deg, transparent, rgba(195,245,60,.07), transparent); pointer-events: none; }
+.cap:hover .scan { animation: scan 1.6s linear infinite; }
+@keyframes scan { to { top: 100%; } }
+
+/* phases */
+.phases { background: var(--bg-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.route { position: relative; margin-bottom: 60px; }
+.route svg { width: 100%; height: auto; display: block; }
+.route .path-bg { fill: none; stroke: var(--line-2); stroke-width: 1.5; stroke-dasharray: 6 8; }
+.route .path-fg { fill: none; stroke: var(--lime); stroke-width: 2.5; }
+.route .wp { fill: var(--bg-2); stroke: var(--sand-2); stroke-width: 1.5; transition: .3s; }
+.route .wp.on { fill: var(--lime); stroke: var(--lime); }
+.route text { font-family: var(--mono); font-size: 12px; fill: var(--sand-2); }
+.route text.big { font-family: var(--cond); font-weight: 700; font-size: 15px; letter-spacing: .14em; fill: var(--sand); }
+.phase-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.phase { background: var(--bg); padding: 30px 26px; transition: background .3s; cursor: default; }
+.phase.on { background: var(--bg-3); }
+.phase .ph-n { font-family: var(--mono); font-size: .8rem; color: var(--dim); display: flex; justify-content: space-between; margin-bottom: 30px; }
+.phase.on .ph-n { color: var(--lime); }
+.phase h3 { font-family: var(--cond); font-weight: 700; font-size: 1.6rem; text-transform: uppercase; letter-spacing: .03em; margin-bottom: 10px; }
+.phase p { color: var(--sand-2); font-size: .97rem; }
+.phase .out { margin-top: 22px; font-family: var(--mono); font-size: .76rem; color: var(--dim); }
+.phase .out b { font-weight: 400; color: var(--sand); }
+
+/* principles / dossier */
+.dossier { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.file { background: var(--bg-2); border: 1px solid var(--line); padding: 34px; position: relative; overflow: hidden; }
+.file-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; border-bottom: 1px solid var(--line); padding-bottom: 14px; margin-bottom: 24px; font-family: var(--mono); font-size: .76rem; color: var(--dim); }
+.file h3 { font-family: var(--stencil); font-weight: 800; font-size: clamp(2.2rem, 3.4vw, 3rem); text-transform: uppercase; line-height: .95; margin-bottom: 18px; }
+.file ul { list-style: none; display: grid; gap: 10px; }
+.file li { display: flex; gap: 14px; color: var(--sand-2); }
+.file li::before { content: '▸'; color: var(--lime); flex: none; }
+.redact { background: var(--sand); color: transparent; padding: 0 2px; transition: background .4s, color .4s; cursor: help; user-select: none; }
+.file:hover .redact, .redact.show { background: transparent; color: var(--sand); user-select: text; }
+.stamp { position: absolute; right: 26px; bottom: 26px; transform: rotate(-12deg); border: 2px solid var(--red); color: var(--red); font-family: var(--stencil); font-weight: 800; font-size: 1.5rem; letter-spacing: .12em; padding: 4px 14px; opacity: .85; mix-blend-mode: screen; }
+.file-4 { border-color: rgba(255,75,58,.35); padding-bottom: 84px; }
+.file .hint { margin-top: 22px; font-family: var(--mono); font-size: .72rem; color: var(--dim); }
+
+/* mission */
+.mission { padding: 160px 0; text-align: center; overflow: hidden; }
+.mission .tag { color: var(--lime); }
+.mission h2 { font-family: var(--stencil); font-weight: 900; font-size: clamp(2.6rem, 6.4vw, 6rem); line-height: .92; text-transform: uppercase; max-width: 1180px; margin: 26px auto 0; }
+.mission h2 .lime { color: var(--lime); }
+.mission .coords { margin-top: 40px; font-family: var(--mono); color: var(--dim); font-size: .85rem; letter-spacing: .08em; }
+.mission .grid-bg { position: absolute; inset: 0; z-index: -1; background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 80px 80px; mask-image: radial-gradient(ellipse 60% 60% at 50% 50%, #000, transparent); -webkit-mask-image: radial-gradient(ellipse 60% 60% at 50% 50%, #000, transparent); opacity: .5; }
+
+/* contact */
+.contact { background: var(--bg-2); border-top: 1px solid var(--line); }
+.contact-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 60px; align-items: start; }
+.idcard { margin-top: 44px; background: var(--bg); border: 1px solid var(--line-2); padding: 26px; display: grid; grid-template-columns: 90px 1fr; gap: 22px; align-items: start; }
+.idcard .emblem { width: 90px; height: 90px; border: 1px solid var(--line-2); display: grid; place-items: center; }
+.idcard .emblem svg { width: 56px; height: 56px; }
+.idcard h4 { font-family: var(--cond); font-weight: 700; font-size: 1.25rem; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 10px; }
+.idcard dl { display: grid; grid-template-columns: auto 1fr; gap: 5px 16px; font-size: .93rem; }
+.idcard dt { font-family: var(--cond); font-weight: 600; font-size: .74rem; letter-spacing: .18em; text-transform: uppercase; color: var(--dim); padding-top: 2px; }
+.idcard dd { font-family: var(--mono); color: var(--sand); }
+.idcard .copy { cursor: pointer; }
+.idcard .copy:hover { color: var(--lime); }
+.idcard .mrz { grid-column: 1 / -1; font-family: var(--mono); font-size: .78rem; color: var(--dim); letter-spacing: .14em; border-top: 1px dashed var(--line-2); padding-top: 14px; word-break: break-all; }
+
+form { background: var(--bg); border: 1px solid var(--line-2); padding: 34px; display: grid; gap: 18px; }
+.f-label { display: block; font-family: var(--cond); font-weight: 600; font-size: .78rem; letter-spacing: .2em; text-transform: uppercase; color: var(--sand-2); margin-bottom: 8px; }
+.f-input { width: 100%; font-family: var(--body); font-size: 1rem; color: var(--sand); background: var(--bg-2); border: 1px solid var(--line); padding: 14px 16px; outline: none; border-radius: 0; transition: border-color .2s; }
+.f-input::placeholder { color: var(--dim); }
+.f-input:focus { border-color: var(--lime); }
+textarea.f-input { resize: vertical; min-height: 110px; }
+select.f-input { appearance: none; -webkit-appearance: none; cursor: pointer; background-image: linear-gradient(45deg, transparent 50%, var(--sand) 50%), linear-gradient(135deg, var(--sand) 50%, transparent 50%); background-position: calc(100% - 22px) 55%, calc(100% - 17px) 55%; background-size: 5px 5px; background-repeat: no-repeat; }
+select.f-input option { background: var(--bg-2); }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.seg { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line-2); }
+.seg input { display: none; }
+.seg label { text-align: center; padding: 12px 6px; cursor: pointer; font-family: var(--cond); font-weight: 600; font-size: .9rem; letter-spacing: .1em; text-transform: uppercase; color: var(--sand-2); transition: .15s; }
+.seg label + input + label { border-left: 1px solid var(--line-2); }
+.seg input:checked + label { background: var(--lime); color: var(--bg); }
+form .btn { justify-content: space-between; width: 100%; margin-top: 4px; }
+.form-note { font-family: var(--mono); font-size: .74rem; color: var(--dim); }
+
+.toast { position: fixed; left: 50%; bottom: 26px; transform: translate(-50%, 140px); background: var(--bg-3); color: var(--lime); border: 1px solid var(--lime); font-family: var(--mono); padding: 13px 20px; z-index: 200; transition: transform .4s cubic-bezier(.2,.8,.2,1); }
+.toast.show { transform: translate(-50%, 0); }
+
+footer { border-top: 1px solid var(--line); padding: 30px 0 40px; }
+.foot { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; font-family: var(--mono); font-size: .8rem; color: var(--dim); }
+.foot .links { display: flex; gap: 22px; }
+.foot a:hover { color: var(--lime); }
+
+.rv { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.8,.2,1); }
+.rv.in { opacity: 1; transform: none; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1040px) {
+  .sec-head { grid-template-columns: 1fr; gap: 16px; }
+  .caps { grid-template-columns: 1fr; }
+  .phase-grid { grid-template-columns: 1fr 1fr; }
+  .dossier { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+  .strip .container { grid-template-columns: 1fr 1fr; }
+  .strip div:nth-child(3) { border-left: 0; padding-left: 0; }
+  .strip div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+}
+@media (max-width: 760px) {
+  .container { padding: 0 16px; }
+  .burger { display: block; }
+  .nav-links { position: absolute; top: 72px; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0; background: rgba(11,13,10,.97); border-bottom: 1px solid var(--line); padding: 8px 16px 16px; display: none; }
+  .nav-links.open { display: flex; }
+  .nav-links a { padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .nav-links .cta { margin-top: 12px; text-align: center; border: 0; }
+  .hud { inset: 84px 12px 12px; }
+  .hud .rd.tr { display: none; }
+  .reticle { display: none; }
+  section { padding: 90px 0; }
+  .mission { padding: 110px 0; }
+  .strip div { padding: 16px 12px; }
+  .strip div:nth-child(odd) { padding-left: 0; }
+  .strip strong { font-size: .95rem; }
+  .phase-grid { grid-template-columns: 1fr; }
+  .file { padding: 26px 22px; }
+  .stamp { font-size: 1.1rem; right: 16px; bottom: 16px; }
+  .idcard { grid-template-columns: 1fr; }
+  form { padding: 22px 18px; }
+  .row2 { grid-template-columns: 1fr; }
+  .seg label { font-size: .78rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .rv { opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="container nav-inner">
+    <a href="#" class="logo" aria-label="Corum Technologies">
+      <svg viewBox="0 0 34 34" fill="none"><path d="M17 1.5L31 9.5v15L17 32.5 3 24.5v-15z" stroke="#d6cfb8" stroke-width="1.5"/><path d="M22 12.2a6.6 6.6 0 1 0 0 9.6" stroke="#c3f53c" stroke-width="2.6" stroke-linecap="square"/><rect x="15.5" y="15.5" width="3" height="3" fill="#d6cfb8"/></svg>
+      <span><b>CORUM</b><small>Technologies</small></span>
+    </a>
+    <ul class="nav-links" id="links">
+      <li><a href="#zdolnosci">Zdolności</a></li>
+      <li><a href="#fazy">Fazy</a></li>
+      <li><a href="#zasady">Zasady</a></li>
+      <li><a href="#misja">Misja</a></li>
+      <li><a href="#kontakt" class="cta">Kontakt</a></li>
+    </ul>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="hero">
+  <canvas id="topo" aria-hidden="true"></canvas>
+  <div class="hud" aria-hidden="true">
+    <i></i><i></i><i></i><i></i>
+    <span class="rd tl">CT // SEKTOR EU-AS</span>
+    <span class="rd tr" id="zulu">--:--:--Z</span>
+    <span class="rd br">51°44′N 019°19′E</span>
+  </div>
+  <div class="reticle" id="reticle" aria-hidden="true"><span class="h"></span><span class="v"></span><span class="ring"></span><span class="lbl" id="retLbl">HQ · KONSTANTYNÓW ŁÓDZKI<br>51.746N 19.326E</span></div>
+
+  <div class="container">
+    <div class="tag rv"><span class="blink"></span>Transfer technologii · Produkcja · Europa ⇄ Azja</div>
+    <h1 class="rv">Zbuduj z nami swój <span class="lime">rozwój</span> gospodarczy</h1>
+    <div class="hero-bottom">
+      <p class="rv">Prowadzimy transfer technologii i produkcji między Europą a Azją — precyzyjnie, poufnie i z pełną kontrolą jakości na każdym etapie.</p>
+      <div class="hero-cta rv">
+        <a href="#kontakt" class="btn btn-lime">Nawiąż kontakt <span class="arr">→</span></a>
+        <a href="#fazy" class="btn btn-line">Fazy współpracy</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="strip">
+  <div class="container">
+    <div class="rv"><span class="tag">Czas UTC</span><strong id="zulu2">--:--Z</strong></div>
+    <div class="rv"><span class="tag">Siedziba</span><strong>51°44′N 019°19′E</strong></div>
+    <div class="rv"><span class="tag">Obszar działania</span><strong>EU / AZJA</strong></div>
+    <div class="rv"><span class="tag">Poufność</span><strong class="lime">NDA · NEED-TO-KNOW</strong></div>
+  </div>
+</div>
+
+<main>
+<!-- CAPABILITIES -->
+<section id="zdolnosci">
+  <div class="container">
+    <div class="sec-head">
+      <div class="tag rv">01 / Zdolności</div>
+      <div>
+        <h2 class="h2 rv">Trzy zdolności.<br><span class="lime">Jeden zespół.</span></h2>
+        <p class="rv">Specjalizujemy się w obsłudze transferów technologii oraz produkcji technologicznej. Jesteśmy zaufanym partnerem zespołów z Europy i Azji.</p>
+      </div>
+    </div>
+    <div class="caps">
+      <article class="cap rv">
+        <span class="scan"></span>
+        <div class="cap-top"><span class="code">CAP-01</span><span class="ico"><svg viewBox="0 0 30 30"><path d="M3 10h22l-6-6M27 20H5l6 6"/></svg></span></div>
+        <h3>Transfer technologii</h3>
+        <p>Kompleksowa obsługa procesów transferu technologii między rynkami — od dokumentacji po wdrożenie u partnera.</p>
+        <div class="specs"><span>Kierunek <b>EU ⇄ AZJA</b></span><span>Zakres <b>Dokumentacja · know-how</b></span></div>
+      </article>
+      <article class="cap rv">
+        <span class="scan"></span>
+        <div class="cap-top"><span class="code">CAP-02</span><span class="ico"><svg viewBox="0 0 30 30"><path d="M3 26V13l7 4v-4l7 4v-4l7 4V5h3v21z"/></svg></span></div>
+        <h3>Produkcja technologiczna</h3>
+        <p>Wsparcie w optymalizacji i wdrażaniu procesów produkcyjnych u sprawdzonych partnerów.</p>
+        <div class="specs"><span>Etap <b>Seria pilotażowa → seryjna</b></span><span>Cel <b>Koszt · terminowość</b></span></div>
+      </article>
+      <article class="cap rv">
+        <span class="scan"></span>
+        <div class="cap-top"><span class="code">CAP-03</span><span class="ico"><svg viewBox="0 0 30 30"><circle cx="15" cy="15" r="11"/><path d="M15 1v6M15 23v6M1 15h6M23 15h6"/><circle cx="15" cy="15" r="2.5"/></svg></span></div>
+        <h3>Kontrola jakości</h3>
+        <p>Najwyższe standardy jakości na każdym etapie współpracy — zanim wyrób opuści linię.</p>
+        <div class="specs"><span>Punkty kontroli <b>Każdy etap</b></span><span>Raport <b>Dla klienta</b></span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- PHASES -->
+<section class="phases" id="fazy">
+  <div class="container">
+    <div class="sec-head">
+      <div class="tag rv">02 / Fazy</div>
+      <div>
+        <h2 class="h2 rv">Cztery fazy.<br><span class="lime">Jasna trasa.</span></h2>
+        <p class="rv">Każdy projekt prowadzimy według tej samej sekwencji. W każdej chwili wiesz, w której fazie jest Twój wyrób.</p>
+      </div>
+    </div>
+    <div class="route rv" aria-hidden="true">
+      <svg viewBox="0 0 1200 170" id="routeSvg">
+        <path class="path-bg" d="M40 120 C 260 20, 420 150, 600 90 S 940 10, 1160 70"/>
+        <path class="path-fg" id="routeFg" d="M40 120 C 260 20, 420 150, 600 90 S 940 10, 1160 70"/>
+        <text class="big" x="40" y="158">PL</text><text x="72" y="158">KONSTANTYNÓW ŁÓDZKI</text>
+        <text class="big" x="1160" y="112" text-anchor="end">AS</text><text x="1124" y="112" text-anchor="end">PARTNER PRODUKCYJNY</text>
+      </svg>
+    </div>
+    <div class="phase-grid" id="phaseGrid">
+      <div class="phase rv"><div class="ph-n"><span>FAZA 01</span><span>▲</span></div><h3>Rozpoznanie</h3><p>Analizujemy technologię, rynek docelowy i bariery, zanim staną się kosztem.</p><div class="out">WYJŚCIE: <b>mapa wymagań</b></div></div>
+      <div class="phase rv"><div class="ph-n"><span>FAZA 02</span><span>▲</span></div><h3>Dobór</h3><p>Wskazujemy sprawdzonych partnerów — zakłady, dostawców i kooperantów.</p><div class="out">WYJŚCIE: <b>partner produkcyjny</b></div></div>
+      <div class="phase rv"><div class="ph-n"><span>FAZA 03</span><span>▲</span></div><h3>Transfer</h3><p>Przenosimy know-how i uruchamiamy serię pilotażową pod kontrolą jakości.</p><div class="out">WYJŚCIE: <b>seria próbna</b></div></div>
+      <div class="phase rv"><div class="ph-n"><span>FAZA 04</span><span>▲</span></div><h3>Produkcja</h3><p>Skalujemy produkcję i usprawniamy przepływ produktów między rynkami.</p><div class="out">WYJŚCIE: <b>wyrób seryjny</b></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRINCIPLES -->
+<section id="zasady">
+  <div class="container">
+    <div class="sec-head">
+      <div class="tag rv">03 / Zasady</div>
+      <div>
+        <h2 class="h2 rv">Cztery zasady.<br><span class="lime">Bez wyjątków.</span></h2>
+        <p class="rv">Obowiązują w każdym projekcie — niezależnie od skali, kierunku i partnera.</p>
+      </div>
+    </div>
+    <div class="dossier">
+      <article class="file rv">
+        <div class="file-head"><span>AKTA // Z-01</span><span>STATUS: AKTYWNE</span></div>
+        <h3>Zaufanie</h3>
+        <ul><li>Specjalizacja w transferach technologii i produkcji technologicznej</li><li>Zaufany partner zespołów z Europy i Azji</li></ul>
+      </article>
+      <article class="file rv">
+        <div class="file-head"><span>AKTA // Z-02</span><span>STATUS: AKTYWNE</span></div>
+        <h3>Efektywność</h3>
+        <ul><li>Rozwiązania technologiczne maksymalizujące zyski</li><li>Łączenie biznesów wspólnie z partnerami międzynarodowymi</li></ul>
+      </article>
+      <article class="file rv">
+        <div class="file-head"><span>AKTA // Z-03</span><span>STATUS: AKTYWNE</span></div>
+        <h3>Wsparcie</h3>
+        <ul><li>Usprawnianie kluczowych przepływów produktów i usług</li><li>Ograniczanie barier technologicznych</li><li>Gwarancja wysokiej jakości</li></ul>
+      </article>
+      <article class="file file-4 rv" id="fileD">
+        <div class="file-head"><span>AKTA // Z-04</span><span>DOSTĘP: OGRANICZONY</span></div>
+        <h3>Dyskrecja</h3>
+        <ul><li>Transparentne <span class="redact">zasady relacji biznesowych</span></li><li>Know-how klienta <span class="redact">pozostaje wyłącznie jego własnością</span></li><li>Informacje tylko dla <span class="redact">osób zaangażowanych w projekt</span></li></ul>
+        <div class="hint">// najedź lub dotknij, aby odtajnić</div>
+        <span class="stamp">Poufne</span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- MISSION -->
+<section class="mission" id="misja">
+  <span class="grid-bg"></span>
+  <div class="container">
+    <div class="tag rv">04 / Misja</div>
+    <h2 class="rv">Technologia nie zatrzymuje się na granicach. <span class="lime">My też nie.</span></h2>
+    <div class="coords rv">51°44′N 019°19′E &nbsp;⟶&nbsp; 22°32′N 114°03′E</div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="kontakt">
+  <div class="container contact-grid">
+    <div>
+      <div class="tag rv" style="color:var(--lime);margin-bottom:22px;">05 / Kontakt</div>
+      <h2 class="h2 rv">Nawiąż<br><span class="lime">kontakt.</span></h2>
+      <p class="rv" style="color:var(--sand-2);font-size:1.08rem;max-width:440px;margin-top:22px;">Opisz projekt i kierunek transferu. Odpowiemy, żeby omówić szczegóły potencjalnej współpracy.</p>
+      <div class="idcard rv">
+        <div class="emblem"><svg viewBox="0 0 34 34" fill="none"><path d="M17 1.5L31 9.5v15L17 32.5 3 24.5v-15z" stroke="#d6cfb8" stroke-width="1.2"/><path d="M22 12.2a6.6 6.6 0 1 0 0 9.6" stroke="#c3f53c" stroke-width="2.4" stroke-linecap="square"/></svg></div>
+        <div>
+          <h4>Corum Technologies Sp. z o.o.</h4>
+          <dl>
+            <dt>Adres</dt><dd>ul. Lipowa 19, 95-050 Konstantynów Łódzki</dd>
+            <dt>KRS</dt><dd class="copy" data-copy="0000946211" title="Kopiuj">0000946211</dd>
+            <dt>NIP</dt><dd class="copy" data-copy="7312074957" title="Kopiuj">7312074957</dd>
+            <dt>REGON</dt><dd class="copy" data-copy="520990394" title="Kopiuj">520990394</dd>
+          </dl>
+        </div>
+        <div class="mrz">CT&lt;&lt;CORUM&lt;TECHNOLOGIES&lt;SP&lt;Z&lt;OO&lt;&lt;0000946211&lt;&lt;PL</div>
+      </div>
+    </div>
+
+    <form id="form" class="brk rv" novalidate>
+      <div>
+        <span class="f-label">Kierunek transferu</span>
+        <div class="seg">
+          <input type="radio" name="dir" id="d1" checked><label for="d1">EU → AZ</label>
+          <input type="radio" name="dir" id="d2"><label for="d2">AZ → EU</label>
+          <input type="radio" name="dir" id="d3"><label for="d3">Oba</label>
+        </div>
+      </div>
+      <div class="row2">
+        <div><label class="f-label" for="f-name">Imię i nazwisko</label><input class="f-input" id="f-name" placeholder="Jan Kowalski"></div>
+        <div><label class="f-label" for="f-company">Organizacja</label><input class="f-input" id="f-company" placeholder="Nazwa firmy"></div>
+      </div>
+      <div class="row2">
+        <div><label class="f-label" for="f-email">E-mail</label><input class="f-input" id="f-email" type="email" placeholder="jan@firma.pl"></div>
+        <div><label class="f-label" for="f-cap">Zdolność</label><select class="f-input" id="f-cap"><option>CAP-01 Transfer technologii</option><option>CAP-02 Produkcja</option><option>CAP-03 Kontrola jakości</option><option>Kilka</option></select></div>
+      </div>
+      <div><label class="f-label" for="f-msg">Opis projektu</label><textarea class="f-input" id="f-msg" placeholder="Wyrób, etap projektu, cel…"></textarea></div>
+      <button class="btn btn-lime" type="submit">Wyślij zapytanie <span class="arr">→</span></button>
+      <p class="form-note">// wszystkie informacje traktujemy jako poufne</p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="container foot">
+    <span>© 2026 Corum Technologies Sp. z o.o.</span>
+    <div class="links"><a href="#zdolnosci">Zdolności</a><a href="#fazy">Fazy</a><a href="#zasady">Zasady</a><a href="#misja">Misja</a><a href="#kontakt">Kontakt</a></div>
+    <span>EU ⇄ AZJA</span>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $ = id => document.getElementById(id);
+
+// nav
+const onScroll = () => $('nav').classList.toggle('solid', scrollY > 30);
+addEventListener('scroll', onScroll, { passive: true }); onScroll();
+$('burger').addEventListener('click', () => { $('burger').classList.toggle('open'); $('links').classList.toggle('open'); $('nav').classList.add('solid'); });
+$('links').querySelectorAll('a').forEach(a => a.addEventListener('click', () => { $('burger').classList.remove('open'); $('links').classList.remove('open'); }));
+
+// reveal
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.1 });
+document.querySelectorAll('.rv').forEach((el, i) => { el.style.transitionDelay = (i % 4) * 70 + 'ms'; io.observe(el); });
+
+// toast, copy, form
+function toast(t) { $('toast').textContent = t; $('toast').classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(() => $('toast').classList.remove('show'), 2600); }
+document.querySelectorAll('.copy').forEach(el => el.addEventListener('click', () => { navigator.clipboard?.writeText(el.dataset.copy).catch(() => {}); toast('> SKOPIOWANO ' + el.dataset.copy); }));
+$('form').addEventListener('submit', e => {
+  e.preventDefault();
+  if (!$('f-name').value.trim() || !$('f-email').value.includes('@')) { toast('> UZUPEŁNIJ IMIĘ I E-MAIL'); return; }
+  e.target.reset(); toast('> ZAPYTANIE PRZYJĘTE · DZIĘKUJEMY');
+});
+
+// redacted lines: tap to reveal on touch screens
+$('fileD').addEventListener('click', () => $('fileD').querySelectorAll('.redact').forEach(r => r.classList.toggle('show')));
+
+// UTC clock
+function zulu() {
+  const d = new Date(), p = n => String(n).padStart(2, '0');
+  $('zulu').textContent = `${p(d.getUTCHours())}:${p(d.getUTCMinutes())}:${p(d.getUTCSeconds())}Z`;
+  $('zulu2').textContent = `${p(d.getUTCHours())}:${p(d.getUTCMinutes())}Z`;
+}
+zulu(); setInterval(zulu, 1000);
+
+// phases: route draws with scroll, active phase follows
+(function () {
+  const fg = $('routeFg'), len = fg.getTotalLength();
+  fg.style.strokeDasharray = len; fg.style.strokeDashoffset = len;
+  const phases = [...document.querySelectorAll('.phase')];
+  const svg = $('routeSvg');
+  const wps = [0, .33, .66, 1].map((f, i) => {
+    const p = fg.getPointAtLength(len * f);
+    const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    c.setAttribute('cx', p.x); c.setAttribute('cy', p.y); c.setAttribute('r', 8); c.setAttribute('class', 'wp');
+    const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    t.setAttribute('x', p.x); t.setAttribute('y', p.y - 18); t.setAttribute('text-anchor', 'middle'); t.textContent = 'F0' + (i + 1);
+    svg.append(c, t);
+    return [f, c];
+  });
+  function update() {
+    const r = $('fazy').getBoundingClientRect();
+    const prog = Math.min(1, Math.max(0, (innerHeight * .75 - r.top) / r.height));
+    fg.style.strokeDashoffset = len * (1 - prog);
+    let active = -1;
+    wps.forEach(([f, c], i) => { const on = prog >= f - .001 && prog > 0; c.classList.toggle('on', on); if (on) active = i; });
+    phases.forEach((p, i) => p.classList.toggle('on', i === active));
+  }
+  addEventListener('scroll', update, { passive: true }); update();
+})();
+
+// hero: drifting topographic contours (value noise + marching squares)
+(function () {
+  const c = $('topo'), ctx = c.getContext('2d'), hero = $('hero'), ret = $('reticle');
+  let w, h, dpr, cols, rows, field;
+  const CELL = 14, LEVELS = [-.45, -.3, -.15, 0, .15, .3, .45], HI = 3;
+  const perm = new Uint8Array(512);
+  (function () { const p = [...Array(256).keys()]; let s = 1337; for (let i = 255; i > 0; i--) { s = (s * 16807) % 2147483647; const j = s % (i + 1); [p[i], p[j]] = [p[j], p[i]]; } for (let i = 0; i < 512; i++) perm[i] = p[i & 255]; })();
+  const fade = t => t * t * (3 - 2 * t);
+  const rnd = (x, y) => perm[(perm[x & 255] + y) & 511] / 127.5 - 1;
+  function noise(x, y) {
+    const xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi, u = fade(xf), v = fade(yf);
+    const a = rnd(xi, yi), b = rnd(xi + 1, yi), cc = rnd(xi, yi + 1), d = rnd(xi + 1, yi + 1);
+    return a + (b - a) * u + (cc - a) * v + (a - b - cc + d) * u * v;
+  }
+  const fbm = (x, y) => noise(x, y) * .6 + noise(x * 2.1 + 5.2, y * 2.1 + 1.3) * .3 + noise(x * 4.3 + 9.1, y * 4.3 + 3.7) * .1;
+
+  function size() {
+    dpr = Math.min(devicePixelRatio || 1, 2);
+    w = c.offsetWidth; h = c.offsetHeight;
+    c.width = w * dpr; c.height = h * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    cols = Math.ceil(w / CELL) + 1; rows = Math.ceil(h / CELL) + 1;
+    field = new Float32Array(cols * rows);
+  }
+  let t = 0;
+  function frame() {
+    const ox = t * .0016, oy = t * .0007, sc = .0042;
+    for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) field[j * cols + i] = fbm(i * CELL * sc + ox, j * CELL * sc + oy);
+    ctx.clearRect(0, 0, w, h);
+    LEVELS.forEach((lv, li) => {
+      ctx.beginPath();
+      for (let j = 0; j < rows - 1; j++) for (let i = 0; i < cols - 1; i++) {
+        const a = field[j * cols + i], b = field[j * cols + i + 1], cc = field[(j + 1) * cols + i + 1], d = field[(j + 1) * cols + i];
+        const idx = (a > lv) | ((b > lv) << 1) | ((cc > lv) << 2) | ((d > lv) << 3);
+        if (idx === 0 || idx === 15) continue;
+        const x = i * CELL, y = j * CELL;
+        const top = [x + CELL * (lv - a) / (b - a), y], right = [x + CELL, y + CELL * (lv - b) / (cc - b)];
+        const bot = [x + CELL * (lv - d) / (cc - d), y + CELL], left = [x, y + CELL * (lv - a) / (d - a)];
+        const seg = (p, q) => { ctx.moveTo(p[0], p[1]); ctx.lineTo(q[0], q[1]); };
+        switch (idx) {
+          case 1: case 14: seg(left, top); break;
+          case 2: case 13: seg(top, right); break;
+          case 3: case 12: seg(left, right); break;
+          case 4: case 11: seg(right, bot); break;
+          case 5: seg(left, top); seg(right, bot); break;
+          case 6: case 9: seg(top, bot); break;
+          case 7: case 8: seg(left, bot); break;
+          case 10: seg(top, right); seg(bot, left); break;
+        }
+      }
+      ctx.strokeStyle = li === HI ? 'rgba(195,245,60,.32)' : 'rgba(214,207,184,' + (.07 + .02 * (li % 2)) + ')';
+      ctx.lineWidth = li === HI ? 1.2 : 1;
+      ctx.stroke();
+    });
+    t++;
+    if (!reduce) setTimeout(() => requestAnimationFrame(frame), 50);
+  }
+  function placeRet(x, y, label) { ret.style.left = x + 'px'; ret.style.top = y + 'px'; if (label) $('retLbl').innerHTML = label; }
+  const home = () => placeRet(w * .74, h * .36, 'HQ · KONSTANTYNÓW ŁÓDZKI<br>51.746N 19.326E');
+  hero.addEventListener('pointermove', e => {
+    if (e.pointerType !== 'mouse') return;
+    const r = hero.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+    const lat = (52.25 - y / r.height * 1.0).toFixed(3), lon = (18.8 + x / r.width * 1.1).toFixed(3);
+    placeRet(x, y, `KURSOR<br>${lat}N ${lon}E`);
+  });
+  hero.addEventListener('pointerleave', home);
+  addEventListener('resize', () => { size(); home(); if (reduce) frame(); });
+  size(); home(); frame();
+})();
+</script>
+</body>
+</html>
