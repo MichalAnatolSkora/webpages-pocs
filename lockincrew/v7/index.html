@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>lockincrew · level 1-1</title>
+<meta name="description" content="lockincrew — deep work as a service. a playable level: stomp the meetings, collect the ships, recruit the crew." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+<script>document.documentElement.classList.replace('no-js', 'js');</script>
+</head>
+<body>
+
+<!-- ===== HUD ===== -->
+<header class="hud">
+  <div class="term-dots" aria-hidden="true"><span class="td td-r"></span><span class="td td-y"></span><span class="td td-g"></span></div>
+  <p class="hud-title"><span class="brand-mark">✻</span> lockincrew <span class="dim">— level 1-1 —</span> <b id="hudZone">noise city</b></p>
+  <dl class="hud-stats" aria-live="off">
+    <div><dt>ships</dt><dd id="hudShips">000</dd></div>
+    <div><dt>declined</dt><dd id="hudStomps">0</dd></div>
+    <div><dt>crew</dt><dd id="hudCrew">0/5</dd></div>
+    <div class="hud-time"><dt>time</dt><dd id="hudTime">00:00</dd></div>
+  </dl>
+  <div class="hud-btns">
+    <button class="pill" id="textBtn" type="button"><span class="kbd">T</span> text mode</button>
+    <button class="pill pill-lock" id="lockBtn" type="button"><span class="kbd">L</span> lock_in</button>
+  </div>
+</header>
+
+<!-- ===== Game ===== -->
+<main class="stage" id="stage">
+  <canvas id="game" aria-label="lockincrew level 1-1, a playable platformer. use text mode for the same content as plain text."></canvas>
+
+  <aside class="panel" id="panel" hidden aria-live="polite">
+    <div class="panel-head"><span class="resp-mark">✻</span> <span id="panelTitle">sign</span></div>
+    <div class="panel-body" id="panelBody"></div>
+  </aside>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <div class="start-hint" id="startHint">
+    <p class="sh-k">✻ $ ./lockincrew --play</p>
+    <p class="sh-t">press <span class="kbd">→</span> to start</p>
+    <p class="sh-keys"><span class="kbd">← →</span> run · <span class="kbd">space</span> jump · stomp the meetings · collect ships</p>
+    <p class="sh-alt">no time for games? <button class="link-btn" id="hintText" type="button">read it in text mode</button></p>
+  </div>
+
+  <div class="touch" id="touch" aria-hidden="true">
+    <div class="touch-l">
+      <button data-key="left">◀</button>
+      <button data-key="right">▶</button>
+    </div>
+    <div class="touch-r">
+      <button data-key="jump">A</button>
+    </div>
+  </div>
+</main>
+
+<!-- ===== Lock-in (pause) ===== -->
+<div class="overlay" id="lock" hidden>
+  <div class="card">
+    <div class="card-head"><span class="brand-mark">✻</span> // LOCK_IN_MODE · game paused</div>
+    <svg class="lock-pet" viewBox="0 -3 16 19" shape-rendering="crispEdges" aria-hidden="true">
+      <g class="shackle">
+        <rect x="5" y="0" width="6" height="1" fill="#d97757"/><rect x="5" y="1" width="1" height="4" fill="#d97757"/><rect x="10" y="1" width="1" height="4" fill="#d97757"/>
+      </g>
+      <rect x="3" y="5" width="10" height="1" fill="#d97757"/><rect x="2" y="6" width="12" height="9" fill="#d97757"/><rect x="3" y="15" width="10" height="1" fill="#d97757"/>
+      <rect x="3" y="6" width="9" height="1" fill="#e8a47e"/><rect x="2" y="7" width="1" height="6" fill="#e8a47e"/>
+      <rect x="13" y="7" width="1" height="7" fill="#b85a3e"/><rect x="3" y="14" width="10" height="1" fill="#b85a3e"/>
+      <rect x="7" y="9" width="2" height="1" fill="#1a1a1a"/><rect x="6" y="10" width="4" height="1" fill="#1a1a1a"/><rect x="7" y="11" width="2" height="2" fill="#1a1a1a"/>
+    </svg>
+    <pre class="card-art">   the level waits.
+   the meetings freeze mid-step.
+   nobody gets pulled into anything.</pre>
+    <div class="card-timer" id="lockTimer">00:00</div>
+    <button class="btn primary" id="unlock" type="button"><span class="btn-prompt">$</span> ./resume <span class="kbd">esc</span></button>
+  </div>
+</div>
+
+<!-- ===== Level clear ===== -->
+<div class="overlay" id="clear" hidden>
+  <div class="card card-wide">
+    <div class="card-head"><span class="brand-mark">✻</span> // LEVEL CLEAR</div>
+    <p class="clear-t">you reached lockincrew hq.</p>
+    <div class="clear-stats">
+      <div><b id="cShips">0</b><span>ships collected</span></div>
+      <div><b id="cStomps">0</b><span>meetings declined</span></div>
+      <div><b id="cCrew">0/5</b><span>crew recruited</span></div>
+      <div><b id="cLost">0 min</b><span>lost to meetings</span></div>
+    </div>
+    <p class="clear-sub">now the real level: send a brief. brief is better than long. we reply within 5 days — or you're in the no pile, and the door opens next quarter.</p>
+    <form class="hire-form" data-hire autocomplete="off">
+      <div class="hf-row"><label class="hf-key" for="cName">name@</label><input id="cName" type="text" name="name" placeholder="your name" required /></div>
+      <div class="hf-row"><label class="hf-key" for="cMail">mail@</label><input id="cMail" type="email" name="email" placeholder="you@company.com" required /></div>
+      <div class="hf-row hf-stack"><label class="hf-key" for="cBrief">brief@</label><textarea id="cBrief" name="brief" rows="3" placeholder="what are we building? deadline? budget shape?"></textarea></div>
+      <div class="hf-actions">
+        <button class="btn primary" type="submit"><span class="btn-prompt">$</span> ./send_brief</button>
+        <button class="btn" type="button" id="replayBtn"><span class="btn-prompt">$</span> ./play_again</button>
+        <span class="hf-note dim" data-status>or mail <a href="mailto:lockin@lockincrew.io">lockin@lockincrew.io</a></span>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===== Text mode: the whole site as plain content (also the source for in-game signs) ===== -->
+<article class="textmode" id="textmode" aria-label="lockincrew in text mode">
+  <div class="tm-inner">
+    <div class="tm-bar">
+      <span class="dim">~/lockincrew/level-1-1.txt</span>
+      <button class="btn" id="backToGame" type="button"><span class="btn-prompt">$</span> ./back_to_game <span class="kbd">T</span></button>
+    </div>
+
+    <section data-sign="welcome" data-title="readme · start here">
+      <h1 class="tm-h1">lockincrew</h1>
+      <p><b>deep work as a service.</b> a small unit of operators who ship while everyone else schedules the meeting. no slack, no standups, no theatre — just the keyboard, the problem & the receipts.</p>
+      <p class="dim game-only">run right. jump with space. stomp the meetings, collect the ships, recruit the crew. the hq is at the end of the level.</p>
+    </section>
+
+    <h2 class="tm-h2">/manifesto <span class="dim">— six rules. no slack channels needed.</span></h2>
+    <section data-sign="rule1" data-title="rule 001"><h3>locked in > logged on</h3><p>presence is not output. we measure ourselves in shipped artifacts, not hours of green dot.</p></section>
+    <section data-sign="rule2" data-title="rule 010"><h3>fewer rituals.</h3><p>no daily standup. no retro about the retro. one written brief, one done thing, one demo.</p></section>
+    <section data-sign="rule3" data-title="rule 011"><h3>the keyboard is the artifact.</h3><p>strategy decks rot. running code compounds. we bias hard toward the latter.</p></section>
+    <section data-sign="rule4" data-title="rule 100"><h3>small units, sharp scope.</h3><p>two-to-four operators per cell. fixed window. brutal definition of done.</p></section>
+    <section data-sign="rule5" data-title="rule 101"><h3>taste is non-negotiable.</h3><p>fast is good. fast & tasteful is the whole job. if it ships ugly, it didn't ship.</p></section>
+    <section data-sign="rule6" data-title="rule 110"><h3>own the outcome.</h3><p>we don't hand off tickets. we walk the thing into prod & stay until it breathes on its own.</p></section>
+
+    <h2 class="tm-h2">/services <span class="dim">— four shapes of engagement.</span></h2>
+    <section data-sign="svc1" data-title="/01 · strike team"><h3>zero-to-one product cells</h3><p>you have a pitch, a deadline & a half-built figma. we turn up as a 3-person cell & ship a real v1 in 6 weeks. design, frontend, backend, infra — one room.</p><p class="chips"><span>6 wk window</span><span>fixed price</span><span>code is yours</span></p></section>
+    <section data-sign="svc2" data-title="/02 · rescue op"><h3>codebase rescues & rewrites</h3><p>your repo is on fire, the original team is gone, the next release is friday. we triage, we patch, we delete. we leave it boring & documented.</p><p class="chips"><span>2–8 wk</span><span>t&m</span><span>handover doc</span></p></section>
+    <section data-sign="svc3" data-title="/03 · ai integration"><h3>llm features that actually ship</h3><p>not another chatbot. real workflows: agents in your ops, eval harnesses, prompt & cache discipline, observability. claude as a tool, not a buzzword.</p><p class="chips"><span>4 wk pilot</span><span>opt-in retainer</span><span>evals included</span></p></section>
+    <section data-sign="svc4" data-title="/04 · embedded operator"><h3>one of us, on your team, full lock-in</h3><p>a single senior operator embeds for one quarter. they don't attend standups; they ship. you keep the work, the context & the muscle memory.</p><p class="chips"><span>1 quarter</span><span>monthly</span><span>renewable</span></p></section>
+
+    <h2 class="tm-h2">/crew <span class="dim">— 5 active operators · 1 slot open.</span></h2>
+    <section data-sign="kira" data-title="kira joined the party"><h3>kira <span class="dim">/ @k1ra · octopus · founding operator · systems</span></h3><p>distributed systems, rust, postgres internals. eight arms, zero meetings. once deleted 40k lines & the product got faster.</p></section>
+    <section data-sign="mateo" data-title="mateo joined the party"><h3>mateo <span class="dim">/ @m4t · anglerfish · product & frontend</span></h3><p>react, motion, taste. brings his own light. believes 60fps is a moral position.</p></section>
+    <section data-sign="ada" data-title="ada joined the party"><h3>ada <span class="dim">/ @ada_lvc · probe bot · ai & agents</span></h3><p>writes prompts like she writes code. her antenna blinks once per passing eval. evals or it didn't happen.</p></section>
+    <section data-sign="juno" data-title="juno joined the party"><h3>juno <span class="dim">/ @juno.exe · tardigrade · infra & security</span></h3><p>survives vacuum, radiation & your iam policy. has opinions that would ruin a dinner party.</p></section>
+    <section data-sign="rin" data-title="rin joined the party"><h3>rin <span class="dim">/ @r1n · cat · design engineering</span></h3><p>designs in code, lands on her feet. ships type scales that make pms cry, in a good way.</p></section>
+    <section data-sign="slot" data-title="[ slot open ]"><h3>[ slot open ] <span class="dim">· we hatch 2 operators / yr</span></h3><p>if you read this far & your hands are itching, the application is <a href="mailto:lockin@lockincrew.io">one email</a>. senior · eu / remote.</p></section>
+
+    <h2 class="tm-h2">/receipts <span class="dim">— last 12 months. unaudited but honest.</span></h2>
+    <section data-sign="receipts" data-title="receipts · scoreboard">
+      <p class="tm-stats"><span><b>184</b> ships / quarter</span><span><b>42</b> operators*</span><span><b>0</b> recurring meetings</span><span><b>99%</b> async</span></p>
+      <p class="dim small">*6 creatures, 36 agents. every coin in this level is one ship.</p>
+      <pre class="log">✓ shipped: acme/payments — v1 in 38d
+✓ rescued: nordsail/orders — friday release held
+✓ deployed: brink/agent-eval — p95 −41%
+! declined: 3 briefs — scope unclear, no deadline
+✓ embedded: keiretsu/data — q4 renewed</pre>
+    </section>
+
+    <h2 class="tm-h2">/hire <span class="dim">— brief is better than long.</span></h2>
+    <section data-sign="hire" data-title="lockincrew hq · flag ahead">
+      <p>we read everything & reply within 5 days — or you're in the no pile, and the door opens again next quarter. reach the flag to send a brief, or mail <a href="mailto:lockin@lockincrew.io">lockin@lockincrew.io</a>.</p>
+    </section>
+    <form class="hire-form text-only" data-hire autocomplete="off">
+      <div class="hf-row"><label class="hf-key" for="tName">name@</label><input id="tName" type="text" name="name" placeholder="your name" required /></div>
+      <div class="hf-row"><label class="hf-key" for="tMail">mail@</label><input id="tMail" type="email" name="email" placeholder="you@company.com" required /></div>
+      <div class="hf-row hf-stack"><label class="hf-key" for="tBrief">brief@</label><textarea id="tBrief" name="brief" rows="4" placeholder="what are we building? deadline? budget shape?"></textarea></div>
+      <div class="hf-actions">
+        <button class="btn primary" type="submit"><span class="btn-prompt">$</span> ./send_brief</button>
+        <span class="hf-note dim" data-status>replies in &lt; 5 days</span>
+      </div>
+    </form>
+    <p class="tm-foot dim">© 2026 lockincrew sp. z o.o. — warsaw (utc+1), lisbon (utc+0) & level 1-1.</p>
+  </div>
+</article>
+
+<script src="script.js"></script>
+</body>
+</html>
