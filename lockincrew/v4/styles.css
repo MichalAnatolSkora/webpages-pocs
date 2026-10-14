@@ -666,7 +666,7 @@ h2 {
   .hero { grid-template-columns: minmax(0, 1fr); grid-template-areas: "logo" "copy" "sub"; padding-top: 196px; }
   .hero-sub-wrap { width: 100%; max-width: 340px; justify-self: end; }
   .rules, .crew { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .svcs, .receipts, .hire { grid-template-columns: 1fr; }
+  .svcs, .receipts, .hire { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 620px) {
   .term-bar { gap: 10px; padding: 0 10px; }
