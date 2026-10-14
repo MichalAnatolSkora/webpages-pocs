@@ -1,0 +1,845 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Uncle Tan — Bánh mì bez skrótów · Kotlarska 25A, Wrocław</title>
+<meta name="description" content="Wietnamskie bánh mì na własnej bagietce, 200 m od Rynku we Wrocławiu. Zamów online: odbiór osobisty albo dostawa. Ul. Kotlarska 25A, codziennie 12:00–22:00.">
+<meta name="theme-color" content="#F2F0EB">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23E2231A'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter+Tight:wght@400;500;600;700;800;900&display=swap">
+<link rel="stylesheet" href="styles.css">
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+<a class="skip" href="#main">Przejdź do treści</a>
+
+<header class="bar">
+  <div class="wrap grid bar__in">
+    <a class="logo" href="#top" aria-label="Uncle Tan, Chú Tân — początek strony">
+      <span class="logo__dot" aria-hidden="true"></span>
+      <span class="logo__word">Uncle Tan</span>
+      <span class="logo__sub"><span lang="vi">Chú Tân</span> · Kotlarska 25A</span>
+    </a>
+    <nav class="nav" id="nav" aria-label="Sekcje strony">
+      <ol>
+        <li><a href="#anatomia"><span class="nav__no">02</span>Anatomia</a></li>
+        <li><a href="#karta"><span class="nav__no">04</span>Karta</a></li>
+        <li><a href="#trasa"><span class="nav__no">05</span>Trasa</a></li>
+        <li><a href="#godziny"><span class="nav__no">06</span>Godziny</a></li>
+        <li><a href="#dojazd"><span class="nav__no">07</span>Dojazd</a></li>
+      </ol>
+      <button class="tool tool--panel" type="button" data-grid-toggle aria-pressed="false"><span class="tool__ico" aria-hidden="true"></span>Siatka</button>
+    </nav>
+    <div class="bar__tools">
+      <button class="tool tool--grid" type="button" data-grid-toggle aria-pressed="false" title="Pokaż siatkę 12 kolumn (klawisz G)"><span class="tool__ico" aria-hidden="true"></span>Siatka</button>
+      <a class="cart-btn" href="#zamow" aria-label="Koszyk: 4 pozycje — zobacz, jak zamówić online"><svg class="cart-btn__ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 5.5h11l-1 8.5h-9z M5.5 5.5V4.5a2.5 2.5 0 0 1 5 0v1"/></svg><span class="cart-btn__k">Koszyk</span><span class="cart-btn__n">4</span></a>
+      <button class="tool tool--menu" id="menu-toggle" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- 01 -->
+  <section class="hero" id="top" aria-labelledby="hero-title">
+    <div class="wrap grid hero__top">
+      <div class="idx hero__idx">
+        <span class="idx__no">01</span>
+        <p>Bánh mì · Wrocław<br><span lang="vi">Hà Nội — Sài Gòn</span> — Kotlarska</p>
+        <p class="live" id="hero-status">Codziennie 12:00–22:00</p>
+      </div>
+      <h1 class="hero__title" id="hero-title"><span lang="vi">Bánh mì</span> bez skrótów.</h1>
+      <dl class="facts">
+        <div class="fact"><dt>świeża bagietka</dt><dd><span data-count="2">2</span> h</dd></div>
+        <div class="fact"><dt>pikle</dt><dd><span data-count="48">48</span> h</dd></div>
+        <div class="fact"><dt>rodzajów <span lang="vi">bánh mì</span></dt><dd><span data-count="8">8</span></dd></div>
+        <div class="fact"><dt>od Rynku</dt><dd><span data-count="200">200</span> m</dd></div>
+      </dl>
+    </div>
+
+    <div class="wrap">
+      <div class="fit bm" data-fit aria-hidden="true">
+        <span class="fit__text" lang="vi">Bánh<span class="fit__sp"> </span><br class="fit__br">m<span class="bm__i">ì</span><span class="fit__probe"></span></span>
+      </div>
+    </div>
+
+    <div class="wrap grid hero__bottom">
+      <p class="hero__lead">Własna bagietka z pieca co dwie godziny, pasztet robiony co rano, pikle marynowane dwie doby. Tân piecze i składa bánh mì tak, jak je się na ulicach Hà Nội — dwie minuty od Rynku.</p>
+      <div class="hero__cta">
+        <a class="btn btn--red" href="#zamow">Zamów online <span aria-hidden="true">→</span></a>
+        <a class="btn" href="#karta">Zobacz kartę</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 -->
+  <section class="sec" id="anatomia" aria-labelledby="anatomia-title">
+    <div class="wrap">
+      <hr class="rule" data-reveal>
+      <div class="grid sec__head">
+        <div class="idx">
+          <span class="idx__no">02</span>
+          <p>Anatomia<br>rysunek techniczny</p>
+        </div>
+        <h2 class="sec__title" id="anatomia-title">Anatomia</h2>
+        <p class="sec__aside">Rozstrzelony widok <span lang="vi">bánh mì</span>: jedna bagietka, osiem warstw. Najedź na warstwę albo na wiersz legendy.</p>
+      </div>
+
+      <div class="grid anat">
+        <figure class="anat__main" id="anat-main" data-reveal>
+          <svg class="an" viewBox="0 0 720 450" role="img" aria-labelledby="an-t an-d">
+            <title id="an-t">Anatomia bánh mì — widok rozstrzelony</title>
+            <desc id="an-d">Od dołu: bagietka, pasztet, majonez na maśle, mięso i chả lụa, pikle đồ chua, ogórek, kolendra, chili, wierzch bagietki. Numery 01–08 odpowiadają legendzie.</desc>
+            <defs>
+              <pattern id="an-dots" width="6" height="6" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r=".9" class="an-dotfill"/></pattern>
+              <g id="an-ring"><circle r="8" class="an-ring"/><circle r="2.6" class="an-seed"/></g>
+              <g id="an-leaf"><path d="M0 5 C -6 4, -9 -1, -6 -5 C -4 -7, -1 -6, 0 -4 C 1 -7, 5 -7, 7 -4 C 9 -1, 6 4, 0 5 Z M0 5 L0 -3"/></g>
+            </defs>
+
+            <g class="an-axis" aria-hidden="true">
+              <line x1="120" y1="24" x2="120" y2="424"/>
+              <line x1="540" y1="24" x2="540" y2="424"/>
+            </g>
+
+            <g class="an-sec" aria-hidden="true">
+              <line x1="460" y1="22" x2="460" y2="428" class="an-sec__line"/>
+              <line x1="460" y1="16" x2="460" y2="34" class="an-sec__end"/>
+              <line x1="460" y1="416" x2="460" y2="434" class="an-sec__end"/>
+              <path d="M460 26 H442 M448 22 L442 26 L448 30" class="an-sec__arrow"/>
+              <path d="M460 424 H442 M448 420 L442 424 L448 428" class="an-sec__arrow"/>
+              <text x="468" y="20" class="an-t an-t--sec">A</text>
+              <text x="468" y="440" class="an-t an-t--sec">A</text>
+            </g>
+
+            <g class="ly" data-l="01" style="--c: 70px">
+              <path class="an-shape" d="M40 106 C 42 76, 64 56, 112 49 C 190 39, 470 37, 548 46 C 596 52, 618 74, 620 106 Z"/>
+              <path class="an-shape" d="M118 64 C 140 51, 166 47, 194 48 C 168 52, 144 57, 118 64 Z"/>
+              <path class="an-shape" d="M206 60 C 228 47, 254 43, 282 44 C 256 48, 232 53, 206 60 Z"/>
+              <path class="an-shape" d="M294 58 C 316 45, 342 41, 370 42 C 344 46, 320 51, 294 58 Z"/>
+              <path class="an-shape" d="M382 58 C 404 45, 430 41, 458 42 C 432 46, 408 51, 382 58 Z"/>
+              <path class="an-shape" d="M470 60 C 492 47, 518 44, 546 46 C 520 50, 496 54, 470 60 Z"/>
+            </g>
+
+            <g class="ly ly--red" data-l="08" style="--c: 50px">
+              <use href="#an-ring" x="96" y="136"/><use href="#an-ring" x="148" y="132"/><use href="#an-ring" x="196" y="138"/>
+              <use href="#an-ring" x="252" y="134"/><use href="#an-ring" x="306" y="138"/><use href="#an-ring" x="352" y="133"/>
+              <use href="#an-ring" x="410" y="137"/><use href="#an-ring" x="466" y="133"/><use href="#an-ring" x="520" y="138"/>
+              <use href="#an-ring" x="566" y="134"/>
+            </g>
+
+            <g class="ly" data-l="07" style="--c: 34px">
+              <path class="an-line" d="M84 176 q12 -6 26 -10 M160 175 q12 -6 26 -10 M236 176 q12 -6 26 -10 M312 175 q12 -6 26 -10 M388 176 q12 -6 26 -10 M464 175 q12 -6 26 -10 M540 176 q12 -6 26 -10"/>
+              <use href="#an-leaf" class="an-leafuse" transform="translate(90 168) rotate(-25)"/><use href="#an-leaf" class="an-leafuse" transform="translate(103 161) rotate(15)"/><use href="#an-leaf" class="an-leafuse" transform="translate(114 170) rotate(60) scale(.85)"/>
+              <use href="#an-leaf" class="an-leafuse" transform="translate(166 167) rotate(-20)"/><use href="#an-leaf" class="an-leafuse" transform="translate(179 160) rotate(20)"/><use href="#an-leaf" class="an-leafuse" transform="translate(190 169) rotate(55) scale(.85)"/>
+              <use href="#an-leaf" class="an-leafuse" transform="translate(242 168) rotate(-25)"/><use href="#an-leaf" class="an-leafuse" transform="translate(255 161) rotate(15)"/><use href="#an-leaf" class="an-leafuse" transform="translate(266 170) rotate(60) scale(.85)"/>
+              <use href="#an-leaf" class="an-leafuse" transform="translate(318 167) rotate(-20)"/><use href="#an-leaf" class="an-leafuse" transform="translate(331 160) rotate(20)"/><use href="#an-leaf" class="an-leafuse" transform="translate(342 169) rotate(55) scale(.85)"/>
+              <use href="#an-leaf" class="an-leafuse" transform="translate(394 168) rotate(-25)"/><use href="#an-leaf" class="an-leafuse" transform="translate(407 161) rotate(15)"/><use href="#an-leaf" class="an-leafuse" transform="translate(418 170) rotate(60) scale(.85)"/>
+              <use href="#an-leaf" class="an-leafuse" transform="translate(470 167) rotate(-20)"/><use href="#an-leaf" class="an-leafuse" transform="translate(483 160) rotate(20)"/><use href="#an-leaf" class="an-leafuse" transform="translate(494 169) rotate(55) scale(.85)"/>
+              <use href="#an-leaf" class="an-leafuse" transform="translate(546 168) rotate(-25)"/><use href="#an-leaf" class="an-leafuse" transform="translate(559 161) rotate(15)"/><use href="#an-leaf" class="an-leafuse" transform="translate(570 170) rotate(60) scale(.85)"/>
+            </g>
+
+            <g class="ly" data-l="06" style="--c: 16px">
+              <rect class="an-shape" x="78" y="194" width="210" height="12" rx="6"/>
+              <rect class="an-shape" x="262" y="192" width="200" height="12" rx="6"/>
+              <rect class="an-shape" x="430" y="195" width="168" height="12" rx="6"/>
+              <path class="an-line an-line--dash" d="M92 200 H274 M276 198 H448 M444 201 H584"/>
+            </g>
+
+            <g class="ly" data-l="05" style="--c: 0px">
+              <path class="an-stick an-stick--red" d="M72 232 L118 227 M128 226 L176 230 M196 228 L240 224 M258 229 L300 232 M318 236 L366 233 M380 235 L430 237 M440 234 L488 231 M500 236 L548 233 M556 235 L592 237"/>
+              <path class="an-stick" d="M100 237 L150 234 M160 235 L214 231 M222 237 L276 235 M288 224 L336 228 M350 227 L396 223 M412 226 L458 230 M470 224 L518 227 M530 227 L576 224"/>
+              <path class="an-stick-in" d="M100 237 L150 234 M160 235 L214 231 M222 237 L276 235 M288 224 L336 228 M350 227 L396 223 M412 226 L458 230 M470 224 L518 227 M530 227 L576 224"/>
+            </g>
+
+            <g class="ly" data-l="04" style="--c: -14px">
+              <rect class="an-shape" x="66" y="257" width="116" height="19" rx="9.5"/><path class="an-line" d="M80 267 q12 -5 24 0 t24 0 t24 0"/>
+              <rect class="an-shape" x="158" y="252" width="118" height="19" rx="9.5"/><path class="an-line" d="M172 262 q12 -5 24 0 t24 0 t24 0"/>
+              <rect class="an-shape" x="252" y="258" width="116" height="19" rx="9.5"/><path class="an-line" d="M266 268 q12 -5 24 0 t24 0 t24 0"/>
+              <rect class="an-shape" x="344" y="253" width="118" height="19" rx="9.5"/><path class="an-line" d="M358 263 q12 -5 24 0 t24 0 t24 0"/>
+              <rect class="an-shape" x="438" y="257" width="116" height="19" rx="9.5"/><path class="an-line" d="M452 267 q12 -5 24 0 t24 0 t24 0"/>
+              <rect class="an-shape" x="506" y="252" width="108" height="19" rx="9.5"/><path class="an-line" d="M520 262 q12 -5 24 0 t24 0 t24 0"/>
+            </g>
+
+            <g class="ly" data-l="03" style="--c: -30px">
+              <path class="an-line" d="M70 295 q10 -5 20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0"/>
+              <path class="an-line" d="M70 302 q10 -5 20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0"/>
+            </g>
+
+            <g class="ly" data-l="02" style="--c: -44px">
+              <rect class="an-shape an-shape--dots" x="70" y="321" width="520" height="14" rx="7"/>
+            </g>
+
+            <g class="ly" data-l="01" style="--c: -62px">
+              <path class="an-shape" d="M40 352 L620 352 C 618 382, 596 400, 548 406 C 470 414, 190 414, 112 406 C 64 400, 42 382, 40 352 Z"/>
+              <path class="an-line an-line--dash" d="M70 392 C 160 402, 500 402, 590 392"/>
+            </g>
+
+            <g class="an-call" aria-hidden="true">
+              <g data-l="01"><path d="M606 84 H652"/><circle cx="606" cy="84" r="2.5"/><text x="662" y="84">01</text></g>
+              <g data-l="08"><path d="M574 136 H652"/><circle cx="574" cy="136" r="2.5"/><text x="662" y="136">08</text></g>
+              <g data-l="07"><path d="M574 168 H652"/><circle cx="574" cy="168" r="2.5"/><text x="662" y="168">07</text></g>
+              <g data-l="06"><path d="M590 200 H652"/><circle cx="590" cy="200" r="2.5"/><text x="662" y="200">06</text></g>
+              <g data-l="05"><path d="M584 232 H652"/><circle cx="584" cy="232" r="2.5"/><text x="662" y="232">05</text></g>
+              <g data-l="04"><path d="M600 266 H652"/><circle cx="600" cy="266" r="2.5"/><text x="662" y="266">04</text></g>
+              <g data-l="03"><path d="M590 298 H652"/><circle cx="590" cy="298" r="2.5"/><text x="662" y="298">03</text></g>
+              <g data-l="02"><path d="M584 328 H652"/><circle cx="584" cy="328" r="2.5"/><text x="662" y="328">02</text></g>
+              <g data-l="01"><path d="M606 380 H652"/><circle cx="606" cy="380" r="2.5"/><text x="662" y="380">01</text></g>
+            </g>
+          </svg>
+        </figure>
+
+        <figure class="anat__photo">
+          <div class="duo"><img src="../media/banh-mi-przekroj.jpg" width="1400" height="956" loading="lazy" alt="Bánh mì przecięte na pół: bagietka, mięso, pikle i zioła"></div>
+          <figcaption><b>Fot.</b> To samo na talerzu — zdjęcie poglądowe.</figcaption>
+        </figure>
+
+        <figure class="anat__sec">
+          <svg class="an an--sec" viewBox="0 0 320 250" role="img" aria-labelledby="ax-t">
+            <title id="ax-t">Przekrój A–A: warstwy wewnątrz bagietki</title>
+            <defs>
+              <pattern id="ax-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" class="an-hatch"/></pattern>
+            </defs>
+            <text x="14" y="24" class="an-t an-t--sec">A–A</text>
+            <g class="ly" data-l="01">
+              <path class="an-crust" fill-rule="evenodd" d="M28 176 C 26 110, 82 58, 160 58 C 238 58, 294 110, 292 176 C 292 204, 262 214, 160 214 C 58 214, 28 204, 28 176 Z M38 174 C 37 116, 88 68, 160 68 C 232 68, 283 116, 282 174 C 282 196, 256 204, 160 204 C 64 204, 38 196, 38 174 Z"/>
+            </g>
+            <g class="ly" data-l="02"><rect class="an-shape an-shape--dots" x="48" y="162" width="220" height="8" rx="4"/></g>
+            <g class="ly" data-l="03"><path class="an-line" d="M50 157 q6 -3 12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0"/></g>
+            <g class="ly" data-l="04"><path class="an-shape" d="M54 144 H118 V153 H54 Z M112 143 H184 V152 H112 Z M178 144 H262 V153 H178 Z"/></g>
+            <g class="ly" data-l="05">
+              <circle class="an-ring an-ring--fill" cx="62" cy="138" r="2.6"/><circle class="an-ring an-ring--fill" cx="96" cy="137" r="2.6"/><circle class="an-ring an-ring--fill" cx="134" cy="138" r="2.6"/><circle class="an-ring an-ring--fill" cx="172" cy="137" r="2.6"/><circle class="an-ring an-ring--fill" cx="212" cy="138" r="2.6"/><circle class="an-ring an-ring--fill" cx="250" cy="137" r="2.6"/>
+              <circle class="an-shape" cx="78" cy="138" r="2.6"/><circle class="an-shape" cx="114" cy="137" r="2.6"/><circle class="an-shape" cx="152" cy="138" r="2.6"/><circle class="an-shape" cx="192" cy="137" r="2.6"/><circle class="an-shape" cx="232" cy="138" r="2.6"/>
+            </g>
+            <g class="ly" data-l="06"><rect class="an-shape" x="66" y="125" width="10" height="8" rx="2"/><rect class="an-shape" x="118" y="126" width="10" height="8" rx="2"/><rect class="an-shape" x="170" y="125" width="10" height="8" rx="2"/><rect class="an-shape" x="222" y="126" width="10" height="8" rx="2"/></g>
+            <g class="ly" data-l="07"><use href="#an-leaf" class="an-leafuse" transform="translate(92 118) scale(.6)"/><use href="#an-leaf" class="an-leafuse" transform="translate(150 117) rotate(30) scale(.6)"/><use href="#an-leaf" class="an-leafuse" transform="translate(204 118) rotate(-20) scale(.6)"/><use href="#an-leaf" class="an-leafuse" transform="translate(246 119) scale(.6)"/></g>
+            <g class="ly ly--red" data-l="08"><circle class="an-ring" cx="110" cy="108" r="4.5"/><circle class="an-ring" cx="182" cy="107" r="4.5"/><circle class="an-ring" cx="232" cy="109" r="4.5"/></g>
+          </svg>
+          <figcaption><b>Przekrój A–A.</b> Skórka cienka jak papier, środek lekki jak chmura: mąka pszenna z dodatkiem ryżowej. Kreskowanie — skórka.</figcaption>
+        </figure>
+      </div>
+
+      <div class="legend-table" role="table" aria-label="Legenda warstw">
+        <div class="lt__row lt__row--head" role="row">
+          <span role="columnheader">Nr</span><span role="columnheader">Warstwa</span><span role="columnheader">Składnik</span><span role="columnheader">Przygotowanie</span>
+        </div>
+        <div class="lt__row" role="row" data-l="01" tabindex="0"><span role="cell">01</span><span role="cell">Bagietka</span><span role="cell">mąka pszenna z dodatkiem ryżowej</span><span role="cell">z pieca co ~2 h, na miejscu</span></div>
+        <div class="lt__row" role="row" data-l="02" tabindex="0"><span role="cell">02</span><span role="cell">Pasztet</span><span role="cell">wątróbki drobiowe</span><span role="cell">robiony co rano</span></div>
+        <div class="lt__row" role="row" data-l="03" tabindex="0"><span role="cell">03</span><span role="cell">Majonez na maśle</span><span role="cell">żółtka, masło</span><span role="cell">ubijany na miejscu</span></div>
+        <div class="lt__row" role="row" data-l="04" tabindex="0"><span role="cell">04</span><span role="cell">Mięso / <span lang="vi">chả lụa</span></span><span role="cell"><span lang="vi">chả lụa</span>, boczek, karkówka z węgla, kurczak, kaczka</span><span role="cell">zależnie od bánh mì — zob. karta</span></div>
+        <div class="lt__row" role="row" data-l="05" tabindex="0"><span role="cell">05</span><span role="cell">Pikle <span lang="vi">đồ chua</span></span><span role="cell">marchew, rzodkiew daikon</span><span role="cell">48 h w marynacie</span></div>
+        <div class="lt__row" role="row" data-l="06" tabindex="0"><span role="cell">06</span><span role="cell">Ogórek</span><span role="cell">świeży ogórek</span><span role="cell">krojony w słupki</span></div>
+        <div class="lt__row" role="row" data-l="07" tabindex="0"><span role="cell">07</span><span role="cell">Kolendra</span><span role="cell">kolendra, mięta, <span lang="vi">rau răm</span>, <span lang="vi">tía tô</span></span><span role="cell">kupowane codziennie rano</span></div>
+        <div class="lt__row" role="row" data-l="08" tabindex="0"><span role="cell">08</span><span role="cell">Chili</span><span role="cell">świeże chili</span><span role="cell">do wyboru: łagodne / ostre / bardzo ostre</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 -->
+  <section class="sec" id="o-nas" aria-labelledby="o-nas-title">
+    <div class="wrap">
+      <hr class="rule" data-reveal>
+      <div class="grid sec__head">
+        <div class="idx">
+          <span class="idx__no">03</span>
+          <p>O nas</p>
+          <p class="idx__note"><span lang="vi">chú</span> (wiet.) — wujek</p>
+        </div>
+        <h2 class="sec__title" id="o-nas-title" lang="vi">Chú Tân</h2>
+      </div>
+
+      <div class="grid story">
+        <figure class="story__ph">
+          <div class="duo"><img src="../media/banh-mi-papier.jpg" width="1050" height="1400" loading="lazy" alt="Bánh mì zawinięte w papier na plecionej tacy"></div>
+          <figcaption>Na wynos, w papierze · fot. poglądowe</figcaption>
+        </figure>
+        <p class="story__lead">Tân wychował się w <span lang="vi">Hà Nội</span>, gdzie <span lang="vi">bánh mì</span> je się na śniadanie, na ulicy, prosto z pieca.</p>
+        <p class="story__col">Do Wrocławia przyjechał ponad dekadę temu i przez lata gotował szybko i „azjatycko”, bo tak chciało miasto. Teraz wraca do tego, co zna najlepiej.</p>
+        <p class="story__col">Sam piecze bagietki, co rano robi pasztet, marynuje pikle przez dwie doby. Każde <span lang="vi">bánh mì</span> w karcie pochodzi z innego miejsca Wietnamu — od jajek z <span lang="vi">Hà Nội</span> po kaczkę z Dolnego Śląska.</p>
+        <dl class="spec">
+          <div><dt>Bagietka</dt><dd>co ~2 h</dd></div>
+          <div><dt>Pasztet</dt><dd>co rano</dd></div>
+          <div><dt>Pikle</dt><dd>48 h</dd></div>
+          <div><dt>Zioła</dt><dd>codziennie rano</dd></div>
+          <div><dt>Karp</dt><dd>Dolina Baryczy</dd></div>
+          <div><dt>Kaczka</dt><dd>Dolny Śląsk</dd></div>
+          <div><dt>Bulion do <span lang="vi">phở</span></dt><dd>14 h</dd></div>
+        </dl>
+      </div>
+
+      <figure class="grid bake">
+        <div class="duo bake__ph"><img src="../media/bagietki.jpg" width="1400" height="959" loading="lazy" alt="Świeże bagietki ułożone jedna przy drugiej"></div>
+        <figcaption class="bake__cap"><b>Bagietka z pieca co ~2 h.</b> Mąka pszenna z dodatkiem ryżowej: skórka cienka jak papier, środek lekki jak chmura. Fot. poglądowe.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 04 -->
+  <section class="sec" id="karta" aria-labelledby="karta-title">
+    <div class="wrap">
+      <hr class="rule" data-reveal>
+      <div class="grid sec__head">
+        <div class="idx">
+          <span class="idx__no">04</span>
+          <p>Karta<br>zamów online</p>
+        </div>
+        <h2 class="sec__title" id="karta-title">Karta</h2>
+        <p class="sec__aside">Najpierw <span lang="vi">bánh mì</span>, potem reszta. Ostrość wybierasz przy każdej bagietce, „+” dodaje do koszyka — zamówisz z odbiorem albo z dostawą.</p>
+      </div>
+
+      <div class="grid menu-tools">
+        <div class="chips" role="group" aria-label="Filtruj kartę">
+          <button class="chip" type="button" data-filter="all" aria-pressed="true">Wszystko<span class="chip__n">22</span></button>
+          <button class="chip" type="button" data-filter="banhmi" aria-pressed="false">Bánh mì<span class="chip__n">8</span></button>
+          <button class="chip" type="button" data-filter="nho" aria-pressed="false">Przekąski<span class="chip__n">3</span></button>
+          <button class="chip" type="button" data-filter="bat" aria-pressed="false">Miski<span class="chip__n">4</span></button>
+          <button class="chip" type="button" data-filter="ngot" aria-pressed="false">Desery<span class="chip__n">2</span></button>
+          <button class="chip" type="button" data-filter="uong" aria-pressed="false">Napoje<span class="chip__n">5</span></button>
+          <button class="chip" type="button" data-filter="wege" aria-pressed="false">Wege<span class="chip__n">4</span></button>
+        </div>
+        <div class="menu-tools__end">
+          <button class="chip sort" id="sort" type="button" aria-pressed="false">Sortuj: <span id="sort-label">Nr</span></button>
+          <p class="count" aria-live="polite"><span id="count">22</span> poz.</p>
+        </div>
+      </div>
+
+      <table class="menu" id="menu" role="table" aria-label="Karta">
+        <thead role="rowgroup">
+          <tr role="row">
+            <th role="columnheader" scope="col" class="dish__no">Nr</th>
+            <th role="columnheader" scope="col" class="dish__name">Nazwa</th>
+            <th role="columnheader" scope="col" class="dish__desc">Opis</th>
+            <th role="columnheader" scope="col" class="dish__cat">Kategoria</th>
+            <th role="columnheader" scope="col" class="dish__price">Cena</th>
+            <th role="columnheader" scope="col" class="dish__add">Koszyk</th>
+          </tr>
+        </thead>
+        <tbody role="rowgroup" id="menu-body">
+          <tr role="row" class="dish" data-cat="banhmi" data-price="32" data-photo="../media/banh-mi-dac-biet.jpg">
+            <td role="cell" class="dish__no"><span class="dish__n">01</span><span class="duo dish__ph"><img src="../media/banh-mi-dac-biet.jpg" alt="" loading="lazy" width="786" height="1400"></span></td>
+            <th role="rowheader" scope="row" class="dish__name"><span lang="vi">Bánh mì đặc biệt</span><span class="dish__sub">Specjalność domu</span></th>
+            <td role="cell" class="dish__desc">Pasztet z wątróbek drobiowych robiony co rano, chả lụa, pieczony boczek, majonez na maśle, pikle đồ chua, ogórek, kolendra, chili.<span class="heat" role="radiogroup" aria-label="Ostrość: Bánh mì đặc biệt"><span class="heat__k" aria-hidden="true">Ostrość</span><label class="heat__o" title="Łagodne"><input type="radio" name="heat-k-bm1" value="mild" checked><span class="heat__b" aria-hidden="true">Ł</span><span class="sr-only">Łagodne</span></label><label class="heat__o" title="Ostre"><input type="radio" name="heat-k-bm1" value="hot"><span class="heat__b" aria-hidden="true">O</span><span class="sr-only">Ostre</span></label><label class="heat__o" title="Bardzo ostre"><input type="radio" name="heat-k-bm1" value="extra"><span class="heat__b" aria-hidden="true">BO</span><span class="sr-only">Bardzo ostre</span></label></span></td>
+            <td role="cell" class="dish__cat"><span class="cat__name">Bánh mì</span><span class="cat__region" lang="vi">Sài Gòn</span><span class="tag tag--red">polecane</span></td>
+            <td role="cell" class="dish__price">32 zł</td>
+            <td role="cell" class="dish__add"><button class="add" type="button" aria-label="Dodaj do koszyka: Bánh mì đặc biệt">+</button></td>
+          </tr>
+          <tr role="row" class="dish" data-cat="banhmi" data-price="31" data-photo="../media/banh-mi-thit-nuong.jpg">
+            <td role="cell" class="dish__no"><span class="dish__n">02</span><span class="duo dish__ph"><img src="../media/banh-mi-thit-nuong.jpg" alt="" loading="lazy" width="1107" height="1400"></span></td>
+            <th role="rowheader" scope="row" class="dish__name"><span lang="vi">Bánh mì thịt nướng</span><span class="dish__sub">Karkówka z węgla</span></th>
+            <td role="cell" class="dish__desc">Karkówka w trawie cytrynowej grillowana nad węglem drzewnym, nước chấm, pikle, ogórek, kolendra, prażona szalotka.<span class="heat" role="radiogroup" aria-label="Ostrość: Bánh mì thịt nướng"><span class="heat__k" aria-hidden="true">Ostrość</span><label class="heat__o" title="Łagodne"><input type="radio" name="heat-k-bm2" value="mild" checked><span class="heat__b" aria-hidden="true">Ł</span><span class="sr-only">Łagodne</span></label><label class="heat__o" title="Ostre"><input type="radio" name="heat-k-bm2" value="hot"><span class="heat__b" aria-hidden="true">O</span><span class="sr-only">Ostre</span></label><label class="heat__o" title="Bardzo ostre"><input type="radio" name="heat-k-bm2" value="extra"><span class="heat__b" aria-hidden="true">BO</span><span class="sr-only">Bardzo ostre</span></label></span></td>
+            <td role="cell" class="dish__cat"><span class="cat__name">Bánh mì</span><span class="cat__region" lang="vi">Hội An</span></td>
+            <td role="cell" class="dish__price">31 zł</td>
+            <td role="cell" class="dish__add"><button class="add" type="button" aria-label="Dodaj do koszyka: Bánh mì thịt nướng">+</button></td>
+          </tr>
+          <tr role="row" class="dish" data-cat="banhmi" data-price="29" data-photo="../media/banh-mi-ga.jpg">
+            <td role="cell" class="dish__no"><span class="dish__n">03</span><span class="duo dish__ph"><img src="../media/banh-mi-ga.jpg" alt="" loading="lazy" width="933" height="1400"></span></td>
+            <th role="rowheader" scope="row" class="dish__name"><span lang="vi">Bánh mì gà nướng</span><span class="dish__sub">Kurczak zagrodowy</span></th>
+            <td role="cell" class="dish__desc">Udko z kurczaka zagrodowego w imbirze i miodzie, z grilla, majonez z limonką kaffir, pikle, kolendra.<span class="heat" role="radiogroup" aria-label="Ostrość: Bánh mì gà nướng"><span class="heat__k" aria-hidden="true">Ostrość</span><label class="heat__o" title="Łagodne"><input type="radio" name="heat-k-bm3" value="mild" checked><span class="heat__b" aria-hidden="true">Ł</span><span class="sr-only">Łagodne</span></label><label class="heat__o" title="Ostre"><input type="radio" name="heat-k-bm3" value="hot"><span class="heat__b" aria-hidden="true">O</span><span class="sr-only">Ostre</span></label><label class="heat__o" title="Bardzo ostre"><input type="radio" name="heat-k-bm3" value="extra"><span class="heat__b" aria-hidden="true">BO</span><span class="sr-only">Bardzo ostre</span></label></span></td>
+            <td role="cell" class="dish__cat"><span class="cat__name">Bánh mì</span><span class="cat__region" lang="vi">Đà Nẵng</span></td>
+            <td role="cell" class="dish__price">29 zł</td>
+            <td role="cell" class="dish__add"><button class="add" type="button" aria-label="Dodaj do koszyka: Bánh mì gà nướng">+</button></td>
+          </tr>
+          <tr role="row" class="dish" data-cat="banhmi" data-price="30" data-photo="../media/banh-mi-xiu-mai.jpg">
+            <td role="cell" class="dish__no"><span class="dish__n">04</span><span class="duo dish__ph"><img src="../media/banh-mi-xiu-mai.jpg" alt="" loading="lazy" width="1400" height="933"></span></td>
+            <th role="rowheader" scope="row" class="dish__name"><span lang="vi">Bánh mì xíu mại</span><span class="dish__sub">Klopsiki w sosie pomidorowym</span></th>
+            <td role="cell" class="dish__desc">Klopsiki wieprzowe duszone w sosie pomidorowym z szalotką, pikle, kolendra, chili — po dalackiemu.<span class="heat" role="radiogroup" aria-label="Ostrość: Bánh mì xíu mại"><span class="heat__k" aria-hidden="true">Ostrość</span><label class="heat__o" title="Łagodne"><input type="radio" name="heat-k-bm4" value="mild" checked><span class="heat__b" aria-hidden="true">Ł</span><span class="sr-only">Łagodne</span></label><label class="heat__o" title="Ostre"><input type="radio" name="heat-k-bm4" value="hot"><span class="heat__b" aria-hidden="true">O</span><span class="sr-only">Ostre</span></label><label class="heat__o" title="Bardzo ostre"><input type="radio" name="heat-k-bm4" value="extra"><span class="heat__b" aria-hidden="true">BO</span><span class="sr-only">Bardzo ostre</span></label></span></td>
+            <td role="cell" class="dish__cat"><span class="cat__name">Bánh mì</span><span class="cat__region" lang="vi">Đà Lạt</span></td>
+            <td role="cell" class="dish__price">30 zł</td>
+            <td role="cell" class="dish__add"><button class="add" type="button" aria-label="Dodaj do koszyka: Bánh mì xíu mại">+</button></td>
+          </tr>
+          <tr role="row" class="dish" data-cat="banhmi" data-price="33" data-photo="../media/banh-mi-cha-ca.jpg">
+            <td role="cell" class="dish__no"><span class="dish__n">05</span><span class="duo dish__ph"><img src="../media/banh-mi-cha-ca.jpg" alt="" loading="lazy" width="933" height="1400"></span></td>
+            <th role="rowheader" scope="row" class="dish__name"><span lang="vi">Bánh mì chả cá</span><span class="dish__sub">Karp z Doliny Baryczy z koprem</span></th>
+            <td role="cell" class="dish__desc">Kotleciki z karpia z Doliny Baryczy z koprem — jak w Wietnamie, majonez z kurkumą, pikle, mięta.<span class="heat" role="radiogroup" aria-label="Ostrość: Bánh mì chả cá"><span class="heat__k" aria-hidden="true">Ostrość</span><label class="heat__o" title="Łagodne"><input type="radio" name="heat-k-bm5" value="mild" checked><span class="heat__b" aria-hidden="true">Ł</span><span class="sr-only">Łagodne</span></label><label class="heat__o" title="Ostre"><input type="radio" name="heat-k-bm5" value="hot"><span class="heat__b" aria-hidden="true">O</span><span class="sr-only">Ostre</span></label><label class="heat__o" title="Bardzo ostre"><input type="radio" name="heat-k-bm5" value="extra"><span class="heat__b" aria-hidden="true">BO</span><span class="sr-only">Bardzo ostre</span></label></span></td>
+            <td role="cell" class="dish__cat"><span class="cat__name">Bánh mì</span><span class="cat__region" lang="vi">Nha Trang</span><span class="tag">lokalnie</span></td>
+            <td role="cell" class="dish__price">33 zł</td>
+            <td role="cell" class="dish__add"><button class="add" type="button" aria-label="Dodaj do koszyka: Bánh mì chả cá">+</button></td>
+          </tr>
+          <tr role="row" class="dish" data-cat="banhmi" data-price="36" data-photo="../media/banh-mi-vit.jpg">
+            <td role="cell" class="dish__no"><span class="dish__n">06</span><span class="duo dish__ph"><img src="../media/banh-mi-vit.jpg" alt="" loading="lazy" width="939" height="1400"></span></td>
+            <th role="rowheader" scope="row" class="dish__name"><span lang="vi">Bánh mì vịt</span><span class="dish__sub">Kaczka z Dolnego Śląska</span></th>
+            <td role="cell" class="dish__desc">Kaczka pieczona z pięcioma przyprawami, sos hoisin z tamaryndowcem, ogórek, szczypior, pikle.<span class="heat" role="radiogroup" aria-label="Ostrość: Bánh mì vịt"><span class="heat__k" aria-hidden="true">Ostrość</span><label class="heat__o" title="Łagodne"><input type="radio" name="heat-k-bm6" value="mild" checked><span class="heat__b" aria-hidden="true">Ł</span><span class="sr-only">Łagodne</span></label><label class="heat__o" title="Ostre"><input type="radio" name="heat-k-bm6" value="hot"><span class="heat__b" aria-hidden="true">O</span><span class="sr-only">Ostre</span></label><label class="heat__o" title="Bardzo ostre"><input type="radio" name="heat-k-bm6" value="extra"><span class="heat__b" aria-hidden="true">BO</span><span class="sr-only">Bardzo ostre</span></label></span></td>
+            <td role="cell" class="dish__cat"><span class="cat__name">Bánh mì</span><span class="cat__region" lang="vi">Wrocław</span><span class="tag">lokalnie</span></td>
+            <td role="cell" class="dish__price">36 zł</td>
+            <td role="cell" class="dish__add"><button class="add" type="button" aria-label="Dodaj do koszyka: Bánh mì vịt">+</button></td>
+          </tr>
+          <tr role="row" class="dish" data-cat="banhmi" data-price="28" data-veg data-photo="../media/banh-mi-chay.jpg">
+            <td role="cell" class="dish__no"><span class="dish__n">07</span><span class="duo dish__ph"><img src="../media/banh-mi-chay.jpg" alt="" loading="lazy" width="933" height="1400"></span></td>
+            <th role="rowheader" scope="row" class="dish__name"><span lang="vi">Bánh mì chay</span><span class="dish__sub">Tofu i grzyby</span></th>
+            <td role="cell" class="dish__desc">Tofu robione na miejscu glazurowane sosem sojowym, pasztet z shiitake, wegański majonez, pikle, kolendra.<span class="heat" role="radiogroup" aria-label="Ostrość: Bánh mì chay"><span class="heat__k" aria-hidden="true">Ostrość</span><label class="heat__o" title="Łagodne"><input type="radio" name="heat-k-bm7" value="mild" checked><span class="heat__b" aria-hidden="true">Ł</span><span class="sr-only">Łagodne</span></label><label class="heat__o" title="Ostre"><input type="radio" name="heat-k-bm7" value="hot"><span class="heat__b" aria-hidden="true">O</span><span class="sr-only">Ostre</span></label><label class="heat__o" title="Bardzo ostre"><input type="radio" name="heat-k-bm7" value="extra"><span class="heat__b" aria-hidden="true">BO</span><span class="sr-only">Bardzo ostre</span></label></span></td>
+            <td role="cell" class="dish__cat"><span class="cat__name">Bánh mì</span><span class="cat__region" lang="vi">Huế</span><span class="tag tag--veg">wege</span></td>
+            <td role="cell" class="dish__price">28 zł</td>
+            <td role="cell" class="dish__add"><button class="add" type="button" aria-label="Dodaj do koszyka: Bánh mì chay">+</button></td>
+          </tr>
+          <tr role="row" class="dish" data-cat="banhmi" data-price="22" data-photo="../media/banh-mi-trung.jpg">
+            <td role="cell" class="dish__no"><span class="dish__n">08</span><span class="duo dish__ph"><img src="../media/banh-mi-trung.jpg" alt="" loading="lazy" width="933" height="1400"></span></td>
+            <th role="rowheader" scope="row" class="dish__name"><span lang="vi">Bánh mì trứng</span><span class="dish__sub">Jajka, pasztet, Maggi</span></th>
+            <td role="cell" class="dish__desc">Dwa jajka sadzone, pasztet, kilka kropel Maggi, szczypiorek, chili — śniadanie z ulic Hà Nội, przez cały dzień.<span class="heat" role="radiogroup" aria-label="Ostrość: Bánh mì trứng"><span class="heat__k" aria-hidden="true">Ostrość</span><label class="heat__o" title="Łagodne"><input type="radio" name="heat-k-bm8" value="mild" checked><span class="heat__b" aria-hidden="true">Ł</span><span class="sr-only">Łagodne</span></label><label class="heat__o" title="Ostre"><input type="radio" name="heat-k-bm8" value="hot"><span class="heat__b" aria-hidden="true">O</span><span class="sr-only">Ostre</span></label><label class="heat__o" title="Bardzo ostre"><input type="radio" name="heat-k-bm8" value="extra"><span class="heat__b" aria-hidden="true">BO</span><span class="sr-only">Bardzo ostre</span></label></span></td>
+            <td role="cell" class="dish__cat"><span class="cat__name">Bánh mì</span><span class="cat__region" lang="vi">Hà Nội</span></td>
+            <td role="cell" class="dish__price">22 zł</td>
+            <td role="cell" class="dish__add"><button class="add" type="button" aria-label="Dodaj do koszyka: Bánh mì trứng">+</button></td>
+          </tr>
+          <tr role="row" class="dish" data-cat="nho" data-price="16">
+            <td role="cell" class="dish__no"><span class="dish__n">09</span><span class="duo duo--none dish__ph" title="Zdjęcie wkrótce"></span></td>
+            <th role="rowheader" scope="row" class="dish__name"><span lang="vi">Bánh mì que</span><span class="dish__sub">3 pałeczki z pasztetem</span></th>
+            <td role="cell" class="dish__desc">Cienkie, chrupiące pałeczki z pasztetem i chili, po hajfońsku.</td>
+            <td role="cell" class="dish__cat"><span class="cat__name">Przekąski</span><span class="cat__region" lang="vi">Hải Phòng</span><span class="tag">ostre</span></td>
+            <td role="cell" class="dish__price">16 zł</td>
+            <td role="cell" class="dish__add"><button class="add" type="button" aria-label="Dodaj do koszyka: Bánh mì que">+</button></td>
+          </tr>
+          <tr role="row" class="dish" data-cat="nho" data-price="24" data-photo="../media/s1.jpg">
+            <td role="cell" class="dish__no"><span class="dish__n">10</span><span class="duo dish__ph"><img src="../media/s1.jpg" alt="" loading="lazy" width="400" height="400"></span></td>
+            <th role="rowheader" scope="row" class="dish__name"><span lang="vi">Nem rán</span><span class="dish__sub">Sajgonki, 3 szt.</span></th>
+            <td role="cell" class="dish__desc">Chrupiące sajgonki z wieprzowiną i grzybami mun, sałata, mięta, nước chấm.</td>
+            <td role="cell" class="dish__cat"><span class="cat__name">Przekąski</span></td>
+            <td role="cell" class="dish__price">24 zł</td>
+            <td role="cell" class="dish__add"><button class="add" type="button" aria-label="Dodaj do koszyka: Nem rán">+</button></td>
+          </tr>
+          <tr role="row" class="dish" data-cat="nho" data-price="26" data-photo="../media/goi-cuon.jpg">
+            <td role="cell" class="dish__no"><span class="dish__n">11</span><span class="duo dish__ph"><img src="../media/goi-cuon.jpg" alt="" loading="lazy" width="1400" height="897"></span></td>
+            <th role="rowheader" scope="row" class="dish__name"><span lang="vi">Gỏi cuốn</span><span class="dish__sub">Świeże rolki, 2 szt.</span></th>
+            <td role="cell" class="dish__desc">Krewetka, wieprzowina, rau răm, mięta, sos z orzeszków i tamaryndowca.</td>
+            <td role="cell" class="dish__cat"><span class="cat__name">Przekąski</span></td>
+            <td role="cell" class="dish__price">26 zł</td>
+            <td role="cell" class="dish__add"><button class="add" type="button" aria-label="Dodaj do koszyka: Gỏi cuốn">+</button></td>
+          </tr>
+          <tr role="row" class="dish" data-cat="bat" data-price="39" data-photo="../media/pho-bo.jpg">
+            <td role="cell" class="dish__no"><span class="dish__n">12</span><span class="duo dish__ph"><img src="../media/pho-bo.jpg" alt="" loading="lazy" width="933" height="1400"></span></td>
+            <th role="rowheader" scope="row" class="dish__name"><span lang="vi">Phở bò</span><span class="dish__sub">Bulion 14 godzin</span></th>
+            <td role="cell" class="dish__desc">Bulion gotowany 14 godzin na kościach wołowych, surowa polędwica parzona bulionem, opalony imbir, anyż.</td>
+            <td role="cell" class="dish__cat"><span class="cat__name">Miski</span></td>
+            <td role="cell" class="dish__price">39 zł</td>
+            <td role="cell" class="dish__add"><button class="add" type="button" aria-label="Dodaj do koszyka: Phở bò">+</button></td>
+          </tr>
+          <tr role="row" class="dish" data-cat="bat" data-price="42" data-photo="../media/bc1.jpg">
+            <td role="cell" class="dish__no"><span class="dish__n">13</span><span class="duo dish__ph"><img src="../media/bc1.jpg" alt="" loading="lazy" width="400" height="400"></span></td>
+            <th role="rowheader" scope="row" class="dish__name"><span lang="vi">Bún chả Hà Nội</span><span class="dish__sub">Grill, makaron, zioła</span></th>
+            <td role="cell" class="dish__desc">Grillowana nad węglem karkówka i kotleciki, makaron ryżowy, nước chấm, kosz ziół.</td>
+            <td role="cell" class="dish__cat"><span class="cat__name">Miski</span></td>
+            <td role="cell" class="dish__price">42 zł</td>
+            <td role="cell" class="dish__add"><button class="add" type="button" aria-label="Dodaj do koszyka: Bún chả Hà Nội">+</button></td>
+          </tr>
+          <tr role="row" class="dish" data-cat="bat" data-price="39" data-photo="../media/c3.jpg">
+            <td role="cell" class="dish__no"><span class="dish__n">14</span><span class="duo dish__ph"><img src="../media/c3.jpg" alt="" loading="lazy" width="400" height="400"></span></td>
+            <th role="rowheader" scope="row" class="dish__name"><span lang="vi">Cà ri gà</span><span class="dish__sub">Curry z bagietką do maczania</span></th>
+            <td role="cell" class="dish__desc">Kurczak zagrodowy, trawa cytrynowa, mleko kokosowe, słodki ziemniak i nasza bagietka do maczania.</td>
+            <td role="cell" class="dish__cat"><span class="cat__name">Miski</span></td>
+            <td role="cell" class="dish__price">39 zł</td>
+            <td role="cell" class="dish__add"><button class="add" type="button" aria-label="Dodaj do koszyka: Cà ri gà">+</button></td>
+          </tr>
+          <tr role="row" class="dish" data-cat="bat" data-price="36" data-photo="../media/k1.jpg">
+            <td role="cell" class="dish__no"><span class="dish__n">15</span><span class="duo dish__ph"><img src="../media/k1.jpg" alt="" loading="lazy" width="400" height="400"></span></td>
+            <th role="rowheader" scope="row" class="dish__name"><span lang="vi">Gà chiên mắm</span><span class="dish__sub">Kurczak w sosie rybnym</span></th>
+            <td role="cell" class="dish__desc">Chrupiący kurczak glazurowany sosem rybnym i czosnkiem, ryż jaśminowy, pikle.</td>
+            <td role="cell" class="dish__cat"><span class="cat__name">Miski</span></td>
+            <td role="cell" class="dish__price">36 zł</td>
+            <td role="cell" class="dish__add"><button class="add" type="button" aria-label="Dodaj do koszyka: Gà chiên mắm">+</button></td>
+          </tr>
+          <tr role="row" class="dish" data-cat="ngot" data-price="18" data-veg>
+            <td role="cell" class="dish__no"><span class="dish__n">16</span><span class="duo duo--none dish__ph" title="Zdjęcie wkrótce"></span></td>
+            <th role="rowheader" scope="row" class="dish__name"><span lang="vi">Chè chuối</span><span class="dish__sub">Banan, kokos, tapioka</span></th>
+            <td role="cell" class="dish__desc">Banan, mleko kokosowe, tapioka, prażony sezam.</td>
+            <td role="cell" class="dish__cat"><span class="cat__name">Desery</span><span class="tag tag--veg">wege</span></td>
+            <td role="cell" class="dish__price">18 zł</td>
+            <td role="cell" class="dish__add"><button class="add" type="button" aria-label="Dodaj do koszyka: Chè chuối">+</button></td>
+          </tr>
+          <tr role="row" class="dish" data-cat="ngot" data-price="16" data-veg data-photo="../media/tao-pho.jpg">
+            <td role="cell" class="dish__no"><span class="dish__n">17</span><span class="duo dish__ph"><img src="../media/tao-pho.jpg" alt="" loading="lazy" width="1400" height="1050"></span></td>
+            <th role="rowheader" scope="row" class="dish__name"><span lang="vi">Tào phớ</span><span class="dish__sub">Jedwabiste tofu, imbir</span></th>
+            <td role="cell" class="dish__desc">Jedwabiste tofu, syrop imbirowy z cukrem palmowym.</td>
+            <td role="cell" class="dish__cat"><span class="cat__name">Desery</span><span class="tag tag--veg">wege</span></td>
+            <td role="cell" class="dish__price">16 zł</td>
+            <td role="cell" class="dish__add"><button class="add" type="button" aria-label="Dodaj do koszyka: Tào phớ">+</button></td>
+          </tr>
+          <tr role="row" class="dish" data-cat="uong" data-price="16" data-photo="../media/ca-phe-sua-da.jpg">
+            <td role="cell" class="dish__no"><span class="dish__n">18</span><span class="duo dish__ph"><img src="../media/ca-phe-sua-da.jpg" alt="" loading="lazy" width="1400" height="932"></span></td>
+            <th role="rowheader" scope="row" class="dish__name"><span lang="vi">Cà phê sữa đá</span><span class="dish__sub">Robusta z mlekiem skondensowanym</span></th>
+            <td role="cell" class="dish__desc">Robusta z filtra phin, mleko skondensowane, lód.</td>
+            <td role="cell" class="dish__cat"><span class="cat__name">Napoje</span></td>
+            <td role="cell" class="dish__price">16 zł</td>
+            <td role="cell" class="dish__add"><button class="add" type="button" aria-label="Dodaj do koszyka: Cà phê sữa đá">+</button></td>
+          </tr>
+          <tr role="row" class="dish" data-cat="uong" data-price="19" data-photo="../media/ca-phe-trung.jpg">
+            <td role="cell" class="dish__no"><span class="dish__n">19</span><span class="duo dish__ph"><img src="../media/ca-phe-trung.jpg" alt="" loading="lazy" width="1400" height="927"></span></td>
+            <th role="rowheader" scope="row" class="dish__name"><span lang="vi">Cà phê trứng</span><span class="dish__sub">Kawa jajeczna po hanojsku</span></th>
+            <td role="cell" class="dish__desc">Mocna kawa pod kremem z żółtek ubitych z mlekiem skondensowanym.</td>
+            <td role="cell" class="dish__cat"><span class="cat__name">Napoje</span></td>
+            <td role="cell" class="dish__price">19 zł</td>
+            <td role="cell" class="dish__add"><button class="add" type="button" aria-label="Dodaj do koszyka: Cà phê trứng">+</button></td>
+          </tr>
+          <tr role="row" class="dish" data-cat="uong" data-price="14">
+            <td role="cell" class="dish__no"><span class="dish__n">20</span><span class="duo duo--none dish__ph" title="Zdjęcie wkrótce"></span></td>
+            <th role="rowheader" scope="row" class="dish__name"><span lang="vi">Trà quất</span><span class="dish__sub">Mrożona herbata z kumkwatem</span></th>
+            <td role="cell" class="dish__desc">Zielona herbata, kumkwat, miód.</td>
+            <td role="cell" class="dish__cat"><span class="cat__name">Napoje</span></td>
+            <td role="cell" class="dish__price">14 zł</td>
+            <td role="cell" class="dish__add"><button class="add" type="button" aria-label="Dodaj do koszyka: Trà quất">+</button></td>
+          </tr>
+          <tr role="row" class="dish" data-cat="uong" data-price="14">
+            <td role="cell" class="dish__no"><span class="dish__n">21</span><span class="duo duo--none dish__ph" title="Zdjęcie wkrótce"></span></td>
+            <th role="rowheader" scope="row" class="dish__name"><span lang="vi">Trà me dứa</span><span class="dish__sub">Tamaryndowiec i ananas</span></th>
+            <td role="cell" class="dish__desc">Herbata z tamaryndowcem i pieczonym ananasem.</td>
+            <td role="cell" class="dish__cat"><span class="cat__name">Napoje</span></td>
+            <td role="cell" class="dish__price">14 zł</td>
+            <td role="cell" class="dish__add"><button class="add" type="button" aria-label="Dodaj do koszyka: Trà me dứa">+</button></td>
+          </tr>
+          <tr role="row" class="dish" data-cat="uong" data-price="12" data-veg>
+            <td role="cell" class="dish__no"><span class="dish__n">22</span><span class="duo duo--none dish__ph" title="Zdjęcie wkrótce"></span></td>
+            <th role="rowheader" scope="row" class="dish__name"><span lang="vi">Sữa đậu nành</span><span class="dish__sub">Domowe mleko sojowe z pandanem</span></th>
+            <td role="cell" class="dish__desc">Mleko sojowe robione na miejscu, liść pandanu, lekko słodzone.</td>
+            <td role="cell" class="dish__cat"><span class="cat__name">Napoje</span><span class="tag tag--veg">wege</span></td>
+            <td role="cell" class="dish__price">12 zł</td>
+            <td role="cell" class="dish__add"><button class="add" type="button" aria-label="Dodaj do koszyka: Sữa đậu nành">+</button></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="menu-note">Ł / O / BO — łagodne, ostre, bardzo ostre · wege — bez mięsa i ryb · lokalnie — produkt z Dolnego Śląska · zdjęcia poglądowe, w kolorze po najechaniu</p>
+    </div>
+  </section>
+
+  <!-- 05 -->
+  <section class="sec sec--ink" id="trasa" aria-labelledby="trasa-title">
+    <div class="wrap">
+      <hr class="rule" data-reveal>
+      <div class="grid sec__head">
+        <div class="idx">
+          <span class="idx__no">05</span>
+          <p>Trasa<br>skąd jest każde <span lang="vi">bánh mì</span></p>
+        </div>
+        <h2 class="sec__title" id="trasa-title">Trasa</h2>
+      </div>
+
+      <div class="grid tn-intro">
+        <p class="tn-lead"><span lang="vi">Bánh mì</span> z północy na południe. Od <span lang="vi">Hà Nội</span> do <span lang="vi">Sài Gòn</span> <span class="nowrap"><span class="num" data-count="1726">1726</span> km</span> — i jeden przystanek poza skalą.</p>
+        <p class="tn-text">Pociąg Zjednoczenia jedzie wzdłuż całego kraju. Każda stacja to inne <span lang="vi">bánh mì</span>: od jajek i pasztetu na śniadanie w <span lang="vi">Hà Nội</span> po <span lang="vi">đặc biệt</span> z <span lang="vi">Sài Gòn</span>. Ostatni przystanek jest tutaj, przy Kotlarskiej.</p>
+      </div>
+
+      <div class="route" id="route">
+        <p class="route__cap">Odległości koleją od <span lang="vi">Hà Nội</span> · ≈ wartości przybliżone · wskaż stację</p>
+        <div class="route__track" data-reveal>
+          <span class="route__line"></span>
+          <span class="route__ext"></span>
+          <span class="route__break" aria-hidden="true"></span>
+          <span class="route__prog"></span>
+          <span class="route__ruler" aria-hidden="true"></span>
+          <button type="button" class="stop stop--hi" style="--p:0" data-i="1" aria-pressed="false" aria-label="Stacja 1: Hà Nội, km 0 — Bánh mì trứng"><span class="stop__label"><span class="stop__name" lang="vi">Hà Nội</span><span class="stop__km">km 0</span></span><span class="stop__stem"></span><span class="stop__dot"></span><span class="stop__no">01</span></button>
+          <button type="button" class="stop stop--lo" style="--p:.0591" data-i="2" aria-pressed="false" aria-label="Stacja 2: Hải Phòng, km ≈ 102 — Bánh mì que"><span class="stop__label"><span class="stop__name" lang="vi">Hải Phòng</span><span class="stop__km">km ≈ 102</span></span><span class="stop__stem"></span><span class="stop__dot"></span><span class="stop__no">02</span></button>
+          <button type="button" class="stop stop--hi" style="--p:.3986" data-i="3" aria-pressed="false" aria-label="Stacja 3: Huế, km 688 — Bánh mì chay"><span class="stop__label"><span class="stop__name" lang="vi">Huế</span><span class="stop__km">km 688</span></span><span class="stop__stem"></span><span class="stop__dot"></span><span class="stop__no">03</span></button>
+          <button type="button" class="stop stop--lo stop--end" style="--p:.4583;--dy:-9px" data-i="4" aria-pressed="false" aria-label="Stacja 4: Đà Nẵng, km 791 — Bánh mì gà nướng"><span class="stop__label"><span class="stop__name" lang="vi">Đà Nẵng</span><span class="stop__km">km 791</span></span><span class="stop__stem"></span><span class="stop__dot"></span><span class="stop__no">04</span></button>
+          <button type="button" class="stop stop--hi" style="--p:.4751;--dy:9px" data-i="5" aria-pressed="false" aria-label="Stacja 5: Hội An, km ≈ 820 — Bánh mì thịt nướng"><span class="stop__label"><span class="stop__name" lang="vi">Hội An</span><span class="stop__km">km ≈ 820</span></span><span class="stop__stem"></span><span class="stop__dot"></span><span class="stop__no">05</span></button>
+          <button type="button" class="stop stop--lo" style="--p:.7619" data-i="6" aria-pressed="false" aria-label="Stacja 6: Nha Trang, km 1315 — Bánh mì chả cá"><span class="stop__label"><span class="stop__name" lang="vi">Nha Trang</span><span class="stop__km">km 1315</span></span><span class="stop__stem"></span><span class="stop__dot"></span><span class="stop__no">06</span></button>
+          <button type="button" class="stop stop--hi" style="--p:.8633" data-i="7" aria-pressed="false" aria-label="Stacja 7: Đà Lạt, km ≈ 1490 — Bánh mì xíu mại"><span class="stop__label"><span class="stop__name" lang="vi">Đà Lạt</span><span class="stop__km">km ≈ 1490</span></span><span class="stop__stem"></span><span class="stop__dot"></span><span class="stop__no">07</span></button>
+          <button type="button" class="stop stop--lo stop--end" style="--p:1" data-i="8" aria-pressed="false" aria-label="Stacja 8: Sài Gòn, km 1726 — Bánh mì đặc biệt"><span class="stop__label"><span class="stop__name" lang="vi">Sài Gòn</span><span class="stop__km">km 1726</span></span><span class="stop__stem"></span><span class="stop__dot"></span><span class="stop__no">08</span></button>
+          <button type="button" class="stop stop--hi stop--end stop--off" style="--p:1.06" data-i="9" aria-pressed="false" aria-label="Stacja 9: Wrocław, ≈ 8100 km · poza skalą — Bánh mì vịt"><span class="stop__label"><span class="stop__name">Wrocław</span><span class="stop__km">≈ 8100 km · poza skalą</span></span><span class="stop__stem"></span><span class="stop__dot"></span><span class="stop__no">09</span></button>
+        </div>
+      </div>
+
+      <div class="grid pick" id="pick">
+        <div class="pick__ph duo"><img id="pick-img" src="../media/banh-mi-dac-biet.jpg" width="786" height="1400" loading="lazy" alt="Bánh mì đặc biệt"></div>
+        <div class="pick__txt">
+          <p class="pick__k">Stacja <span id="pick-no">08</span> · <span id="pick-km">km 1726</span></p>
+          <p class="pick__st" id="pick-st" lang="vi">Sài Gòn</p>
+          <p class="pick__dish" id="pick-dish" lang="vi">Bánh mì đặc biệt</p>
+          <p class="pick__sub" id="pick-sub">Specjalność domu</p>
+          <p class="pick__row"><span class="pick__price" id="pick-price">32 zł</span><button class="add add--wide" type="button">Dodaj <span aria-hidden="true">+</span></button></p>
+        </div>
+      </div>
+
+      <ol class="courses" id="courses">
+        <li class="course" data-i="1" data-photo="../media/banh-mi-trung.jpg">
+          <span class="course__no">01</span>
+          <span class="course__stop"><b lang="vi">Hà Nội</b>km 0</span>
+          <span class="course__dish"><span lang="vi">Bánh mì trứng</span><small>Jajka, pasztet, Maggi</small></span>
+          <span class="course__heat"><span class="heat" role="radiogroup" aria-label="Ostrość: Bánh mì trứng"><span class="heat__k" aria-hidden="true">Ostrość</span><label class="heat__o" title="Łagodne"><input type="radio" name="heat-r-bm8" value="mild" checked><span class="heat__b" aria-hidden="true">Ł</span><span class="sr-only">Łagodne</span></label><label class="heat__o" title="Ostre"><input type="radio" name="heat-r-bm8" value="hot"><span class="heat__b" aria-hidden="true">O</span><span class="sr-only">Ostre</span></label><label class="heat__o" title="Bardzo ostre"><input type="radio" name="heat-r-bm8" value="extra"><span class="heat__b" aria-hidden="true">BO</span><span class="sr-only">Bardzo ostre</span></label></span></span>
+          <span class="course__price">22 zł</span>
+          <span class="course__add"><button class="add" type="button" aria-label="Dodaj do koszyka: Bánh mì trứng">+</button></span>
+        </li>
+        <li class="course" data-i="2">
+          <span class="course__no">02</span>
+          <span class="course__stop"><b lang="vi">Hải Phòng</b>km ≈ 102</span>
+          <span class="course__dish"><span lang="vi">Bánh mì que</span><small>3 pałeczki z pasztetem</small></span>
+          <span class="course__heat"></span>
+          <span class="course__price">16 zł</span>
+          <span class="course__add"><button class="add" type="button" aria-label="Dodaj do koszyka: Bánh mì que">+</button></span>
+        </li>
+        <li class="course" data-i="3" data-photo="../media/banh-mi-chay.jpg">
+          <span class="course__no">03</span>
+          <span class="course__stop"><b lang="vi">Huế</b>km 688</span>
+          <span class="course__dish"><span lang="vi">Bánh mì chay</span><small>Tofu i grzyby</small></span>
+          <span class="course__heat"><span class="heat" role="radiogroup" aria-label="Ostrość: Bánh mì chay"><span class="heat__k" aria-hidden="true">Ostrość</span><label class="heat__o" title="Łagodne"><input type="radio" name="heat-r-bm7" value="mild" checked><span class="heat__b" aria-hidden="true">Ł</span><span class="sr-only">Łagodne</span></label><label class="heat__o" title="Ostre"><input type="radio" name="heat-r-bm7" value="hot"><span class="heat__b" aria-hidden="true">O</span><span class="sr-only">Ostre</span></label><label class="heat__o" title="Bardzo ostre"><input type="radio" name="heat-r-bm7" value="extra"><span class="heat__b" aria-hidden="true">BO</span><span class="sr-only">Bardzo ostre</span></label></span></span>
+          <span class="course__price">28 zł</span>
+          <span class="course__add"><button class="add" type="button" aria-label="Dodaj do koszyka: Bánh mì chay">+</button></span>
+        </li>
+        <li class="course" data-i="4" data-photo="../media/banh-mi-ga.jpg">
+          <span class="course__no">04</span>
+          <span class="course__stop"><b lang="vi">Đà Nẵng</b>km 791</span>
+          <span class="course__dish"><span lang="vi">Bánh mì gà nướng</span><small>Kurczak zagrodowy</small></span>
+          <span class="course__heat"><span class="heat" role="radiogroup" aria-label="Ostrość: Bánh mì gà nướng"><span class="heat__k" aria-hidden="true">Ostrość</span><label class="heat__o" title="Łagodne"><input type="radio" name="heat-r-bm3" value="mild" checked><span class="heat__b" aria-hidden="true">Ł</span><span class="sr-only">Łagodne</span></label><label class="heat__o" title="Ostre"><input type="radio" name="heat-r-bm3" value="hot"><span class="heat__b" aria-hidden="true">O</span><span class="sr-only">Ostre</span></label><label class="heat__o" title="Bardzo ostre"><input type="radio" name="heat-r-bm3" value="extra"><span class="heat__b" aria-hidden="true">BO</span><span class="sr-only">Bardzo ostre</span></label></span></span>
+          <span class="course__price">29 zł</span>
+          <span class="course__add"><button class="add" type="button" aria-label="Dodaj do koszyka: Bánh mì gà nướng">+</button></span>
+        </li>
+        <li class="course" data-i="5" data-photo="../media/banh-mi-thit-nuong.jpg">
+          <span class="course__no">05</span>
+          <span class="course__stop"><b lang="vi">Hội An</b>km ≈ 820</span>
+          <span class="course__dish"><span lang="vi">Bánh mì thịt nướng</span><small>Karkówka z węgla</small></span>
+          <span class="course__heat"><span class="heat" role="radiogroup" aria-label="Ostrość: Bánh mì thịt nướng"><span class="heat__k" aria-hidden="true">Ostrość</span><label class="heat__o" title="Łagodne"><input type="radio" name="heat-r-bm2" value="mild" checked><span class="heat__b" aria-hidden="true">Ł</span><span class="sr-only">Łagodne</span></label><label class="heat__o" title="Ostre"><input type="radio" name="heat-r-bm2" value="hot"><span class="heat__b" aria-hidden="true">O</span><span class="sr-only">Ostre</span></label><label class="heat__o" title="Bardzo ostre"><input type="radio" name="heat-r-bm2" value="extra"><span class="heat__b" aria-hidden="true">BO</span><span class="sr-only">Bardzo ostre</span></label></span></span>
+          <span class="course__price">31 zł</span>
+          <span class="course__add"><button class="add" type="button" aria-label="Dodaj do koszyka: Bánh mì thịt nướng">+</button></span>
+        </li>
+        <li class="course" data-i="6" data-photo="../media/banh-mi-cha-ca.jpg">
+          <span class="course__no">06</span>
+          <span class="course__stop"><b lang="vi">Nha Trang</b>km 1315</span>
+          <span class="course__dish"><span lang="vi">Bánh mì chả cá</span><small>Karp z Doliny Baryczy z koprem</small></span>
+          <span class="course__heat"><span class="heat" role="radiogroup" aria-label="Ostrość: Bánh mì chả cá"><span class="heat__k" aria-hidden="true">Ostrość</span><label class="heat__o" title="Łagodne"><input type="radio" name="heat-r-bm5" value="mild" checked><span class="heat__b" aria-hidden="true">Ł</span><span class="sr-only">Łagodne</span></label><label class="heat__o" title="Ostre"><input type="radio" name="heat-r-bm5" value="hot"><span class="heat__b" aria-hidden="true">O</span><span class="sr-only">Ostre</span></label><label class="heat__o" title="Bardzo ostre"><input type="radio" name="heat-r-bm5" value="extra"><span class="heat__b" aria-hidden="true">BO</span><span class="sr-only">Bardzo ostre</span></label></span></span>
+          <span class="course__price">33 zł</span>
+          <span class="course__add"><button class="add" type="button" aria-label="Dodaj do koszyka: Bánh mì chả cá">+</button></span>
+        </li>
+        <li class="course" data-i="7" data-photo="../media/banh-mi-xiu-mai.jpg">
+          <span class="course__no">07</span>
+          <span class="course__stop"><b lang="vi">Đà Lạt</b>km ≈ 1490</span>
+          <span class="course__dish"><span lang="vi">Bánh mì xíu mại</span><small>Klopsiki w sosie pomidorowym</small></span>
+          <span class="course__heat"><span class="heat" role="radiogroup" aria-label="Ostrość: Bánh mì xíu mại"><span class="heat__k" aria-hidden="true">Ostrość</span><label class="heat__o" title="Łagodne"><input type="radio" name="heat-r-bm4" value="mild" checked><span class="heat__b" aria-hidden="true">Ł</span><span class="sr-only">Łagodne</span></label><label class="heat__o" title="Ostre"><input type="radio" name="heat-r-bm4" value="hot"><span class="heat__b" aria-hidden="true">O</span><span class="sr-only">Ostre</span></label><label class="heat__o" title="Bardzo ostre"><input type="radio" name="heat-r-bm4" value="extra"><span class="heat__b" aria-hidden="true">BO</span><span class="sr-only">Bardzo ostre</span></label></span></span>
+          <span class="course__price">30 zł</span>
+          <span class="course__add"><button class="add" type="button" aria-label="Dodaj do koszyka: Bánh mì xíu mại">+</button></span>
+        </li>
+        <li class="course" data-i="8" data-photo="../media/banh-mi-dac-biet.jpg">
+          <span class="course__no">08</span>
+          <span class="course__stop"><b lang="vi">Sài Gòn</b>km 1726</span>
+          <span class="course__dish"><span lang="vi">Bánh mì đặc biệt</span><small>Specjalność domu</small></span>
+          <span class="course__heat"><span class="heat" role="radiogroup" aria-label="Ostrość: Bánh mì đặc biệt"><span class="heat__k" aria-hidden="true">Ostrość</span><label class="heat__o" title="Łagodne"><input type="radio" name="heat-r-bm1" value="mild" checked><span class="heat__b" aria-hidden="true">Ł</span><span class="sr-only">Łagodne</span></label><label class="heat__o" title="Ostre"><input type="radio" name="heat-r-bm1" value="hot"><span class="heat__b" aria-hidden="true">O</span><span class="sr-only">Ostre</span></label><label class="heat__o" title="Bardzo ostre"><input type="radio" name="heat-r-bm1" value="extra"><span class="heat__b" aria-hidden="true">BO</span><span class="sr-only">Bardzo ostre</span></label></span></span>
+          <span class="course__price">32 zł</span>
+          <span class="course__add"><button class="add" type="button" aria-label="Dodaj do koszyka: Bánh mì đặc biệt">+</button></span>
+        </li>
+        <li class="course" data-i="9" data-photo="../media/banh-mi-vit.jpg">
+          <span class="course__no">09</span>
+          <span class="course__stop"><b>Wrocław</b>≈ 8100 km · poza skalą</span>
+          <span class="course__dish"><span lang="vi">Bánh mì vịt</span><small>Kaczka z Dolnego Śląska</small></span>
+          <span class="course__heat"><span class="heat" role="radiogroup" aria-label="Ostrość: Bánh mì vịt"><span class="heat__k" aria-hidden="true">Ostrość</span><label class="heat__o" title="Łagodne"><input type="radio" name="heat-r-bm6" value="mild" checked><span class="heat__b" aria-hidden="true">Ł</span><span class="sr-only">Łagodne</span></label><label class="heat__o" title="Ostre"><input type="radio" name="heat-r-bm6" value="hot"><span class="heat__b" aria-hidden="true">O</span><span class="sr-only">Ostre</span></label><label class="heat__o" title="Bardzo ostre"><input type="radio" name="heat-r-bm6" value="extra"><span class="heat__b" aria-hidden="true">BO</span><span class="sr-only">Bardzo ostre</span></label></span></span>
+          <span class="course__price">36 zł</span>
+          <span class="course__add"><button class="add" type="button" aria-label="Dodaj do koszyka: Bánh mì vịt">+</button></span>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 06 -->
+  <section class="sec" id="godziny" aria-labelledby="godziny-title">
+    <div class="wrap">
+      <hr class="rule" data-reveal>
+      <div class="grid sec__head">
+        <div class="idx">
+          <span class="idx__no">06</span>
+          <p>Godziny</p>
+          <p class="idx__note" id="status-clock"></p>
+        </div>
+        <h2 class="sec__title" id="godziny-title"><span class="sr-only">Godziny otwarcia. Teraz: </span><span id="status-word">Codziennie</span></h2>
+        <p class="status-sub" id="status-sub" aria-live="polite">12:00–22:00</p>
+        <p class="status-note" id="status-note"></p>
+      </div>
+
+      <dl class="grid hours-meta">
+        <div><dt>Codziennie</dt><dd id="hm-hours">12:00–22:00</dd></div>
+        <div><dt>Zamówienia online</dt><dd id="hm-online">w godzinach otwarcia</dd></div>
+        <div><dt>Bagietka z pieca</dt><dd>co ~2 h, pierwsza o 10:00</dd></div>
+        <div><dt>Na miejscu</dt><dd>kilka miejsc przy kontuarze i oknie, bez rezerwacji</dd></div>
+      </dl>
+
+      <div class="week" id="week" role="img" aria-label="Tydzień w siatce godzin: otwarte codziennie od 12:00 do 22:00, zamówienia online w tych samych godzinach, świeża bagietka z pieca co około dwie godziny od 10:00."></div>
+
+      <ul class="legend">
+        <li><i class="sw sw--open"></i><span>otwarte · zamówienia online</span></li>
+        <li><i class="sw sw--bake"></i><span>bagietka z pieca, co ~2 h</span></li>
+        <li><i class="sw sw--now"></i><span>teraz</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 07 -->
+  <section class="sec" id="dojazd" aria-labelledby="dojazd-title">
+    <div class="wrap">
+      <hr class="rule" data-reveal>
+      <div class="grid sec__head">
+        <div class="idx">
+          <span class="idx__no">07</span>
+          <p>Dojazd<br>i odbiór</p>
+        </div>
+        <h2 class="sec__title" id="dojazd-title">200 m od Rynku</h2>
+      </div>
+
+      <div class="grid visit-wrap">
+        <figure class="map" data-reveal>
+          <svg viewBox="100 50 500 450" role="img" aria-labelledby="map-t map-d">
+            <title id="map-t">Schemat dojazdu</title>
+            <desc id="map-d">Rynek z Ratuszem pośrodku. Uncle Tan, ul. Kotlarska 25A, leży około 200 metrów na północny wschód od Ratusza, 3 minuty pieszo.</desc>
+            <defs>
+              <pattern id="m-sq" width="23" height="23" patternUnits="userSpaceOnUse" x="0" y="0">
+                <path d="M23 0H0V23" class="m-grid"/>
+              </pattern>
+            </defs>
+            <rect x="100" y="50" width="500" height="450" fill="url(#m-sq)"/>
+            <text x="110" y="76" class="m-t m-t--k">schemat</text>
+            <text x="110" y="95" class="m-t m-t--s">kratka = 20 m</text>
+
+            <rect x="138" y="230" width="245" height="205" class="m-rynek"/>
+            <rect x="224" y="310" width="76" height="46" class="m-ratusz"/>
+            <text x="262" y="378" class="m-t m-t--inv" text-anchor="middle">Ratusz</text>
+            <text x="150" y="421" class="m-t m-t--inv">Rynek</text>
+
+            <g class="m-dim">
+              <line x1="262" y1="333" x2="410" y2="157" class="m-dim__line" pathLength="1"/>
+              <line x1="256.6" y1="328.5" x2="267.4" y2="337.5" class="m-dim__tick"/>
+              <circle cx="262" cy="333" r="3" class="m-dim__end"/>
+            </g>
+            <text x="362" y="192" class="m-t m-t--b" text-anchor="end">≈ 200 m</text>
+            <text x="362" y="212" class="m-t" text-anchor="end">3 min pieszo</text>
+
+            <circle cx="410" cy="157" r="17" class="m-ring"/>
+            <circle cx="410" cy="157" r="9" class="m-dot"/>
+            <text x="434" y="153" class="m-name">Uncle Tan</text>
+            <text x="434" y="173" class="m-t">Kotlarska 25A</text>
+
+            <g class="m-north" transform="translate(566 92)">
+              <line x1="0" y1="44" x2="0" y2="4"/>
+              <path d="M0 -10 L7 8 L0 3 L-7 8 Z"/>
+              <text x="0" y="-18" text-anchor="middle" class="m-t m-t--b">N</text>
+            </g>
+
+            <g class="m-scale" transform="translate(138 468)">
+              <line x1="0" y1="0" x2="115" y2="0"/>
+              <line x1="0" y1="-5" x2="0" y2="5"/>
+              <line x1="57.5" y1="-3" x2="57.5" y2="3"/>
+              <line x1="115" y1="-5" x2="115" y2="5"/>
+              <text x="0" y="22" class="m-t m-t--s">0</text>
+              <text x="115" y="22" class="m-t m-t--s" text-anchor="end">100 m</text>
+            </g>
+          </svg>
+          <figcaption>Schemat — Rynek, Ratusz i Kotlarska 25A. Północ u góry.</figcaption>
+        </figure>
+
+        <div class="visit">
+          <p class="visit__addr">ul. Kotlarska 25A<br>50-120 Wrocław</p>
+          <dl class="visit__data">
+            <div><dt>Od Ratusza</dt><dd>≈ 200 m na północny wschód, 3 min pieszo</dd></div>
+            <div><dt>Odbiór</dt><dd id="visit-pickup">gotowe ok. 15 min po zamówieniu</dd></div>
+            <div><dt>Telefon</dt><dd><a href="tel:+48604352051">604 352 051</a></dd></div>
+            <div><dt>Godziny</dt><dd>codziennie 12:00–22:00</dd></div>
+            <div><dt>GPS</dt><dd>51.111978 N, 17.032505 E</dd></div>
+          </dl>
+          <a class="btn btn--ink" href="https://www.google.com/maps/search/?api=1&query=Kotlarska+25A+Wroc%C5%82aw" target="_blank" rel="noopener">Nawiguj <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 -->
+  <section class="sec sec--red" id="zamow" aria-labelledby="zamow-title">
+    <div class="wrap">
+      <hr class="rule" data-reveal>
+      <div class="grid sec__head">
+        <div class="idx">
+          <span class="idx__no">08</span>
+          <p>Zamów<br>bez zakładania konta</p>
+        </div>
+        <h2 class="sec__title" id="zamow-title">Zamów online</h2>
+        <p class="sec__aside">Trzy kroki: koszyk, dane, status. Odbiór osobisty przy Kotlarskiej albo dostawa, płatność online albo przy odbiorze.</p>
+      </div>
+
+      <div class="grid flow">
+        <figure class="scr">
+          <figcaption class="scr__k"><b>01</b>Koszyk<span aria-hidden="true">→</span></figcaption>
+          <div class="scr__card rc">
+            <p class="rc__brand"><span>Uncle Tan · Kotlarska 25A</span><span>4 szt.</span></p>
+            <p class="seg2"><span class="is-on">Odbiór osobisty</span><span>Dostawa</span></p>
+            <p class="rc__info">Odbiór: Kotlarska 25A · gotowe ok. 15 min</p>
+            <ol class="rc__lines">
+              <li class="rc__line"><span class="rc__no">2×</span><span class="rc__name"><b lang="vi">Bánh mì đặc biệt</b><small class="rc__var">ostre</small></span><span class="rc__t">64 zł</span></li>
+              <li class="rc__line"><span class="rc__no">1×</span><span class="rc__name"><b lang="vi">Bánh mì chay</b><small class="rc__var">łagodne</small></span><span class="rc__t">28 zł</span></li>
+              <li class="rc__line"><span class="rc__no">1×</span><span class="rc__name"><b lang="vi">Cà phê trứng</b></span><span class="rc__t">19 zł</span></li>
+            </ol>
+            <dl class="rc__sum">
+              <div><dt>Suma</dt><dd>111 zł</dd></div>
+              <div><dt>Odbiór osobisty</dt><dd>0 zł</dd></div>
+              <div class="rc__total"><dt>Razem</dt><dd>111 zł</dd></div>
+            </dl>
+            <span class="pv-btn pv-btn--red">Przejdź do zamówienia <span aria-hidden="true">→</span></span>
+          </div>
+        </figure>
+
+        <figure class="scr">
+          <figcaption class="scr__k"><b>02</b>Dane do zamówienia<span aria-hidden="true">→</span></figcaption>
+          <div class="scr__card">
+            <dl class="pv">
+              <div class="pv__f"><dt>Kiedy</dt><dd class="pv__sel">Jak najszybciej · ok. 15 min</dd></div>
+              <div class="pv__f"><dt>Imię</dt><dd>Anna</dd></div>
+              <div class="pv__f"><dt>Telefon</dt><dd>600 100 200</dd></div>
+              <div class="pv__f"><dt>E-mail</dt><dd>anna@przyklad.pl</dd></div>
+              <div class="pv__f"><dt>Uwagi</dt><dd class="pv__ph">np. bez kolendry</dd></div>
+            </dl>
+            <p class="pv__k">Płatność</p>
+            <p class="pv-pay"><span class="is-on"><b>Online</b>Przelewy24 · BLIK, karta</span><span><b>Przy odbiorze</b>gotówką albo kartą</span></p>
+            <p class="pv__note">Bez zakładania konta – potwierdzenie wyślemy SMS-em i e-mailem.</p>
+            <span class="pv-btn pv-btn--red">Zamawiam i płacę 111 zł <span aria-hidden="true">→</span></span>
+          </div>
+        </figure>
+
+        <figure class="scr">
+          <figcaption class="scr__k"><b>03</b>Status zamówienia</figcaption>
+          <div class="scr__card scr__card--status">
+            <p class="pv-no"><span>Zamówienie UT-2063</span><span>Dziękujemy, Anna!</span></p>
+            <p class="pv-word">Przyjęte</p>
+            <ol class="pv-steps">
+              <li class="is-done"><span>01 · ✓</span>Wysłane</li>
+              <li class="is-now"><span>02 · teraz</span>Przyjęte</li>
+              <li><span>03</span>Do odbioru</li>
+              <li><span>04</span>Odebrane</li>
+            </ol>
+            <dl class="pv-data">
+              <div><dt>Odbiór osobisty</dt><dd>gotowe ok. 13:45</dd></div>
+              <div><dt>Miejsce</dt><dd>Kotlarska 25A, 50-120 Wrocław</dd></div>
+              <div><dt>Zapłacono online</dt><dd>111 zł</dd></div>
+            </dl>
+          </div>
+        </figure>
+      </div>
+
+      <dl class="grid ofacts">
+        <div><dt>Odbiór osobisty</dt><dd><b>15 min</b>gotowe przy Kotlarskiej 25A</dd></div>
+        <div><dt>Dostawa</dt><dd><b>7 zł</b>zamówienie od 40 zł, ok. 35–50 min</dd></div>
+        <div><dt>Płatność</dt><dd><b>2</b>online (Przelewy24) albo przy odbiorze / dostawie</dd></div>
+        <div><dt>Konto</dt><dd><b>0</b>bez rejestracji — potwierdzenie SMS-em i e-mailem</dd></div>
+      </dl>
+      <div class="grid octa">
+        <a class="btn btn--paper" href="#karta">Wybierz z karty <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="grid foot__cols">
+      <div class="foot__col"><p class="foot__k">Adres</p><p>ul. Kotlarska 25A<br>50-120 Wrocław</p></div>
+      <div class="foot__col"><p class="foot__k">Telefon</p><p><a href="tel:+48604352051">604 352 051</a></p></div>
+      <div class="foot__col"><p class="foot__k">Godziny</p><p>codziennie 12:00–22:00<br>zamówienia online w tych samych godzinach</p></div>
+      <div class="foot__col"><p class="foot__k">© 2026</p><p>Uncle Tan · <span lang="vi">Chú Tân</span><br><a href="#top">Do góry ↑</a></p></div>
+    </div>
+    <div class="fit foot__word" data-fit data-crop="0.74" aria-hidden="true">
+      <span class="fit__text">Uncle Tan<span class="fit__probe"></span></span>
+    </div>
+  </div>
+</footer>
+
+<div class="peek" id="peek" aria-hidden="true"><img alt="" width="200" height="200"><span class="peek__cap"></span></div>
+
+<div class="overlay" aria-hidden="true">
+  <div class="wrap grid">
+    <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

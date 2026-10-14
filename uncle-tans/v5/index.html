@@ -1,0 +1,963 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Uncle Tan · Chú Tân — Bánh mì bez skrótów</title>
+<meta name="description" content="Wietnamskie bánh mì na własnej bagietce, dwie minuty od Rynku. Kotlarska 25A, Wrocław. Zamów online: odbiór osobisty albo dostawa.">
+<meta name="theme-color" content="#F3ECDD">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-50 -50 100 100'%3E%3Cg fill='%23FF48B0'%3E%3Cpath id='p' d='M0-5C9-10 11.5-30 0-46C-11.5-30-9-10 0-5Z'/%3E%3Cuse href='%23p' transform='rotate(45)'/%3E%3Cuse href='%23p' transform='rotate(90)'/%3E%3Cuse href='%23p' transform='rotate(135)'/%3E%3Cuse href='%23p' transform='rotate(180)'/%3E%3Cuse href='%23p' transform='rotate(225)'/%3E%3Cuse href='%23p' transform='rotate(270)'/%3E%3Cuse href='%23p' transform='rotate(315)'/%3E%3Ccircle r='8' fill='%2300838A'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&family=Shantell+Sans:wght,BNCE,INFM@400..700,-100..100,0..100&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap">
+<link rel="stylesheet" href="styles.css">
+<script>
+  // reveal-on-scroll only when script.js can take over; ?debug shows everything at once
+  (function (root) {
+    var debug = /[?&]debug\b/.test(location.search);
+    root.classList.add('js');
+    if (debug) root.classList.add('debug');
+    if (!debug && 'IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      root.classList.add('reveal');
+      setTimeout(function () { if (!window.zineReady) root.classList.remove('reveal'); }, 2500);
+    }
+  })(document.documentElement);
+</script>
+<script src="script.js" defer></script>
+</head>
+<body>
+
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="rough" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency=".06" numOctaves="2" seed="4"/>
+      <feDisplacementMap in="SourceGraphic" scale="3"/>
+    </filter>
+  </defs>
+  <symbol id="anise" viewBox="-50 -50 100 100"><g style="fill:var(--anise-a,#00838a);mix-blend-mode:multiply"><path d="M0,-5C9,-10 11.5,-30 0,-46C-11.5,-30 -9,-10 0,-5Z" transform="rotate(0) scale(0.96,1)"/><path d="M0,-5C9,-10 11.5,-30 0,-46C-11.5,-30 -9,-10 0,-5Z" transform="rotate(46) scale(1,0.93)"/><path d="M0,-5C9,-10 11.5,-30 0,-46C-11.5,-30 -9,-10 0,-5Z" transform="rotate(89) scale(0.96,1.04)"/><path d="M0,-5C9,-10 11.5,-30 0,-46C-11.5,-30 -9,-10 0,-5Z" transform="rotate(136) scale(1,0.95)"/><path d="M0,-5C9,-10 11.5,-30 0,-46C-11.5,-30 -9,-10 0,-5Z" transform="rotate(181) scale(0.96,1)"/><path d="M0,-5C9,-10 11.5,-30 0,-46C-11.5,-30 -9,-10 0,-5Z" transform="rotate(224) scale(1,0.9)"/><path d="M0,-5C9,-10 11.5,-30 0,-46C-11.5,-30 -9,-10 0,-5Z" transform="rotate(271) scale(0.96,1.02)"/><path d="M0,-5C9,-10 11.5,-30 0,-46C-11.5,-30 -9,-10 0,-5Z" transform="rotate(316) scale(1,0.96)"/><circle r="7"/></g><g style="fill:var(--anise-b,#ff48b0);mix-blend-mode:multiply" transform="translate(2.2,-1.6)"><ellipse cx="0" cy="-25.0" rx="3.4" ry="6.2" transform="rotate(2)"/><ellipse cx="0" cy="-23.2" rx="3.4" ry="6.2" transform="rotate(48)"/><ellipse cx="0" cy="-26.0" rx="3.4" ry="6.2" transform="rotate(91)"/><ellipse cx="0" cy="-23.8" rx="3.4" ry="6.2" transform="rotate(138)"/><ellipse cx="0" cy="-25.0" rx="3.4" ry="6.2" transform="rotate(183)"/><ellipse cx="0" cy="-22.5" rx="3.4" ry="6.2" transform="rotate(226)"/><ellipse cx="0" cy="-25.5" rx="3.4" ry="6.2" transform="rotate(273)"/><ellipse cx="0" cy="-24.0" rx="3.4" ry="6.2" transform="rotate(318)"/><circle r="3.6"/></g></symbol>
+</svg>
+
+<a class="skip" href="#karta">Przejdź do karty</a>
+
+<header class="top">
+  <a class="badge" href="#top" aria-label="Uncle Tan, Chú Tân — strona główna">
+    <svg class="badge-anise" viewBox="0 0 100 100" aria-hidden="true"><use href="#anise"/></svg>
+    <span class="badge-text">
+      <span class="badge-name">Uncle Tan</span>
+      <span class="badge-vn" lang="vi">Chú Tân</span>
+    </span>
+  </a>
+  <nav class="top-nav" aria-label="Sekcje">
+    <a href="#karta">Karta</a>
+    <a href="#zamow">Zamów online</a>
+    <a href="#tan">Kim jest Tân</a>
+    <a href="#ziola">Zioła</a>
+    <a href="#dojazd">Dojazd</a>
+  </nav>
+  <a class="btn btn-small top-order" href="#karta">Zamów online</a>
+  <a class="cart-btn" href="#zamow" aria-label="Koszyk: 4 pozycje (podgląd)">
+    <span>Koszyk</span><span class="cart-count mono">4</span>
+  </a>
+</header>
+
+<main id="main">
+
+  <!-- 1. okładka -->
+  <section class="cover" id="top" aria-labelledby="cover-h">
+    <p class="masthead mono">
+      <span>Nº 02</span>
+      <span>jesień 2026</span>
+      <span>Wrocław, Kotlarska 25A</span>
+      12:00–22:00
+    </p>
+
+    <div class="cover-grid">
+      <h1 class="cover-title ink print" id="cover-h">
+        <span class="line" lang="vi">Bánh mì</span>
+        <span class="line">bez</span>
+        <span class="line">skrótów.</span>
+      </h1>
+
+      <figure class="anatomy print">
+        <div class="anatomy-art">
+          <svg class="anatomy-svg" viewBox="0 0 760 740" role="img" aria-labelledby="anat-title anat-desc"><title id="anat-title">Anatomia bánh mì</title><desc id="anat-desc">Przekrój bánh mì rozłożony na warstwy, od góry: bagietka, chili, kolendra, ogórek, pikle đồ chua, chả lụa i pieczony boczek, majonez na maśle, pasztet i dolna połówka bagietki.</desc><defs><pattern id="an-pink" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(75)"><circle cx="2.5" cy="2.5" r="1.7" fill="#ff48b0"/></pattern><pattern id="an-pink-l" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(75)"><circle cx="3" cy="3" r="1" fill="#ff48b0"/></pattern><pattern id="an-teal" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(15)"><circle cx="2.5" cy="2.5" r="1.5" fill="#00838a"/></pattern><pattern id="an-teal-l" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(15)"><circle cx="2.5" cy="2.5" r="1" fill="#00838a"/></pattern></defs><g class="an-guides"><path d="M150,96 V686"/><path d="M610,84 V674"/></g><g class="an-stack" transform="rotate(-3 380 400)"><g class="an-layer" style="--i:0;--dy:210px;--s:-4"><g class="an-t"><path fill="url(#an-teal)" d="M170,140 C180,118 206,104 240,98 C305,84 455,82 522,98 C560,108 584,126 592,146 C560,124 520,112 470,108 C400,102 310,102 250,110 C214,116 188,126 170,140Z"/><g class="an-holes"><ellipse cx="362.9" cy="142.6" rx="6.7" ry="2.3"/><ellipse cx="382.8" cy="143.3" rx="3.7" ry="2.4"/><ellipse cx="426.8" cy="148.6" rx="3.4" ry="2.1"/><ellipse cx="232.6" cy="149.1" rx="5.8" ry="1.7"/><ellipse cx="553.6" cy="153.1" rx="5.6" ry="2.6"/><ellipse cx="256.7" cy="128.4" rx="5.1" ry="1.7"/><ellipse cx="268.5" cy="134.3" rx="3.1" ry="2.3"/><ellipse cx="358.6" cy="149.9" rx="5.1" ry="2.6"/><ellipse cx="379.9" cy="145.2" rx="4.8" ry="2"/><ellipse cx="559.2" cy="153.9" rx="6.4" ry="2.7"/><ellipse cx="313.5" cy="134" rx="4.2" ry="1.7"/><ellipse cx="475.9" cy="138.4" rx="6.4" ry="2.2"/><ellipse cx="544.9" cy="150" rx="3" ry="1.9"/><ellipse cx="527.7" cy="140.2" rx="6.9" ry="2.2"/><ellipse cx="226.3" cy="144.4" rx="6.1" ry="2"/><ellipse cx="231.4" cy="136.6" rx="6.9" ry="2.8"/></g></g><g class="an-p"><path d="M152,160 C158,132 186,106 232,94 C300,76 460,74 530,92 C578,104 604,130 608,160 C500,166 260,166 152,160Z"/><path class="an-crumb" d="M172,158 C182,140 204,124 238,116 C300,102 460,100 520,114 C556,124 578,140 588,158 C490,162 270,162 172,158Z"/><path fill="url(#an-pink-l)" d="M172,158 C182,140 204,124 238,116 C300,102 460,100 520,114 C556,124 578,140 588,158 C490,162 270,162 172,158Z"/><g class="an-score"><path d="M250,99 C268,92 286,89 306,88"/><path d="M332,85 C352,82 372,81 392,81"/><path d="M418,81 C438,81 458,83 476,86"/><path d="M500,90 C516,94 530,99 544,106"/></g></g></g><g class="an-layer" style="--i:1;--dy:155px;--s:-3"><g class="an-t"><g class="an-seeds"><circle cx="197" cy="200.4" r="1.8"/><circle cx="196.5" cy="198.1" r="1.8"/><circle cx="193.6" cy="198.7" r="1.8"/><circle cx="254.5" cy="203.4" r="1.8"/><circle cx="254.1" cy="202.5" r="1.8"/><circle cx="252.5" cy="202.8" r="1.8"/><circle cx="316.4" cy="216.2" r="1.8"/><circle cx="318.7" cy="214.2" r="1.8"/><circle cx="320.3" cy="208.6" r="1.8"/><circle cx="372.5" cy="201.5" r="1.8"/><circle cx="372.4" cy="196.9" r="1.8"/><circle cx="371.6" cy="200.7" r="1.8"/><circle cx="436.2" cy="202.7" r="1.8"/><circle cx="434" cy="201.3" r="1.8"/><circle cx="438.9" cy="198.5" r="1.8"/><circle cx="500.7" cy="207.6" r="1.8"/><circle cx="503.9" cy="203.5" r="1.8"/><circle cx="500" cy="207.9" r="1.8"/><circle cx="561.8" cy="213.4" r="1.8"/><circle cx="562.8" cy="205.8" r="1.8"/><circle cx="558.7" cy="209.1" r="1.8"/></g></g><g class="an-p"><g class="an-rings"><circle cx="196" cy="199.7" r="10.2"/><circle cx="252" cy="200.7" r="11.7"/><circle cx="318" cy="211.6" r="11.9"/><circle cx="372" cy="199.4" r="12.5"/><circle cx="436" cy="199.3" r="11.2"/><circle cx="500" cy="206" r="12.1"/><circle cx="560" cy="208.4" r="12.3"/></g></g></g><g class="an-layer" style="--i:2;--dy:110px;--s:-2"><g class="an-t"><path d="M215,259.3L209.2,252.5L207.9,250L207.4,248.2L207.5,246.9L207.9,246.2L208.6,246L208.6,244.1L208.8,242.6L209.4,241.8L210.2,241.7L211,242.3L211.4,240.8L212,239.8L212.7,239.7L213.5,240.4L214.2,241.8L214.8,241.1L215.4,241L215.9,241.9L216.3,243.7L216.4,247.1L217.3,243.5L218.1,241.4L218.9,240.3L219.5,240.1L219.9,240.6L221,238.9L221.9,237.8L222.7,237.6L223,238.4L223.1,239.8L224.2,238.9L225,238.6L225.4,239.2L225.3,240.7L224.8,242.7L225.5,242.6L225.8,243.2L225.5,244.5L224.6,246.6L222.7,249.7L225.1,247.4L226.7,246.4L227.7,246.1L228.1,246.6L228,247.5L229.5,247.1L230.5,247.1L230.9,247.7L230.7,248.8L229.9,250.1L230.9,250.4L231.4,251L231.2,251.9L230.3,253.1L229,254.4L229.3,255.1L229.1,255.9L228.2,256.8L226.6,257.8L223.9,258.6Z"/><path d="M242,257.7L250.9,258.3L253.6,259.2L255.2,260.1L256.1,261.1L256.3,261.9L256,262.5L257.3,263.8L258.2,265L258.4,266L257.9,266.6L256.9,266.8L257.7,268.2L257.9,269.3L257.5,269.9L256.5,269.9L255,269.4L255.1,270.3L254.7,270.8L253.7,270.6L252.1,269.5L249.7,267.2L251.6,270.4L252.5,272.4L252.8,273.8L252.5,274.4L251.8,274.3L252.3,276.2L252.4,277.7L252,278.4L251.2,278.1L250.1,277.1L250,278.5L249.7,279.3L248.9,279.1L248,278L246.9,276.3L246.5,276.9L245.9,276.7L245.1,275.5L244.3,273.4L243.4,269.8L243.3,273.2L242.9,275.1L242.4,276L241.8,275.9L241.2,275.2L240.5,276.5L239.7,277.3L239,277.2L238.4,276.2L238,274.7L237.2,275.2L236.4,275.2L235.8,274.4L235.6,272.9L235.6,271L234.9,270.8L234.5,270.1L234.4,268.8L234.9,267L236.2,264.5Z"/><path d="M280,255.4L283.4,247.1L285.1,244.8L286.5,243.6L287.7,243L288.5,243.1L289,243.6L290.7,242.8L292.1,242.3L293.1,242.4L293.5,243.1L293.4,244.1L294.9,243.8L296.1,243.9L296.5,244.4L296.1,245.5L295.3,246.7L296.2,246.9L296.5,247.4L296,248.3L294.5,249.5L291.5,251.1L295.1,250.2L297.4,250L298.7,250.2L299.2,250.7L298.9,251.3L300.9,251.5L302.4,251.8L302.8,252.4L302.3,253.1L301.1,253.8L302.4,254.3L303,254.9L302.6,255.5L301.3,256.1L299.3,256.6L299.7,257.1L299.3,257.6L298,258L295.7,258.2L292,257.9L295.2,259L296.9,260L297.5,260.8L297.3,261.3L296.4,261.6L297.5,262.7L298,263.7L297.6,264.3L296.5,264.6L294.9,264.5L295.2,265.5L294.9,266.2L294,266.5L292.5,266.2L290.7,265.6L290.3,266.2L289.5,266.4L288.2,266L286.7,265L284.7,263Z"/><path d="M333.2,272.7L327.4,265.9L326.2,263.4L325.7,261.6L325.7,260.3L326.2,259.6L326.9,259.4L326.8,257.5L327.1,256L327.6,255.2L328.4,255.2L329.3,255.7L329.7,254.2L330.3,253.2L331,253.1L331.7,253.9L332.4,255.2L333,254.5L333.6,254.4L334.2,255.3L334.5,257.2L334.6,260.6L335.5,257L336.4,254.9L337.1,253.7L337.7,253.5L338.2,254.1L339.2,252.4L340.2,251.2L340.9,251.1L341.3,251.9L341.4,253.3L342.4,252.3L343.2,252L343.6,252.7L343.5,254.1L343,256.1L343.7,256L344,256.6L343.7,257.9L342.8,260L340.9,263.2L343.4,260.8L345,259.8L346,259.6L346.4,260.1L346.2,261L347.7,260.5L348.8,260.5L349.2,261.1L348.9,262.2L348.1,263.6L349.1,263.8L349.7,264.4L349.5,265.4L348.6,266.6L347.2,267.9L347.6,268.5L347.4,269.3L346.5,270.3L344.9,271.2L342.2,272.1Z"/><path d="M358.9,274.3L367.8,275L370.5,275.9L372.1,276.8L373,277.7L373.2,278.6L372.9,279.2L374.2,280.5L375.1,281.7L375.3,282.7L374.8,283.3L373.8,283.5L374.6,284.9L374.8,285.9L374.4,286.5L373.4,286.5L371.9,286.1L372,287L371.6,287.5L370.6,287.2L369,286.2L366.6,283.9L368.5,287.1L369.4,289.1L369.7,290.5L369.4,291L368.7,291L369.2,292.9L369.3,294.4L368.9,295L368.1,294.7L367,293.8L366.9,295.2L366.6,296L365.8,295.8L364.9,294.7L363.8,293L363.4,293.5L362.8,293.3L362,292.2L361.2,290.1L360.3,286.5L360.2,289.9L359.8,291.8L359.3,292.6L358.7,292.6L358.1,291.8L357.4,293.2L356.6,294L355.9,293.8L355.3,292.9L354.9,291.3L354.1,291.9L353.3,291.9L352.7,291L352.5,289.5L352.5,287.7L351.8,287.5L351.4,286.8L351.3,285.5L351.8,283.7L353.1,281.2Z"/><path d="M395,276.6L398.4,268.4L400.1,266.1L401.5,264.8L402.7,264.3L403.5,264.4L404,264.9L405.7,264L407.1,263.5L408.1,263.6L408.5,264.3L408.4,265.4L409.9,265L411.1,265.1L411.5,265.7L411.1,266.7L410.3,268L411.2,268.1L411.5,268.6L411,269.5L409.5,270.7L406.5,272.3L410.1,271.5L412.4,271.3L413.7,271.4L414.2,271.9L413.9,272.5L415.9,272.7L417.4,273.1L417.8,273.6L417.3,274.3L416.1,275L417.4,275.5L418,276.1L417.6,276.7L416.3,277.3L414.3,277.8L414.7,278.4L414.3,278.9L413,279.3L410.7,279.4L407,279.1L410.2,280.3L411.9,281.2L412.5,282L412.3,282.5L411.4,282.9L412.5,284L413,284.9L412.6,285.6L411.5,285.8L409.9,285.7L410.2,286.7L409.9,287.5L409,287.7L407.5,287.5L405.7,286.9L405.3,287.5L404.5,287.7L403.2,287.3L401.7,286.3L399.7,284.3Z"/><path d="M441.5,261.3L435.7,254.5L434.4,252L433.9,250.2L434,248.9L434.4,248.2L435.1,247.9L435.1,246.1L435.3,244.6L435.9,243.8L436.7,243.7L437.5,244.3L437.9,242.8L438.5,241.8L439.2,241.7L440,242.4L440.7,243.8L441.3,243.1L441.9,243L442.4,243.9L442.8,245.7L442.9,249.1L443.8,245.5L444.6,243.4L445.4,242.3L446,242.1L446.4,242.6L447.5,240.9L448.4,239.8L449.2,239.6L449.5,240.4L449.6,241.8L450.7,240.9L451.5,240.6L451.9,241.2L451.8,242.7L451.3,244.7L452,244.6L452.3,245.2L452,246.5L451.1,248.6L449.2,251.7L451.6,249.4L453.2,248.4L454.2,248.1L454.6,248.6L454.5,249.5L456,249.1L457,249.1L457.4,249.7L457.2,250.8L456.4,252.1L457.4,252.4L457.9,252.9L457.7,253.9L456.8,255.1L455.5,256.4L455.8,257.1L455.6,257.9L454.7,258.8L453.1,259.8L450.4,260.6Z"/><path d="M465.8,259.7L474.7,260.3L477.4,261.2L479,262.1L479.9,263.1L480.1,263.9L479.8,264.5L481.1,265.8L482,267L482.2,268L481.7,268.6L480.7,268.8L481.5,270.2L481.7,271.3L481.3,271.9L480.3,271.9L478.8,271.4L478.9,272.3L478.5,272.8L477.5,272.6L475.9,271.5L473.5,269.2L475.4,272.4L476.3,274.4L476.6,275.8L476.3,276.4L475.6,276.3L476.1,278.2L476.2,279.7L475.8,280.4L475,280.1L473.9,279.1L473.8,280.5L473.5,281.3L472.7,281.1L471.8,280L470.7,278.3L470.3,278.8L469.7,278.7L468.9,277.5L468.1,275.4L467.2,271.8L467.1,275.2L466.7,277.1L466.2,278L465.6,277.9L465,277.2L464.3,278.5L463.5,279.3L462.8,279.2L462.2,278.2L461.8,276.7L461,277.2L460.2,277.2L459.6,276.4L459.4,274.9L459.4,273L458.7,272.8L458.3,272.1L458.2,270.8L458.7,269L460,266.5Z"/><path d="M500,257.4L503.4,249.1L505.1,246.8L506.5,245.6L507.7,245L508.5,245.1L509,245.6L510.7,244.8L512.1,244.3L513.1,244.4L513.5,245.1L513.4,246.1L514.9,245.8L516.1,245.9L516.5,246.4L516.1,247.5L515.3,248.7L516.2,248.9L516.5,249.4L516,250.3L514.5,251.5L511.5,253.1L515.1,252.2L517.4,252L518.7,252.2L519.2,252.7L518.9,253.3L520.9,253.4L522.4,253.8L522.8,254.4L522.3,255.1L521.1,255.8L522.4,256.3L523,256.9L522.6,257.5L521.3,258.1L519.3,258.5L519.7,259.1L519.3,259.6L518,260L515.7,260.2L512,259.9L515.2,261L516.9,262L517.5,262.8L517.3,263.3L516.4,263.6L517.5,264.7L518,265.7L517.6,266.3L516.5,266.6L514.9,266.5L515.2,267.5L514.9,268.2L514,268.5L512.5,268.2L510.7,267.6L510.3,268.2L509.5,268.4L508.2,268L506.7,267L504.7,265Z"/><path d="M534.8,270.1L528.9,263.3L527.7,260.8L527.2,259L527.2,257.7L527.7,257L528.4,256.8L528.3,254.9L528.6,253.4L529.1,252.6L529.9,252.6L530.8,253.2L531.2,251.6L531.8,250.7L532.5,250.5L533.2,251.3L533.9,252.7L534.5,251.9L535.1,251.9L535.7,252.7L536,254.6L536.1,258L537,254.4L537.9,252.3L538.6,251.1L539.2,251L539.7,251.5L540.7,249.8L541.7,248.7L542.4,248.5L542.8,249.3L542.9,250.7L543.9,249.7L544.7,249.5L545.1,250.1L545,251.6L544.5,253.5L545.2,253.5L545.5,254L545.2,255.4L544.3,257.4L542.4,260.6L544.9,258.3L546.5,257.2L547.5,257L547.9,257.5L547.7,258.4L549.2,258L550.3,258L550.7,258.5L550.4,259.6L549.6,261L550.6,261.2L551.2,261.8L551,262.8L550.1,264L548.7,265.3L549.1,265.9L548.9,266.7L548,267.7L546.4,268.6L543.7,269.5Z"/><path d="M557.7,271.8L566.6,272.4L569.3,273.3L570.9,274.2L571.8,275.2L572,276L571.7,276.6L573,277.9L573.9,279.1L574.1,280.1L573.6,280.7L572.6,280.9L573.4,282.3L573.6,283.4L573.2,284L572.2,284L570.7,283.5L570.8,284.4L570.4,284.9L569.4,284.7L567.8,283.6L565.4,281.3L567.3,284.5L568.2,286.5L568.5,287.9L568.2,288.5L567.5,288.4L568,290.3L568.1,291.8L567.7,292.5L566.9,292.2L565.8,291.2L565.7,292.6L565.4,293.4L564.6,293.2L563.7,292.1L562.6,290.4L562.2,290.9L561.6,290.8L560.8,289.6L560,287.5L559.1,283.9L559,287.3L558.6,289.2L558.1,290.1L557.5,290L556.9,289.3L556.2,290.6L555.4,291.4L554.7,291.3L554.1,290.3L553.7,288.8L552.9,289.3L552.1,289.3L551.5,288.5L551.3,287L551.3,285.1L550.6,284.9L550.2,284.2L550.1,282.9L550.6,281.1L551.9,278.6Z"/><path d="M590,274L593.4,265.8L595.1,263.5L596.5,262.3L597.7,261.7L598.5,261.8L599,262.3L600.7,261.4L602.1,260.9L603.1,261.1L603.5,261.7L603.4,262.8L604.9,262.5L606.1,262.5L606.5,263.1L606.1,264.1L605.3,265.4L606.2,265.6L606.5,266.1L606,266.9L604.5,268.1L601.5,269.7L605.1,268.9L607.4,268.7L608.7,268.9L609.2,269.3L608.9,269.9L610.9,270.1L612.4,270.5L612.8,271L612.3,271.7L611.1,272.4L612.4,272.9L613,273.5L612.6,274.2L611.3,274.7L609.3,275.2L609.7,275.8L609.3,276.3L608,276.7L605.7,276.8L602,276.5L605.2,277.7L606.9,278.6L607.5,279.4L607.3,280L606.4,280.3L607.5,281.4L608,282.3L607.6,283L606.5,283.2L604.9,283.1L605.2,284.1L604.9,284.9L604,285.1L602.5,284.9L600.7,284.3L600.3,284.9L599.5,285.1L598.2,284.7L596.7,283.7L594.7,281.7Z"/></g><g class="an-p"><g class="an-stems"><path d="M180,261.4 C230,269.4 260,255.4 280,255.4"/><path d="M300,270.6 C347.5,262.6 375,276.6 395,276.6"/><path d="M410,263.4 C455,271.4 480,257.4 500,257.4"/><path d="M505,268 C547.5,260 570,274 590,274"/></g></g></g><g class="an-layer" style="--i:3;--dy:62px;--s:-1"><g class="an-t"><g transform="rotate(-2 251.0 323)"><rect x="176" y="314" width="150" height="18" rx="9"/><rect class="an-paper" x="180" y="319" width="142" height="8" rx="4"/><rect fill="url(#an-teal-l)" x="180" y="319" width="142" height="8" rx="4"/><path class="an-seedline" d="M190,323 H312"/></g><g transform="rotate(1.5 400.0 318)"><rect x="322" y="309" width="156" height="18" rx="9"/><rect class="an-paper" x="326" y="314" width="148" height="8" rx="4"/><rect fill="url(#an-teal-l)" x="326" y="314" width="148" height="8" rx="4"/><path class="an-seedline" d="M336,318 H464"/></g><g transform="rotate(-1 530.0 325)"><rect x="468" y="316" width="124" height="18" rx="9"/><rect class="an-paper" x="472" y="321" width="116" height="8" rx="4"/><rect fill="url(#an-teal-l)" x="472" y="321" width="116" height="8" rx="4"/><path class="an-seedline" d="M482,325 H578"/></g></g><g class="an-p"></g></g><g class="an-layer" style="--i:4;--dy:13px;--s:0"><g class="an-t"><g class="an-daikon"><path d="M260.2,394L305.4,388.8"/><path d="M380.9,395L426.6,389.3"/><path d="M341,372.8L375.5,370.3"/><path d="M548.2,385.9L596.2,388.2"/><path d="M445.2,393.9L475.6,396.2"/><path d="M186.1,378.7L234.1,389.6"/><path d="M294.6,382.3L346.9,393.3"/><path d="M407.5,378.6L452.5,381.3"/><path d="M446.8,379L495.8,381.2"/><path d="M170.9,388.8L212.9,382.4"/><path d="M263.5,368.4L301.2,372.2"/><path d="M337.6,391.4L375.9,395"/><path d="M509.6,382.3L554.6,377.7"/><path d="M446.2,398.1L482.8,391.3"/><path d="M411.5,379.2L449.1,386.4"/><path d="M504.9,370.1L553.3,372"/><path d="M336.4,374.4L387.4,366.9"/></g><g class="an-daikon-in"><path d="M260.2,394L305.4,388.8"/><path d="M380.9,395L426.6,389.3"/><path d="M341,372.8L375.5,370.3"/><path d="M548.2,385.9L596.2,388.2"/><path d="M445.2,393.9L475.6,396.2"/><path d="M186.1,378.7L234.1,389.6"/><path d="M294.6,382.3L346.9,393.3"/><path d="M407.5,378.6L452.5,381.3"/><path d="M446.8,379L495.8,381.2"/><path d="M170.9,388.8L212.9,382.4"/><path d="M263.5,368.4L301.2,372.2"/><path d="M337.6,391.4L375.9,395"/><path d="M509.6,382.3L554.6,377.7"/><path d="M446.2,398.1L482.8,391.3"/><path d="M411.5,379.2L449.1,386.4"/><path d="M504.9,370.1L553.3,372"/><path d="M336.4,374.4L387.4,366.9"/></g></g><g class="an-p"><g class="an-carrot"><path d="M234.5,391.1L265.9,386.3"/><path d="M531.9,377.3L562,373.3"/><path d="M389.6,369.2L428.1,377.7"/><path d="M221.3,367.5L251,374.4"/><path d="M354.5,383.7L391.3,394.3"/><path d="M450.2,382.5L499.5,394.1"/><path d="M320.7,389.5L373.1,391.6"/><path d="M184.8,380.7L239.4,392.5"/><path d="M340.3,389.6L372.1,394"/><path d="M437,377.6L481.7,388.3"/><path d="M234.4,372L287.7,376.8"/><path d="M234.6,375.4L284.2,387"/><path d="M209.1,377.9L259.9,387.9"/><path d="M342.5,378L378,376.3"/><path d="M557.4,385.9L588.2,377.6"/><path d="M288.7,393.7L318.5,387.5"/><path d="M213.2,371.9L259.5,370.5"/></g></g></g><g class="an-layer" style="--i:5;--dy:-40px;--s:1"><g class="an-t"><g class="an-rim"><ellipse cx="232" cy="450" rx="68" ry="20"/><ellipse cx="382" cy="445" rx="72" ry="21"/><ellipse cx="530" cy="451" rx="64" ry="19"/></g></g><g class="an-p"><ellipse class="an-paper" cx="232" cy="450" rx="68" ry="20"/><ellipse fill="url(#an-pink)" cx="232" cy="450" rx="68" ry="20"/><circle class="an-fat" cx="207.4" cy="442.3" r="3.2"/><circle class="an-fat" cx="267.6" cy="447.2" r="2.3"/><circle class="an-fat" cx="212.6" cy="450.9" r="2"/><circle class="an-fat" cx="194.7" cy="452" r="2.3"/><circle class="an-fat" cx="228.5" cy="457.4" r="3"/><ellipse class="an-paper" cx="382" cy="445" rx="72" ry="21"/><ellipse fill="url(#an-pink)" cx="382" cy="445" rx="72" ry="21"/><circle class="an-fat" cx="345.8" cy="443.7" r="3.1"/><circle class="an-fat" cx="348.4" cy="452.8" r="3.4"/><circle class="an-fat" cx="423" cy="452.3" r="3.1"/><circle class="an-fat" cx="403.1" cy="451.5" r="2.9"/><circle class="an-fat" cx="405.6" cy="440.6" r="2.9"/><ellipse class="an-paper" cx="530" cy="451" rx="64" ry="19"/><ellipse fill="url(#an-pink)" cx="530" cy="451" rx="64" ry="19"/><circle class="an-fat" cx="557.7" cy="443.2" r="3.4"/><circle class="an-fat" cx="497.2" cy="453.3" r="2.3"/><circle class="an-fat" cx="523.1" cy="439.6" r="3"/><circle class="an-fat" cx="526" cy="445.3" r="3.3"/><circle class="an-fat" cx="573.7" cy="449.4" r="2.8"/></g></g><g class="an-layer" style="--i:6;--dy:-90px;--s:2"><g class="an-t"><path class="an-mayo-line" d="M182,508 C206,496 230,520 254,508 S302,496 326,508 S374,520 398,508 S446,496 470,508 S518,520 542,508 S568,500 578,506" transform="translate(2 9)"/></g><g class="an-p"><path class="an-mayo" d="M182,508 C206,496 230,520 254,508 S302,496 326,508 S374,520 398,508 S446,496 470,508 S518,520 542,508 S568,500 578,506"/></g></g><g class="an-layer" style="--i:7;--dy:-135px;--s:3"><g class="an-t"><path fill="url(#an-teal)" d="M176,552 C220,545 262,558 310,551 C360,544 410,558 460,550 C510,543 560,553 584,557 L580,574 C490,581 270,581 180,575Z"/></g><g class="an-p"><path fill="url(#an-pink)" d="M176,552 C220,545 262,558 310,551 C360,544 410,558 460,550 C510,543 560,553 584,557 L580,574 C490,581 270,581 180,575Z"/><path class="an-edge" d="M176,552 C220,545 262,558 310,551 C360,544 410,558 460,550 C510,543 560,553 584,557"/></g></g><g class="an-layer" style="--i:8;--dy:-188px;--s:4"><g class="an-t"><path fill="url(#an-teal)" d="M170,630 C188,646 214,656 250,662 C310,670 400,670 470,664 C520,660 560,648 592,626 C584,646 560,664 522,674 C455,690 305,690 240,674 C206,666 182,652 170,630Z"/><g class="an-holes"><ellipse cx="481.8" cy="624.3" rx="6.6" ry="3"/><ellipse cx="327" cy="618.2" rx="4.8" ry="2.5"/><ellipse cx="473.9" cy="628.7" rx="3.1" ry="2.9"/><ellipse cx="227.4" cy="636.8" rx="3.7" ry="2.1"/><ellipse cx="480.8" cy="619.7" rx="3.6" ry="2.4"/><ellipse cx="458.2" cy="637.8" rx="5.8" ry="3.1"/><ellipse cx="377.4" cy="640.7" rx="3.3" ry="2"/><ellipse cx="389.3" cy="623.5" rx="5.9" ry="2.6"/><ellipse cx="388" cy="637.9" rx="5.2" ry="2.1"/><ellipse cx="338.4" cy="638" rx="6.6" ry="1.9"/><ellipse cx="502.8" cy="641.2" rx="5.1" ry="2.5"/><ellipse cx="275.3" cy="629.9" rx="5" ry="2.6"/><ellipse cx="214.7" cy="641.2" rx="5.1" ry="2.2"/><ellipse cx="485.4" cy="630.6" rx="5" ry="2.7"/></g></g><g class="an-p"><path d="M152,610 C260,604 500,604 608,610 C604,640 578,664 530,676 C460,694 300,692 232,676 C186,664 158,640 152,610Z"/><path class="an-crumb" d="M172,612 C270,608 490,608 588,612 C578,632 556,648 520,656 C460,670 300,668 238,656 C204,648 182,632 172,612Z"/><path fill="url(#an-pink-l)" d="M172,612 C270,608 490,608 588,612 C578,632 556,648 520,656 C460,670 300,668 238,656 C204,648 182,632 172,612Z"/></g></g></g><g class="an-labels"><g class="an-label" style="--i:0"><path class="an-arrow" d="M622,91 Q600.6,75 579.2,111.5 M579.4,102.5 L579.2,111.5 L586.9,106.9"/><text class="an-hand" x="630" y="98" text-anchor="start">bagietka</text><text class="an-sub" x="630" y="115" text-anchor="start">z pieca co ~2 h</text></g><g class="an-label" style="--i:1"><path class="an-arrow" d="M146,189 Q155,173 164.1,215.7 M158.2,208.9 L164.1,215.7 L166.7,207.1"/><text class="an-hand" x="138" y="196" text-anchor="end">chili</text></g><g class="an-label" style="--i:2"><path class="an-arrow" d="M622,245 Q607.2,229 592.5,251 M593.3,242 L592.5,251 L600.5,246.8"/><text class="an-hand" x="630" y="252" text-anchor="start">kolendra</text><text class="an-sub" x="630" y="269" text-anchor="start">z porannego targu</text></g><g class="an-label" style="--i:3"><path class="an-arrow" d="M146,309 Q154.1,293 162.2,333 M156.4,326.1 L162.2,333 L164.9,324.4"/><text class="an-hand" x="138" y="316" text-anchor="end">ogórek</text></g><g class="an-label" style="--i:4"><path class="an-arrow" d="M620,365 Q605.4,349 590.8,372.2 M591.4,363.3 L590.8,372.2 L598.7,367.8"/><text class="an-hand" x="628" y="372" text-anchor="start">pikle</text><text class="an-sub" x="628" y="389" text-anchor="start">đồ chua · 48 h w zalewie</text></g><g class="an-label" style="--i:5"><path class="an-arrow" d="M146,431 Q153.4,415 160.8,459.2 M155.2,452.2 L160.8,459.2 L163.8,450.7"/><text class="an-hand" x="138" y="438" text-anchor="end">chả lụa</text><text class="an-sub" x="138" y="455" text-anchor="end">i pieczony boczek</text></g><g class="an-label" style="--i:6"><path class="an-arrow" d="M622,491 Q607.7,475 593.4,497.3 M594,488.3 L593.4,497.3 L601.3,493"/><text class="an-hand" x="630" y="498" text-anchor="start">majonez</text><text class="an-sub" x="630" y="515" text-anchor="start">na maśle i żółtkach</text></g><g class="an-label" style="--i:7"><path class="an-arrow" d="M146,549 Q162.4,533 178.8,573.5 M171.8,567.8 L178.8,573.5 L179.8,564.5"/><text class="an-hand" x="138" y="556" text-anchor="end">pasztet</text><text class="an-sub" x="138" y="573" text-anchor="end">robiony co rano</text></g><g class="an-label" style="--i:8"><path class="an-arrow" d="M620,685 Q612.8,636.9 605.5,652.9 M604.9,643.9 L605.5,652.9 L612.7,647.4"/><text class="an-hand" x="628" y="692" text-anchor="start">bagietka</text><text class="an-sub" x="628" y="709" text-anchor="start">skórka jak papier</text></g></g></svg>
+          <p class="sticker sticker-round"><b>2 min</b> od Rynku</p>
+          <a class="sticker sticker-strip" href="#karta">Zamów online →</a>
+        </div>
+        <figcaption class="caption mono">rys. 01 — anatomia <span lang="vi">bánh mì đặc biệt</span>, rozłożona na warstwy</figcaption>
+      </figure>
+
+      <figure class="cover-photo print">
+        <div class="ht" data-fade="edge" data-seed="1" data-cell="5.5" data-focus=".5 .6" data-lift=".55" style="--ar: 2.1">
+          <img src="../media/banh-mi-przekroj.jpg" alt="Przekrojone bánh mì z mięsem, piklami i ziołami, widziane z boku" fetchpriority="high" decoding="async">
+        </div>
+        <figcaption class="caption mono">fot. 01 — to samo co na rys. 01, tylko do zjedzenia</figcaption>
+      </figure>
+
+      <div class="cover-lead">
+        <p class="lead">Bagietka z&nbsp;pieca co dwie godziny, pasztet robiony co rano, pikle marynowane przez dwie doby. Sài Gòn w&nbsp;bagietce, dwie minuty od Rynku.</p>
+        <div class="cta">
+          <a class="btn" href="#karta">Zamów online</a>
+          <a class="btn btn-line" href="#dojazd">Odbiór przy Kotlarskiej</a>
+        </div>
+        <p class="lead-note mono">odbiór osobisty <b>ok. 15 min</b> · dostawa <b>ok. 35–50 min</b></p>
+      </div>
+
+      <nav class="contents" aria-labelledby="contents-h">
+        <h2 class="contents-h mono" id="contents-h">W numerze</h2>
+        <ol>
+          <li><a href="#top"><span class="mono">rys. 01</span> <span>Anatomia bánh mì</span></a></li>
+          <li><a href="#karta"><span class="mono">s. 02</span> <span>Karta</span></a></li>
+          <li><a href="#zamow"><span class="mono">s. 03</span> <span>Zamów online</span></a></li>
+          <li><a href="#tan"><span class="mono">s. 04</span> <span>Kim jest Tân</span></a></li>
+          <li><a href="#ziola"><span class="mono">s. 05</span> <span>Sześć ziół</span></a></li>
+          <li><a href="#dojazd"><span class="mono">s. 06</span> <span>Dojazd i odbiór</span></a></li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+
+  <!-- 2. pasek -->
+  <div class="marquee">
+    <p class="sr-only" lang="vi">Bánh mì đặc biệt, thịt nướng, chả cá, xíu mại, cà phê trứng.</p>
+    <div class="marquee-band">
+      <div class="marquee-track" aria-hidden="true" lang="vi">
+        <span>BÁNH MÌ ĐẶC BIỆT · THỊT NƯỚNG · CHẢ CÁ · XÍU MẠI · CÀ PHÊ TRỨNG ·&nbsp;</span><span>BÁNH MÌ ĐẶC BIỆT · THỊT NƯỚNG · CHẢ CÁ · XÍU MẠI · CÀ PHÊ TRỨNG ·&nbsp;</span><span>BÁNH MÌ ĐẶC BIỆT · THỊT NƯỚNG · CHẢ CÁ · XÍU MẠI · CÀ PHÊ TRỨNG ·&nbsp;</span><span>BÁNH MÌ ĐẶC BIỆT · THỊT NƯỚNG · CHẢ CÁ · XÍU MẠI · CÀ PHÊ TRỨNG ·&nbsp;</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. karta = zamówienie -->
+  <section class="page menu" id="karta" aria-labelledby="karta-h">
+    <header class="sec-head">
+      <span class="folio mono">s. 02</span>
+      <h2 class="ink print" id="karta-h">Karta</h2>
+      <p class="running mono">Uncle Tan · Nº 02 · karta</p>
+    </header>
+    <div class="menu-intro">
+      <p class="sec-intro">Wszystko z&nbsp;karty zamówisz online. Odbiór osobisty przy Kotlarskiej ok.&nbsp;15&nbsp;min albo dostawa po Wrocławiu (7&nbsp;zł, ok.&nbsp;35–50&nbsp;min, min.&nbsp;40&nbsp;zł). Bez zakładania konta.</p>
+      <ul class="legend" aria-label="Oznaczenia">
+        <li><span class="tag tag-teal">wege</span> bez mięsa i&nbsp;ryb</li>
+        <li><span class="tag tag-pink">ostre</span> z&nbsp;chili</li>
+        <li><span class="tag tag-ink">z dolnego śląska</span> produkt stąd</li>
+      </ul>
+    </div>
+    <div class="sheet">
+
+    <div class="cat cat-wide">
+      <div class="cat-head"><h3 class="cat-h ink print">Bánh mì</h3><p class="cat-note mono">8 rodzajów · każdy z innego miejsca</p></div>
+      <ul class="bm-grid">
+      <li class="bm print">
+        <figure class="bm-pic">
+          <div class="ht print" data-fade="edge" data-seed="2" data-focus="0.5 0.58" style="--ar: 2">
+            <img src="../media/banh-mi-dac-biet.jpg" alt="Bagietka z wędliną, ogórkiem i kolendrą na papierze śniadaniowym" loading="lazy" decoding="async">
+          </div>
+          <span class="bm-no mono" aria-hidden="true">01</span>
+          <span class="featured" aria-hidden="true">polecamy</span>
+        </figure>
+        <div class="bm-body">
+          <div class="bm-top"><span class="region">Sài Gòn</span></div>
+          <h4 class="bm-name" lang="vi"><span class="bm-pre">Bánh mì</span><span class="bm-main">đặc biệt</span></h4>
+          <p class="bm-sub">Specjalność domu</p>
+          <p class="bm-desc">Pasztet z wątróbek drobiowych robiony co rano, chả lụa, pieczony boczek, majonez na maśle, pikle đồ chua, ogórek, kolendra, chili.</p>
+          
+          <div class="buy">
+            <p class="heat" aria-label="Ostrość: łagodne, ostre, bardzo ostre"><span class="heat-label" aria-hidden="true">Ostrość</span><span class="heat-opt" aria-hidden="true">Łagodne</span><span class="heat-opt is-on" aria-hidden="true">Ostre</span><span class="heat-opt" aria-hidden="true">Bardzo ostre</span></p>
+            <span class="price-big">32 zł</span>
+            <a class="add" href="#zamow" aria-label="Do koszyka: Bánh mì đặc biệt, 32 zł">+ do koszyka</a>
+            <span class="in-cart" title="w koszyku: 2">×2</span>
+          </div>
+        </div>
+      </li>
+      <li class="bm print">
+        <figure class="bm-pic">
+          <div class="ht print" data-fade="edge" data-seed="3" data-focus="0.5 0.56" data-zoom="1.05" style="--ar: 2">
+            <img src="../media/banh-mi-thit-nuong.jpg" alt="Bagietka z grillowanym mięsem, ogórkiem i chili na czarnym talerzu" loading="lazy" decoding="async">
+          </div>
+          <span class="bm-no mono" aria-hidden="true">02</span>
+          
+        </figure>
+        <div class="bm-body">
+          <div class="bm-top"><span class="region">Hội An</span></div>
+          <h4 class="bm-name" lang="vi"><span class="bm-pre">Bánh mì</span><span class="bm-main">thịt nướng</span></h4>
+          <p class="bm-sub">Karkówka z węgla</p>
+          <p class="bm-desc">Karkówka w trawie cytrynowej grillowana nad węglem drzewnym, nước chấm, pikle, ogórek, kolendra, prażona szalotka.</p>
+          
+          <div class="buy">
+            <p class="heat" aria-label="Ostrość: łagodne, ostre, bardzo ostre"><span class="heat-label" aria-hidden="true">Ostrość</span><span class="heat-opt is-on" aria-hidden="true">Łagodne</span><span class="heat-opt" aria-hidden="true">Ostre</span><span class="heat-opt" aria-hidden="true">Bardzo ostre</span></p>
+            <span class="price-big">31 zł</span>
+            <a class="add" href="#zamow" aria-label="Do koszyka: Bánh mì thịt nướng, 31 zł">+ do koszyka</a>
+            
+          </div>
+        </div>
+      </li>
+      <li class="bm print">
+        <figure class="bm-pic">
+          <div class="ht print" data-fade="edge" data-seed="4" data-focus="0.5 0.42" style="--ar: 2">
+            <img src="../media/banh-mi-ga.jpg" alt="Bagietka z kurczakiem z grilla na bambusowej macie, obok miseczka z dipem" loading="lazy" decoding="async">
+          </div>
+          <span class="bm-no mono" aria-hidden="true">03</span>
+          
+        </figure>
+        <div class="bm-body">
+          <div class="bm-top"><span class="region">Đà Nẵng</span></div>
+          <h4 class="bm-name" lang="vi"><span class="bm-pre">Bánh mì</span><span class="bm-main">gà nướng</span></h4>
+          <p class="bm-sub">Kurczak zagrodowy</p>
+          <p class="bm-desc">Udko z kurczaka zagrodowego w imbirze i miodzie, z grilla, majonez z limonką kaffir, pikle, kolendra.</p>
+          
+          <div class="buy">
+            <p class="heat" aria-label="Ostrość: łagodne, ostre, bardzo ostre"><span class="heat-label" aria-hidden="true">Ostrość</span><span class="heat-opt is-on" aria-hidden="true">Łagodne</span><span class="heat-opt" aria-hidden="true">Ostre</span><span class="heat-opt" aria-hidden="true">Bardzo ostre</span></p>
+            <span class="price-big">29 zł</span>
+            <a class="add" href="#zamow" aria-label="Do koszyka: Bánh mì gà nướng, 29 zł">+ do koszyka</a>
+            
+          </div>
+        </div>
+      </li>
+      <li class="bm print">
+        <figure class="bm-pic">
+          <div class="ht print" data-fade="edge" data-seed="5" data-focus="0.52 0.34" data-zoom="1.15" style="--ar: 2">
+            <img src="../media/banh-mi-xiu-mai.jpg" alt="Bagietka z klopsikami w sosie pomidorowym i ziołami na białym talerzu" loading="lazy" decoding="async">
+          </div>
+          <span class="bm-no mono" aria-hidden="true">04</span>
+          
+        </figure>
+        <div class="bm-body">
+          <div class="bm-top"><span class="region">Đà Lạt</span></div>
+          <h4 class="bm-name" lang="vi"><span class="bm-pre">Bánh mì</span><span class="bm-main">xíu mại</span></h4>
+          <p class="bm-sub">Klopsiki w sosie pomidorowym</p>
+          <p class="bm-desc">Klopsiki wieprzowe duszone w sosie pomidorowym z szalotką, pikle, kolendra, chili — po dalackiemu.</p>
+          
+          <div class="buy">
+            <p class="heat" aria-label="Ostrość: łagodne, ostre, bardzo ostre"><span class="heat-label" aria-hidden="true">Ostrość</span><span class="heat-opt is-on" aria-hidden="true">Łagodne</span><span class="heat-opt" aria-hidden="true">Ostre</span><span class="heat-opt" aria-hidden="true">Bardzo ostre</span></p>
+            <span class="price-big">30 zł</span>
+            <a class="add" href="#zamow" aria-label="Do koszyka: Bánh mì xíu mại, 30 zł">+ do koszyka</a>
+            
+          </div>
+        </div>
+      </li>
+      <li class="bm print">
+        <figure class="bm-pic">
+          <div class="ht print" data-fade="edge" data-seed="6" data-focus="0.58 0.43" data-zoom="1.05" style="--ar: 2">
+            <img src="../media/banh-mi-cha-ca.jpg" alt="Bagietka z kotlecikami i ziołami na talerzu, obok miska sałatki" loading="lazy" decoding="async">
+          </div>
+          <span class="bm-no mono" aria-hidden="true">05</span>
+          
+        </figure>
+        <div class="bm-body">
+          <div class="bm-top"><span class="region">Nha Trang</span></div>
+          <h4 class="bm-name" lang="vi"><span class="bm-pre">Bánh mì</span><span class="bm-main">chả cá</span></h4>
+          <p class="bm-sub">Karp z Doliny Baryczy z koprem</p>
+          <p class="bm-desc">Kotleciki z karpia z Doliny Baryczy z koprem — jak w Wietnamie, majonez z kurkumą, pikle, mięta.</p>
+          <div class="tags"><span class="tag tag-ink">z dolnego śląska</span></div>
+          <div class="buy">
+            <p class="heat" aria-label="Ostrość: łagodne, ostre, bardzo ostre"><span class="heat-label" aria-hidden="true">Ostrość</span><span class="heat-opt is-on" aria-hidden="true">Łagodne</span><span class="heat-opt" aria-hidden="true">Ostre</span><span class="heat-opt" aria-hidden="true">Bardzo ostre</span></p>
+            <span class="price-big">33 zł</span>
+            <a class="add" href="#zamow" aria-label="Do koszyka: Bánh mì chả cá, 33 zł">+ do koszyka</a>
+            
+          </div>
+        </div>
+      </li>
+      <li class="bm print">
+        <figure class="bm-pic">
+          <div class="ht print" data-fade="edge" data-seed="7" data-focus="0.5 0.5" data-zoom="1.1" style="--ar: 2">
+            <img src="../media/banh-mi-vit.jpg" alt="Bagietka z szarpanym mięsem na niebieskim blacie, obok sosy i chipsy" loading="lazy" decoding="async">
+          </div>
+          <span class="bm-no mono" aria-hidden="true">06</span>
+          
+        </figure>
+        <div class="bm-body">
+          <div class="bm-top"><span class="region">Wrocław</span></div>
+          <h4 class="bm-name" lang="vi"><span class="bm-pre">Bánh mì</span><span class="bm-main">vịt</span></h4>
+          <p class="bm-sub">Kaczka z Dolnego Śląska</p>
+          <p class="bm-desc">Kaczka pieczona z pięcioma przyprawami, sos hoisin z tamaryndowcem, ogórek, szczypior, pikle.</p>
+          <div class="tags"><span class="tag tag-ink">z dolnego śląska</span></div>
+          <div class="buy">
+            <p class="heat" aria-label="Ostrość: łagodne, ostre, bardzo ostre"><span class="heat-label" aria-hidden="true">Ostrość</span><span class="heat-opt is-on" aria-hidden="true">Łagodne</span><span class="heat-opt" aria-hidden="true">Ostre</span><span class="heat-opt" aria-hidden="true">Bardzo ostre</span></p>
+            <span class="price-big">36 zł</span>
+            <a class="add" href="#zamow" aria-label="Do koszyka: Bánh mì vịt, 36 zł">+ do koszyka</a>
+            
+          </div>
+        </div>
+      </li>
+      <li class="bm print">
+        <figure class="bm-pic">
+          <div class="ht print" data-fade="edge" data-seed="8" data-focus="0.42 0.53" data-zoom="1.05" style="--ar: 2">
+            <img src="../media/banh-mi-chay.jpg" alt="Bagietka z tofu, sałatą i sosem na talerzu" loading="lazy" decoding="async">
+          </div>
+          <span class="bm-no mono" aria-hidden="true">07</span>
+          
+        </figure>
+        <div class="bm-body">
+          <div class="bm-top"><span class="region">Huế</span></div>
+          <h4 class="bm-name" lang="vi"><span class="bm-pre">Bánh mì</span><span class="bm-main">chay</span></h4>
+          <p class="bm-sub">Tofu i grzyby</p>
+          <p class="bm-desc">Tofu robione na miejscu glazurowane sosem sojowym, pasztet z shiitake, wegański majonez, pikle, kolendra.</p>
+          <div class="tags"><span class="tag tag-teal">wege</span></div>
+          <div class="buy">
+            <p class="heat" aria-label="Ostrość: łagodne, ostre, bardzo ostre"><span class="heat-label" aria-hidden="true">Ostrość</span><span class="heat-opt is-on" aria-hidden="true">Łagodne</span><span class="heat-opt" aria-hidden="true">Ostre</span><span class="heat-opt" aria-hidden="true">Bardzo ostre</span></p>
+            <span class="price-big">28 zł</span>
+            <a class="add" href="#zamow" aria-label="Do koszyka: Bánh mì chay, 28 zł">+ do koszyka</a>
+            <span class="in-cart" title="w koszyku: 1">×1</span>
+          </div>
+        </div>
+      </li>
+      <li class="bm print">
+        <figure class="bm-pic">
+          <div class="ht print" data-fade="edge" data-seed="9" data-focus="0.45 0.64" data-zoom="1.05" style="--ar: 2">
+            <img src="../media/banh-mi-trung.jpg" alt="Stół śniadaniowy: jajka na patelni, bagietka, miski i kawa" loading="lazy" decoding="async">
+          </div>
+          <span class="bm-no mono" aria-hidden="true">08</span>
+          
+        </figure>
+        <div class="bm-body">
+          <div class="bm-top"><span class="region">Hà Nội</span></div>
+          <h4 class="bm-name" lang="vi"><span class="bm-pre">Bánh mì</span><span class="bm-main">trứng</span></h4>
+          <p class="bm-sub">Jajka, pasztet, Maggi</p>
+          <p class="bm-desc">Dwa jajka sadzone, pasztet, kilka kropel Maggi, szczypiorek, chili — śniadanie z ulic Hà Nội, przez cały dzień.</p>
+          
+          <div class="buy">
+            <p class="heat" aria-label="Ostrość: łagodne, ostre, bardzo ostre"><span class="heat-label" aria-hidden="true">Ostrość</span><span class="heat-opt is-on" aria-hidden="true">Łagodne</span><span class="heat-opt" aria-hidden="true">Ostre</span><span class="heat-opt" aria-hidden="true">Bardzo ostre</span></p>
+            <span class="price-big">22 zł</span>
+            <a class="add" href="#zamow" aria-label="Do koszyka: Bánh mì trứng, 22 zł">+ do koszyka</a>
+            
+          </div>
+        </div>
+      </li>
+      </ul>
+    </div>
+
+    <div class="cat cat-wide">
+      <div class="cat-head"><h3 class="cat-h ink print">Przekąski</h3></div>
+      <ul class="bowls" style="--n: 3">
+        <li class="bowl print">
+          <div class="glyph" aria-hidden="true"><svg viewBox="0 0 100 100"><g class="g-p"><rect x="10" y="30" width="80" height="11" rx="5.5" transform="rotate(-18 50 36)"/><rect x="12" y="47" width="78" height="11" rx="5.5" transform="rotate(-12 50 52)"/><rect x="14" y="64" width="76" height="11" rx="5.5" transform="rotate(-6 50 70)"/></g>
+      <g class="g-t"><path d="M22,40 L84,20 M22,56 L86,42 M24,72 L86,64" fill="none" stroke-width="2" stroke-dasharray="2 5"/><circle cx="20" cy="86" r="5"/><circle cx="34" cy="88" r="4"/></g></svg></div>
+          <h4 lang="vi">Bánh mì que</h4>
+          <p class="dish-sub">3 pałeczki z pasztetem</p>
+          <p>Cienkie, chrupiące pałeczki z pasztetem i chili, po hajfońsku.</p>
+          <div class="tags"><span class="region">Hải Phòng</span><span class="tag tag-pink">ostre</span></div>
+          <div class="buy">
+            
+            <span class="price-big">16 zł</span>
+            <a class="add" href="#zamow" aria-label="Do koszyka: Bánh mì que, 16 zł">+ do koszyka</a>
+            
+          </div>
+        </li>
+        <li class="bowl print">
+          <div class="ht print" data-fade="circle" data-seed="10" data-focus="0.5 0.5" data-wall>
+            <img src="../media/s1.jpg" alt="Nem rán: sajgonki z sosem chili i surówką na łupkowej desce" loading="lazy" decoding="async">
+          </div>
+          <p class="caption mono">fot. 10 — <span lang="vi">Nem rán</span></p>
+          <h4 lang="vi">Nem rán</h4>
+          <p class="dish-sub">Sajgonki, 3 szt.</p>
+          <p>Chrupiące sajgonki z wieprzowiną i grzybami mun, sałata, mięta, nước chấm.</p>
+          
+          <div class="buy">
+            
+            <span class="price-big">24 zł</span>
+            <a class="add" href="#zamow" aria-label="Do koszyka: Nem rán, 24 zł">+ do koszyka</a>
+            
+          </div>
+        </li>
+        <li class="bowl print">
+          <div class="ht print" data-fade="circle" data-seed="11" data-focus="0.56 0.32" data-zoom="1.15">
+            <img src="../media/goi-cuon.jpg" alt="Gỏi cuốn: świeże rolki ryżowe na czarnym talerzu, obok dwa sosy i mięta" loading="lazy" decoding="async">
+          </div>
+          <p class="caption mono">fot. 11 — <span lang="vi">Gỏi cuốn</span></p>
+          <h4 lang="vi">Gỏi cuốn</h4>
+          <p class="dish-sub">Świeże rolki, 2 szt.</p>
+          <p>Krewetka, wieprzowina, rau răm, mięta, sos z orzeszków i tamaryndowca.</p>
+          
+          <div class="buy">
+            
+            <span class="price-big">26 zł</span>
+            <a class="add" href="#zamow" aria-label="Do koszyka: Gỏi cuốn, 26 zł">+ do koszyka</a>
+            
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="cat cat-wide">
+      <div class="cat-head"><h3 class="cat-h ink print">Miski</h3></div>
+      <ul class="bowls" style="--n: 4">
+        <li class="bowl print">
+          <div class="ht print" data-fade="circle" data-seed="12" data-focus="0.5 0.33">
+            <img src="../media/pho-bo.jpg" alt="Phở bò: miska bulionu z wołowiną, makaronem i ziołami na drewnianym stole" loading="lazy" decoding="async">
+          </div>
+          <p class="caption mono">fot. 12 — <span lang="vi">Phở bò</span></p>
+          <h4 lang="vi">Phở bò</h4>
+          <p class="dish-sub">Bulion 14 godzin</p>
+          <p>Bulion gotowany 14 godzin na kościach wołowych, surowa polędwica parzona bulionem, opalony imbir, anyż.</p>
+          
+          <div class="buy">
+            
+            <span class="price-big">39 zł</span>
+            <a class="add" href="#zamow" aria-label="Do koszyka: Phở bò, 39 zł">+ do koszyka</a>
+            
+          </div>
+        </li>
+        <li class="bowl print">
+          <div class="ht print" data-fade="circle" data-seed="13" data-focus="0.5 0.5" data-wall>
+            <img src="../media/bc1.jpg" alt="Bún chả: niebieska miska z makaronem ryżowym, grillowanym mięsem i tofu" loading="lazy" decoding="async">
+          </div>
+          <p class="caption mono">fot. 13 — <span lang="vi">Bún chả Hà Nội</span></p>
+          <h4 lang="vi">Bún chả Hà Nội</h4>
+          <p class="dish-sub">Grill, makaron, zioła</p>
+          <p>Grillowana nad węglem karkówka i kotleciki, makaron ryżowy, nước chấm, kosz ziół.</p>
+          
+          <div class="buy">
+            
+            <span class="price-big">42 zł</span>
+            <a class="add" href="#zamow" aria-label="Do koszyka: Bún chả Hà Nội, 42 zł">+ do koszyka</a>
+            
+          </div>
+        </li>
+        <li class="bowl print">
+          <div class="ht print" data-fade="circle" data-seed="14" data-focus="0.5 0.5" data-wall>
+            <img src="../media/c3.jpg" alt="Cà ri gà: pomarańczowe curry z kurczaka w misce w niebiesko-białą kratkę" loading="lazy" decoding="async">
+          </div>
+          <p class="caption mono">fot. 14 — <span lang="vi">Cà ri gà</span></p>
+          <h4 lang="vi">Cà ri gà</h4>
+          <p class="dish-sub">Curry z bagietką do maczania</p>
+          <p>Kurczak zagrodowy, trawa cytrynowa, mleko kokosowe, słodki ziemniak i nasza bagietka do maczania.</p>
+          
+          <div class="buy">
+            
+            <span class="price-big">39 zł</span>
+            <a class="add" href="#zamow" aria-label="Do koszyka: Cà ri gà, 39 zł">+ do koszyka</a>
+            
+          </div>
+        </li>
+        <li class="bowl print">
+          <div class="ht print" data-fade="circle" data-seed="15" data-focus="0.5 0.5" data-wall>
+            <img src="../media/k1.jpg" alt="Gà chiên mắm: chrupiący kurczak, ryż i surówka na szaroniebieskim talerzu" loading="lazy" decoding="async">
+          </div>
+          <p class="caption mono">fot. 15 — <span lang="vi">Gà chiên mắm</span></p>
+          <h4 lang="vi">Gà chiên mắm</h4>
+          <p class="dish-sub">Kurczak w sosie rybnym</p>
+          <p>Chrupiący kurczak glazurowany sosem rybnym i czosnkiem, ryż jaśminowy, pikle.</p>
+          
+          <div class="buy">
+            
+            <span class="price-big">36 zł</span>
+            <a class="add" href="#zamow" aria-label="Do koszyka: Gà chiên mắm, 36 zł">+ do koszyka</a>
+            
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="cat">
+      <div class="cat-head"><h3 class="cat-h ink print">Desery</h3></div>
+      <ul class="dishes">
+        <li class="dish print">
+          <div class="dish-pic"><div class="glyph" aria-hidden="true"><svg viewBox="0 0 100 100"><g class="g-t"><path d="M12,50 H88 C86,74 70,88 50,88 C30,88 14,74 12,50Z"/></g>
+      <g class="g-p"><circle cx="30" cy="44" r="10" fill="none" stroke-width="5"/><circle cx="52" cy="40" r="10" fill="none" stroke-width="5"/><circle cx="72" cy="45" r="9" fill="none" stroke-width="5"/><path d="M14,58 H86 C84,64 82,68 80,72 H20 C18,68 16,64 14,58Z"/></g></svg></div></div>
+          <div class="dish-body">
+            <div class="dish-head"><h4 lang="vi">Chè chuối</h4><span class="leader"></span><span class="price">18 zł</span></div>
+            <p class="dish-sub">Banan, kokos, tapioka</p>
+            <p>Banan, mleko kokosowe, tapioka, prażony sezam.</p>
+            <div class="tags"><span class="tag tag-teal">wege</span></div>
+          <div class="buy">
+            
+            
+            <a class="add" href="#zamow" aria-label="Do koszyka: Chè chuối, 18 zł">+ do koszyka</a>
+            
+          </div>
+          </div>
+        </li>
+        <li class="dish print">
+          <div class="dish-pic"><div class="ht print" data-fade="circle" data-seed="16" data-focus="0.5 0.33" data-zoom="1.45">
+            <img src="../media/tao-pho.jpg" alt="Tào phớ: miseczka jedwabistego tofu z syropem na zielonym stołeczku" loading="lazy" decoding="async">
+          </div></div>
+          <div class="dish-body">
+            <div class="dish-head"><h4 lang="vi">Tào phớ</h4><span class="leader"></span><span class="price">16 zł</span></div>
+            <p class="dish-sub">Jedwabiste tofu, imbir</p>
+            <p>Jedwabiste tofu, syrop imbirowy z cukrem palmowym.</p>
+            <div class="tags"><span class="tag tag-teal">wege</span></div>
+          <div class="buy">
+            
+            
+            <a class="add" href="#zamow" aria-label="Do koszyka: Tào phớ, 16 zł">+ do koszyka</a>
+            
+          </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="cat">
+      <div class="cat-head"><h3 class="cat-h ink print">Napoje</h3></div>
+      <ul class="dishes">
+        <li class="dish print">
+          <div class="dish-pic"><div class="ht print" data-fade="circle" data-seed="17" data-focus="0.555 0.58" data-zoom="1.9" data-lift="0.35">
+            <img src="../media/ca-phe-sua-da.jpg" alt="Cà phê sữa đá: wysoka szklanka mrożonej kawy z mlekiem i słomką" loading="lazy" decoding="async">
+          </div></div>
+          <div class="dish-body">
+            <div class="dish-head"><h4 lang="vi">Cà phê sữa đá</h4><span class="leader"></span><span class="price">16 zł</span></div>
+            <p class="dish-sub">Robusta z mlekiem skondensowanym</p>
+            <p>Robusta z filtra phin, mleko skondensowane, lód.</p>
+            
+          <div class="buy">
+            
+            
+            <a class="add" href="#zamow" aria-label="Do koszyka: Cà phê sữa đá, 16 zł">+ do koszyka</a>
+            
+          </div>
+          </div>
+        </li>
+        <li class="dish print">
+          <div class="dish-pic"><div class="ht print" data-fade="circle" data-seed="18" data-focus="0.48 0.45" data-zoom="1.25" data-lift="0.45">
+            <img src="../media/ca-phe-trung.jpg" alt="Cà phê trứng: kawa pod kremem z żółtek w szklance na spodku" loading="lazy" decoding="async">
+          </div></div>
+          <div class="dish-body">
+            <div class="dish-head"><h4 lang="vi">Cà phê trứng</h4><span class="leader"></span><span class="price">19 zł</span></div>
+            <p class="dish-sub">Kawa jajeczna po hanojsku</p>
+            <p>Mocna kawa pod kremem z żółtek ubitych z mlekiem skondensowanym.</p>
+            
+          <div class="buy">
+            
+            
+            <a class="add" href="#zamow" aria-label="Do koszyka: Cà phê trứng, 19 zł">+ do koszyka</a>
+            <span class="in-cart" title="w koszyku: 1">×1</span>
+          </div>
+          </div>
+        </li>
+        <li class="dish print">
+          <div class="dish-pic"><div class="glyph" aria-hidden="true"><svg viewBox="0 0 100 100"><g class="g-t"><path d="M28,16 H72 L66,90 H34Z" fill="none" stroke-width="3.5" stroke-linejoin="round"/><path d="M58,8 L50,70" fill="none" stroke-width="3" stroke-linecap="round"/></g>
+      <g class="g-p"><path d="M31,42 H69 L66,86 H34Z"/><circle cx="72" cy="20" r="11"/></g></svg></div></div>
+          <div class="dish-body">
+            <div class="dish-head"><h4 lang="vi">Trà quất</h4><span class="leader"></span><span class="price">14 zł</span></div>
+            <p class="dish-sub">Mrożona herbata z kumkwatem</p>
+            <p>Zielona herbata, kumkwat, miód.</p>
+            
+          <div class="buy">
+            
+            
+            <a class="add" href="#zamow" aria-label="Do koszyka: Trà quất, 14 zł">+ do koszyka</a>
+            
+          </div>
+          </div>
+        </li>
+        <li class="dish print">
+          <div class="dish-pic"><div class="glyph" aria-hidden="true"><svg viewBox="0 0 100 100"><g class="g-t"><path d="M28,20 H72 L66,90 H34Z" fill="none" stroke-width="3.5" stroke-linejoin="round"/><path d="M60,22 L82,4 L86,26Z"/><path d="M66,18 L80,12 M70,22 L84,18" fill="none" stroke-width="1.6" stroke-linecap="round" class="g-paper"/></g>
+      <g class="g-p"><path d="M31,46 H69 L66,86 H34Z"/><path d="M40,34 C46,30 54,38 60,34" fill="none" stroke-width="3" stroke-linecap="round"/></g></svg></div></div>
+          <div class="dish-body">
+            <div class="dish-head"><h4 lang="vi">Trà me dứa</h4><span class="leader"></span><span class="price">14 zł</span></div>
+            <p class="dish-sub">Tamaryndowiec i ananas</p>
+            <p>Herbata z tamaryndowcem i pieczonym ananasem.</p>
+            
+          <div class="buy">
+            
+            
+            <a class="add" href="#zamow" aria-label="Do koszyka: Trà me dứa, 14 zł">+ do koszyka</a>
+            
+          </div>
+          </div>
+        </li>
+        <li class="dish print">
+          <div class="dish-pic"><div class="glyph" aria-hidden="true"><svg viewBox="0 0 100 100"><g class="g-t"><path d="M42,10 H58 V24 C68,30 70,36 70,46 V86 C70,90 68,92 64,92 H36 C32,92 30,90 30,86 V46 C30,36 32,30 42,24Z" fill="none" stroke-width="3.5" stroke-linejoin="round"/><path d="M80,90 C70,70 74,40 90,18 C86,44 84,66 80,90Z"/></g>
+      <g class="g-p"><rect x="41" y="6" width="18" height="9" rx="2"/><rect x="31" y="54" width="38" height="18"/></g></svg></div></div>
+          <div class="dish-body">
+            <div class="dish-head"><h4 lang="vi">Sữa đậu nành</h4><span class="leader"></span><span class="price">12 zł</span></div>
+            <p class="dish-sub">Domowe mleko sojowe z pandanem</p>
+            <p>Mleko sojowe robione na miejscu, liść pandanu, lekko słodzone.</p>
+            <div class="tags"><span class="tag tag-teal">wege</span></div>
+          <div class="buy">
+            
+            
+            <a class="add" href="#zamow" aria-label="Do koszyka: Sữa đậu nành, 12 zł">+ do koszyka</a>
+            
+          </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <p class="fineprint mono">Ceny w&nbsp;złotych, z&nbsp;VAT. O&nbsp;alergeny zapytaj przy odbiorze albo napisz w&nbsp;uwagach do zamówienia.</p>
+  </section>
+
+  <!-- 4. zamów online: podgląd całej ścieżki, statycznie -->
+  <section class="page spread" id="zamow" aria-labelledby="zamow-h">
+    <header class="sec-head">
+      <span class="folio mono">s. 03</span>
+      <h2 class="ink print" id="zamow-h">Zamów online</h2>
+      <p class="running mono">Uncle Tan · Nº 02 · zamówienia</p>
+    </header>
+    <div class="spread-intro">
+      <p class="sec-intro">Trzy kroki i&nbsp;bez zakładania konta. Wybierasz z&nbsp;karty, odbierasz przy Kotlarskiej po ok.&nbsp;15&nbsp;minutach albo czekasz na dostawę. Płacisz online albo przy odbiorze.</p>
+      <figure class="spread-photo">
+        <div class="ht print" data-fade="edge" data-seed="19" data-focus=".57 .45" data-zoom="1.5" data-lift=".55" style="--ar: .8">
+          <img src="../media/banh-mi-papier.jpg" alt="Bánh mì zawinięte w szary papier, na plecionej tacy" loading="lazy" decoding="async">
+        </div>
+        <figcaption class="caption mono">fot. 19 — na wynos: w&nbsp;papierze, jeszcze ciepłe</figcaption>
+      </figure>
+    </div>
+
+    <ol class="flow">
+      <li class="flow-step">
+        <p class="flow-no"><b class="mono">1</b> <span>koszyk</span></p>
+        <figure class="ticket print" aria-labelledby="ticket-cap">
+          <p class="ticket-row mono"><span>Bilet na jedzenie</span><span lang="vi">Chú Tân</span><span>4 pozycje</span></p>
+          <p class="ticket-title ink">Koszyk</p>
+          <ul class="lines">
+            <li class="cart-line">
+              <span><span class="line-name" lang="vi">Bánh mì đặc biệt</span><span class="line-var mono">ostre</span></span>
+              <span class="stepper" aria-hidden="true"><span>−</span><b>2</b><span>+</span></span>
+              <span class="line-total mono"><span class="sr-only">2 ×, </span>64 zł</span>
+            </li>
+            <li class="cart-line">
+              <span><span class="line-name" lang="vi">Bánh mì chay</span><span class="line-var mono">łagodne</span></span>
+              <span class="stepper" aria-hidden="true"><span>−</span><b>1</b><span>+</span></span>
+              <span class="line-total mono">28 zł</span>
+            </li>
+            <li class="cart-line">
+              <span><span class="line-name" lang="vi">Cà phê trứng</span></span>
+              <span class="stepper" aria-hidden="true"><span>−</span><b>1</b><span>+</span></span>
+              <span class="line-total mono">19 zł</span>
+            </li>
+          </ul>
+          <p class="ful">
+            <span class="ful-choice is-on">Odbiór osobisty
+              <svg class="circled" viewBox="0 0 200 60" preserveAspectRatio="none" aria-hidden="true"><path d="M30,8 C90,-2 178,4 192,24 C204,44 150,58 92,56 C34,54 2,46 6,28 C9,14 40,6 78,5"/></svg>
+            </span>
+            <span class="ful-choice">Dostawa</span>
+          </p>
+          <p class="ful-info mono">Kotlarska 25A · gotowe ok. 15 min</p>
+          <div class="tear" aria-hidden="true"><span class="mono">oderwij tutaj</span></div>
+          <dl class="totals">
+            <div><dt>Suma</dt><dd>111 zł</dd></div>
+            <div class="total"><dt>Razem</dt><dd>111 zł</dd></div>
+          </dl>
+          <span class="btn btn-stamp btn-wide" aria-hidden="true">Przejdź do zamówienia</span>
+          <figcaption class="sr-only" id="ticket-cap">Podgląd koszyka: dwa bánh mì đặc biệt ostre, bánh mì chay i cà phê trứng, odbiór osobisty, razem 111 zł.</figcaption>
+        </figure>
+      </li>
+
+      <li class="flow-step">
+        <p class="flow-no"><b class="mono">2</b> <span>dane</span></p>
+        <figure class="form form-preview print" aria-labelledby="form-cap">
+          <p class="form-head mono"><span>Druk Z-1</span><span>Zamówienie</span><span>Kotlarska 25A</span></p>
+          <p class="field field-full"><span class="field-label mono">Kiedy?</span><span class="fake fake-select">Jak najszybciej · ok. 15 min</span></p>
+          <p class="field field-full"><span class="field-label mono">Imię</span><span class="fake">Agnieszka</span></p>
+          <p class="field field-half"><span class="field-label mono">Telefon</span><span class="fake">600 100 200</span></p>
+          <p class="field field-half"><span class="field-label mono">E-mail</span><span class="fake">aga@example.com</span></p>
+          <p class="field field-full"><span class="field-label mono">Uwagi</span><span class="fake fake-empty">np. bez kolendry</span></p>
+          <p class="field field-full field-pay">
+            <span class="field-label mono">Płatność</span>
+            <span class="check"><span class="box is-on" aria-hidden="true"></span> Online <small class="mono">Przelewy24</small></span>
+            <span class="check"><span class="box" aria-hidden="true"></span> Przy odbiorze</span>
+          </p>
+          <p class="co-small mono">Bez zakładania konta – potwierdzenie wyślemy SMS-em i&nbsp;e-mailem.</p>
+          <span class="btn btn-stamp btn-wide" aria-hidden="true">Zamawiam i płacę 111 zł</span>
+          <figcaption class="sr-only" id="form-cap">Podgląd formularza zamówienia: kiedy, imię, telefon, e-mail, uwagi i płatność online albo przy odbiorze.</figcaption>
+        </figure>
+      </li>
+
+      <li class="flow-step">
+        <p class="flow-no"><b class="mono">3</b> <span>status</span></p>
+        <figure class="status print" aria-labelledby="status-cap">
+          <p class="status-title ink">Dziękujemy, Agnieszka!</p>
+          <p class="status-text">Kuchnia przyjęła zamówienie.</p>
+          <p class="order-no mono">UT-2063</p>
+          <ul class="stamps" aria-hidden="true">
+            <li class="stamp stamp-done" style="--rot: -6deg; --d: .2s"><span class="stamp-ink" data-label="Wysłane">Wysłane</span><span class="stamp-time mono">13:28</span></li>
+            <li class="stamp stamp-now" style="--rot: 4deg; --d: .55s"><span class="stamp-ink" data-label="Przyjęte">Przyjęte</span><span class="stamp-time mono">13:30</span></li>
+            <li class="stamp stamp-todo">Do odbioru</li>
+            <li class="stamp stamp-todo">Odebrane</li>
+          </ul>
+          <p class="when-label mono">Odbiór osobisty</p>
+          <p class="when">gotowe ok. 13:45</p>
+          <p class="order-small">Kotlarska 25A, 50-120 Wrocław · zapłacono online, 111 zł</p>
+          <figcaption class="sr-only" id="status-cap">Podgląd statusu zamówienia UT-2063: wysłane i przyjęte, jeszcze nie do odbioru i nie odebrane, gotowe ok. 13:45.</figcaption>
+        </figure>
+      </li>
+    </ol>
+
+    <div class="flow-foot">
+      <a class="btn" href="#karta">Wybierz z karty</a>
+      <p class="mono flow-note">Odbiór osobisty: ok. 15 min · dostawa: 7 zł, ok. 35–50 min, min. 40 zł · zamówienia online codziennie 12:00–22:00</p>
+    </div>
+  </section>
+
+  <!-- 5. historia -->
+  <section class="page story" id="tan" aria-labelledby="tan-h">
+    <header class="sec-head">
+      <span class="folio mono">s. 04</span>
+      <h2 class="ink print" id="tan-h">Kim jest Tân</h2>
+      <p class="running mono">Uncle Tan · Nº 02 · historia</p>
+    </header>
+
+    <div class="story-grid">
+      <div class="story-cols">
+        <p class="dropcap">Tân wychował się w&nbsp;<span lang="vi">Hà Nội</span>, gdzie <span lang="vi">bánh mì</span> je się na śniadanie, na ulicy, prosto z&nbsp;pieca. Bagietka trzeszczy w&nbsp;dłoni, zanim zdążysz odejść od wózka.</p>
+        <p>Do Wrocławia przyjechał ponad dekadę temu i&nbsp;przez lata gotował szybko i&nbsp;„azjatycko”, bo tak chciało miasto. Kurczak słodko-kwaśny, pad thai, udon — dużo i&nbsp;na już.</p>
+        <p>Teraz wraca do tego, co zna najlepiej. Sam piecze bagietki z&nbsp;mąki pszennej z&nbsp;dodatkiem ryżowej, <mark>co rano robi pasztet</mark> z&nbsp;wątróbek, marynuje pikle <span lang="vi">đồ chua</span> przez dwie doby, ubija majonez na żółtkach i&nbsp;maśle.</p>
+        <p>Każde <span lang="vi">bánh mì</span> w&nbsp;karcie pochodzi z&nbsp;innego miejsca Wietnamu — od jajek z&nbsp;<span lang="vi">Hà Nội</span> po kaczkę z&nbsp;Dolnego Śląska. Karp z&nbsp;Doliny Baryczy trafia do <span lang="vi">chả cá</span> z&nbsp;koprem, bo w&nbsp;Wietnamie też dodaje się koper, <span lang="vi">thì là</span>.</p>
+        <p>Nazwa zostaje: Uncle Tan, po wietnamsku <span lang="vi">Chú Tân</span> — wujek Tân. Słowo „Express” znika. Szybko będzie i&nbsp;tak: odbiór w&nbsp;kwadrans.</p>
+      </div>
+
+      <div class="story-aside">
+        <figure class="story-photo">
+          <div class="ht print" data-fade="edge" data-seed="20" data-focus=".5 .5" style="--ar: 1.4">
+            <img src="../media/bagietki.jpg" alt="Kilka złocistych bagietek prosto z pieca" loading="lazy" decoding="async">
+          </div>
+          <figcaption class="caption mono">fot. 20 — nowa partia z&nbsp;pieca, co ok. 2&nbsp;godziny</figcaption>
+        </figure>
+        <blockquote class="pull">
+          <p class="pull-text ink print">Skórka cienka jak papier, środek lekki jak chmura. Inaczej to nie jest <span lang="vi">bánh mì</span>.</p>
+          <footer class="mono">— Tân, piekarz i&nbsp;szef kuchni</footer>
+        </blockquote>
+      </div>
+    </div>
+
+    <ul class="numbers" aria-label="Kuchnia w liczbach">
+      <li class="num print"><span class="num-value ink">2<small>h</small></span><span class="num-label mono">i z pieca wychodzi nowa partia bagietek</span></li>
+      <li class="num print"><span class="num-value ink">48<small>h</small></span><span class="num-label mono">pikle <span lang="vi">đồ chua</span> w zalewie</span></li>
+      <li class="num print"><span class="num-value ink">8</span><span class="num-label mono">rodzajów <span lang="vi">bánh mì</span></span></li>
+      <li class="num print"><span class="num-value ink">200<small>m</small></span><span class="num-label mono">od Rynku</span></li>
+    </ul>
+  </section>
+
+  <!-- 6. zioła -->
+  <section class="page herbs" id="ziola" aria-labelledby="ziola-h">
+    <header class="sec-head">
+      <span class="folio mono">s. 05</span>
+      <h2 class="ink print" id="ziola-h">Sześć ziół na stole</h2>
+      <p class="running mono">Uncle Tan · Nº 02 · zioła</p>
+    </header>
+    <p class="sec-intro">Zioła kupujemy codziennie rano i&nbsp;rwiemy do <span lang="vi">bánh mì</span> w&nbsp;ostatniej chwili, żeby nie zwiędły w&nbsp;cieple bagietki. Stuknij kartę, żeby ją odwrócić.</p>
+
+    <ul class="herb-grid">
+      <li>
+        <button class="herb" type="button" aria-pressed="false">
+          <span class="herb-card">
+            <span class="herb-face herb-front">
+              <svg class="leaf" viewBox="0 0 120 120" aria-hidden="true"><g class="leaf-t"><path d="M38,62L25.3,66.2L21.7,66.6L19.3,66.5L17.6,66L16.6,65.3L16.3,64.5L16.5,63.6L14.5,62.8L12.8,61.9L11.8,61L11.7,60L12.3,59.1L13.5,58.4L12,57.3L11.1,56.2L10.9,55.2L11.6,54.5L13.1,54.1L15,53.9L14.5,52.9L14.5,52.1L15.4,51.7L17,51.7L19.4,52.3L23.3,53.8L19.8,51.1L17.8,49.2L16.6,47.6L16.2,46.5L16.5,45.8L17.4,45.6L16.1,43.7L15.3,42L15.1,40.8L15.7,40.2L17,40.4L18.6,40.9L18.1,39.3L18.1,38.1L18.7,37.5L19.8,37.8L21.5,38.7L23.3,40.2L23.6,39.3L24.3,39L25.3,39.5L26.8,40.8L28.6,43L31,46.7L29.8,42.7L29.4,40.3L29.6,38.6L30.1,37.8L30.8,37.8L31.8,38.4L32.1,36.5L32.7,35.1L33.4,34.5L34.4,34.7L35.4,35.7L36.4,37.3L37.2,36.2L38.1,35.6L39.1,35.8L39.9,36.9L40.7,38.6L41.3,40.7L42.2,40.6L43,40.9L43.6,42L43.9,43.8L43.9,46.1L43.2,49.7Z"/><path d="M84,56L78.6,44.7L77.8,41.3L77.7,39L77.9,37.3L78.5,36.2L79.3,35.7L80.1,35.8L80.6,33.7L81.3,31.9L82.1,30.8L83,30.5L83.8,30.9L84.7,31.9L85.6,30.3L86.5,29.2L87.4,28.8L88.1,29.4L88.7,30.7L89.1,32.4L90,31.8L90.7,31.6L91.2,32.4L91.4,33.9L91.2,36.4L90.2,40.4L92.3,36.4L93.9,34.2L95.3,32.7L96.3,32.1L96.9,32.3L97.2,33.1L98.9,31.5L100.5,30.4L101.6,30L102.2,30.5L102.2,31.7L101.8,33.3L103.3,32.6L104.5,32.3L105.1,32.8L105,33.9L104.2,35.7L103.1,37.7L103.9,37.8L104.3,38.4L104,39.5L102.9,41.2L101,43.3L97.7,46.3L101.4,44.4L103.7,43.6L105.3,43.4L106.1,43.7L106.1,44.5L105.7,45.5L107.5,45.4L108.9,45.7L109.6,46.3L109.5,47.2L108.6,48.4L107.3,49.6L108.4,50.2L109.1,51L109,51.9L108.1,53L106.5,54L104.6,55L104.8,55.8L104.6,56.7L103.6,57.5L102,58.1L99.7,58.6L96.3,58.6Z"/><path d="M60,40L48.7,34.4L46,32.2L44.5,30.5L43.7,28.9L43.4,27.7L43.7,26.9L44.4,26.4L43.5,24.4L43,22.6L42.9,21.2L43.4,20.4L44.4,20.1L45.6,20.4L45.3,18.6L45.4,17.1L45.9,16.3L46.8,16.2L48.1,16.9L49.5,18.1L49.7,17L50.2,16.4L51.1,16.7L52.2,17.8L53.5,19.9L55.2,23.7L54.4,19.3L54.3,16.4L54.5,14.4L54.9,13.3L55.6,13.1L56.3,13.6L56.6,11.2L57.1,9.4L57.8,8.4L58.5,8.4L59.3,9.3L60,10.8L60.7,9.3L61.5,8.4L62.2,8.4L62.9,9.4L63.4,11.2L63.7,13.6L64.4,13.1L65.1,13.3L65.5,14.4L65.7,16.4L65.6,19.3L64.8,23.7L66.5,19.9L67.8,17.8L68.9,16.7L69.8,16.4L70.3,17L70.5,18.1L71.9,16.9L73.2,16.2L74.1,16.3L74.6,17.1L74.7,18.6L74.4,20.4L75.6,20.1L76.6,20.4L77.1,21.2L77,22.6L76.5,24.4L75.6,26.4L76.3,26.9L76.6,27.7L76.3,28.9L75.5,30.5L74,32.2L71.3,34.4Z"/><path d="M46,82L40.1,88.4L38,89.8L36.4,90.5L35.1,90.8L34.1,90.8L33.5,90.4L33.2,89.9L31.6,90.1L30.1,90.2L29,90L28.4,89.5L28.4,88.9L28.7,88.1L27.3,88L26.1,87.7L25.6,87.3L25.7,86.6L26.4,85.9L27.5,85.2L26.7,84.9L26.3,84.4L26.6,83.9L27.7,83.4L29.5,82.9L32.7,82.4L29.1,82.2L26.9,81.8L25.3,81.3L24.5,80.9L24.5,80.4L24.9,80L23.1,79.4L21.8,78.8L21.1,78.2L21.2,77.7L22,77.3L23.3,77.1L22.2,76.4L21.6,75.8L21.7,75.3L22.6,75L24.1,75L26,75.2L25.7,74.6L26,74.2L26.9,74.1L28.5,74.4L30.7,74.9L34,76.1L31.3,74.4L29.9,73.2L29.1,72.3L29,71.7L29.5,71.5L30.4,71.5L29.7,70.4L29.4,69.4L29.5,68.8L30.2,68.7L31.4,68.9L32.8,69.4L32.7,68.5L33,67.9L33.7,67.7L34.8,68L36.2,68.7L37.6,69.6L38,69.2L38.7,69.1L39.7,69.5L40.7,70.3L41.9,71.6L43.2,73.7Z"/><path d="M76,80L77.8,71.6L78.9,69.4L79.9,68L80.8,67.1L81.6,66.7L82.3,66.7L82.8,67.1L84.1,66L85.2,65.3L86.2,64.9L86.9,65.1L87.3,65.6L87.3,66.5L88.6,65.9L89.7,65.6L90.4,65.7L90.6,66.3L90.3,67.3L89.8,68.4L90.6,68.3L91.1,68.5L91.1,69.1L90.5,70.1L89.2,71.4L86.8,73.3L89.9,71.9L91.9,71.1L93.4,70.8L94.3,70.8L94.5,71.2L94.4,71.7L96.1,71.5L97.6,71.4L98.4,71.6L98.6,72L98,72.7L97.1,73.5L98.3,73.6L99.1,73.9L99.3,74.4L98.7,75L97.5,75.7L95.8,76.5L96.3,76.9L96.3,77.3L95.6,77.8L94.1,78.4L92.1,78.9L88.7,79.4L91.8,79.7L93.5,80L94.6,80.5L94.9,81L94.6,81.4L93.9,81.8L95,82.5L95.8,83.1L95.9,83.7L95.4,84.2L94.4,84.6L93,84.8L93.4,85.5L93.4,86.2L93,86.7L91.9,87L90.5,87L88.9,86.9L88.7,87.4L88.1,87.8L87.2,87.9L85.9,87.7L84.4,87.2L82.3,85.9Z"/></g><g class="leaf-p"><path d="M60,116C58,96 50,78 38,62" fill="none" stroke-width="2.6" stroke-linecap="round"/><path d="M60,116C61,92 70,72 84,56" fill="none" stroke-width="2.6" stroke-linecap="round"/><path d="M60,116C60,88 59,62 60,40" fill="none" stroke-width="2.6" stroke-linecap="round"/><path d="M46,82L34,80M76,80L88,77" fill="none" stroke-width="2"/></g></svg>
+              <span class="herb-vn" lang="vi">ngò rí</span>
+              <span class="herb-pl">kolendra siewna</span>
+              <span class="herb-hint mono">odwróć ↻</span>
+            </span>
+            <span class="herb-face herb-back">
+              <span class="herb-vn" lang="vi">ngò rí</span>
+              <span class="herb-note">Zielona, cytrusowa, świeża. Bez niej <span lang="vi">bánh mì</span> nie smakuje jak z&nbsp;ulicy.</span>
+              <span class="herb-dish"><span class="mono">trafia do</span> <span lang="vi">Bánh mì: đặc biệt, thịt nướng, gà nướng, xíu mại, chay</span></span>
+            </span>
+          </span>
+        </button>
+      </li>
+      <li>
+        <button class="herb" type="button" aria-pressed="false">
+          <span class="herb-card">
+            <span class="herb-face herb-front">
+              <svg class="leaf" viewBox="0 0 120 120" aria-hidden="true"><g class="leaf-t"><path d="M60,98L60,98L59.7,90.9L58.6,88.7L57.2,83.7L55.2,82.9L53.1,79.2L50.5,79.6L47.7,77.1L45,77.7L42,75.7L39.1,76.6L35.3,75.8L32.5,76.6L28.1,77L24.9,78.5L24.9,78.5L25.4,81.9L27.3,86L28.1,88.9L30.8,91.6L31.7,94.1L34.7,96.4L35.9,98.4L39.4,99.6L40.5,102L44.8,101.8L46.3,103.3L51.3,101.8L53.8,101.6L60,98Z"/><path d="M60,98L60,98L66.2,101.7L68.6,101.7L73.7,103.3L75.3,101.9L79.5,101.9L80.8,100L84.3,98.7L85.3,96.2L88.5,94.4L89.3,91.8L91.9,88.7L92.7,86L94.7,82L95.1,78.5L95.1,78.5L92,77.1L87.5,76.7L84.6,75.7L80.8,76.4L78.1,75.8L74.9,77.7L72.1,76.7L69.3,79.2L66.8,79.1L64.5,82.5L62.8,83.6L61.3,88.6L60.2,90.9L60,98Z"/><path d="M60,74L60,74L59.1,67.4L57.8,65.3L56,60.3L54,59.3L51.5,55.8L48.7,56.2L45.7,53.4L43,53.7L39.4,52.1L36.8,52.2L32.8,51.2L29.9,51.9L25.4,51.8L22.2,53L22.2,53L23,56.2L25.3,60.1L26.4,62.8L29.4,65.5L30.4,68.3L33.9,70.2L35.1,72.5L38.9,73.9L40.2,76.1L44.5,76.5L46.4,77.6L51.3,76.9L53.8,77L60,74Z"/><path d="M60,74L60,74L66.1,76.8L68.6,76.7L73.8,78L75.6,76.7L80,76.4L81.1,73.8L84.9,72.5L86.1,70L89.7,68.4L90.6,65.6L93.6,62.7L94.7,60.1L97.1,56.3L97.8,53L97.8,53L94.7,52L90.1,51.8L87.2,51.3L83.2,52.2L80.7,52.2L77,53.8L74.3,53.4L71.3,56.2L68.8,56.3L66,59.4L64,60.3L62.1,65L60.9,67.4L60,74Z"/><path d="M60,52L60,52L58.5,45.9L56.9,44L54.5,39.6L52.4,38.5L49.5,35L46.7,35L43.2,32.6L40.7,32.3L36.8,30.5L34,30.6L29.9,29.2L27.1,29.4L22.6,28.9L19.5,29.5L19.5,29.5L20.6,32.5L23.4,36.1L24.8,38.5L28,41.4L29.4,43.9L33.2,45.8L34.6,48.1L38.6,49.6L40.2,51.7L44.6,52.5L46.5,53.9L51.6,53.5L54.1,53.9L60,52Z"/><path d="M60,52L60,52L65.9,53.9L68.5,53.6L73.6,54.1L75.5,52.6L79.9,51.8L81.5,49.9L85.6,48.4L86.9,45.9L90.7,43.9L92,41.5L95.3,38.6L96.6,36.1L99.4,32.4L100.5,29.5L100.5,29.5L97.4,28.9L92.8,29.3L90,29.2L85.9,30.5L83.2,30.5L79.3,32.3L76.6,32.2L73.1,34.8L70.8,35.4L67.7,38.7L65.6,39.7L63.1,43.9L61.6,46.1L60,52Z"/><path d="M60,32L60,32L59.2,27.7L58.2,26.2L56.6,23.2L55.1,22.6L53.3,20.1L51.4,20.2L49.2,18.4L47.3,18.6L44.8,17.1L43,17.2L40.2,16.4L38.2,16.7L35.1,16.4L33,17L33,17L33.7,19.1L35.4,21.7L36.3,23.4L38.4,25.4L39.3,27.1L41.8,28.5L42.7,30.1L45.4,31L46.5,32.4L49.5,32.8L50.8,33.6L54.2,33.4L56,33.5L60,32Z"/><path d="M60,32L60,32L64,33.5L65.9,33.5L69.3,33.8L70.5,32.8L73.7,32.6L74.7,31.2L77.3,30.1L78.3,28.5L80.7,27.1L81.5,25.2L83.7,23.4L84.5,21.7L86.4,19.1L87,17L87,17L84.9,16.4L81.7,16.6L79.8,16.4L77,17.2L75.2,17.2L72.7,18.4L70.9,18.5L68.6,20.2L66.8,20.3L64.8,22.5L63.4,23.1L61.8,26.2L60.9,27.7L60,32Z"/><path d="M60,20C66,15.2 64.8,8 60,4C55.2,8 54,15.2 60,20Z"/></g><g class="leaf-p"><path d="M60,116C59,94 61,64 60,18" fill="none" stroke-width="3" stroke-linecap="round"/><path d="M56.5,96L31.9,82.4" fill="none" stroke-width="1.3"/><path d="M63.5,96L88.1,82.4" fill="none" stroke-width="1.3"/><path d="M56.2,71.9L29.8,57.2" fill="none" stroke-width="1.3"/><path d="M63.8,71.9L90.2,57.2" fill="none" stroke-width="1.3"/><path d="M56,49.8L27.6,34" fill="none" stroke-width="1.3"/><path d="M64,49.8L92.4,34" fill="none" stroke-width="1.3"/><path d="M57.3,30.5L38.4,20" fill="none" stroke-width="1.3"/><path d="M62.7,30.5L81.6,20" fill="none" stroke-width="1.3"/></g></svg>
+              <span class="herb-vn" lang="vi">bạc hà</span>
+              <span class="herb-pl">mięta</span>
+              <span class="herb-hint mono">odwróć ↻</span>
+            </span>
+            <span class="herb-face herb-back">
+              <span class="herb-vn" lang="vi">bạc hà</span>
+              <span class="herb-note">Chłodna i&nbsp;słodkawa. Gasi tłuszcz i&nbsp;chrupkość, odświeża między kęsami.</span>
+              <span class="herb-dish"><span class="mono">trafia do</span> <span lang="vi">Bánh mì chả cá, nem rán, gỏi cuốn</span></span>
+            </span>
+          </span>
+        </button>
+      </li>
+      <li>
+        <button class="herb" type="button" aria-pressed="false">
+          <span class="herb-card">
+            <span class="herb-face herb-front">
+              <svg class="leaf" viewBox="0 0 120 120" aria-hidden="true"><g class="leaf-t"><path d="M61,92C52.9,76.2 32.6,66.1 18,66C24.9,78.9 43.3,92.2 61,92Z"/><path d="M60,70C79.1,68.5 97.7,52.5 104,38C88.3,39.5 67.3,52.3 60,70Z"/><path d="M60,48C54.9,33.4 38.6,22.1 26,20C30.4,31.9 44.7,45.8 60,48Z"/><path d="M57,24C67.8,22.5 77.4,12.6 80,4C71.1,5.4 60,13.5 57,24Z"/></g><g class="leaf-p"><path d="M64,114C62,92 58,70 60,48C61,34 58,22 56,12" fill="none" stroke-width="3" stroke-linecap="round"/><path d="M42.9,81.1L39,75L34.3,75.9L35.7,80.4Z"/><path d="M78.5,56.6L86.1,55L87.3,50.2L82.3,49.8Z"/><path d="M45.7,36.2L43.3,30.1L38.9,30.6L39.3,35.1Z"/><circle cx="61.5" cy="92" r="3"/><circle cx="60" cy="70" r="3"/><circle cx="60" cy="48" r="3"/></g></svg>
+              <span class="herb-vn" lang="vi">rau răm</span>
+              <span class="herb-pl">rdest wonny</span>
+              <span class="herb-hint mono">odwróć ↻</span>
+            </span>
+            <span class="herb-face herb-back">
+              <span class="herb-vn" lang="vi">rau răm</span>
+              <span class="herb-note">Pieprzny i&nbsp;cytrusowy, z&nbsp;ostrym, kolendrowym finiszem. Lekko mrowi w&nbsp;język.</span>
+              <span class="herb-dish"><span class="mono">trafia do</span> <span lang="vi">Gỏi cuốn</span></span>
+            </span>
+          </span>
+        </button>
+      </li>
+      <li>
+        <button class="herb" type="button" aria-pressed="false">
+          <span class="herb-card">
+            <span class="herb-face herb-front">
+              <svg class="leaf" viewBox="0 0 120 120" aria-hidden="true"><defs><pattern id="tiato-dots" width="4.6" height="4.6" patternUnits="userSpaceOnUse" patternTransform="rotate(75)"><circle cx="2.3" cy="2.3" r="1.75"/></pattern><clipPath id="tiato-clip"><path d="M60,110L60,110L75.1,104L77.8,101.6L87,95.4L87.9,92.9L95.1,86.6L94.7,84.1L100,77.7L98.4,75.1L101.7,68.7L99.3,66L101,59.6L98.2,56.9L98.7,50.4L95.6,47.7L94.6,41.1L91.4,38.4L88.9,31.8L85.5,29.1L81.1,22.3L77.6,19.7L70,12.8L64,10L64,10L57.8,12.3L49.7,18.5L45.9,20.9L41,27.3L37.5,29.7L34.4,36.1L31,38.5L29.5,45L26.2,47.5L26.1,54L23.1,56.4L24.4,63L21.8,65.5L24.5,72.2L22.7,74.6L27.5,81.4L26.8,83.9L33.6,90.7L34.3,93.3L42.9,100.2L45.4,102.9L60,110Z"/></clipPath></defs><g class="leaf-t"><path d="M58,112L58,112L73.9,106.3L76.3,104.2L86.1,98.2L87.4,95.9L96.1,89.9L94.5,87.5L101.3,81.3L98.7,78.9L103.5,72.6L101.1,70.1L104,63.7L101.7,61.3L102.5,54.8L98.8,52.3L100.8,45.8L96.5,43.3L95.1,36.7L92,34.2L89,27.4L85.9,25L81.8,18.2L78,15.7L70,8.6L64,6L64,6L57.7,7.9L49.2,14L45,16.1L40,22.4L36.5,24.5L33.3,30.8L29.8,33L28.2,39.4L23.9,41.5L23.4,48L20.2,50.1L20.4,56.7L16.8,58.8L19.1,65.5L16,67.6L19.9,74.4L17.9,76.6L24.8,83.5L23.6,85.8L30.7,92.7L31.2,95.1L40.4,102.1L42.9,104.6L58,112Z"/></g><g class="leaf-k"><path d="M58,112L63.7,11.3" stroke-width="2.2"/><path d="M59.1,92.9Q70,87.2 81,79.3" stroke-width="1.6"/><path d="M59.1,92.9Q48.9,86 38.8,76.9" stroke-width="1.6"/><path d="M60,76Q75.2,70.4 90.5,62.8" stroke-width="1.6"/><path d="M60,76Q45.6,68.8 31.2,59.4" stroke-width="1.6"/><path d="M61,59Q76.4,53.5 92,45.9" stroke-width="1.6"/><path d="M61,59Q46.3,51.8 31.7,42.5" stroke-width="1.6"/><path d="M62,42Q75.1,36.4 88.4,28.7" stroke-width="1.6"/><path d="M62,42Q49.5,35 37.2,25.7" stroke-width="1.6"/></g><g class="leaf-p"><rect x="0" y="0" width="120" height="120" fill="url(#tiato-dots)" clip-path="url(#tiato-clip)"/></g></svg>
+              <span class="herb-vn" lang="vi">tía tô</span>
+              <span class="herb-pl">pachnotka, perilla</span>
+              <span class="herb-hint mono">odwróć ↻</span>
+            </span>
+            <span class="herb-face herb-back">
+              <span class="herb-vn" lang="vi">tía tô</span>
+              <span class="herb-note">Mięta, anyż i&nbsp;szczypta cynamonu. Fioletowy spód liścia jest lekko gorzki i&nbsp;bardzo orzeźwiający.</span>
+              <span class="herb-dish"><span class="mono">trafia do</span> <span lang="vi">Bún chả Hà Nội</span></span>
+            </span>
+          </span>
+        </button>
+      </li>
+      <li>
+        <button class="herb" type="button" aria-pressed="false">
+          <span class="herb-card">
+            <span class="herb-face herb-front">
+              <svg class="leaf" viewBox="0 0 120 120" aria-hidden="true"><g class="leaf-t"><path d="M60,96C50.2,77.8 32.2,75.4 20,84C25.4,97.9 41.8,105.8 60,96Z"/><path d="M60,96C78.8,104.9 95.1,96.1 100,82C87.3,74 69.2,77.3 60,96Z"/><path d="M60,74C53.8,56.4 38,51.9 26,58C28.9,71.1 42.4,80.4 60,74Z"/><path d="M60,74C78.3,79.5 92.2,69.4 95,56C82.4,50.5 66.2,55.9 60,74Z"/><path d="M60,56C58.8,43.1 49.1,37.7 40,40C39.7,49.3 47.2,57.7 60,56Z"/><path d="M60,56C72.8,57.7 80.3,49.3 80,40C70.9,37.7 61.2,43.1 60,56Z"/></g><g class="leaf-p"><path d="M60,116C60,96 61,76 60,40" fill="none" stroke-width="3.2" stroke-linecap="round"/><path d="M60,42L53,38L60,40L67,38Z"/><path d="M60,36.5L53.8,32.5L60,34.5L66.2,32.5Z"/><path d="M60,31L54.6,27L60,29L65.4,27Z"/><path d="M60,25.5L55.4,21.5L60,23.5L64.6,21.5Z"/><path d="M60,20L56.2,16L60,18L63.8,16Z"/><path d="M60,14.5L57,10.5L60,12.5L63,10.5Z"/><circle cx="60" cy="8" r="3"/><path d="M56.8,95L28,86.4" fill="none" stroke-width="1.4"/><path d="M63.2,94.9L92,84.8" fill="none" stroke-width="1.4"/><path d="M57.3,72.7L32.8,61.2" fill="none" stroke-width="1.4"/><path d="M62.8,72.6L88,59.6" fill="none" stroke-width="1.4"/></g></svg>
+              <span class="herb-vn" lang="vi">húng quế</span>
+              <span class="herb-pl">bazylia tajska</span>
+              <span class="herb-hint mono">odwróć ↻</span>
+            </span>
+            <span class="herb-face herb-back">
+              <span class="herb-vn" lang="vi">húng quế</span>
+              <span class="herb-note">Anyż i&nbsp;lukrecja, cieplejsza od włoskiej kuzynki. Liście wrzucasz do bulionu w&nbsp;ostatniej chwili.</span>
+              <span class="herb-dish"><span class="mono">trafia do</span> <span lang="vi">Phở bò</span></span>
+            </span>
+          </span>
+        </button>
+      </li>
+      <li>
+        <button class="herb" type="button" aria-pressed="false">
+          <span class="herb-card">
+            <span class="herb-face herb-front">
+              <svg class="leaf" viewBox="0 0 120 120" aria-hidden="true"><g class="leaf-t"><path d="M60,112L60,112L61.5,104L59.9,101.8L60.7,94.1L58.1,92.2L59.1,84.5L55.8,82.9L57,75L53.3,73.6L54.5,65.8L50.4,64.5L51.6,56.6L47.2,55.5L48.3,47.7L43.8,46.6L44.3,39L39.8,37.9L39.4,30.6L35.1,29.4L33.5,22.7L29.7,21.3L25.8,15.4L22,14L22,14L20.1,17.6L21.2,24.6L19.4,28.1L22.7,34.2L20.4,38L25,43.6L22.4,47.5L27.9,52.7L25.3,56.6L31.3,61.6L28.9,65.4L35.1,70.4L32.9,74.1L39.1,79.1L37.3,82.7L43.4,87.7L42.1,91.1L48.1,96.1L47.4,99.2L53.2,104.4L53.5,107.1L60,112Z"/><path d="M60,112L60,112L66.5,107.3L67.2,104.4L73,99.4L72.7,96.1L78.7,91.2L77.8,87.6L83.9,82.8L82.5,78.9L88.7,74.1L87,70.1L93,65.2L91.1,61.2L96.8,56.1L94.8,52L99.7,46.6L97.8,42.6L101.5,36.7L100,32.8L101.6,26L100,22L100,22L96,23.4L92,29.2L88.1,30.7L86.2,37.4L81.9,38.8L81.2,46L76.8,47.3L76.9,54.8L72.6,56.2L73,63.9L68.9,65.3L69.5,73.1L65.7,74.6L66.2,82.4L62.9,84.2L63.3,91.9L60.6,94L60.8,101.6L59.1,104.1L60,112Z"/><path d="M60,112L60,112L63.4,105.5L63,103.2L65.7,96.7L64.5,94.4L67.5,87.9L65.8,85.6L68.8,79.1L66.7,76.8L69.9,70.3L67.5,68L70.6,61.5L68,59.1L71.1,52.7L68.3,50.3L71.3,43.8L68.5,41.5L70.9,35L68.1,32.6L69.8,26.1L67.2,23.8L67.8,17.2L65.6,14.9L64.3,8.3L62,6L62,6L59.6,8.3L58.1,14.8L55.8,17L56.2,23.6L53.5,25.8L54.9,32.4L52,34.6L54.2,41.2L51.2,43.4L54,50L51.1,52.3L54,58.9L51.3,61.1L54.2,67.7L51.7,70L54.6,76.6L52.4,78.8L55.2,85.4L53.4,87.7L56.1,94.3L54.8,96.5L57.3,103.1L56.8,105.4L60,112Z"/></g><g class="leaf-p"><path d="M60,112L25,21.8" fill="none" stroke-width="2"/><path d="M60,112L96.8,29.2" fill="none" stroke-width="2"/><path d="M60,112L61.8,14.5" fill="none" stroke-width="2"/></g></svg>
+              <span class="herb-vn" lang="vi">ngò gai</span>
+              <span class="herb-pl">kolendra długolistna</span>
+              <span class="herb-hint mono">odwróć ↻</span>
+            </span>
+            <span class="herb-face herb-back">
+              <span class="herb-vn" lang="vi">ngò gai</span>
+              <span class="herb-note">Jak kolendra, tylko głośniej. Twardy, ząbkowany liść kroimy cienko, żeby oddał cały aromat.</span>
+              <span class="herb-dish"><span class="mono">trafia do</span> <span lang="vi">Phở bò, bún chả Hà Nội</span></span>
+            </span>
+          </span>
+        </button>
+      </li>
+    </ul>
+  </section>
+
+  <!-- 7. dojazd -->
+  <section class="page visit" id="dojazd" aria-labelledby="dojazd-h">
+    <header class="sec-head">
+      <span class="folio mono">s. 06</span>
+      <h2 class="ink print" id="dojazd-h">Dojazd i odbiór</h2>
+      <p class="running mono">Uncle Tan · Nº 02 · mapa</p>
+    </header>
+
+    <div class="visit-grid">
+      <figure class="map print">
+        <svg viewBox="0 0 600 480" role="img" aria-labelledby="map-title">
+          <title id="map-title">Schemat dojścia: z Rynku obok Ratusza na północny wschód, ulicą Kuźniczą i w prawo w Kotlarską, około 200 metrów.</title>
+          <defs>
+            <pattern id="map-dots" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(15)">
+              <circle cx="3" cy="3" r="1.9" fill="#00838a"/>
+            </pattern>
+          </defs>
+          <g class="map-blocks" filter="url(#rough)">
+            <path d="M14,22 L134,18 L136,206 L12,210Z"/>
+            <path d="M172,20 L298,22 L296,206 L170,204Z"/>
+            <path d="M340,20 L462,22 L460,118 L338,120Z"/>
+            <path d="M500,22 L588,20 L590,120 L498,118Z"/>
+            <path d="M340,160 L460,158 L462,226 L338,228Z"/>
+            <path d="M498,158 L590,160 L588,228 L500,226Z"/>
+            <path d="M338,268 L462,266 L460,368 L340,370Z"/>
+            <path d="M500,266 L588,268 L590,368 L498,370Z"/>
+            <path d="M340,410 L590,408 L588,468 L338,470Z"/>
+            <path d="M12,222 L132,220 L130,300 L14,302Z"/>
+            <path d="M14,324 L130,322 L132,398 L12,400Z"/>
+            <path d="M12,410 L134,412 L132,470 L14,468Z"/>
+            <path d="M174,410 L330,408 L332,470 L172,468Z"/>
+          </g>
+          <g class="map-rynek" filter="url(#rough)">
+            <path class="map-square" d="M142,218 L332,216 L334,402 L140,404Z"/>
+            <path class="map-hall" d="M206,262 L262,260 L264,372 L204,374Z"/>
+            <path class="map-tower" d="M216,370 L252,370 L252,332 L244,332 L244,300 L238,300 L234,276 L230,300 L224,300 L224,332 L216,332Z"/>
+          </g>
+          <g class="map-labels mono">
+            <text x="168" y="250" class="map-big">RYNEK</text>
+            <text x="18" y="0" transform="translate(313,200) rotate(-90)">KUŹNICZA</text>
+            <text x="476" y="144">KOTLARSKA</text>
+            <text x="348" y="252">WITA STWOSZA</text>
+            <text x="348" y="394">OŁAWSKA</text>
+            <text x="0" y="0" transform="translate(160,470) rotate(-90)">ŚWIDNICKA</text>
+          </g>
+          <path class="map-route" d="M266,330 C292,318 322,290 326,234 L326,140 L380,140"/>
+          <g class="map-hand">
+            <text x="22" y="56" class="map-schemat">schemat</text>
+            <text x="22" y="76" class="map-small">nie w skali</text>
+            <text x="272" y="396" class="map-small" transform="rotate(-4 272 396)">Ratusz</text>
+            <path class="map-arrow-line" d="M276,380 C272,370 268,362 260,354"/>
+            <text x="282" y="74" class="map-note" transform="rotate(-6 282 74)">≈ 200 m · 3 min</text>
+            <path class="map-arrow-line" d="M344,82 C352,96 352,112 342,128"/>
+            <g class="map-north" transform="translate(548,62)">
+              <path d="M0,34 C1,18 -1,4 0,-22 M-9,-10 C-5,-15 -2,-19 0,-23 C3,-18 6,-14 10,-10"/>
+              <text x="-7" y="-30">N</text>
+            </g>
+          </g>
+          <g class="map-pin" transform="translate(392,140)">
+            <svg x="-28" y="-28" width="56" height="56" viewBox="0 0 100 100"><use href="#anise"/></svg>
+          </g>
+          <text x="420" y="188" class="map-pin-label" transform="rotate(-3 420 188)">Kotlarska 25A</text>
+        </svg>
+        <figcaption class="caption mono">rys. 06 — schemat dojścia, ręką Tâna</figcaption>
+      </figure>
+
+      <div class="visit-info">
+        <p class="open-stamp" id="open-stamp" data-state="open"><span class="open-word">Otwarte teraz</span><span class="open-sub mono" id="open-sub">do 22:00</span></p>
+
+        <dl class="info">
+          <div>
+            <dt class="mono">Adres</dt>
+            <dd>ul. Kotlarska 25A<br>50-120 Wrocław</dd>
+          </div>
+          <div>
+            <dt class="mono">Jak dojść</dt>
+            <dd>ok. 200&nbsp;m, 3&nbsp;minuty pieszo od Rynku, na północny wschód od Ratusza</dd>
+          </div>
+          <div>
+            <dt class="mono">Godziny</dt>
+            <dd>codziennie 12:00–22:00<br><span class="muted">zamówienia online w&nbsp;tych samych godzinach</span></dd>
+          </div>
+          <div>
+            <dt class="mono">Odbiór</dt>
+            <dd>Odbiór osobisty: ok. 15 min<br><span class="muted">kilka miejsc przy kontuarze i&nbsp;oknie, bez rezerwacji</span></dd>
+          </div>
+          <div>
+            <dt class="mono">Dostawa</dt>
+            <dd>7 zł, ok. 35–50 min, min. 40 zł</dd>
+          </div>
+          <div>
+            <dt class="mono">Telefon</dt>
+            <dd><a class="tel" href="tel:+48604352051">604 352 051</a></dd>
+          </div>
+        </dl>
+        <div class="cta">
+          <a class="btn" href="#karta">Zamów online</a>
+          <a class="btn btn-line" href="https://www.google.com/maps/search/?api=1&query=51.111978,17.032505" target="_blank" rel="noopener">Otwórz w mapach ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="colophon">
+  <div class="colophon-inner">
+    <svg class="colophon-anise" viewBox="0 0 100 100" aria-hidden="true"><use href="#anise"/></svg>
+    <div>
+      <p class="colophon-title ink">Uncle Tan · <span lang="vi">Chú Tân</span></p>
+      <p class="mono">Bánh mì bez skrótów · ul. Kotlarska 25A, Wrocław · codziennie 12:00–22:00 · <a href="tel:+48604352051">604 352 051</a></p>
+      <p class="mono">Odbiór osobisty: ok. 15 min · dostawa: 7 zł, ok. 35–50 min, min. 40 zł</p>
+    </div>
+    <dl class="colophon-list mono">
+      <div><dt>Kolofon</dt><dd>Zin nr 02, jesień 2026. Wydrukowane w&nbsp;kuchni przy Kotlarskiej, między partiami bagietek.</dd></div>
+      <div><dt>Farby</dt><dd>fluorescencyjny róż i&nbsp;morski, żółty tylko na majonez</dd></div>
+      <div><dt>Kroje</dt><dd>Bricolage Grotesque, Space Mono, Shantell Sans</dd></div>
+      <div><dt>Zdjęcia</dt><dd>z&nbsp;ręki i&nbsp;ze stocku (do podmiany po sesji u&nbsp;Tâna), rastrowane w&nbsp;przeglądarce; anatomia narysowana</dd></div>
+      <div><dt>Nakład</dt><dd>tyle, ile bagietek</dd></div>
+    </dl>
+    <p class="colophon-fine mono">Menu, ceny, czasy i&nbsp;historia to propozycje do makiety. © 2026 Uncle Tan</p>
+  </div>
+</footer>
+
+</body>
+</html>
