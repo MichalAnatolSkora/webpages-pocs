@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kancelaria Adwokacka Szymon Wnętrzak</title>
+<meta name="description" content="Kancelaria Adwokacka Szymon Wnętrzak. Pomoc prawna dla osób fizycznych i podmiotów gospodarczych. ul. Pogodna 26, 51-361 Wilczyce.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ====== SVG FILTERS (duotone & grade) ====== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- Navy → Gold duotone (elegant, premium) -->
+    <filter id="duotone-navy-gold" color-interpolation-filters="sRGB">
+      <feColorMatrix type="matrix" values="
+        0.299 0.587 0.114 0 0
+        0.299 0.587 0.114 0 0
+        0.299 0.587 0.114 0 0
+        0     0     0     1 0"/>
+      <feComponentTransfer>
+        <feFuncR tableValues="0.043 0.788"/>
+        <feFuncG tableValues="0.086 0.663"/>
+        <feFuncB tableValues="0.157 0.380"/>
+      </feComponentTransfer>
+    </filter>
+
+    <!-- Subtle cinematic grade: warm shadows, cool highlights -->
+    <filter id="cine-grade" color-interpolation-filters="sRGB">
+      <feColorMatrix type="matrix" values="
+        1.05  0.00  0.00  0  -0.03
+        0.00  0.92  0.02  0  -0.01
+        0.00  0.00  0.85  0   0.02
+        0     0     0     1   0"/>
+    </filter>
+  </defs>
+</svg>
+
+<!-- ====== NAVIGATION ====== -->
+<header class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="#top" class="brand" aria-label="Strona główna">
+      <span class="brand__mark">
+        <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M20 4 L34 11 V22 C34 30 27 35 20 37 C13 35 6 30 6 22 V11 Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M14 20 L18 24 L26 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span class="brand__text">
+        <span class="brand__name">Szymon Wnętrzak</span>
+        <span class="brand__sub">Kancelaria Adwokacka</span>
+      </span>
+    </a>
+
+    <nav class="menu" aria-label="Nawigacja główna">
+      <a href="#o-mnie">O mnie</a>
+      <a href="#oferta">Oferta</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+
+    <a href="#kontakt" class="btn btn--primary btn--sm">Kontakt</a>
+
+    <button class="burger" aria-label="Menu" aria-expanded="false" id="burger">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#o-mnie">O mnie</a>
+    <a href="#oferta">Oferta</a>
+    <a href="#kontakt">Kontakt</a>
+    <a href="#kontakt" class="btn btn--primary">Kontakt</a>
+  </div>
+</header>
+
+<!-- ====== HERO ====== -->
+<section class="hero" id="top">
+  <div class="hero__bg" aria-hidden="true"></div>
+  <div class="hero__grid" aria-hidden="true"></div>
+
+  <div class="container hero__inner">
+    <div class="hero__content">
+      <span class="eyebrow">
+        <span class="eyebrow__dot"></span>
+        Kancelaria Adwokacka
+      </span>
+      <h1 class="hero__title">
+        <span class="serif">Prior tempore,</span>
+        <span class="serif italic">potior iure.</span>
+      </h1>
+      <p class="hero__lead">
+        <em>Pierwszy w czasie, lepszy w prawie.</em>
+      </p>
+      <p class="hero__desc">
+        Kancelaria świadczy pomoc prawną dla osób fizycznych i&nbsp;podmiotów gospodarczych w&nbsp;postępowaniach sądowych i&nbsp;pozasądowych.
+      </p>
+
+      <div class="hero__cta">
+        <a href="#kontakt" class="btn btn--primary btn--lg">
+          Kontakt
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#oferta" class="btn btn--ghost btn--lg">Oferta</a>
+      </div>
+
+      <div class="hero__chips">
+        <a href="tel:+48608482072" class="hero-chip">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          +48 608 482 072
+        </a>
+        <a href="mailto:kancelaria@wnetrzak.eu" class="hero-chip">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+          kancelaria@wnetrzak.eu
+        </a>
+      </div>
+    </div>
+
+    <div class="hero__portrait">
+      <div class="hero__portrait-frame">
+        <div class="hero__portrait-img">
+          <img src="images/custom-1.jpg" alt="adw. Szymon Wnętrzak" loading="eager">
+          <div class="hero__portrait-tint" aria-hidden="true"></div>
+        </div>
+        <div class="hero__portrait-corner hero__portrait-corner--tl" aria-hidden="true"></div>
+        <div class="hero__portrait-corner hero__portrait-corner--br" aria-hidden="true"></div>
+        <div class="hero__portrait-caption">
+          <div class="hero__portrait-name serif">adw. Szymon Wnętrzak</div>
+          <div class="hero__portrait-role">Kancelaria Adwokacka</div>
+        </div>
+      </div>
+      <div class="hero__portrait-deco" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <a href="#o-mnie" class="hero__scroll" aria-label="Przewiń w dół">
+    <span></span>
+  </a>
+</section>
+
+<!-- ====== ABOUT ====== -->
+<section class="section about" id="o-mnie">
+  <div class="container">
+    <div class="section__head">
+      <span class="eyebrow dark">01 — O mnie</span>
+      <h2 class="section__title serif">Pomoc prawna dla osób fizycznych i&nbsp;podmiotów gospodarczych</h2>
+    </div>
+
+    <div class="about__grid">
+      <div class="about__text">
+        <p class="lead">
+          Kancelaria świadczy pomoc prawną dla osób fizycznych i&nbsp;podmiotów gospodarczych w&nbsp;postępowaniach sądowych i&nbsp;pozasądowych.
+        </p>
+        <p>
+          W&nbsp;ramach działalności oferuje opinie prawne, porady pisemne i&nbsp;ustne, negocjacje oraz mediacje.
+        </p>
+        <p>
+          Kancelaria reprezentuje klientów przed sądami, organami administracji publicznej i&nbsp;innymi instytucjami.
+        </p>
+
+        <blockquote class="about__motto">
+          <span class="serif italic">„Prior tempore, potior iure.”</span>
+          <cite>Pierwszy w&nbsp;czasie, lepszy w&nbsp;prawie.</cite>
+        </blockquote>
+      </div>
+
+      <div class="about__gallery" aria-label="Galeria">
+        <figure class="about__gallery-main">
+          <img src="images/legal-2.jpg" alt="Konsultacja prawna — praca nad dokumentami" loading="lazy">
+          <figcaption>Opinie, porady, negocjacje</figcaption>
+        </figure>
+        <div class="about__gallery-grid">
+          <figure>
+            <img src="images/legal-3.jpg" alt="Budynki biurowe — podmioty gospodarcze" loading="lazy">
+            <figcaption>Podmioty gospodarcze</figcaption>
+          </figure>
+          <figure>
+            <img src="images/legal-6.jpg" alt="Sporządzanie pism i opinii prawnych" loading="lazy">
+            <figcaption>Pisma i opinie</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== MOTTO BANNER ====== -->
+<section class="motto-banner" aria-hidden="false">
+  <div class="motto-banner__bg" style="background-image: url('images/legal-4.jpg');"></div>
+  <div class="motto-banner__overlay"></div>
+  <div class="container motto-banner__inner">
+    <span class="eyebrow light">
+      <span class="eyebrow__dot"></span>
+      Maksyma kancelarii
+    </span>
+    <p class="motto-banner__text serif italic">„Prior tempore, potior iure.”</p>
+    <p class="motto-banner__sub">Pierwszy w&nbsp;czasie, lepszy w&nbsp;prawie.</p>
+  </div>
+</section>
+
+<!-- ====== SERVICES ====== -->
+<section class="section services" id="oferta">
+  <div class="container">
+    <div class="section__head section__head--center">
+      <span class="eyebrow dark">02 — Oferta</span>
+      <h2 class="section__title serif">Zakres usług</h2>
+    </div>
+
+    <div class="services__grid">
+
+      <article class="service">
+        <div class="service__icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M16 3v26M6 8l20 0M8 8l-2 12h8L12 8M24 8l-2 12h8l-2-12"/>
+          </svg>
+        </div>
+        <h3 class="serif">Reprezentowanie w&nbsp;sprawach cywilnych</h3>
+      </article>
+
+      <article class="service service--accent">
+        <div class="service__icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="6" y="10" width="20" height="18" rx="2"/>
+            <path d="M11 10V6a5 5 0 0 1 10 0v4M16 17v5"/>
+          </svg>
+        </div>
+        <h3 class="serif">Reprezentowanie w&nbsp;sprawach karnych</h3>
+      </article>
+
+      <article class="service">
+        <div class="service__icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M6 10h20v18H6zM10 10V6a6 6 0 0 1 12 0v4M12 16h8M12 20h8"/>
+          </svg>
+        </div>
+        <h3 class="serif">Reprezentowanie w&nbsp;sprawach administracyjnych</h3>
+      </article>
+
+      <article class="service">
+        <div class="service__icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M16 16a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM8 28v-2a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v2"/>
+            <circle cx="24" cy="10" r="3"/>
+          </svg>
+        </div>
+        <h3 class="serif">Reprezentowanie w&nbsp;sprawach o&nbsp;rozwód</h3>
+      </article>
+
+      <article class="service">
+        <div class="service__icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M16 3v26M6 8l20 0M8 8l-2 12h8L12 8M24 8l-2 12h8l-2-12"/>
+          </svg>
+        </div>
+        <h3 class="serif">Reprezentowanie w&nbsp;sprawach o&nbsp;alimenty</h3>
+      </article>
+
+      <article class="service service--accent">
+        <div class="service__icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M4 28h24M6 28V14l10-8 10 8v14M12 28v-8h8v8"/>
+          </svg>
+        </div>
+        <h3 class="serif">Prawo karne gospodarcze i&nbsp;skarbowe</h3>
+      </article>
+
+      <article class="service">
+        <div class="service__icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M16 4v24M8 8a4 4 0 0 1 8 0 4 4 0 0 0 8 0M6 28h20"/>
+            <path d="M10 12l-4 10h8zM22 12l-4 10h8z"/>
+          </svg>
+        </div>
+        <h3 class="serif">Prawo medyczne</h3>
+      </article>
+
+      <article class="service">
+        <div class="service__icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M4 28h24M6 28V14l10-8 10 8v14M12 28v-8h8v8"/>
+          </svg>
+        </div>
+        <h3 class="serif">Postępowania spadkowe</h3>
+      </article>
+
+      <article class="service">
+        <div class="service__icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M4 16h6l4-10 4 20 4-10h6"/>
+          </svg>
+        </div>
+        <h3 class="serif">Windykacja (e-sąd)</h3>
+      </article>
+
+      <article class="service service--accent">
+        <div class="service__icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="6" y="6" width="20" height="20" rx="2"/>
+            <path d="M11 13h10M11 17h10M11 21h6"/>
+          </svg>
+        </div>
+        <h3 class="serif">Sporządzanie pozwów</h3>
+      </article>
+
+      <article class="service">
+        <div class="service__icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="6" y="6" width="20" height="20" rx="2"/>
+            <path d="M11 13h10M11 17h10M11 21h6"/>
+          </svg>
+        </div>
+        <h3 class="serif">Sporządzanie opinii prawnych</h3>
+      </article>
+
+      <article class="service">
+        <div class="service__icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M8 16h16M8 20h10M8 12h16M6 6h20v22H6z"/>
+          </svg>
+        </div>
+        <h3 class="serif">Negocjacje i&nbsp;mediacje</h3>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ====== CONTACT ====== -->
+<section class="section contact" id="kontakt">
+  <div class="container">
+    <div class="section__head section__head--center">
+      <span class="eyebrow dark">03 — Kontakt</span>
+      <h2 class="section__title serif">Dane kontaktowe</h2>
+    </div>
+
+    <div class="contact__wrap">
+      <div class="contact__image">
+        <img src="images/legal-5.jpg" alt="Reprezentacja przed instytucjami" loading="lazy">
+        <div class="contact__image-overlay">
+          <span class="serif italic">Reprezentujemy klientów przed sądami, organami administracji publicznej i&nbsp;innymi instytucjami.</span>
+        </div>
+      </div>
+
+      <div class="contact__cards">
+        <a href="tel:+48608482072" class="contact__card">
+          <div class="contact__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </div>
+          <div>
+            <small>Telefon</small>
+            <strong>+48 608 482 072</strong>
+          </div>
+        </a>
+
+        <a href="mailto:kancelaria@wnetrzak.eu" class="contact__card">
+          <div class="contact__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+          </div>
+          <div>
+            <small>E-mail</small>
+            <strong>kancelaria@wnetrzak.eu</strong>
+          </div>
+        </a>
+
+        <div class="contact__card contact__card--static">
+          <div class="contact__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div>
+            <small>Adres</small>
+            <strong>ul. Pogodna 26</strong>
+            <span>51-361 Wilczyce</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== FOOTER ====== -->
+<footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__brand">
+      <div class="brand">
+        <span class="brand__mark">
+          <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M20 4 L34 11 V22 C34 30 27 35 20 37 C13 35 6 30 6 22 V11 Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M14 20 L18 24 L26 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="brand__text">
+          <span class="brand__name">Szymon Wnętrzak</span>
+          <span class="brand__sub">Kancelaria Adwokacka</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="footer__col">
+      <h4>Nawigacja</h4>
+      <a href="#o-mnie">O mnie</a>
+      <a href="#oferta">Oferta</a>
+      <a href="#kontakt">Kontakt</a>
+    </div>
+
+    <div class="footer__col">
+      <h4>Kontakt</h4>
+      <a href="tel:+48608482072">+48 608 482 072</a>
+      <a href="mailto:kancelaria@wnetrzak.eu">kancelaria@wnetrzak.eu</a>
+      <span>ul. Pogodna 26, 51-361 Wilczyce</span>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <div class="container">
+      <span>© Kancelaria Adwokacka Szymon Wnętrzak</span>
+      <span class="footer__motto serif italic">Prior tempore, potior iure.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

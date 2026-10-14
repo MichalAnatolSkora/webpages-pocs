@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Szymon Wnętrzak — Kancelaria Adwokacka</title>
+<meta name="description" content="Kancelaria Adwokacka Szymon Wnętrzak. Pomoc prawna dla osób fizycznych i podmiotów gospodarczych. ul. Pogodna 26, 51-361 Wilczyce.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ====== SVG FILTERS ====== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- Warm duotone: deep ink → burnt gold -->
+    <filter id="duotone-ink-gold" color-interpolation-filters="sRGB">
+      <feColorMatrix type="matrix" values="
+        0.299 0.587 0.114 0 0
+        0.299 0.587 0.114 0 0
+        0.299 0.587 0.114 0 0
+        0     0     0     1 0"/>
+      <feComponentTransfer>
+        <feFuncR tableValues="0.102 0.757"/>
+        <feFuncG tableValues="0.086 0.608"/>
+        <feFuncB tableValues="0.078 0.227"/>
+      </feComponentTransfer>
+    </filter>
+
+    <!-- Film grain SVG pattern -->
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
+      <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0   0 0 0 0.35 0"/>
+    </filter>
+  </defs>
+</svg>
+
+<!-- Grain overlay (whole page) -->
+<div class="grain" aria-hidden="true"></div>
+
+<!-- Scroll progress bar -->
+<div class="progress" aria-hidden="true"><div class="progress__fill" id="progressFill"></div></div>
+
+<!-- Sticky side rail (current section indicator) -->
+<aside class="side-rail" aria-hidden="true" id="sideRail">
+  <div class="side-rail__line"></div>
+  <div class="side-rail__items">
+    <span data-section="top" class="active">§00 · Hero</span>
+    <span data-section="o-mnie">§01 · O mnie</span>
+    <span data-section="oferta">§02 · Oferta</span>
+    <span data-section="kontakt">§03 · Kontakt</span>
+  </div>
+</aside>
+
+<!-- ====== EDITORIAL MASTHEAD ====== -->
+<header class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="#top" class="nav__brand" aria-label="Strona główna">
+      <span class="nav__brand-name serif">Szymon Wnętrzak</span>
+      <span class="nav__brand-role mono">adw.</span>
+    </a>
+
+    <nav class="nav__menu" aria-label="Nawigacja">
+      <a href="#o-mnie"><span class="mono">01</span> O mnie</a>
+      <a href="#oferta"><span class="mono">02</span> Oferta</a>
+      <a href="#kontakt"><span class="mono">03</span> Kontakt</a>
+    </nav>
+
+    <a href="tel:+48608482072" class="nav__phone">
+      <span class="mono">+48 608 482 072</span>
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M3 9L9 3M9 3H4M9 3V8"/></svg>
+    </a>
+
+    <button class="nav__burger" id="burger" aria-label="Menu">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#o-mnie">O mnie</a>
+  <a href="#oferta">Oferta</a>
+  <a href="#kontakt">Kontakt</a>
+  <a href="tel:+48608482072">+48 608 482 072</a>
+</div>
+
+<main id="top">
+
+<!-- ====== HERO — editorial split ====== -->
+<section class="hero">
+  <div class="hero__inner">
+    <div class="hero__type">
+      <div class="hero__honorific">
+        <span class="hero__honorific-rule"></span>
+        <span class="serif italic">Adwokat</span>
+      </div>
+
+      <h1 class="display" data-split>
+        <span class="display__line">Szymon</span>
+        <span class="display__line">Wnętrzak</span>
+      </h1>
+
+      <p class="hero__lead" data-reveal>
+        Kancelaria świadczy pomoc prawną dla osób fizycznych i&nbsp;podmiotów gospodarczych w&nbsp;postępowaniach sądowych i&nbsp;pozasądowych.
+      </p>
+
+      <div class="hero__actions">
+        <a href="#oferta" class="link-arrow" data-magnetic>
+          <span>Zakres usług</span>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 10h12M10 4l6 6-6 6"/></svg>
+        </a>
+        <a href="#kontakt" class="link-arrow" data-magnetic>
+          <span>Kontakt</span>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 10h12M10 4l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <figure class="hero__figure">
+      <div class="hero__figure-wrap">
+        <img src="images/custom-1.jpg" alt="adw. Szymon Wnętrzak">
+      </div>
+      <figcaption>
+        <span class="mono">↑ Fot. 001</span>
+        <span>adw. Szymon Wnętrzak</span>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ====== MARQUEE TICKER ====== -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker__track">
+    <span class="ticker__item serif italic">Prior tempore, potior iure</span>
+    <span class="ticker__dot">✦</span>
+    <span class="ticker__item">Prawo cywilne</span>
+    <span class="ticker__dot">✦</span>
+    <span class="ticker__item">Prawo karne</span>
+    <span class="ticker__dot">✦</span>
+    <span class="ticker__item">Rozwód & alimenty</span>
+    <span class="ticker__dot">✦</span>
+    <span class="ticker__item">Prawo medyczne</span>
+    <span class="ticker__dot">✦</span>
+    <span class="ticker__item">Spadki</span>
+    <span class="ticker__dot">✦</span>
+    <span class="ticker__item">E-sąd & windykacja</span>
+    <span class="ticker__dot">✦</span>
+    <span class="ticker__item serif italic">Prior tempore, potior iure</span>
+    <span class="ticker__dot">✦</span>
+    <span class="ticker__item">Prawo cywilne</span>
+    <span class="ticker__dot">✦</span>
+    <span class="ticker__item">Prawo karne</span>
+    <span class="ticker__dot">✦</span>
+    <span class="ticker__item">Rozwód & alimenty</span>
+    <span class="ticker__dot">✦</span>
+    <span class="ticker__item">Prawo medyczne</span>
+    <span class="ticker__dot">✦</span>
+    <span class="ticker__item">Spadki</span>
+    <span class="ticker__dot">✦</span>
+    <span class="ticker__item">E-sąd & windykacja</span>
+    <span class="ticker__dot">✦</span>
+  </div>
+</div>
+
+<!-- ====== ABOUT — editorial grid ====== -->
+<section class="about" id="o-mnie">
+  <div class="container">
+    <header class="section-head">
+      <span class="mono section-head__num">§01</span>
+      <span class="mono section-head__label">O mnie</span>
+    </header>
+
+    <div class="about__grid">
+      <h2 class="about__title display" data-split>
+        Pomoc prawna,<br>
+        <em>szyta na miarę</em><br>
+        każdej sprawy.
+      </h2>
+
+      <div class="about__copy">
+        <p data-reveal>
+          Kancelaria świadczy pomoc prawną dla <strong>osób fizycznych i&nbsp;podmiotów gospodarczych</strong> w&nbsp;postępowaniach sądowych i&nbsp;pozasądowych.
+        </p>
+        <p data-reveal>
+          W&nbsp;ramach działalności oferuje opinie prawne, porady pisemne i&nbsp;ustne, negocjacje oraz mediacje.
+        </p>
+        <p data-reveal>
+          Kancelaria reprezentuje klientów przed sądami, organami administracji publicznej i&nbsp;innymi instytucjami.
+        </p>
+      </div>
+
+      <figure class="about__figure">
+        <img src="images/legal-2.jpg" alt="Praca nad dokumentami">
+        <figcaption class="mono">Fot. 002 · Opinie & porady</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ====== MASSIVE MOTTO ====== -->
+<section class="motto" aria-label="Maksyma kancelarii">
+  <div class="container">
+    <span class="mono motto__eyebrow">Maksyma</span>
+    <h2 class="motto__text display serif italic" data-split>
+      Prior tempore,<br>
+      potior iure.
+    </h2>
+    <p class="motto__translation serif">— Pierwszy w&nbsp;czasie, lepszy w&nbsp;prawie</p>
+  </div>
+</section>
+
+<!-- ====== SERVICES — BENTO GRID ====== -->
+<section class="services" id="oferta">
+  <div class="container">
+    <header class="section-head">
+      <span class="mono section-head__num">§02</span>
+      <span class="mono section-head__label">Oferta</span>
+    </header>
+
+    <h2 class="services__title display" data-split>
+      Zakres<br><em>usług.</em>
+    </h2>
+
+    <div class="bento">
+      <!-- Large feature card -->
+      <article class="bento__card bento__card--xl bento__card--dark">
+        <span class="bento__num mono">01</span>
+        <h3 class="serif">Reprezentowanie w&nbsp;sprawach cywilnych</h3>
+        <div class="bento__arrow">→</div>
+      </article>
+
+      <!-- Image card -->
+      <article class="bento__card bento__card--image">
+        <img src="images/legal-3.jpg" alt="">
+        <span class="bento__num mono">02</span>
+        <h3 class="serif">Reprezentowanie w&nbsp;sprawach karnych</h3>
+      </article>
+
+      <!-- Medium -->
+      <article class="bento__card">
+        <span class="bento__num mono">03</span>
+        <h3 class="serif">Reprezentowanie w&nbsp;sprawach administracyjnych</h3>
+      </article>
+
+      <!-- Small -->
+      <article class="bento__card">
+        <span class="bento__num mono">04</span>
+        <h3 class="serif">Sprawy o&nbsp;rozwód</h3>
+      </article>
+
+      <article class="bento__card">
+        <span class="bento__num mono">05</span>
+        <h3 class="serif">Sprawy o&nbsp;alimenty</h3>
+      </article>
+
+      <!-- Wide -->
+      <article class="bento__card bento__card--wide bento__card--accent">
+        <span class="bento__num mono">06</span>
+        <h3 class="serif">Prawo karne gospodarcze i&nbsp;skarbowe</h3>
+      </article>
+
+      <article class="bento__card">
+        <span class="bento__num mono">07</span>
+        <h3 class="serif">Prawo medyczne</h3>
+      </article>
+
+      <article class="bento__card">
+        <span class="bento__num mono">08</span>
+        <h3 class="serif">Postępowania spadkowe</h3>
+      </article>
+
+      <!-- Image card -->
+      <article class="bento__card bento__card--image">
+        <img src="images/legal-6.jpg" alt="">
+        <span class="bento__num mono">09</span>
+        <h3 class="serif">Windykacja <span class="mono">(e-sąd)</span></h3>
+      </article>
+
+      <article class="bento__card">
+        <span class="bento__num mono">10</span>
+        <h3 class="serif">Sporządzanie pozwów</h3>
+      </article>
+
+      <article class="bento__card">
+        <span class="bento__num mono">11</span>
+        <h3 class="serif">Sporządzanie opinii prawnych</h3>
+      </article>
+
+      <article class="bento__card bento__card--wide">
+        <span class="bento__num mono">12</span>
+        <h3 class="serif">Negocjacje &amp;&nbsp;mediacje</h3>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ====== CONTACT — display phone ====== -->
+<section class="contact" id="kontakt">
+  <div class="container">
+    <header class="section-head section-head--light">
+      <span class="mono section-head__num">§03</span>
+      <span class="mono section-head__label">Kontakt</span>
+    </header>
+
+    <h2 class="contact__title display" data-split>
+      Porozmawiajmy.
+    </h2>
+
+    <a href="tel:+48608482072" class="contact__phone display" data-magnetic>
+      <span class="contact__phone-country serif italic">+48</span>
+      <span class="contact__phone-num">608&nbsp;482&nbsp;072</span>
+      <span class="contact__phone-arrow">↗</span>
+    </a>
+
+    <div class="contact__grid">
+      <div class="contact__item">
+        <span class="mono">E-mail</span>
+        <a href="mailto:kancelaria@wnetrzak.eu" class="serif">kancelaria@wnetrzak.eu</a>
+      </div>
+      <div class="contact__item">
+        <span class="mono">Adres</span>
+        <span class="serif">ul. Pogodna 26<br>51-361 Wilczyce</span>
+      </div>
+      <div class="contact__item">
+        <span class="mono">Status</span>
+        <span class="serif">
+          <span class="status-dot"></span>
+          Kancelaria czynna
+        </span>
+      </div>
+    </div>
+
+    <figure class="contact__figure">
+      <img src="images/legal-5.jpg" alt="">
+    </figure>
+  </div>
+</section>
+
+</main>
+
+<!-- ====== FOOTER ====== -->
+<footer class="footer">
+  <div class="footer__watermark" aria-hidden="true">
+    <span>Wnętrzak</span>
+  </div>
+  <div class="container footer__inner">
+    <div class="footer__top">
+      <span class="display serif italic">Prior tempore, potior iure.</span>
+    </div>
+    <div class="footer__bottom">
+      <span class="mono">© Kancelaria Adwokacka Szymon Wnętrzak</span>
+      <span class="mono">ul. Pogodna 26 · 51-361 Wilczyce</span>
+      <span class="mono">+48 608 482 072</span>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
