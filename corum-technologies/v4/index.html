@@ -586,6 +586,54 @@ document.getElementById('form').addEventListener('submit', e => {
   }
   const A = vec(...PL), B = vec(...SZ);
 
+  // continents: land outline from world-atlas (Natural Earth 110m), sampled into an even dot grid
+  const land = [];
+  fetch('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/land-110m.json').then(r => r.json()).then(topo => {
+    const [sx, sy] = topo.transform.scale, [tx, ty] = topo.transform.translate;
+    const arcs = topo.arcs.map(a => { let x = 0, y = 0; return a.map(([dx, dy]) => { x += dx; y += dy; return [x * sx + tx, y * sy + ty]; }); });
+    const arc = i => i >= 0 ? arcs[i] : arcs[~i].slice().reverse();
+    const ring = ids => { const out = []; ids.forEach((id, k) => { const a = arc(id); out.push(...(k ? a.slice(1) : a)); }); return out; };
+    const polys = [];
+    topo.objects.land.geometries.forEach(g => {
+      const list = g.type === 'Polygon' ? [g.arcs] : g.type === 'MultiPolygon' ? g.arcs : [];
+      list.forEach(p => {
+        const rings = p.map(ring), b = [180, 90, -180, -90];
+        rings[0].forEach(([x, y]) => { b[0] = Math.min(b[0], x); b[1] = Math.min(b[1], y); b[2] = Math.max(b[2], x); b[3] = Math.max(b[3], y); });
+        polys.push({ rings, b });
+      });
+    });
+    const inRing = (x, y, r) => {
+      let c = false;
+      for (let i = 0, j = r.length - 1; i < r.length; j = i++) {
+        const [xi, yi] = r[i], [xj, yj] = r[j];
+        if ((yi > y) !== (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) c = !c;
+      }
+      return c;
+    };
+    const isLand = (x, y) => polys.some(p => x >= p.b[0] && x <= p.b[2] && y >= p.b[1] && y <= p.b[3] && inRing(x, y, p.rings[0]) && !p.rings.slice(1).some(h => inRing(x, y, h)));
+    const step = 2;
+    for (let lat = -56; lat <= 82; lat += step) {
+      const n = Math.max(1, Math.round(360 * Math.cos(lat * rad) / step));
+      for (let i = 0; i < n; i++) { const lon = -180 + (i + .5) * 360 / n; if (isLand(lon, lat)) land.push(vec(lat, lon)); }
+    }
+    if (reduce) frame();
+  }).catch(() => {});
+
+  function drawLand() {
+    const l0 = lon0 * rad, p0 = lat0 * rad;
+    const sl = Math.sin(l0), cl = Math.cos(l0), sp = Math.sin(p0), cp = Math.cos(p0);
+    const d = Math.max(1.6, R / 120);
+    for (const [X, Y, Z] of land) {
+      const u = cl * X + sl * Y;
+      const z = sp * Z + cp * u;
+      if (z <= 0) continue;
+      const x = -sl * X + cl * Y, y = cp * Z - sp * u;
+      ctx.globalAlpha = .35 + .65 * z;
+      ctx.fillRect(cx + R * x - d / 2, cy - R * y - d / 2, d, d);
+    }
+    ctx.globalAlpha = 1;
+  }
+
   function line(ptsFn, n, style, width, backStyle) {
     let prev = null;
     for (let i = 0; i <= n; i++) {
@@ -612,8 +660,11 @@ document.getElementById('form').addEventListener('submit', e => {
     ctx.strokeStyle = 'rgba(255,255,255,.35)'; ctx.lineWidth = 1.2; ctx.stroke();
 
     // graticule
-    for (let lat = -75; lat <= 75; lat += 15) line(f => project(vec(lat, -180 + f * 360)), 96, 'rgba(255,255,255,.16)', 1, 'rgba(255,255,255,.035)');
-    for (let lon = -180; lon < 180; lon += 15) line(f => project(vec(-90 + f * 180, lon)), 64, 'rgba(255,255,255,.16)', 1, 'rgba(255,255,255,.035)');
+    for (let lat = -75; lat <= 75; lat += 15) line(f => project(vec(lat, -180 + f * 360)), 96, 'rgba(255,255,255,.08)', 1, 'rgba(255,255,255,.035)');
+    for (let lon = -180; lon < 180; lon += 15) line(f => project(vec(-90 + f * 180, lon)), 64, 'rgba(255,255,255,.08)', 1, 'rgba(255,255,255,.035)');
+
+    // continents
+    ctx.fillStyle = '#ffffff'; drawLand();
 
     // arc with travelling progress
     const prog = reduce ? 1 : Math.min(1, (t % 420) / 260);
