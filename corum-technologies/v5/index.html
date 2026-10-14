@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Corum Technologies — CT-01 Transfer Unit</title>
+<meta name="description" content="Corum Technologies — transfer technologii i produkcja technologiczna między Europą a Azją.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Doto:wght@500;700;900&family=Inter+Tight:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --body: #dddcd7;
+  --body-2: #d2d1cb;
+  --panel: #ecebe7;
+  --panel-hi: #f6f5f2;
+  --ink: #1b1b1a;
+  --ink-2: #55544f;
+  --ink-3: #8d8c86;
+  --orange: #ff4f00;
+  --lcd: #111311;
+  --amber: #ffb21a;
+  --green: #39d353;
+  --line: rgba(27,27,26,.12);
+  --dot: 'Doto', ui-monospace, monospace;
+  --sans: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+  --raise: 0 1px 0 rgba(255,255,255,.8) inset, 0 -1px 0 rgba(0,0,0,.06) inset, 0 2px 3px rgba(0,0,0,.08), 0 18px 40px -18px rgba(0,0,0,.28);
+  --sink: inset 0 2px 4px rgba(0,0,0,.18), inset 0 -1px 0 rgba(255,255,255,.6);
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); background: var(--body); color: var(--ink); line-height: 1.55; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; }
+::selection { background: var(--orange); color: #fff; }
+.container { max-width: 1240px; margin: 0 auto; padding: 0 28px; }
+.micro { font-size: .68rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-2); }
+.dotf { font-family: var(--dot); }
+
+/* ── NAV ── */
+nav { position: sticky; top: 0; z-index: 50; background: rgba(221,220,215,.86); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.nav-inner { display: flex; align-items: center; justify-content: space-between; height: 66px; }
+.logo { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 1.05rem; letter-spacing: -.02em; }
+.logo .mark { width: 30px; height: 30px; border-radius: 50%; background: var(--ink); position: relative; box-shadow: 0 2px 4px rgba(0,0,0,.2); }
+.logo .mark::after { content: ''; position: absolute; left: 50%; top: 50%; width: 10px; height: 10px; border-radius: 50%; background: var(--orange); transform: translate(-50%, -50%); box-shadow: 0 0 10px rgba(255,79,0,.8); }
+.logo small { font-weight: 500; color: var(--ink-3); }
+.nav-links { display: flex; gap: 6px; list-style: none; align-items: center; }
+.nav-links a { padding: 9px 14px; border-radius: 10px; font-weight: 600; font-size: .9rem; color: var(--ink-2); transition: .2s; }
+.nav-links a:hover { color: var(--ink); background: var(--panel); }
+.nav-links .cta { background: var(--ink); color: #fff; margin-left: 6px; box-shadow: 0 2px 0 #000, 0 6px 14px -6px rgba(0,0,0,.5); }
+.nav-links .cta:hover { background: var(--orange); color: #fff; }
+.burger { display: none; width: 42px; height: 42px; border-radius: 12px; border: 0; background: var(--panel); box-shadow: var(--raise); cursor: pointer; position: relative; }
+.burger span { position: absolute; left: 12px; width: 18px; height: 2px; background: var(--ink); transition: .3s; }
+.burger span:nth-child(1) { top: 15px; } .burger span:nth-child(2) { top: 20px; } .burger span:nth-child(3) { top: 25px; }
+.burger.open span:nth-child(1) { top: 20px; transform: rotate(45deg); }
+.burger.open span:nth-child(2) { opacity: 0; }
+.burger.open span:nth-child(3) { top: 20px; transform: rotate(-45deg); }
+
+/* ── HERO ── */
+.hero { padding: 70px 0 110px; }
+.hero .container { display: grid; grid-template-columns: .9fr 1.1fr; gap: 56px; align-items: center; }
+.hero h1 { font-size: clamp(2.6rem, 5.4vw, 4.6rem); line-height: .98; letter-spacing: -0.05em; font-weight: 700; margin: 22px 0 26px; }
+.hero h1 .o { color: var(--orange); }
+.hero p.lead { font-size: 1.15rem; color: var(--ink-2); max-width: 470px; margin-bottom: 34px; }
+.hero-tag { display: inline-flex; align-items: center; gap: 10px; padding: 7px 14px 7px 10px; border-radius: 999px; background: var(--panel); box-shadow: var(--raise); }
+.led { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); animation: blink 2.4s infinite; }
+@keyframes blink { 0%, 92% { opacity: 1; } 96% { opacity: .3; } }
+
+.key-btn { display: inline-flex; align-items: center; gap: 12px; padding: 16px 24px; border-radius: 14px; font-weight: 700; font-size: 1rem; border: 0; cursor: pointer; transition: transform .08s, box-shadow .08s, background .2s; }
+.key-btn.or { background: var(--orange); color: #fff; box-shadow: 0 4px 0 #b83900, 0 12px 24px -10px rgba(255,79,0,.7); }
+.key-btn.gr { background: var(--panel-hi); color: var(--ink); box-shadow: 0 4px 0 #b9b8b2, 0 12px 24px -12px rgba(0,0,0,.35); }
+.key-btn:active { transform: translateY(4px); box-shadow: 0 0 0 transparent, 0 4px 10px -6px rgba(0,0,0,.4); }
+.hero-cta { display: flex; gap: 14px; flex-wrap: wrap; }
+
+/* device */
+.device {
+  position: relative; background: linear-gradient(160deg, var(--panel-hi), var(--panel) 40%, #e3e2dd);
+  border-radius: 34px; padding: 26px; box-shadow: var(--raise), 0 50px 90px -40px rgba(0,0,0,.45);
+}
+.screw { position: absolute; width: 12px; height: 12px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #fff, #bdbcb6 60%, #8f8e88); box-shadow: inset 0 0 0 1px rgba(0,0,0,.15); }
+.screw::after { content: ''; position: absolute; left: 2px; right: 2px; top: 5px; height: 2px; background: rgba(0,0,0,.35); transform: rotate(var(--r, 30deg)); }
+.screw.tl { top: 14px; left: 14px; } .screw.tr { top: 14px; right: 14px; --r: -20deg; } .screw.bl { bottom: 14px; left: 14px; --r: 70deg; } .screw.br { bottom: 14px; right: 14px; --r: 10deg; }
+.dev-top { display: flex; justify-content: space-between; align-items: center; padding: 0 16px 16px; }
+.dev-top .model { font-weight: 800; font-size: .95rem; letter-spacing: -.01em; }
+.dev-top .model small { font-weight: 600; color: var(--ink-3); font-size: .7rem; letter-spacing: .14em; margin-left: 8px; }
+.pwr { display: flex; align-items: center; gap: 8px; }
+
+.lcd {
+  background: radial-gradient(ellipse at 30% 20%, #1c201c, var(--lcd) 70%);
+  border-radius: 18px; padding: 20px 22px; color: var(--amber);
+  box-shadow: inset 0 3px 10px rgba(0,0,0,.6), 0 0 0 6px #cfcec8, 0 1px 0 7px rgba(255,255,255,.7);
+  font-family: var(--dot); position: relative; overflow: hidden; min-height: 236px;
+  text-shadow: 0 0 8px rgba(255,178,26,.55);
+}
+.lcd::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(0,0,0,.18) 0 1px, transparent 1px 3px); }
+.lcd-row { display: flex; justify-content: space-between; gap: 12px; font-size: .9rem; font-weight: 700; letter-spacing: .06em; }
+.lcd-row .dim { opacity: .45; }
+.lcd-big { font-size: clamp(2.2rem, 4.6vw, 3.4rem); font-weight: 900; line-height: 1; margin: 18px 0 14px; letter-spacing: .02em; white-space: nowrap; overflow: hidden; }
+.lcd-big .arrow { display: inline-block; min-width: 3.2em; text-align: center; }
+.lcd-msg { font-size: 1rem; font-weight: 700; line-height: 1.35; min-height: 2.7em; letter-spacing: .03em; }
+.lcd-bar { display: grid; grid-template-columns: repeat(24, 1fr); gap: 3px; margin-top: 16px; }
+.lcd-bar i { height: 8px; background: rgba(255,178,26,.14); border-radius: 1px; }
+.lcd-bar i.on { background: var(--amber); box-shadow: 0 0 6px rgba(255,178,26,.6); }
+
+.controls { display: grid; grid-template-columns: auto auto 1fr; gap: 26px; align-items: center; padding: 26px 10px 6px; }
+.knob-wrap { display: grid; justify-items: center; gap: 10px; }
+.knob {
+  width: 86px; height: 86px; border-radius: 50%; border: 0; cursor: pointer; position: relative;
+  background: radial-gradient(circle at 40% 30%, #3a3a38, #1b1b1a 70%);
+  box-shadow: 0 8px 14px -4px rgba(0,0,0,.45), 0 0 0 7px var(--body-2), 0 0 0 8px rgba(0,0,0,.08), inset 0 1px 0 rgba(255,255,255,.15);
+  transition: transform .45s cubic-bezier(.3,1.6,.5,1);
+}
+.knob::before { content: ''; position: absolute; left: 50%; top: 8px; width: 4px; height: 20px; border-radius: 2px; background: var(--orange); transform: translateX(-50%); box-shadow: 0 0 8px rgba(255,79,0,.7); }
+.knob::after { content: ''; position: absolute; inset: 20px; border-radius: 50%; background: repeating-conic-gradient(from 0deg, rgba(255,255,255,.06) 0 6deg, transparent 6deg 12deg); }
+.knob:focus-visible { outline: 3px solid var(--orange); outline-offset: 10px; }
+.knob-val { font-family: var(--dot); font-weight: 700; font-size: .78rem; color: var(--ink); min-height: 1.2em; }
+.keys { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.key {
+  aspect-ratio: 1; border-radius: 16px; border: 0; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; padding: 10px;
+  font-weight: 700; font-size: .7rem; letter-spacing: .06em; text-transform: uppercase; text-align: left;
+  transition: transform .08s, box-shadow .08s;
+}
+.key .ks { display: none; }
+.key b { font-family: var(--dot); font-size: 1.1rem; font-weight: 900; letter-spacing: 0; }
+.key.k1 { background: var(--orange); color: #fff; box-shadow: 0 5px 0 #b83900, 0 12px 18px -10px rgba(0,0,0,.5); }
+.key.k2 { background: var(--panel-hi); color: var(--ink); box-shadow: 0 5px 0 #b9b8b2, 0 12px 18px -10px rgba(0,0,0,.4); }
+.key.k3 { background: #9a9993; color: #fff; box-shadow: 0 5px 0 #6f6e69, 0 12px 18px -10px rgba(0,0,0,.5); }
+.key.k4 { background: var(--ink); color: #fff; box-shadow: 0 5px 0 #000, 0 12px 18px -10px rgba(0,0,0,.6); }
+.key:active, .key.down { transform: translateY(5px); box-shadow: 0 0 0 transparent, 0 4px 8px -4px rgba(0,0,0,.4); }
+.dev-foot { display: flex; justify-content: space-between; align-items: center; padding: 18px 16px 0; }
+.speaker { display: grid; grid-template-columns: repeat(12, 5px); gap: 5px; }
+.speaker i { width: 5px; height: 5px; border-radius: 50%; background: #b5b4ae; box-shadow: inset 0 1px 1px rgba(0,0,0,.35); }
+
+/* ── SECTIONS ── */
+section { padding: 110px 0; }
+.sec-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 30px; margin-bottom: 54px; flex-wrap: wrap; }
+.sec-head .micro { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.sec-head .micro::before { content: ''; width: 8px; height: 8px; border-radius: 2px; background: var(--orange); }
+.h2 { font-size: clamp(2rem, 4.2vw, 3.4rem); line-height: 1; letter-spacing: -0.045em; font-weight: 700; }
+.h2 .o { color: var(--orange); }
+.sec-head p { max-width: 430px; color: var(--ink-2); font-size: 1.05rem; }
+
+/* modules */
+.modules { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.module {
+  background: linear-gradient(170deg, var(--panel-hi), var(--panel)); border-radius: 26px; padding: 26px; position: relative;
+  box-shadow: var(--raise); transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s;
+}
+.module:hover { transform: translateY(-8px); box-shadow: var(--raise), 0 40px 60px -30px rgba(0,0,0,.45); }
+.module .mtop { display: flex; justify-content: space-between; align-items: center; margin-bottom: 70px; }
+.module .code { font-family: var(--dot); font-weight: 900; font-size: 1.5rem; }
+.module .port { width: 46px; height: 14px; border-radius: 4px; background: #2a2a28; box-shadow: inset 0 2px 3px rgba(0,0,0,.6); position: relative; }
+.module .port::after { content: ''; position: absolute; left: 6px; right: 6px; top: 5px; height: 3px; background: repeating-linear-gradient(90deg, #c8a24a 0 3px, transparent 3px 6px); }
+.module .vis { height: 120px; border-radius: 16px; box-shadow: var(--sink); background: var(--body-2); margin-bottom: 26px; display: grid; place-items: center; overflow: hidden; }
+.module .vis svg { width: 80%; height: 80%; }
+.module h3 { font-size: 1.45rem; letter-spacing: -0.03em; margin-bottom: 8px; }
+.module p { color: var(--ink-2); }
+.module .slot { position: absolute; left: 50%; bottom: -1px; width: 70px; height: 6px; border-radius: 6px 6px 0 0; background: var(--body-2); transform: translateX(-50%); box-shadow: inset 0 1px 2px rgba(0,0,0,.2); }
+
+/* sequencer */
+.seq-wrap { background: var(--ink); border-radius: 34px; padding: 34px; color: #fff; box-shadow: 0 40px 80px -40px rgba(0,0,0,.6); }
+.seq-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 26px; gap: 16px; flex-wrap: wrap; }
+.seq-top .micro { color: rgba(255,255,255,.55); }
+.play { display: inline-flex; align-items: center; gap: 10px; background: #2b2b29; color: #fff; border: 0; border-radius: 12px; padding: 10px 16px; cursor: pointer; font-weight: 700; font-size: .85rem; box-shadow: 0 3px 0 #000; }
+.play:active { transform: translateY(3px); box-shadow: none; }
+.play i { width: 0; height: 0; border-left: 9px solid var(--orange); border-top: 6px solid transparent; border-bottom: 6px solid transparent; }
+.play.on i { width: 9px; height: 11px; border: 0; border-left: 3px solid var(--orange); border-right: 3px solid var(--orange); }
+.pads { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.pad { border: 0; cursor: pointer; border-radius: 20px; background: #2b2b29; color: #fff; padding: 18px; text-align: left; display: grid; gap: 30px; box-shadow: 0 5px 0 #000; transition: transform .08s, box-shadow .08s, background .3s; }
+.pad:active { transform: translateY(5px); box-shadow: none; }
+.pad .pled { display: flex; justify-content: space-between; align-items: center; }
+.pad .pled i { width: 10px; height: 10px; border-radius: 50%; background: #444; transition: .2s; }
+.pad.on { background: var(--orange); }
+.pad.on .pled i { background: #fff; box-shadow: 0 0 10px #fff; }
+.pad b { font-family: var(--dot); font-size: 2rem; font-weight: 900; line-height: 1; }
+.pad span { font-weight: 700; font-size: 1.05rem; }
+.seq-screen { margin-top: 22px; border-radius: 20px; background: radial-gradient(ellipse at 30% 20%, #1c201c, var(--lcd) 70%); box-shadow: inset 0 3px 10px rgba(0,0,0,.7); padding: 26px; display: grid; grid-template-columns: 1fr auto; gap: 30px; align-items: end; position: relative; overflow: hidden; }
+.seq-screen::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(0,0,0,.18) 0 1px, transparent 1px 3px); }
+.seq-screen h3 { font-size: 1.8rem; letter-spacing: -0.03em; margin-bottom: 8px; color: #fff; }
+.seq-screen p { color: rgba(255,255,255,.7); max-width: 620px; }
+.seq-screen .out { font-family: var(--dot); color: var(--amber); font-weight: 700; text-shadow: 0 0 8px rgba(255,178,26,.5); text-align: right; white-space: nowrap; }
+.seq-screen .out small { display: block; opacity: .5; font-size: .8rem; }
+.seq-progress { height: 3px; background: rgba(255,255,255,.08); border-radius: 3px; margin-top: 18px; overflow: hidden; }
+.seq-progress i { display: block; height: 100%; width: 0; background: var(--orange); }
+
+/* keycaps (values) */
+.caps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.cap { display: grid; gap: 20px; align-content: start; }
+.cap-key {
+  aspect-ratio: 1.15; border-radius: 26px; border: 0; cursor: pointer; position: relative; padding: 22px; text-align: left;
+  display: flex; flex-direction: column; justify-content: space-between;
+  background: linear-gradient(180deg, var(--panel-hi), var(--panel)); color: var(--ink);
+  box-shadow: 0 8px 0 #bab9b3, 0 22px 30px -16px rgba(0,0,0,.45), inset 0 1px 0 #fff;
+  transition: transform .1s, box-shadow .1s;
+}
+.cap-key::before { content: ''; position: absolute; inset: 12px; border-radius: 18px; background: linear-gradient(180deg, rgba(0,0,0,.035), rgba(255,255,255,.4)); pointer-events: none; }
+.cap-key:hover { transform: translateY(2px); box-shadow: 0 6px 0 #bab9b3, 0 18px 26px -16px rgba(0,0,0,.45), inset 0 1px 0 #fff; }
+.cap-key:active, .cap-key.down { transform: translateY(8px); box-shadow: 0 0 0 #bab9b3, 0 6px 10px -6px rgba(0,0,0,.4), inset 0 1px 0 #fff; }
+.cap:nth-child(1) .cap-key { background: linear-gradient(180deg, #ff6a26, var(--orange)); color: #fff; box-shadow: 0 8px 0 #b83900, 0 22px 30px -16px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.4); }
+.cap:nth-child(1) .cap-key:active, .cap:nth-child(1) .cap-key.down { box-shadow: 0 0 0 #b83900; }
+.cap:nth-child(4) .cap-key { background: linear-gradient(180deg, #2c2c2a, var(--ink)); color: #fff; box-shadow: 0 8px 0 #000, 0 22px 30px -16px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.12); }
+.cap:nth-child(4) .cap-key:active, .cap:nth-child(4) .cap-key.down { box-shadow: 0 0 0 #000; }
+.cap-key .legend { position: relative; font-family: var(--dot); font-weight: 900; font-size: 1.4rem; }
+.cap-key .name { position: relative; font-size: 1.4rem; font-weight: 700; letter-spacing: -0.03em; }
+.cap ul { list-style: none; display: grid; gap: 8px; padding: 0 6px; }
+.cap li { color: var(--ink-2); font-size: .95rem; display: flex; gap: 10px; }
+.cap li::before { content: ''; flex: none; width: 6px; height: 6px; margin-top: 9px; border-radius: 50%; background: var(--orange); }
+
+/* mission */
+.mission { padding: 140px 0; }
+.mission-in { background: var(--panel); border-radius: 40px; padding: 80px 64px; box-shadow: var(--raise); position: relative; overflow: hidden; }
+.mission-in .micro { margin-bottom: 30px; display: block; }
+.mission-in blockquote { font-size: clamp(1.8rem, 3.8vw, 3.2rem); line-height: 1.1; letter-spacing: -0.04em; font-weight: 600; max-width: 980px; position: relative; }
+.mission-in blockquote .o { color: var(--orange); }
+.mission-in .bigdot { position: absolute; right: -60px; bottom: -60px; width: 300px; height: 300px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #ff7a3d, var(--orange) 55%, #c63c00); box-shadow: 0 30px 60px -20px rgba(255,79,0,.6); }
+.mission-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 60px; position: relative; max-width: 900px; }
+.mission-list div { background: var(--panel-hi); border-radius: 20px; padding: 22px; box-shadow: var(--raise); }
+.mission-list b { font-family: var(--dot); color: var(--orange); font-size: 1.1rem; }
+.mission-list h4 { font-size: 1.1rem; letter-spacing: -0.02em; margin: 10px 0 6px; }
+.mission-list p { color: var(--ink-2); font-size: .93rem; }
+
+/* contact */
+.contact-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 40px; align-items: start; }
+.label-sticker { margin-top: 40px; background: #fff; border-radius: 16px; padding: 22px 24px; box-shadow: 0 1px 2px rgba(0,0,0,.08), 0 16px 30px -18px rgba(0,0,0,.4); position: relative; max-width: 460px; }
+.label-sticker::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 8px; background: var(--orange); border-radius: 16px 0 0 16px; }
+.ls-head { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid var(--ink); padding-bottom: 10px; margin-bottom: 12px; gap: 10px; flex-wrap: wrap; }
+.ls-head b { font-size: 1.05rem; font-weight: 800; letter-spacing: -.01em; }
+.ls-grid { display: grid; grid-template-columns: auto 1fr; gap: 6px 18px; font-size: .92rem; }
+.ls-grid dt { font-size: .66rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); padding-top: 3px; }
+.ls-grid dd { font-weight: 600; font-variant-numeric: tabular-nums; }
+.ls-grid .copy { cursor: pointer; }
+.ls-grid .copy:hover { color: var(--orange); }
+.barcode { margin-top: 16px; display: flex; align-items: flex-end; gap: 14px; }
+.barcode svg { height: 46px; width: 220px; }
+.barcode span { font-family: var(--dot); font-weight: 700; font-size: .8rem; }
+
+form.panel { background: linear-gradient(170deg, var(--panel-hi), var(--panel)); border-radius: 30px; padding: 32px; box-shadow: var(--raise), 0 40px 70px -40px rgba(0,0,0,.45); display: grid; gap: 18px; position: relative; }
+.f-label { font-size: .68rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-2); display: block; margin-bottom: 8px; }
+.inset { width: 100%; font-family: inherit; font-size: 1rem; color: var(--ink); background: var(--body-2); border: 0; border-radius: 14px; padding: 14px 16px; box-shadow: var(--sink); outline: none; transition: box-shadow .2s; }
+.inset:focus { box-shadow: var(--sink), 0 0 0 2px var(--orange); }
+textarea.inset { resize: vertical; min-height: 100px; }
+select.inset { appearance: none; -webkit-appearance: none; cursor: pointer; background-image: linear-gradient(45deg, transparent 50%, var(--ink) 50%), linear-gradient(135deg, var(--ink) 50%, transparent 50%); background-position: calc(100% - 22px) 55%, calc(100% - 17px) 55%; background-size: 5px 5px; background-repeat: no-repeat; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.rocker { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--body-2); border-radius: 14px; padding: 5px; gap: 5px; box-shadow: var(--sink); }
+.rocker input { display: none; }
+.rocker label { text-align: center; padding: 11px 6px; border-radius: 10px; font-weight: 700; font-size: .85rem; cursor: pointer; color: var(--ink-2); transition: .15s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.rocker label::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #aaa9a3; }
+.rocker input:checked + label { background: var(--panel-hi); color: var(--ink); box-shadow: 0 2px 0 #b9b8b2, 0 4px 8px -4px rgba(0,0,0,.3); }
+.rocker input:checked + label::before { background: var(--orange); box-shadow: 0 0 6px var(--orange); }
+form .key-btn { justify-content: center; width: 100%; padding: 18px; font-size: 1.05rem; margin-top: 4px; }
+.form-note { font-size: .85rem; color: var(--ink-3); text-align: center; }
+
+.toast { position: fixed; left: 50%; bottom: 26px; transform: translate(-50%, 140px); background: var(--lcd); color: var(--amber); font-family: var(--dot); font-weight: 700; padding: 14px 22px; border-radius: 14px; z-index: 200; transition: transform .4s cubic-bezier(.2,.8,.2,1); text-shadow: 0 0 8px rgba(255,178,26,.5); }
+.toast.show { transform: translate(-50%, 0); }
+
+footer { padding: 30px 0 40px; border-top: 1px solid var(--line); }
+.foot { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; font-size: .88rem; color: var(--ink-2); }
+.foot .links { display: flex; gap: 20px; }
+.foot a:hover { color: var(--orange); }
+
+.rv { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.8,.2,1); }
+.rv.in { opacity: 1; transform: none; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1040px) {
+  .hero .container { grid-template-columns: 1fr; }
+  .device { max-width: 640px; }
+  .modules { grid-template-columns: 1fr; }
+  .module .mtop { margin-bottom: 30px; }
+  .caps { grid-template-columns: 1fr 1fr; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .mission-list { grid-template-columns: 1fr; }
+}
+@media (max-width: 760px) {
+  .container { padding: 0 16px; }
+  .burger { display: block; }
+  .nav-links { position: absolute; top: 66px; left: 12px; right: 12px; flex-direction: column; align-items: stretch; background: var(--panel); border-radius: 18px; padding: 10px; box-shadow: var(--raise); display: none; }
+  .nav-links.open { display: flex; }
+  .nav-links a { padding: 13px 12px; }
+  .nav-links .cta { margin: 6px 0 0; text-align: center; }
+  .hero { padding: 40px 0 80px; }
+  section { padding: 80px 0; }
+  .device { padding: 18px; border-radius: 26px; }
+  .dev-top { padding: 0 10px 14px; }
+  .lcd { padding: 16px; min-height: 0; }
+  .lcd-row { font-size: .72rem; }
+  .controls { grid-template-columns: 1fr 1fr; gap: 22px 12px; padding: 22px 0 4px; }
+  .keys { grid-column: 1 / -1; }
+  .knob { width: 72px; height: 72px; }
+  .key { font-size: .52rem; letter-spacing: .02em; padding: 8px 7px; border-radius: 12px; min-width: 0; overflow-wrap: anywhere; }
+  .key .kl { display: none; } .key .ks { display: inline; }
+  .speaker { grid-template-columns: repeat(8, 5px); }
+  .speaker i:nth-child(n+17) { display: none; }
+  .seq-wrap { padding: 20px; border-radius: 26px; }
+  .pads { grid-template-columns: 1fr 1fr; }
+  .seq-screen { grid-template-columns: 1fr; padding: 20px; }
+  .seq-screen .out { text-align: left; }
+  .caps { grid-template-columns: 1fr; }
+  .cap-key { aspect-ratio: 2.4; }
+  .mission-in { padding: 44px 24px; border-radius: 28px; }
+  .mission-in .bigdot { width: 160px; height: 160px; right: -50px; bottom: -50px; }
+  form.panel { padding: 22px 18px; border-radius: 24px; }
+  .row2 { grid-template-columns: 1fr; }
+  .rocker label { font-size: .75rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .rv { opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="container nav-inner">
+    <a href="#" class="logo" aria-label="Corum Technologies"><span class="mark"></span>Corum <small>Technologies</small></a>
+    <ul class="nav-links" id="links">
+      <li><a href="#moduly">Moduły</a></li>
+      <li><a href="#sekwencja">Proces</a></li>
+      <li><a href="#wartosci">Wartości</a></li>
+      <li><a href="#misja">Misja</a></li>
+      <li><a href="#kontakt" class="cta">Kontakt</a></li>
+    </ul>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container">
+    <div>
+      <span class="hero-tag micro rv"><span class="led"></span>Transfer technologii · Europa ⇄ Azja</span>
+      <h1 class="rv">Zbuduj z nami swój rozwój gospodarczy<span class="o">.</span></h1>
+      <p class="lead rv">Przenosimy technologie i produkcję między Europą a Azją. Ustaw kierunek, wybierz etap — resztą zajmie się nasz zespół.</p>
+      <div class="hero-cta rv">
+        <a href="#kontakt" class="key-btn or">Uruchom projekt →</a>
+        <a href="#sekwencja" class="key-btn gr">Jak to działa</a>
+      </div>
+    </div>
+
+    <div class="device rv" id="device">
+      <span class="screw tl"></span><span class="screw tr"></span><span class="screw bl"></span><span class="screw br"></span>
+      <div class="dev-top">
+        <span class="model">CT-01<small>Transfer Unit</small></span>
+        <span class="pwr micro"><span class="led"></span>On</span>
+      </div>
+
+      <div class="lcd" aria-live="polite">
+        <div class="lcd-row"><span id="lcdMode">TRASA</span><span class="dim" id="lcdStage">ETAP 01/04</span></div>
+        <div class="lcd-big" id="lcdBig">PL <span class="arrow" id="lcdArrow">▸▸▸</span> CN</div>
+        <div class="lcd-msg" id="lcdMsg">ANALIZA TECHNOLOGII I RYNKU</div>
+        <div class="lcd-row" style="margin-top:10px"><span>PL <span id="tPl">--:--</span></span><span>CN <span id="tCn">--:--</span></span></div>
+        <div class="lcd-bar" id="lcdBar"></div>
+      </div>
+
+      <div class="controls">
+        <div class="knob-wrap">
+          <button class="knob" id="knobDir" aria-label="Kierunek transferu"></button>
+          <span class="micro">Kierunek</span>
+          <span class="knob-val" id="valDir">EU→AZJA</span>
+        </div>
+        <div class="knob-wrap">
+          <button class="knob" id="knobStage" aria-label="Etap projektu"></button>
+          <span class="micro">Etap</span>
+          <span class="knob-val" id="valStage">01 ANALIZA</span>
+        </div>
+        <div class="keys">
+          <button class="key k1" data-v="0"><b>A</b>Zaufanie</button>
+          <button class="key k2" data-v="1"><b>B</b><span class="kl">Efektywność</span><span class="ks">Efekt.</span></button>
+          <button class="key k3" data-v="2"><b>C</b>Wsparcie</button>
+          <button class="key k4" data-v="3"><b>D</b>Dyskrecja</button>
+        </div>
+      </div>
+
+      <div class="dev-foot">
+        <div class="speaker" id="speaker"></div>
+        <span class="micro" style="color:var(--ink-3)">Konstantynów Łódzki · PL</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+<!-- MODULES -->
+<section id="moduly">
+  <div class="container">
+    <div class="sec-head">
+      <div>
+        <div class="micro rv">Moduły</div>
+        <h2 class="h2 rv">Trzy moduły.<br>Jeden <span class="o">system.</span></h2>
+      </div>
+      <p class="rv">Łączymy je w zależności od potrzeb projektu — od pojedynczego transferu po pełne uruchomienie produkcji.</p>
+    </div>
+    <div class="modules">
+      <article class="module rv">
+        <div class="mtop"><span class="code">M-01</span><span class="port"></span></div>
+        <div class="vis"><svg viewBox="0 0 200 80" fill="none"><path d="M20 40h150" stroke="#1b1b1a" stroke-width="3" stroke-dasharray="2 8" stroke-linecap="round"/><path d="M150 26l20 14-20 14" stroke="#ff4f00" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24" cy="40" r="10" fill="#1b1b1a"/></svg></div>
+        <h3>Transfer technologii</h3>
+        <p>Kompleksowa obsługa procesów transferu technologii między rynkami Europy i Azji.</p>
+        <span class="slot"></span>
+      </article>
+      <article class="module rv">
+        <div class="mtop"><span class="code">M-02</span><span class="port"></span></div>
+        <div class="vis"><svg viewBox="0 0 200 80" fill="none"><rect x="20" y="30" width="160" height="34" rx="6" fill="#1b1b1a"/><g fill="#ff4f00"><rect x="34" y="16" width="22" height="22" rx="4"/><rect x="74" y="16" width="22" height="22" rx="4" opacity=".7"/><rect x="114" y="16" width="22" height="22" rx="4" opacity=".45"/><rect x="154" y="16" width="14" height="22" rx="4" opacity=".25"/></g><g fill="#8d8c86"><circle cx="40" cy="64" r="6"/><circle cx="80" cy="64" r="6"/><circle cx="120" cy="64" r="6"/><circle cx="160" cy="64" r="6"/></g></svg></div>
+        <h3>Produkcja technologiczna</h3>
+        <p>Wsparcie w optymalizacji i wdrażaniu procesów produkcyjnych u sprawdzonych partnerów.</p>
+        <span class="slot"></span>
+      </article>
+      <article class="module rv">
+        <div class="mtop"><span class="code">M-03</span><span class="port"></span></div>
+        <div class="vis"><svg viewBox="0 0 200 80" fill="none"><circle cx="100" cy="40" r="28" stroke="#1b1b1a" stroke-width="4"/><path d="M86 40l10 10 18-20" stroke="#ff4f00" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M30 40h30M140 40h30" stroke="#8d8c86" stroke-width="3" stroke-linecap="round"/></svg></div>
+        <h3>Gwarancja jakości</h3>
+        <p>Najwyższe standardy jakości i kontrola na każdym etapie współpracy.</p>
+        <span class="slot"></span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- SEQUENCER -->
+<section id="sekwencja" style="padding-top:20px">
+  <div class="container">
+    <div class="sec-head">
+      <div>
+        <div class="micro rv">Proces</div>
+        <h2 class="h2 rv">Sekwencja w <span class="o">4 krokach.</span></h2>
+      </div>
+      <p class="rv">Każdy projekt przechodzi tę samą sekwencję. Kliknij krok, aby zobaczyć szczegóły — albo puść całość.</p>
+    </div>
+    <div class="seq-wrap rv">
+      <div class="seq-top">
+        <span class="micro">SEQ · Projekt transferowy</span>
+        <button class="play on" id="play"><i></i><span>Pauza</span></button>
+      </div>
+      <div class="pads" id="pads">
+        <button class="pad on"><span class="pled"><b>01</b><i></i></span><span>Analiza</span></button>
+        <button class="pad"><span class="pled"><b>02</b><i></i></span><span>Dobór</span></button>
+        <button class="pad"><span class="pled"><b>03</b><i></i></span><span>Transfer</span></button>
+        <button class="pad"><span class="pled"><b>04</b><i></i></span><span>Produkcja</span></button>
+      </div>
+      <div class="seq-screen">
+        <div>
+          <h3 id="seqTitle">Analiza</h3>
+          <p id="seqText"></p>
+        </div>
+        <div class="out"><small>WYJŚCIE</small><span id="seqOut"></span></div>
+      </div>
+      <div class="seq-progress"><i id="seqProg"></i></div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section id="wartosci">
+  <div class="container">
+    <div class="sec-head">
+      <div>
+        <div class="micro rv">Wartości</div>
+        <h2 class="h2 rv">Cztery klawisze,<br>na których <span class="o">gramy.</span></h2>
+      </div>
+      <p class="rv">Zasady, które obowiązują w każdym projekcie — niezależnie od skali i kierunku.</p>
+    </div>
+    <div class="caps">
+      <div class="cap rv">
+        <button class="cap-key"><span class="legend">A</span><span class="name">Zaufanie</span></button>
+        <ul><li>Specjalizacja w transferach technologii i produkcji technologicznej</li><li>Zaufany partner zespołów z Europy i Azji</li></ul>
+      </div>
+      <div class="cap rv">
+        <button class="cap-key"><span class="legend">B</span><span class="name">Efektywność</span></button>
+        <ul><li>Rozwiązania technologiczne maksymalizujące zyski</li><li>Łączenie biznesów z partnerami międzynarodowymi</li></ul>
+      </div>
+      <div class="cap rv">
+        <button class="cap-key"><span class="legend">C</span><span class="name">Wsparcie</span></button>
+        <ul><li>Usprawnianie kluczowych przepływów produktów i usług</li><li>Ograniczanie barier technologicznych</li><li>Gwarancja wysokiej jakości</li></ul>
+      </div>
+      <div class="cap rv">
+        <button class="cap-key"><span class="legend">D</span><span class="name">Dyskrecja</span></button>
+        <ul><li>Transparentne zasady relacji biznesowych</li><li>Know-how klienta pozostaje jego własnością</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MISSION -->
+<section class="mission" id="misja" style="padding-top:20px">
+  <div class="container">
+    <div class="mission-in rv">
+      <span class="bigdot"></span>
+      <span class="micro">Misja</span>
+      <blockquote>Technologia nie powinna zatrzymywać się na granicach. Budujemy mosty między Europą a Azją, żeby dobre rozwiązania trafiały tam, <span class="o">gdzie mogą rosnąć najszybciej.</span></blockquote>
+      <div class="mission-list">
+        <div><b>01</b><h4>Transfery technologii</h4><p>Obsługa transferów między rynkami.</p></div>
+        <div><b>02</b><h4>Produkcja</h4><p>Optymalizacja i wdrażanie procesów.</p></div>
+        <div><b>03</b><h4>Jakość</h4><p>Standardy na każdym etapie.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="kontakt" style="padding-top:0">
+  <div class="container contact-grid">
+    <div>
+      <div class="sec-head" style="margin-bottom:0">
+        <div>
+          <div class="micro rv">Kontakt</div>
+          <h2 class="h2 rv">Włącz <span class="o">transfer.</span></h2>
+        </div>
+      </div>
+      <p class="rv" style="color:var(--ink-2);font-size:1.08rem;max-width:440px;margin-top:20px">Opisz krótko projekt i kierunek. Odezwiemy się, żeby omówić szczegóły potencjalnej współpracy.</p>
+      <div class="label-sticker rv">
+        <div class="ls-head"><b>Corum Technologies Sp. z o.o.</b><span class="micro">Dane rejestrowe</span></div>
+        <dl class="ls-grid">
+          <dt>Adres</dt><dd>ul. Lipowa 19, 95-050 Konstantynów Łódzki</dd>
+          <dt>KRS</dt><dd class="copy" data-copy="0000946211" title="Kopiuj">0000946211</dd>
+          <dt>NIP</dt><dd class="copy" data-copy="7312074957" title="Kopiuj">7312074957</dd>
+          <dt>REGON</dt><dd class="copy" data-copy="520990394" title="Kopiuj">520990394</dd>
+        </dl>
+        <div class="barcode"><svg id="barcode" viewBox="0 0 220 46" preserveAspectRatio="none" aria-hidden="true"></svg><span>CT-01</span></div>
+      </div>
+    </div>
+
+    <form class="panel rv" id="form" novalidate>
+      <div>
+        <span class="f-label">Kierunek</span>
+        <div class="rocker">
+          <input type="radio" name="dir" id="r1" checked><label for="r1">EU → Azja</label>
+          <input type="radio" name="dir" id="r2"><label for="r2">Azja → EU</label>
+          <input type="radio" name="dir" id="r3"><label for="r3">Oba</label>
+        </div>
+      </div>
+      <div class="row2">
+        <div><label class="f-label" for="f-name">Imię i nazwisko</label><input class="inset" id="f-name" placeholder="Jan Kowalski"></div>
+        <div><label class="f-label" for="f-company">Firma</label><input class="inset" id="f-company" placeholder="Nazwa firmy"></div>
+      </div>
+      <div class="row2">
+        <div><label class="f-label" for="f-email">E-mail</label><input class="inset" id="f-email" type="email" placeholder="jan@firma.pl"></div>
+        <div><label class="f-label" for="f-mod">Moduł</label><select class="inset" id="f-mod"><option>M-01 Transfer technologii</option><option>M-02 Produkcja</option><option>M-03 Jakość</option><option>Kilka modułów</option></select></div>
+      </div>
+      <div><label class="f-label" for="f-msg">Wiadomość</label><textarea class="inset" id="f-msg" placeholder="Krótko o wyrobie i celu projektu…"></textarea></div>
+      <button class="key-btn or" type="submit">Wyślij zapytanie →</button>
+      <p class="form-note">Wszystkie informacje traktujemy jako poufne.</p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="container foot">
+    <span>© 2026 Corum Technologies Sp. z o.o.</span>
+    <div class="links"><a href="#moduly">Moduły</a><a href="#sekwencja">Proces</a><a href="#wartosci">Wartości</a><a href="#misja">Misja</a><a href="#kontakt">Kontakt</a></div>
+    <span>Europa ⇄ Azja</span>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $ = id => document.getElementById(id);
+
+// nav
+$('burger').addEventListener('click', () => { $('burger').classList.toggle('open'); $('links').classList.toggle('open'); });
+$('links').querySelectorAll('a').forEach(a => a.addEventListener('click', () => { $('burger').classList.remove('open'); $('links').classList.remove('open'); }));
+
+// reveal
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.1 });
+document.querySelectorAll('.rv').forEach((el, i) => { el.style.transitionDelay = (i % 3) * 80 + 'ms'; io.observe(el); });
+
+// toast, copy, form
+function toast(t) { $('toast').textContent = t; $('toast').classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(() => $('toast').classList.remove('show'), 2600); }
+document.querySelectorAll('.copy').forEach(el => el.addEventListener('click', () => { navigator.clipboard?.writeText(el.dataset.copy).catch(() => {}); toast('SKOPIOWANO ' + el.dataset.copy); }));
+$('form').addEventListener('submit', e => {
+  e.preventDefault();
+  if (!$('f-name').value.trim() || !$('f-email').value.includes('@')) { toast('UZUPEŁNIJ IMIĘ I E-MAIL'); return; }
+  e.target.reset(); toast('WYSŁANO · DZIĘKUJEMY');
+});
+
+// speaker grille
+$('speaker').innerHTML = '<i></i>'.repeat(36);
+
+// barcode (decorative, derived from the KRS number)
+(function () {
+  const svg = $('barcode'); let x = 0, out = '';
+  const digits = '0000946211731207495752099039';
+  for (const d of digits) {
+    const n = +d;
+    const w1 = 1 + (n % 3), gap = 1 + ((n + 1) % 2), w2 = 1 + ((n * 7) % 3);
+    out += `<rect x="${x}" y="0" width="${w1}" height="46" fill="#1b1b1a"/>`; x += w1 + gap;
+    out += `<rect x="${x}" y="0" width="${w2}" height="46" fill="#1b1b1a"/>`; x += w2 + 2;
+  }
+  svg.setAttribute('viewBox', `0 0 ${x} 46`); svg.innerHTML = out;
+})();
+
+// ── DEVICE ──
+const STAGES = [
+  ['ANALIZA', 'ANALIZA TECHNOLOGII I RYNKU'],
+  ['DOBÓR', 'DOBÓR PARTNERÓW W EUROPIE I AZJI'],
+  ['TRANSFER', 'TRANSFER KNOW-HOW · SERIA PILOTAŻOWA'],
+  ['PRODUKCJA', 'PRODUKCJA SERYJNA · SKALOWANIE']
+];
+const DIRS = [['EU→AZJA', 'PL', 'CN', '▸▸▸'], ['AZJA→EU', 'CN', 'PL', '▸▸▸'], ['OBA', 'PL', 'CN', '◂▸◂▸']];
+const VALUES = [
+  ['ZAUFANIE', 'ZAUFANY PARTNER ZESPOŁÓW Z EUROPY I AZJI'],
+  ['EFEKTYWNOŚĆ', 'ROZWIĄZANIA MAKSYMALIZUJĄCE ZYSKI'],
+  ['WSPARCIE', 'MNIEJ BARIER · LEPSZE PRZEPŁYWY · JAKOŚĆ'],
+  ['DYSKRECJA', 'TRANSPARENTNE ZASADY · PEŁNA POUFNOŚĆ']
+];
+let dir = 0, stage = 0, valueTimer = null;
+const bar = $('lcdBar'); bar.innerHTML = '<i></i>'.repeat(24);
+const cells = [...bar.children];
+
+function renderRoute() {
+  const d = DIRS[dir];
+  $('lcdMode').textContent = 'TRASA';
+  $('lcdStage').textContent = `ETAP 0${stage + 1}/04`;
+  $('lcdBig').innerHTML = `${d[1]} <span class="arrow" id="lcdArrow">${d[3]}</span> ${d[2]}`;
+  $('lcdMsg').textContent = STAGES[stage][1];
+  $('valDir').textContent = d[0];
+  $('valStage').textContent = `0${stage + 1} ${STAGES[stage][0]}`;
+  const filled = Math.round((stage + 1) / 4 * 24);
+  cells.forEach((c, i) => c.classList.toggle('on', i < filled));
+}
+function turn(knob, pos, steps) {
+  const angle = -120 + pos * (240 / (steps - 1));
+  knob.style.transform = `rotate(${angle}deg)`;
+}
+$('knobDir').addEventListener('click', () => { dir = (dir + 1) % 3; turn($('knobDir'), dir, 3); clearTimeout(valueTimer); renderRoute(); });
+$('knobStage').addEventListener('click', () => { stage = (stage + 1) % 4; turn($('knobStage'), stage, 4); clearTimeout(valueTimer); renderRoute(); });
+[['knobDir', () => dir, v => dir = v, 3], ['knobStage', () => stage, v => stage = v, 4]].forEach(([id, get, set, n]) => {
+  $(id).addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowUp') { e.preventDefault(); set((get() + 1) % n); }
+    else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') { e.preventDefault(); set((get() + n - 1) % n); }
+    else return;
+    turn($(id), get(), n); renderRoute();
+  });
+});
+document.querySelectorAll('.key').forEach(k => k.addEventListener('click', () => {
+  const v = VALUES[+k.dataset.v];
+  $('lcdMode').textContent = 'WARTOŚĆ ' + 'ABCD'[+k.dataset.v];
+  $('lcdBig').textContent = v[0];
+  $('lcdMsg').textContent = v[1];
+  clearTimeout(valueTimer);
+  valueTimer = setTimeout(renderRoute, 4000);
+}));
+turn($('knobDir'), 0, 3); turn($('knobStage'), 0, 4); renderRoute();
+
+// arrow animation + clocks
+let tick = 0;
+setInterval(() => {
+  const a = document.getElementById('lcdArrow');
+  if (a && !reduce && DIRS[dir][3] === '▸▸▸') { const n = tick % 4; a.textContent = '▹▹▹'.split('').map((c, i) => i < n ? '▸' : c).join(''); }
+  tick++;
+}, 350);
+function clocks() {
+  const f = tz => new Intl.DateTimeFormat('pl-PL', { timeZone: tz, hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date());
+  $('tPl').textContent = f('Europe/Warsaw'); $('tCn').textContent = f('Asia/Shanghai');
+}
+clocks(); setInterval(clocks, 10000);
+
+// ── SEQUENCER ──
+const SEQ = [
+  ['Analiza', 'Poznajemy wyrób, rynek docelowy i cele biznesowe. Wskazujemy bariery technologiczne, zanim zamienią się w koszty.', 'MAPA WYMAGAŃ'],
+  ['Dobór partnerów', 'Wskazujemy sprawdzone zakłady, dostawców i kooperantów w Europie i Azji — dopasowanych do technologii i skali.', 'PARTNER PRODUKCYJNY'],
+  ['Transfer', 'Przenosimy dokumentację i know-how, uruchamiamy serię pilotażową i sprawdzamy jakość.', 'SERIA PRÓBNA'],
+  ['Produkcja', 'Skalujemy produkcję i usprawniamy przepływ produktów oraz usług między rynkami.', 'WYRÓB SERYJNY']
+];
+(function () {
+  const pads = [...$('pads').children];
+  let cur = 0, playing = !reduce, start = performance.now(), visible = false;
+  const DUR = 3800;
+  function show(i) {
+    cur = i; start = performance.now();
+    pads.forEach((p, k) => p.classList.toggle('on', k === i));
+    $('seqTitle').textContent = SEQ[i][0]; $('seqText').textContent = SEQ[i][1]; $('seqOut').textContent = SEQ[i][2];
+  }
+  function setPlay(on) { playing = on; $('play').classList.toggle('on', on); $('play').querySelector('span').textContent = on ? 'Pauza' : 'Odtwórz'; start = performance.now(); }
+  pads.forEach((p, i) => p.addEventListener('click', () => { show(i); setPlay(false); $('seqProg').style.width = '100%'; }));
+  $('play').addEventListener('click', () => setPlay(!playing));
+  new IntersectionObserver(es => { visible = es[0].isIntersecting; }).observe($('pads'));
+  function loop(now) {
+    if (playing && visible) {
+      const p = (now - start) / DUR;
+      $('seqProg').style.width = Math.min(100, p * 100) + '%';
+      if (p >= 1) show((cur + 1) % 4);
+    } else if (playing) start = now - (parseFloat($('seqProg').style.width) || 0) / 100 * DUR;
+    requestAnimationFrame(loop);
+  }
+  show(0); setPlay(playing); requestAnimationFrame(loop);
+})();
+
+// keycaps: tactile press on click
+document.querySelectorAll('.cap-key').forEach(k => k.addEventListener('click', () => { k.classList.add('down'); setTimeout(() => k.classList.remove('down'), 160); }));
+</script>
+</body>
+</html>
