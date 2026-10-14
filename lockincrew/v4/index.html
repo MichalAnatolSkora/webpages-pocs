@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>lockincrew · ~/dive</title>
+<meta name="description" content="lockincrew — deep work as a service. leave the noise at the surface." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body data-zone="sunlight">
+
+<canvas id="sea" aria-hidden="true"></canvas>
+
+<!-- ===== Terminal bar ===== -->
+<header class="term-bar">
+  <div class="term-dots" aria-hidden="true"><span class="td td-r"></span><span class="td td-y"></span><span class="td td-g"></span></div>
+  <a class="term-title" href="#surface"><span class="brand-mark">✻</span> lockincrew <span class="dim">— ~/dive —</span> <b id="tDepth">0</b><span class="dim"> m</span></a>
+  <nav class="tabs" aria-label="sections">
+    <a href="#manifesto" class="tab">/manifesto</a>
+    <a href="#services" class="tab">/services</a>
+    <a href="#crew" class="tab">/crew</a>
+    <a href="#receipts" class="tab">/receipts</a>
+    <a href="#hire" class="tab tab-cta">/hire <span class="tab-arrow">→</span></a>
+  </nav>
+  <button class="meta-pill lock-pill" id="lockBtn" type="button"><span class="kbd">L</span> lock_in</button>
+</header>
+
+<!-- ===== Depth gauge ===== -->
+<aside class="gauge" aria-label="depth gauge">
+  <div class="g-head">
+    <span class="g-lbl">depth</span>
+    <span class="g-depth"><b id="gDepth">0</b> m</span>
+    <span class="g-zone" id="gZone">sunlight zone</span>
+  </div>
+  <div class="g-track" id="gTrack">
+    <div class="g-fill" id="gFill"></div>
+    <button class="g-tick" data-go="surface" type="button"><span>0</span></button>
+    <button class="g-tick" data-go="manifesto" type="button"><span>200</span></button>
+    <button class="g-tick" data-go="services" type="button"><span>1k</span></button>
+    <button class="g-tick" data-go="crew" type="button"><span>4k</span></button>
+    <button class="g-tick" data-go="receipts" type="button"><span>6k</span></button>
+    <button class="g-tick" data-go="hire" type="button"><span>10k</span></button>
+    <div class="g-pet" id="gPet" aria-hidden="true">
+      <svg viewBox="0 0 16 16" shape-rendering="crispEdges">
+        <rect x="5" y="0" width="6" height="1" fill="#d97757"/>
+        <rect x="5" y="1" width="1" height="4" fill="#d97757"/>
+        <rect x="10" y="1" width="1" height="4" fill="#d97757"/>
+        <rect x="3" y="5" width="10" height="1" fill="#d97757"/>
+        <rect x="2" y="6" width="12" height="9" fill="#d97757"/>
+        <rect x="3" y="15" width="10" height="1" fill="#d97757"/>
+        <rect x="3" y="6" width="9" height="1" fill="#e8a47e"/>
+        <rect x="2" y="7" width="1" height="6" fill="#e8a47e"/>
+        <rect x="13" y="7" width="1" height="7" fill="#b85a3e"/>
+        <rect x="3" y="14" width="10" height="1" fill="#b85a3e"/>
+        <rect x="7" y="9" width="2" height="1" fill="#1a1a1a"/>
+        <rect x="6" y="10" width="4" height="1" fill="#1a1a1a"/>
+        <rect x="7" y="11" width="2" height="2" fill="#1a1a1a"/>
+      </svg>
+    </div>
+  </div>
+  <dl class="g-stats">
+    <div><dt>pressure</dt><dd id="gPressure">1 atm</dd></div>
+    <div><dt>light</dt><dd id="gLight">100%</dd></div>
+    <div><dt>temp</dt><dd id="gTemp">18.0 °C</dd></div>
+    <div><dt>noise</dt><dd id="gNoise">47 pings</dd></div>
+  </dl>
+</aside>
+
+<main>
+
+<!-- ===== 0 m · surface ===== -->
+<section class="zone surface" id="surface" data-depth="0">
+  <div class="sky" aria-hidden="true">
+    <svg class="sun" viewBox="0 0 12 12" shape-rendering="crispEdges">
+      <rect x="4" y="0" width="4" height="1" fill="#f3d9a4"/><rect x="2" y="1" width="8" height="1" fill="#f3d9a4"/>
+      <rect x="1" y="2" width="10" height="2" fill="#f3d9a4"/><rect x="0" y="4" width="12" height="4" fill="#f3d9a4"/>
+      <rect x="1" y="8" width="10" height="2" fill="#f3d9a4"/><rect x="2" y="10" width="8" height="1" fill="#f3d9a4"/>
+      <rect x="4" y="11" width="4" height="1" fill="#f3d9a4"/>
+      <rect x="3" y="3" width="2" height="1" fill="#fff4dc"/><rect x="2" y="4" width="1" height="2" fill="#fff4dc"/>
+    </svg>
+    <div class="gull g1">v v</div>
+    <div class="gull g2">v</div>
+  </div>
+  <div class="waves" aria-hidden="true">
+    <div class="wave w3"></div>
+    <div class="wave w2"></div>
+    <div class="wave w1"></div>
+  </div>
+
+  <div class="noise" id="noise" aria-hidden="true"></div>
+
+  <div class="hero">
+    <div class="hero-logo">
+      <div class="welcome-cmd"><span class="brand-mark">✻</span> <span class="dim">$</span> <span class="cmd">./lockincrew</span> <span class="dim">--dive --depth=max</span></div>
+      <h1 class="ascii-logo" aria-label="lock-in crew"><pre>██╗      ██████╗  ██████╗██╗  ██╗        ██╗███╗   ██╗     ██████╗██████╗ ███████╗██╗    ██╗
+██║     ██╔═══██╗██╔════╝██║ ██╔╝        ██║████╗  ██║    ██╔════╝██╔══██╗██╔════╝██║    ██║
+██║     ██║   ██║██║     █████╔╝ █████╗  ██║██╔██╗ ██║    ██║     ██████╔╝█████╗  ██║ █╗ ██║
+██║     ██║   ██║██║     ██╔═██╗ ╚════╝  ██║██║╚██╗██║    ██║     ██╔══██╗██╔══╝  ██║███╗██║
+███████╗╚██████╔╝╚██████╗██║  ██╗        ██║██║ ╚████║    ╚██████╗██║  ██║███████╗╚███╔███╔╝
+╚══════╝ ╚═════╝  ╚═════╝╚═╝  ╚═╝        ╚═╝╚═╝  ╚═══╝     ╚═════╝╚═╝  ╚═╝╚══════╝ ╚══╝╚══╝ </pre></h1>
+    </div>
+
+    <div class="hero-copy">
+      <p class="hero-title">leave the noise<br>at the <span class="bob-word" id="bobWord">surface.</span></p>
+      <p class="hero-sub">deep work as a service. a small unit of operators who dive while everyone else schedules the meeting. no slack, no standups, no theatre — just the keyboard, the problem & the receipts.</p>
+      <div class="hero-cta">
+        <a href="#manifesto" class="btn primary"><span class="btn-prompt">$</span> ./begin_descent <span class="arr">↓</span></a>
+        <a href="#hire" class="btn"><span class="btn-prompt">$</span> ./send_brief</a>
+      </div>
+
+      <div class="prompt-area">
+        <div class="prompt-row">
+          <span class="prompt-prefix"><span class="dim">claude@lockincrew</span><span class="prompt-sep">:</span><span class="path">~</span><span class="prompt-arrow">$</span></span>
+          <input type="text" id="promptInput" class="prompt-input" autocomplete="off" spellcheck="false" placeholder="/dive /lockin /pricing /stack /help" aria-label="command prompt" />
+          <span class="prompt-caret" aria-hidden="true">▍</span>
+          <span class="prompt-hint dim">↵ run</span>
+        </div>
+        <div class="reply-stream" id="replyStream"></div>
+      </div>
+      <p class="hero-hint"><span class="resp-mark">✻</span> psst — those boxes floating up are notifications. pop them.</p>
+    </div>
+
+    <div class="hero-sub-wrap" aria-hidden="true">
+      <div class="sprite sub-sprite" data-sprite="sub"></div>
+      <div class="sub-bubbles"><i></i><i></i><i></i><i></i><i></i></div>
+    </div>
+  </div>
+
+  <a href="#manifesto" class="dive-cue"><span>scroll to dive</span><span class="dive-arrow">▼</span></a>
+</section>
+
+<!-- ===== 200 m · twilight ===== -->
+<section class="zone twilight" id="manifesto" data-depth="200">
+  <div class="meetings" aria-hidden="true">
+    <div class="mjelly" style="--x:6%;--d:0s"><span>weekly sync</span><div class="sprite" data-sprite="minijelly"></div></div>
+    <div class="mjelly" style="--x:70%;--d:-7s"><span>quick call?</span><div class="sprite" data-sprite="minijelly"></div></div>
+    <div class="mjelly" style="--x:40%;--d:-13s"><span>retro about the retro</span><div class="sprite" data-sprite="minijelly"></div></div>
+    <div class="mjelly" style="--x:56%;--d:-19s"><span>alignment</span><div class="sprite" data-sprite="minijelly"></div></div>
+  </div>
+
+  <div class="wrap">
+    <div class="zone-head rv">
+      <p class="cmdline"><span class="brand-mark">✻</span> <span class="dim">$</span> <span class="cmd">cd</span> <span class="path">./200m</span> <span class="dim"># twilight zone · meetings float up. we let them.</span></p>
+      <h2>six rules from the twilight.</h2>
+      <p class="lede">this is where the light starts to go. so do the calendar invites.</p>
+    </div>
+
+    <div class="rules">
+      <article class="rule rv" style="--i:0"><span class="rule-num">001</span><h3>locked in > logged on</h3><p>presence is not output. we measure ourselves in shipped artifacts, not hours of green dot.</p></article>
+      <article class="rule rv" style="--i:1"><span class="rule-num">010</span><h3>fewer rituals.</h3><p>no daily standup. no retro about the retro. one written brief, one done thing, one demo.</p></article>
+      <article class="rule rv" style="--i:2"><span class="rule-num">011</span><h3>the keyboard is the artifact.</h3><p>strategy decks rot. running code compounds. we bias hard toward the latter.</p></article>
+      <article class="rule rv" style="--i:3"><span class="rule-num">100</span><h3>small units, sharp scope.</h3><p>two-to-four operators per cell. fixed window. brutal definition of done.</p></article>
+      <article class="rule rv" style="--i:4"><span class="rule-num">101</span><h3>taste is non-negotiable.</h3><p>fast is good. fast & tasteful is the whole job. if it ships ugly, it didn't ship.</p></article>
+      <article class="rule rv" style="--i:5"><span class="rule-num">110</span><h3>own the outcome.</h3><p>we don't hand off tickets. we walk the thing into prod & stay until it breathes on its own.</p></article>
+    </div>
+    <p class="note rv"><span class="resp-mark">✻</span> the school of fish scatters if your cursor gets close.</p>
+  </div>
+</section>
+
+<!-- ===== 1000 m · midnight ===== -->
+<section class="zone midnight" id="services" data-depth="1000">
+  <div class="whale" aria-hidden="true">
+    <div class="sprite" data-sprite="whale"></div>
+    <span class="whale-label"># an all-hands meeting drifts by. nobody looks up.</span>
+  </div>
+
+  <div class="wrap">
+    <div class="zone-head rv">
+      <p class="cmdline"><span class="brand-mark">✻</span> <span class="dim">$</span> <span class="cmd">cd</span> <span class="path">./1000m</span> <span class="dim"># midnight zone · sunlight ends here. so does scope creep.</span></p>
+      <h2>four dive plans.</h2>
+      <p class="lede">every engagement is a dive profile: how fast we drop, how long we stay on the bottom, how we come back up.</p>
+    </div>
+
+    <div class="svcs">
+      <article class="svc rv" style="--i:0">
+        <div class="svc-tag"><span class="dim">/01</span> · strike team</div>
+        <h3>zero-to-one product cells</h3>
+        <svg class="profile" viewBox="0 0 60 18" shape-rendering="crispEdges" aria-hidden="true">
+          <path class="pf-surface" d="M0 1.5H60"/>
+          <path class="pf-path" pathLength="1" d="M1 2H3V5H4V8H5V11H6V14H52V11H53V8H54V5H55V2H59"/>
+        </svg>
+        <div class="pf-axis"><span>wk 0</span><span>wk 6</span></div>
+        <p>you have a pitch, a deadline & a half-built figma. we turn up as a 3-person cell & ship a real v1 in 6 weeks. design, frontend, backend, infra — one room.</p>
+        <div class="svc-meta"><span class="chip">6 wk window</span><span class="chip">fixed price</span><span class="chip">code is yours</span></div>
+      </article>
+      <article class="svc rv" style="--i:1">
+        <div class="svc-tag"><span class="dim">/02</span> · rescue op</div>
+        <h3>codebase rescues & rewrites</h3>
+        <svg class="profile" viewBox="0 0 60 18" shape-rendering="crispEdges" aria-hidden="true">
+          <path class="pf-surface" d="M0 1.5H60"/>
+          <path class="pf-path" pathLength="1" d="M1 2H2V16H6V13H10V16H14V11H18V15H22V12H26V16H30V13H34V2H40"/>
+        </svg>
+        <div class="pf-axis"><span>wk 0</span><span>wk 2–8</span></div>
+        <p>your repo is on fire, the original team is gone, the next release is friday. we triage, we patch, we delete. we leave it boring & documented.</p>
+        <div class="svc-meta"><span class="chip">2–8 wk</span><span class="chip">t&m</span><span class="chip">handover doc</span></div>
+      </article>
+      <article class="svc rv" style="--i:2">
+        <div class="svc-tag"><span class="dim">/03</span> · ai integration</div>
+        <h3>llm features that actually ship</h3>
+        <svg class="profile" viewBox="0 0 60 18" shape-rendering="crispEdges" aria-hidden="true">
+          <path class="pf-surface" d="M0 1.5H60"/>
+          <path class="pf-path" pathLength="1" d="M1 2H3V6H4V10H5V13H34V10H36V8H59"/>
+        </svg>
+        <div class="pf-axis"><span>wk 0</span><span>wk 4</span><span>retainer</span></div>
+        <p>not another chatbot. real workflows: agents in your ops, eval harnesses, prompt & cache discipline, observability. claude as a tool, not a buzzword.</p>
+        <div class="svc-meta"><span class="chip">4 wk pilot</span><span class="chip">opt-in retainer</span><span class="chip">evals included</span></div>
+      </article>
+      <article class="svc rv" style="--i:3">
+        <div class="svc-tag"><span class="dim">/04</span> · embedded operator</div>
+        <h3>one of us, on your team, full lock-in</h3>
+        <svg class="profile" viewBox="0 0 60 18" shape-rendering="crispEdges" aria-hidden="true">
+          <path class="pf-surface" d="M0 1.5H60"/>
+          <path class="pf-path" pathLength="1" d="M1 2H2V6H3V10H4V15H57"/>
+          <path class="pf-arrow" d="M55 13h1v1h1v1h-1v1h-1z"/>
+        </svg>
+        <div class="pf-axis"><span>day 1</span><span>q+1, q+2…</span></div>
+        <p>a single senior operator embeds for one quarter. they don't attend standups; they ship. you keep the work, the context & the muscle memory.</p>
+        <div class="svc-meta"><span class="chip">1 quarter</span><span class="chip">monthly</span><span class="chip">renewable</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 4000 m · abyss ===== -->
+<section class="zone abyss" id="crew" data-depth="4000">
+  <div class="wrap">
+    <div class="zone-head rv">
+      <p class="cmdline"><span class="brand-mark">✻</span> <span class="dim">$</span> <span class="cmd">cd</span> <span class="path">./4000m</span> <span class="dim"># the abyss · only the crew lives down here.</span></p>
+      <h2>the crew.</h2>
+      <p class="lede">5 active operators · 1 slot open. strange, specialised, a little bioluminescent. they're watching your cursor — say hi.</p>
+    </div>
+
+    <div class="crew">
+      <article class="op rv" style="--i:0;--glow:#d97757" data-say="deleted 40k lines today. feeling light.">
+        <div class="op-stage"><div class="sprite" data-sprite="octo"></div><span class="say"></span></div>
+        <div class="op-row">
+          <div><div class="op-name">kira <span class="dim">/ @k1ra</span></div><div class="op-role">octopus · founding operator · systems</div></div>
+          <div class="op-status ok">● online</div>
+        </div>
+        <p>distributed systems, rust, postgres internals. eight arms, zero meetings. once deleted 40k lines & the product got faster.</p>
+        <div class="op-tags"><span class="t">rust</span><span class="t">pg</span><span class="t">k8s</span></div>
+      </article>
+
+      <article class="op rv" style="--i:1;--glow:#e0c068" data-say="is that 60fps or are you just happy to see me?">
+        <div class="op-stage"><div class="sprite" data-sprite="angler"></div><span class="say"></span></div>
+        <div class="op-row">
+          <div><div class="op-name">mateo <span class="dim">/ @m4t</span></div><div class="op-role">anglerfish · product & frontend</div></div>
+          <div class="op-status ok">● online</div>
+        </div>
+        <p>react, motion, taste. brings his own light. believes 60fps is a moral position.</p>
+        <div class="op-tags"><span class="t">react</span><span class="t">ts</span><span class="t">motion</span></div>
+      </article>
+
+      <article class="op rv" style="--i:2;--glow:#7fb069" data-say="evals or it didn't happen.">
+        <div class="op-stage"><div class="sprite" data-sprite="squid"></div><span class="say"></span></div>
+        <div class="op-row">
+          <div><div class="op-name">ada <span class="dim">/ @ada_lvc</span></div><div class="op-role">glass squid · ai & agents</div></div>
+          <div class="op-status busy">● shipping</div>
+        </div>
+        <p>writes prompts like she writes code. her photophores blink once per passing eval.</p>
+        <div class="op-tags"><span class="t">claude</span><span class="t">evals</span><span class="t">py</span></div>
+      </article>
+
+      <article class="op rv" style="--i:3;--glow:#a89f8c" data-say="your iam policy is showing.">
+        <div class="op-stage"><div class="sprite" data-sprite="isopod"></div><span class="say"></span></div>
+        <div class="op-row">
+          <div><div class="op-name">juno <span class="dim">/ @juno.exe</span></div><div class="op-role">giant isopod · infra & security</div></div>
+          <div class="op-status ok">● online</div>
+        </div>
+        <p>armour-plated terraform whisperer. has opinions about iam policies that would ruin a dinner party.</p>
+        <div class="op-tags"><span class="t">tf</span><span class="t">aws</span><span class="t">sec</span></div>
+      </article>
+
+      <article class="op rv" style="--i:4;--glow:#d48fb0" data-say="that type scale? *chef's kiss*">
+        <div class="op-stage"><div class="sprite" data-sprite="jelly"></div><span class="say"></span></div>
+        <div class="op-row">
+          <div><div class="op-name">rin <span class="dim">/ @r1n</span></div><div class="op-role">jellyfish · design engineering</div></div>
+          <div class="op-status afk">● deep work</div>
+        </div>
+        <p>designs in code, drifts in curves. ships type scales that make pms cry, in a good way.</p>
+        <div class="op-tags"><span class="t">css</span><span class="t">figma</span><span class="t">svg</span></div>
+      </article>
+
+      <article class="op op-open rv" style="--i:5;--glow:#d97757" data-say="could be you. one email.">
+        <div class="op-stage"><div class="sprite" data-sprite="egg"></div><span class="say"></span></div>
+        <div class="op-row">
+          <div><div class="op-name">[ slot open ]</div><div class="op-role">unknown species · we hatch 2 operators / yr</div></div>
+          <div class="op-status hiring">● hiring</div>
+        </div>
+        <p>if you read this far & your hands are itching, the application is <a href="mailto:lockin@lockincrew.io">one email</a>.</p>
+        <div class="op-tags"><span class="t">senior</span><span class="t">eu / remote</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 6000 m · hadal ===== -->
+<section class="zone hadal" id="receipts" data-depth="6000">
+  <div class="wrap">
+    <div class="zone-head rv">
+      <p class="cmdline"><span class="brand-mark">✻</span> <span class="dim">$</span> <span class="cmd">cd</span> <span class="path">./6000m</span> <span class="dim"># hadal zone · 600 atm. weirdly great for output.</span></p>
+      <h2>receipts, on sonar.</h2>
+      <p class="lede">last 12 months. unaudited but honest. hover the blips.</p>
+    </div>
+
+    <div class="receipts">
+      <div class="radar rv" role="img" aria-label="sonar showing recent ships">
+        <div class="radar-rings"></div>
+        <div class="radar-sweep"></div>
+        <div class="blip" style="--a:38;--r:.62"><span>acme/payments — v1 in 38d</span></div>
+        <div class="blip" style="--a:112;--r:.38"><span>nordsail/orders — friday release held</span></div>
+        <div class="blip" style="--a:176;--r:.78"><span>brink/agent-eval — p95 −41%</span></div>
+        <div class="blip" style="--a:248;--r:.5"><span>keiretsu/data — q4 renewed</span></div>
+        <div class="blip warn" style="--a:310;--r:.84"><span>3 briefs declined — no deadline</span></div>
+        <div class="radar-core"></div>
+      </div>
+
+      <div class="rc-right">
+        <div class="stats">
+          <div class="stat rv" style="--i:0"><div class="stat-num" data-count="184">0</div><div class="stat-lbl">ships / quarter</div></div>
+          <div class="stat rv" style="--i:1"><div class="stat-num" data-count="42">0</div><div class="stat-lbl">active operators*</div><div class="stat-foot dim">*6 creatures, 36 agents</div></div>
+          <div class="stat rv" style="--i:2"><div class="stat-num" data-count="0">0</div><div class="stat-lbl">recurring meetings</div></div>
+          <div class="stat rv" style="--i:3"><div class="stat-num" data-count="99" data-suffix="%">0</div><div class="stat-lbl">async</div></div>
+        </div>
+        <pre class="log rv" id="sonarLog"><span class="log-line"><span class="log-time">14:02:11</span> <span class="ok">✓</span> shipped: acme/payments — v1 in 38d</span>
+<span class="log-line"><span class="log-time">11:48:03</span> <span class="ok">✓</span> rescued: nordsail/orders — friday release held</span>
+<span class="log-line"><span class="log-time">09:17:55</span> <span class="ok">✓</span> deployed: brink/agent-eval — p95 −41%</span>
+<span class="log-line"><span class="log-time">07:02:30</span> <span class="warn">!</span> declined: 3 briefs — scope unclear, no deadline</span>
+<span class="log-line"><span class="log-time">02:11:09</span> <span class="ok">✓</span> embedded: keiretsu/data — q4 renewed</span></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 10,994 m · trench ===== -->
+<section class="zone trench" id="hire" data-depth="10000">
+  <div class="wrap">
+    <div class="zone-head rv">
+      <p class="cmdline"><span class="brand-mark">✻</span> <span class="dim">$</span> <span class="cmd">cd</span> <span class="path">./10994m</span> <span class="dim"># challenger deep · the deepest point. this is where the work happens.</span></p>
+      <h2>send a transmission to the deep.</h2>
+      <p class="lede">brief is better than long. we read everything. no reply in 5 days means you're in the no pile — the hatch opens again next quarter.</p>
+    </div>
+
+    <div class="hire">
+      <form class="hire-form rv" id="hireForm" autocomplete="off">
+        <div class="form-head"><span class="resp-mark">✻</span> uplink · lkn-01 → surface <span class="sig" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div>
+        <div class="hf-row"><label class="hf-key" for="fName">name@</label><input id="fName" type="text" name="name" placeholder="your name" required /></div>
+        <div class="hf-row"><label class="hf-key" for="fMail">mail@</label><input id="fMail" type="email" name="email" placeholder="you@company.com" required /></div>
+        <div class="hf-row"><label class="hf-key" for="fScope">dive@</label>
+          <select id="fScope" name="scope">
+            <option>strike team — zero-to-one</option>
+            <option>rescue op — repo on fire</option>
+            <option>ai integration — agents/evals</option>
+            <option>embedded — one operator, one quarter</option>
+            <option>other / unsure</option>
+          </select>
+        </div>
+        <div class="hf-row hf-stack"><label class="hf-key" for="fBrief">brief@</label><textarea id="fBrief" name="brief" rows="5" placeholder="what are we building? deadline? budget shape?"></textarea></div>
+        <div class="hf-actions">
+          <button class="btn primary" type="submit"><span class="btn-prompt">$</span> ./transmit <span class="arr">↑</span></button>
+          <span class="hf-note dim" id="txStatus" aria-live="polite">channel open · waiting for brief</span>
+        </div>
+      </form>
+
+      <aside class="hire-side rv">
+        <p class="dim">or just email us</p>
+        <a class="bigmail" href="mailto:lockin@lockincrew.io">lockin@lockincrew.io</a>
+        <ul class="links">
+          <li><a href="#">github / lockincrew</a></li>
+          <li><a href="#">x / @lockincrew</a></li>
+          <li><a href="#">read.cv / lockincrew</a></li>
+        </ul>
+        <p class="dim small">operating from warsaw (utc+1), lisbon (utc+0) & roughly 11 km below the noise.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ===== Seabed ===== -->
+<footer class="seabed">
+  <div class="bed-life" aria-hidden="true">
+    <div class="sprite worms" data-sprite="worms"></div>
+    <div class="sprite vent" data-sprite="vent"></div>
+    <div class="smoke"><i></i><i></i><i></i></div>
+  </div>
+  <div class="sand" aria-hidden="true"></div>
+  <div class="term-foot">
+    <div class="foot-left">
+      <span class="dim">cwd:</span> <span class="path">~/lockincrew/dive</span>
+      <span class="sep">·</span>
+      <span class="dim">git:</span> <span class="branch">main</span> <span class="ok">●</span>
+      <span class="sep">·</span>
+      <span class="dim">© <span id="year">2026</span> lockincrew sp. z o.o.</span>
+    </div>
+    <div class="foot-right">
+      <span class="kbd">L</span> lock in
+      <span class="sep">·</span>
+      <span class="kbd">/</span> prompt
+      <span class="sep">·</span>
+      <a href="#surface">↑ resurface</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== Lock-in overlay ===== -->
+<div class="lockin-overlay" id="lock" hidden>
+  <div class="lockin-card">
+    <div class="lockin-head"><span class="brand-mark">✻</span> // LOCK_IN_MODE</div>
+    <svg class="lock-pet" viewBox="0 -3 16 19" shape-rendering="crispEdges" aria-hidden="true">
+      <g class="shackle">
+        <rect x="5" y="0" width="6" height="1" fill="#d97757"/>
+        <rect x="5" y="1" width="1" height="4" fill="#d97757"/>
+        <rect x="10" y="1" width="1" height="4" fill="#d97757"/>
+        <rect x="10" y="0" width="1" height="1" fill="#b85a3e"/>
+        <rect x="10" y="4" width="1" height="1" fill="#b85a3e"/>
+      </g>
+      <rect x="3" y="5" width="10" height="1" fill="#d97757"/>
+      <rect x="2" y="6" width="12" height="9" fill="#d97757"/>
+      <rect x="3" y="15" width="10" height="1" fill="#d97757"/>
+      <rect x="3" y="6" width="9" height="1" fill="#e8a47e"/>
+      <rect x="2" y="7" width="1" height="6" fill="#e8a47e"/>
+      <rect x="3" y="7" width="1" height="2" fill="#e8a47e"/>
+      <rect x="13" y="7" width="1" height="7" fill="#b85a3e"/>
+      <rect x="12" y="14" width="2" height="1" fill="#b85a3e"/>
+      <rect x="3" y="14" width="10" height="1" fill="#b85a3e"/>
+      <rect x="7" y="9" width="2" height="1" fill="#1a1a1a"/>
+      <rect x="6" y="10" width="4" height="1" fill="#1a1a1a"/>
+      <rect x="7" y="11" width="2" height="2" fill="#1a1a1a"/>
+    </svg>
+    <pre class="lockin-art">   hatch sealed.
+   the noise stays up there.
+   the meeting is cancelled.</pre>
+    <div class="lockin-timer" id="lockTimer">00:00</div>
+    <p class="lockin-msg">notifications: 0 · depth: 10,994 m · slack: not even open</p>
+    <button class="btn primary" id="unlock" type="button"><span class="btn-prompt">$</span> ./resurface <span class="kbd">esc</span></button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
