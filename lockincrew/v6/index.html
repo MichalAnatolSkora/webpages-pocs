@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>lockinOS · lockincrew</title>
+<meta name="description" content="lockincrew — deep work as a service. an operating system with zero meetings." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- ===== Boot ===== -->
+<div class="boot" id="boot">
+  <pre class="boot-log" id="bootLog"></pre>
+  <div class="splash" id="splash" hidden>
+    <div class="sprite splash-lock" data-sprite="i_lock"></div>
+    <p class="splash-name">lockinOS</p>
+    <p class="splash-ver">v6 · deep work edition</p>
+    <div class="splash-bar"><i id="bootBar"></i></div>
+  </div>
+  <p class="boot-skip">press any key to skip</p>
+</div>
+
+<!-- ===== Desktop ===== -->
+<div class="desktop" id="desktop">
+  <div class="wallpaper" aria-hidden="true">
+    <div class="wp-sun"></div>
+    <div class="wp-mark">lockinOS</div>
+  </div>
+
+  <nav class="icons" id="icons" aria-label="desktop">
+    <button class="icon" data-open="welcome"><span class="sprite" data-sprite="i_info"></span><span class="icon-label">readme.txt</span></button>
+    <button class="icon" data-open="manifesto"><span class="sprite" data-sprite="i_txt"></span><span class="icon-label">manifesto.txt</span></button>
+    <button class="icon" data-open="services"><span class="sprite" data-sprite="i_app"></span><span class="icon-label">services.app</span></button>
+    <button class="icon" data-open="crew"><span class="sprite" data-sprite="i_folder"></span><span class="icon-label">crew/</span></button>
+    <button class="icon" data-open="receipts"><span class="sprite" data-sprite="i_chart"></span><span class="icon-label">receipts.log</span></button>
+    <button class="icon" data-open="hire"><span class="sprite" data-sprite="i_mail"></span><span class="icon-label">hire.exe</span></button>
+    <button class="icon" data-open="terminal"><span class="sprite" data-sprite="i_term"></span><span class="icon-label">terminal</span></button>
+    <button class="icon" data-action="lockin"><span class="sprite" data-sprite="i_lock"></span><span class="icon-label">lock_in</span></button>
+    <button class="icon icon-trash" data-open="trash" id="trashIcon"><span class="sprite" data-sprite="i_trash"></span><span class="icon-label">trash</span></button>
+  </nav>
+
+  <!-- readme.txt -->
+  <section class="win" id="w-welcome" data-title="readme.txt" data-icon="i_info" data-w="640" hidden>
+    <div class="win-body welcome">
+      <p class="welcome-cmd"><span class="brand-mark">✻</span> <span class="dim">$</span> cat readme.txt</p>
+      <h1 class="ascii-logo" aria-label="lock-in crew"><pre>██╗      ██████╗  ██████╗██╗  ██╗        ██╗███╗   ██╗     ██████╗██████╗ ███████╗██╗    ██╗
+██║     ██╔═══██╗██╔════╝██║ ██╔╝        ██║████╗  ██║    ██╔════╝██╔══██╗██╔════╝██║    ██║
+██║     ██║   ██║██║     █████╔╝ █████╗  ██║██╔██╗ ██║    ██║     ██████╔╝█████╗  ██║ █╗ ██║
+██║     ██║   ██║██║     ██╔═██╗ ╚════╝  ██║██║╚██╗██║    ██║     ██╔══██╗██╔══╝  ██║███╗██║
+███████╗╚██████╔╝╚██████╗██║  ██╗        ██║██║ ╚████║    ╚██████╗██║  ██║███████╗╚███╔███╔╝
+╚══════╝ ╚═════╝  ╚═════╝╚═╝  ╚═╝        ╚═╝╚═╝  ╚═══╝     ╚═════╝╚═╝  ╚═╝╚══════╝ ╚══╝╚══╝ </pre></h1>
+      <p class="welcome-title">deep work as a service.</p>
+      <p class="welcome-sub">welcome to lockinOS — the only operating system with zero meetings installed. we're a small unit of operators who ship while everyone else schedules the call. no slack, no standups, no theatre.</p>
+      <div class="welcome-cta">
+        <button class="btn primary" data-open="crew"><span class="btn-prompt">$</span> open crew/</button>
+        <button class="btn" data-open="manifesto"><span class="btn-prompt">$</span> cat manifesto.txt</button>
+        <button class="btn" data-open="hire"><span class="btn-prompt">$</span> ./hire.exe</button>
+      </div>
+      <ul class="tips">
+        <li><span class="resp-mark">✻</span> double-click icons. drag windows by their title bar.</li>
+        <li><span class="resp-mark">✻</span> calendar.exe will try to interrupt you. decline it.</li>
+        <li><span class="resp-mark">✻</span> press <span class="kbd">L</span> to lock in. press <span class="kbd">/</span> for the terminal.</li>
+      </ul>
+    </div>
+    <div class="win-status"><span>6 lines</span><span>utf-8</span><span>read-only, like our calendar</span></div>
+  </section>
+
+  <!-- manifesto.txt -->
+  <section class="win" id="w-manifesto" data-title="manifesto.txt — notepad" data-icon="i_txt" data-w="560" hidden>
+    <div class="win-menu"><span>file</span><span>edit</span><span>format</span><span>help</span></div>
+    <div class="win-body notepad">
+      <p class="np-head"># six rules. no slack channels needed.</p>
+      <ol class="np-rules">
+        <li><span class="rule-num">001</span><b>locked in > logged on</b><span>presence is not output. we measure ourselves in shipped artifacts, not hours of green dot.</span></li>
+        <li><span class="rule-num">010</span><b>fewer rituals.</b><span>no daily standup. no retro about the retro. one written brief, one done thing, one demo.</span></li>
+        <li><span class="rule-num">011</span><b>the keyboard is the artifact.</b><span>strategy decks rot. running code compounds. we bias hard toward the latter.</span></li>
+        <li><span class="rule-num">100</span><b>small units, sharp scope.</b><span>two-to-four operators per cell. fixed window. brutal definition of done.</span></li>
+        <li><span class="rule-num">101</span><b>taste is non-negotiable.</b><span>fast is good. fast & tasteful is the whole job. if it ships ugly, it didn't ship.</span></li>
+        <li><span class="rule-num">110</span><b>own the outcome.</b><span>we don't hand off tickets. we walk the thing into prod & stay until it breathes on its own.</span></li>
+      </ol>
+      <p class="np-cursor">_</p>
+    </div>
+    <div class="win-status"><span>ln 6, col 1</span><span>6 rules</span></div>
+  </section>
+
+  <!-- services.app -->
+  <section class="win" id="w-services" data-title="services.app — control panel" data-icon="i_app" data-w="680" hidden>
+    <div class="win-body cpanel">
+      <ul class="cp-list" role="listbox" aria-label="engagement types">
+        <li><button class="cp-item active" data-svc="0"><span class="cp-num">/01</span> strike team</button></li>
+        <li><button class="cp-item" data-svc="1"><span class="cp-num">/02</span> rescue op</button></li>
+        <li><button class="cp-item" data-svc="2"><span class="cp-num">/03</span> ai integration</button></li>
+        <li><button class="cp-item" data-svc="3"><span class="cp-num">/04</span> embedded operator</button></li>
+      </ul>
+      <div class="cp-detail">
+        <article class="svc active">
+          <h3>zero-to-one product cells</h3>
+          <p>you have a pitch, a deadline & a half-built figma. we turn up as a 3-person cell & ship a real v1 in 6 weeks. design, frontend, backend, infra — one room.</p>
+          <div class="meter"><span class="meter-lbl">window</span><span class="meter-bar" style="--v:6;--max:12"></span><span>6 wk</span></div>
+          <div class="meter"><span class="meter-lbl">team</span><span class="meter-bar" style="--v:3;--max:4"></span><span>3 ops</span></div>
+          <div class="svc-meta"><span class="chip">fixed price</span><span class="chip">code is yours</span></div>
+        </article>
+        <article class="svc">
+          <h3>codebase rescues & rewrites</h3>
+          <p>your repo is on fire, the original team is gone, the next release is friday. we triage, we patch, we delete. we leave it boring & documented.</p>
+          <div class="meter"><span class="meter-lbl">window</span><span class="meter-bar" style="--v:8;--max:12"></span><span>2–8 wk</span></div>
+          <div class="meter"><span class="meter-lbl">team</span><span class="meter-bar" style="--v:2;--max:4"></span><span>1–2 ops</span></div>
+          <div class="svc-meta"><span class="chip">t&m</span><span class="chip">handover doc</span></div>
+        </article>
+        <article class="svc">
+          <h3>llm features that actually ship</h3>
+          <p>not another chatbot. real workflows: agents in your ops, eval harnesses, prompt & cache discipline, observability. claude as a tool, not a buzzword.</p>
+          <div class="meter"><span class="meter-lbl">window</span><span class="meter-bar" style="--v:4;--max:12"></span><span>4 wk pilot</span></div>
+          <div class="meter"><span class="meter-lbl">team</span><span class="meter-bar" style="--v:2;--max:4"></span><span>2 ops</span></div>
+          <div class="svc-meta"><span class="chip">opt-in retainer</span><span class="chip">evals included</span></div>
+        </article>
+        <article class="svc">
+          <h3>one of us, on your team, full lock-in</h3>
+          <p>a single senior operator embeds for one quarter. they don't attend standups; they ship. you keep the work, the context & the muscle memory.</p>
+          <div class="meter"><span class="meter-lbl">window</span><span class="meter-bar" style="--v:12;--max:12"></span><span>1 quarter</span></div>
+          <div class="meter"><span class="meter-lbl">team</span><span class="meter-bar" style="--v:1;--max:4"></span><span>1 op</span></div>
+          <div class="svc-meta"><span class="chip">monthly</span><span class="chip">renewable</span></div>
+        </article>
+        <div class="cp-actions"><button class="btn" data-open="hire"><span class="btn-prompt">$</span> ./hire.exe --plan</button></div>
+      </div>
+    </div>
+    <div class="win-status"><span>4 shapes of engagement</span><span>prices: type /pricing in terminal</span></div>
+  </section>
+
+  <!-- crew/ -->
+  <section class="win" id="w-crew" data-title="crew/ — pet care" data-icon="i_folder" data-w="780" hidden>
+    <div class="win-menu"><span>file</span><span>view</span><span>care</span><span>help</span></div>
+    <div class="win-body pets">
+      <article class="pet" data-say="deleted 40k lines today. feeling light.">
+        <div class="pet-stage" style="--glow:#d97757"><div class="sprite" data-sprite="octo"></div><span class="say"></span></div>
+        <div class="pet-name">kira <span class="dim">/ @k1ra</span> <span class="st ok">●</span></div>
+        <div class="pet-role">octopus · founding operator · systems</div>
+        <div class="bars"><div class="bar" data-stat="focus"><span>focus</span><i></i></div><div class="bar" data-stat="coffee"><span>coffee</span><i></i></div></div>
+        <div class="pet-btns"><button data-care="coffee">+coffee</button><button data-care="ticket">+ticket</button><button data-care="pat">pat</button></div>
+      </article>
+      <article class="pet" data-say="is that 60fps or are you just happy to see me?">
+        <div class="pet-stage" style="--glow:#e0c068"><div class="sprite wide" data-sprite="angler"></div><span class="say"></span></div>
+        <div class="pet-name">mateo <span class="dim">/ @m4t</span> <span class="st ok">●</span></div>
+        <div class="pet-role">anglerfish · product & frontend</div>
+        <div class="bars"><div class="bar" data-stat="focus"><span>focus</span><i></i></div><div class="bar" data-stat="coffee"><span>coffee</span><i></i></div></div>
+        <div class="pet-btns"><button data-care="coffee">+coffee</button><button data-care="ticket">+ticket</button><button data-care="pat">pat</button></div>
+      </article>
+      <article class="pet" data-say="evals or it didn't happen.">
+        <div class="pet-stage" style="--glow:#7fb069"><div class="sprite" data-sprite="robot"></div><span class="say"></span></div>
+        <div class="pet-name">ada <span class="dim">/ @ada_lvc</span> <span class="st busy">●</span></div>
+        <div class="pet-role">probe bot · ai & agents</div>
+        <div class="bars"><div class="bar" data-stat="focus"><span>focus</span><i></i></div><div class="bar" data-stat="coffee"><span>coffee</span><i></i></div></div>
+        <div class="pet-btns"><button data-care="coffee">+coffee</button><button data-care="ticket">+ticket</button><button data-care="pat">pat</button></div>
+      </article>
+      <article class="pet" data-say="your iam policy is showing.">
+        <div class="pet-stage" style="--glow:#a89f8c"><div class="sprite wide" data-sprite="tardi"></div><span class="say"></span></div>
+        <div class="pet-name">juno <span class="dim">/ @juno.exe</span> <span class="st ok">●</span></div>
+        <div class="pet-role">tardigrade · infra & security</div>
+        <div class="bars"><div class="bar" data-stat="focus"><span>focus</span><i></i></div><div class="bar" data-stat="coffee"><span>coffee</span><i></i></div></div>
+        <div class="pet-btns"><button data-care="coffee">+coffee</button><button data-care="ticket">+ticket</button><button data-care="pat">pat</button></div>
+      </article>
+      <article class="pet" data-say="that type scale? *chef's kiss*">
+        <div class="pet-stage" style="--glow:#d48fb0"><div class="sprite" data-sprite="cat"></div><span class="say"></span></div>
+        <div class="pet-name">rin <span class="dim">/ @r1n</span> <span class="st afk">●</span></div>
+        <div class="pet-role">cat · design engineering</div>
+        <div class="bars"><div class="bar" data-stat="focus"><span>focus</span><i></i></div><div class="bar" data-stat="coffee"><span>coffee</span><i></i></div></div>
+        <div class="pet-btns"><button data-care="coffee">+coffee</button><button data-care="ticket">+ticket</button><button data-care="pat">pat</button></div>
+      </article>
+      <article class="pet pet-egg" data-say="could be you. one email.">
+        <div class="pet-stage" style="--glow:#d97757"><div class="sprite" data-sprite="egg"></div><span class="say"></span></div>
+        <div class="pet-name">[ slot open ] <span class="st hiring">●</span></div>
+        <div class="pet-role">unknown species · we hatch 2 / yr</div>
+        <p class="pet-note">senior · eu / remote. the application is one email.</p>
+        <div class="pet-btns"><button data-open="hire">hatch → hire.exe</button></div>
+      </article>
+    </div>
+    <div class="win-status"><span>6 objects</span><span id="careStatus">all operators nominal</span></div>
+  </section>
+
+  <!-- receipts.log -->
+  <section class="win" id="w-receipts" data-title="receipts.log — task manager" data-icon="i_chart" data-w="700" hidden>
+    <div class="win-body taskman">
+      <div class="tm-graph">
+        <div class="tm-graph-head"><span>ships / week</span><span class="dim">last 24 weeks · live</span></div>
+        <div class="graph" id="graph"></div>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="stat-num" data-count="184">0</div><div class="stat-lbl">ships / quarter</div></div>
+        <div class="stat"><div class="stat-num" data-count="42">0</div><div class="stat-lbl">active operators*</div><div class="stat-foot dim">*6 creatures, 36 agents</div></div>
+        <div class="stat"><div class="stat-num" data-count="0">0</div><div class="stat-lbl">recurring meetings</div></div>
+        <div class="stat"><div class="stat-num" data-count="99" data-suffix="%">0</div><div class="stat-lbl">async</div></div>
+      </div>
+      <table class="proc">
+        <thead><tr><th>process</th><th>status</th><th>result</th></tr></thead>
+        <tbody>
+          <tr><td>acme/payments</td><td class="ok">shipped</td><td>v1 in 38d</td></tr>
+          <tr><td>nordsail/orders</td><td class="ok">rescued</td><td>friday release held</td></tr>
+          <tr><td>brink/agent-eval</td><td class="ok">deployed</td><td>p95 −41%</td></tr>
+          <tr><td>3 briefs</td><td class="warn">declined</td><td>scope unclear, no deadline</td></tr>
+          <tr><td>keiretsu/data</td><td class="ok">embedded</td><td>q4 renewed</td></tr>
+          <tr class="proc-meet"><td>meetings.exe</td><td class="err">not responding</td><td><button class="link-btn" id="endTask">end task</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="win-status"><span>cpu: deep focus</span><span>uptime: 12 months</span><span>unaudited but honest</span></div>
+  </section>
+
+  <!-- hire.exe -->
+  <section class="win" id="w-hire" data-title="hire.exe — setup wizard" data-icon="i_mail" data-w="660" hidden>
+    <div class="win-body wizard">
+      <aside class="wiz-side" aria-hidden="true">
+        <div class="sprite wiz-lock" data-sprite="i_lock"></div>
+        <p>lockincrew<br>setup</p>
+      </aside>
+      <form class="wiz-main" id="hireForm" autocomplete="off">
+        <p class="wiz-title">welcome to the hire wizard.</p>
+        <p class="wiz-sub">this wizard will install one (1) brief on our desks. brief is better than long. we read everything & reply within 5 days — or you're in the no pile, and the door opens again next quarter.</p>
+        <div class="hf-row"><label class="hf-key" for="fName">name@</label><input id="fName" type="text" name="name" placeholder="your name" required /></div>
+        <div class="hf-row"><label class="hf-key" for="fMail">mail@</label><input id="fMail" type="email" name="email" placeholder="you@company.com" required /></div>
+        <div class="hf-row"><label class="hf-key" for="fScope">plan@</label>
+          <select id="fScope" name="scope">
+            <option>strike team — zero-to-one</option>
+            <option>rescue op — repo on fire</option>
+            <option>ai integration — agents/evals</option>
+            <option>embedded — one operator, one quarter</option>
+            <option>other / unsure</option>
+          </select>
+        </div>
+        <div class="hf-row hf-stack"><label class="hf-key" for="fBrief">brief@</label><textarea id="fBrief" name="brief" rows="4" placeholder="what are we building? deadline? budget shape?"></textarea></div>
+        <label class="wiz-check"><input type="checkbox" checked disabled> i accept that there will be no recurring meetings</label>
+        <div class="wiz-progress" id="wizProgress" hidden><div class="wiz-bar"><i id="wizBar"></i></div><p id="wizMsg">preparing…</p></div>
+        <div class="wiz-actions">
+          <span class="dim small">or mail <a href="mailto:lockin@lockincrew.io">lockin@lockincrew.io</a></span>
+          <button type="button" class="btn" data-close>cancel</button>
+          <button type="submit" class="btn primary">install brief ></button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- terminal -->
+  <section class="win win-term" id="w-terminal" data-title="terminal — claude@lockincrew" data-icon="i_term" data-w="600" hidden>
+    <div class="win-body term" id="termBody">
+      <div class="term-out" id="termOut"><div class="dim">lockinOS terminal · type <b>help</b></div></div>
+      <div class="prompt-row">
+        <span class="prompt-prefix"><span class="dim">claude@lockincrew</span><span class="prompt-sep">:</span><span class="path">~</span><span class="prompt-arrow">$</span></span>
+        <input type="text" id="promptInput" class="prompt-input" autocomplete="off" spellcheck="false" aria-label="terminal input" />
+      </div>
+    </div>
+  </section>
+
+  <!-- trash -->
+  <section class="win" id="w-trash" data-title="trash" data-icon="i_trash" data-w="480" hidden>
+    <div class="win-body explorer">
+      <table class="files">
+        <thead><tr><th>name</th><th>type</th><th>deleted</th></tr></thead>
+        <tbody id="trashList">
+          <tr><td>standup.ics</td><td>recurring</td><td>2019</td></tr>
+          <tr><td>retro_about_the_retro.pptx</td><td>deck</td><td>2020</td></tr>
+          <tr><td>jira.exe</td><td>application</td><td>2021</td></tr>
+          <tr><td>slack_notifications/</td><td>folder · 9,999+</td><td>day 1</td></tr>
+        </tbody>
+      </table>
+      <div class="explorer-foot"><span id="trashCount">4 items</span><button class="btn" id="emptyTrash">empty trash</button></div>
+    </div>
+  </section>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+</div>
+
+<!-- ===== Taskbar ===== -->
+<footer class="taskbar" id="taskbar">
+  <button class="start-btn" id="startBtn" aria-haspopup="true" aria-expanded="false"><span class="sprite" data-sprite="i_star"></span> start</button>
+  <div class="task-list" id="taskList"></div>
+  <div class="tray">
+    <button class="tray-btn" id="dndBtn" title="do not disturb">dnd <b id="dndState">off</b></button>
+    <button class="tray-btn bell" id="bellBtn" title="notifications — click to archive"><span class="sprite" data-sprite="i_bell"></span><b id="bellCount">0</b></button>
+    <span class="tray-focus" title="focus session">focus <b id="focusClock">00:00:00</b></span>
+    <span class="tray-clock" id="clock">00:00</span>
+  </div>
+</footer>
+
+<div class="start-menu" id="startMenu" hidden>
+  <div class="sm-band"><span>lockin<b>OS</b> v6</span></div>
+  <ul class="sm-items">
+    <li><button data-open="welcome"><span class="sprite" data-sprite="i_info"></span> readme.txt</button></li>
+    <li><button data-open="manifesto"><span class="sprite" data-sprite="i_txt"></span> manifesto</button></li>
+    <li><button data-open="services"><span class="sprite" data-sprite="i_app"></span> services</button></li>
+    <li><button data-open="crew"><span class="sprite" data-sprite="i_folder"></span> crew</button></li>
+    <li><button data-open="receipts"><span class="sprite" data-sprite="i_chart"></span> receipts</button></li>
+    <li><button data-open="hire"><span class="sprite" data-sprite="i_mail"></span> hire.exe</button></li>
+    <li><button data-open="terminal"><span class="sprite" data-sprite="i_term"></span> terminal</button></li>
+    <li class="sm-sep"></li>
+    <li><button data-action="lockin"><span class="sprite" data-sprite="i_lock"></span> lock in…</button></li>
+    <li><button data-action="shutdown"><span class="sm-power">⏻</span> shut down…</button></li>
+  </ul>
+</div>
+
+<!-- ===== Lock-in screensaver ===== -->
+<div class="saver" id="saver" hidden>
+  <div class="saver-sky" id="saverSky"></div>
+  <div class="saver-card">
+    <p class="saver-k">✻ // LOCK_IN_MODE</p>
+    <p class="saver-t">locked in.</p>
+    <p class="saver-timer" id="saverTimer">00:00</p>
+    <p class="saver-msg">notifications: 0 · calendar.exe: blocked · slack: not even open</p>
+    <p class="saver-hint">press <span class="kbd">esc</span> or click to resurface</p>
+  </div>
+</div>
+
+<!-- ===== Shut down ===== -->
+<div class="shutdown" id="shutdown" hidden>
+  <p>it's now safe to close the meeting.</p>
+  <button class="btn" id="restartBtn">restart lockinOS</button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
