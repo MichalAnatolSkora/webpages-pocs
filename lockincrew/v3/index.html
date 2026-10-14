@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>lockincrew · deep work as a service</title>
+<meta name="description" content="lockincrew — a small crew of operators who leave the noise at the surface & ship from the deep." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body data-zone="sunlight">
+
+<canvas id="sea" aria-hidden="true"></canvas>
+
+<!-- ===== Header ===== -->
+<header class="top">
+  <a class="brand" href="#surface" aria-label="lockincrew — back to the surface">
+    <svg class="brand-sub" viewBox="0 0 64 36" aria-hidden="true">
+      <path d="M26 10 h12 q4 0 5 5 v2 H24 v-2 q0-5 2-5z" fill="#ffb547"/>
+      <path d="M31 10 V4 h6" stroke="#ffb547" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <rect x="8" y="14" width="50" height="18" rx="9" fill="#ffb547"/>
+      <circle cx="26" cy="23" r="4" fill="#0b2233"/>
+      <circle cx="40" cy="23" r="4" fill="#0b2233"/>
+      <ellipse class="brand-prop" cx="5" cy="23" rx="2" ry="6" fill="#e08f1f"/>
+    </svg>
+    <span>lockincrew</span>
+  </a>
+  <nav class="nav">
+    <a href="#manifesto">manifesto</a>
+    <a href="#services">services</a>
+    <a href="#crew">crew</a>
+    <a href="#receipts">receipts</a>
+    <a href="#hire" class="nav-cta">hire<span class="cta-long"> the crew</span></a>
+  </nav>
+  <button class="lock-btn" id="lockBtn" type="button"><kbd>L</kbd> lock in</button>
+</header>
+
+<!-- ===== Depth gauge ===== -->
+<aside class="gauge" aria-label="depth gauge">
+  <div class="g-head">
+    <span class="g-lbl">depth</span>
+    <span class="g-depth"><b id="gDepth">0</b><small>m</small></span>
+    <span class="g-zone" id="gZone">sunlight zone</span>
+  </div>
+  <div class="g-track" id="gTrack">
+    <div class="g-fill" id="gFill"></div>
+    <button class="g-tick" data-go="surface" type="button"><span>0</span></button>
+    <button class="g-tick" data-go="manifesto" type="button"><span>200</span></button>
+    <button class="g-tick" data-go="services" type="button"><span>1k</span></button>
+    <button class="g-tick" data-go="crew" type="button"><span>4k</span></button>
+    <button class="g-tick" data-go="receipts" type="button"><span>6k</span></button>
+    <button class="g-tick" data-go="hire" type="button"><span>10k</span></button>
+    <div class="g-sub" id="gSub" aria-hidden="true">
+      <svg viewBox="0 0 64 36">
+        <path class="g-beam" d="M58 23 L64 14 L64 32 Z" fill="#fff3c4"/>
+        <path d="M26 10 h12 q4 0 5 5 v2 H24 v-2 q0-5 2-5z" fill="#ffb547"/>
+        <rect x="8" y="14" width="50" height="18" rx="9" fill="#ffb547"/>
+        <circle cx="26" cy="23" r="4" fill="#0b2233"/>
+        <circle cx="40" cy="23" r="4" fill="#0b2233"/>
+        <ellipse class="brand-prop" cx="5" cy="23" rx="2" ry="6" fill="#e08f1f"/>
+      </svg>
+    </div>
+  </div>
+  <dl class="g-stats">
+    <div><dt>pressure</dt><dd id="gPressure">1 atm</dd></div>
+    <div><dt>light</dt><dd id="gLight">100%</dd></div>
+    <div><dt>temp</dt><dd id="gTemp">18 °C</dd></div>
+    <div><dt>noise</dt><dd id="gNoise">47 pings</dd></div>
+  </dl>
+</aside>
+
+<main>
+
+<!-- ===== 0 m · surface ===== -->
+<section class="zone surface" id="surface" data-depth="0">
+  <div class="sky" aria-hidden="true">
+    <div class="sun"></div>
+    <div class="gull g1">︶︶</div>
+    <div class="gull g2">︶︶</div>
+  </div>
+  <div class="waves" aria-hidden="true">
+    <svg class="wave w3" viewBox="0 0 1440 80" preserveAspectRatio="none"><path d="M0 40 C120 20 240 20 360 40 C480 60 600 60 720 40 C840 20 960 20 1080 40 C1200 60 1320 60 1440 40 V80 H0Z"/></svg>
+    <svg class="wave w2" viewBox="0 0 1440 80" preserveAspectRatio="none"><path d="M0 46 C150 26 210 26 360 46 C510 66 570 66 720 46 C870 26 930 26 1080 46 C1230 66 1290 66 1440 46 V80 H0Z"/></svg>
+    <svg class="wave w1" viewBox="0 0 1440 80" preserveAspectRatio="none"><path d="M0 52 C90 40 270 40 360 52 C450 64 630 64 720 52 C810 40 990 40 1080 52 C1170 64 1350 64 1440 52 V80 H0Z"/></svg>
+  </div>
+
+  <div class="noise" id="noise" aria-hidden="true"></div>
+
+  <div class="hero">
+    <div class="hero-copy">
+      <p class="kicker">lockincrew <span>//</span> deep work as a service</p>
+      <h1 class="hero-title">
+        Leave the noise<br>at the <span class="bob-word" id="bobWord">surface.</span>
+      </h1>
+      <p class="hero-sub">
+        We're a small crew of operators who dive while everyone else schedules
+        the meeting. No Slack, no standups, no theatre. Just the problem, the
+        keyboard & the receipts.
+      </p>
+      <div class="hero-cta">
+        <a href="#manifesto" class="btn btn-amber">begin descent <span class="arr">↓</span></a>
+        <a href="#hire" class="btn btn-ghost">send a brief</a>
+      </div>
+      <p class="hero-hint"><span class="hint-dot"></span> psst — those bubbles are notifications. pop them.</p>
+    </div>
+
+    <div class="hero-sub-wrap" aria-hidden="true">
+      <svg class="sub" viewBox="0 0 480 260">
+        <defs>
+          <linearGradient id="subBody" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#ffd27a"/>
+            <stop offset=".55" stop-color="#ffb547"/>
+            <stop offset="1" stop-color="#e3891a"/>
+          </linearGradient>
+          <linearGradient id="beamG" x1="0" x2="1">
+            <stop offset="0" stop-color="#fff3c4" stop-opacity=".55"/>
+            <stop offset=".85" stop-color="#fff3c4" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <path class="beam" d="M356 146 L480 96 L480 214 Z" fill="url(#beamG)"/>
+        <!-- periscope -->
+        <path d="M206 70 V36 H236" stroke="#e3891a" stroke-width="8" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+        <rect x="230" y="29" width="16" height="13" rx="4" fill="#e3891a"/>
+        <!-- tower -->
+        <path d="M168 94 C170 74 180 66 194 66 H246 C260 66 268 76 270 94 Z" fill="url(#subBody)"/>
+        <rect x="186" y="76" width="66" height="5" rx="2.5" fill="#e3891a" opacity=".6"/>
+        <!-- tail fins -->
+        <path d="M84 104 L52 74 L44 80 L64 120 Z" fill="#e3891a"/>
+        <path d="M84 182 L52 212 L44 206 L64 166 Z" fill="#e3891a"/>
+        <!-- prop -->
+        <rect x="34" y="138" width="34" height="10" rx="3" fill="#b9701a"/>
+        <ellipse class="prop" cx="34" cy="143" rx="7" ry="30" fill="#c8861c"/>
+        <!-- hull -->
+        <rect x="60" y="88" width="300" height="110" rx="55" fill="url(#subBody)"/>
+        <path d="M100 100 C150 92 270 92 330 102" stroke="#fff6d8" stroke-width="7" stroke-linecap="round" fill="none" opacity=".55"/>
+        <path d="M80 176 H340" stroke="#e3891a" stroke-width="4" stroke-dasharray="1 14" stroke-linecap="round"/>
+        <!-- portholes with crew peeking -->
+        <g class="porthole-crew">
+          <circle cx="150" cy="140" r="23" fill="#c8861c"/>
+          <circle cx="150" cy="140" r="17" fill="#0b2233"/>
+          <ellipse cx="150" cy="152" rx="13" ry="10" fill="#a98bff"/>
+          <g class="eye"><circle cx="144" cy="146" r="3.6" fill="#fff"/><g class="pupil"><circle cx="144" cy="146" r="1.8" fill="#0b0f1a"/></g></g>
+          <g class="eye"><circle cx="156" cy="146" r="3.6" fill="#fff"/><g class="pupil"><circle cx="156" cy="146" r="1.8" fill="#0b0f1a"/></g></g>
+
+          <circle cx="220" cy="140" r="23" fill="#c8861c"/>
+          <circle cx="220" cy="140" r="17" fill="#0b2233"/>
+          <path d="M207 156 C207 140 233 140 233 156 Z" fill="#ff8fd0"/>
+          <g class="eye"><circle cx="215" cy="149" r="3.2" fill="#fff"/><g class="pupil"><circle cx="215" cy="149" r="1.6" fill="#0b0f1a"/></g></g>
+          <g class="eye"><circle cx="225" cy="149" r="3.2" fill="#fff"/><g class="pupil"><circle cx="225" cy="149" r="1.6" fill="#0b0f1a"/></g></g>
+
+          <circle cx="290" cy="140" r="23" fill="#c8861c"/>
+          <circle cx="290" cy="140" r="17" fill="#0b2233"/>
+          <path d="M282 157 V140 Q290 128 298 140 V157 Z" fill="#3fa7d6"/>
+          <g class="eye"><circle cx="286" cy="147" r="3" fill="#fff"/><g class="pupil"><circle cx="286" cy="147" r="1.5" fill="#0b0f1a"/></g></g>
+          <g class="eye"><circle cx="294" cy="147" r="3" fill="#fff"/><g class="pupil"><circle cx="294" cy="147" r="1.5" fill="#0b0f1a"/></g></g>
+        </g>
+        <text x="306" y="190" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" fill="#a35d0c" letter-spacing="1">LKN-01</text>
+      </svg>
+      <div class="sub-bubbles"><i></i><i></i><i></i><i></i><i></i></div>
+    </div>
+  </div>
+
+  <a href="#manifesto" class="dive-cue" aria-label="scroll to dive">
+    <span>scroll to dive</span>
+    <span class="dive-line"></span>
+  </a>
+</section>
+
+<!-- ===== 200 m · twilight ===== -->
+<section class="zone twilight" id="manifesto" data-depth="200">
+  <div class="meetings" aria-hidden="true">
+    <div class="mjelly" style="--x:8%;--d:0s;--s:1"><span>weekly sync</span></div>
+    <div class="mjelly" style="--x:72%;--d:-6s;--s:.8"><span>quick call?</span></div>
+    <div class="mjelly" style="--x:44%;--d:-12s;--s:.65"><span>retro about the retro</span></div>
+    <div class="mjelly" style="--x:58%;--d:-17s;--s:.7"><span>alignment</span></div>
+  </div>
+
+  <div class="wrap">
+    <p class="zone-tag rv"><span class="zt-depth">▼ 200 m</span> twilight zone <span class="zt-note">· meetings float up. we let them.</span></p>
+    <h2 class="rv">Six rules from<br>the twilight.</h2>
+    <p class="lede rv">This is where the light starts to go. So do the calendar invites.</p>
+
+    <div class="rules">
+      <article class="rule rv" style="--i:0">
+        <span class="rule-num">001</span>
+        <h3>locked in > logged on</h3>
+        <p>presence is not output. we measure ourselves in shipped artifacts, not hours of green dot.</p>
+      </article>
+      <article class="rule rv" style="--i:1">
+        <span class="rule-num">010</span>
+        <h3>fewer rituals.</h3>
+        <p>no daily standup. no retro about the retro. one written brief, one done thing, one demo.</p>
+      </article>
+      <article class="rule rv" style="--i:2">
+        <span class="rule-num">011</span>
+        <h3>the keyboard is the artifact.</h3>
+        <p>strategy decks rot. running code compounds. we bias hard toward the latter.</p>
+      </article>
+      <article class="rule rv" style="--i:3">
+        <span class="rule-num">100</span>
+        <h3>small units, sharp scope.</h3>
+        <p>two-to-four operators per cell. fixed window. brutal definition of done.</p>
+      </article>
+      <article class="rule rv" style="--i:4">
+        <span class="rule-num">101</span>
+        <h3>taste is non-negotiable.</h3>
+        <p>fast is good. fast & tasteful is the whole job. if it ships ugly, it didn't ship.</p>
+      </article>
+      <article class="rule rv" style="--i:5">
+        <span class="rule-num">110</span>
+        <h3>own the outcome.</h3>
+        <p>we don't hand off tickets. we walk the thing into prod & stay until it breathes on its own.</p>
+      </article>
+    </div>
+    <p class="fish-hint rv">↖ the school scatters if you get close.</p>
+  </div>
+</section>
+
+<!-- ===== 1000 m · midnight ===== -->
+<section class="zone midnight" id="services" data-depth="1000">
+  <div class="whale" aria-hidden="true">
+    <svg viewBox="0 0 680 220">
+      <path d="M12 118 C60 58 196 36 318 56 C420 72 520 98 562 128 C600 116 628 88 652 64 C642 104 644 126 666 168 C632 150 602 140 566 142 C522 170 404 190 300 186 C178 182 58 168 12 118Z"/>
+      <path d="M210 160 C230 196 270 206 300 200 C280 190 262 176 250 160Z"/>
+      <circle cx="96" cy="112" r="5" class="whale-eye"/>
+    </svg>
+    <span class="whale-label">an all-hands meeting drifts by. nobody looks up.</span>
+  </div>
+
+  <div class="wrap">
+    <p class="zone-tag rv"><span class="zt-depth">▼ 1,000 m</span> midnight zone <span class="zt-note">· sunlight ends here. so does scope creep.</span></p>
+    <h2 class="rv">Four dive plans.</h2>
+    <p class="lede rv">Every engagement is a dive profile: how fast we drop, how long we stay on the bottom, how we come back up.</p>
+
+    <div class="dives">
+      <article class="dive rv" style="--i:0">
+        <div class="dive-tag"><span>/01</span> strike team</div>
+        <h3>zero-to-one product cells</h3>
+        <svg class="profile" viewBox="0 0 300 84" aria-hidden="true">
+          <line x1="8" y1="10" x2="292" y2="10" class="pf-surface"/>
+          <path class="pf-path" pathLength="1" d="M8 10 C24 10 30 66 48 66 L250 66 C268 66 276 10 292 10"/>
+          <text x="8" y="82">wk 0</text><text x="270" y="82">wk 6</text>
+        </svg>
+        <p>you have a pitch, a deadline & a half-built figma. we turn up as a 3-person cell & ship a real v1 in 6 weeks. design, frontend, backend, infra — one room.</p>
+        <div class="chips"><span>6 wk window</span><span>fixed price</span><span>code is yours</span></div>
+      </article>
+      <article class="dive rv" style="--i:1">
+        <div class="dive-tag"><span>/02</span> rescue op</div>
+        <h3>codebase rescues & rewrites</h3>
+        <svg class="profile" viewBox="0 0 300 84" aria-hidden="true">
+          <line x1="8" y1="10" x2="292" y2="10" class="pf-surface"/>
+          <path class="pf-path" pathLength="1" d="M8 10 L22 72 L48 62 L70 74 L96 58 L122 70 L150 60 L176 66 L196 10"/>
+          <text x="8" y="82">wk 0</text><text x="172" y="82">wk 2–8</text>
+        </svg>
+        <p>your repo is on fire, the original team is gone, the next release is friday. we triage, we patch, we delete. we leave it boring & documented.</p>
+        <div class="chips"><span>2–8 wk</span><span>t&m</span><span>handover doc</span></div>
+      </article>
+      <article class="dive rv" style="--i:2">
+        <div class="dive-tag"><span>/03</span> ai integration</div>
+        <h3>llm features that actually ship</h3>
+        <svg class="profile" viewBox="0 0 300 84" aria-hidden="true">
+          <line x1="8" y1="10" x2="292" y2="10" class="pf-surface"/>
+          <path class="pf-path" pathLength="1" d="M8 10 C20 10 28 60 44 60 L160 60 C176 60 182 34 196 34 L292 34"/>
+          <text x="8" y="82">wk 0</text><text x="140" y="82">wk 4</text><text x="236" y="82">retainer</text>
+        </svg>
+        <p>not another chatbot. real workflows: agents in your ops, eval harnesses, prompt & cache discipline, observability. claude as a tool, not a buzzword.</p>
+        <div class="chips"><span>4 wk pilot</span><span>opt-in retainer</span><span>evals included</span></div>
+      </article>
+      <article class="dive rv" style="--i:3">
+        <div class="dive-tag"><span>/04</span> embedded operator</div>
+        <h3>one of us, on your team, full lock-in</h3>
+        <svg class="profile" viewBox="0 0 300 84" aria-hidden="true">
+          <line x1="8" y1="10" x2="292" y2="10" class="pf-surface"/>
+          <path class="pf-path" pathLength="1" d="M8 10 C18 10 24 70 40 70 L286 70"/>
+          <path class="pf-arrow" d="M280 64 L290 70 L280 76"/>
+          <text x="8" y="82">day 1</text><text x="210" y="82">q+1, q+2…</text>
+        </svg>
+        <p>a single senior operator embeds for one quarter. they don't attend standups; they ship. you keep the work, the context & the muscle memory.</p>
+        <div class="chips"><span>1 quarter</span><span>monthly</span><span>renewable</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 4000 m · abyss ===== -->
+<section class="zone abyss" id="crew" data-depth="4000">
+  <div class="wrap">
+    <p class="zone-tag rv"><span class="zt-depth">▼ 4,000 m</span> the abyss <span class="zt-note">· only the crew lives down here.</span></p>
+    <h2 class="rv">The crew.</h2>
+    <p class="lede rv">Strange, specialised, a little bioluminescent. They're watching your cursor — say hi.</p>
+
+    <div class="crew">
+
+      <article class="op rv" style="--i:0;--glow:#a98bff" data-say="deleted 40k lines today. feeling light.">
+        <div class="op-stage">
+          <svg class="critter octo" viewBox="0 0 160 160" aria-hidden="true">
+            <g class="c-bob">
+              <g class="arms" stroke="#7b5cf0" stroke-width="11" stroke-linecap="round" fill="none">
+                <path class="arm" style="--d:0s" d="M56 94 q-14 18 -10 32 q3 10 -8 12"/>
+                <path class="arm" style="--d:-.7s" d="M68 100 q-6 18 -2 30 q2 8 -5 12"/>
+                <path class="arm" style="--d:-1.4s" d="M80 102 q0 18 0 30 q0 8 6 12"/>
+                <path class="arm" style="--d:-2.1s" d="M92 100 q6 18 2 30 q-2 8 5 12"/>
+                <path class="arm" style="--d:-2.8s" d="M104 94 q14 18 10 32 q-3 10 8 12"/>
+              </g>
+              <path d="M80 24 C114 24 126 50 122 74 C119 94 104 104 80 104 C56 104 41 94 38 74 C34 50 46 24 80 24Z" fill="#a98bff"/>
+              <ellipse cx="64" cy="40" rx="11" ry="6" fill="#d2c3ff" opacity=".7" transform="rotate(-20 64 40)"/>
+              <circle cx="102" cy="42" r="4" fill="#8b6cf5"/><circle cx="110" cy="56" r="2.6" fill="#8b6cf5"/><circle cx="52" cy="60" r="3" fill="#8b6cf5"/>
+              <ellipse cx="56" cy="86" rx="7" ry="4" fill="#ff8fb8" opacity=".55"/>
+              <ellipse cx="104" cy="86" rx="7" ry="4" fill="#ff8fb8" opacity=".55"/>
+              <g class="eye"><circle cx="66" cy="72" r="11" fill="#fff"/><g class="pupil"><circle cx="66" cy="72" r="5.5" fill="#160f2e"/><circle cx="68" cy="69.5" r="1.8" fill="#fff"/></g></g>
+              <g class="eye"><circle cx="94" cy="72" r="11" fill="#fff"/><g class="pupil"><circle cx="94" cy="72" r="5.5" fill="#160f2e"/><circle cx="96" cy="69.5" r="1.8" fill="#fff"/></g></g>
+              <path d="M74 90 q6 5 12 0" stroke="#3a2470" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+              <path d="M40 66 C40 14 120 14 120 66" stroke="#1d1836" stroke-width="6" fill="none"/>
+              <rect x="31" y="56" width="13" height="24" rx="6" fill="#ff7a59"/>
+              <rect x="116" y="56" width="13" height="24" rx="6" fill="#ff7a59"/>
+            </g>
+          </svg>
+          <span class="say"></span>
+        </div>
+        <div class="op-body">
+          <div class="op-head"><h3>kira <span>@k1ra</span></h3><span class="status on">online</span></div>
+          <p class="op-role">octopus · founding operator · systems</p>
+          <p>distributed systems, rust, postgres internals. eight arms, zero meetings. once deleted 40k lines & the product got faster.</p>
+          <div class="chips"><span>rust</span><span>pg</span><span>k8s</span></div>
+        </div>
+      </article>
+
+      <article class="op rv" style="--i:1;--glow:#ffb547" data-say="is that 60fps or are you just happy to see me?">
+        <div class="op-stage">
+          <svg class="critter angler" viewBox="0 0 160 160" aria-hidden="true">
+            <defs>
+              <radialGradient id="lureGlow"><stop offset="0" stop-color="#ffe2a0" stop-opacity=".95"/><stop offset="1" stop-color="#ffb547" stop-opacity="0"/></radialGradient>
+            </defs>
+            <g class="c-bob">
+              <path class="tail" d="M38 92 L12 70 L18 94 L12 118 Z" fill="#2a3550"/>
+              <path d="M66 48 L72 34 L78 47 L86 32 L90 46" fill="#2a3550"/>
+              <path d="M36 92 C36 58 60 44 86 46 C118 48 136 70 134 96 C132 122 110 136 84 134 C58 132 36 122 36 92Z" fill="#3b4a6b"/>
+              <path d="M48 112 C66 130 106 132 126 114 C112 128 70 134 48 112Z" fill="#5a6d96"/>
+              <path d="M94 104 C108 100 124 98 134 96 C130 118 112 126 96 116 Z" fill="#140c17"/>
+              <path d="M98 103 L101 110 L105 102 L108 109 L112 101 L115 108 L119 100 L122 107 L126 99 L129 105" stroke="#f4efe6" stroke-width="2" fill="none" stroke-linejoin="miter"/>
+              <path class="fin" d="M68 100 q-16 10 -6 24 q8 -6 14 -16 z" fill="#2a3550"/>
+              <g class="eye"><circle cx="98" cy="76" r="11" fill="#fff"/><g class="pupil"><circle cx="98" cy="76" r="5" fill="#0b0f1a"/><circle cx="100" cy="73.5" r="1.7" fill="#fff"/></g></g>
+              <path d="M84 47 C84 20 112 10 128 26" stroke="#3b4a6b" stroke-width="3" fill="none" stroke-linecap="round"/>
+              <circle class="lure-glow" cx="130" cy="30" r="20" fill="url(#lureGlow)"/>
+              <circle class="lure" cx="130" cy="30" r="5.5" fill="#ffe2a0"/>
+            </g>
+          </svg>
+          <span class="say"></span>
+        </div>
+        <div class="op-body">
+          <div class="op-head"><h3>mateo <span>@m4t</span></h3><span class="status on">online</span></div>
+          <p class="op-role">anglerfish · product & frontend</p>
+          <p>react, motion, taste. brings his own light. believes 60fps is a moral position.</p>
+          <div class="chips"><span>react</span><span>ts</span><span>motion</span></div>
+        </div>
+      </article>
+
+      <article class="op rv" style="--i:2;--glow:#4fd8ff" data-say="evals or it didn't happen.">
+        <div class="op-stage">
+          <svg class="critter squid" viewBox="0 0 160 160" aria-hidden="true">
+            <g class="c-bob">
+              <g class="arms" stroke="#2b86b8" stroke-width="6" stroke-linecap="round" fill="none">
+                <path class="arm" style="--d:0s" d="M66 104 q-6 20 -2 40"/>
+                <path class="arm" style="--d:-.5s" d="M73 106 q-2 18 -4 34"/>
+                <path class="arm" style="--d:-1s" d="M80 107 q0 22 0 44"/>
+                <path class="arm" style="--d:-1.5s" d="M87 106 q2 18 4 34"/>
+                <path class="arm" style="--d:-2s" d="M94 104 q6 20 2 40"/>
+              </g>
+              <path d="M62 30 C44 38 40 56 58 58Z" fill="#2b86b8"/>
+              <path d="M98 30 C116 38 120 56 102 58Z" fill="#2b86b8"/>
+              <path d="M80 12 C98 28 106 56 104 82 C103 98 94 108 80 108 C66 108 57 98 56 82 C54 56 62 28 80 12Z" fill="#3fa7d6"/>
+              <path d="M70 30 C66 44 64 58 66 72" stroke="#8fdcff" stroke-width="3" fill="none" opacity=".5" stroke-linecap="round"/>
+              <circle class="photo" style="--i:0" cx="80" cy="30" r="2.6"/>
+              <circle class="photo" style="--i:1" cx="74" cy="42" r="2.3"/>
+              <circle class="photo" style="--i:2" cx="86" cy="44" r="2.3"/>
+              <circle class="photo" style="--i:3" cx="80" cy="55" r="2.6"/>
+              <circle class="photo" style="--i:4" cx="90" cy="62" r="2"/>
+              <circle class="photo" style="--i:5" cx="70" cy="64" r="2"/>
+              <g class="eye"><circle cx="70" cy="86" r="9" fill="#fff"/><g class="pupil"><circle cx="70" cy="86" r="4.6" fill="#071b2b"/><circle cx="71.5" cy="84" r="1.5" fill="#fff"/></g></g>
+              <g class="eye"><circle cx="90" cy="86" r="9" fill="#fff"/><g class="pupil"><circle cx="90" cy="86" r="4.6" fill="#071b2b"/><circle cx="91.5" cy="84" r="1.5" fill="#fff"/></g></g>
+            </g>
+          </svg>
+          <span class="say"></span>
+        </div>
+        <div class="op-body">
+          <div class="op-head"><h3>ada <span>@ada_lvc</span></h3><span class="status busy">shipping</span></div>
+          <p class="op-role">glass squid · ai & agents</p>
+          <p>writes prompts like she writes code. her photophores blink once per passing eval. evals or it didn't happen.</p>
+          <div class="chips"><span>claude</span><span>evals</span><span>py</span></div>
+        </div>
+      </article>
+
+      <article class="op rv" style="--i:3;--glow:#9fb3cc" data-say="your iam policy is showing.">
+        <div class="op-stage">
+          <svg class="critter isopod" viewBox="0 0 160 160" aria-hidden="true">
+            <g class="c-bob">
+              <g class="legs" stroke="#5c6f88" stroke-width="4" stroke-linecap="round">
+                <line class="leg" style="--d:0s" x1="46" y1="116" x2="42" y2="128"/>
+                <line class="leg" style="--d:-.15s" x1="60" y1="118" x2="56" y2="130"/>
+                <line class="leg" style="--d:-.3s" x1="74" y1="119" x2="70" y2="131"/>
+                <line class="leg" style="--d:-.45s" x1="88" y1="119" x2="84" y2="131"/>
+                <line class="leg" style="--d:-.6s" x1="102" y1="118" x2="98" y2="130"/>
+                <line class="leg" style="--d:-.75s" x1="116" y1="116" x2="112" y2="128"/>
+              </g>
+              <path d="M36 118 C36 76 60 54 92 54 C124 54 146 78 146 118 Z" fill="#8ea2bd"/>
+              <g stroke="#6d819c" stroke-width="3" fill="none" stroke-linecap="round">
+                <path d="M58 118 C58 88 66 70 76 62"/>
+                <path d="M78 118 C78 88 84 68 92 58"/>
+                <path d="M98 118 C98 90 104 70 112 62"/>
+                <path d="M118 118 C118 96 122 82 130 76"/>
+              </g>
+              <path d="M60 64 C76 54 104 54 120 62" stroke="#c6d3e3" stroke-width="4" fill="none" stroke-linecap="round" opacity=".7"/>
+              <path d="M146 112 L156 104 L156 120 Z" fill="#7a8ea9"/>
+              <!-- padlock on back -->
+              <g class="pad">
+                <path d="M86 62 V56 a6 6 0 0 1 12 0 V62" stroke="#ffb547" stroke-width="3" fill="none"/>
+                <rect x="82" y="61" width="20" height="15" rx="3" fill="#ffb547"/>
+                <circle cx="92" cy="68" r="2.2" fill="#6b3e0a"/>
+              </g>
+              <!-- head -->
+              <path d="M18 88 C8 72 4 62 12 50" stroke="#5c6f88" stroke-width="3" fill="none" stroke-linecap="round" class="antenna"/>
+              <path d="M24 86 C22 70 24 58 34 50" stroke="#5c6f88" stroke-width="3" fill="none" stroke-linecap="round" class="antenna a2"/>
+              <path d="M16 118 C14 96 24 86 40 86 C52 86 56 100 52 118 Z" fill="#a4b6cc"/>
+              <g class="eye"><circle cx="32" cy="100" r="8.5" fill="#fff"/><g class="pupil"><circle cx="32" cy="100" r="4.2" fill="#0b0f1a"/><circle cx="33.5" cy="98" r="1.4" fill="#fff"/></g></g>
+            </g>
+          </svg>
+          <span class="say"></span>
+        </div>
+        <div class="op-body">
+          <div class="op-head"><h3>juno <span>@juno.exe</span></h3><span class="status on">online</span></div>
+          <p class="op-role">giant isopod · infra & security</p>
+          <p>armour-plated terraform whisperer. has opinions about iam policies that would ruin a dinner party.</p>
+          <div class="chips"><span>tf</span><span>aws</span><span>sec</span></div>
+        </div>
+      </article>
+
+      <article class="op rv" style="--i:4;--glow:#ff8fd0" data-say="that type scale? *chef's kiss*">
+        <div class="op-stage">
+          <svg class="critter jelly" viewBox="0 0 160 160" aria-hidden="true">
+            <g class="c-bob">
+              <g class="arms" stroke="#ff9fd6" stroke-width="3.2" stroke-linecap="round" fill="none" opacity=".8">
+                <path class="arm" style="--d:0s" d="M54 84 C48 100 60 112 52 128 C46 140 54 146 50 154"/>
+                <path class="arm" style="--d:-.6s" d="M68 86 C62 104 74 114 66 130 C62 140 68 146 66 152"/>
+                <path class="arm" style="--d:-1.2s" d="M80 86 C86 104 74 114 82 132 C86 142 80 148 82 156"/>
+                <path class="arm" style="--d:-1.8s" d="M92 86 C98 104 86 114 94 130 C98 140 92 146 94 152"/>
+                <path class="arm" style="--d:-2.4s" d="M106 84 C112 100 100 112 108 128 C114 140 106 146 110 154"/>
+              </g>
+              <g class="bell">
+                <path d="M30 84 C30 44 54 20 80 20 C106 20 130 44 130 84 C120 92 110 80 100 88 C90 80 70 80 60 88 C50 80 40 92 30 84Z" fill="#ff8fd0" opacity=".92"/>
+                <ellipse cx="80" cy="50" rx="34" ry="20" fill="#ffd1ec" opacity=".45"/>
+                <ellipse cx="62" cy="36" rx="9" ry="5" fill="#fff" opacity=".55" transform="rotate(-25 62 36)"/>
+                <ellipse cx="56" cy="74" rx="6" ry="3.5" fill="#ff5fae" opacity=".6"/>
+                <ellipse cx="104" cy="74" rx="6" ry="3.5" fill="#ff5fae" opacity=".6"/>
+                <g class="eye"><circle cx="68" cy="64" r="8" fill="#fff"/><g class="pupil"><circle cx="68" cy="64" r="4" fill="#2a0b1f"/><circle cx="69.5" cy="62" r="1.4" fill="#fff"/></g></g>
+                <g class="eye"><circle cx="92" cy="64" r="8" fill="#fff"/><g class="pupil"><circle cx="92" cy="64" r="4" fill="#2a0b1f"/><circle cx="93.5" cy="62" r="1.4" fill="#fff"/></g></g>
+                <path d="M75 76 q5 4 10 0" stroke="#8a1f5a" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+              </g>
+            </g>
+          </svg>
+          <span class="say"></span>
+        </div>
+        <div class="op-body">
+          <div class="op-head"><h3>rin <span>@r1n</span></h3><span class="status deep">deep work</span></div>
+          <p class="op-role">jellyfish · design engineering</p>
+          <p>designs in code, drifts in curves. ships type scales that make pms cry, in a good way.</p>
+          <div class="chips"><span>css</span><span>figma</span><span>svg</span></div>
+        </div>
+      </article>
+
+      <article class="op op-egg rv" style="--i:5;--glow:#7ef9e0" data-say="could be you. one email.">
+        <div class="op-stage">
+          <svg class="critter egg" viewBox="0 0 160 160" aria-hidden="true">
+            <g class="c-bob">
+              <g class="egg-body">
+                <ellipse cx="80" cy="88" rx="38" ry="50" fill="rgba(126,249,224,.07)" stroke="rgba(126,249,224,.6)" stroke-width="2" stroke-dasharray="5 6"/>
+                <ellipse cx="66" cy="62" rx="8" ry="13" fill="#fff" opacity=".12" transform="rotate(20 66 62)"/>
+                <text x="80" y="104" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800" font-size="46" fill="rgba(126,249,224,.55)">?</text>
+                <path class="crack" pathLength="1" d="M44 82 L54 90 L62 80 L72 92 L80 82 L90 92 L98 80 L108 90 L116 82" stroke="#7ef9e0" stroke-width="2.4" fill="none" stroke-linejoin="round"/>
+              </g>
+            </g>
+          </svg>
+          <span class="say"></span>
+        </div>
+        <div class="op-body">
+          <div class="op-head"><h3>[ slot open ]</h3><span class="status hiring">hiring</span></div>
+          <p class="op-role">unknown species · we hatch 2 operators / yr</p>
+          <p>if you read this far & your hands are itching, the application is <a href="mailto:lockin@lockincrew.io">one email</a>.</p>
+          <div class="chips"><span>senior</span><span>eu / remote</span></div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== 6000 m · hadal ===== -->
+<section class="zone hadal" id="receipts" data-depth="6000">
+  <div class="wrap">
+    <p class="zone-tag rv"><span class="zt-depth">▼ 6,000 m</span> hadal zone <span class="zt-note">· 600 atm. weirdly great for output.</span></p>
+    <h2 class="rv">Receipts, on sonar.</h2>
+    <p class="lede rv">Last 12 months. Unaudited but honest. Hover the blips.</p>
+
+    <div class="receipts">
+      <div class="radar rv" aria-label="sonar of recent ships">
+        <div class="radar-rings"></div>
+        <div class="radar-sweep"></div>
+        <div class="blip" style="--a:38;--r:.62"><span>acme/payments — v1 in 38d</span></div>
+        <div class="blip" style="--a:112;--r:.38"><span>nordsail/orders — friday release held</span></div>
+        <div class="blip" style="--a:176;--r:.78"><span>brink/agent-eval — p95 −41%</span></div>
+        <div class="blip" style="--a:248;--r:.5"><span>keiretsu/data — q4 renewed</span></div>
+        <div class="blip warn" style="--a:310;--r:.84"><span>3 briefs declined — no deadline</span></div>
+        <div class="radar-core"></div>
+      </div>
+
+      <div class="rc-right">
+        <div class="stats">
+          <div class="stat rv" style="--i:0"><b data-count="184">0</b><span>ships / quarter</span></div>
+          <div class="stat rv" style="--i:1"><b data-count="42">0</b><span>active operators<em>6 creatures, 36 agents</em></span></div>
+          <div class="stat rv" style="--i:2"><b data-count="0">0</b><span>recurring meetings</span></div>
+          <div class="stat rv" style="--i:3"><b data-count="99" data-suffix="%">0</b><span>async</span></div>
+        </div>
+        <ol class="sonar-log rv" id="sonarLog">
+          <li><time>14:02</time><i class="ok">✓</i> shipped: acme/payments — v1 in 38d</li>
+          <li><time>11:48</time><i class="ok">✓</i> rescued: nordsail/orders — friday release held</li>
+          <li><time>09:17</time><i class="ok">✓</i> deployed: brink/agent-eval — p95 −41%</li>
+          <li><time>07:02</time><i class="warn">!</i> declined: 3 briefs — scope unclear, no deadline</li>
+          <li><time>02:11</time><i class="ok">✓</i> embedded: keiretsu/data — q4 renewed</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 10,994 m · trench ===== -->
+<section class="zone trench" id="hire" data-depth="10000">
+  <div class="wrap">
+    <p class="zone-tag rv"><span class="zt-depth">▼ 10,994 m</span> challenger deep <span class="zt-note">· the deepest point. this is where the work happens.</span></p>
+    <h2 class="rv">Send a transmission<br>to the deep.</h2>
+    <p class="lede rv">Brief is better than long. We read everything. No reply in 5 days means you're in the no pile — the hatch opens again next quarter.</p>
+
+    <div class="hire">
+      <form class="console rv" id="hireForm" autocomplete="off">
+        <div class="console-bar">
+          <span class="led"></span><span class="led"></span><span class="led"></span>
+          <span class="console-title">uplink · lkn-01 → surface</span>
+          <span class="console-sig" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        </div>
+        <label class="field">
+          <span>who's calling</span>
+          <input type="text" name="name" placeholder="your name" required />
+        </label>
+        <label class="field">
+          <span>return frequency</span>
+          <input type="email" name="email" placeholder="you@company.com" required />
+        </label>
+        <fieldset class="field">
+          <legend>dive plan</legend>
+          <div class="plans">
+            <label><input type="radio" name="plan" value="strike" checked><span>strike team</span></label>
+            <label><input type="radio" name="plan" value="rescue"><span>rescue op</span></label>
+            <label><input type="radio" name="plan" value="ai"><span>ai integration</span></label>
+            <label><input type="radio" name="plan" value="embedded"><span>embedded</span></label>
+            <label><input type="radio" name="plan" value="unsure"><span>not sure yet</span></label>
+          </div>
+        </fieldset>
+        <label class="field">
+          <span>the brief</span>
+          <textarea name="brief" rows="4" placeholder="what are we building? deadline? budget shape?"></textarea>
+        </label>
+        <div class="console-foot">
+          <button class="btn btn-amber" type="submit">transmit <span class="arr">↑</span></button>
+          <p class="tx-status" id="txStatus" aria-live="polite">channel open · waiting for brief</p>
+        </div>
+      </form>
+
+      <aside class="hire-side rv">
+        <p class="hs-lbl">or just email us</p>
+        <a class="bigmail" href="mailto:lockin@lockincrew.io">lockin@<br>lockincrew.io</a>
+        <ul class="links">
+          <li><a href="#">github / lockincrew</a></li>
+          <li><a href="#">x / @lockincrew</a></li>
+          <li><a href="#">read.cv / lockincrew</a></li>
+        </ul>
+        <p class="hs-note">operating from warsaw (utc+1), lisbon (utc+0) & roughly 11 km below the noise.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ===== Seabed ===== -->
+<footer class="seabed">
+  <div class="vent" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <div class="worms" aria-hidden="true">
+    <span class="worm" style="--h:70px;--d:0s"></span>
+    <span class="worm" style="--h:96px;--d:-.8s"></span>
+    <span class="worm" style="--h:58px;--d:-1.6s"></span>
+    <span class="worm" style="--h:84px;--d:-2.2s"></span>
+    <span class="worm" style="--h:64px;--d:-.4s"></span>
+  </div>
+  <svg class="sand" viewBox="0 0 1440 140" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 60 C180 30 300 70 480 54 C660 38 760 18 940 40 C1120 62 1260 34 1440 48 V140 H0Z" fill="#141a22"/>
+    <path d="M0 86 C200 64 360 98 560 82 C760 66 900 92 1100 78 C1260 68 1360 84 1440 80 V140 H0Z" fill="#0d1218"/>
+  </svg>
+  <div class="foot-row">
+    <span>© <span id="year">2026</span> lockincrew sp. z o.o.</span>
+    <span>you've reached the bottom. there's nothing down here but work.</span>
+    <a href="#surface" class="surface-link">↑ resurface</a>
+  </div>
+</footer>
+
+<!-- ===== Lock-in overlay ===== -->
+<div class="lock" id="lock" hidden>
+  <div class="porthole">
+    <div class="ph-ring">
+      <i style="--a:0deg"></i><i style="--a:45deg"></i><i style="--a:90deg"></i><i style="--a:135deg"></i>
+      <i style="--a:180deg"></i><i style="--a:225deg"></i><i style="--a:270deg"></i><i style="--a:315deg"></i>
+    </div>
+    <div class="ph-glass">
+      <div class="ph-lure"></div>
+      <div class="ph-text">
+        <span class="ph-k">hatch sealed</span>
+        <strong>locked in.</strong>
+        <span class="ph-timer" id="lockTimer">00:00</span>
+      </div>
+    </div>
+  </div>
+  <p class="lock-meta">notifications: 0 · depth: 10,994 m · slack: not even open</p>
+  <button class="btn btn-ghost" id="unlock" type="button">resurface <kbd>esc</kbd></button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
