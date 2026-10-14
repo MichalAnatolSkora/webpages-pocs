@@ -5,109 +5,638 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Webpages POCs</title>
   <style>
+    :root {
+      --bg: #f6f5f2;
+      --surface: #ffffff;
+      --ink: #1a1a1a;
+      --ink-2: #4a4a4a;
+      --ink-3: #8a8a85;
+      --line: #e4e2dc;
+      --line-2: #d3d0c8;
+      --chip: #f1efea;
+      --chip-hover: #e6e3dc;
+      --accent: #b8862e;
+      --accent-ink: #ffffff;
+      --mark: #fde9b8;
+      color-scheme: light;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #0f0f0f;
+        --surface: #181818;
+        --ink: #f0f0f0;
+        --ink-2: #b5b5b5;
+        --ink-3: #7a7a7a;
+        --line: #262626;
+        --line-2: #333333;
+        --chip: #222222;
+        --chip-hover: #2e2e2e;
+        --accent: #d4a44a;
+        --accent-ink: #0f0f0f;
+        --mark: #5a4512;
+        color-scheme: dark;
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg: #0f0f0f;
+      --surface: #181818;
+      --ink: #f0f0f0;
+      --ink-2: #b5b5b5;
+      --ink-3: #7a7a7a;
+      --line: #262626;
+      --line-2: #333333;
+      --chip: #222222;
+      --chip-hover: #2e2e2e;
+      --accent: #d4a44a;
+      --accent-ink: #0f0f0f;
+      --mark: #5a4512;
+      color-scheme: dark;
+    }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-      background: #0f0f0f;
-      color: #e0e0e0;
-      min-height: 100vh;
+      font: 15px/1.5 system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .mono { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; }
+
+    .wrap {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    /* ---------- header ---------- */
+    header { padding: 56px 0 24px; }
+    h1 { font-size: 1.75rem; letter-spacing: -0.01em; }
+    .subtitle { color: var(--ink-3); margin-top: 4px; }
+    .subtitle b { color: var(--ink-2); font-weight: 600; }
+
+    /* ---------- toolbar ---------- */
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: color-mix(in srgb, var(--bg) 90%, transparent);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+    }
+    .toolbar .wrap {
       display: flex;
-      flex-direction: column;
+      flex-wrap: wrap;
       align-items: center;
-      padding: 80px 24px;
+      gap: 10px;
+      padding-top: 12px;
+      padding-bottom: 12px;
     }
-
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 8px;
-      color: #fff;
+    .search {
+      flex: 1 1 260px;
+      position: relative;
     }
-
-    .subtitle {
-      color: #888;
-      margin-bottom: 60px;
-    }
-
-    .projects {
-      display: flex;
-      flex-direction: column;
-      gap: 32px;
+    .search input {
       width: 100%;
-      max-width: 600px;
+      font: inherit;
+      color: var(--ink);
+      background: var(--surface);
+      border: 1px solid var(--line-2);
+      border-radius: 8px;
+      padding: 9px 40px 9px 12px;
+    }
+    .search input:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+    .search kbd {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font: 12px/1 ui-monospace, Menlo, monospace;
+      color: var(--ink-3);
+      border: 1px solid var(--line-2);
+      border-radius: 4px;
+      padding: 3px 6px;
+      pointer-events: none;
+    }
+    .search input:not(:placeholder-shown) + kbd { display: none; }
+    .seg {
+      display: inline-flex;
+      background: var(--chip);
+      border-radius: 8px;
+      padding: 3px;
+      gap: 2px;
+    }
+    .seg button, .toggle {
+      font: 600 13px/1 inherit;
+      font-family: inherit;
+      color: var(--ink-2);
+      background: none;
+      border: 0;
+      border-radius: 6px;
+      padding: 7px 11px;
+      cursor: pointer;
+    }
+    .seg button[aria-pressed="true"] {
+      background: var(--surface);
+      color: var(--ink);
+      box-shadow: 0 1px 2px rgba(0,0,0,.08);
+    }
+    .toggle {
+      border: 1px solid var(--line-2);
+      background: var(--surface);
+    }
+    .toggle[aria-pressed="true"] {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: var(--bg);
+    }
+
+    /* ---------- list ---------- */
+    main { padding: 20px 0 80px; }
+    .group-label {
+      font: 600 11px/1 ui-monospace, Menlo, monospace;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin: 28px 0 10px;
+    }
+    .group-label:first-child { margin-top: 4px; }
+
+    .list {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
     }
 
     .project {
-      background: #1a1a1a;
-      border: 1px solid #2a2a2a;
-      border-radius: 12px;
-      padding: 28px 32px;
+      display: grid;
+      grid-template-columns: minmax(200px, 300px) 1fr;
+      gap: 8px 28px;
+      padding: 18px 22px;
+      border-top: 1px solid var(--line);
     }
+    .project:first-child { border-top: 0; }
 
     .project h2 {
-      font-size: 1.3rem;
-      color: #fff;
-      margin-bottom: 16px;
+      font-size: 1.05rem;
+      line-height: 1.3;
     }
+    .project h2 a { color: inherit; text-decoration: none; }
+    .project h2 a:hover { text-decoration: underline; text-underline-offset: 3px; }
+    .desc { color: var(--ink-2); font-size: 0.875rem; margin-top: 2px; }
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 12px;
+      margin-top: 8px;
+      font-size: 0.78rem;
+      color: var(--ink-3);
+    }
+    .meta a { color: var(--ink-2); }
+    .meta a:hover { color: var(--accent); }
 
     .versions {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
+      align-content: flex-start;
+      gap: 6px;
     }
+    .versions.notes { flex-direction: column; flex-wrap: nowrap; gap: 2px; }
 
-    .versions a {
-      display: inline-block;
-      padding: 10px 24px;
-      background: #d4a44a;
-      color: #0f0f0f;
-      font-weight: 700;
-      font-size: 0.9rem;
+    .v {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 8px;
+      padding: 6px 10px;
+      background: var(--chip);
+      color: var(--ink);
+      font: 600 13px/1.2 ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
       border-radius: 6px;
       text-decoration: none;
-      transition: background 0.2s;
+      transition: background .15s;
+    }
+    .v:hover { background: var(--chip-hover); }
+    .v:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+    .v.latest { background: var(--accent); color: var(--accent-ink); }
+    .v.latest:hover { filter: brightness(1.06); }
+    .v.extra { background: none; border: 1px dashed var(--line-2); color: var(--ink-2); }
+    .v.extra:hover { border-color: var(--ink-3); color: var(--ink); }
+    .v .note {
+      display: none;
+      font: 400 13px/1.3 system-ui, -apple-system, 'Segoe UI', sans-serif;
+      color: var(--ink-2);
+    }
+    .v.latest .note { color: inherit; opacity: .85; }
+    .v.hit .note, .notes .v .note { display: inline; }
+    .v.hit { box-shadow: inset 0 0 0 2px var(--accent); }
+
+    .versions.notes .v {
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      background: none;
+      padding: 5px 8px;
+    }
+    .versions.notes .v:hover { background: var(--chip); }
+    .versions.notes .v.latest { color: var(--accent); }
+    .versions.notes .v.latest .note { color: var(--ink-2); opacity: 1; }
+    .versions.notes .v.extra { border: 0; }
+
+    mark { background: var(--mark); color: inherit; border-radius: 2px; }
+
+    .empty {
+      padding: 48px 22px;
+      text-align: center;
+      color: var(--ink-3);
     }
 
-    .versions a:hover {
-      background: #e6b85c;
+    @media (max-width: 720px) {
+      header { padding-top: 36px; }
+      .project { grid-template-columns: 1fr; padding: 16px; }
+      .versions.notes .v { grid-template-columns: 56px 1fr; }
+      .search kbd { display: none; }
     }
   </style>
 </head>
 <body>
 
-  <h1>Webpages POCs</h1>
-  <p class="subtitle">Proof of concept websites</p>
+  <header class="wrap">
+    <h1>Webpages POCs</h1>
+    <p class="subtitle">Proof of concept websites · <b id="count-projects">0</b> projects, <b id="count-versions">0</b> versions</p>
+  </header>
 
-  <div class="projects">
-    <div class="project">
-      <h2>Michał — StableTech</h2>
-      <div class="versions">
-        <a href="michal/v1/index.html">v1</a>
-        <a href="michal/v2/index.html">v2</a>
-        <a href="michal/v3/index.html">v3</a>
+  <div class="toolbar">
+    <div class="wrap">
+      <label class="search">
+        <input id="q" type="search" placeholder="Search projects, versions, styles…" autocomplete="off" aria-label="Search">
+        <kbd>/</kbd>
+      </label>
+      <div class="seg" role="group" aria-label="Sort">
+        <button type="button" data-sort="recent" aria-pressed="true">Recent</button>
+        <button type="button" data-sort="az" aria-pressed="false">A–Z</button>
       </div>
-    </div>
-    <div class="project">
-      <h2>Pawel — Flokki1 ehf.</h2>
-      <div class="versions">
-        <a href="pawel/v1/index.html">v1</a>
-        <a href="pawel/v2/index.html">v2</a>
-        <a href="pawel/v3/index.html">v3</a>
-      </div>
-    </div>
-    <div class="project">
-      <h2>Corum Technologies</h2>
-      <div class="versions">
-        <a href="corum-technologies/v1/index.html">v1</a>
-        <a href="corum-technologies/v2/index.html">v2</a>
-        <a href="corum-technologies/v3/index.html">v3</a>
-        <a href="corum-technologies/v4/index.html">v4</a>
-        <a href="corum-technologies/v5/index.html">v5</a>
-        <a href="corum-technologies/v6/index.html">v6</a>
-        <a href="corum-technologies/v7/index.html">v7</a>
-      </div>
+      <button type="button" class="toggle" id="notes-toggle" aria-pressed="false">Show notes</button>
     </div>
   </div>
+
+  <main class="wrap" id="list"></main>
+
+  <script>
+    // Add new projects here. Versions are listed oldest → newest; the last one is marked as latest.
+    // `extras` are side pages (dashboards, wizards, docs) that aren't design versions.
+    const PROJECTS = [
+      {
+        name: 'Corum Technologies',
+        desc: 'Transfer technologii i produkcja Europa ⇄ Azja',
+        group: 'Clients',
+        updated: '2026-10-14',
+        base: 'corum-technologies/',
+        brief: 'opis-strony.md',
+        versions: [
+          ['v1', 'Pierwsza wersja'],
+          ['v2', 'High-tech startup, linia produkcyjna w hero'],
+          ['v3', 'Jasny rysunek techniczny'],
+          ['v4', 'Kobaltowy globus z trasą'],
+          ['v5', 'Panel sterowania / hardware'],
+          ['v6', 'Ciemna topografia'],
+          ['v7', 'Jasny minimal, chmura punktów'],
+        ],
+      },
+      {
+        name: 'Lockin Crew',
+        desc: 'Deep work as a service',
+        group: 'Clients',
+        updated: '2026-10-14',
+        base: 'lockincrew/',
+        versions: [
+          ['v1', 'Pierwsza wersja', 'index.html'],
+          ['v2', 'Terminal ~/lockin'],
+          ['v3', 'Zejście w głębinę'],
+          ['v4', 'Pixel-art zejście w stylu terminala v2'],
+          ['v5', 'Pixel-art start rakiety w kosmos'],
+        ],
+      },
+      {
+        name: 'Uncle Tan · Chú Tân',
+        desc: 'Bánh mì, Kotlarska 25A, Wrocław',
+        group: 'Clients',
+        updated: '2026-10-14',
+        base: 'uncle-tans/',
+        overview: 'index.html',
+        brief: 'restauracja-koncepcja.md',
+        versions: [
+          ['v2', 'Zamówienia online — mock z panelem restauracji i raportami'],
+          ['v3', 'Dark editorial'],
+          ['v4', 'Swiss / International'],
+          ['v5', 'Risograph zine'],
+          ['v6', 'Kinetic scrollytelling'],
+        ],
+      },
+      {
+        name: 'Hajime Turnieje',
+        desc: 'System turniejowy kyokushin — klikalny mock',
+        group: 'Clients',
+        updated: '2026-10-05',
+        base: 'hajime-turnieje/',
+        versions: [
+          ['mock', 'System turniejowy z trybem demo', 'index.html'],
+          ['spec', 'Mock wg specyfikacji REQ — phone-first, widok hali'],
+        ],
+        extras: [
+          ['produkt', 'Landing produktu'],
+        ],
+      },
+      {
+        name: 'Żuraw Dojo',
+        desc: 'Aplikacja Kyokushin Guide',
+        group: 'Clients',
+        updated: '2026-09-28',
+        base: 'dojo-zuraw/',
+        versions: [
+          ['v1', 'Landing page aplikacji'],
+          ['v2', 'Jednoekranowa animacja promo'],
+        ],
+      },
+      {
+        name: 'Bajaro — Bajka o Twoim dziecku',
+        desc: 'Personalizowana książka dla dzieci',
+        group: 'Clients',
+        updated: '2026-04-24',
+        base: 'ftg/',
+        overview: 'index.html',
+        versions: [
+          ['v1', 'Bajkowi Bohaterowie — kremowy, Playfair'],
+          ['v2', 'Craft / warm paper'],
+          ['v3', 'Dark editorial'],
+          ['v4', 'Księga Zaklęć — Cinzel, magia'],
+          ['v5', 'Ręcznie składana pamiątka'],
+          ['v6', 'Storybook classic'],
+          ['v6.1', 'Storybook — fixy (kontrast AA, mobile)'],
+          ['v6.2', 'Storybook — coming soon'],
+          ['v6.3', 'Storybook — żyjąca karta, animacje, roadmapa'],
+          ['v7', 'Scandi / minimal nursery'],
+          ['v8', 'Hand-drawn doodle'],
+          ['v9', 'Kronika — editorial'],
+          ['v10', 'Vintage antykwariat'],
+          ['v11', 'Lista oczekujących'],
+        ],
+        extras: [
+          ['kreator', 'Kreator bajki krok po kroku'],
+          ['dashboard', 'Panel operacyjny'],
+        ],
+      },
+      {
+        name: 'Kateryna Donajska',
+        desc: 'Masaż Wrocław — gabinet i dojazd',
+        group: 'Clients',
+        updated: '2026-04-22',
+        base: 'kateryna/',
+        overview: 'index.html',
+        versions: [
+          ['v1', 'Warm minimal, kolaż zdjęć'],
+          ['v2', 'Cinematic, wideo w hero'],
+          ['v3', 'Video-first'],
+          ['v4', 'Sport recovery — dark + lime'],
+          ['main', 'Wersja główna'],
+        ],
+      },
+      {
+        name: 'DNM — Droga Nowoczesnego Mężczyzny',
+        desc: 'Wspólnota dla mężczyzn',
+        group: 'Clients',
+        updated: '2026-04-20',
+        base: 'dnm/',
+        versions: [
+          ['v1'], ['v1.1'], ['v1.2'], ['v2'], ['v2.1'],
+        ],
+      },
+      {
+        name: 'Michał — StableTech',
+        desc: 'IT Systems Implementation',
+        group: 'Clients',
+        updated: '2026-04-20',
+        base: 'michal/',
+        versions: [
+          ['v1'], ['v2'], ['v3'], ['v3.1'], ['v3.2'], ['v3.3'], ['v4'],
+          ['v5'], ['v5.1'], ['v5.2'], ['v5.3'],
+          ['main', 'Wersja główna'],
+        ],
+        extras: [
+          ['ig-avatar', 'Avatar na Instagram', 'instagram-avatar.html'],
+        ],
+      },
+      {
+        name: 'Wnętrzak',
+        desc: 'Kancelaria Adwokacka Szymon Wnętrzak',
+        group: 'Clients',
+        updated: '2026-04-19',
+        base: 'wnetrzak/',
+        versions: [
+          ['v1'], ['v2'], ['v3'],
+        ],
+      },
+      {
+        name: 'MANDS',
+        desc: 'Instytut Badań Rynku i Opinii — 30 wariantów stylistycznych',
+        group: 'Clients',
+        updated: '2026-04-16',
+        base: 'mands/',
+        overview: 'index.html',
+        versions: [
+          ['v1'], ['v2'],
+          ['v3', 'Edytorska (bazowa)'],
+          ['v4', 'Iteracja v4'],
+          ['v5.1', 'Minimalist'],
+          ['v5.2', 'Brutalism'],
+          ['v5.3', 'Neumorphism'],
+          ['v5.4', 'Glassmorphism'],
+          ['v5.5', 'Material Design'],
+          ['v5.6', 'Flat Design'],
+          ['v5.7', 'Skeuomorphism'],
+          ['v5.8', 'Dark Mode'],
+          ['v5.9', 'Retro / Vintage'],
+          ['v5.10', 'Y2K / Cybercore'],
+          ['v5.11', 'Memphis'],
+          ['v5.12', 'Swiss / International'],
+          ['v5.13', 'Illustrative'],
+          ['v5.14', '3D & Immersive'],
+          ['v5.15', 'Editorial / Magazine'],
+          ['v5.16', 'Single Page / Long Scroll'],
+          ['v5.17', 'Asymmetric / Broken Grid'],
+          ['v5.18', 'Cyberpunk / Neon'],
+          ['v5.19', 'Claymorphism'],
+          ['v5.20', 'Bento Grid'],
+          ['v5.21', 'Maximalism'],
+          ['v5.22', 'Aurora / Gradient Mesh'],
+          ['v5.23', 'Big Typography'],
+          ['v5.24', 'Anti-Design'],
+          ['v5.25', 'Isometric'],
+          ['v5.26', 'Organic / Blob'],
+          ['v5.27', 'Hand-drawn / Sketch'],
+          ['v5.28', 'Risograph'],
+          ['v5.29', 'Monochrome'],
+          ['v5.30', 'Kinetic / Scroll-driven'],
+        ],
+      },
+      {
+        name: 'Paweł — Flokki1 ehf.',
+        desc: 'Car painting, welding & mechanics, Hveragerði',
+        group: 'Clients',
+        updated: '2026-04-08',
+        base: 'pawel/',
+        versions: [
+          ['v1'], ['v2'], ['v2.1'], ['v3'],
+        ],
+      },
+      {
+        name: 'Pipelane',
+        desc: 'Mock dashboardu CI/CD',
+        group: 'Experiments & tools',
+        updated: '2026-04-24',
+        base: 'simple_cicd/',
+        versions: [
+          ['open', '', 'index.html'],
+        ],
+      },
+      {
+        name: 'Claude Code reels',
+        desc: 'Fake Claude CLI do nagrywania rolek',
+        group: 'Experiments & tools',
+        updated: '2026-04-23',
+        base: 'reelsContent/',
+        versions: [
+          ['open', '', 'index.html'],
+        ],
+      },
+      {
+        name: 'Płachta Zygalskiego',
+        desc: 'Interaktywna płachta do łamania Enigmy',
+        group: 'Experiments & tools',
+        updated: '2026-04-08',
+        base: 'numbers/',
+        versions: [
+          ['open', '', 'index.html'],
+        ],
+      },
+    ];
+
+    const GROUP_ORDER = ['Clients', 'Experiments & tools'];
+
+    const $list = document.getElementById('list');
+    const $q = document.getElementById('q');
+    const $notes = document.getElementById('notes-toggle');
+    const state = { q: '', sort: 'recent', notes: false };
+
+    try {
+      const saved = JSON.parse(localStorage.getItem('pocs-index') || '{}');
+      if (saved.sort === 'az' || saved.sort === 'recent') state.sort = saved.sort;
+      if (typeof saved.notes === 'boolean') state.notes = saved.notes;
+    } catch (e) {}
+
+    function save() {
+      try { localStorage.setItem('pocs-index', JSON.stringify({ sort: state.sort, notes: state.notes })); } catch (e) {}
+    }
+
+    const norm = s => (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/ł/g, 'l');
+    const esc = s => (s || '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+    function highlight(text, q) {
+      if (!q) return esc(text);
+      const n = norm(text);
+      const i = n.indexOf(q);
+      if (i < 0) return esc(text);
+      return esc(text.slice(0, i)) + '<mark>' + esc(text.slice(i, i + q.length)) + '</mark>' + esc(text.slice(i + q.length));
+    }
+
+    function href(p, entry) {
+      const [label, , file] = entry;
+      return p.base + (file || label + '/index.html');
+    }
+
+    function fmtDate(d) {
+      return new Date(d + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+    }
+
+    function chip(p, entry, cls, q) {
+      const [label, note] = entry;
+      const hit = q && note && norm(note).includes(q);
+      const title = note ? ` title="${esc(label + ' — ' + note)}"` : '';
+      return `<a class="v ${cls}${hit ? ' hit' : ''}" href="${href(p, entry)}"${title}>` +
+        `<span>${highlight(label, q)}</span>` +
+        (note ? `<span class="note">${highlight(note, q)}</span>` : '') +
+        `</a>`;
+    }
+
+    function render() {
+      const q = norm(state.q.trim());
+
+      let items = PROJECTS.filter(p => {
+        if (!q) return true;
+        const hay = [p.name, p.desc, p.base, ...p.versions.flat(), ...(p.extras || []).flat()];
+        return hay.some(s => norm(s).includes(q));
+      });
+
+      items.sort(state.sort === 'az'
+        ? (a, b) => a.name.localeCompare(b.name, 'pl')
+        : (a, b) => b.updated.localeCompare(a.updated) || a.name.localeCompare(b.name, 'pl'));
+
+      if (!items.length) {
+        $list.innerHTML = `<div class="list"><p class="empty">Nothing matches “${esc(state.q)}”.</p></div>`;
+        return;
+      }
+
+      $list.innerHTML = GROUP_ORDER.map(g => {
+        const rows = items.filter(p => p.group === g);
+        if (!rows.length) return '';
+        return `<h3 class="group-label">${esc(g)} · ${rows.length}</h3><div class="list">` + rows.map(p => {
+          const last = p.versions.length - 1;
+          const main = p.versions.map((v, i) => chip(p, v, i === last && p.versions.length > 1 ? 'latest' : '', q)).join('');
+          const extras = (p.extras || []).map(v => chip(p, v, 'extra', q)).join('');
+          const titleHref = p.overview ? p.base + p.overview : href(p, p.versions[last]);
+          const meta = [
+            `<span>${fmtDate(p.updated)}</span>`,
+            p.versions.length > 1 ? `<span>${p.versions.length} versions</span>` : '',
+            p.overview ? `<a href="${p.base + p.overview}">All versions overview</a>` : '',
+            p.brief ? `<a href="${p.base + p.brief}">Brief (md)</a>` : '',
+          ].join('');
+          return `<article class="project">
+            <div>
+              <h2><a href="${titleHref}">${highlight(p.name, q)}</a></h2>
+              <p class="desc">${highlight(p.desc, q)}</p>
+              <div class="meta">${meta}</div>
+            </div>
+            <nav class="versions${state.notes ? ' notes' : ''}" aria-label="${esc(p.name)} versions">${main}${extras}</nav>
+          </article>`;
+        }).join('') + `</div>`;
+      }).join('');
+    }
+
+    function syncControls() {
+      document.querySelectorAll('[data-sort]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.sort === state.sort)));
+      $notes.setAttribute('aria-pressed', String(state.notes));
+      $notes.textContent = state.notes ? 'Hide notes' : 'Show notes';
+    }
+
+    document.getElementById('count-projects').textContent = PROJECTS.length;
+    document.getElementById('count-versions').textContent = PROJECTS.reduce((n, p) => n + p.versions.length, 0);
+
+    $q.addEventListener('input', () => { state.q = $q.value; render(); });
+    $q.addEventListener('keydown', e => {
+      if (e.key === 'Escape') { $q.value = ''; state.q = ''; render(); $q.blur(); }
+    });
+    document.querySelectorAll('[data-sort]').forEach(b => b.addEventListener('click', () => {
+      state.sort = b.dataset.sort; save(); syncControls(); render();
+    }));
+    $notes.addEventListener('click', () => { state.notes = !state.notes; save(); syncControls(); render(); });
+    document.addEventListener('keydown', e => {
+      if (e.key === '/' && document.activeElement !== $q) { e.preventDefault(); $q.focus(); }
+    });
+
+    syncControls();
+    render();
+  </script>
 
 </body>
 </html>

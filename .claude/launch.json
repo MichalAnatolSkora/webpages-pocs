@@ -2,6 +2,12 @@
   "version": "0.0.1",
   "configurations": [
     {
+      "name": "index",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8088"],
+      "port": 8088
+    },
+    {
       "name": "v1",
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "8091", "--directory", "michal/v1"],
@@ -18,6 +24,300 @@
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "8092", "--directory", "michal/v3"],
       "port": 8092
+    },
+    {
+      "name": "numbers",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8093", "--directory", "numbers"],
+      "port": 8093
+    },
+    {
+      "name": "pawel-v2.1",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8094", "--directory", "pawel"],
+      "port": 8094
+    },
+    {
+      "name": "v3.1",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8095", "--directory", "michal/v3.1"],
+      "port": 8095
+    },
+    {
+      "name": "v3.2",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8099", "--directory", "michal/v3.2"],
+      "port": 8099
+    },
+    {
+      "name": "v3.3",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8100", "--directory", "michal/v3.3"],
+      "port": 8100
+    },
+    {
+      "name": "v4",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8101", "--directory", "michal/v4"],
+      "port": 8101
+    },
+    {
+      "name": "main",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8097", "--directory", "michal/main"],
+      "port": 8097
+    },
+    {
+      "name": "mands",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8096", "--directory", "mands"],
+      "port": 8096
+    },
+    {
+      "name": "ig-avatar",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8098", "--directory", "michal"],
+      "port": 8098
+    },
+    {
+      "name": "dnm-v2",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8102", "--directory", "dnm/v2"],
+      "port": 8102
+    },
+    {
+      "name": "dnm-v1",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8103", "--directory", "dnm/v1"],
+      "port": 8103
+    },
+    {
+      "name": "dnm-v1.1",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8104", "--directory", "dnm/v1.1"],
+      "port": 8104
+    },
+    {
+      "name": "dnm-v1.2",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8105", "--directory", "dnm/v1.2"],
+      "port": 8105
+    },
+    {
+      "name": "v5",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8106", "--directory", "michal/v5"],
+      "port": 8106
+    },
+    {
+      "name": "dnm-v2.1",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8107", "--directory", "dnm/v2.1"],
+      "port": 8107
+    },
+    {
+      "name": "v5.1",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8108", "--directory", "michal/v5.1"],
+      "port": 8108
+    },
+    {
+      "name": "v5.2",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8109", "--directory", "michal/v5.2"],
+      "port": 8109
+    },
+    {
+      "name": "v5.3",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8110", "--directory", "michal/v5.3"],
+      "port": 8110
+    },
+    {
+      "name": "kateryna-v1",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8111", "--directory", "kateryna"],
+      "port": 8111
+    },
+    {
+      "name": "ftg-v1",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8112", "--directory", "ftg/v1"],
+      "port": 8112
+    },
+    {
+      "name": "ftg-v2",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8113", "--directory", "ftg/v2"],
+      "port": 8113
+    },
+    {
+      "name": "ftg-v3",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8114", "--directory", "ftg/v3"],
+      "port": 8114
+    },
+    {
+      "name": "ftg-v4",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8115", "--directory", "ftg/v4"],
+      "port": 8115
+    },
+    {
+      "name": "ftg-v5",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8116", "--directory", "ftg/v5"],
+      "port": 8116
+    },
+    {
+      "name": "ftg-v6",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8117", "--directory", "ftg/v6"],
+      "port": 8117
+    },
+    {
+      "name": "ftg-v7",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8118", "--directory", "ftg/v7"],
+      "port": 8118
+    },
+    {
+      "name": "ftg-v8",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8119", "--directory", "ftg/v8"],
+      "port": 8119
+    },
+    {
+      "name": "ftg-v9",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8120", "--directory", "ftg/v9"],
+      "port": 8120
+    },
+    {
+      "name": "ftg-v10",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8121", "--directory", "ftg/v10"],
+      "port": 8121
+    },
+    {
+      "name": "ftg-v11",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8122", "--directory", "ftg/v11"],
+      "port": 8122
+    },
+    {
+      "name": "ftg",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8123", "--directory", "ftg"],
+      "port": 8123
+    },
+    {
+      "name": "ftg-v6.1",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8124", "--directory", "ftg/v6.1"],
+      "port": 8124
+    },
+    {
+      "name": "ftg-v6.2",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8125", "--directory", "ftg/v6.2"],
+      "port": 8125
+    },
+    {
+      "name": "ftg-v6.3",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8126", "--directory", "ftg/v6.3"],
+      "port": 8126
+    },
+    {
+      "name": "reels",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8127", "--directory", "reelsContent"],
+      "port": 8127
+    },
+    {
+      "name": "simple_cicd",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8128", "--directory", "simple_cicd"],
+      "port": 8128
+    },
+    {
+      "name": "lockincrew",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8129", "--directory", "lockincrew"],
+      "port": 8129
+    },
+    {
+      "name": "ftg-dashboard",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8130", "--directory", "ftg/dashboard"],
+      "port": 8130
+    },
+    {
+      "name": "charox-v1",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8131", "--directory", "charox"],
+      "port": 8131
+    },
+    {
+      "name": "ftg-kreator",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8132", "--directory", "ftg/kreator"],
+      "port": 8132
+    },
+    {
+      "name": "lockincrew-v2",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8133", "--directory", "lockincrew/v2"],
+      "port": 8133
+    },
+    {
+      "name": "uncle-tans",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8134", "--directory", "uncle-tans"],
+      "port": 8134
+    },
+    {
+      "name": "corum-v2",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8135", "--directory", "corum-technologies/v2"],
+      "port": 8135
+    },
+    {
+      "name": "corum-v3",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8136", "--directory", "corum-technologies/v3"],
+      "port": 8136
+    },
+    {
+      "name": "corum-v4",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8137", "--directory", "corum-technologies/v4"],
+      "port": 8137
+    },
+    {
+      "name": "corum-v5",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8138", "--directory", "corum-technologies/v5"],
+      "port": 8138
+    },
+    {
+      "name": "corum-v6",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8139", "--directory", "corum-technologies/v6"],
+      "port": 8139
+    },
+    {
+      "name": "lockincrew-v3",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8150", "--directory", "lockincrew/v3"],
+      "port": 8150
+    },
+    {
+      "name": "corum-v7",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8140", "--directory", "corum-technologies/v7"],
+      "port": 8140
     }
   ]
 }
