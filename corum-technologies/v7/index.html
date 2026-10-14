@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Corum Technologies — Transfer technologii i produkcja</title>
+<meta name="description" content="Corum Technologies — transfer technologii i produkcja technologiczna między Europą a Azją.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #f2f2ef;
+  --white: #ffffff;
+  --ink: #0e0f0f;
+  --ink-2: #4f5150;
+  --ink-3: #949694;
+  --line: rgba(14,15,15,.12);
+  --line-2: rgba(14,15,15,.22);
+  --red: #d7261e;
+  --sans: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+  --mono: 'Geist Mono', ui-monospace, monospace;
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); background: var(--bg); color: var(--ink); line-height: 1.55; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+a { color: inherit; text-decoration: none; }
+::selection { background: var(--red); color: #fff; }
+.container { max-width: 1360px; margin: 0 auto; padding: 0 40px; }
+.lbl { font-family: var(--mono); font-size: .74rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-3); }
+.lbl .r { color: var(--red); }
+
+/* ── NAV ── */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 60; mix-blend-mode: normal; transition: background .3s; }
+nav.solid { background: rgba(242,242,239,.9); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 1px 0 var(--line); }
+.nav-inner { display: flex; align-items: center; justify-content: space-between; height: 70px; }
+.logo { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 1.05rem; letter-spacing: -.02em; }
+.logo i { width: 12px; height: 12px; background: var(--red); display: block; }
+.logo span { color: var(--ink-3); font-weight: 400; }
+.nav-links { display: flex; gap: 30px; list-style: none; align-items: center; }
+.nav-links a { font-size: .92rem; color: var(--ink-2); transition: color .2s; }
+.nav-links a:hover { color: var(--ink); }
+.nav-links .cta { color: #fff; background: var(--ink); padding: 10px 18px; border-radius: 999px; }
+.nav-links .cta:hover { background: var(--red); color: #fff; }
+.burger { display: none; background: none; border: 0; width: 40px; height: 40px; cursor: pointer; position: relative; }
+.burger span { position: absolute; left: 9px; width: 22px; height: 1.5px; background: var(--ink); transition: .3s; }
+.burger span:nth-child(1) { top: 15px; } .burger span:nth-child(2) { top: 24px; }
+.burger.open span:nth-child(1) { top: 20px; transform: rotate(45deg); }
+.burger.open span:nth-child(2) { top: 20px; transform: rotate(-45deg); }
+
+.btn { display: inline-flex; align-items: center; gap: 12px; padding: 16px 24px; border-radius: 999px; font-family: inherit; font-weight: 500; font-size: 1rem; border: 0; cursor: pointer; transition: background .2s, color .2s; }
+.btn-ink { background: var(--ink); color: #fff; }
+.btn-ink:hover { background: var(--red); }
+.btn-line { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1px var(--line-2); }
+.btn-line:hover { box-shadow: inset 0 0 0 1px var(--ink); }
+.btn .arr { transition: transform .2s; }
+.btn:hover .arr { transform: translateX(4px); }
+
+/* ── HERO ── */
+.hero { position: relative; height: 100vh; min-height: 640px; overflow: hidden; }
+#cloud { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hero-in { position: relative; z-index: 1; height: 100%; display: flex; flex-direction: column; justify-content: space-between; padding-top: 110px; padding-bottom: 46px; pointer-events: none; }
+.hero-in a, .hero-in button { pointer-events: auto; }
+.hero-top { display: flex; justify-content: space-between; gap: 20px; }
+.hero h1 { font-weight: 500; font-size: clamp(3rem, 8.4vw, 8.4rem); line-height: .92; letter-spacing: -0.055em; max-width: 1200px; }
+.hero h1 .r { color: var(--red); }
+.hero-bottom { display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: end; margin-top: 34px; }
+.hero-bottom p { max-width: 460px; color: var(--ink-2); font-size: 1.1rem; }
+.hero-cta { display: flex; gap: 10px; flex-wrap: wrap; }
+.scan-meta { text-align: right; }
+
+/* ── STATEMENT (word scrub) ── */
+.statement { padding: 180px 0 160px; }
+.statement p { font-size: clamp(1.9rem, 4vw, 3.6rem); line-height: 1.12; letter-spacing: -0.04em; font-weight: 500; max-width: 1180px; }
+.statement p .w { opacity: .14; transition: opacity .25s; }
+.statement p .w.on { opacity: 1; }
+.statement p .w.r.on { color: var(--red); }
+.statement .lbl { display: block; margin-bottom: 34px; }
+
+/* ── INDEX (capabilities) ── */
+.index { border-top: 1px solid var(--ink); }
+.row { border-bottom: 1px solid var(--line-2); cursor: pointer; }
+.row-head { display: grid; grid-template-columns: 90px 1fr auto 60px; align-items: center; gap: 20px; padding: 34px 0; }
+.row-head .n { font-family: var(--mono); color: var(--ink-3); }
+.row-head h3 { font-weight: 500; font-size: clamp(1.8rem, 4vw, 3.4rem); letter-spacing: -0.045em; line-height: 1; transition: transform .4s cubic-bezier(.2,.8,.2,1), color .3s; }
+.row:hover .row-head h3, .row.open .row-head h3 { transform: translateX(14px); }
+.row-head .tags { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+.row-head .tags span { font-family: var(--mono); font-size: .72rem; padding: 6px 10px; border: 1px solid var(--line-2); border-radius: 999px; color: var(--ink-2); }
+.row-head .pm { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line-2); display: grid; place-items: center; justify-self: end; transition: transform .4s, background .3s, border-color .3s; }
+.row-head .pm::before { content: '+'; font-size: 1.3rem; line-height: 1; }
+.row.open .row-head .pm { transform: rotate(45deg); background: var(--red); border-color: var(--red); color: #fff; }
+.row-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .5s cubic-bezier(.2,.8,.2,1); }
+.row.open .row-body { grid-template-rows: 1fr; }
+.row-body > div { overflow: hidden; }
+.row-body .inner { display: grid; grid-template-columns: 90px 1fr 1fr; gap: 20px; padding: 0 0 40px; }
+.row-body p { font-size: 1.15rem; color: var(--ink-2); max-width: 520px; }
+.row-body dl { display: grid; grid-template-columns: auto 1fr; gap: 8px 22px; align-content: start; }
+.row-body dt { font-family: var(--mono); font-size: .76rem; text-transform: uppercase; color: var(--ink-3); padding-top: 2px; }
+.row-body dd { font-weight: 500; }
+
+/* ── HORIZONTAL PHASES ── */
+.hscroll { position: relative; height: 340vh; background: var(--ink); color: #fff; }
+.hs-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
+.hs-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 30px; margin-bottom: 50px; }
+.hs-head h2 { font-weight: 500; font-size: clamp(2.2rem, 4.6vw, 4rem); letter-spacing: -0.05em; line-height: 1; }
+.hs-head h2 .r { color: var(--red); }
+.hs-head .lbl { color: rgba(255,255,255,.5); }
+.hs-bar { height: 1px; background: rgba(255,255,255,.18); position: relative; margin-top: 18px; width: 260px; }
+.hs-bar i { position: absolute; left: 0; top: 0; height: 1px; width: 0; background: var(--red); }
+.hs-track { display: flex; gap: 24px; padding-left: max(40px, calc((100vw - 1360px) / 2 + 40px)); will-change: transform; }
+.hs-card { flex: none; width: min(560px, 78vw); height: min(440px, 56vh); border: 1px solid rgba(255,255,255,.16); border-radius: 6px; padding: 34px; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; background: rgba(255,255,255,.02); }
+.hs-card .big { font-weight: 300; font-size: clamp(5rem, 10vw, 9rem); line-height: .8; letter-spacing: -0.06em; color: rgba(255,255,255,.12); position: absolute; right: 20px; top: 16px; }
+.hs-card h3 { font-weight: 500; font-size: 2rem; letter-spacing: -0.04em; margin: 10px 0 12px; }
+.hs-card p { color: rgba(255,255,255,.65); font-size: 1.05rem; max-width: 420px; }
+.hs-card .out { font-family: var(--mono); font-size: .78rem; color: rgba(255,255,255,.5); text-transform: uppercase; border-top: 1px solid rgba(255,255,255,.14); padding-top: 16px; display: flex; justify-content: space-between; gap: 10px; }
+.hs-card .out b { font-weight: 400; color: #fff; }
+.hs-card .lbl { color: var(--red); }
+.hs-card.end { background: var(--red); border-color: var(--red); }
+.hs-card.end p, .hs-card.end .out { color: rgba(255,255,255,.85); }
+.hs-card.end .out { border-color: rgba(255,255,255,.35); }
+
+/* ── VALUES ── */
+.values { padding: 160px 0; }
+.v-head { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 70px; align-items: end; }
+.v-head h2 { font-weight: 500; font-size: clamp(2.2rem, 4.6vw, 4rem); letter-spacing: -0.05em; line-height: 1; }
+.v-head p { color: var(--ink-2); font-size: 1.1rem; max-width: 460px; justify-self: end; }
+.v-grid { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--ink); }
+.v { padding: 30px 26px 40px 0; border-right: 1px solid var(--line); display: grid; gap: 50px; align-content: start; }
+.v + .v { padding-left: 26px; }
+.v:last-child { border-right: 0; }
+.v .n { font-family: var(--mono); font-size: .8rem; color: var(--ink-3); display: flex; justify-content: space-between; }
+.v h3 { font-weight: 500; font-size: 1.9rem; letter-spacing: -0.04em; line-height: 1; margin-bottom: 18px; }
+.v ul { list-style: none; display: grid; gap: 10px; color: var(--ink-2); }
+.v li { padding-top: 10px; border-top: 1px solid var(--line); }
+.v .glyph { width: 56px; height: 56px; }
+.v .glyph svg { width: 100%; height: 100%; }
+
+/* ── CONTACT ── */
+.contact { background: var(--white); padding: 150px 0 120px; border-top: 1px solid var(--line); }
+.c-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
+.contact h2 { font-weight: 500; font-size: clamp(2.6rem, 6vw, 5.6rem); letter-spacing: -0.055em; line-height: .95; }
+.contact h2 .r { color: var(--red); }
+.contact .sub { color: var(--ink-2); font-size: 1.1rem; max-width: 440px; margin-top: 26px; }
+.reg { margin-top: 60px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px 30px; max-width: 520px; }
+.reg div { border-top: 1px solid var(--line-2); padding-top: 12px; }
+.reg .full { grid-column: span 2; }
+.reg span { display: block; font-size: 1.05rem; font-weight: 500; margin-top: 4px; }
+.reg .copy { cursor: pointer; }
+.reg .copy:hover { color: var(--red); }
+form { display: grid; gap: 6px; align-content: start; }
+.fld { position: relative; border-bottom: 1px solid var(--line-2); transition: border-color .2s; }
+.fld:focus-within { border-color: var(--ink); }
+.fld label { position: absolute; left: 0; top: 26px; font-size: 1.4rem; color: var(--ink-3); pointer-events: none; transition: top .2s, font-size .2s, color .2s; letter-spacing: -0.02em; }
+.fld input, .fld textarea, .fld select { width: 100%; border: 0; background: transparent; font-family: inherit; font-size: 1.4rem; letter-spacing: -0.02em; color: var(--ink); padding: 30px 0 14px; outline: none; border-radius: 0; }
+.fld textarea { resize: none; min-height: 120px; }
+.fld input:focus + label, .fld input:not(:placeholder-shown) + label,
+.fld textarea:focus + label, .fld textarea:not(:placeholder-shown) + label { top: 6px; font-size: .74rem; color: var(--ink-3); font-family: var(--mono); letter-spacing: .04em; text-transform: uppercase; }
+.fld.sel label { top: 6px; font-size: .74rem; font-family: var(--mono); letter-spacing: .04em; text-transform: uppercase; }
+.fld select { appearance: none; -webkit-appearance: none; cursor: pointer; }
+.fld.sel::after { content: '↓'; position: absolute; right: 0; top: 34px; font-size: 1.1rem; color: var(--ink-3); pointer-events: none; }
+.dirs { display: flex; gap: 8px; flex-wrap: wrap; padding: 6px 0 22px; }
+.dirs input { display: none; }
+.dirs label { padding: 10px 16px; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--line-2); cursor: pointer; font-size: .95rem; transition: .2s; }
+.dirs input:checked + label { background: var(--ink); color: #fff; box-shadow: none; }
+form .btn { margin-top: 30px; justify-self: start; }
+.form-note { margin-top: 14px; }
+
+.toast { position: fixed; left: 50%; bottom: 26px; transform: translate(-50%, 140px); background: var(--ink); color: #fff; padding: 14px 22px; border-radius: 999px; font-size: .95rem; z-index: 200; transition: transform .4s cubic-bezier(.2,.8,.2,1); display: flex; gap: 10px; align-items: center; }
+.toast::before { content: ''; width: 8px; height: 8px; background: var(--red); }
+.toast.show { transform: translate(-50%, 0); }
+
+footer { background: var(--ink); color: rgba(255,255,255,.55); padding: 60px 0 36px; overflow: hidden; }
+.f-word { font-weight: 600; font-size: clamp(5rem, 22vw, 22rem); letter-spacing: -0.07em; line-height: .78; color: #fff; display: flex; align-items: flex-end; gap: .04em; }
+.f-word i { width: .12em; height: .12em; background: var(--red); display: inline-block; margin-bottom: .06em; }
+.f-row { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-top: 46px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.14); font-size: .9rem; }
+.f-row .links { display: flex; gap: 22px; }
+.f-row a:hover { color: #fff; }
+
+.rv { opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s cubic-bezier(.2,.8,.2,1); }
+.rv.in { opacity: 1; transform: none; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1040px) {
+  .row-head { grid-template-columns: 60px 1fr 50px; }
+  .row-head .tags { display: none; }
+  .row-body .inner { grid-template-columns: 60px 1fr; }
+  .row-body dl { grid-column: 2; }
+  .v-grid { grid-template-columns: 1fr 1fr; }
+  .v:nth-child(2) { border-right: 0; }
+  .v:nth-child(3) { padding-left: 0; }
+  .v:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+  .c-grid { grid-template-columns: 1fr; gap: 60px; }
+  .v-head { grid-template-columns: 1fr; }
+  .v-head p { justify-self: start; }
+}
+@media (max-width: 760px) {
+  .container { padding: 0 18px; }
+  .burger { display: block; }
+  .nav-links { position: absolute; top: 70px; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0; background: var(--bg); padding: 6px 18px 18px; box-shadow: 0 1px 0 var(--line); display: none; }
+  .nav-links.open { display: flex; }
+  .nav-links a { padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 1.05rem; }
+  .nav-links .cta { margin-top: 12px; text-align: center; border: 0; }
+  .hero { height: auto; min-height: 100svh; }
+  .hero-in { height: auto; min-height: 100svh; gap: 40px; padding-top: 96px; }
+  .hero-bottom { grid-template-columns: 1fr; gap: 24px; }
+  .scan-meta { display: none; }
+  .statement { padding: 110px 0 100px; }
+  .row-head { grid-template-columns: 40px 1fr 44px; gap: 12px; padding: 26px 0; }
+  .row-body .inner { grid-template-columns: 1fr; }
+  .row-body dl { grid-column: auto; }
+  .hscroll { height: auto; }
+  .hs-sticky { position: static; height: auto; padding: 90px 0; }
+  .hs-head { flex-direction: column; align-items: flex-start; }
+  .hs-track { flex-direction: column; padding: 0 18px; transform: none !important; }
+  .hs-card { width: 100%; height: auto; min-height: 300px; }
+  .values { padding: 100px 0; }
+  .v-grid { grid-template-columns: 1fr; }
+  .v, .v + .v { padding: 26px 0 30px; border-right: 0; border-bottom: 1px solid var(--line); }
+  .contact { padding: 100px 0 80px; }
+  .reg { grid-template-columns: 1fr; }
+  .reg .full { grid-column: auto; }
+  .fld label, .fld input, .fld textarea, .fld select { font-size: 1.15rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .rv { opacity: 1; transform: none; }
+  .statement p .w { opacity: 1; }
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="container nav-inner">
+    <a href="#" class="logo" aria-label="Corum Technologies"><i></i>Corum <span>Technologies</span></a>
+    <ul class="nav-links" id="links">
+      <li><a href="#zakres">Zakres</a></li>
+      <li><a href="#fazy">Fazy</a></li>
+      <li><a href="#zasady">Zasady</a></li>
+      <li><a href="#kontakt" class="cta">Kontakt</a></li>
+    </ul>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="hero">
+  <canvas id="cloud" aria-hidden="true"></canvas>
+  <div class="container hero-in">
+    <div class="hero-top">
+      <span class="lbl rv"><span class="r">●</span> Transfer technologii · Europa ⇄ Azja</span>
+      <span class="lbl scan-meta rv" id="scanMeta">Fig. 01 — skan · 0%</span>
+    </div>
+    <div>
+      <h1 class="rv">Zbuduj z nami swój rozwój gospodarczy<span class="r">.</span></h1>
+      <div class="hero-bottom">
+        <p class="rv">Przenosimy technologie i produkcję między Europą a Azją. Precyzyjnie, poufnie i z kontrolą jakości na każdym etapie.</p>
+        <div class="hero-cta rv">
+          <a href="#kontakt" class="btn btn-ink">Rozpocznij rozmowę <span class="arr">→</span></a>
+          <a href="#fazy" class="btn btn-line">Jak pracujemy</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+<!-- STATEMENT -->
+<section class="statement">
+  <div class="container">
+    <span class="lbl">O nas</span>
+    <p id="statement">Corum Technologies specjalizuje się w obsłudze transferów technologii oraz produkcji technologicznej. Jesteśmy zaufanym partnerem dla zespołów z Europy i Azji — łączymy rynki, ograniczamy bariery i dbamy o to, by know-how pozostało tam, gdzie powinno.</p>
+  </div>
+</section>
+
+<!-- INDEX -->
+<section id="zakres" style="padding-bottom:160px">
+  <div class="container">
+    <div class="v-head">
+      <h2 class="rv" style="font-weight:500;font-size:clamp(2.2rem,4.6vw,4rem);letter-spacing:-0.05em;line-height:1">Zakres działań</h2>
+      <p class="rv">Trzy obszary, które łączymy zależnie od potrzeb projektu.</p>
+    </div>
+    <div class="index" id="index">
+      <div class="row open rv">
+        <div class="row-head"><span class="n">01</span><h3>Transfer technologii</h3><div class="tags"><span>Dokumentacja</span><span>Know-how</span></div><span class="pm"></span></div>
+        <div class="row-body"><div><div class="inner"><span></span><p>Kompleksowa obsługa procesów transferu technologii między rynkami Europy i Azji — od przygotowania dokumentacji po wdrożenie u partnera.</p><dl><dt>Kierunek</dt><dd>Europa ⇄ Azja</dd><dt>Zakres</dt><dd>Dokumentacja, know-how, wdrożenie</dd></dl></div></div></div>
+      </div>
+      <div class="row rv">
+        <div class="row-head"><span class="n">02</span><h3>Produkcja technologiczna</h3><div class="tags"><span>Seria pilotażowa</span><span>Skalowanie</span></div><span class="pm"></span></div>
+        <div class="row-body"><div><div class="inner"><span></span><p>Wsparcie w optymalizacji i wdrażaniu procesów produkcyjnych u sprawdzonych partnerów — od serii próbnej po produkcję seryjną.</p><dl><dt>Etap</dt><dd>Pilotaż → seria</dd><dt>Cel</dt><dd>Koszt, terminowość, powtarzalność</dd></dl></div></div></div>
+      </div>
+      <div class="row rv">
+        <div class="row-head"><span class="n">03</span><h3>Kontrola jakości</h3><div class="tags"><span>Każdy etap</span><span>Raporty</span></div><span class="pm"></span></div>
+        <div class="row-body"><div><div class="inner"><span></span><p>Najwyższe standardy jakości na każdym etapie współpracy. Sprawdzamy wyrób, zanim opuści linię.</p><dl><dt>Punkty kontroli</dt><dd>Każdy etap projektu</dd><dt>Dla klienta</dt><dd>Pełna przejrzystość wyników</dd></dl></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHASES (horizontal) -->
+<section class="hscroll" id="fazy">
+  <div class="hs-sticky">
+    <div class="container hs-head">
+      <div>
+        <span class="lbl">Fazy współpracy</span>
+        <h2 style="margin-top:16px">Od pierwszej rozmowy<br>do <span class="r">linii produkcyjnej.</span></h2>
+      </div>
+      <div><span class="lbl" id="hsCount">01 / 04</span><div class="hs-bar"><i id="hsBar"></i></div></div>
+    </div>
+    <div class="hs-track" id="hsTrack">
+      <article class="hs-card"><span class="big">01</span><div><span class="lbl">Faza 01</span><h3>Rozpoznanie</h3><p>Poznajemy technologię, rynek docelowy i cele biznesowe. Wskazujemy bariery, zanim staną się kosztem.</p></div><div class="out"><span>Wynik</span><b>Mapa wymagań i ryzyk</b></div></article>
+      <article class="hs-card"><span class="big">02</span><div><span class="lbl">Faza 02</span><h3>Dobór partnerów</h3><p>Wskazujemy sprawdzone zakłady, dostawców i kooperantów w Europie i Azji — dopasowanych do technologii i skali.</p></div><div class="out"><span>Wynik</span><b>Partner produkcyjny</b></div></article>
+      <article class="hs-card"><span class="big">03</span><div><span class="lbl">Faza 03</span><h3>Transfer</h3><p>Przenosimy dokumentację i know-how, uruchamiamy serię pilotażową i weryfikujemy jakość.</p></div><div class="out"><span>Wynik</span><b>Zatwierdzona seria próbna</b></div></article>
+      <article class="hs-card"><span class="big">04</span><div><span class="lbl">Faza 04</span><h3>Produkcja</h3><p>Skalujemy produkcję i usprawniamy przepływ produktów oraz usług między rynkami.</p></div><div class="out"><span>Wynik</span><b>Stabilna produkcja seryjna</b></div></article>
+      <article class="hs-card end"><span class="big">→</span><div><span class="lbl" style="color:#fff">Następny krok</span><h3>Twój projekt</h3><p>Opowiedz nam o technologii, którą chcesz przenieść. Resztę zaplanujemy razem.</p></div><a href="#kontakt" class="out"><span>Kontakt</span><b>Rozpocznij rozmowę →</b></a></article>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="values" id="zasady">
+  <div class="container">
+    <div class="v-head">
+      <h2 class="rv">Zasady, na których<br>opieramy współpracę.</h2>
+      <p class="rv">Obowiązują w każdym projekcie — niezależnie od skali, kierunku i partnera.</p>
+    </div>
+    <div class="v-grid">
+      <div class="v rv">
+        <div class="n"><span>01</span><span class="glyph"><svg viewBox="0 0 56 56" fill="none" stroke="#0e0f0f" stroke-width="1.4"><circle cx="21" cy="28" r="13"/><circle cx="35" cy="28" r="13"/></svg></span></div>
+        <div><h3>Zaufanie</h3><ul><li>Specjalizacja w transferach technologii i produkcji technologicznej</li><li>Zaufany partner zespołów z Europy i Azji</li></ul></div>
+      </div>
+      <div class="v rv">
+        <div class="n"><span>02</span><span class="glyph"><svg viewBox="0 0 56 56" fill="none" stroke="#0e0f0f" stroke-width="1.4"><path d="M8 44L22 30l9 9 17-21"/><path d="M38 18h10v10"/></svg></span></div>
+        <div><h3>Efektywność</h3><ul><li>Rozwiązania technologiczne maksymalizujące zyski</li><li>Łączenie biznesów z partnerami międzynarodowymi</li></ul></div>
+      </div>
+      <div class="v rv">
+        <div class="n"><span>03</span><span class="glyph"><svg viewBox="0 0 56 56" fill="none" stroke="#0e0f0f" stroke-width="1.4"><path d="M8 20h40M8 28h40M8 36h40"/><circle cx="18" cy="20" r="3" fill="#0e0f0f"/><circle cx="36" cy="28" r="3" fill="#0e0f0f"/><circle cx="26" cy="36" r="3" fill="#0e0f0f"/></svg></span></div>
+        <div><h3>Wsparcie</h3><ul><li>Usprawnianie kluczowych przepływów produktów i usług</li><li>Ograniczanie barier technologicznych</li><li>Gwarancja wysokiej jakości</li></ul></div>
+      </div>
+      <div class="v rv">
+        <div class="n"><span>04</span><span class="glyph"><svg viewBox="0 0 56 56" fill="none" stroke="#d7261e" stroke-width="1.4"><rect x="12" y="24" width="32" height="22" rx="2"/><path d="M19 24v-6a9 9 0 0 1 18 0v6"/><circle cx="28" cy="35" r="2.5" fill="#d7261e"/></svg></span></div>
+        <div><h3>Dyskrecja</h3><ul><li>Transparentne zasady relacji biznesowych</li><li>Know-how klienta pozostaje jego własnością</li></ul></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="kontakt">
+  <div class="container c-grid">
+    <div>
+      <span class="lbl rv" style="display:block;margin-bottom:28px">Kontakt</span>
+      <h2 class="rv">Porozmawiajmy o Twojej <span class="r">technologii.</span></h2>
+      <p class="sub rv">Napisz, czego dotyczy projekt i w którą stronę ma trafić. Odpowiemy, aby omówić szczegóły potencjalnej współpracy.</p>
+      <div class="reg rv">
+        <div class="full"><span class="lbl">Siedziba</span><span>ul. Lipowa 19, 95-050 Konstantynów Łódzki</span></div>
+        <div><span class="lbl">KRS</span><span class="copy" data-copy="0000946211" title="Kopiuj">0000946211</span></div>
+        <div><span class="lbl">NIP</span><span class="copy" data-copy="7312074957" title="Kopiuj">7312074957</span></div>
+        <div><span class="lbl">REGON</span><span class="copy" data-copy="520990394" title="Kopiuj">520990394</span></div>
+      </div>
+    </div>
+    <form id="form" class="rv" novalidate>
+      <div class="dirs">
+        <input type="radio" name="dir" id="d1" checked><label for="d1">Europa → Azja</label>
+        <input type="radio" name="dir" id="d2"><label for="d2">Azja → Europa</label>
+        <input type="radio" name="dir" id="d3"><label for="d3">W obie strony</label>
+      </div>
+      <div class="fld"><input id="f-name" placeholder=" "><label for="f-name">Imię i nazwisko</label></div>
+      <div class="fld"><input id="f-company" placeholder=" "><label for="f-company">Firma</label></div>
+      <div class="fld"><input id="f-email" type="email" placeholder=" "><label for="f-email">E-mail</label></div>
+      <div class="fld sel"><select id="f-area"><option>Transfer technologii</option><option>Produkcja technologiczna</option><option>Kontrola jakości</option><option>Kilka obszarów</option></select><label for="f-area">Obszar</label></div>
+      <div class="fld"><textarea id="f-msg" placeholder=" "></textarea><label for="f-msg">Krótko o projekcie</label></div>
+      <button class="btn btn-ink" type="submit">Wyślij zapytanie <span class="arr">→</span></button>
+      <span class="lbl form-note">Wszystkie informacje traktujemy jako poufne.</span>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="f-word">corum<i></i></div>
+    <div class="f-row">
+      <span>© 2026 Corum Technologies Sp. z o.o.</span>
+      <div class="links"><a href="#zakres">Zakres</a><a href="#fazy">Fazy</a><a href="#zasady">Zasady</a><a href="#kontakt">Kontakt</a></div>
+      <span>Europa ⇄ Azja</span>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $ = id => document.getElementById(id);
+
+// nav
+const onScroll = () => $('nav').classList.toggle('solid', scrollY > 30);
+addEventListener('scroll', onScroll, { passive: true }); onScroll();
+$('burger').addEventListener('click', () => { $('burger').classList.toggle('open'); $('links').classList.toggle('open'); $('nav').classList.add('solid'); });
+$('links').querySelectorAll('a').forEach(a => a.addEventListener('click', () => { $('burger').classList.remove('open'); $('links').classList.remove('open'); }));
+
+// reveal
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.1 });
+document.querySelectorAll('.rv').forEach((el, i) => { el.style.transitionDelay = (i % 4) * 80 + 'ms'; io.observe(el); });
+
+// toast, copy, form
+function toast(t) { $('toast').textContent = t; $('toast').classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(() => $('toast').classList.remove('show'), 2600); }
+document.querySelectorAll('.copy').forEach(el => el.addEventListener('click', () => { navigator.clipboard?.writeText(el.dataset.copy).catch(() => {}); toast('Skopiowano ' + el.dataset.copy); }));
+$('form').addEventListener('submit', e => {
+  e.preventDefault();
+  if (!$('f-name').value.trim() || !$('f-email').value.includes('@')) { toast('Uzupełnij imię i e-mail'); return; }
+  e.target.reset(); toast('Dziękujemy — odezwiemy się wkrótce');
+});
+
+// statement: words light up with scroll
+(function () {
+  const p = $('statement');
+  const accent = new Set(['zaufanym', 'partnerem', 'know-how']);
+  p.innerHTML = p.textContent.trim().split(/\s+/).map(w => `<span class="w${accent.has(w.replace(/[,.—]/g, '')) ? ' r' : ''}">${w}</span>`).join(' ');
+  const words = [...p.querySelectorAll('.w')];
+  function upd() {
+    const r = p.getBoundingClientRect();
+    const prog = Math.min(1, Math.max(0, (innerHeight * .85 - r.top) / (r.height + innerHeight * .35)));
+    const n = Math.round(prog * words.length);
+    words.forEach((w, i) => w.classList.toggle('on', i < n));
+  }
+  addEventListener('scroll', upd, { passive: true }); upd();
+})();
+
+// index rows
+document.querySelectorAll('.row').forEach(r => r.querySelector('.row-head').addEventListener('click', () => {
+  const open = r.classList.contains('open');
+  document.querySelectorAll('.row').forEach(x => x.classList.remove('open'));
+  if (!open) r.classList.add('open');
+}));
+
+// horizontal phases
+(function () {
+  const sec = $('fazy'), track = $('hsTrack'), cards = [...track.children];
+  function upd() {
+    if (innerWidth <= 760) { track.style.transform = ''; return; }
+    const r = sec.getBoundingClientRect();
+    const total = sec.offsetHeight - innerHeight;
+    const prog = Math.min(1, Math.max(0, -r.top / total));
+    const max = track.scrollWidth - innerWidth + 80;
+    track.style.transform = `translateX(${-prog * max}px)`;
+    $('hsBar').style.width = (prog * 100) + '%';
+    const idx = Math.min(3, Math.floor(prog * 4.4));
+    $('hsCount').textContent = `0${idx + 1} / 04`;
+  }
+  addEventListener('scroll', upd, { passive: true }); addEventListener('resize', upd); upd();
+})();
+
+// hero: rotating point-cloud terrain with a sweeping scan plane
+(function () {
+  const c = $('cloud'), ctx = c.getContext('2d');
+  let w, h, dpr, pts = [];
+  const N = 84, M = 56, SPAN = 2.6;
+  const perm = new Uint8Array(512);
+  (function () { const p = [...Array(256).keys()]; let s = 7; for (let i = 255; i > 0; i--) { s = (s * 16807) % 2147483647; const j = s % (i + 1); [p[i], p[j]] = [p[j], p[i]]; } for (let i = 0; i < 512; i++) perm[i] = p[i & 255]; })();
+  const fade = t => t * t * (3 - 2 * t);
+  const rnd = (x, y) => perm[(perm[x & 255] + y) & 511] / 255;
+  function noise(x, y) {
+    const xi = Math.floor(x), yi = Math.floor(y), u = fade(x - xi), v = fade(y - yi);
+    const a = rnd(xi, yi), b = rnd(xi + 1, yi), cc = rnd(xi, yi + 1), d = rnd(xi + 1, yi + 1);
+    return a + (b - a) * u + (cc - a) * v + (a - b - cc + d) * u * v;
+  }
+  for (let j = 0; j < M; j++) for (let i = 0; i < N; i++) {
+    const x = (i / (N - 1) - .5) * SPAN, z = (j / (M - 1) - .5) * SPAN * M / N;
+    const hgt = noise(i * .09, j * .09) * .55 + noise(i * .22 + 7, j * .22 + 3) * .2 + noise(i * .5 + 1, j * .5 + 9) * .05;
+    pts.push([x, hgt * .62 - .3, z]);
+  }
+  function size() {
+    dpr = Math.min(devicePixelRatio || 1, 2);
+    w = c.offsetWidth; h = c.offsetHeight;
+    c.width = w * dpr; c.height = h * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  let t = 0, mx = 0;
+  addEventListener('pointermove', e => { mx = (e.clientX / innerWidth - .5); }, { passive: true });
+  function frame() {
+    ctx.clearRect(0, 0, w, h);
+    const yaw = -.6 + Math.sin(t * .0016) * .35 + mx * .25, pitch = .5;
+    const cy = Math.cos(yaw), sy = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch);
+    const mob = w < 760, scale = mob ? w * .95 : Math.min(w, h * 1.6) * .62, ox = w * (w > 900 ? .6 : .5), oy = h * (mob ? .3 : .5);
+    const scanX = ((t * .006) % 1.6 - .3) * SPAN - SPAN / 2;
+    const proj = [];
+    for (const [x, y, z] of pts) {
+      const x1 = x * cy - z * sy, z1 = x * sy + z * cy;
+      const y2 = y * cp - z1 * sp, z2 = y * sp + z1 * cp;
+      const d = 3.2 + z2, k = scale / d;
+      proj.push([ox + x1 * k, oy - y2 * k, d, x]);
+    }
+    for (const [px, py, d, x] of proj) {
+      const dx = x - scanX;
+      const near = Math.abs(dx) < .045, done = dx < 0;
+      const a = Math.max(.12, Math.min(1, 1.6 - (d - 2.4) * .9));
+      const s = Math.max(1, 2.4 - (d - 2.4) * 1.2);
+      if (near) { ctx.fillStyle = `rgba(215,38,30,${a})`; ctx.fillRect(px - s, py - s, s * 2, s * 2); }
+      else { ctx.fillStyle = done ? `rgba(14,15,15,${a * .75})` : `rgba(14,15,15,${a * .22})`; ctx.fillRect(px - s / 2, py - s / 2, s, s); }
+    }
+    const pct = Math.max(0, Math.min(100, Math.round((scanX + SPAN / 2) / SPAN * 100)));
+    if (t % 6 === 0) $('scanMeta').textContent = `Fig. 01 — skan · ${pct}%`;
+    t++;
+    if (!reduce) requestAnimationFrame(frame);
+  }
+  addEventListener('resize', () => { size(); if (reduce) frame(); });
+  size(); frame();
+})();
+</script>
+</body>
+</html>
