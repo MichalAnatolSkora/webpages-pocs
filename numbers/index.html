@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plachta Zygalskiego</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  :root{
+    --bg:#09090e;--surface:#111118;--surface2:#191922;--surface3:#21212c;
+    --border:rgba(255,255,255,0.06);--border-gold:rgba(240,178,50,0.18);
+    --text:#b8b8c4;--text-dim:#5a5a68;--text-bright:#ededf4;
+    --gold:#f0b232;--gold2:#e09e18;--gold-dim:rgba(240,178,50,0.1);--gold-glow:rgba(240,178,50,0.2);
+    --green:#2fbd6a;--green-dim:rgba(47,189,106,0.08);
+    --blue:#4d8cf5;
+  }
+
+  body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;overflow-x:hidden;min-height:100vh;line-height:1.55;display:flex;align-items:center;justify-content:center;padding:24px}
+
+  .zygalski-card{background:var(--surface);border:1px solid var(--border-gold);border-radius:16px;overflow:hidden;box-shadow:0 0 60px rgba(240,178,50,.05);max-width:560px;width:100%}
+  .zygalski-header{padding:24px 28px 0}
+  .zygalski-header h3{font-size:1rem;font-weight:800;color:var(--text-bright);margin-bottom:4px;display:flex;align-items:center;gap:10px}
+  .zygalski-header h3 .z-badge{font-size:.56rem;font-weight:700;color:var(--gold);background:var(--gold-dim);border:1px solid var(--border-gold);padding:2px 10px;border-radius:6px;text-transform:uppercase;letter-spacing:.06em}
+  .zygalski-header p{font-size:.78rem;color:var(--text-dim);line-height:1.5;max-width:520px}
+
+  .zygalski-legend{display:flex;align-items:center;gap:20px;padding:16px 28px 8px;flex-wrap:wrap}
+  .zygalski-legend-item{display:flex;align-items:center;gap:6px;font-size:.68rem;color:var(--text-dim);font-weight:500}
+  .zygalski-legend-dot{width:12px;height:12px;border-radius:3px}
+  .zygalski-legend-dot.hot{background:var(--gold);box-shadow:0 0 8px var(--gold-glow)}
+  .zygalski-legend-dot.warm{background:rgba(240,178,50,.35)}
+  .zygalski-legend-dot.neutral{background:var(--surface3)}
+  .zygalski-legend-dot.cold{background:rgba(77,140,245,.3)}
+
+  .zygalski-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;padding:16px 28px 28px}
+  .z-cell{
+    aspect-ratio:1;border-radius:8px;display:flex;align-items:center;justify-content:center;
+    font-family:'JetBrains Mono',monospace;font-size:clamp(.7rem,1.8vw,1rem);font-weight:700;
+    position:relative;cursor:default;transition:all .35s ease;
+    border:1px solid transparent;
+  }
+  .z-cell.z-hot{
+    background:radial-gradient(circle,rgba(240,178,50,.22),rgba(240,178,50,.06));
+    color:var(--gold);border-color:rgba(240,178,50,.3);
+    box-shadow:0 0 16px rgba(240,178,50,.12),inset 0 0 12px rgba(240,178,50,.06);
+    animation:z-glow 3s ease-in-out infinite alternate;
+  }
+  .z-cell.z-warm{
+    background:rgba(240,178,50,.06);color:rgba(240,178,50,.6);border-color:rgba(240,178,50,.1);
+  }
+  .z-cell.z-neutral{
+    background:var(--surface2);color:var(--text-dim);
+  }
+  .z-cell.z-cold{
+    background:rgba(77,140,245,.04);color:rgba(77,140,245,.4);border-color:rgba(77,140,245,.08);
+  }
+  .z-cell.z-hole{
+    background:transparent;color:transparent;border:1px dashed rgba(255,255,255,.04);
+  }
+  .z-cell:hover:not(.z-hole){transform:scale(1.12);z-index:3;box-shadow:0 0 20px rgba(240,178,50,.2)}
+  .z-cell .z-freq{
+    position:absolute;bottom:2px;right:4px;font-size:.44rem;font-weight:500;opacity:.5;
+  }
+
+  @keyframes z-glow{
+    0%{box-shadow:0 0 12px rgba(240,178,50,.08),inset 0 0 8px rgba(240,178,50,.04)}
+    100%{box-shadow:0 0 22px rgba(240,178,50,.18),inset 0 0 16px rgba(240,178,50,.08)}
+  }
+
+  .zygalski-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:0 28px 24px}
+  .z-stat{background:var(--surface2);border-radius:8px;padding:12px 10px;text-align:center}
+  .z-stat-val{font-family:'JetBrains Mono',monospace;font-size:1rem;font-weight:800;color:var(--gold)}
+  .z-stat-label{font-size:.62rem;color:var(--text-dim);margin-top:2px;text-transform:uppercase;letter-spacing:.03em;font-weight:600}
+
+  .zygalski-footer{font-size:.66rem;color:var(--text-dim);font-style:italic;line-height:1.5;border-top:1px solid var(--border);padding:16px 28px 20px;margin:0}
+
+  @media(max-width:700px){
+    .zygalski-grid{gap:4px;padding:12px 16px 16px}
+    .zygalski-header{padding:20px 16px 0}
+    .zygalski-legend{padding:12px 16px 4px}
+    .zygalski-stats{grid-template-columns:repeat(2,1fr);padding:0 16px 20px}
+    .zygalski-footer{padding:16px 16px 20px}
+  }
+</style>
+</head>
+<body>
+
+<div class="zygalski-card">
+  <div class="zygalski-header">
+    <h3>Plachta Zygalskiego <span class="z-badge">Analiza 200 losowan</span></h3>
+    <p>Siatka 49 liczb — jasnosc i kolor komorki odzwierciedla czestotliwosc wystepowania. "Dziury" w plachcie to numery, ktore nie pojawily sie w ostatnich 50 losowaniach.</p>
+  </div>
+  <div class="zygalski-legend">
+    <div class="zygalski-legend-item"><span class="zygalski-legend-dot hot"></span> Goraca (>30×)</div>
+    <div class="zygalski-legend-item"><span class="zygalski-legend-dot warm"></span> Ciepla (20-30×)</div>
+    <div class="zygalski-legend-item"><span class="zygalski-legend-dot neutral"></span> Neutralna (10-20×)</div>
+    <div class="zygalski-legend-item"><span class="zygalski-legend-dot cold"></span> Zimna (<10×)</div>
+  </div>
+  <div class="zygalski-grid" id="zygalskiGrid"></div>
+  <div class="zygalski-stats">
+    <div class="z-stat"><div class="z-stat-val" id="zHotCount">—</div><div class="z-stat-label">Goracych</div></div>
+    <div class="z-stat"><div class="z-stat-val" id="zColdCount">—</div><div class="z-stat-label">Zimnych</div></div>
+    <div class="z-stat"><div class="z-stat-val" id="zHoleCount">—</div><div class="z-stat-label">Dziur</div></div>
+    <div class="z-stat"><div class="z-stat-val" id="zAvg">—</div><div class="z-stat-label">Srednia</div></div>
+  </div>
+  <div class="zygalski-footer">Inspirowane plachtami Zygalskiego — narzedziem kryptologicznym z lat 30. XX wieku, uzytym przy lamaniu szyfru Enigmy. Tutaj "perforacja" oznacza brak wystapien w ostatnim oknie losowan.</div>
+</div>
+
+<script>
+(function(){
+  const grid = document.getElementById('zygalskiGrid');
+  let hotC=0, coldC=0, holeC=0, total=0;
+
+  for(let i=1;i<=49;i++){
+    const r = Math.random();
+    let freq;
+    if(r<0.08){ freq=0; }
+    else if(r<0.2){ freq=Math.floor(Math.random()*9)+1; }
+    else if(r<0.55){ freq=Math.floor(Math.random()*11)+10; }
+    else if(r<0.82){ freq=Math.floor(Math.random()*11)+20; }
+    else { freq=Math.floor(Math.random()*12)+31; }
+
+    const cell = document.createElement('div');
+    let cls='z-cell ';
+    if(freq===0){ cls+='z-hole'; holeC++; }
+    else if(freq<10){ cls+='z-cold'; coldC++; }
+    else if(freq<20){ cls+='z-neutral'; }
+    else if(freq<31){ cls+='z-warm'; }
+    else { cls+='z-hot'; hotC++; }
+    total+=freq;
+
+    cell.className=cls;
+    cell.style.opacity='0';
+    cell.style.transform='scale(0.6)';
+    cell.innerHTML = freq>0
+      ? i+'<span class="z-freq">'+freq+'×</span>'
+      : '';
+    grid.appendChild(cell);
+
+    setTimeout(()=>{
+      cell.style.opacity='1';
+      cell.style.transform='scale(1)';
+    }, 80+i*25);
+  }
+
+  document.getElementById('zHotCount').textContent=hotC;
+  document.getElementById('zColdCount').textContent=coldC;
+  document.getElementById('zHoleCount').textContent=holeC;
+  document.getElementById('zAvg').textContent=(total/49).toFixed(1);
+})();
+</script>
+
+</body>
+</html>
