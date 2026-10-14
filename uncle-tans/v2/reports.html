@@ -14,9 +14,10 @@
 <link rel="stylesheet" href="panel.css">
 <link rel="stylesheet" href="reports.css">
 </head>
-<body class="reports-page">
-<!-- Reports: the owner looks back at online orders – sales, what to reconcile, best sellers, busy hours, service and
-     customers – for a period compared with the one before. Behind the owner's login in production. -->
+<body class="reports-page is-locked">
+<!-- Reports: the owner looks back at online orders – sales, what to reconcile, Przelewy24 payouts, best sellers, busy
+     hours, delivery areas, service, customers and every single order – for a period compared with the one before or
+     a year earlier. Behind the owner's PIN (a login in production). -->
 
 <!-- ===== DEMO BAR (mock only) ===== -->
 <div class="demo-bar">
@@ -34,6 +35,7 @@
     <span class="brand__logo ptop__logo" id="rLogo"></span>
     <div class="ptop__name"><strong id="rName"></strong><small data-i18n="r.title">Raporty</small></div>
     <a class="ptop__nav" href="panel.html">🧾<span data-i18n="r.to_panel">Zamówienia</span></a>
+    <button class="ptop__nav rlock-btn" id="rLockBtn">🔒<span data-i18n="r.lock.lock">Zablokuj</span></button>
     <div class="lang">
       <span class="lang__flag" aria-hidden="true"></span>
       <span class="lang__name"></span><span class="lang__code"></span>
@@ -43,26 +45,57 @@
   </div>
 </header>
 
+<!-- ===== PIN – the owner only (production: a login checked on the server) ===== -->
+<section class="rlock" id="rLock">
+  <div class="rlock__box" id="rLockBox">
+    <span class="brand__logo rlock__logo" id="rLockLogo"></span>
+    <h2 data-i18n="r.lock.title">Raporty – tylko dla właściciela</h2>
+    <p class="muted" data-i18n="r.lock.hint">Wpisz 4-cyfrowy PIN</p>
+    <div class="rlock__dots" id="rDots" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <p class="rlock__err" id="rPinErr" role="alert"></p>
+    <div class="rlock__keys" id="rKeys">
+      <button data-key="1">1</button><button data-key="2">2</button><button data-key="3">3</button>
+      <button data-key="4">4</button><button data-key="5">5</button><button data-key="6">6</button>
+      <button data-key="7">7</button><button data-key="8">8</button><button data-key="9">9</button>
+      <span></span><button data-key="0">0</button><button data-key="del" aria-label="Usuń" data-i18n-aria="r.lock.del">⌫</button>
+    </div>
+    <p class="rlock__mock"><span class="demo-bar__badge">Mock</span> <span data-i18n="r.lock.mock">W mocku PIN to 1234</span></p>
+    <p class="rlock__auto" data-i18n="r.lock.auto">Raporty same się blokują po 10 minutach bez aktywności.</p>
+  </div>
+</section>
+
 <!-- one filter row above everything it scopes -->
 <div class="rfilters">
   <div class="rwrap rfilters__inner">
     <div class="rchips" id="rPeriods"></div>
-    <div class="rfilters__actions">
-      <button class="rbtn" id="rCsv">⬇ <span data-i18n="r.csv">Eksport CSV</span></button>
-      <button class="rbtn" id="rPrint">🖨 <span data-i18n="p.print">Drukuj</span></button>
-    </div>
   </div>
 </div>
 
 <main class="rwrap rmain">
   <p class="rprint-head" id="rPrintHead"></p>
-  <p class="rrange" id="rRange"></p>
+  <div class="rtoolbar">
+    <div class="rrange" id="rRange"></div>
+    <div class="ractions">
+      <button class="rbtn" id="rDigest">✉️ <span data-i18n="r.digest">Podsumowanie dnia</span></button>
+      <button class="rbtn" id="rCsv">⬇ <span data-i18n="r.csv">Eksport CSV</span></button>
+      <button class="rbtn" id="rPrint">🖨 <span data-i18n="p.print">Drukuj</span></button>
+    </div>
+  </div>
   <section class="rkpis" id="rKpis"></section>
   <div class="rgrid" id="rBody"></div>
   <p class="rfoot" data-i18n="r.foot"></p>
 </main>
 
-<div class="rtip" id="rTip" role="tooltip" hidden><strong></strong><span></span></div>
+<!-- order details / daily summary -->
+<div class="modal" id="rModal" hidden>
+  <div class="modal__box rmodal" id="rModalBox">
+    <button type="button" class="icon-btn modal__x" data-close aria-label="Zamknij" data-i18n-aria="close">✕</button>
+    <div id="rModalBody"></div>
+  </div>
+</div>
+
+<div class="rtip" id="rTip" role="tooltip" hidden><strong></strong><span></span><small></small></div>
+<div class="ptoast" id="rToast" role="status" aria-live="polite"></div>
 
 <script src="data.js"></script>
 <script src="i18n.js"></script>

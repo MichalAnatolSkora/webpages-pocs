@@ -1,12 +1,35 @@
-/* Reports (reports.html), on top of styles.css and panel.css (demo bar, top bar). A normal scrolling page – the owner
-   reads it on a laptop or a phone, not on the counter tablet.
+/* Reports (reports.html), on top of styles.css and panel.css (demo bar, top bar, chips, toast). A normal scrolling page –
+   the owner reads it on a laptop or a phone, not on the counter tablet.
    Charts: one series = the brand orange; a two-part split = blue + orange (validated for colour blindness);
    the heatmap = orange from light to dark. Thin bars with 4px rounded ends, 2px gaps, hairline grid. */
 .reports-page{--blue:#1d5fbf;--c-a:#2a78d6;--c-b:var(--accent)}
 .reports-page .ptop__nav{margin-left:auto}
+.reports-page .ptop__nav + .ptop__nav{margin-left:0}
 .rwrap{max-width:1180px;margin:0 auto;padding-left:16px;padding-right:16px}
 
-/* filters – one row above everything they scope */
+/* ---------- PIN (the owner only) ---------- */
+.rlock{display:none;min-height:calc(100vh - 140px);min-height:calc(100dvh - 140px);place-items:center;padding:24px 16px 40px}
+.is-locked .rlock{display:grid}
+.is-locked .rlock-btn,.is-locked .rfilters,.is-locked .rmain{display:none}
+.rlock__box{width:100%;max-width:320px;text-align:center}
+.rlock__logo{margin:0 auto 1rem;width:64px;height:64px}
+.rlock__box h2{font-size:1.25rem;font-weight:800;line-height:1.25}
+.rlock__box>.muted{font-size:.9rem;margin-top:.25rem}
+.rlock__dots{display:flex;justify-content:center;gap:14px;margin:1.3rem 0 .45rem}
+.rlock__dots i{width:14px;height:14px;border-radius:50%;border:2px solid var(--ink-3);transition:background .1s,border-color .1s}
+.rlock__dots i.is-on{background:var(--ink);border-color:var(--ink)}
+.rlock__box.is-wrong .rlock__dots{animation:rshake .4s}
+@keyframes rshake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+.rlock__err{min-height:1.5em;font-size:.85rem;font-weight:700;color:var(--red)}
+.rlock__keys{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:.5rem}
+.rlock__keys button{height:58px;border-radius:16px;border:1px solid var(--line);background:var(--white);font-size:1.4rem;font-weight:700;cursor:pointer;box-shadow:var(--shadow-sm);transition:background .1s,border-color .1s}
+.rlock__keys button:hover{border-color:var(--ink-3)}
+.rlock__keys button:active{background:var(--paper)}
+.rlock__keys button:disabled{opacity:.4;cursor:not-allowed}
+.rlock__mock{display:flex;align-items:center;justify-content:center;gap:.4rem;margin-top:1.3rem;font-size:.82rem;color:var(--ink-2)}
+.rlock__auto{margin-top:.4rem;font-size:.76rem;color:var(--ink-3)}
+
+/* ---------- filters – one row above everything they scope ---------- */
 .rfilters{position:sticky;top:0;z-index:30;background:rgba(250,246,240,.94);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
 .rfilters__inner{display:flex;align-items:center;gap:.6rem;padding-top:.55rem;padding-bottom:.55rem}
 .rchips{flex:1;min-width:0;display:flex;flex-wrap:wrap;gap:.4rem}   /* wraps on tablets – every period stays in view */
@@ -14,18 +37,24 @@
 .rchips button:hover{color:var(--ink);border-color:var(--ink-3)}
 .rchips button.is-active{background:var(--ink);border-color:var(--ink);color:#fff}
 .rchip__short{display:none}
-.rfilters__actions{flex:none;align-self:flex-start;display:flex;gap:.4rem}
-.rbtn{display:flex;align-items:center;gap:.35rem;height:34px;padding:0 .8rem;border-radius:999px;border:1px solid var(--line);background:var(--white);font-size:.82rem;font-weight:700;cursor:pointer;white-space:nowrap}
-.rbtn:hover{border-color:var(--ink-3)}
 
+/* the period (or the custom dates), what it is compared with, and the actions */
 .rmain{padding-top:1rem;padding-bottom:2.5rem}
-.rrange{display:flex;flex-wrap:wrap;align-items:center;gap:.25rem .6rem;font-size:.88rem;margin-bottom:.8rem}
+.rtoolbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.6rem 1rem;margin-bottom:.9rem}
+.rrange{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem .7rem;font-size:.88rem;min-width:0}
 .rrange strong{font-size:1.05rem}
 .rlive{display:inline-flex;align-items:center;gap:.35rem;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--green);background:var(--green-soft);padding:.12rem .55rem;border-radius:999px}
 .rlive::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor;animation:rpulse 1.6s ease-in-out infinite}
 @keyframes rpulse{50%{opacity:.25}}
+.rdates{display:inline-flex;align-items:center;gap:.35rem}
+.rdates input[type=date]{display:inline-block;width:auto;margin:0;padding:.38rem .55rem;font-size:.92rem;font-weight:700;border-width:1px;border-radius:10px}
+.rcompare{display:inline-flex;align-items:center;flex-wrap:wrap;gap:.2rem .45rem;margin:0;font-size:.85rem;font-weight:500;color:var(--ink-2);min-width:0}
+.rcompare select{display:inline-block;width:auto;max-width:100%;margin:0;padding:.38rem 2.1rem .38rem .8rem;font-size:.85rem;font-weight:600;border-width:1px;border-radius:999px;background-position:right .8rem center}
+.ractions{display:flex;flex-wrap:wrap;gap:.4rem}
+.rbtn{display:flex;align-items:center;gap:.35rem;height:34px;padding:0 .8rem;border-radius:999px;border:1px solid var(--line);background:var(--white);font-size:.82rem;font-weight:700;cursor:pointer;white-space:nowrap}
+.rbtn:hover{border-color:var(--ink-3)}
 
-/* KPI tiles – sales leads */
+/* ---------- KPI tiles – sales leads ---------- */
 .rkpis{display:grid;grid-template-columns:1.5fr repeat(3,minmax(0,1fr));gap:12px;margin-bottom:12px}
 .rkpi{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:.9rem 1rem;box-shadow:var(--shadow-sm);min-width:0}
 .rkpi small{display:block;font-size:.82rem;font-weight:700;color:var(--ink-2)}
@@ -40,7 +69,7 @@
 .rkpi__sub:empty{display:none}
 .rkpi__open{color:var(--blue);font-weight:700}
 
-/* cards */
+/* ---------- cards ---------- */
 .rgrid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
 .rcard{grid-column:span 3;background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:1rem 1.15rem 1.15rem;box-shadow:var(--shadow-sm);min-width:0}
 .rcard--full{grid-column:1/-1}
@@ -52,9 +81,10 @@
 .rseg{flex:none;min-width:200px}
 .rseg button{padding:.38rem .7rem;font-size:.8rem}
 .rempty{text-align:center;color:var(--ink-2);padding:3rem 1rem}
+.rempty--small{padding:1.5rem 1rem}
 .rh3{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);margin:1.2rem 0 .45rem}
 
-/* column chart: y ticks | plot, then the x labels */
+/* column chart: y ticks | plot, then the x labels; a bar is clickable – its orders */
 .rchart{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:.5rem}
 .rchart__y,.rchart__plot{position:relative;height:220px}
 .rchart__y{min-width:2rem}
@@ -62,7 +92,7 @@
 .rchart__grid{position:absolute;left:0;right:0;height:1px;background:var(--line)}
 .rchart__grid:first-child{background:#d8cdc1}
 .rchart__bars{position:absolute;inset:0;display:flex;gap:2px}
-.rcol{flex:1;min-width:0;height:100%;display:flex;align-items:flex-end;justify-content:center;border:0;background:none;padding:0;border-radius:6px 6px 0 0;cursor:default}
+.rcol{flex:1;min-width:0;height:100%;display:flex;align-items:flex-end;justify-content:center;border:0;background:none;padding:0;border-radius:6px 6px 0 0;cursor:pointer}
 .rcol i{display:block;width:min(24px,72%);background:var(--accent);border-radius:4px 4px 0 0;transition:filter .15s}
 .rcol.is-now i{background:color-mix(in srgb,var(--accent) 45%,var(--white))}
 .rcol.is-hover{background:rgba(31,26,23,.045)}
@@ -91,16 +121,26 @@
 .rlegend li>i{width:10px;height:10px;border-radius:3px;flex:none}
 .rlegend b{font-weight:800}
 
-/* payments */
+/* ledgers: payments, Przelewy24 */
 .rrows{margin-top:1rem;font-size:.9rem}
-.rrow{display:grid;grid-template-columns:minmax(0,1fr) auto 6.5rem;gap:.8rem;align-items:baseline;padding:.45rem 0;border-bottom:1px solid var(--line)}
+.rrows--top{margin-top:0}
+.rrow{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(7rem,max-content);gap:.8rem;align-items:baseline;padding:.45rem 0;border-bottom:1px solid var(--line)}
 .rrow>:last-child{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 .rrow .muted{font-size:.82rem;white-space:nowrap}
 .rrow--total{font-weight:800;border-bottom:0;padding-top:.65rem}
 .rrow--total b{font-size:1.05rem}
 .rrow--sub{font-size:.82rem;color:var(--ink-2);border-bottom:0;padding-top:0}
+.rrow--sub b{font-weight:500}
 .rrow--refund{border-top:1px solid var(--line);border-bottom:0;margin-top:.3rem;color:var(--red)}
 .rnote{font-size:.8rem;background:#fff6e5;color:#8a5a00;border-radius:10px;padding:.55rem .75rem;margin-top:.9rem}
+.rpayouts{list-style:none;font-size:.88rem}
+.rpayouts li{display:grid;grid-template-columns:1.4rem minmax(0,1fr) auto;gap:.6rem;align-items:center;padding:.45rem 0;border-bottom:1px solid var(--line)}
+.rpayouts li:last-child{border-bottom:0}
+.rpayouts small{display:block;font-size:.78rem;color:var(--ink-2)}
+.rpayouts__icon{text-align:center;font-weight:800;color:var(--green)}
+.rpayouts .is-planned .rpayouts__icon{color:var(--ink-3)}
+.rpayouts__sum{font-variant-numeric:tabular-nums;white-space:nowrap}
+.rpayouts .is-planned .rpayouts__sum{color:var(--ink-2)}
 
 /* small figures */
 .rsplit{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:1rem}
@@ -130,6 +170,13 @@
 .rcats b{min-width:2.4rem;text-align:right}
 .rcats .is-other .rbarh i{background:var(--ink-3)}
 
+/* delivery areas */
+.rzones{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 1.6rem}
+.rzones li{padding:.32rem 0;min-width:0}
+.rzones small{font-size:.76rem}
+.rzones .rrank__top small{font-weight:500}
+.rzones__foot{margin-top:.8rem;font-size:.84rem;color:var(--ink-2)}
+
 /* customers */
 .rbig{font-size:.88rem;color:var(--ink-2);margin-bottom:.8rem}
 .rbig strong{font-size:1.9rem;font-weight:800;color:var(--ink);margin-right:.25rem}
@@ -138,11 +185,11 @@
 .rlangs .rbarh{margin-top:0}
 .rlangs b{text-align:right;font-variant-numeric:tabular-nums}
 
-/* heatmap */
+/* heatmap – a cell is clickable: that weekday and hour's orders */
 .rheat{display:grid;grid-template-columns:auto repeat(var(--cols),minmax(0,1fr));gap:2px;align-items:center}
 .rheat__h{font-size:.72rem;color:var(--ink-3);text-align:center;font-variant-numeric:tabular-nums;padding-bottom:.15rem}
 .rheat__d{font-size:.78rem;font-weight:600;color:var(--ink-2);padding-right:.45rem;white-space:nowrap}
-.rheat__c{display:block;height:30px;border-radius:4px;background:color-mix(in srgb,var(--accent) var(--v),var(--paper))}
+.rheat__c{display:block;height:30px;border-radius:4px;background:color-mix(in srgb,var(--accent) var(--v),var(--paper));cursor:pointer}
 .rheat__c.is-hover{outline:2px solid var(--ink);outline-offset:-1px}
 .rheat__legend{display:flex;align-items:center;gap:.5rem;margin-top:.75rem;font-size:.75rem;color:var(--ink-3)}
 .rheat__legend i{width:120px;height:8px;border-radius:4px;background:linear-gradient(90deg,color-mix(in srgb,var(--accent) 12%,var(--paper)),var(--accent))}
@@ -156,10 +203,67 @@
 .rreasons li{padding:.3rem 0}
 .rreasons .rrank__top span::first-letter{text-transform:uppercase}
 
-/* tooltip – value first, label second */
+/* ---------- orders: search, status, the picked bar; a row opens the order ---------- */
+.rorders{scroll-margin-top:72px}
+.rcard__head .rsearch[type=search]{flex:0 1 340px;display:block;width:auto;min-width:0;margin:0;padding:.55rem .9rem;font-size:.9rem;border-width:1px;border-radius:999px}
+.rofilters{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.7rem}
+.rpill{display:inline-flex;align-items:center;gap:.35rem;font-size:.82rem;font-weight:600;padding:.35rem .75rem;border-radius:999px;background:var(--white);border:1px solid var(--line);color:var(--ink-2);cursor:pointer}
+.rpill:hover{border-color:var(--ink-3)}
+.rpill b{font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums}
+.rpill.is-active{background:var(--ink);border-color:var(--ink);color:#fff}
+.rpill.is-active b{color:#fff}
+.rpill--slice{background:var(--accent-soft);border-color:#f3c7a6;color:var(--accent-d)}
+.rolist{border-top:1px solid var(--line)}
+.rord{display:grid;grid-template-columns:5.6rem 10rem minmax(0,1fr) minmax(0,1.3fr) 5rem 9.5rem;gap:.8rem;align-items:center;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);padding:.6rem .4rem;font-size:.88rem;cursor:pointer}
+.rord:hover{background:var(--paper)}
+.rord__no{font-weight:800;letter-spacing:.02em}
+.rord__when{color:var(--ink-2);white-space:nowrap;font-variant-numeric:tabular-nums}
+.rord__who,.rord__how{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rord__how{color:var(--ink-2)}
+.rord__total{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.rord__st{text-align:right}
+
+/* ---------- modals: one order, the daily summary ---------- */
+.rmodal{max-width:520px}
+.rmodal--digest{max-width:560px}
+.rmo__head{display:flex;align-items:center;flex-wrap:wrap;gap:.6rem;padding-right:2.4rem}
+.rmo__head h3{padding-right:0;font-size:1.4rem;font-weight:800;letter-spacing:.02em}
+.rmo__when{font-size:.88rem;margin-top:.2rem}
+.rmo__facts{display:flex;flex-wrap:wrap;gap:.4rem 1rem;margin-top:.7rem;font-size:.9rem;font-weight:600}
+.rmodal .summary{margin:1rem 0 .6rem}
+.rmodal .note{margin:.6rem 0 0}
+.rmodal .pnotes{margin-top:.6rem}
+.rdg__lead{font-size:.88rem;margin:.3rem 0 .9rem}
+.rmodal--digest .rseg{width:100%;min-width:0}
+#rDgPreview{margin-top:.8rem}
+.rmail{border:1px solid var(--line);border-radius:14px;overflow:hidden;font-size:.86rem}
+.rmail__meta{display:grid;gap:.15rem;background:var(--paper);padding:.6rem .8rem;border-bottom:1px solid var(--line);color:var(--ink-2);font-size:.8rem;overflow-wrap:anywhere}
+.rmail__meta b{color:var(--ink)}
+.rmail__body{padding:.9rem 1rem 1rem}
+.rmail__brand{display:flex;align-items:center;gap:.5rem;font-size:.9rem}
+.rmail__brand img{width:28px;height:28px;border-radius:8px;object-fit:contain;border:1px solid var(--line)}
+.rmail__body h4{font-size:1.05rem;font-weight:800;margin-top:.7rem}
+.rmail__kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.4rem;margin:.8rem 0}
+.rmail__kpis div{background:var(--paper);border-radius:10px;padding:.5rem .55rem;min-width:0}
+.rmail__kpis small{display:block;font-size:.7rem;font-weight:700;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rmail__kpis strong{display:block;font-size:1rem;font-weight:800;white-space:nowrap}
+.rmail__kpis span{font-size:.72rem;font-weight:700;color:var(--ink-2)}
+.rmail__list{list-style:none;display:grid;gap:.35rem}
+.rmail__btn{margin-top:.9rem;padding:.55rem 1.1rem;font-size:.86rem;pointer-events:none}
+.rsms{background:var(--paper);border-radius:14px;padding:.9rem}
+.rsms__to{margin-bottom:.6rem;font-size:.78rem;font-weight:700;color:var(--ink-2);text-align:center}
+.rsms__bubble{max-width:85%;background:#e9e9eb;color:#111;border-radius:18px 18px 18px 4px;padding:.6rem .85rem;font-size:.9rem;line-height:1.4}
+.rsms small{display:block;margin-top:.4rem;font-size:.74rem}
+.rdg__form{margin-top:1rem}
+.rdg__form .rh3{margin-top:0}
+.rdg__form .check{margin:.6rem 0 .5rem}
+
+/* tooltip – value first, label second, then what a click does */
 .rtip{position:fixed;z-index:120;pointer-events:none;max-width:260px;background:var(--ink);color:#fff;border-radius:10px;padding:.45rem .7rem;box-shadow:var(--shadow);font-size:.8rem;line-height:1.35}
 .rtip strong{display:block;font-size:.95rem;font-weight:800}
 .rtip span{color:rgba(255,255,255,.75)}
+.rtip small{display:block;margin-top:.2rem;font-size:.72rem;color:rgba(255,255,255,.6)}
+.rtip small:empty{display:none}
 
 .rfoot{margin-top:1.5rem;font-size:.8rem;color:var(--ink-3);text-align:center}
 .rprint-head{display:none}
@@ -170,18 +274,26 @@
   .rservice,.rcard--wide .rservice{grid-template-columns:minmax(0,1fr)}
   .rkpis{grid-template-columns:repeat(3,minmax(0,1fr))}
   .rkpi--hero{grid-column:1/-1}
+  /* an order = three short lines */
+  .rord{grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"no st total" "when when when" "who how how";gap:.15rem .6rem;padding:.65rem .15rem}
+  .rord__no{grid-area:no}
+  .rord__st{grid-area:st;text-align:left}
+  .rord__total{grid-area:total}
+  .rord__when{grid-area:when;font-size:.8rem}
+  .rord__who{grid-area:who;font-size:.84rem}
+  .rord__how{grid-area:how;font-size:.84rem;text-align:right}
 }
 @media (max-width:600px){
-  /* every period in view at once: 4 presets, then 3 months + export / print – not a strip scrolled sideways */
+  /* every period in view at once: a 4 × 2 grid, not a strip scrolled sideways */
   .rfilters{position:static}
   .rfilters__inner{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
   .rchips{display:contents}
   .rchips button{padding:.45rem .2rem;font-size:.82rem;min-width:0;overflow:hidden;text-overflow:ellipsis}
   .rchip__long{display:none}
   .rchip__short{display:inline}
-  .rfilters__actions{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-  .rbtn{justify-content:center;height:auto;min-height:34px;padding:0}
-  .rbtn span{display:none}
+  .rdates input[type=date],.rcompare select,.rcard__head .rsearch[type=search]{font-size:16px}    /* iOS zooms into smaller fields */
+  .rdates{display:flex;width:100%}
+  .rdates input[type=date]{flex:1;min-width:0;padding-left:.45rem;padding-right:.45rem}
   .rkpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
   .rkpi:last-child{grid-column:1/-1}
   .rkpi{padding:.7rem .75rem}
@@ -191,17 +303,23 @@
   .rcard{padding:.9rem .9rem 1rem}
   .rcard__head{flex-wrap:wrap}
   .rseg{min-width:0;width:100%}
+  .rcard__head .rsearch[type=search]{flex-basis:100%}
   .rchart__y,.rchart__plot{height:180px}
   .rheat__c{height:24px}
   .rrank__top span{white-space:normal;overflow:visible}  /* long dish names and reasons wrap instead of being cut */
   .rtable{font-size:.8rem}
   .rtable th,.rtable td{padding:.35rem .3rem}
-  .rtable th{white-space:normal;vertical-align:bottom}
+  .rtable th,.rtable td:first-child{white-space:normal;vertical-align:bottom}
   .rrank li{grid-template-columns:1.2rem 32px minmax(0,1fr)}
   .rrank img{width:32px;height:32px}
   .rrank__alt{display:none}
-  .rrow{grid-template-columns:minmax(0,1fr) 5.5rem}
+  .rrow{grid-template-columns:minmax(0,1fr) minmax(6.3rem,max-content)}
   .rrow .muted{display:none}
+  .rzones{grid-template-columns:minmax(0,1fr)}
+  .rmail__kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  /* modals = bottom sheets */
+  #rModal{place-items:end stretch;padding:0}
+  .rmodal{max-width:none;max-height:92vh;max-height:92dvh;overflow-y:auto;border-radius:22px 22px 0 0;padding:1.1rem 1rem calc(1.2rem + var(--safe-b));animation:up .28s cubic-bezier(.2,.8,.2,1)}
 }
 @media (max-width:360px){
   .rchips button{padding-left:.1rem;padding-right:.1rem;font-size:.76rem}
@@ -212,7 +330,7 @@
 /* print = the report for the selected period */
 @media print{
   .reports-page{background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .rfilters,.rtip,.rlink,.rseg,.rtable,.rlive{display:none!important}
+  .rfilters,.ractions,.rorders,.rlock,.rtip,.rlink,.rseg,.rtable,.rlive,.modal,.ptoast{display:none!important}
   .rmain{padding:0}
   .rprint-head{display:block;font-size:1.1rem;font-weight:800;margin-bottom:.3rem}
   .rkpi,.rcard{box-shadow:none;break-inside:avoid}
