@@ -318,6 +318,18 @@
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "8140", "--directory", "corum-technologies/v7"],
       "port": 8140
+    },
+    {
+      "name": "kluczyk-v1",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8141", "--directory", "kluczyk/v1"],
+      "port": 8141
+    },
+    {
+      "name": "kluczyk-v2",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8142", "--directory", "kluczyk/v2"],
+      "port": 8142
     }
   ]
 }
