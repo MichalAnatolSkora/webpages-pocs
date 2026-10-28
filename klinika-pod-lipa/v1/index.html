@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#f6efe3">
+<title>Klinika pod Lipą — mała klinika rodzinna na Sępolnie</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='9' fill='%23b0532f'/><path d='M16 26c-6-3.8-9-7.6-9-11.2C7 11.7 9.2 9.4 12 9.4c1.7 0 3.1.9 4 2.3.9-1.4 2.3-2.3 4-2.3 2.8 0 5 2.3 5 5.4 0 3.6-3 7.4-9 11.2z' fill='%23f6efe3'/><path d='M16 11.6c0-2.6 1.3-4.4 3.6-5.4' stroke='%23f6efe3' stroke-width='1.8' fill='none' stroke-linecap='round'/></svg>">
+<script>try{var t=localStorage.getItem('podlipa-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Figtree:wght@400;500;600;700&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..800,0..100,0..1;1,9..144,300..800,0..100,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ===== Portraits (reused by team cards, booking and room panel) ===== -->
+<svg width="0" height="0" class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="face-ewa" viewBox="0 0 120 120">
+    <rect width="120" height="120" fill="#f1d7b2"/>
+    <circle cx="100" cy="18" r="34" fill="#f6e4c8"/>
+    <path d="M35 74C28 42 40 22 60 22s32 20 25 52z" fill="#7d6b5e"/>
+    <path d="M14 120c3-24 21-37 46-37s43 13 46 37z" fill="#fbf6ee"/>
+    <path d="M47 85l13 18 13-18c-4-1.6-8.4-2.4-13-2.4s-9 .8-13 2.4z" fill="#6f8f7d"/>
+    <path d="M44 86l15 34M76 86l-15 34" stroke="#e2d8c9" stroke-width="2"/>
+    <rect x="52" y="66" width="16" height="19" rx="7" fill="#e3ad8a"/>
+    <ellipse cx="60" cy="54" rx="19" ry="22" fill="#f0c3a0"/>
+    <path d="M41 53c.5-15 8-23 19-23 11.5 0 19.5 8 19 20-8-2-15-7-19.5-14C55 43 49 49 41 53z" fill="#7d6b5e"/>
+    <path d="M62 31c6 1.5 11.5 6 14 12" stroke="#d2c8bd" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+    <g fill="none" stroke="#5b4030" stroke-width="1.8"><circle cx="52" cy="56" r="6"/><circle cx="68" cy="56" r="6"/><path d="M58 56h4"/></g>
+    <circle cx="52" cy="56.5" r="1.7" fill="#3a2a20"/><circle cx="68" cy="56.5" r="1.7" fill="#3a2a20"/>
+    <circle cx="46.5" cy="64" r="4" fill="#e88f7a" opacity=".35"/><circle cx="73.5" cy="64" r="4" fill="#e88f7a" opacity=".35"/>
+    <path d="M54.5 67q5.5 4.6 11 0" stroke="#9b5040" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M45 87c0 13 5 20 15 20s15-7 15-20" stroke="#3f4a52" stroke-width="2.4" fill="none"/>
+    <circle cx="60" cy="108" r="4.4" fill="#3f4a52"/><circle cx="60" cy="108" r="1.8" fill="#9fb0ba"/>
+  </symbol>
+
+  <symbol id="face-tomasz" viewBox="0 0 120 120">
+    <rect width="120" height="120" fill="#dbe5cf"/>
+    <circle cx="18" cy="22" r="32" fill="#e8eedd"/>
+    <g fill="#4a3226"><circle cx="43" cy="42" r="10"/><circle cx="53" cy="32" r="11"/><circle cx="67" cy="31" r="11"/><circle cx="78" cy="40" r="10"/><circle cx="40" cy="53" r="6"/><circle cx="80" cy="52" r="6"/></g>
+    <path d="M14 120c3-24 21-37 46-37s43 13 46 37z" fill="#e6b24c"/>
+    <path d="M47 85q13 11 26 0" fill="none" stroke="#c9922f" stroke-width="3.4" stroke-linecap="round"/>
+    <rect x="52" y="66" width="16" height="19" rx="7" fill="#d9a07a"/>
+    <ellipse cx="60" cy="55" rx="19" ry="22" fill="#e8b48f"/>
+    <g fill="#4a3226"><circle cx="48" cy="37" r="6"/><circle cx="57" cy="34" r="6.5"/><circle cx="66" cy="34" r="6.5"/><circle cx="74" cy="38" r="5.5"/></g>
+    <path d="M41 57c0 14 8 23.5 19 23.5S79 71 79 57c-4 6-10.5 8.5-19 8.5S45 63 41 57z" fill="#4a3226"/>
+    <path d="M54 68.5q6 4.4 12 0" stroke="#f3d6c4" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+    <path d="M47.5 50.5q4-2.5 8 0M64.5 50.5q4-2.5 8 0" stroke="#4a3226" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <circle cx="51.5" cy="56" r="1.9" fill="#2e211a"/><circle cx="68.5" cy="56" r="1.9" fill="#2e211a"/>
+    <path d="M44 88c0 12 6 18 16 18s16-6 16-18" stroke="#3f4a52" stroke-width="2.4" fill="none"/>
+    <circle cx="60" cy="107" r="6" fill="#d6453a"/><path d="M60 101v12" stroke="#2b2b2b" stroke-width="1.2"/>
+    <circle cx="57.2" cy="105" r="1.2" fill="#2b2b2b"/><circle cx="62.8" cy="109" r="1.2" fill="#2b2b2b"/><circle cx="60" cy="100.6" r="2.2" fill="#2b2b2b"/>
+  </symbol>
+
+  <symbol id="face-krystyna" viewBox="0 0 120 120">
+    <rect width="120" height="120" fill="#f2d6cb"/>
+    <circle cx="100" cy="100" r="36" fill="#f7e4dc"/>
+    <path d="M14 120c3-24 21-37 46-37s43 13 46 37z" fill="#7fa6bb"/>
+    <path d="M49 84l11 15 11-15z" fill="#e3b394"/>
+    <path d="M14 120c2-20 13-32 30-37l9 37zM106 120c-2-20-13-32-30-37l-9 37z" fill="#c96f5a"/>
+    <rect x="52" y="66" width="16" height="19" rx="7" fill="#e3b394"/>
+    <ellipse cx="60" cy="55" rx="19" ry="22" fill="#edc2a2"/>
+    <g fill="#d9d4ce"><circle cx="43" cy="44" r="9"/><circle cx="50" cy="35" r="10"/><circle cx="61" cy="31" r="11"/><circle cx="72" cy="35" r="10"/><circle cx="78" cy="45" r="8"/><circle cx="41" cy="54" r="5"/><circle cx="80" cy="54" r="5"/></g>
+    <g fill="#c4bdb5"><circle cx="54" cy="38" r="4"/><circle cx="67" cy="37" r="4.4"/></g>
+    <path d="M47.5 56.5q4.5-4 9 0M63.5 56.5q4.5-4 9 0" stroke="#3a2a20" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <circle cx="46.5" cy="64" r="4" fill="#e88f7a" opacity=".4"/><circle cx="73.5" cy="64" r="4" fill="#e88f7a" opacity=".4"/>
+    <path d="M53.5 67q6.5 5.5 13 0" stroke="#9b5040" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+    <circle cx="41.5" cy="62" r="2.2" fill="#fffaf2"/><circle cx="78.5" cy="62" r="2.2" fill="#fffaf2"/>
+    <circle cx="80" cy="101" r="5" fill="#fffaf2" stroke="#5d6b74" stroke-width="1.4"/><path d="M80 98.5v2.5l1.8 1.2" stroke="#5d6b74" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+  </symbol>
+
+  <symbol id="face-basia" viewBox="0 0 120 120">
+    <rect width="120" height="120" fill="#f5e0ad"/>
+    <circle cx="22" cy="100" r="34" fill="#f9ebc8"/>
+    <circle cx="60" cy="20" r="12" fill="#4a2c22"/>
+    <path d="M39 64c-4-26 6-40 21-40s25 14 21 40z" fill="#4a2c22"/>
+    <path d="M14 120c3-24 21-37 46-37s43 13 46 37z" fill="#c8674a"/>
+    <rect x="52" y="66" width="16" height="19" rx="7" fill="#d79c78"/>
+    <path d="M60 85c-6 0-11-2-14-4 1 6 6 10 14 10M60 85c6 0 11-2 14-4-1 6-6 10-14 10" fill="#fbf6ee"/>
+    <ellipse cx="60" cy="55" rx="19" ry="22" fill="#e6ad88"/>
+    <path d="M41 52c1-14 8-22 19-22 10 0 17.5 7 19 18-9 1-19-3-24-10-3 6-8 11-14 14z" fill="#4a2c22"/>
+    <circle cx="51.5" cy="56.5" r="1.9" fill="#2e211a"/><circle cx="68.5" cy="56.5" r="1.9" fill="#2e211a"/>
+    <path d="M47.5 51.5q4-2 8 0M64.5 51.5q4-2 8 0" stroke="#4a2c22" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    <circle cx="46.5" cy="64" r="4" fill="#e07a68" opacity=".4"/><circle cx="73.5" cy="64" r="4" fill="#e07a68" opacity=".4"/>
+    <path d="M52 65.5q8 9.5 16 0z" fill="#8e3b2e"/><path d="M53.5 66h13" stroke="#fffaf2" stroke-width="2"/>
+    <circle cx="41.5" cy="64" r="4" fill="none" stroke="#e0a73a" stroke-width="1.6"/><circle cx="78.5" cy="64" r="4" fill="none" stroke="#e0a73a" stroke-width="1.6"/>
+    <path d="M80 98h22v14a6 6 0 0 1-6 6H86a6 6 0 0 1-6-6z" fill="#fbf6ee"/>
+    <path d="M102 102h3a4 4 0 0 1 0 8h-3" fill="none" stroke="#fbf6ee" stroke-width="3"/>
+    <path d="M91 112c-3-2-4.4-3.8-4.4-5.6 0-1.6 1.2-2.8 2.6-2.8.8 0 1.4.4 1.8 1 .4-.6 1-1 1.8-1 1.4 0 2.6 1.2 2.6 2.8 0 1.8-1.4 3.6-4.4 5.6z" fill="#c8674a"/>
+    <path d="M86 94c-2-3 2-4 0-7M93 94c-2-3 2-4 0-7" stroke="#fbf6ee" stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".9"/>
+  </symbol>
+</svg>
+
+<!-- ===== DEMO BAR (mock only) ===== -->
+<div class="demo-bar">
+  <div class="wrap demo-bar__in">
+    <span class="demo-bar__badge">Mock v1</span>
+    <span>Fikcyjna klinika — zapisy są symulowane, nic nie zostanie wysłane.</span>
+  </div>
+</div>
+
+<!-- ===== HEADER ===== -->
+<header class="top">
+  <div class="wrap top__in">
+    <a class="logo" href="#" aria-label="Klinika pod Lipą — na górę strony">
+      <svg class="logo__mark" viewBox="0 0 40 40" aria-hidden="true">
+        <circle class="logo__bg" cx="20" cy="20" r="20"/>
+        <path class="logo__leaf" d="M20 31.5c-7.4-4.7-11-9.3-11-13.7 0-3.8 2.7-6.6 6.1-6.6 2.1 0 3.8 1.1 4.9 2.8 1.1-1.7 2.8-2.8 4.9-2.8 3.4 0 6.1 2.8 6.1 6.6 0 4.4-3.6 9-11 13.7z"/>
+        <path class="logo__vein" d="M20 15v13M20 19.5l-3.6-2.6M20 23.5l3.6-2.6"/>
+        <path class="logo__stem" d="M20 13.8c0-3 1.6-5.3 4.4-6.6"/>
+      </svg>
+      <span class="logo__word"><small>klinika rodzinna</small>pod Lipą</span>
+    </a>
+    <nav class="nav" aria-label="Sekcje strony">
+      <a href="#zespol">Zespół</a>
+      <a href="#o-nas">Historia</a>
+      <a href="#dom">Dom</a>
+      <a href="#cennik">Cennik</a>
+      <a href="#dojazd">Dojazd</a>
+      <a href="#faq">Pytania</a>
+    </nav>
+    <div class="top__actions">
+      <button type="button" class="lamp" id="lamp" aria-pressed="false" title="Zapal lampę — wieczorne kolory">
+        <svg viewBox="0 0 32 32" aria-hidden="true">
+          <path class="lamp__cone" d="M10 17h12l5 13H5z"/>
+          <path class="lamp__cord" d="M16 0v6"/>
+          <path class="lamp__shade" d="M9.5 17C10 11 12.6 7 16 7s6 4 6.5 10z"/>
+          <circle class="lamp__bulb" cx="16" cy="18" r="2.6"/>
+        </svg>
+        <span class="lamp__label">Wieczór</span>
+      </button>
+      <a class="btn btn--primary btn--sm" href="#wizyta">Umów wizytę</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="wrap hero__in">
+    <div class="hero__text">
+      <p class="kicker">Prywatna klinika rodzinna · Wrocław, Sępolno</p>
+      <h1>Mały dom pod lipą, w którym lekarz ma dla Ciebie <span class="squiggle">czas</span>.</h1>
+      <p class="lead">Leczymy całe rodziny — od noworodków po dziadków — w przedwojennym domku z piecem kaflowym. Jest nas czworo, wizyta trwa pół godziny, a herbata w poczekalni jest zawsze ciepła.</p>
+      <div class="hero__cta">
+        <a class="btn btn--primary" href="#wizyta">Umów wizytę</a>
+        <a class="btn btn--soft" href="tel:+48711234567">Zadzwoń do Basi <span class="nowrap">71 123 45 67</span></a>
+      </div>
+      <p class="status" id="status"><span class="status__dot" aria-hidden="true"></span><span id="statusText">Sprawdzamy, czy jesteśmy na miejscu…</span></p>
+    </div>
+
+    <figure class="hero__art">
+      <div class="frame">
+      <svg class="house" id="house" viewBox="0 0 600 470" role="img" aria-labelledby="houseT houseD" data-season="autumn" data-open="false">
+        <title id="houseT">Nasz dom pod lipą</title>
+        <desc id="houseD">Mały dom z dachówką, gankiem i zielonymi okiennicami. Obok stara lipa i ławka, na której drzemie ruda kotka.</desc>
+        <defs>
+          <linearGradient id="hSky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" style="stop-color:var(--sky-1)"/>
+            <stop offset="1" style="stop-color:var(--sky-2)"/>
+          </linearGradient>
+          <radialGradient id="hGlow">
+            <stop offset="0" style="stop-color:var(--win-glow);stop-opacity:.85"/>
+            <stop offset="1" style="stop-color:var(--win-glow);stop-opacity:0"/>
+          </radialGradient>
+          <pattern id="hTiles" width="14" height="9" patternUnits="userSpaceOnUse">
+            <path class="tile-line" d="M0 9q3.5-6 7 0t7 0"/>
+          </pattern>
+          <pattern id="hPickets" x="0" y="344" width="13" height="40" patternUnits="userSpaceOnUse">
+            <path class="picket" d="M2.5 40V8l4-6 4 6v32z"/>
+          </pattern>
+          <mask id="hMoon"><rect width="600" height="470" fill="#fff"/><circle cx="504" cy="82" r="22" fill="#000"/></mask>
+          <path id="hLeaf" d="M0-4c-2-3-6-2-6 1.5S-2 6 0 8c2-2 6-4 6-6.5S2-7 0-4z"/>
+        </defs>
+
+        <rect class="sky" width="600" height="470" fill="url(#hSky)"/>
+        <g class="stars">
+          <circle cx="300" cy="40" r="1.6"/><circle cx="380" cy="70" r="1.2"/><circle cx="566" cy="150" r="1.4"/><circle cx="252" cy="104" r="1.1"/>
+          <circle cx="430" cy="34" r="1.5"/><circle cx="548" cy="44" r="1.1"/><circle cx="214" cy="30" r="1.3"/><circle cx="584" cy="98" r="1"/><circle cx="350" cy="18" r="1"/>
+        </g>
+        <circle class="sun" cx="492" cy="92" r="30"/>
+        <circle class="moon" cx="492" cy="92" r="24" mask="url(#hMoon)"/>
+        <g class="clouds">
+          <g class="cloud cloud--a"><ellipse cx="300" cy="70" rx="34" ry="12"/><circle cx="288" cy="62" r="13"/><circle cx="308" cy="57" r="16"/></g>
+          <g class="cloud cloud--b"><ellipse cx="556" cy="134" rx="28" ry="10"/><circle cx="548" cy="127" r="11"/><circle cx="565" cy="124" r="12"/></g>
+        </g>
+
+        <path class="hill" d="M0 318C80 296 160 300 240 314S420 292 600 312V470H0z"/>
+        <path class="ground" d="M0 368C110 358 220 362 330 368S500 360 600 364V470H0z"/>
+
+        <!-- the linden -->
+        <g class="tree" id="tree">
+          <path class="trunk" d="M104 386c7-36 8-78 4-122h18c-3 44 0 86 10 122z"/>
+          <path class="branches" d="M114 292C98 264 82 242 66 216M120 284c12-28 30-48 50-70M116 272c-2-32 2-64 6-96M90 238c-8-14-22-22-34-24M146 230c10-14 26-20 40-20M120 202c-12-22-26-36-40-44M122 192c10-24 24-38 38-46M84 166c-6-10-14-16-24-18M156 164c6-10 14-14 24-14"/>
+          <g class="canopy">
+            <g class="canopy-back"><circle cx="68" cy="206" r="50"/><circle cx="174" cy="202" r="50"/><circle cx="92" cy="128" r="50"/><circle cx="152" cy="126" r="48"/></g>
+            <g class="canopy-front"><circle cx="120" cy="176" r="70"/><circle cx="122" cy="104" r="42"/><circle cx="76" cy="166" r="40"/><circle cx="166" cy="164" r="40"/></g>
+            <g class="canopy-hi"><circle cx="98" cy="122" r="16"/><circle cx="142" cy="150" r="20"/><circle cx="82" cy="182" r="14"/><circle cx="152" cy="96" r="12"/><circle cx="118" cy="206" r="12"/></g>
+            <g class="fx fx-summer blossoms">
+              <circle cx="80" cy="140" r="2.6"/><circle cx="110" cy="120" r="2.6"/><circle cx="150" cy="140" r="2.6"/><circle cx="172" cy="182" r="2.6"/>
+              <circle cx="130" cy="192" r="2.6"/><circle cx="90" cy="202" r="2.6"/><circle cx="60" cy="180" r="2.6"/><circle cx="140" cy="108" r="2.6"/>
+              <circle cx="105" cy="160" r="2.6"/><circle cx="188" cy="214" r="2.6"/><circle cx="52" cy="222" r="2.6"/><circle cx="122" cy="230" r="2.6"/>
+              <circle cx="96" cy="94" r="2.6"/><circle cx="164" cy="122" r="2.6"/><circle cx="196" cy="168" r="2.6"/><circle cx="42" cy="196" r="2.6"/>
+            </g>
+          </g>
+        </g>
+
+        <!-- bench & Kluska -->
+        <g class="bench">
+          <rect x="153" y="326" width="4" height="26"/><rect x="212" y="326" width="4" height="26"/>
+          <rect x="150" y="328" width="70" height="5" rx="2"/><rect x="150" y="337" width="70" height="5" rx="2"/>
+          <rect x="146" y="350" width="78" height="6" rx="2"/>
+          <rect x="152" y="356" width="5" height="20"/><rect x="213" y="356" width="5" height="20"/>
+        </g>
+        <rect class="fx fx-winter snow-on" x="146" y="346" width="78" height="5" rx="2.5"/>
+        <g class="cat">
+          <path class="cat__tail" d="M207 346c14-1 17-12 11-20"/>
+          <ellipse cx="197" cy="337" rx="11" ry="13.5"/>
+          <circle cx="197" cy="319" r="9"/>
+          <path d="M189.5 315l1-10 6 7.5zM204.5 315l-1-10-6 7.5z"/>
+          <path class="cat__eyes" d="M191.5 320q2 1.8 4 0M198.5 320q2 1.8 4 0"/>
+        </g>
+
+        <!-- the house -->
+        <g class="smoke fx fx-cold"><circle cx="429" cy="122" r="7"/><circle cx="429" cy="122" r="8"/><circle cx="429" cy="122" r="9"/></g>
+        <rect class="chimney" x="418" y="140" width="22" height="70"/>
+        <rect class="chimney-cap" x="414" y="134" width="30" height="8" rx="2"/>
+        <rect class="wall" x="252" y="232" width="216" height="140"/>
+        <rect class="wall-shade" x="252" y="232" width="216" height="10"/>
+        <path class="roof" d="M236 240L360 122l124 118z"/>
+        <path d="M236 240L360 122l124 118z" fill="url(#hTiles)"/>
+        <path class="roof-edge" d="M230 243L360 118l130 125"/>
+        <path class="fx fx-winter roof-snow" d="M238 236L360 124l122 112"/>
+        <circle class="attic-frame" cx="360" cy="192" r="19"/>
+        <circle class="win" cx="360" cy="192" r="15"/>
+        <path class="mullion" d="M360 177v30M345 192h30"/>
+
+        <g class="glows">
+          <ellipse cx="297" cy="291" rx="62" ry="54" fill="url(#hGlow)"/>
+          <ellipse cx="423" cy="291" rx="62" ry="54" fill="url(#hGlow)"/>
+          <circle cx="360" cy="192" r="26" fill="url(#hGlow)" opacity=".6"/>
+        </g>
+
+        <!-- left window -->
+        <rect class="shutter" x="259" y="259" width="13" height="64" rx="2"/>
+        <rect class="shutter" x="322" y="259" width="13" height="64" rx="2"/>
+        <path class="slats" d="M262 268h7M262 276h7M262 284h7M262 292h7M262 300h7M262 308h7M262 316h7M325 268h7M325 276h7M325 284h7M325 292h7M325 300h7M325 308h7M325 316h7"/>
+        <rect class="frame-w" x="272" y="260" width="50" height="62" rx="3"/>
+        <rect class="win" x="276" y="264" width="42" height="54"/>
+        <path class="curtain" d="M276 264h14c-2 14-6 24-14 30zM318 264h-14c2 14 6 24 14 30z"/>
+        <path class="silhouette" d="M289 302h16l-4-10h-8zM297 302v12M291 314h12"/>
+        <path class="mullion" d="M297 264v54M276 289h42"/>
+        <rect class="sill" x="268" y="320" width="58" height="4" rx="1"/>
+        <g class="flowers"><circle class="flower-leaf" cx="279" cy="323" r="5"/><circle class="flower-leaf" cx="291" cy="321" r="5"/><circle class="flower-leaf" cx="304" cy="322" r="5"/><circle class="flower-leaf" cx="316" cy="323" r="5"/><circle class="flower" cx="283" cy="317" r="4"/><circle class="flower" cx="297" cy="315" r="4.5"/><circle class="flower" cx="311" cy="317" r="4"/></g>
+        <rect class="box" x="272" y="324" width="50" height="10" rx="2"/>
+        <rect class="fx fx-winter snow-on" x="270" y="321" width="54" height="5" rx="2.5"/>
+
+        <!-- right window -->
+        <rect class="shutter" x="385" y="259" width="13" height="64" rx="2"/>
+        <rect class="shutter" x="448" y="259" width="13" height="64" rx="2"/>
+        <path class="slats" d="M388 268h7M388 276h7M388 284h7M388 292h7M388 300h7M388 308h7M388 316h7M451 268h7M451 276h7M451 284h7M451 292h7M451 300h7M451 308h7M451 316h7"/>
+        <rect class="frame-w" x="398" y="260" width="50" height="62" rx="3"/>
+        <rect class="win" x="402" y="264" width="42" height="54"/>
+        <path class="curtain" d="M402 264h14c-2 14-6 24-14 30zM444 264h-14c2 14 6 24 14 30z"/>
+        <path class="silhouette" d="M415 306h16v8h-16zM431 308h3a2.5 2.5 0 0 1 0 5h-3M419 302c-1.5-2 1.5-3 0-5M426 302c-1.5-2 1.5-3 0-5"/>
+        <path class="mullion" d="M423 264v54M402 289h42"/>
+        <rect class="sill" x="394" y="320" width="58" height="4" rx="1"/>
+        <g class="flowers"><circle class="flower-leaf" cx="405" cy="323" r="5"/><circle class="flower-leaf" cx="417" cy="321" r="5"/><circle class="flower-leaf" cx="430" cy="322" r="5"/><circle class="flower-leaf" cx="442" cy="323" r="5"/><circle class="flower" cx="409" cy="317" r="4"/><circle class="flower" cx="423" cy="315" r="4.5"/><circle class="flower" cx="437" cy="317" r="4"/></g>
+        <rect class="box" x="398" y="324" width="50" height="10" rx="2"/>
+        <rect class="fx fx-winter snow-on" x="396" y="321" width="54" height="5" rx="2.5"/>
+
+        <rect class="plinth" x="252" y="356" width="216" height="16"/>
+
+        <!-- porch & door -->
+        <rect class="post" x="340" y="289" width="4" height="83"/>
+        <rect class="post" x="376" y="289" width="4" height="83"/>
+        <path class="door" d="M346 372v-60q0-15 14-15t14 15v60z"/>
+        <path class="door-panel" d="M351 330h18v14h-18zM351 350h18v16h-18z"/>
+        <circle class="win" cx="360" cy="312" r="6"/>
+        <circle class="knob" cx="369.5" cy="346" r="1.8"/>
+        <path class="porch-roof" d="M332 290l28-24 28 24z"/>
+        <path class="roof-edge roof-edge--thin" d="M328 292l32-28 32 28"/>
+        <circle class="plaque" cx="360" cy="280" r="6.5"/>
+        <text class="plaque-no" x="360" y="283.4" text-anchor="middle">7</text>
+        <rect class="step" x="336" y="372" width="48" height="5" rx="1"/>
+        <rect class="step" x="330" y="377" width="60" height="5" rx="1"/>
+
+        <g class="bushes"><circle cx="258" cy="366" r="10"/><circle cx="326" cy="368" r="8"/><circle cx="394" cy="368" r="8"/><circle cx="462" cy="366" r="10"/></g>
+        <path class="path" d="M334 382h52l46 88H286z"/>
+
+        <!-- fence -->
+        <rect class="rail" x="490" y="354" width="110" height="3"/>
+        <rect class="rail" x="490" y="368" width="110" height="3"/>
+        <rect x="494" y="344" width="106" height="36" fill="url(#hPickets)"/>
+
+        <!-- standing sign -->
+        <g class="sign">
+          <rect class="post" x="428" y="420" width="4" height="30"/>
+          <rect class="post" x="504" y="420" width="4" height="30"/>
+          <rect class="board" x="418" y="384" width="100" height="40" rx="6"/>
+          <text class="sign-name" x="468" y="399" text-anchor="middle">KLINIKA POD LIPĄ</text>
+          <text class="sign-status" id="signStatus" x="468" y="417" text-anchor="middle">zamknięte</text>
+        </g>
+
+        <!-- seasonal bits -->
+        <g class="fx fx-spring daisies">
+          <g transform="translate(40 404)"><circle r="3.4"/><circle class="daisy-eye" r="1.3"/></g>
+          <g transform="translate(76 428)"><circle r="3.4"/><circle class="daisy-eye" r="1.3"/></g>
+          <g transform="translate(192 412)"><circle r="3.4"/><circle class="daisy-eye" r="1.3"/></g>
+          <g transform="translate(240 440)"><circle r="3.4"/><circle class="daisy-eye" r="1.3"/></g>
+          <g transform="translate(470 452)"><circle r="3.4"/><circle class="daisy-eye" r="1.3"/></g>
+          <g transform="translate(552 426)"><circle r="3.4"/><circle class="daisy-eye" r="1.3"/></g>
+          <g transform="translate(580 400)"><circle r="3.4"/><circle class="daisy-eye" r="1.3"/></g>
+          <g transform="translate(120 446)"><circle r="3.4"/><circle class="daisy-eye" r="1.3"/></g>
+        </g>
+        <g class="fx fx-autumn ground-leaves">
+          <use href="#hLeaf" transform="translate(58 384) rotate(30) scale(.8)"/><use href="#hLeaf" class="alt" transform="translate(92 396) rotate(-60) scale(.8)"/>
+          <use href="#hLeaf" transform="translate(150 388) rotate(110) scale(.8)"/><use href="#hLeaf" class="alt" transform="translate(206 400) rotate(-20) scale(.8)"/>
+          <use href="#hLeaf" transform="translate(248 388) rotate(70) scale(.8)"/><use href="#hLeaf" class="alt" transform="translate(30 420) rotate(160) scale(.8)"/>
+          <use href="#hLeaf" transform="translate(180 432) rotate(-100) scale(.8)"/><use href="#hLeaf" class="alt" transform="translate(120 412) rotate(45) scale(.8)"/>
+        </g>
+        <g class="fx fx-autumn falling">
+          <g transform="translate(60 200)"><use href="#hLeaf" class="leaf-fall" style="--dx:34px;--fy:170px;--t:9s;--d:-2s"/></g>
+          <g transform="translate(150 212)"><use href="#hLeaf" class="leaf-fall alt" style="--dx:-26px;--fy:160px;--t:11s;--d:-6s"/></g>
+          <g transform="translate(100 232)"><use href="#hLeaf" class="leaf-fall" style="--dx:44px;--fy:140px;--t:8s;--d:-4s"/></g>
+          <g transform="translate(182 182)"><use href="#hLeaf" class="leaf-fall alt" style="--dx:40px;--fy:190px;--t:10s;--d:-1s"/></g>
+          <g transform="translate(40 172)"><use href="#hLeaf" class="leaf-fall" style="--dx:22px;--fy:200px;--t:12s;--d:-8s"/></g>
+          <g transform="translate(132 150)"><use href="#hLeaf" class="leaf-fall alt" style="--dx:-30px;--fy:220px;--t:9.5s;--d:-3s"/></g>
+          <g transform="translate(204 222)"><use href="#hLeaf" class="leaf-fall" style="--dx:30px;--fy:150px;--t:10.5s;--d:-7s"/></g>
+        </g>
+        <g class="fx fx-winter snowfall">
+          <circle class="flake" cx="20" cy="0" r="2.4" style="--dx:16px;--t:9s;--d:-1s"/><circle class="flake" cx="64" cy="0" r="1.8" style="--dx:-10px;--t:12s;--d:-5s"/>
+          <circle class="flake" cx="110" cy="0" r="2.8" style="--dx:20px;--t:10s;--d:-3s"/><circle class="flake" cx="150" cy="0" r="1.6" style="--dx:-14px;--t:13s;--d:-9s"/>
+          <circle class="flake" cx="196" cy="0" r="2.2" style="--dx:12px;--t:8.5s;--d:-2s"/><circle class="flake" cx="238" cy="0" r="2.6" style="--dx:-18px;--t:11s;--d:-7s"/>
+          <circle class="flake" cx="280" cy="0" r="1.8" style="--dx:10px;--t:9.5s;--d:-4s"/><circle class="flake" cx="322" cy="0" r="2.4" style="--dx:-12px;--t:12.5s;--d:-10s"/>
+          <circle class="flake" cx="366" cy="0" r="2" style="--dx:18px;--t:10.5s;--d:-6s"/><circle class="flake" cx="408" cy="0" r="2.8" style="--dx:-16px;--t:9s;--d:-8s"/>
+          <circle class="flake" cx="452" cy="0" r="1.6" style="--dx:14px;--t:13.5s;--d:-1.5s"/><circle class="flake" cx="494" cy="0" r="2.2" style="--dx:-10px;--t:8s;--d:-5.5s"/>
+          <circle class="flake" cx="536" cy="0" r="2.6" style="--dx:12px;--t:11.5s;--d:-3.5s"/><circle class="flake" cx="578" cy="0" r="1.8" style="--dx:-14px;--t:10s;--d:-9.5s"/>
+          <circle class="flake" cx="88" cy="0" r="1.4" style="--dx:8px;--t:14s;--d:-12s"/><circle class="flake" cx="430" cy="0" r="1.4" style="--dx:-8px;--t:14s;--d:-11s"/>
+        </g>
+
+        <!-- handwritten notes -->
+        <g class="notes" aria-hidden="true">
+          <text class="note" x="214" y="66">nasza lipa, rocznik ’58</text>
+          <path class="note-arrow" d="M232 76c-10 12-26 22-44 26m0 0l10-7m-10 7l9 5"/>
+          <text class="note" x="586" y="172" text-anchor="end">tu Basia<tspan x="586" dy="22">parzy herbatę</tspan></text>
+          <path class="note-arrow" d="M528 198c-6 24-24 44-56 56m0 0l11-.5m-11 .5l7-8.5"/>
+          <text class="note" x="124" y="428" text-anchor="middle">Kluska, kotka sąsiadów</text>
+          <path class="note-arrow" d="M180 404c8-8 12-20 12-34m0 0l-5.5 8m5.5-8l4.5 8.5"/>
+        </g>
+      </svg>
+      </div>
+      <figcaption class="art-cap">
+        <button type="button" class="season-btn" id="seasonBtn">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16 10a6 6 0 1 1-2-4.5M16 3v3.5h-3.5"/></svg>
+          <span id="seasonLabel">Jesień</span>
+        </button>
+        <span id="seasonNote">Lipa złoci się, a w piecu kaflowym już napalone.</span>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ===== FACTS ===== -->
+<section class="facts" aria-label="Kilka liczb o nas">
+  <div class="wrap facts__in">
+    <div class="fact"><b>4</b><span>osoby w zespole. Znamy się jak rodzina.</span></div>
+    <div class="fact"><b>30 min</b><span>trwa każda wizyta u lekarza. Nie dziesięć.</span></div>
+    <div class="fact"><b>6</b><span>krzeseł w poczekalni. Rzadko wszystkie zajęte.</span></div>
+    <div class="fact"><b>1958</b><span>rok, w którym babcia posadziła lipę.</span></div>
+  </div>
+</section>
+
+<!-- ===== TEAM ===== -->
+<section class="section team" id="zespol">
+  <div class="wrap">
+    <header class="sec-head">
+      <p class="kicker">Zespół</p>
+      <h2>Nas jest czworo</h2>
+      <p>I tyle wystarczy. Pamiętamy imiona, historie chorób i to, kto mdleje na widok igły.</p>
+    </header>
+
+    <div class="people">
+      <article class="person person--owner" style="--tilt:-1.6deg">
+        <figure class="person__photo"><svg viewBox="0 0 120 120" aria-hidden="true"><use href="#face-ewa"/></svg></figure>
+        <span class="person__badge">Właścicielka</span>
+        <h3>dr n. med. Ewa Brzozowska</h3>
+        <p class="person__role">lekarka rodzinna · internistka</p>
+        <p>Wychowała się w tym domu, a w 2012 roku zamieniła salon dziadków w poczekalnię. Leczy dorosłych i całe rodziny — czasem trzy pokolenia naraz.</p>
+        <p class="person__note">„Pytam o wnuki, psa i ogródek. To też wywiad lekarski.”</p>
+        <p class="days" aria-label="Przyjmuje od poniedziałku do piątku"><span class="on">Pn</span><span class="on">Wt</span><span class="on">Śr</span><span class="on">Cz</span><span class="on">Pt</span><span>So</span><span>Nd</span></p>
+        <a class="person__cta" href="#wizyta" data-book="ewa">Umów do dr Ewy <span aria-hidden="true">→</span></a>
+      </article>
+
+      <article class="person" style="--tilt:1.2deg">
+        <figure class="person__photo"><svg viewBox="0 0 120 120" aria-hidden="true"><use href="#face-tomasz"/></svg></figure>
+        <h3>lek. Tomasz Wrona</h3>
+        <p class="person__role">pediatra</p>
+        <p>Prowadzi dzieci od pierwszej wizyty patronażowej aż do osiemnastki. Ma stetoskop z biedronką i nieskończony zapas cierpliwości.</p>
+        <p class="person__note">„Najpierw osłuchuję misia. Potem jest już z górki.”</p>
+        <p class="days" aria-label="Przyjmuje w poniedziałki, wtorki, środy, czwartki i soboty"><span class="on">Pn</span><span class="on">Wt</span><span class="on">Śr</span><span class="on">Cz</span><span>Pt</span><span class="on">So</span><span>Nd</span></p>
+        <a class="person__cta" href="#wizyta" data-book="tomasz">Umów dziecko <span aria-hidden="true">→</span></a>
+      </article>
+
+      <article class="person" style="--tilt:-.8deg">
+        <figure class="person__photo"><svg viewBox="0 0 120 120" aria-hidden="true"><use href="#face-krystyna"/></svg></figure>
+        <h3>Krystyna Malec</h3>
+        <p class="person__role">pielęgniarka</p>
+        <p>Pobiera krew, szczepi i opatruje od 1991 roku. Ma najlżejszą rękę na Sępolnie — sprawdzone na trzech pokoleniach pacjentów.</p>
+        <p class="person__note">„Proszę patrzeć na lipę, nie na igłę.”</p>
+        <p class="days" aria-label="Przyjmuje od poniedziałku do piątku, przed południem"><span class="on">Pn</span><span class="on">Wt</span><span class="on">Śr</span><span class="on">Cz</span><span class="on">Pt</span><span>So</span><span>Nd</span></p>
+        <a class="person__cta" href="#wizyta" data-book="krystyna">Umów pobranie <span aria-hidden="true">→</span></a>
+      </article>
+
+      <article class="person" style="--tilt:1.8deg">
+        <figure class="person__photo"><svg viewBox="0 0 120 120" aria-hidden="true"><use href="#face-basia"/></svg></figure>
+        <h3>Barbara Nowicka <small>dla wszystkich: Basia</small></h3>
+        <p class="person__role">rejestracja · dobry duch domu</p>
+        <p>Odbiera telefon, pamięta imiona i wie, kiedy komuś trzeba nalać herbaty. Jeśli coś da się załatwić, Basia to załatwi.</p>
+        <p class="person__note">„Z miodem czy z cytryną?”</p>
+        <p class="days" aria-label="Pracuje od poniedziałku do soboty"><span class="on">Pn</span><span class="on">Wt</span><span class="on">Śr</span><span class="on">Cz</span><span class="on">Pt</span><span class="on">So</span><span>Nd</span></p>
+        <a class="person__cta" href="tel:+48711234567">Zadzwoń do Basi <span aria-hidden="true">→</span></a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LETTER ===== -->
+<section class="section letter" id="o-nas">
+  <div class="wrap letter__in">
+    <figure class="polaroid">
+      <svg viewBox="0 0 220 170" role="img" aria-label="Szkic domu z 1934 roku, jeszcze bez lipy">
+        <defs>
+          <radialGradient id="sepiaV" cx=".5" cy=".45" r=".75"><stop offset=".55" stop-color="#e8d8b9"/><stop offset="1" stop-color="#bfa47c"/></radialGradient>
+        </defs>
+        <rect width="220" height="170" fill="url(#sepiaV)"/>
+        <g fill="none" stroke="#6b5034" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 136c40-4 90-2 204-3"/>
+          <path d="M70 136V88h84v48"/>
+          <path d="M62 91l50-46 50 46"/>
+          <path d="M136 62V44h9v26"/>
+          <path d="M104 136v-26q0-6 8-6t8 6v26"/>
+          <rect x="79" y="100" width="17" height="20"/><path d="M87.5 100v20M79 110h17"/>
+          <rect x="128" y="100" width="17" height="20"/><path d="M136.5 100v20M128 110h17"/>
+          <circle cx="112" cy="74" r="6"/>
+          <path d="M28 136v-8m-4 4h8M186 136v-6m-3 3h6" opacity=".6"/>
+          <path d="M178 136v-22m-3 4l3-4 3 4" opacity=".7"/>
+        </g>
+        <g fill="#6b5034" opacity=".18"><circle cx="40" cy="30" r="1"/><circle cx="170" cy="22" r="1.2"/><circle cx="196" cy="70" r=".9"/><circle cx="20" cy="90" r="1"/></g>
+      </svg>
+      <figcaption>Dom w 1934 roku. Lipy jeszcze nie ma.</figcaption>
+    </figure>
+
+    <article class="paper">
+      <p class="kicker">List od właścicielki</p>
+      <p class="paper__hello">Drodzy Sąsiedzi,</p>
+      <p>ten dom postawił mój dziadek w 1934 roku. Lipę przed gankiem babcia posadziła w 1958 — w dniu, w którym urodziła się moja mama. Ja wychowałam się w tych pokojach, więc kiedy w 2012 roku otwierałam własną praktykę, nie szukałam lokalu w galerii handlowej. Wróciłam do domu.</p>
+      <p>Salon stał się poczekalnią, pokój dziadka — moim gabinetem. Piec kaflowy został, bo bez niego to nie byłby ten sam dom.</p>
+      <p>Nie planujemy rosnąć. Czworo ludzi to dokładnie tyle, żeby znać każdego pacjenta i mieć dla niego czas. Jeśli szukacie miejsca, w którym lekarz pamięta, jak macie na imię — zapraszamy. Na wizytę, a przy okazji na herbatę.</p>
+      <p class="paper__sign">Ewa Brzozowska</p>
+      <p class="paper__ps"><b>PS</b> Przyjdźcie w lipcu i otwórzcie okno w poczekalni. Poczujecie, skąd nasza nazwa.</p>
+    </article>
+  </div>
+</section>
+
+<!-- ===== INSIDE / FLOOR PLAN ===== -->
+<section class="section inside" id="dom">
+  <div class="wrap">
+    <header class="sec-head">
+      <p class="kicker">Zajrzyj do środka</p>
+      <h2>Sześć pokoi, ganek i ogród</h2>
+      <p>Wszystko na parterze i bez progów. Wybierz pomieszczenie, żeby zobaczyć, co w nim jest.</p>
+    </header>
+
+    <div class="inside__grid">
+      <div class="plan-card">
+        <div class="chips" id="roomChips" role="group" aria-label="Pomieszczenia">
+          <button type="button" class="chip" data-room="ganek">Ganek</button>
+          <button type="button" class="chip" data-room="poczekalnia">Poczekalnia</button>
+          <button type="button" class="chip" data-room="rejestracja">Rejestracja</button>
+          <button type="button" class="chip" data-room="gabinet-ewy">Gabinet dr Ewy</button>
+          <button type="button" class="chip" data-room="gabinet-dzieci">Gabinet dziecięcy</button>
+          <button type="button" class="chip" data-room="zabiegowy">Zabiegowy</button>
+          <button type="button" class="chip" data-room="lazienka">Łazienka</button>
+          <button type="button" class="chip" data-room="ogrod">Ogród</button>
+        </div>
+
+        <svg class="plan" id="plan" viewBox="0 0 660 420" aria-hidden="true">
+          <defs>
+            <pattern id="pGrass" width="12" height="12" patternUnits="userSpaceOnUse"><path class="p-grass" d="M3 9l1.4-3.2M8 11l1-3"/></pattern>
+            <pattern id="pTiles" width="9" height="9" patternUnits="userSpaceOnUse"><rect class="p-tile" x="1" y="1" width="7" height="7" rx="1.2"/></pattern>
+            <path id="pStar" d="M0-5l1.4 3.2L5-1.6 2.3.8 3 4.6 0 2.8-3 4.6l.7-3.8L-5-1.6l3.6-.4z"/>
+          </defs>
+
+          <!-- garden -->
+          <g class="room room--garden" data-room="ogrod">
+            <rect class="room__floor" x="12" y="24" width="150" height="380" rx="22"/>
+            <rect class="nohit" x="12" y="24" width="150" height="380" rx="22" fill="url(#pGrass)"/>
+            <circle class="f-tree" cx="86" cy="116" r="54"/>
+            <circle class="f-trunk" cx="86" cy="116" r="7"/>
+            <rect class="f" x="44" y="194" width="84" height="16" rx="4"/>
+            <circle class="f-cat" cx="112" cy="190" r="5"/>
+            <rect class="f-bed" x="38" y="312" width="96" height="44" rx="10"/>
+            <g class="f-mint"><circle cx="54" cy="326" r="4"/><circle cx="70" cy="340" r="4"/><circle cx="86" cy="326" r="4"/><circle cx="102" cy="340" r="4"/><circle cx="118" cy="328" r="4"/></g>
+            <g class="f-stone"><ellipse cx="170" cy="270" rx="6" ry="4"/><ellipse cx="150" cy="276" rx="6" ry="4"/><ellipse cx="130" cy="270" rx="6" ry="4"/></g>
+            <text class="room__label" x="87" y="256">Ogród</text>
+          </g>
+
+          <!-- house rooms -->
+          <g class="room" data-room="gabinet-ewy">
+            <rect class="room__floor" x="180" y="24" width="153" height="140"/>
+            <rect class="f" x="194" y="38" width="72" height="32" rx="3"/>
+            <circle class="f" cx="214" cy="86" r="8.5"/><circle class="f" cx="248" cy="86" r="8.5"/>
+            <rect class="f" x="296" y="36" width="26" height="92" rx="7"/>
+            <circle class="f-plant" cx="198" cy="148" r="9"/>
+            <text class="room__label" x="256" y="118">Gabinet dr Ewy</text>
+          </g>
+
+          <g class="room" data-room="gabinet-dzieci">
+            <rect class="room__floor" x="333" y="24" width="154" height="140"/>
+            <rect class="f" x="346" y="38" width="30" height="76" rx="7"/>
+            <rect class="f" x="412" y="38" width="62" height="28" rx="3"/>
+            <circle class="f" cx="443" cy="80" r="8.5"/>
+            <g class="f-turtle"><ellipse cx="456" cy="140" rx="15" ry="10"/><circle cx="474" cy="140" r="4.5"/></g>
+            <rect class="f" x="346" y="128" width="26" height="22" rx="3"/>
+            <g class="f-star"><use href="#pStar" x="392" y="52"/><use href="#pStar" x="396" y="92"/><use href="#pStar" x="380" y="74"/></g>
+            <text class="room__label" x="412" y="118">Gabinet dziecięcy</text>
+          </g>
+
+          <g class="room" data-room="zabiegowy">
+            <rect class="room__floor" x="487" y="24" width="153" height="140"/>
+            <rect class="f" x="500" y="36" width="40" height="40" rx="11"/>
+            <rect class="f" x="496" y="44" width="8" height="28" rx="3"/><rect class="f" x="536" y="44" width="8" height="28" rx="3"/>
+            <rect class="f" x="556" y="36" width="30" height="78" rx="7"/>
+            <rect class="f" x="604" y="34" width="28" height="92" rx="3"/>
+            <path class="f-line" d="M604 64h28M604 94h28"/>
+            <text class="room__label" x="582" y="146">Zabiegowy</text>
+          </g>
+
+          <g class="room" data-room="poczekalnia">
+            <rect class="room__floor" x="180" y="164" width="290" height="180"/>
+            <rect class="f-stove" x="188" y="172" width="38" height="38" rx="2"/>
+            <rect class="nohit" x="188" y="172" width="38" height="38" rx="2" fill="url(#pTiles)"/>
+            <circle class="f" cx="300" cy="258" r="24"/>
+            <circle class="f-pot" cx="300" cy="258" r="6"/>
+            <circle class="f" cx="300" cy="222" r="8"/><circle class="f" cx="300" cy="294" r="8"/><circle class="f" cx="264" cy="258" r="8"/><circle class="f" cx="336" cy="258" r="8"/>
+            <rect class="f" x="188" y="298" width="22" height="18" rx="6"/><rect class="f" x="188" y="320" width="22" height="18" rx="6"/>
+            <rect class="f" x="230" y="328" width="70" height="10" rx="2"/>
+            <rect class="f-rug" x="376" y="264" width="82" height="68" rx="14"/>
+            <g class="f-blocks"><rect x="392" y="282" width="10" height="10" rx="2"/><rect x="406" y="290" width="10" height="10" rx="2"/><rect x="398" y="304" width="10" height="10" rx="2"/></g>
+            <circle class="f" cx="436" cy="300" r="12"/>
+            <circle class="f-plant" cx="452" cy="182" r="10"/>
+            <text class="room__label" x="330" y="206">Poczekalnia</text>
+          </g>
+
+          <g class="room" data-room="rejestracja">
+            <rect class="room__floor" x="470" y="164" width="170" height="100"/>
+            <rect class="f-counter" x="478" y="176" width="18" height="74" rx="3"/>
+            <rect class="f-counter" x="478" y="176" width="64" height="18" rx="3"/>
+            <circle class="f" cx="520" cy="222" r="9"/>
+            <rect class="f" x="588" y="236" width="44" height="20" rx="3"/>
+            <circle class="f-pot" cx="602" cy="246" r="5"/><circle class="f-pot" cx="618" cy="246" r="4"/>
+            <circle class="f-plant" cx="622" cy="182" r="9"/>
+            <text class="room__label" x="574" y="216">Rejestracja</text>
+          </g>
+
+          <g class="room" data-room="lazienka">
+            <rect class="room__floor" x="470" y="264" width="170" height="80"/>
+            <rect class="f" x="556" y="272" width="34" height="18" rx="7"/>
+            <ellipse class="f" cx="618" cy="320" rx="10" ry="13"/>
+            <rect class="f" x="608" y="332" width="20" height="7" rx="2"/>
+            <rect class="f" x="520" y="318" width="44" height="18" rx="3"/>
+            <text class="room__label" x="560" y="308">Łazienka</text>
+          </g>
+
+          <g class="room" data-room="ganek">
+            <rect class="room__floor" x="296" y="348" width="96" height="54" rx="4"/>
+            <rect class="f" x="304" y="380" width="34" height="12" rx="3"/>
+            <rect class="f-ramp" x="392" y="358" width="58" height="34" rx="3"/>
+            <path class="f-line" d="M404 358v34M416 358v34M428 358v34M440 358v34"/>
+            <text class="room__label" x="360" y="372">Ganek</text>
+          </g>
+
+          <!-- walls on top -->
+          <g class="walls">
+            <path d="M180 24H640M640 24V344M640 344H362M322 344H180M180 344V290M180 250V24M180 164H236M272 164H392M428 164H500M536 164H640M333 24V164M487 24V164M470 164V176M470 250V288M470 320V344M470 264H640"/>
+          </g>
+          <g class="doors">
+            <path d="M322 344V304A40 40 0 0 1 362 344M236 164V128A36 36 0 0 1 272 164M392 164V128A36 36 0 0 1 428 164M500 164V128A36 36 0 0 1 536 164M470 320H502A32 32 0 0 0 470 288M180 250H140A40 40 0 0 0 180 290"/>
+          </g>
+          <g class="windows">
+            <rect x="214" y="20" width="70" height="8"/><rect x="374" y="20" width="70" height="8"/><rect x="526" y="20" width="70" height="8"/>
+            <rect x="176" y="56" width="8" height="64"/><rect x="636" y="186" width="8" height="54"/><rect x="636" y="56" width="8" height="60"/>
+            <rect x="206" y="340" width="76" height="8"/><rect x="560" y="340" width="40" height="8"/>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="room-panel" id="roomPanel" aria-live="polite">
+        <p class="room-panel__kicker" id="rpKicker">Dawny salon dziadków</p>
+        <h3 id="rpName">Poczekalnia</h3>
+        <p id="rpText"></p>
+        <div class="room-panel__who" id="rpWho"></div>
+        <p class="room-panel__detail" id="rpDetail"></p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRICES ===== -->
+<section class="section prices" id="cennik">
+  <div class="wrap">
+    <header class="sec-head">
+      <p class="kicker">Cennik</p>
+      <h2>Co u nas zrobisz i ile to kosztuje</h2>
+      <p>Bez gwiazdek i drobnego druku. Ceny obowiązują od 1 września 2026.</p>
+    </header>
+
+    <div class="menu">
+      <div class="menu__col">
+        <h3>Wizyty</h3>
+        <ul class="menu__list">
+          <li><span class="menu__name">Wizyta u lekarza rodzinnego<small>30 minut, dorośli i młodzież</small></span><span class="menu__dots"></span><span class="menu__price">220 zł</span></li>
+          <li><span class="menu__name">Wizyta pediatryczna<small>30 minut, od noworodka do 18 lat</small></span><span class="menu__dots"></span><span class="menu__price">220 zł</span></li>
+          <li><span class="menu__name">Patronaż noworodka<small>pierwsza wizyta, u Was w domu</small></span><span class="menu__dots"></span><span class="menu__price">300 zł</span></li>
+          <li><span class="menu__name">Wizyta domowa<small>do 10 km od kliniki</small></span><span class="menu__dots"></span><span class="menu__price">380 zł</span></li>
+          <li><span class="menu__name">Konsultacja telefoniczna<small>15 minut, dla stałych pacjentów</small></span><span class="menu__dots"></span><span class="menu__price">120 zł</span></li>
+        </ul>
+      </div>
+      <div class="menu__col">
+        <h3>Zabiegi i badania</h3>
+        <ul class="menu__list">
+          <li><span class="menu__name">Pobranie krwi<small>+ badania wg cennika laboratorium</small></span><span class="menu__dots"></span><span class="menu__price">20 zł</span></li>
+          <li><span class="menu__name">EKG z opisem</span><span class="menu__dots"></span><span class="menu__price">90 zł</span></li>
+          <li><span class="menu__name">Szczepienie<small>+ koszt szczepionki</small></span><span class="menu__dots"></span><span class="menu__price">50 zł</span></li>
+          <li><span class="menu__name">Zastrzyk</span><span class="menu__dots"></span><span class="menu__price">30 zł</span></li>
+          <li><span class="menu__name">Zmiana opatrunku</span><span class="menu__dots"></span><span class="menu__price">40 zł</span></li>
+        </ul>
+      </div>
+      <div class="menu__col">
+        <h3>Papiery i drobiazgi</h3>
+        <ul class="menu__list">
+          <li><span class="menu__name">Zaświadczenie<small>szkoła, basen, obóz, przedszkole</small></span><span class="menu__dots"></span><span class="menu__price">60 zł</span></li>
+          <li><span class="menu__name">Recepta na stałe leki<small>bez wizyty, dla stałych pacjentów</small></span><span class="menu__dots"></span><span class="menu__price">40 zł</span></li>
+          <li><span class="menu__name">Naklejka dla dzielnych<small>dzieci i dorośli</small></span><span class="menu__dots"></span><span class="menu__price">0 zł</span></li>
+          <li class="menu__treat"><span class="menu__name">Herbata z lipy<small>z miodem albo bez</small></span><span class="menu__dots"></span><span class="menu__price">0 zł</span></li>
+        </ul>
+        <p class="menu__hand">na koszt domu ♥</p>
+      </div>
+    </div>
+    <p class="prices__note">Nie mamy umowy z NFZ. Płacisz na miejscu kartą, BLIK-iem albo gotówką. Wystawiamy e-recepty, e-zwolnienia i skierowania na badania. Masz pakiet medyczny z pracy? Zapytaj Basię — z kilkoma firmami współpracujemy.</p>
+  </div>
+</section>
+
+<!-- ===== BOOKING ===== -->
+<section class="section book" id="wizyta">
+  <div class="wrap">
+    <header class="sec-head">
+      <p class="kicker">Umów wizytę</p>
+      <h2>Zapisz się, Basia zajmie się resztą</h2>
+      <p>Wybierz osobę, dzień i godzinę. Wolisz porozmawiać? Zadzwoń: <a href="tel:+48711234567">71 123 45 67</a>.</p>
+    </header>
+
+    <div class="book__card">
+      <form class="book__form" id="bookForm" novalidate>
+        <div class="book__steps">
+          <fieldset class="step">
+            <legend><span class="step__n">1</span>Do kogo?</legend>
+            <div class="who">
+              <label class="who__opt">
+                <input type="radio" name="who" value="ewa" checked>
+                <span class="who__card"><svg class="who__face" viewBox="0 0 120 120" aria-hidden="true"><use href="#face-ewa"/></svg><span><b>dr Ewa Brzozowska</b><small>lekarka rodzinna · dorośli</small></span></span>
+              </label>
+              <label class="who__opt">
+                <input type="radio" name="who" value="tomasz">
+                <span class="who__card"><svg class="who__face" viewBox="0 0 120 120" aria-hidden="true"><use href="#face-tomasz"/></svg><span><b>lek. Tomasz Wrona</b><small>pediatra · dzieci</small></span></span>
+              </label>
+              <label class="who__opt">
+                <input type="radio" name="who" value="krystyna">
+                <span class="who__card"><svg class="who__face" viewBox="0 0 120 120" aria-hidden="true"><use href="#face-krystyna"/></svg><span><b>Krystyna Malec</b><small>pielęgniarka · zabiegi</small></span></span>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="step">
+            <legend><span class="step__n">2</span>Kiedy?</legend>
+            <p class="next-free" id="nextFree"></p>
+            <div class="cal">
+              <p class="cal__month" id="calMonth"></p>
+              <div class="cal__head" aria-hidden="true"><span>pn</span><span>wt</span><span>śr</span><span>cz</span><span>pt</span><span>so</span><span>nd</span></div>
+              <div class="cal__grid" id="calGrid"></div>
+            </div>
+          </fieldset>
+
+          <fieldset class="step">
+            <legend><span class="step__n">3</span>O której?</legend>
+            <div class="slots" id="slots"></div>
+            <p class="err" id="errTime" hidden>Wybierz godzinę wizyty.</p>
+          </fieldset>
+
+          <fieldset class="step">
+            <legend><span class="step__n">4</span>Kilka słów o Tobie</legend>
+            <div class="fields">
+              <div class="field field--wide" data-for="krystyna" hidden>
+                <label for="fService">Co robimy?</label>
+                <select id="fService" name="service">
+                  <option value="pobranie">Pobranie krwi — 20 zł + badania</option>
+                  <option value="szczepienie">Szczepienie — 50 zł + szczepionka</option>
+                  <option value="zastrzyk">Zastrzyk — 30 zł</option>
+                  <option value="opatrunek">Zmiana opatrunku — 40 zł</option>
+                  <option value="ekg">EKG z opisem — 90 zł</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="fName">Imię i nazwisko</label>
+                <input id="fName" name="name" autocomplete="name" required aria-describedby="errName">
+                <p class="err" id="errName" hidden>Podaj imię i nazwisko.</p>
+              </div>
+              <div class="field">
+                <label for="fPhone">Telefon</label>
+                <input id="fPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="np. 600 100 200" required aria-describedby="errPhone">
+                <p class="err" id="errPhone" hidden>Podaj numer telefonu (9 cyfr) — Basia zadzwoni z przypomnieniem.</p>
+              </div>
+              <div class="field field--wide" data-for="tomasz" hidden>
+                <label for="fChild">Imię i wiek dziecka</label>
+                <input id="fChild" name="child" placeholder="np. Zosia, 4 lata" aria-describedby="errChild">
+                <p class="err" id="errChild" hidden>Napisz, jak dziecko ma na imię i ile ma lat.</p>
+              </div>
+              <div class="field field--wide">
+                <label for="fNote">Z czym przychodzisz? <span class="opt">nieobowiązkowe</span></label>
+                <textarea id="fNote" name="note" rows="3" placeholder="Kilka słów wystarczy — resztę opowiesz w gabinecie."></textarea>
+              </div>
+              <label class="check field--wide"><input type="checkbox" name="first" id="fFirst"><span>To moja pierwsza wizyta pod Lipą</span></label>
+            </div>
+          </fieldset>
+        </div>
+
+        <aside class="sum" aria-label="Podsumowanie wizyty">
+          <div class="sum__in">
+          <p class="sum__kicker">Twoja wizyta</p>
+          <div class="sum__who">
+            <svg class="sum__face" viewBox="0 0 120 120" aria-hidden="true"><use id="sumFace" href="#face-ewa"/></svg>
+            <div><b id="sumName">dr Ewa Brzozowska</b><span id="sumRole">lekarka rodzinna</span></div>
+          </div>
+          <dl class="sum__list">
+            <div><dt>Kiedy</dt><dd id="sumWhen">wybierz dzień i godzinę</dd></div>
+            <div><dt>Co</dt><dd id="sumWhat"></dd></div>
+            <div><dt>Ile trwa</dt><dd id="sumLen"></dd></div>
+            <div><dt>Koszt</dt><dd id="sumPrice"></dd></div>
+          </dl>
+          <button class="btn btn--primary btn--block" type="submit">Umawiam wizytę</button>
+          <p class="fine">Płatność na miejscu. To mock — nic nie zostanie wysłane.</p>
+          </div>
+        </aside>
+      </form>
+
+      <div class="ticket" id="ticket" hidden>
+        <div class="ticket__paper">
+          <span class="ticket__stamp" aria-hidden="true">do zobaczenia!</span>
+          <p class="ticket__kicker">Kartka z wizytą</p>
+          <h3 class="ticket__when" id="tWhen" tabindex="-1"></h3>
+          <p class="ticket__time" id="tTime"></p>
+          <dl class="ticket__list">
+            <div><dt>Do kogo</dt><dd id="tWho"></dd></div>
+            <div><dt>Co</dt><dd id="tWhat"></dd></div>
+            <div><dt>Na nazwisko</dt><dd id="tName"></dd></div>
+            <div><dt>Gdzie</dt><dd>ul. Lipowa 7, wejście przez ganek</dd></div>
+          </dl>
+          <p class="ticket__note">Basia zadzwoni dzień wcześniej, żeby przypomnieć. Herbata będzie czekać.</p>
+          <div class="ticket__actions">
+            <button type="button" class="btn btn--soft" id="icsBtn">Dodaj do kalendarza</button>
+            <button type="button" class="btn btn--primary" id="againBtn">Umów kolejną wizytę</button>
+          </div>
+          <p class="fine">To mock — nikt naprawdę nie zadzwoni, a rezerwacja zniknie po odświeżeniu strony.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HOURS & MAP ===== -->
+<section class="section visit" id="dojazd">
+  <div class="wrap visit__in">
+    <div class="visit__info">
+      <header class="sec-head">
+        <p class="kicker">Godziny i dojazd</p>
+        <h2>Czerwony dach, zielone okiennice, lipa przed domem</h2>
+        <p>Trudno nas przeoczyć: ul. Lipowa 7, Wrocław‑Sępolno.</p>
+      </header>
+
+      <table class="hours" id="hours">
+        <caption class="sr-only">Godziny otwarcia</caption>
+        <tbody>
+          <tr data-day="1"><th scope="row">Poniedziałek</th><td>8:00–18:00</td></tr>
+          <tr data-day="2"><th scope="row">Wtorek</th><td>8:00–18:00</td></tr>
+          <tr data-day="3"><th scope="row">Środa</th><td>8:00–18:00</td></tr>
+          <tr data-day="4"><th scope="row">Czwartek</th><td>10:00–19:00</td></tr>
+          <tr data-day="5"><th scope="row">Piątek</th><td>8:00–15:00</td></tr>
+          <tr data-day="6"><th scope="row">Sobota</th><td>9:00–13:00 <small>tylko pediatra</small></td></tr>
+          <tr data-day="0"><th scope="row">Niedziela</th><td>zamknięte</td></tr>
+        </tbody>
+      </table>
+
+      <ul class="tips">
+        <li><b>Tramwajem</b> — przystanek „Lipowa”, potem 4 minuty spacerem wzdłuż płotów.</li>
+        <li><b>Autem</b> — 3 miejsca na podwórku, wjazd od ul. Ogrodowej.</li>
+        <li><b>Rowerem</b> — stojak przy furtce, mieści sześć rowerów.</li>
+        <li><b>Z wózkiem</b> — podjazd przy ganku, w środku ani jednego progu.</li>
+      </ul>
+    </div>
+
+    <figure class="map-card">
+      <svg class="map" viewBox="0 0 560 380" role="img" aria-labelledby="mapT">
+        <title id="mapT">Szkic dojazdu: klinika przy ul. Lipowej 7, cztery minuty spacerem od przystanku tramwajowego „Lipowa”. Obok piekarnia i apteka, parking na podwórku.</title>
+        <defs>
+          <path id="rLipowa" d="M-10 196C140 186 360 202 570 190"/>
+          <path id="rOgrodowa" d="M318 -10C312 110 326 260 314 390"/>
+          <path id="rKasztanowa" d="M-10 336C110 310 200 286 316 272"/>
+        </defs>
+        <rect class="m-paper" width="560" height="380"/>
+        <path class="m-park" d="M24 30C80 14 200 18 262 34c20 30 18 92 4 120-60 10-170 14-236 2C14 120 12 60 24 30z"/>
+        <g class="m-trees"><circle cx="60" cy="60" r="11"/><circle cx="92" cy="104" r="13"/><circle cx="196" cy="56" r="12"/><circle cx="226" cy="118" r="10"/><circle cx="150" cy="130" r="9"/><circle cx="48" cy="128" r="9"/></g>
+        <path class="m-pond" d="M118 64c18-8 44-6 50 6s-12 22-32 20-30-18-18-26z"/>
+        <text class="m-hand" x="150" y="110" text-anchor="middle">park</text>
+
+        <g class="m-blocks">
+          <rect x="350" y="24" width="40" height="30" rx="3"/><rect x="350" y="70" width="34" height="28" rx="3"/><rect x="510" y="30" width="36" height="34" rx="3"/>
+          <rect x="350" y="226" width="40" height="34" rx="3"/>
+          <rect x="350" y="290" width="44" height="30" rx="3"/><rect x="420" y="296" width="40" height="30" rx="3"/><rect x="496" y="290" width="40" height="32" rx="3"/>
+          <rect x="190" y="306" width="36" height="28" rx="3"/><rect x="246" y="300" width="40" height="28" rx="3"/>
+        </g>
+
+        <use href="#rLipowa" class="m-road"/><use href="#rOgrodowa" class="m-road"/><use href="#rKasztanowa" class="m-road m-road--small"/>
+        <use href="#rLipowa" class="m-road-in"/><use href="#rOgrodowa" class="m-road-in"/><use href="#rKasztanowa" class="m-road-in m-road-in--small"/>
+        <text class="m-street"><textPath href="#rLipowa" startOffset="78%">ul. Lipowa</textPath></text>
+        <text class="m-street"><textPath href="#rOgrodowa" startOffset="76%">ul. Ogrodowa</textPath></text>
+        <text class="m-street"><textPath href="#rKasztanowa" startOffset="20%">ul. Kasztanowa</textPath></text>
+
+        <path class="m-route" d="M118 202C200 198 330 202 432 196V168"/>
+        <text class="m-hand m-hand--accent" x="232" y="170" text-anchor="middle">4 min spacerem</text>
+
+        <g class="m-stop"><rect x="98" y="212" width="26" height="18" rx="5"/><text x="111" y="225.5" text-anchor="middle">T</text></g>
+        <text class="m-hand" x="40" y="258">przystanek „Lipowa”</text>
+
+        <g class="m-bakery"><ellipse cx="226" cy="236" rx="13" ry="8"/><path d="M219 233l3 6M226 231l0 8M233 233l-3 6"/></g>
+        <text class="m-hand" x="226" y="264" text-anchor="middle">piekarnia</text>
+
+        <g class="m-pharm"><rect x="468" y="220" width="22" height="22" rx="5"/><path d="M479 225v12M473 231h12"/></g>
+        <text class="m-hand" x="479" y="266" text-anchor="middle">apteka</text>
+
+        <g class="m-parking"><rect x="478" y="110" width="22" height="22" rx="5"/><text x="489" y="126" text-anchor="middle">P</text></g>
+        <text class="m-hand" x="506" y="150" text-anchor="middle">podwórko</text>
+
+        <circle class="m-linden" cx="404" cy="144" r="16"/>
+        <path class="m-house" d="M424 166v-20l14-12 14 12v20z"/>
+        <path class="m-roof" d="M420 148l18-16 18 16"/>
+        <g class="m-pin">
+          <path d="M438 120c-9-12-15-18-15-26a15 15 0 0 1 30 0c0 8-6 14-15 26z"/>
+          <path class="m-pin-leaf" d="M438 101.5c-4.2-2.7-6.2-5.3-6.2-7.8 0-2.1 1.5-3.7 3.4-3.7 1.2 0 2.2.6 2.8 1.6.6-1 1.6-1.6 2.8-1.6 1.9 0 3.4 1.6 3.4 3.7 0 2.5-2 5.1-6.2 7.8z"/>
+        </g>
+        <text class="m-name" x="438" y="64" text-anchor="middle">Klinika pod Lipą</text>
+
+        <g class="m-compass" transform="translate(518 334)"><circle r="16"/><path d="M0-11l4 11h-8z"/><text y="-19" text-anchor="middle">N</text></g>
+      </svg>
+    </figure>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="section faq" id="faq">
+  <div class="wrap faq__in">
+    <header class="sec-head">
+      <p class="kicker">Pytania</p>
+      <h2>O co pytacie najczęściej</h2>
+      <p>A jeśli czegoś tu brakuje, Basia chętnie odpowie przez telefon.</p>
+    </header>
+    <div class="faq__list">
+      <details>
+        <summary>Czy przyjmujecie na NFZ?</summary>
+        <p>Nie. Jesteśmy małą prywatną praktyką i właśnie dzięki temu każdy dostaje pół godziny. Wystawiamy e-recepty, e-zwolnienia i skierowania na badania.</p>
+      </details>
+      <details>
+        <summary>Ile naprawdę trwa wizyta?</summary>
+        <p>Pół godziny u lekarza. Jeśli wiesz, że będzie dłużej — powiedz przy zapisie, zarezerwujemy podwójny termin.</p>
+      </details>
+      <details>
+        <summary>Przyjmujecie dzieci od urodzenia?</summary>
+        <p>Tak. Tomek przychodzi na pierwszą wizytę patronażową do domu, a potem prowadzi dziecko aż do osiemnastki. W gabinecie jest przewijak, w poczekalni kącik z klockami.</p>
+      </details>
+      <details>
+        <summary>Czy mogę przyjść z psem?</summary>
+        <p>Do ogrodu — śmiało. Przy ganku jest miska z wodą i haczyk na smycz. Do środka niestety nie, ze względu na pacjentów z alergią.</p>
+      </details>
+      <details>
+        <summary>Co, jeśli się spóźnię albo nie dam rady przyjść?</summary>
+        <p>Zadzwoń do Basi. Kilkanaście minut spóźnienia to żaden problem. Wizytę odwołaną dzień wcześniej przekładamy bez żadnych opłat.</p>
+      </details>
+      <details>
+        <summary>Robicie wizyty domowe?</summary>
+        <p>Tak, w promieniu 10 km — dla osób, które nie mogą przyjść same. Zapisuje Basia, zwykle na ten sam albo następny dzień.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="foot">
+  <div class="wrap foot__in">
+    <div class="foot__brand">
+      <a class="logo" href="#" aria-label="Klinika pod Lipą — na górę strony">
+        <svg class="logo__mark" viewBox="0 0 40 40" aria-hidden="true">
+          <circle class="logo__bg" cx="20" cy="20" r="20"/>
+          <path class="logo__leaf" d="M20 31.5c-7.4-4.7-11-9.3-11-13.7 0-3.8 2.7-6.6 6.1-6.6 2.1 0 3.8 1.1 4.9 2.8 1.1-1.7 2.8-2.8 4.9-2.8 3.4 0 6.1 2.8 6.1 6.6 0 4.4-3.6 9-11 13.7z"/>
+          <path class="logo__vein" d="M20 15v13M20 19.5l-3.6-2.6M20 23.5l3.6-2.6"/>
+          <path class="logo__stem" d="M20 13.8c0-3 1.6-5.3 4.4-6.6"/>
+        </svg>
+        <span class="logo__word"><small>klinika rodzinna</small>pod Lipą</span>
+      </a>
+      <p>Mała klinika rodzinna na Sępolnie. Od 2012 roku pod tą samą lipą.</p>
+    </div>
+    <div>
+      <h3>Adres</h3>
+      <p>ul. Lipowa 7<br>Wrocław‑Sępolno</p>
+    </div>
+    <div>
+      <h3>Kontakt</h3>
+      <p><a href="tel:+48711234567">71 123 45 67</a><br>rejestracja@klinikapodlipa.pl</p>
+    </div>
+    <div>
+      <h3>W tej chwili</h3>
+      <p id="footStatus">—</p>
+    </div>
+  </div>
+  <p class="wrap foot__fine">© <span id="year">2026</span> Klinika pod Lipą · Mock: klinika, ludzie, adres i numery są zmyślone. Ilustracje narysowane w SVG.</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -348,6 +348,12 @@
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "8171", "--directory", "osluch"],
       "port": 8171
+    },
+    {
+      "name": "klinika-v1",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8145", "--directory", "klinika-pod-lipa/v1"],
+      "port": 8145
     }
   ]
 }
