@@ -356,10 +356,22 @@
       "port": 8145
     },
     {
+      "name": "gwizdek-v1",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8146", "--directory", "gwizdek/v1"],
+      "port": 8146
+    },
+    {
       "name": "skrzynka-v1",
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "8160", "--directory", "skrzynka/v1"],
       "port": 8160
+    },
+    {
+      "name": "namiar-v1",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8161", "--directory", "namiar/v1"],
+      "port": 8161
     }
   ]
 }

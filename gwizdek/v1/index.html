@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0b1510">
+<title>Gwizdek — system dla akademii piłkarskiej</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='9' fill='%230f7b53'/><path d='M6.5 16.5a6 6 0 1 0 12 0V14h7.5v-3.5H12.5a6 6 0 0 0-6 6z' fill='%23d4f53c'/><circle cx='12.5' cy='16.5' r='2' fill='%230f7b53'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script>try { const t = JSON.parse(localStorage.getItem('gwizdek-theme')); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+
+<!-- demo controls: role switch, second tab, reset (not part of the product) -->
+<div class="demo" id="demo"></div>
+
+<div class="shell" id="shell">
+  <aside class="side" id="side" aria-label="Menu"></aside>
+  <div class="main">
+    <header id="top"></header>
+    <main id="app" tabindex="-1"></main>
+  </div>
+  <nav class="tabbar" id="tabbar" aria-label="Główna"></nav>
+</div>
+<div class="scrim" aria-hidden="true" onclick="document.body.classList.remove('side-open')"></div>
+
+<div class="pushes" id="pushes" aria-live="polite"></div>
+<div class="toasts" id="toasts" aria-live="polite"></div>
+<div id="modalRoot"></div>
+
+<script src="ui.js"></script>
+<script src="data.js"></script>
+<script src="db.js"></script>
+<script src="board.js"></script>
+<script src="calendar.js"></script>
+<script src="training.js"></script>
+<script src="players.js"></script>
+<script src="fees.js"></script>
+<script src="comms.js"></script>
+<script src="club.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

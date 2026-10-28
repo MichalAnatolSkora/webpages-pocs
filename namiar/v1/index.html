@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#f6f5f0">
+<title>Namiar — bazy firm na zamówienie</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23ffe14a'/><circle cx='16' cy='16' r='8.5' fill='none' stroke='%23151513' stroke-width='2.6'/><path d='M16 3.5v7M16 21.5v7M3.5 16h7M21.5 16h7' stroke='%23151513' stroke-width='2.6' stroke-linecap='round'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Instrument+Sans:wght@400..700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script>try { const t = JSON.parse(localStorage.getItem('namiar-theme')); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+
+<!-- ===== DEMO BAR (mock only) ===== -->
+<div class="demo-bar">
+  <div class="wrap demo-bar__in">
+    <span class="demo-bar__badge">Mock v1</span>
+    <span class="demo-bar__note">Firmy, kontakty i płatności są fikcyjne<span class="demo-bar__more"> (domeny .example, NIP-y 000-…). Baza makiety: <span id="dbSize">24 000</span> firm</span>.</span>
+    <button type="button" class="demo-bar__btn" data-act="testdata" aria-expanded="false" aria-controls="testData">Dane testowe</button>
+  </div>
+  <div class="test-data" id="testData" hidden></div>
+</div>
+
+<!-- ===== HEADER ===== -->
+<header class="site-header">
+  <div class="wrap site-header__in">
+    <a class="logo" href="#/" aria-label="Namiar — strona główna">
+      <svg class="logo__mark" viewBox="0 0 40 40" aria-hidden="true">
+        <rect width="40" height="40" rx="11" fill="var(--mark)"/>
+        <circle cx="20" cy="20" r="10.5" fill="none" stroke="#151513" stroke-width="3"/>
+        <path d="M20 5v8.5M20 26.5V35M5 20h8.5M26.5 20H35" stroke="#151513" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="20" cy="20" r="2.6" fill="#151513"/>
+      </svg>
+      <span class="logo__word">namiar</span>
+    </a>
+    <nav class="nav" aria-label="Główna">
+      <a href="#/kreator" data-nav="kreator">Kreator</a>
+      <a href="#/kryteria" data-nav="kryteria">Kryteria</a>
+      <a href="#/" data-scroll="przepisy">Przepisy</a>
+      <a href="#/" data-scroll="cennik">Cennik</a>
+      <a href="#/zamowienia" data-nav="zamowienia">Zamówienia <span class="nav__count" id="orderCount" hidden></span></a>
+    </nav>
+    <a class="btn btn--mark btn--sm header-cta" href="#/kreator">Zbuduj bazę</a>
+    <button type="button" class="icon-btn theme-btn" id="themeBtn" data-act="theme" aria-label="Ciemny motyw"></button>
+  </div>
+</header>
+
+<main id="app" tabindex="-1"></main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="site-footer">
+  <div class="wrap site-footer__in">
+    <div>
+      <p class="logo__word logo__word--footer">namiar</p>
+      <p>Namiar sp. z o.o. · ul. Kompasowa 3, 31-000 Kraków<br>Firma, baza, ceny i płatności są fikcyjne — to makieta.</p>
+    </div>
+    <div class="site-footer__cols">
+      <p><b>Produkt</b><br><a href="#/kreator">Kreator bazy</a><br><a href="#/kryteria">Katalog kryteriów</a><br><a href="#/" data-scroll="cennik">Cennik</a></p>
+      <p><b>Dane</b><br><a href="#/" data-scroll="dane">Źródła i RODO</a><br><a href="#/" data-scroll="skansen">Jak oceniamy strony</a><br><a href="#/" data-scroll="faq">Pytania</a></p>
+      <p><b>Kontakt</b><br>+48 12 000 00 00<br>kontakt@namiar.example<br>pon.–pt. 8:00–17:00</p>
+    </div>
+  </div>
+  <p class="wrap site-footer__fine">© <span id="year"></span> Namiar · makieta, nie sklep. Wypisanie z bazy: sprzeciw@namiar.example</p>
+</footer>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+<div id="modalRoot"></div>
+
+<script src="data.js"></script>
+<script src="criteria.js"></script>
+<script src="site.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
