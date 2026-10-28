@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Osłuch — projekt rozwiązania</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='9' fill='%231c5a4f'/><path d='M10 7v6a6 6 0 0 0 12 0V7' fill='none' stroke='%23fff' stroke-width='2.6' stroke-linecap='round'/><path d='M16 19v2a4.5 4.5 0 0 0 9 0v-3' fill='none' stroke='%23fff' stroke-width='2.6' stroke-linecap='round'/><circle cx='25' cy='16' r='2.6' fill='%23f3b98f'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f4f2ec; --surface: #fff; --ink: #13201d; --ink-2: #45524e; --ink-3: #78837f; --line: #e3dfd5;
+    --pine: #1c5a4f; --pine-soft: #dcece6; --apricot: #f3b98f; --apricot-soft: #fbeadd;
+    --ai: #5a49d6; --ai-soft: #efecff; --ai-line: #d4cdfb; --danger: #b42318; --danger-soft: #fdecea; --ok: #1f7a4c;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #101614; --surface: #18211e; --ink: #e9efec; --ink-2: #b2bfba; --ink-3: #7f8d88; --line: #2a3632;
+      --pine: #5fb8a3; --pine-soft: #1d3530; --apricot: #e8a679; --apricot-soft: #33261d;
+      --ai: #a59bff; --ai-soft: #221f3d; --ai-line: #3c3670; --danger: #ff8a7a; --danger-soft: #3a1c19; --ok: #6fd39e;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #101614; --surface: #18211e; --ink: #e9efec; --ink-2: #b2bfba; --ink-3: #7f8d88; --line: #2a3632;
+    --pine: #5fb8a3; --pine-soft: #1d3530; --apricot: #e8a679; --apricot-soft: #33261d;
+    --ai: #a59bff; --ai-soft: #221f3d; --ai-line: #3c3670; --danger: #ff8a7a; --danger-soft: #3a1c19; --ok: #6fd39e;
+    color-scheme: dark;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font: 15.5px/1.6 'IBM Plex Sans', system-ui, sans-serif; background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+  a { color: var(--pine); }
+  .mono, code { font-family: 'IBM Plex Mono', monospace; }
+  code { font-size: .86em; background: var(--apricot-soft); padding: 1px 6px; border-radius: 5px; color: var(--ink); }
+  .eyebrow { font: 600 11.5px/1 'IBM Plex Mono', monospace; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); }
+  h1 { font: 600 clamp(38px, 5.4vw, 62px)/1.03 'Fraunces', serif; letter-spacing: -.03em; margin: 14px 0 18px; }
+  h1 em { font-style: italic; font-weight: 400; color: var(--pine); }
+  h2 { font: 600 clamp(26px, 3vw, 34px)/1.1 'Fraunces', serif; letter-spacing: -.02em; margin-bottom: 8px; }
+  h3 { font-size: 16px; margin-bottom: 4px; }
+  section { padding: 54px 0 0; }
+  .lead { font-size: 18px; color: var(--ink-2); max-width: 46em; }
+  .sub { color: var(--ink-2); max-width: 48em; margin-bottom: 22px; }
+  header { padding: 54px 0 10px; }
+  .cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 0 18px; border-radius: 12px; font-weight: 600; text-decoration: none; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+  .btn--p { background: var(--pine); border-color: var(--pine); color: #fff; }
+  :root[data-theme="dark"] .btn--p { color: #0c1a17; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn--p { color: #0c1a17; } }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
+  .grid { display: grid; gap: 14px; }
+  .g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .muted { color: var(--ink-3); }
+  .small { font-size: 13.5px; }
+
+  /* demo steps */
+  .steps { counter-reset: s; display: grid; gap: 10px; }
+  .steps li { list-style: none; counter-increment: s; display: grid; grid-template-columns: 40px 1fr auto; gap: 14px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; }
+  .steps li::before { content: counter(s); font: 600 22px/1 'Fraunces', serif; color: var(--apricot); text-align: center; }
+  .steps b { display: block; }
+  .steps span { color: var(--ink-2); font-size: 14.5px; }
+  .steps a { font-weight: 600; font-size: 14px; white-space: nowrap; }
+
+  /* service blueprint */
+  .bp { display: grid; grid-template-columns: 130px repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .bp > div { padding: 12px 14px; border-radius: 12px; font-size: 13.5px; background: var(--surface); border: 1px solid var(--line); }
+  .bp .h { background: none; border: 0; font: 600 11.5px/1.2 'IBM Plex Mono', monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); padding: 4px 6px; align-self: end; }
+  .bp .lane { background: none; border: 0; font-weight: 700; padding: 12px 6px; }
+  .bp .ai { background: var(--ai-soft); border-color: var(--ai-line); }
+  .bp .ext { background: var(--apricot-soft); border-color: transparent; }
+  .bp ul { padding-left: 16px; }
+  .bp li { margin: 2px 0; }
+
+  /* principles */
+  .pr { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+  .pr .card { border-color: var(--ai-line); }
+  .pr .n { font: 600 12px 'IBM Plex Mono', monospace; color: var(--ai); }
+  .pr p { color: var(--ink-2); font-size: 14.5px; }
+  .pr em { font-style: normal; display: block; margin-top: 8px; font-size: 13px; color: var(--ink-3); }
+
+  /* architecture */
+  .arch { display: grid; gap: 12px; }
+  .tier { display: grid; grid-template-columns: 150px 1fr; gap: 12px; align-items: stretch; }
+  .tier__l { font: 600 11.5px/1.3 'IBM Plex Mono', monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); padding-top: 14px; }
+  .boxes { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
+  .box { border-radius: 12px; padding: 12px 14px; background: var(--surface); border: 1px solid var(--line); font-size: 13.5px; }
+  .box b { display: block; font-size: 14.5px; }
+  .box--ai { background: var(--ai-soft); border-color: var(--ai-line); }
+  .box--ext { background: var(--apricot-soft); border-color: transparent; }
+  .box--pine { background: var(--pine-soft); border-color: transparent; }
+  .flow { font: 500 12.5px 'IBM Plex Mono', monospace; color: var(--ink-3); padding-left: 162px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+  th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font: 600 11.5px 'IBM Plex Mono', monospace; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+  tr:last-child td { border-bottom: 0; }
+  .screens a { text-decoration: none; font-weight: 600; }
+  .warn { background: var(--danger-soft); color: var(--danger); border-radius: 14px; padding: 14px 18px; font-size: 14px; margin-top: 14px; }
+  footer { margin-top: 64px; padding: 26px 0 50px; border-top: 1px solid var(--line); color: var(--ink-3); font-size: 13.5px; }
+
+  @media (max-width: 860px) {
+    .g2, .g3, .pr { grid-template-columns: minmax(0, 1fr); }
+    .bp { grid-template-columns: minmax(0, 1fr); }
+    .bp .h:not(:first-child) { display: none; }
+    .bp .lane { padding-bottom: 0; }
+    .tier { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+    .tier__l { padding-top: 6px; }
+    .flow { padding-left: 0; }
+    .steps li { grid-template-columns: 30px 1fr; }
+    .steps a { grid-column: 2; }
+    .tablewrap { overflow-x: auto; }
+    table { min-width: 620px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <p class="eyebrow">Projekt rozwiązania · mock v1 · październik 2026</p>
+  <h1>Osłuch: internista online z asystentem, <em>który słucha</em></h1>
+  <p class="lead">Telemedycyna dla chorób wewnętrznych: pacjent loguje się, opisuje objawy i umawia wizytę; lekarz prowadzi rozmowę, a asystent AI na bieżąco robi notatki, pilnuje objawów alarmowych, podpowiada pytania i różnicowanie. Recepty, zwolnienia i skierowania lekarz wystawia w tym samym oknie — z kontrolą alergii i interakcji.</p>
+  <div class="cta">
+    <a class="btn btn--p" href="v1/#/">Mock: strona pacjenta →</a>
+    <a class="btn" href="v1/#/lekarz">Mock: panel lekarza →</a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section id="demo">
+    <h2>Jak przeklikać demo</h2>
+    <p class="sub">Najlepiej w dwóch kartach obok siebie — pacjent i lekarz synchronizują się na żywo (wspólny localStorage). Dane testowe są pod przyciskiem „Dane testowe” w czarnym pasku.</p>
+    <ol class="steps">
+      <li><div><b>Zaloguj się jako pacjentka</b><span><code>anna.kowalska@poczta.example</code> / <code>Pacjent123!</code>, kod SMS pokaże się jako powiadomienie.</span></div><a href="v1/#/logowanie">Logowanie</a></li>
+      <li><div><b>Umów wizytę „Ból gardła i gorączka”</b><span>Ankieta z triażem (zaznacz objaw alarmowy, żeby zobaczyć blokadę), termin, zgoda na asystenta AI, BLIK — dowolne 6 cyfr.</span></div><a href="v1/#/umow">Rezerwacja</a></li>
+      <li><div><b>Wejdź do poczekalni i otwórz panel lekarza w drugiej karcie</b><span><code>ewa.nowak@osluch.example</code> / <code>Lekarz123!</code>, 2FA: dowolne 6 cyfr. Na grafiku pacjentka świeci się „W poczekalni”.</span></div><a href="v1/#/lekarz">Panel lekarza</a></li>
+      <li><div><b>Przeczytaj brief AI i rozpocznij wizytę</b><span>Rozmowa jest nagranym scenariuszem (pauza, 1×/2×/4×, „Do końca”). Patrz, jak rośnie skala McIsaaca i zmienia się różnicowanie.</span></div><span class="muted small">gabinet</span></li>
+      <li><div><b>Wystaw e-receptę</b><span>Spróbuj wpisać „amoks” — przeciwwskazanie przez alergię. Cefadroksyl — ostrzeżenie o łańcuchu bocznym R1. Dodaj cefuroksym z sugestii AI i podpisz.</span></div><span class="muted small">zakładka e-Recepta</span></li>
+      <li><div><b>e-ZLA, notatka, zakończenie</b><span>Pacjentka dostaje SMS z kodem w trakcie rozmowy, a po zakończeniu — podsumowanie z zaleceniami i wydrukiem informacyjnym.</span></div><span class="muted small">obie karty</span></li>
+    </ol>
+    <p class="muted small" style="margin-top:10px">Bez drugiej karty: w poczekalni kliknij „Symuluj lekarza w tej karcie” — mock zagra lekarza i przyjmie sugestie AI. Na grafiku lekarza jest też „Dodaj przykładową wizytę”.</p>
+  </section>
+
+  <section id="sciezki">
+    <h2>Ścieżki i role</h2>
+    <p class="sub">Mapa usługi: co robi pacjent, co lekarz, gdzie pomaga AI i które systemy zewnętrzne są po drodze.</p>
+    <div class="bp">
+      <div class="h"></div><div class="h">Przed wizytą</div><div class="h">Wizyta</div><div class="h">Po wizycie</div>
+      <div class="lane">Pacjent</div>
+      <div><ul><li>Logowanie: hasło + SMS lub Węzeł Krajowy</li><li>Powód wizyty i ankieta (2 min)</li><li>Triaż: objawy alarmowe → 112 / SOR, bez rezerwacji</li><li>Termin, forma, zgoda na AI, płatność</li></ul></div>
+      <div><ul><li>Poczekalnia z testem sprzętu</li><li>Wideo / telefon / czat</li><li>Napisy na żywo</li><li>Dokumenty pojawiają się w trakcie</li></ul></div>
+      <div><ul><li>SMS z kodem e-recepty</li><li>Podsumowanie i zalecenia</li><li>Wydruk dla apteki / laboratorium</li><li>Ocena, wizyta kontrolna</li></ul></div>
+      <div class="lane">Asystent AI</div>
+      <div class="ai"><ul><li>Brief z ankiety, karty i plików</li><li>Wstępna skala z ankiety (z brakami)</li><li>Lista „do ustalenia”</li></ul></div>
+      <div class="ai"><ul><li>Transkrypcja (tylko za zgodą)</li><li>Fakty ze źródłem w rozmowie</li><li>Objawy alarmowe, skale, różnicowanie</li><li>Pytania, rozbieżności z ankietą, plan</li><li>Szkic notatki sekcja po sekcji</li></ul></div>
+      <div class="ai"><ul><li>Kontrola recept (reguły, nie model)</li><li>Dziennik przyjętych i odrzuconych sugestii</li><li>Usunięcie transkrypcji</li></ul></div>
+      <div class="lane">Lekarz</div>
+      <div><ul><li>Logowanie z 2FA</li><li>Grafik z jednolinijkowym briefem</li><li>„Wymaga uwagi”: alergie, wyniki</li></ul></div>
+      <div><ul><li>Prowadzi rozmowę, odhacza pytania</li><li>Przyjmuje / odrzuca sugestie</li><li>e-Recepta, e-ZLA, skierowanie</li></ul></div>
+      <div><ul><li>Zatwierdza notatkę</li><li>Podpisuje dokumentację</li><li>Wysyła podsumowanie</li></ul></div>
+      <div class="lane">Systemy</div>
+      <div class="ext"><ul><li>Węzeł Krajowy / SMS</li><li>Bramka płatności (BLIK)</li><li>Grafik lekarzy</li></ul></div>
+      <div class="ext"><ul><li>Wideo (WebRTC)</li><li>Rozpoznawanie mowy (UE)</li></ul></div>
+      <div class="ext"><ul><li>P1 — e-recepta, e-skierowanie</li><li>PUE ZUS — e-ZLA</li><li>EDM — dokumentacja</li></ul></div>
+    </div>
+  </section>
+
+  <section id="ai">
+    <h2>Zasady projektowe asystenta AI</h2>
+    <p class="sub">AI w gabinecie ma oszczędzać lekarzowi pisania i pilnować, żeby nic nie umknęło — ale nigdy nie decyduje za niego. W interfejsie wszystko, co pochodzi od AI, jest fioletowe.</p>
+    <div class="pr">
+      <div class="card"><p class="n">01</p><h3>Lekarz decyduje, AI proponuje</h3><p>AI nie wystawia recept i niczego nie podpisuje. Każda sugestia czeka na akceptację; leki trafiają na receptę dopiero po podpisie.</p><em>W mocku: „Do e-recepty”, „Zatwierdź”, „Wstaw do rozpoznania”.</em></div>
+      <div class="card"><p class="n">02</p><h3>Każda podpowiedź ma źródło</h3><p>Fakt, punkt w skali czy zmiana w różnicowaniu wskazuje wypowiedź, z której pochodzi — klik przewija transkrypcję do tego miejsca.</p><em>Znacznik czasu przy każdym fakcie i pytaniu.</em></div>
+      <div class="card"><p class="n">03</p><h3>Rozbieżności zamiast cichych poprawek</h3><p>Gdy ankieta mówi co innego niż rozmowa (np. kaszel), AI to pokazuje i nie nadpisuje danych po cichu.</p><em>Zaznacz w ankiecie „Kaszel” i zobacz panel „Rozbieżności”.</em></div>
+      <div class="card"><p class="n">04</p><h3>Bezpieczeństwo leków to reguły</h3><p>Alergie, reakcje krzyżowe, interakcje, dawki i ilości sprawdza baza leków z regułami — deterministycznie, tak samo za każdym razem. Działa też bez zgody na transkrypcję.</p><em>Przeciwwskazanie da się nadpisać tylko z uzasadnieniem w dokumentacji.</em></div>
+      <div class="card"><p class="n">05</p><h3>Zgoda i minimalizacja danych</h3><p>Transkrypcja tylko za wyraźną zgodą (bez domyślnego zaznaczenia). Bez nagrań audio; tekst rozmowy usuwany po zatwierdzeniu notatki.</p><em>Odmowa nie zmienia wizyty ani ceny.</em></div>
+      <div class="card"><p class="n">06</p><h3>Wszystko zostaje w dzienniku</h3><p>Przyjęte i odrzucone sugestie, nadpisane przeciwwskazania i zatwierdzone sekcje notatki trafiają do dziennika decyzji przy wizycie.</p><em>Na potrzeby audytu i nadzoru nad wyrobem medycznym.</em></div>
+    </div>
+  </section>
+
+  <section id="architektura">
+    <h2>Architektura docelowa</h2>
+    <p class="sub">Mock jest jednym plikiem HTML z danymi w przeglądarce. Tak wyglądałby produkt.</p>
+    <div class="arch">
+      <div class="tier"><div class="tier__l">Klienci</div><div class="boxes">
+        <div class="box box--pine"><b>Aplikacja pacjenta</b>Web / PWA, mobile-first, poczekalnia i wideo w przeglądarce</div>
+        <div class="box box--pine"><b>Osłuch Pro</b>Panel lekarza na desktop: grafik, gabinet, dokumenty</div>
+        <div class="box"><b>Koordynacja</b>Grafiki, reklamacje, wsparcie (poza mockiem)</div></div></div>
+      <div class="flow">↓ API (REST + WebSocket do stanu wizyty), sesje z 2FA</div>
+      <div class="tier"><div class="tier__l">Usługi</div><div class="boxes">
+        <div class="box"><b>Tożsamość</b>Konta, 2FA, Węzeł Krajowy, weryfikacja PWZ lekarzy</div>
+        <div class="box"><b>Grafik i wizyty</b>Sloty, rezerwacje, kolejka, poczekalnia, przypomnienia SMS</div>
+        <div class="box"><b>Płatności</b>Operator płatności (BLIK, karta), pakiety firmowe, zwroty</div>
+        <div class="box"><b>Wideo</b>WebRTC przez SFU w UE, bez nagrywania</div>
+        <div class="box"><b>Dokumentacja (EDM)</b>Wizyty, notatki, dokumenty; model danych zgodny z HL7 FHIR</div>
+        <div class="box"><b>Dziennik audytowy</b>Dostęp do danych, decyzje AI, podpisy</div></div></div>
+      <div class="tier"><div class="tier__l">Asystent AI</div><div class="boxes">
+        <div class="box box--ai"><b>Rozpoznawanie mowy</b>Strumieniowo, z podziałem na mówców; przetwarzanie w UE</div>
+        <div class="box box--ai"><b>Ekstrakcja i szkic</b>Model językowy: fakty ze źródłem, pytania, różnicowanie, szkic notatki</div>
+        <div class="box box--ai"><b>Reguły kliniczne</b>Skale (McIsaac, kryteria ZUM), objawy alarmowe, rozbieżności</div>
+        <div class="box box--ai"><b>Baza leków</b>Rejestr produktów, refundacja, alergie i interakcje — źródło kontroli recept</div></div></div>
+      <div class="flow">↓ podpis dokumentu (certyfikat ZUS / kwalifikowany / profil zaufany), dokumenty HL7 CDA</div>
+      <div class="tier"><div class="tier__l">Systemy publiczne</div><div class="boxes">
+        <div class="box box--ext"><b>P1 (Centrum e-Zdrowia)</b>e-Recepta, e-Skierowanie, zdarzenia medyczne, IKP pacjenta</div>
+        <div class="box box--ext"><b>PUE ZUS</b>e-ZLA do ZUS i pracodawcy</div>
+        <div class="box box--ext"><b>Węzeł Krajowy</b>Logowanie pacjentów usługami publicznymi</div></div></div>
+    </div>
+  </section>
+
+  <section id="ekrany" class="screens">
+    <h2>Mapa ekranów w mocku</h2>
+    <div class="grid g2" style="margin-top:16px">
+      <div class="card"><h3>Pacjent</h3><ul class="small" style="padding-left:18px;margin-top:6px">
+        <li><a href="v1/#/">Strona główna</a> — oferta, lekarze, cennik, AI, FAQ, 112</li>
+        <li><a href="v1/#/logowanie">Logowanie</a> — hasło + SMS, Węzeł Krajowy (symulacja)</li>
+        <li><a href="v1/#/umow">Rezerwacja</a> — powód, ankieta z triażem, termin, zgody, BLIK</li>
+        <li>Wizyta — potwierdzenie, poczekalnia, rozmowa, podsumowanie</li>
+        <li><a href="v1/#/konto">Konto</a> — wizyty, <a href="v1/#/konto/recepty">e-recepty</a>, <a href="v1/#/konto/dokumenty">dokumenty</a>, <a href="v1/#/konto/profil">profil zdrowia</a></li></ul></div>
+      <div class="card"><h3>Lekarz</h3><ul class="small" style="padding-left:18px;margin-top:6px">
+        <li><a href="v1/#/lekarz/logowanie">Logowanie z 2FA</a></li>
+        <li><a href="v1/#/lekarz">Grafik</a> — dzień, poczekalnia, „wymaga uwagi”, demo</li>
+        <li>Brief wizyty — streszczenie AI, ankieta, karta, pliki</li>
+        <li>Gabinet — wideo, transkrypcja, AI, notatka, e-Recepta, e-ZLA, skierowanie</li>
+        <li><a href="v1/#/lekarz/dokumenty">Wystawione dokumenty</a> i wydruki informacyjne</li></ul></div>
+    </div>
+  </section>
+
+  <section id="mock">
+    <h2>Co jest prawdziwe, a co symulowane</h2>
+    <div class="tablewrap" style="margin-top:16px"><table>
+      <thead><tr><th>Obszar</th><th>W mocku</th><th>W produkcie</th></tr></thead>
+      <tbody>
+        <tr><td>Rozmowa</td><td>Nagrane scenariusze: ból gardła z alergią na penicylinę, zapalenie pęcherza, recepta na lewotyroksynę + zmęczenie</td><td>Wideo WebRTC i transkrypcja na żywo</td></tr>
+        <tr><td>AI</td><td>Zdarzenia przypięte do wypowiedzi — deterministyczne, żeby demo było powtarzalne</td><td>Model językowy + reguły kliniczne, walidowane klinicznie</td></tr>
+        <tr><td>Kontrola recept</td><td>Działa naprawdę na ok. 20 lekach i kilkunastu regułach</td><td>Pełna baza leków z aktualizacjami i refundacją</td></tr>
+        <tr><td>e-Recepta, e-ZLA</td><td>Losowe kody i klucze, animacja podpisu i wysyłki</td><td>Integracja z P1 i PUE ZUS, podpis certyfikatem</td></tr>
+        <tr><td>Logowanie, płatność</td><td>Kod SMS w powiadomieniu, BLIK zawsze przechodzi (poza <code>000 000</code>)</td><td>Operator SMS, Węzeł Krajowy, operator płatności</td></tr>
+        <tr><td>Dane</td><td>localStorage przeglądarki, synchronizacja kart przez zdarzenia <code>storage</code></td><td>Szyfrowana baza w UE, EDM, kopie, retencja dokumentacji</td></tr>
+      </tbody></table></div>
+    <div class="warn">Dawki i zalecenia w scenariuszach odpowiadają typowym schematom dla dorosłych, ale to materiał demonstracyjny — nie porada medyczna ani zweryfikowany protokół kliniczny.</div>
+  </section>
+
+  <section id="ryzyka">
+    <h2>Do rozstrzygnięcia przed produktem</h2>
+    <div class="grid g3" style="margin-top:16px">
+      <div class="card"><h3>Wyrób medyczny</h3><p class="small muted">Oprogramowanie podpowiadające różnicowanie i kontrolujące leki zwykle jest wyrobem medycznym (MDR, reguła 11 — najpewniej klasa IIa), a AI w takim wyrobie to system wysokiego ryzyka w rozumieniu AI Act. Do potwierdzenia z doradcą regulacyjnym.</p></div>
+      <div class="card"><h3>Dane o zdrowiu</h3><p class="small muted">Dane szczególnej kategorii (RODO art. 9), DPIA, umowy powierzenia z dostawcami mowy i modelu, przetwarzanie w UE, zakaz trenowania na danych pacjentów, retencja dokumentacji medycznej.</p></div>
+      <div class="card"><h3>Kliniczna jakość</h3><p class="small muted">Walidacja ekstrakcji i szkiców na prawdziwych rozmowach, miary błędów (pominięte objawy alarmowe!), proces zgłaszania incydentów, przegląd reguł przez lekarzy.</p></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wrap">Osłuch to fikcyjna firma — lekarze, pacjenci, numery PESEL i PWZ są zmyślone. <a href="v1/">Otwórz mock</a> · <a href="../index.html">Wszystkie projekty</a></footer>
+</body>
+</html>

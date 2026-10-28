@@ -342,6 +342,12 @@
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "8144", "--directory", "kluczyk/v4"],
       "port": 8144
+    },
+    {
+      "name": "osluch",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8171", "--directory", "osluch"],
+      "port": 8171
     }
   ]
 }
