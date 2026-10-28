@@ -354,6 +354,12 @@
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "8145", "--directory", "klinika-pod-lipa/v1"],
       "port": 8145
+    },
+    {
+      "name": "skrzynka-v1",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8160", "--directory", "skrzynka/v1"],
+      "port": 8160
     }
   ]
 }
