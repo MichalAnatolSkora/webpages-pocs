@@ -330,6 +330,18 @@
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "8142", "--directory", "kluczyk/v2"],
       "port": 8142
+    },
+    {
+      "name": "kluczyk-v3",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8143", "--directory", "kluczyk/v3"],
+      "port": 8143
+    },
+    {
+      "name": "kluczyk-v4",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8144", "--directory", "kluczyk/v4"],
+      "port": 8144
     }
   ]
 }
