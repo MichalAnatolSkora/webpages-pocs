@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#f3f4f2">
+<title>Rocznik · wyniki finansowe spółek z KRS</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='4' fill='%2313804f'/><path d='M11 5v22M21 5v22M5 12h22M5 20h22' stroke='%23fff' stroke-width='2' opacity='.5'/><rect x='11' y='12' width='10' height='8' fill='%23fff'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500&family=Fira+Sans+Condensed:wght@400;500;600;700&family=Fira+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script>try { const t = JSON.parse(localStorage.getItem('rocznik-theme')); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+
+<a class="skip" href="#app">Przejdź do treści</a>
+
+<!-- ===== MESSAGE BAR (mock only) ===== -->
+<div class="msgbar" role="note">
+  <svg class="i msgbar__i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/></svg>
+  <b class="msgbar__label">MAKIETA v2</b>
+  <span class="msgbar__text">Spółki, liczby i dokumenty są fikcyjne<span class="msgbar__more">: numery KRS 0009…, NIP-y 000-…, w bazie <span id="dbSize"></span> spółek</span>.</span>
+  <a class="msgbar__btn" href="#/silnik">Zajrzyj do maszynowni</a>
+</div>
+
+<!-- ===== WORKBOOK HEADER: ribbon, formula bar, column letters ===== -->
+<header class="xl-head" id="xlHead">
+  <div class="ribbon">
+    <a class="logo" href="#/" aria-label="Rocznik, strona główna">
+      <svg class="logo__mark" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="3" fill="currentColor"/><path d="M8.5 3.5v17M15.5 3.5v17M3.5 9h17M3.5 15h17" stroke="#fff" stroke-width="1.4" opacity=".5"/><rect x="8.5" y="9" width="7" height="6" fill="#fff"/></svg>
+      <span class="logo__word">Rocznik</span>
+    </a>
+    <nav class="ribbon__tabs" aria-label="Główna">
+      <a href="#/" data-nav="home">Start</a>
+      <a href="#/ranking" data-nav="ranking">Rankingi</a>
+      <a href="#/obserwowane" data-nav="obserwowane">Obserwowane <span class="nav__count" id="watchCount" hidden></span></a>
+      <a href="#/cennik" data-nav="cennik">Cennik</a>
+      <a href="#/silnik" data-nav="silnik">Maszynownia</a>
+    </nav>
+    <p class="ribbon__doc" id="docName"></p>
+    <button type="button" class="icon-btn theme-btn" id="themeBtn" data-act="theme" aria-label="Ciemny motyw"></button>
+  </div>
+  <div class="fbar">
+    <div class="namebox" id="nameBox" aria-live="polite" aria-label="Adres zaznaczonej komórki">A1</div>
+    <span class="fbar__fx" aria-hidden="true">fx</span>
+    <div class="fbar__main" id="headerSearch"></div>
+  </div>
+  <div class="colhead" aria-hidden="true"><span class="colhead__corner"></span><div class="colhead__cols" id="colHead"></div></div>
+</header>
+
+<!-- ===== THE SHEET ===== -->
+<div class="sheet" id="sheet">
+  <div class="rownums" aria-hidden="true"><span class="rownums__hl" id="rowHl" hidden></span><pre class="rownums__n" id="rowNumsN"></pre></div>
+  <main id="app" tabindex="-1"></main>
+  <footer class="site-footer wrap">
+    <div class="site-footer__in">
+      <p class="site-footer__brand"><b>Rocznik</b> · wyniki finansowe spółek z Krajowego Rejestru Sądowego i Repozytorium Dokumentów Finansowych. Firma, spółki i liczby w tej makiecie są fikcyjne.</p>
+      <p><b>Serwis</b> <a href="#/ranking">Rankingi</a> · <a href="#/obserwowane">Obserwowane</a> · <a href="#/cennik">Cennik</a></p>
+      <p><b>Dane</b> <a href="#/zrodla">Źródła</a> · <a href="#/silnik">Maszynownia</a> · <a href="#/faq">Pytania</a></p>
+      <p><b>Kontakt</b> kontakt@rocznik.example · API: api@rocznik.example</p>
+    </div>
+    <p class="site-footer__fine">© <span id="year"></span> Rocznik · makieta. Dane rejestrowe: API KRS (CC0). Dane osobowe zamaskowane u źródła.</p>
+  </footer>
+  <div class="selbox" id="selBox" hidden><span class="selbox__h"></span></div>
+</div>
+
+<!-- ===== SHEET TABS + STATUS BAR ===== -->
+<nav class="sheettabs" id="sheetTabs" aria-label="Arkusze"></nav>
+<div class="statusbar" id="statusBar">
+  <span class="sb__state" id="sbState">Gotowe</span>
+  <span class="sb__calc" id="sbCalc" aria-live="polite"></span>
+  <span class="sb__info" id="sbInfo"></span>
+</div>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+<div id="modalRoot"></div>
+
+<script src="data.js"></script>
+<script src="schema.js"></script>
+<script src="ui.js"></script>
+<script src="site.js"></script>
+<script src="engine.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

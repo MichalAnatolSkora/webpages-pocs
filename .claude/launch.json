@@ -380,6 +380,12 @@
       "port": 8162
     },
     {
+      "name": "rocznik-v2",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8165", "--directory", "rocznik/v2"],
+      "port": 8165
+    },
+    {
       "name": "peron-v1",
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "8163", "--directory", "peron/v1"],
