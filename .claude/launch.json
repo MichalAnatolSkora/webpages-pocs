@@ -372,6 +372,12 @@
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "8161", "--directory", "namiar/v1"],
       "port": 8161
+    },
+    {
+      "name": "rocznik-v1",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8162", "--directory", "rocznik/v1"],
+      "port": 8162
     }
   ]
 }
