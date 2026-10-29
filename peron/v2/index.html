@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0f3566">
+<title>Peron · kreślarnia przetargów publicznych</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230f3566'/><path d='M6 26V6l20 20z' fill='none' stroke='%23eef3ff' stroke-width='2.2' stroke-linejoin='round'/><path d='M10 21.5V15.6l5.9 5.9z' fill='none' stroke='%23eef3ff' stroke-width='1.6' stroke-linejoin='round'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Martian+Mono:wdth,wght@75..112.5,300..700&family=Architects+Daughter&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script>try { const t = JSON.parse(localStorage.getItem('peron2-theme')); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+</head>
+<body>
+
+<a class="skip" href="#app">Przejdź do treści</a>
+
+<div class="demo-bar">
+  <div class="wrap demo-bar__in">
+    <span class="demo-bar__badge">Makieta v2</span>
+    <span>Zamawiający, numery ogłoszeń i kwoty są fikcyjne; kody CPV poglądowe. Powiadomienia są symulowane w przeglądarce.</span>
+  </div>
+</div>
+
+<header class="hdr">
+  <div class="wrap hdr__in">
+    <a class="brand" href="#/" aria-label="Peron, strona główna">
+      <svg class="brand__mark" viewBox="0 0 40 40" aria-hidden="true"><path d="M4 36V4l32 32z"/><path d="M10.5 29.5V19.7l9.8 9.8z"/><path d="M4 30h3M4 24h2M4 18h3M4 12h2" class="brand__tick"/></svg>
+      <span class="brand__name">Peron</span>
+      <span class="brand__sub">kreślarnia<br>przetargów publicznych</span>
+    </a>
+    <nav class="nav" aria-label="Główna">
+      <a href="#/" data-nav="home">Zestawienie</a>
+      <a href="#/kalki" data-nav="kalki">Kalki <span class="nav__n" id="navKalki" hidden></span></a>
+      <a href="#/teczka" data-nav="teczka">Teczka <span class="nav__n" id="navWatch" hidden></span></a>
+      <a href="#/pisma" data-nav="pisma">Pisma <span class="nav__n nav__n--hot" id="navInbox" hidden></span></a>
+    </nav>
+    <dl class="hdr__tb" aria-label="Metryczka">
+      <div><dt>Skala</dt><dd>1:1</dd></div>
+      <div><dt>Data</dt><dd id="hdrDate"></dd></div>
+      <div><dt>Godz.</dt><dd id="hdrTime"></dd></div>
+    </dl>
+    <button type="button" class="theme-btn" data-act="theme"><span class="theme-btn__sw" aria-hidden="true"></span><span class="theme-btn__l"></span></button>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="frame">
+    <div class="zones zones--x" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div>
+    <div class="zones zones--y" aria-hidden="true"><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span></div>
+    <main id="app" tabindex="-1"></main>
+  </div>
+</div>
+
+<footer class="foot">
+  <div class="wrap foot__in">
+    <p class="foot__name">Peron</p>
+    <p>Ogłoszenia z Biuletynu Zamówień Publicznych i Dziennika Urzędowego UE zebrane w jedno zestawienie. Każdy przetarg ma wymiar do terminu składania ofert, branża to warstwa rysunku, a kalka to zapisane kryteria: kładziemy ją na każde nowe ogłoszenie i wysyłamy Ci to, co się pod nią zmieściło.</p>
+    <p class="foot__fine">© <span id="year"></span> Peron · makieta. Wszystkie dane w tej wersji są wygenerowane. Rysunek nie w skali.</p>
+  </div>
+</footer>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+<div id="modalRoot"></div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
