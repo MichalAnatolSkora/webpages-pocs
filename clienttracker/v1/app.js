@@ -11,7 +11,21 @@ const root = $('#root'), dlg = $('#dlg');
 const ACCOUNT = { email: 'wlasciciel@clienttracker.test', password: 'makieta-demo-2026', role: 'owner', secret: 'JBSWY3DPEHPK3PXPMKTR' };
 const BAD_LOGIN = 'Nieprawidłowy e-mail, hasło lub kod.';
 const login = { step: 'password', err: '' };
-const sessionValid = () => { const s = store.get('session', null); return !!s && Date.now() - s.last < 7 * DAY; };
+// a client session ends when the owner turns the panel off or deactivates the client
+const sessionValid = () => {
+  const s = store.get('session', null);
+  if (!s || Date.now() - s.last >= 7 * DAY) return false;
+  if (s.role === 'client' && !portalClients().some(c => c.id === s.clientId)) { store.del('session'); return false; }
+  return true;
+};
+// the client whose panel is on screen: a logged-in client, or the owner previewing one
+const portalId = () => { const s = store.get('session', null); return s ? (s.role === 'client' ? s.clientId : s.as && clientById(s.as) ? s.as : null) : null; };
+const startSession = (role, clientId) => {
+  store.set('session', role === 'client' ? { email: clientById(clientId).email, role, clientId, last: Date.now() } : { email: ACCOUNT.email, role: 'owner', last: Date.now() });
+  login.step = 'password'; login.err = '';
+  location.hash = '#/';
+  render(true);
+};
 const touchSession = () => { const s = store.get('session', null); if (s) store.set('session', { ...s, last: Date.now() }); };
 function totpCode(step) {
   let h = 2166136261;
@@ -82,6 +96,8 @@ function renderLogin() {
             <button type="button" class="btn btn--small btn--ink" data-act="skip-login">Wejdź bez logowania</button>
           </div>
           <p class="login__skipnote">Tylko w makiecie: pomija hasło i kod TOTP. Prawdziwa aplikacja nie ma takiego wejścia.</p>
+          <p><b>Klient:</b> e-mail kontaktowy z dostępem do panelu, hasło <code>${CLIENT_PASSWORD}</code>, np. ${esc(portalClients()[0]?.email || '—')}.</p>
+          <div class="login__demo-acts"><button type="button" class="btn btn--small" data-act="skip-login-client">Wejdź jako klient</button></div>
         </div>` : setup ? `
         <h1 class="login__h">Skonfiguruj kod z aplikacji</h1>
         <p class="login__p">To konto nie ma jeszcze drugiego składnika. Bez niego nie ma dostępu do aplikacji. Zeskanuj kod w aplikacji uwierzytelniającej albo przepisz klucz.</p>
@@ -117,6 +133,8 @@ function submitLogin(form) {
   const gate = loginGate();
   if (gate) { login.err = gate; return renderLogin(); }
   if (login.step === 'password') {
+    const client = clientByLogin(fd.get('email'));
+    if (client && fd.get('password') === CLIENT_PASSWORD) { store.set('fails', 0); return startSession('client', client.id); }
     const ok = String(fd.get('email')).trim().toLowerCase() === ACCOUNT.email && fd.get('password') === ACCOUNT.password;
     if (!ok) { loginFailed(); return renderLogin(); }
     login.err = ''; login.step = store.get('totp', false) ? 'code' : 'setup';
@@ -235,9 +253,12 @@ function parseHash() {
   return { parts: path.split('/').filter(Boolean), q: Object.fromEntries(new URLSearchParams(qs || '')) };
 }
 function render(force) {
-  if (!sessionValid()) { lastRoute = null; return renderLogin(); }
+  if (!sessionValid()) { lastRoute = null; syncRoleSelect(); return renderLogin(); }
   touchSession();
-  if (force || !$('.machine')) renderShell();
+  syncRoleSelect();
+  const pid = portalId();
+  if (pid) return renderPortal(pid, force);
+  if (force || !$('.machine') || $('.machine--portal')) renderShell();
   const { parts, q } = parseHash();
   const route = parts.join('/');
   let v;
@@ -273,7 +294,7 @@ function rackRow(t, now, { client = true } = {}) {
   return `<tr class="slot ${pkgClass(t.pkg)}" data-href="#/z/${t.no}">
     <td class="slot__no"><span class="stampno">#${t.no}</span></td>
     ${client ? `<td class="slot__client" data-label="Klient"><span>${esc(c.name)}</span><small>${c.pkg}</small></td>` : ''}
-    <td class="slot__title" data-label="Tytuł">${ticketLink(t)}<small>${t.source} · przyjęte ${fmtDT(t.receivedAt)}</small></td>
+    <td class="slot__title" data-label="Tytuł">${ticketLink(t)}<small>${t.byClient ? 'panel klienta' : t.source} · przyjęte ${fmtDT(t.receivedAt)}</small></td>
     <td data-label="Priorytet">${prioTag(t.priority)}</td>
     <td data-label="Status">${statusTag(t.status)}</td>
     <td class="mono slot__dl" data-label="Termin reakcji">${fmtDTdow(t.deadline)}</td>
@@ -326,6 +347,7 @@ function clientCard(c, ym) {
     ${holes(used, c.pool)}
     <span class="tcard__row"><span class="lbl">Otwarte zgłoszenia</span><span class="val">${open}</span></span>
     <span class="tcard__row"><span class="lbl">Abonament</span><span class="val">${fmtMoney(c.price)}</span></span>
+    <span class="tcard__row"><span class="lbl">Panel klienta</span><span class="val">${c.portal ? 'tak' : 'nie'}</span></span>
     ${c.active ? '' : '<span class="tcard__stamp">Nieaktywny</span>'}
   </a>`;
 }
@@ -379,6 +401,11 @@ function viewClient(id, q) {
       <button type="button" class="btn" data-act="edit-client" data-id="${c.id}">Edytuj</button>
     </div>
     ${c.active ? '' : '<p class="note" id="offNote">Nieaktywnemu klientowi nie można dodać zgłoszenia. Włączysz go w edycji.</p>'}
+    <div class="portalbox">
+      <p class="card__print"><span>Panel klienta</span><span>${c.portal ? 'dostęp włączony' : 'bez dostępu'}</span></p>
+      <p class="note">${c.portal ? `Klient loguje się e-mailem ${esc(c.email)}. Widzi swoje zgłoszenia, godziny i raporty, może dodać zgłoszenie. Kwot nie widzi.` : 'Klient nie ma konta. Po włączeniu loguje się e-mailem kontaktowym.'}</p>
+      <div class="client__acts"><button type="button" class="btn btn--small" data-act="portal-toggle" data-id="${c.id}">${c.portal ? 'Wyłącz dostęp' : 'Włącz dostęp'}</button>${c.portal && c.active ? `<button type="button" class="btn btn--small" data-act="portal-preview" data-id="${c.id}">Podgląd jako klient</button>` : ''}</div>
+    </div>
   </section>
   <section class="client__tickets" aria-labelledby="cTickets">
     <div class="subhead"><h2 id="cTickets">Zgłoszenia</h2><p>od najnowszego</p></div>
@@ -438,7 +465,7 @@ function viewTicket(no) {
   <span class="stampno stampno--xl">#${t.no}</span>
   <div class="job__hd">
     <h1 class="job__title">${esc(t.title)}</h1>
-    <p class="job__meta">${clientLink(c)} <span>·</span> ${prioTag(t.priority)} <span>·</span> ${statusTag(t.status)} <span>·</span> źródło: ${t.source}</p>
+    <p class="job__meta">${clientLink(c)} <span>·</span> ${prioTag(t.priority)} <span>·</span> ${statusTag(t.status)} <span>·</span> źródło: ${t.source}${t.byClient ? ' <span>·</span> z panelu klienta' : ''}</p>
   </div>
   <button type="button" class="btn" data-act="edit-ticket" data-no="${t.no}">Edytuj</button>
 </header>
@@ -673,8 +700,207 @@ ${pageHead('Ustawienia', 'Nowe godziny okien obowiązują tylko zgłoszenia przy
   };
 }
 
+// ---------- client panel (simulated client accounts) ----------
+const STATUS_HINT = { 'Nowe': 'czeka na reakcję', 'W toku': 'pracujemy nad tym', 'Czeka na klienta': 'potrzebujemy informacji od Ciebie', 'Zrobione': 'gotowe', 'Odrzucone': 'zamknięte bez realizacji' };
+function syncRoleSelect() {
+  const sel = $('#roleSelect');
+  if (!sel) return;
+  const s = store.get('session', null), on = s && Date.now() - s.last < 7 * DAY;
+  sel.innerHTML = `${on ? '' : '<option value="">niezalogowany</option>'}<option value="owner">Właściciel</option><optgroup label="Panel klienta (${portalClients().length})">${portalClients().map(c => `<option value="${c.id}">${esc(c.name)}</option>`).join('')}</optgroup>`;
+  sel.value = !on ? '' : s.role === 'client' ? s.clientId : 'owner';
+}
+function renderPortalShell(c, preview) {
+  root.innerHTML = `
+${preview ? `<div class="previewbar"><div class="wrap previewbar__in"><span>Podgląd panelu klienta <b>${esc(c.name)}</b>: tak to widzi klient.</span><button type="button" class="btn btn--small" data-act="portal-exit">Wróć do widoku właściciela</button></div></div>` : ''}
+<header class="machine machine--portal" data-pid="${c.id}">
+  <div class="wrap machine__in">
+    ${plate()}
+    ${lcd()}
+    <div class="lamps" id="lamps">${lampsHTML()}</div>
+    <div class="machine__keys"><a class="key key--red" href="#/nowe">+ Zgłoszenie</a></div>
+  </div>
+  <nav class="tabs" aria-label="Panel klienta">
+    <div class="wrap tabs__in">
+      <a href="#/" data-nav="">Zgłoszenia</a><a href="#/godziny" data-nav="godziny">Godziny i raporty</a>
+      <span class="tabs__who"><span>${esc(c.name)}</span><span class="tabs__role">klient</span></span>
+      ${preview ? '' : '<button type="button" class="tabs__out" data-act="logout">Wyloguj</button>'}
+    </div>
+  </nav>
+</header>
+<main id="app" class="wrap page" tabindex="-1"></main>
+<footer class="foot"><div class="wrap foot__in"><p class="foot__name">Panel klienta</p><p>${esc(c.name)} · pakiet ${c.pkg}. Lampki w nagłówku pokazują, czy teraz biegnie czas reakcji. Pilne sprawy poza panelem: telefon.</p></div></footer>`;
+}
+function renderPortal(pid, force) {
+  const s = store.get('session', null), preview = s.role !== 'client', c = clientById(pid);
+  const m = $('.machine--portal');
+  if (force || !m || m.dataset.pid !== pid || !!$('.previewbar') !== preview) renderPortalShell(c, preview);
+  const { parts, q } = parseHash();
+  const route = 'p/' + parts.join('/');
+  let v;
+  switch (parts[0]) {
+    case undefined: v = pList(c, q); break;
+    case 'z': v = pTicket(c, +parts[1]); break;
+    case 'nowe': v = pNew(c); break;
+    case 'godziny': v = pHours(c, q); break;
+    default: v = notFound();
+  }
+  const app = $('#app');
+  app.innerHTML = v.html;
+  document.title = `${v.title} · ${c.name} · ClientTracker`;
+  const sect = parts[0] === 'godziny' ? 'godziny' : parts[0] === 'nowe' ? 'nowe' : '';
+  $$('[data-nav]').forEach(a => { if (a.dataset.nav === sect) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+  $('#lamps').innerHTML = lampsHTML();
+  if (v.after) v.after();
+  if (route !== lastRoute) { window.scrollTo(0, 0); if (lastRoute !== null) app.focus({ preventScroll: true }); }
+  lastRoute = route;
+  tick();
+}
+function pList(c, q) {
+  const ym = ymNow(), now = clock.now(), all = clientTickets(c.id), used = poolUsed(c.id, ym);
+  const f = ['zamkniete', 'wszystkie'].includes(q.f) ? q.f : 'otwarte';
+  const list = all.filter(t => f === 'wszystkie' || (f === 'otwarte' ? isOpenStatus(t.status) : isClosed(t.status)));
+  const reacted = all.filter(t => t.reactedAt != null), waiting = all.filter(t => t.status === 'Czeka na klienta');
+  const tab = (k, label, n) => `<a href="#/?f=${k}"${k === f ? ' aria-current="true"' : ''}>${label} <span>${n}</span></a>`;
+  return {
+    title: 'Zgłoszenia',
+    html: `
+${pageHead('Twoje zgłoszenia', `${esc(c.name)} · pakiet ${c.pkg}. Każde zgłoszenie to karta w stojaku, a reakcję odbijamy na niej z godziną.`, '<a class="btn btn--ink" href="#/nowe">+ Nowe zgłoszenie</a>')}
+${waiting.length ? `<p class="formerr">Czekamy na Twoją odpowiedź: ${waiting.map(t => `<a href="#/z/${t.no}">#${t.no} ${esc(t.title)}</a>`).join(', ')}</p>` : ''}
+<div class="pgrid">
+  <section class="card ${pkgClass(c.pkg)}" aria-label="Twój pakiet">
+    <p class="card__print"><span>Karta klienta</span><span>${ymLabel(ym)}</span></p>
+    <dl class="form-rows"><div><dt>Pula na zmiany</dt><dd class="mono">${poolText(used, c.pool)}</dd></div></dl>
+    ${holes(used, c.pool)}
+    <p class="lbl">Czas reakcji w pakiecie ${c.pkg}</p>
+    <dl class="form-rows">${PRIORITIES.map(p => `<div><dt>${p}</dt><dd>${ruleLabel(RULES[c.pkg][p])}</dd></div>`).join('')}</dl>
+  </section>
+  <div>
+    <dl class="counter">
+      <div><dt>Otwarte</dt><dd>${all.filter(t => isOpenStatus(t.status)).length}</dd></div>
+      <div class="${waiting.length ? 'counter--red' : ''}"><dt>Czeka na Ciebie</dt><dd>${waiting.length}</dd></div>
+      <div><dt>Reakcja w terminie</dt><dd>${reacted.filter(t => t.reactedAt <= t.deadline).length}/${reacted.length}</dd></div>
+    </dl>
+    <nav class="seg" aria-label="Filtr">${tab('otwarte', 'Otwarte', all.filter(t => isOpenStatus(t.status)).length)}${tab('zamkniete', 'Zamknięte', all.filter(t => isClosed(t.status)).length)}${tab('wszystkie', 'Wszystkie', all.length)}</nav>
+    ${list.length ? `<div class="rack rack--compact"><table class="rack__t">
+      <caption class="sr-only">Twoje zgłoszenia</caption>
+      <thead><tr><th scope="col">Nr</th><th scope="col">Tytuł</th><th scope="col">Priorytet</th><th scope="col">Status</th><th scope="col">Termin reakcji</th><th scope="col">Stan SLA</th></tr></thead>
+      <tbody>${list.map(t => rackRow(t, now, { client: false })).join('')}</tbody></table></div>`
+      : `<div class="empty empty--small"><p>${f === 'otwarte' ? 'Nie masz otwartych zgłoszeń.' : 'Brak zgłoszeń.'}</p></div>`}
+  </div>
+</div>`,
+  };
+}
+function pTicket(c, no) {
+  const t = ticketByNo(no);
+  if (!t || t.clientId !== c.id) return notFound();
+  const now = clock.now(), entries = entriesOfTicket(t.no), late = t.reactedAt != null && t.reactedAt > t.deadline;
+  const visited = new Set(['Nowe', ...t.history.filter(h => h.field === 'status').map(h => h.to)]);
+  const st = s => `<span class="pbtn pbtn--${STATUS_CODE[s]}${visited.has(s) && s !== t.status ? ' pbtn--was' : ''}"${s === t.status ? ' aria-current="step"' : ''}>${s}</span>`;
+  const hist = t.history.filter(h => h.field === 'status').slice().reverse();
+  return {
+    title: `#${t.no} ${t.title}`,
+    html: `
+<nav class="crumbs" aria-label="Ścieżka"><a href="#/">Zgłoszenia</a><span aria-hidden="true">/</span><span>#${t.no}</span></nav>
+<header class="job__head">
+  <span class="stampno stampno--xl">#${t.no}</span>
+  <div class="job__hd"><h1 class="job__title">${esc(t.title)}</h1><p class="job__meta">${prioTag(t.priority)} <span>·</span> ${statusTag(t.status)} <span>·</span> ${STATUS_HINT[t.status]}</p></div>
+</header>
+<div class="job">
+  <article class="job__main card ${pkgClass(t.pkg)}">
+    <section class="job__sec">
+      <h2 class="lbl">Gdzie jest Twoje zgłoszenie</h2>
+      <div class="pflow" role="group" aria-label="Status zgłoszenia">
+        <div class="pflow__col">${st('Nowe')}</div><span class="pflow__arrow" aria-hidden="true">→</span>
+        <div class="pflow__col"><span class="lbl">W pracy</span>${st('W toku')}${st('Czeka na klienta')}</div><span class="pflow__arrow" aria-hidden="true">→</span>
+        <div class="pflow__col"><span class="lbl">Zamknięte</span>${st('Zrobione')}${st('Odrzucone')}</div>
+      </div>
+      <p class="note">Teraz: <b>${t.status}</b>, ${STATUS_HINT[t.status]}. Gwarantujemy czas reakcji, nie naprawy.</p>
+    </section>
+    <section class="job__sec"><h2 class="lbl">Opis</h2>${t.desc ? `<p class="job__desc">${esc(t.desc)}</p>` : '<p class="note">Bez opisu.</p>'}</section>
+    <section class="job__sec">
+      <h2 class="lbl">Przepracowany czas</h2>
+      ${entries.length ? `<table class="ledger"><caption class="sr-only">Czas pracy przy zgłoszeniu #${t.no}</caption>
+        <thead><tr><th scope="col">Data</th><th scope="col">Rodzaj</th><th scope="col" class="num">Godziny</th><th scope="col">Opis</th></tr></thead>
+        <tbody>${entries.map(e => `<tr><td class="mono">${fmtDn(dnFromISO(e.date))}</td><td>${kindTag(e.kind)}</td><td class="num mono">${fmtHours(e.hours)}</td><td>${esc(e.desc) || '—'}</td></tr>`).join('')}</tbody>
+        <tfoot><tr><th scope="row" colspan="2">Razem</th><td class="num mono">${fmtHours(sumHours(entries))}</td><td></td></tr></tfoot></table>` : '<p class="note">Jeszcze nie ma wpisów.</p>'}
+    </section>
+    <section class="job__sec"><h2 class="lbl">Historia</h2>${hist.length ? `<ol class="hist">${hist.map(h => `<li><span class="mono">${fmtDT(h.at)}</span> ${esc(h.from)} → ${esc(h.to)}</li>`).join('')}</ol>` : '<p class="note">Bez zmian od przyjęcia.</p>'}</section>
+  </article>
+  <aside class="punch" aria-label="Odbicia">
+    <p class="punch__print"><span>Odbicia</span><span>#${t.no}</span></p>
+    <div class="punch__row"><span class="lbl">Przyjęte</span><span class="stamp">${fmtDT(t.receivedAt)}</span><small>${DOW_SHORT[wParts(t.receivedAt).dow]}</small></div>
+    <div class="punch__row punch__row--dl"><span class="lbl">Termin reakcji</span><span class="printed">${fmtDT(t.deadline)}</span><small>${ruleLabel(RULES[t.pkg][t.priority])}</small></div>
+    <div class="punch__row"><span class="lbl">Reakcja</span>${t.reactedAt != null ? `<span class="stamp${late ? ' stamp--red' : ''}">${fmtDT(t.reactedAt)}</span><small>po ${fmtDur(t.reactedAt - t.receivedAt)}</small>` : '<span class="stamp stamp--empty">czeka</span>'}</div>
+    <div class="punch__row"><span class="lbl">Zamknięte</span>${t.closedAt != null ? `<span class="stamp">${fmtDT(t.closedAt)}</span>` : '<span class="stamp stamp--empty">otwarte</span>'}</div>
+    <div class="punch__sla"><span class="lbl">Stan SLA</span>${slaTag(t, now)}</div>
+  </aside>
+</div>`,
+  };
+}
+function pNew(c) {
+  return {
+    title: 'Nowe zgłoszenie',
+    html: `
+<nav class="crumbs" aria-label="Ścieżka"><a href="#/">Zgłoszenia</a><span aria-hidden="true">/</span><span>Nowe</span></nav>
+${pageHead('Nowe zgłoszenie', `Przyjmujemy je w chwili wysłania i od razu odbijamy godzinę. Termin reakcji liczymy według pakietu ${c.pkg}.`)}
+<form class="card pform ${pkgClass(c.pkg)}" data-form="portal-ticket" novalidate>
+  <p class="card__print"><span>Karta zgłoszenia</span><span>${esc(c.name)}</span></p>
+  ${fld('title', 'Czego dotyczy?', `<input type="text" ${ctl('title', 'required maxlength="160" autocomplete="off" placeholder="np. Nie działa formularz kontaktowy"')}>`)}
+  ${fld('desc', 'Opis', `<textarea ${ctl('desc', 'rows="5" placeholder="Co się dzieje, od kiedy, na której stronie"')}></textarea>`)}
+  ${radios('priority', 'Jak pilne?', PRIORITIES, 'Normalny', Object.fromEntries(PRIORITIES.map(p => [p, ruleLabel(RULES[c.pkg][p])])))}
+  <p class="note">Krytyczny: strona albo sprzedaż nie działa. Wysoki: ważna funkcja działa źle. Normalny: zmiany i drobne poprawki.</p>
+  <output class="preview" id="pPreview" aria-live="polite"></output>
+  <div class="client__acts"><button type="submit" class="btn btn--ink">Wyślij zgłoszenie</button><a class="btn" href="#/">Anuluj</a></div>
+</form>`,
+    after() { portalPreview($('[data-form="portal-ticket"]')); $('#f-title').focus(); },
+  };
+}
+function portalPreview(form) {
+  const c = clientById(portalId()), pr = new FormData(form).get('priority');
+  $('#pPreview', form).innerHTML = `<span class="lbl">Jeśli wyślesz teraz, zareagujemy najpóźniej</span><b class="mono">${fmtDTdow(reactionDeadline(clock.now(), c.pkg, pr, DB.settings))}</b><span>${ruleLabel(RULES[c.pkg][pr])}</span>`;
+}
+function pHours(c, q) {
+  const ym = /^\d{4}-\d{2}$/.test(q.miesiac || '') ? q.miesiac : ymNow();
+  const s = monthSummary(c.id, ym);
+  const [y, m] = ym.split('-').map(Number), daysIn = new Date(Date.UTC(y, m, 0)).getUTCDate();
+  const rows = [];
+  for (let d = 1; d <= daysIn; d++) {
+    const dn = dnOf(y, m, d), iso = isoOf(dn), es = s.entries.filter(e => e.date === iso), dow = dowOf(dn), hol = holidayName(dn);
+    const sum = k => { const h = sumHours(es.filter(e => e.kind === k)); return h ? fmtHours(h) : ''; };
+    const what = es.map(e => { const t = e.ticketNo ? ticketByNo(e.ticketNo) : null; return `<span>${t ? `<a href="#/z/${t.no}">#${t.no}</a> ` : ''}${esc(e.desc || (t ? t.title : '—'))}</span>`; }).join('');
+    rows.push(`<tr class="${hol || dow === 0 || dow === 6 ? 'tc--off' : ''}${es.length ? ' tc--has' : ''}"><th scope="row"><b>${pad(d)}</b> <span>${DOW_SHORT[dow]}</span></th><td class="num">${sum('Pula')}</td><td class="num">${sum('Utrzymanie')}</td><td class="num">${sum('Dodatkowe')}</td><td class="tc__what">${what || (hol ? `<span class="tc__hol">${hol}</span>` : '')}</td></tr>`);
+  }
+  return {
+    title: `Godziny i raporty · ${ymLabel(ym)}`,
+    html: `
+${pageHead('Godziny i raporty', `Pakiet ${c.pkg}: ${c.pool ? `${fmtHours(c.pool)} h zmian w miesiącu` : 'bez puli godzin na zmiany'}, utrzymanie w cenie abonamentu.`, ymNav(ym, m2 => `#/godziny?miesiac=${m2}`))}
+<div class="month">
+  <section class="tc card ${pkgClass(c.pkg)}" aria-label="Karta miesięczna">
+    <p class="card__print"><span>Karta miesięczna · ${esc(c.name)}</span><span>${ymLabel(ym)}</span></p>
+    <table class="tc__t"><caption class="sr-only">Godziny według dni, ${ymLabel(ym)}</caption>
+      <thead><tr><th scope="col">Dzień</th><th scope="col" class="num">Pula</th><th scope="col" class="num">Utrzym.</th><th scope="col" class="num">Dodatk.</th><th scope="col">Zgłoszenie, opis</th></tr></thead>
+      <tbody>${rows.join('')}</tbody>
+      <tfoot><tr><th scope="row">Razem</th><td class="num">${fmtHours(s.pool)}</td><td class="num">${fmtHours(s.maint)}</td><td class="num">${fmtHours(s.extra)}</td><td><b class="mono">${fmtHours(s.total)} h</b></td></tr></tfoot>
+    </table>
+  </section>
+  <aside class="settle card" aria-label="Podsumowanie">
+    <p class="card__print"><span>Podsumowanie</span><span>${ymLabel(ym)}</span></p>
+    <dl class="form-rows"><div><dt>Pula na zmiany</dt><dd class="mono">${fmtHours(s.pool)} z ${fmtHours(s.poolMax)} h</dd></div>${s.over ? `<div class="form-rows__red"><dt>Nadwyżka</dt><dd>ponad pulę o ${fmtHours(s.over)} h</dd></div>` : ''}</dl>
+    ${holes(s.pool, s.poolMax)}
+    <dl class="form-rows">
+      <div><dt>Utrzymanie</dt><dd class="mono">${fmtHours(s.maint)} h</dd></div>
+      <div><dt>Prace dodatkowe</dt><dd class="mono">${fmtHours(s.extra)} h</dd></div>
+      <div class="form-rows__total"><dt>Razem</dt><dd class="mono">${fmtHours(s.total)} h</dd></div>
+    </dl>
+    <p class="note">Utrzymanie jest w cenie abonamentu. Prace dodatkowe są poza pakietem i rozliczane osobno.</p>
+  </aside>
+</div>
+<section class="card md" aria-label="Raport miesięczny"><p class="card__print"><span>Raport miesięczny</span><span>${ymLabel(ym)}</span></p>${mdToHtml(monthReport(c.id, ym))}</section>`,
+  };
+}
+
 // ---------- dialogs ----------
-const fld = (name, label, control, hint = '') => `<div class="fld"><label for="f-${name}">${label}</label>${control}${hint ? `<p class="fld__hint">${hint}</p>` : ''}<p class="fld__err" id="e-${name}" data-err="${name}"></p></div>`;
+const fld =(name, label, control, hint = '') => `<div class="fld"><label for="f-${name}">${label}</label>${control}${hint ? `<p class="fld__hint">${hint}</p>` : ''}<p class="fld__err" id="e-${name}" data-err="${name}"></p></div>`;
 const ctl = (name, attrs = '') => `id="f-${name}" name="${name}" aria-describedby="e-${name}" ${attrs}`;
 const radios = (name, legend, opts, sel, desc = {}) => `<fieldset class="fset fset--radios"><legend>${legend}</legend><div class="radios">${opts.map(o =>
   `<label class="radio radio--${(PRIO_CODE[o] || KIND_CODE[o] || o).toString().toLowerCase()}"><input type="radio" name="${name}" value="${o}"${o === sel ? ' checked' : ''}><span>${o}${desc[o] ? `<small>${desc[o]}</small>` : ''}</span></label>`).join('')}</div><p class="fld__err" id="e-${name}" data-err="${name}"></p></fieldset>`;
@@ -870,6 +1096,15 @@ document.addEventListener('click', ev => {
     case 'fill-login': $('#lEmail').value = ACCOUNT.email; $('#lPass').value = ACCOUNT.password; return $('#loginForm button[type=submit]').focus();
     case 'fill-code': { const i = $('#lCode'); i.value = totpCode(totpStep()); return i.focus(); }
     case 'skip-login': return loginSucceeded();
+    case 'skip-login-client': { const c = portalClients().find(x => x.id === 'c2') || portalClients()[0]; return c ? startSession('client', c.id) : toast('Żaden klient nie ma dostępu do panelu.', 'red'); }
+    case 'portal-toggle': {
+      const c = clientById(d.id);
+      try { setPortal(c.id, !c.portal); } catch (err) { if (err instanceof Invalid) return toast(err.errors.portal, 'red'); throw err; }
+      render();
+      return toast(c.portal ? `${c.name}: dostęp do panelu włączony. Login: ${c.email}.` : `${c.name}: dostęp do panelu wyłączony, sesje klienta zakończone.`);
+    }
+    case 'portal-preview': { const s = store.get('session', null); store.set('session', { ...s, as: d.id }); location.hash = '#/'; return render(true); }
+    case 'portal-exit': { const s = store.get('session', null), id = s.as; delete s.as; store.set('session', s); location.hash = `#/klient/${id}`; return render(true); }
     case 'login-back': login.step = 'password'; login.err = ''; return renderLogin();
     case 'new-ticket': return ticketDialog(null, d.client);
     case 'edit-ticket': return ticketDialog(+d.no);
@@ -899,7 +1134,12 @@ document.addEventListener('click', ev => {
     case 'dlg-close': return closeDialog();
   }
 });
+document.addEventListener('input', ev => {
+  const pf = ev.target.closest('[data-form="portal-ticket"]');
+  if (pf) portalPreview(pf);
+});
 document.addEventListener('change', ev => {
+  if (ev.target.id === 'roleSelect') return ev.target.value === 'owner' ? startSession('owner') : ev.target.value ? startSession('client', ev.target.value) : null;
   const f = ev.target.dataset.filter;
   if (f === 'dash') location.hash = ev.target.value ? `#/?klient=${ev.target.value}` : '#/';
   if (f === 'inactive') location.hash = ev.target.checked ? '#/klienci?nieaktywni=1' : '#/klienci';
@@ -919,6 +1159,12 @@ document.addEventListener('submit', ev => {
   if (!kind) return;
   ev.preventDefault();
   try {
+    if (kind === 'portal-ticket') {
+      const fd = new FormData(form);
+      const t = fileClientTicket(portalId(), { title: fd.get('title'), desc: fd.get('desc'), priority: fd.get('priority') });
+      location.hash = `#/z/${t.no}`;
+      toast(`Wysłano zgłoszenie #${t.no}. Zareagujemy najpóźniej ${fmtDTdow(t.deadline)}.`);
+    }
     if (kind === 'reaction') { setReaction(+form.dataset.no, fromLocalInput(new FormData(form).get('reactedAt'))); render(); toast('Poprawiono godzinę reakcji.'); }
     if (kind === 'settings') {
       const fd = new FormData(form);

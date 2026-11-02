@@ -526,7 +526,7 @@
       },
       {
         name: 'ClientTracker — zgłoszenia w abonamencie',
-        desc: 'Mock trackera zgłoszeń klientów: pula godzin z pakietu, termin reakcji z SLA, karta miesiąca i raport dla klienta (symulacja)',
+        desc: 'Mock trackera zgłoszeń klientów: pula godzin z pakietu, termin reakcji z SLA, karta miesiąca i raport, w każdej wersji także konta klientów i panel klienta (symulacja)',
         group: 'Experiments & tools',
         updated: '2026-11-02',
         base: 'clienttracker/',
@@ -534,6 +534,7 @@
         versions: [
           ['v1', 'Zegar kontrolny: nagłówek jak rejestrator czasu z wyświetlaczem i lampkami okien obsługi, pulpit jako stojak z kartami zgłoszeń, termin reakcji liczony przez okna i święta z taśmą dzień po dniu, reakcja po terminie odbita na czerwono, pula jako dziurki po 0,25 h, karta miesiąca z rozliczeniem i raportem w Markdownie, logowanie z TOTP, przesuwany zegar makiety'],
           ['v2', 'Zwykły, przejrzysty UI dla małej firmy: statusy jako diagram przejść (Nowe → W pracy → Zamknięte) do zmiany statusu i filtrowania, z podświetloną przebytą ścieżką; tabela klientów z wyszukiwaniem i filtrem pakietu, przełącznik na 100 fikcyjnych klientów'],
+          ['v3', 'Skrzynka zgłoszeń jak w helpdesku: pasek z widokami (Otwarte, Bez reakcji, Po terminie, Czeka na klienta, Zamknięte) i listą 100 klientów z filtrem, zwarta lista i szczegóły obok, zwarty diagram statusów, skróty klawiszowe j/k, n, t, /'],
         ],
       },
       {

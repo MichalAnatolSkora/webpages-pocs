@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#f4f2ee">
+<title>ClientTracker · skrzynka zgłoszeń</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%235b45d6'/><path d='M8 11h16M8 16h11M8 21h7' stroke='white' stroke-width='2.6' stroke-linecap='round'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&family=Geist+Mono:wght@400..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script src="theme.js"></script>
+</head>
+<body>
+
+<a class="skip" href="#app">Przejdź do treści</a>
+
+<div class="demo">
+  <span class="demo__badge">Makieta v3</span>
+  <span class="demo__note">Dane fikcyjne, „serwer” w przeglądarce.</span>
+  <label class="demo__field"><span>Widok</span><select id="roleSelect"></select></label>
+  <label class="demo__field"><span>Dane</span>
+    <select id="datasetSelect">
+      <option value="small">3 klientów (Q-3)</option>
+      <option value="large">100 klientów</option>
+    </select>
+  </label>
+  <form class="demo__field" id="clockForm">
+    <label for="clockInput" title="TimeProvider: cała aplikacja bierze czas z tego zegara">Zegar</label>
+    <input type="datetime-local" id="clockInput" step="60">
+    <button type="submit">Ustaw</button>
+    <button type="button" data-act="clock-live">Na żywo</button>
+  </form>
+  <button type="button" class="demo__cmd" data-act="reset-demo" title="Usuwa klientów, zgłoszenia, wpisy i Ustawienia, wgrywa dane demo. Sesji nie rusza.">reset-demo</button>
+  <button type="button" data-act="theme" id="themeBtn">Motyw</button>
+</div>
+
+<div id="root"></div>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+<dialog class="dlg" id="dlg" aria-labelledby="dlgTitle"></dialog>
+
+<script src="sla.js"></script>
+<script src="data.js"></script>
+<script src="model.js"></script>
+<script src="portal.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -8,9 +8,9 @@ const STATUSES = ['Nowe', 'W toku', 'Czeka na klienta', 'Zrobione', 'Odrzucone']
 const KINDS = ['Pula', 'Utrzymanie', 'Dodatkowe'];
 
 const DEMO_CLIENTS = [
-  { id: 'c1', name: 'Kawiarnia Demo', email: 'kontakt@kawiarnia-demo.test', pkg: 'Basic', price: 400, pool: 0, active: true },
-  { id: 'c2', name: 'Bistro Testowe', email: 'biuro@bistro-testowe.test', pkg: 'Standard', price: 900, pool: 3, active: true },
-  { id: 'c3', name: 'Pizzeria Przykładowa', email: 'zamowienia@pizzeria-przykladowa.test', pkg: 'Premium', price: 1800, pool: 8, active: true },
+  { id: 'c1', name: 'Kawiarnia Demo', email: 'kontakt@kawiarnia-demo.test', pkg: 'Basic', price: 400, pool: 0, active: true, portal: true },
+  { id: 'c2', name: 'Bistro Testowe', email: 'biuro@bistro-testowe.test', pkg: 'Standard', price: 900, pool: 3, active: true, portal: true },
+  { id: 'c3', name: 'Pizzeria Przykładowa', email: 'zamowienia@pizzeria-przykladowa.test', pkg: 'Premium', price: 1800, pool: 8, active: true, portal: true },
 ];
 
 // [no, client, title, description, priority, source, received, reaction, status changes [at, to], time entries [kind, hours, date, note]]

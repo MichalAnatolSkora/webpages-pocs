@@ -157,6 +157,35 @@ code { font-size: .88em; }
 .demo button { background: none; border: 1px solid #575c58; color: var(--machine-ink); padding: 3px 9px; font-size: 12px; }
 .demo button:hover { border-color: var(--machine-ink); }
 .demo__cmd { font-family: var(--f-mono) !important; }
+.demo__role { display: inline-flex; align-items: center; gap: 6px; color: var(--machine-ink); font-weight: 600; }
+.demo .demo__role select { width: auto; max-width: 220px; min-height: 0; padding: 2px 24px 2px 6px; background-color: #111312; color: #e6e2d5; border: 1px solid #4a4f4b; font: 12.5px var(--f-sans); background-position: calc(100% - 12px) 55%, calc(100% - 7px) 55%; color-scheme: dark; }
+
+/* ---------- client panel ---------- */
+.previewbar { background: var(--lamp); color: #1f2220; font-size: 13.5px; }
+.previewbar__in { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 12px; min-height: 42px; padding-top: 5px; padding-bottom: 5px; }
+.previewbar .btn { border-color: #1f2220; color: #1f2220; }
+.portalbox { margin-top: 18px; }
+.portalbox .card__print { margin-bottom: 8px; }
+.pgrid { display: grid; grid-template-columns: minmax(260px, 320px) minmax(0, 1fr); gap: 22px; align-items: start; }
+.pgrid .card .lbl { display: block; margin: 12px 0 2px; }
+.pflow { display: grid; grid-template-columns: auto auto 1fr auto 1fr; align-items: center; gap: 10px; margin-bottom: 10px; }
+.pflow__col { display: grid; gap: 6px; }
+.pflow__col .lbl { font-size: 10.5px; }
+.pflow__arrow { font: 600 20px var(--f-mono); color: var(--form); }
+.pflow .pbtn { text-align: center; cursor: default; color: var(--ink-3); border-style: dashed; }
+.pflow .pbtn--was { color: var(--ink); border-style: solid; }
+.pflow .pbtn[aria-current] { background: var(--ink); color: var(--card-basic); border-color: var(--ink); border-style: solid; border-bottom-width: 1.5px; transform: translateY(2.5px); }
+.pform { max-width: 720px; }
+.md { margin-top: 24px; max-width: 900px; }
+.md h2 { font-weight: 800; font-stretch: 75%; text-transform: uppercase; font-size: 22px; line-height: 1.1; margin-bottom: 6px; }
+.md h3 { font-stretch: 78%; font-weight: 650; font-size: 12px; letter-spacing: .07em; text-transform: uppercase; color: var(--form); margin: 18px 0 6px; padding-top: 10px; border-top: 1px solid var(--rule); }
+.md p { color: var(--ink-2); margin-bottom: 6px; }
+.md ul { padding-left: 18px; display: grid; gap: 3px; }
+.md ul ul { margin-top: 3px; }
+.md table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.md th { text-align: left; font-stretch: 78%; font-weight: 650; font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--form); padding: 5px 8px; border-bottom: 1.5px solid var(--form); }
+.md td { padding: 6px 8px; border-bottom: 1px solid var(--rule); }
+.md .num { text-align: right; font-family: var(--f-mono); }
 .demo__theme { display: inline-flex; align-items: center; gap: 6px; }
 .demo__theme-sw { width: 12px; height: 12px; border: 1px solid currentColor; background: linear-gradient(135deg, #f5eed9 50%, #161817 50%); }
 
@@ -660,7 +689,9 @@ span.pbtn--new { border-style: dashed; }
   .authapp { max-width: 300px; }
 }
 @media (max-width: 860px) {
-  .client, .settings { grid-template-columns: 1fr; }
+  .client, .settings, .pgrid { grid-template-columns: 1fr; }
+  .pflow { grid-template-columns: 1fr; }
+  .pflow__arrow { transform: rotate(90deg); justify-self: center; }
   .rack__t thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
   .rack__t, .rack__t tbody { display: block; }
   .rack { padding: 4px 8px 8px; }
