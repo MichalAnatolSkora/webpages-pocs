@@ -21,20 +21,23 @@
   <span class="demo__badge">Makieta v3</span>
   <span class="demo__note">Dane fikcyjne, „serwer” w przeglądarce.</span>
   <label class="demo__field"><span>Widok</span><select id="roleSelect"></select></label>
-  <label class="demo__field"><span>Dane</span>
-    <select id="datasetSelect">
-      <option value="small">3 klientów (Q-3)</option>
-      <option value="large">100 klientów</option>
-    </select>
-  </label>
-  <form class="demo__field" id="clockForm">
-    <label for="clockInput" title="TimeProvider: cała aplikacja bierze czas z tego zegara">Zegar</label>
-    <input type="datetime-local" id="clockInput" step="60">
-    <button type="submit">Ustaw</button>
-    <button type="button" data-act="clock-live">Na żywo</button>
-  </form>
-  <button type="button" class="demo__cmd" data-act="reset-demo" title="Usuwa klientów, zgłoszenia, wpisy i Ustawienia, wgrywa dane demo. Sesji nie rusza.">reset-demo</button>
-  <button type="button" data-act="theme" id="themeBtn">Motyw</button>
+  <button type="button" class="demo__toggle" data-act="demo-toggle" aria-expanded="false" aria-controls="demoMore">Więcej</button>
+  <div class="demo__more" id="demoMore">
+    <label class="demo__field"><span>Dane</span>
+      <select id="datasetSelect">
+        <option value="small">3 klientów (Q-3)</option>
+        <option value="large">100 klientów</option>
+      </select>
+    </label>
+    <form class="demo__field" id="clockForm">
+      <label for="clockInput" title="TimeProvider: cała aplikacja bierze czas z tego zegara">Zegar</label>
+      <input type="datetime-local" id="clockInput" step="60">
+      <button type="submit">Ustaw</button>
+      <button type="button" data-act="clock-live">Na żywo</button>
+    </form>
+    <button type="button" class="demo__cmd" data-act="reset-demo" title="Usuwa klientów, zgłoszenia, wpisy i Ustawienia, wgrywa dane demo. Sesji nie rusza.">reset-demo</button>
+    <button type="button" data-act="theme" id="themeBtn">Motyw</button>
+  </div>
 </div>
 
 <div id="root"></div>

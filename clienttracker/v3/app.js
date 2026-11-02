@@ -267,7 +267,7 @@ function renderShell() {
 <div class="shell">
   <header class="topbar">
     <button type="button" class="iconbtn" data-act="side-open" aria-label="Menu" aria-controls="side">☰</button>
-    <a class="brand" href="#/"><span class="brand__mark" aria-hidden="true"></span>ClientTracker</a>
+    <a class="brand" href="#/"><span class="brand__mark" aria-hidden="true"></span><span class="brand__name">ClientTracker</span></a>
     <button type="button" class="btn btn--primary btn--sm" data-act="new-ticket">+ Zgłoszenie</button>
   </header>
   <aside class="side" id="side" aria-label="Nawigacja"></aside>
@@ -441,7 +441,7 @@ function detailHTML(t, r) {
   const c = clientById(t.clientId), now = clock.now(), entries = entriesOfTicket(t.no);
   const late = t.reactedAt != null && t.reactedAt > t.deadline;
   return `
-  <div class="detail__bar"><a class="btn btn--text btn--sm detail__back" href="${inboxHref(r, { z: 0 })}">← Lista</a><span class="dim small">#${t.no} · <a href="#/v/wszystkie?klient=${c.id}">${esc(c.name)}</a></span><span class="grow"></span>${can('tickets.edit') ? `<button type="button" class="btn btn--sm" data-act="edit-ticket" data-no="${t.no}">Edytuj</button>` : ''}<a class="iconbtn" href="${inboxHref(r, { z: 0 })}" aria-label="Zamknij szczegóły (Esc)">×</a></div>
+  <div class="detail__bar"><a class="btn btn--text btn--sm detail__back" href="${inboxHref(r, { z: 0 })}">← Lista</a><span class="dim small">#${t.no} · <a href="#/v/wszystkie?klient=${c.id}">${esc(c.name)}</a></span><span class="grow"></span>${can('tickets.edit') ? `<button type="button" class="btn btn--sm" data-act="edit-ticket" data-no="${t.no}">Edytuj</button>` : ''}<a class="iconbtn detail__x" href="${inboxHref(r, { z: 0 })}" aria-label="Zamknij szczegóły (Esc)">×</a></div>
   <div class="detail__body">
     <h2 class="detail__title">${esc(t.title)}</h2>
     <p class="detail__meta">${statusChip(t.status)}${prioTag(t.priority)}<span class="dim">źródło: ${t.source}</span>${t.byClient ? '<span class="chip chip--outline">z panelu klienta</span>' : ''}<span class="dim">przyjęte ${fmtDTdow(t.receivedAt)}</span></p>
@@ -661,7 +661,7 @@ function renderPortal(pid, force) {
 <div class="shell shell--portal" data-pid="${c.id}" data-preview="${preview}">
   <header class="topbar">
     <button type="button" class="iconbtn" data-act="side-open" aria-label="Menu" aria-controls="side">☰</button>
-    <a class="brand" href="#/"><span class="brand__mark" aria-hidden="true"></span>${esc(c.name)}</a>
+    <a class="brand" href="#/"><span class="brand__mark" aria-hidden="true"></span><span class="brand__name">${esc(c.name)}</span></a>
     <a class="btn btn--primary btn--sm" href="#/nowe">+ Zgłoszenie</a>
   </header>
   <aside class="side" id="side" aria-label="Nawigacja panelu klienta"></aside>
@@ -716,7 +716,7 @@ function pInbox(c, r) {
 function pDetail(t, r) {
   const now = clock.now(), entries = entriesOfTicket(t.no), hist = t.history.filter(h => h.field === 'status').slice().reverse();
   return `
-  <div class="detail__bar"><a class="btn btn--text btn--sm detail__back" href="${inboxHref(r, { z: 0 })}">← Lista</a><span class="dim small">#${t.no} · ${t.priority.toLowerCase()}</span><span class="grow"></span><a class="iconbtn" href="${inboxHref(r, { z: 0 })}" aria-label="Zamknij szczegóły (Esc)">×</a></div>
+  <div class="detail__bar"><a class="btn btn--text btn--sm detail__back" href="${inboxHref(r, { z: 0 })}">← Lista</a><span class="dim small">#${t.no} · ${t.priority.toLowerCase()}</span><span class="grow"></span><a class="iconbtn detail__x" href="${inboxHref(r, { z: 0 })}" aria-label="Zamknij szczegóły (Esc)">×</a></div>
   <div class="detail__body">
     <h2 class="detail__title">${esc(t.title)}</h2>
     <p class="detail__meta">${statusChip(t.status)}<span class="dim">${STATUS_HINT[t.status]}</span>${prioTag(t.priority)}<span class="dim">przyjęte ${fmtDTdow(t.receivedAt)}</span></p>
@@ -941,6 +941,7 @@ function onClick(ev) {
   const d = b.dataset;
   switch (d.act) {
     case 'theme': return cycleTheme();
+    case 'demo-toggle': { const open = document.querySelector('.demo').classList.toggle('is-open'); b.setAttribute('aria-expanded', open); b.textContent = open ? 'Mniej' : 'Więcej'; return; }
     case 'side-open': sideUI.open = true; document.body.classList.add('side-open'); return $('#sideSearch').focus();
     case 'side-close': return closeSide();
     case 'clock-live': clock.live(); toast('Zegar na żywo.'); return rerenderAll();
