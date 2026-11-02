@@ -342,6 +342,17 @@ button.snode:hover { border-style: solid; background: var(--cs); color: var(--te
 .note { padding: 8px 12px; border-radius: 7px; background: var(--hover); font-size: 13px; margin-bottom: 12px; }
 .note--danger { background: var(--danger-soft); color: var(--danger-text); }
 
+/* ---------- team ---------- */
+.who { display: inline-grid; place-items: center; min-width: 22px; height: 20px; padding: 0 4px; border-radius: 5px; font: 600 10.5px 'Geist Mono', monospace; vertical-align: middle; }
+.who--owner { background: var(--accent-soft); color: var(--accent); }
+.who--employee { background: var(--st-prog-s); color: var(--st-prog); }
+.side__me { display: inline-flex; align-items: center; gap: 8px; min-width: 0; font-size: 12.5px; }
+.side__me > span:last-child { display: grid; line-height: 1.2; min-width: 0; }
+.side__me small { font-size: 11px; }
+.assignline { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 10px; font-size: 13px; }
+.sel--sm { min-height: 28px !important; width: auto !important; padding: 2px 26px 2px 8px !important; font-size: 13px; }
+.entries__acts { display: inline-flex; align-items: center; gap: 2px; }
+
 /* ---------- client panel ---------- */
 .side__who { display: grid; padding: 0 4px; line-height: 1.35; }
 .side__who b { font-size: 15px; overflow-wrap: anywhere; }

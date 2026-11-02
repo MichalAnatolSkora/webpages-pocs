@@ -359,6 +359,15 @@ input[aria-invalid], select[aria-invalid], textarea[aria-invalid] { border-color
 .dlg__body { padding: 16px 18px 4px; overflow-y: auto; }
 .dlg__foot { display: flex; justify-content: flex-end; gap: 8px; padding: 12px 18px; border-top: 1px solid var(--border); background: var(--surface-2); }
 
+/* ---------- team ---------- */
+.who { display: inline-grid; place-items: center; min-width: 24px; height: 22px; padding: 0 5px; border-radius: 999px; font-size: 10.5px; font-weight: 650; letter-spacing: .02em; vertical-align: middle; }
+.who--owner { background: var(--accent-soft); color: var(--accent); }
+.who--employee { background: var(--st-prog-soft); color: var(--st-prog); }
+.appbar__user .who { margin-right: 6px; }
+.stwho { display: inline-flex; align-items: center; gap: 6px; }
+.sel--sm { min-height: 30px !important; padding: 3px 28px 3px 8px !important; width: auto !important; font-size: 13px; }
+.listnote { padding: 0 18px 10px; }
+
 /* ---------- client panel ---------- */
 .logo__sub { font-weight: 500; font-size: 13px; color: var(--text-3); margin-left: 2px; padding-left: 9px; border-left: 1px solid var(--border-strong); }
 .previewbar { background: var(--warn-soft); color: var(--warn); border-bottom: 1px solid var(--border); font-size: 13.5px; }

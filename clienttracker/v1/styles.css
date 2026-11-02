@@ -160,6 +160,18 @@ code { font-size: .88em; }
 .demo__role { display: inline-flex; align-items: center; gap: 6px; color: var(--machine-ink); font-weight: 600; }
 .demo .demo__role select { width: auto; max-width: 220px; min-height: 0; padding: 2px 24px 2px 6px; background-color: #111312; color: #e6e2d5; border: 1px solid #4a4f4b; font: 12.5px var(--f-sans); background-position: calc(100% - 12px) 55%, calc(100% - 7px) 55%; color-scheme: dark; }
 
+/* ---------- team ---------- */
+.who { display: inline-grid; place-items: center; min-width: 24px; height: 20px; padding: 0 4px; font: 700 10.5px var(--f-mono); border: 1.5px solid currentColor; vertical-align: middle; transform: rotate(-2deg); }
+.who--owner { color: var(--ink); }
+.who--employee { color: var(--form); }
+.tabs__who .who { margin-right: 2px; }
+.stwho { display: inline-flex; align-items: center; gap: 6px; }
+.assignline { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin: 4px 0 8px; font-size: 14px; }
+.sel--sm { width: auto !important; min-height: 0; padding: 4px 28px 3px 8px !important; font-size: 13px !important; }
+.pbtn--off { cursor: not-allowed; opacity: .55; border-style: dashed; }
+.pbtn--off[aria-current] { opacity: 1; background: var(--ink); color: var(--card-basic); border-style: solid; }
+.ledger__acts .who, .roll__acts .who { margin-right: 4px; }
+
 /* ---------- client panel ---------- */
 .previewbar { background: var(--lamp); color: #1f2220; font-size: 13.5px; }
 .previewbar__in { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 12px; min-height: 42px; padding-top: 5px; padding-bottom: 5px; }

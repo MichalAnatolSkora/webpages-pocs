@@ -11,26 +11,31 @@ const root = $('#root'), dlg = $('#dlg');
 // ---------- account and login (L) — simulated, the real check lives on the server ----------
 const ACCOUNT = { email: 'wlasciciel@clienttracker.test', password: 'makieta-demo-2026', role: 'owner', secret: 'JBSWY3DPEHPK3PXPMKTR' };
 const BAD_LOGIN = 'Nieprawidłowy e-mail, hasło lub kod.';
-const login = { step: 'password', err: '' };
+const login = { step: 'password', err: '', user: 'u1' };
+const loginUser = () => staffById(login.user) || STAFF[0];
+const totpKey = u => u.id === 'u1' ? 'totp' : 'totp-' + u.id;
 // a client session ends when the owner turns the panel off or deactivates the client
 const sessionValid = () => {
   const s = store.get('session', null);
   if (!s || Date.now() - s.last >= 7 * DAY) return false;
   if (s.role === 'client' && !portalClients().some(c => c.id === s.clientId)) { store.del('session'); return false; }
+  if (s.role !== 'client' && !staffActive(s.userId || 'u1')) { store.del('session'); return false; }
   return true;
 };
 // the client whose panel is on screen: a logged-in client, or the owner previewing one
 const portalId = () => { const s = store.get('session', null); return s ? (s.role === 'client' ? s.clientId : s.as && clientById(s.as) ? s.as : null) : null; };
 const startSession = (role, clientId) => {
-  store.set('session', role === 'client' ? { email: clientById(clientId).email, role, clientId, last: Date.now() } : { email: ACCOUNT.email, role: 'owner', last: Date.now() });
+  const u = role === 'client' ? null : staffById(role === 'employee' ? 'u2' : 'u1');
+  if (u && !staffActive(u.id)) return toast(`Konto ${u.name} jest zablokowane.`, 'danger');
+  store.set('session', role === 'client' ? { email: clientById(clientId).email, role, clientId, last: Date.now() } : { email: u.email, role: u.role, userId: u.id, last: Date.now() });
   login.step = 'password'; login.err = '';
   location.hash = '#/';
   render(true);
 };
 const touchSession = () => { const s = store.get('session', null); if (s) store.set('session', { ...s, last: Date.now() }); };
-function totpCode(step) {
+function totpCode(step, secret = loginUser().secret) {
   let h = 2166136261;
-  for (const ch of ACCOUNT.secret + ':' + step) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619); }
+  for (const ch of secret + ':' + step) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619); }
   return String((h >>> 0) % 1e6).padStart(6, '0');
 }
 const totpStep = () => Math.floor(Date.now() / 30000);
@@ -51,7 +56,8 @@ function loginFailed() {
 }
 function loginSucceeded() {
   store.set('fails', 0);
-  store.set('session', { email: ACCOUNT.email, role: ACCOUNT.role, last: Date.now() });
+  const u = loginUser();
+  store.set('session', { email: u.email, role: u.role, userId: u.id, last: Date.now() });
   login.step = 'password'; login.err = '';
   if (!location.hash || location.hash === '#/login') location.hash = '#/';
   render(true);
@@ -86,12 +92,14 @@ function renderLogin() {
         <div class="auth__demo">
           <p><b>Makieta:</b> ${esc(ACCOUNT.email)} / <code>${esc(ACCOUNT.password)}</code></p>
           <div class="hrow"><button type="button" class="btn btn--sm" data-act="fill-login">Wpisz dane demo</button><button type="button" class="btn btn--sm" data-act="skip-login">Wejdź bez logowania</button></div>
+          <p><b>Pracownik:</b> ${esc(STAFF[1].email)} / <code>${esc(STAFF[1].password)}</code>, mniej uprawnień</p>
+          <div class="hrow"><button type="button" class="btn btn--sm" data-act="skip-login-employee">Wejdź jako pracownik</button></div>
           <p><b>Klient:</b> e-mail kontaktowy z dostępem do panelu, hasło <code>${CLIENT_PASSWORD}</code>, np. ${esc(portalClients()[0]?.email || '—')}</p>
           <div class="hrow"><button type="button" class="btn btn--sm" data-act="skip-login-client">Wejdź jako klient</button></div>
         </div>` : setup ? `
         <h1>Włącz kod z aplikacji</h1>
         <p class="dim">Bez drugiego składnika nie ma dostępu. Zeskanuj kod albo przepisz klucz.</p>
-        <div class="setup">${fakeQR(ACCOUNT.secret)}<div><p class="cap">Klucz</p><p class="mono">${ACCOUNT.secret.match(/.{4}/g).join(' ')}</p><p class="dim small">TOTP, 6 cyfr, co 30 s</p></div></div>
+        <div class="setup">${fakeQR(loginUser().secret)}<div><p class="cap">Klucz</p><p class="mono">${loginUser().secret.match(/.{4}/g).join(' ')}</p><p class="dim small">TOTP, 6 cyfr, co 30 s</p></div></div>
         <div class="fld"><label for="lCode">Kod z aplikacji</label><input id="lCode" name="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" class="codein" required></div>
         ${err}
         <button class="btn btn--primary btn--block" type="submit">Potwierdź i wejdź</button>
@@ -117,13 +125,13 @@ function submitLogin(form) {
   if (login.step === 'password') {
     const client = clientByLogin(fd.get('email'));
     if (client && fd.get('password') === CLIENT_PASSWORD) { store.set('fails', 0); return startSession('client', client.id); }
-    const ok = String(fd.get('email')).trim().toLowerCase() === ACCOUNT.email && fd.get('password') === ACCOUNT.password;
-    if (!ok) { loginFailed(); return renderLogin(); }
-    login.err = ''; login.step = store.get('totp', false) ? 'code' : 'setup';
+    const u = STAFF.find(x => x.email === String(fd.get('email')).trim().toLowerCase() && x.password === fd.get('password') && staffActive(x.id));
+    if (!u) { loginFailed(); return renderLogin(); }
+    login.user = u.id; login.err = ''; login.step = store.get(totpKey(u), false) ? 'code' : 'setup';
     return renderLogin();
   }
   if (!totpOk(String(fd.get('code')).replace(/\s/g, ''))) { loginFailed(); return renderLogin(); }
-  if (login.step === 'setup') store.set('totp', true);
+  if (login.step === 'setup') store.set(totpKey(loginUser()), true);
   loginSucceeded();
 }
 
@@ -164,6 +172,7 @@ const ymNav = (ym, href) => `<nav class="stepper" aria-label="Miesiąc"><a href=
 // ---------- views of the inbox ----------
 const VIEWS = {
   otwarte: { name: 'Otwarte', hint: 'Najpierw bez reakcji według terminu, potem pozostałe od najstarszego.' },
+  moje: { name: 'Moje', hint: 'Otwarte, prowadzone przeze mnie, według terminu.' },
   'bez-reakcji': { name: 'Bez reakcji', hint: 'Otwarte, jeszcze bez reakcji, według terminu.' },
   'po-terminie': { name: 'Po terminie', hint: 'Bez reakcji i już po terminie reakcji.' },
   czeka: { name: 'Czeka na klienta', hint: 'Od najstarszego przyjęcia.' },
@@ -175,6 +184,7 @@ function viewList(view, clientId, now) {
   const byDl = (a, b) => a.deadline - b.deadline || a.no - b.no, byRec = (a, b) => a.receivedAt - b.receivedAt || a.no - b.no;
   switch (view) {
     case 'otwarte': return openTickets(clientId);
+    case 'moje': return mine.filter(t => isOpenStatus(t.status) && t.assignee === actor()?.id).sort(byDl);
     case 'bez-reakcji': return mine.filter(t => isOpenStatus(t.status) && t.reactedAt == null).sort(byDl);
     case 'po-terminie': return mine.filter(t => isOpenStatus(t.status) && t.reactedAt == null && now > t.deadline).sort(byDl);
     case 'czeka': return mine.filter(t => t.status === 'Czeka na klienta').sort(byRec);
@@ -192,10 +202,11 @@ const STATUS_HINT = { 'Nowe': 'czeka na reakcję', 'W toku': 'pracujemy nad tym'
 // readOnly: the client's view, the same diagram without buttons
 function statusFlow(t, readOnly = false) {
   const visited = new Set(['Nowe', ...t.history.filter(h => h.field === 'status').map(h => h.to)]), done = edgesTaken(t);
+  const locked = !readOnly && !mayWork(t);
   const node = s => {
     const cls = `snode st-${ST_CODE[s]}`;
     if (s === t.status) return `<span class="${cls} is-current" aria-current="step">${s}<small>${readOnly ? 'teraz' : 'aktualny'}</small></span>`;
-    if (readOnly) return `<span class="${cls}${visited.has(s) ? ' is-visited' : ' is-static'}">${s}</span>`;
+    if (readOnly || locked) return `<span class="${cls}${visited.has(s) ? ' is-visited' : ' is-static'}">${s}</span>`;
     if (s === 'Nowe') return `<span class="${cls} is-locked" title="Do statusu Nowe nie da się wrócić">${s}<small>bez powrotu</small></span>`;
     return `<button type="button" class="${cls}${visited.has(s) ? ' is-visited' : ''}" data-act="status" data-no="${t.no}" data-to="${s}" aria-label="Ustaw status: ${s}">${s}${visited.has(s) ? '<small>wcześniej</small>' : ''}</button>`;
   };
@@ -207,7 +218,7 @@ function statusFlow(t, readOnly = false) {
     <div class="sflow__link sflow__link--two">${arrow('close', 'zamknięcie')}${arrow('reopen', 'wznowienie', '←')}</div>
     <div class="sgroup"><p>Zamknięte</p>${node('Zrobione')}${node('Odrzucone')}</div>
   </div>
-  <p class="dim small sflow__note">${readOnly ? `Teraz: <b>${t.status}</b>, ${STATUS_HINT[t.status]}.` : `${done.has('direct') ? '<b class="accent">Zamknięte od razu z Nowe.</b> ' : ''}${t.status === 'Nowe'
+  <p class="dim small sflow__note">${readOnly ? `Teraz: <b>${t.status}</b>, ${STATUS_HINT[t.status]}.` : locked ? `Zgłoszenie prowadzi <b>${esc(staffName(t.assignee))}</b>. Pracownik zmienia status tylko swoich i nieprzypisanych.` : `${done.has('direct') ? '<b class="accent">Zamknięte od razu z Nowe.</b> ' : ''}${t.status === 'Nowe'
     ? `Kliknij status. Pierwsza zmiana z Nowe zapisze reakcję: <b>${fmtDT(Math.max(clock.now(), t.receivedAt))}</b>. Można też od razu zamknąć, np. pomyłkę jako Odrzucone.`
     : 'Kliknij status, żeby go zmienić. Zamknięcie zapisuje godzinę, wznowienie ją kasuje. Do Nowe nie ma powrotu.'}`}</p>`;
 }
@@ -237,7 +248,7 @@ function sidebarHTML(route) {
   <nav class="side__nav" aria-label="Pozostałe">
     <a href="#/czas" class="${page === 'czas' ? 'is-active' : ''}"${page === 'czas' ? ' aria-current="page"' : ''}><span>Czas pracy</span><kbd>T</kbd></a>
     <a href="#/klienci" class="${page === 'klienci' ? 'is-active' : ''}"${page === 'klienci' ? ' aria-current="page"' : ''}><span>Klienci</span><span class="side__n">${DB.clients.length}</span></a>
-    <a href="#/ustawienia" class="${page === 'ustawienia' ? 'is-active' : ''}"${page === 'ustawienia' ? ' aria-current="page"' : ''}><span>Ustawienia</span></a>
+    ${can('settings') ? `<a href="#/ustawienia" class="${page === 'ustawienia' ? 'is-active' : ''}"${page === 'ustawienia' ? ' aria-current="page"' : ''}><span>Ustawienia</span></a>` : ''}
   </nav>
   <div class="side__clients">
     <div class="side__head"><span class="cap">Klienci aktywni</span><span class="dim small">${clients.length}</span></div>
@@ -247,7 +258,7 @@ function sidebarHTML(route) {
     <p class="dim small side__none" id="sideNone" hidden>Brak klientów.</p>
   </div>
   <div class="side__foot">
-    <span class="dim small" title="${esc(ACCOUNT.email)} · owner">${esc(ACCOUNT.email)}</span>
+    <span class="side__me" title="${esc(actor().email)}">${whoTag(actor().id)}<span>${esc(actor().name)}<small class="dim">${ROLE_LABEL[actor().role]}</small></span></span>
     <button type="button" class="btn btn--text btn--sm" data-act="logout">Wyloguj</button>
   </div>`;
 }
@@ -307,10 +318,10 @@ function render(force) {
   let v;
   switch (r.page) {
     case 'inbox': v = viewInbox(r); break;
-    case 'month': v = viewMonth(r.id, r.ym); break;
+    case 'month': v = can('month') ? viewMonth(r.id, r.ym) : forbidden(); break;
     case 'klienci': v = viewClients(r.q); break;
     case 'czas': v = viewTime(r.q); break;
-    case 'ustawienia': v = viewSettings(r.q); break;
+    case 'ustawienia': v = can('settings') ? viewSettings(r.q) : forbidden(); break;
     default: v = { title: 'Nie znaleziono', html: `<div class="page"><div class="empty"><h1>Nie ma takiej strony</h1><p><a href="#/">Wróć do skrzynki</a></p></div></div>` };
   }
   const app = $('#app');
@@ -332,6 +343,8 @@ function render(force) {
   $('#datasetSelect').value = DB.dataset || 'small';
   tick();
 }
+const forbidden = () => ({ title: 'Brak dostępu', html: '<div class="page"><div class="empty"><h1>Brak dostępu (403)</h1><p>Ta strona jest tylko dla właściciela.</p><p><a href="#/">Wróć do skrzynki</a></p></div></div>' });
+const whoTag = id => id && staffById(id) ? `<span class="who who--${staffById(id).role}" title="Prowadzi: ${esc(staffName(id))}">${staffById(id).initials}</span>` : '';
 const closeSide = () => { sideUI.open = false; document.body.classList.remove('side-open'); };
 
 // ---------- inbox: list + detail ----------
@@ -341,7 +354,7 @@ function rowHTML(t, r, now, forClient = false) {
     <span class="row__prio prio-bar--${PRIO_CODE[t.priority]}" aria-hidden="true"></span>
     <span class="row__top"><span class="row__no mono">#${t.no}</span><span class="row__client">${forClient ? `przyjęte ${DOW_SHORT[wParts(t.receivedAt).dow]}` : esc(c.name)}${t.byClient && !forClient ? ' <span class="chip chip--outline">panel</span>' : ''}</span><span class="row__time mono">${shortDT(t.receivedAt)}</span></span>
     <span class="row__title">${esc(t.title)}</span>
-    <span class="row__meta">${statusChip(t.status)}${prioTag(t.priority)}<span class="row__dl">termin ${DOW_SHORT[wParts(t.deadline).dow]} ${shortDT(t.deadline)}</span>${slaTag(t, now)}</span>
+    <span class="row__meta">${forClient ? '' : whoTag(t.assignee)}${statusChip(t.status)}${prioTag(t.priority)}<span class="row__dl">termin ${DOW_SHORT[wParts(t.deadline).dow]} ${shortDT(t.deadline)}</span>${slaTag(t, now)}</span>
   </a>`;
 }
 function clientStrip(c) {
@@ -350,14 +363,14 @@ function clientStrip(c) {
     <div class="cstrip__name"><h1>${esc(c.name)}</h1><span class="chip chip--outline">${c.pkg}</span>${c.active ? '' : '<span class="chip">nieaktywny</span>'}</div>
     <dl class="cstrip__facts">
       <div><dt>Pula · ${MONTHS[+ym.slice(5) - 1]}</dt><dd>${meter(poolUsed(c.id, ym), c.pool)}</dd></div>
-      <div><dt>Abonament</dt><dd>${fmtMoney(c.price)}</dd></div>
+      ${can('money') ? `<div><dt>Abonament</dt><dd>${fmtMoney(c.price)}</dd></div>` : ''}
       <div><dt>Otwarte</dt><dd>${mine.filter(t => isOpenStatus(t.status)).length} z ${mine.length}</dd></div>
       <div><dt>E-mail</dt><dd>${c.email ? `<a href="mailto:${esc(c.email)}">${esc(c.email)}</a>` : '—'}</dd></div>
-      <div class="cstrip__portal"><dt>Panel klienta</dt><dd>${c.portal ? `<span class="ok">dostęp włączony</span> · login ${esc(c.email)}` : '<span class="dim">bez dostępu</span>'} <button type="button" class="btn btn--text btn--sm" data-act="portal-toggle" data-id="${c.id}">${c.portal ? 'Wyłącz' : 'Włącz'}</button>${c.portal && c.active ? `<button type="button" class="btn btn--text btn--sm" data-act="portal-preview" data-id="${c.id}">Podgląd jako klient</button>` : ''}</dd></div>
+      <div class="cstrip__portal"><dt>Panel klienta</dt><dd>${c.portal ? `<span class="ok">dostęp włączony</span> · login ${esc(c.email)}` : '<span class="dim">bez dostępu</span>'}${can('clients.portal') ? ` <button type="button" class="btn btn--text btn--sm" data-act="portal-toggle" data-id="${c.id}">${c.portal ? 'Wyłącz' : 'Włącz'}</button>${c.portal && c.active ? `<button type="button" class="btn btn--text btn--sm" data-act="portal-preview" data-id="${c.id}">Podgląd jako klient</button>` : ''}` : ''}</dd></div>
     </dl>
     <div class="hrow">
-      <a class="btn btn--sm" href="#/klient/${c.id}/${ym}">Miesiąc i raport</a>
-      <button type="button" class="btn btn--sm" data-act="edit-client" data-id="${c.id}">Edytuj</button>
+      ${can('month') ? `<a class="btn btn--sm" href="#/klient/${c.id}/${ym}">Miesiąc i raport</a>` : ''}
+      ${can('clients.edit') ? `<button type="button" class="btn btn--sm" data-act="edit-client" data-id="${c.id}">Edytuj</button>` : ''}
       <button type="button" class="btn btn--sm" data-act="new-entry" data-client="${c.id}">+ Czas</button>
       <button type="button" class="btn btn--sm" data-act="new-ticket" data-client="${c.id}"${c.active ? '' : ' disabled title="Nieaktywnemu klientowi nie można dodać zgłoszenia"'}>+ Zgłoszenie</button>
     </div>
@@ -417,16 +430,22 @@ function traceView(t, now) {
     return `<li class="tr${d.w ? '' : ' tr--off'}"><span class="tr__day mono">${DOW_SHORT[d.dow]} ${fmtDn(d.dn).slice(0, 5)}</span><span class="tr__bar" aria-hidden="true">${d.w ? span(d.dn, d.w[0], d.w[1], 'tr__win') : ''}${d.counted ? span(d.dn, d.counted[0], d.counted[1], 'tr__cnt') : ''}${here.map(([ms, cls]) => `<span class="tr__mk tr__mk--${cls}" style="left:${pct(d.dn, ms)}%"></span>`).join('')}</span><span class="tr__note">${d.w ? '' : '<span class="sr-only">okno zamknięte</span>'}${notes.join(' · ')}</span></li>`;
   }).join('')}</ol>`;
 }
-const entryActs = e => `<button type="button" class="btn btn--text btn--sm" data-act="edit-entry" data-id="${e.id}" aria-label="Popraw wpis z ${fmtDn(dnFromISO(e.date))}, ${fmtHours(e.hours)} h">Popraw</button><button type="button" class="btn btn--text btn--sm btn--danger" data-act="del-entry" data-id="${e.id}" aria-label="Usuń wpis z ${fmtDn(dnFromISO(e.date))}, ${fmtHours(e.hours)} h">Usuń</button>`;
+const entryActs = e => !mayEditEntry(e) ? `<span class="dim small">${whoTag(entryBy(e))}</span>` : `${whoTag(entryBy(e))}<button type="button" class="btn btn--text btn--sm" data-act="edit-entry" data-id="${e.id}" aria-label="Popraw wpis z ${fmtDn(dnFromISO(e.date))}, ${fmtHours(e.hours)} h">Popraw</button><button type="button" class="btn btn--text btn--sm btn--danger" data-act="del-entry" data-id="${e.id}" aria-label="Usuń wpis z ${fmtDn(dnFromISO(e.date))}, ${fmtHours(e.hours)} h">Usuń</button>`;
+function assignControl(t, me) {
+  if (can('tickets.assign.any')) return `<label class="sr-only" for="assignSel">Prowadzi</label><select id="assignSel" class="sel--sm" data-assign="${t.no}"><option value="">nikt</option>${STAFF.map(u => `<option value="${u.id}"${u.id === t.assignee ? ' selected' : ''}>${esc(u.name)}</option>`).join('')}</select>`;
+  if (t.assignee == null) return `nikt <button type="button" class="btn btn--sm" data-act="assign" data-no="${t.no}" data-to="${me.id}">Biorę</button>`;
+  if (t.assignee === me.id) return `${whoTag(me.id)} ${esc(me.name)} <button type="button" class="btn btn--text btn--sm" data-act="assign" data-no="${t.no}" data-to="">Oddaj</button>`;
+  return `${whoTag(t.assignee)} ${esc(staffName(t.assignee))}`;
+}
 function detailHTML(t, r) {
   const c = clientById(t.clientId), now = clock.now(), entries = entriesOfTicket(t.no);
   const late = t.reactedAt != null && t.reactedAt > t.deadline;
   return `
-  <div class="detail__bar"><a class="btn btn--text btn--sm detail__back" href="${inboxHref(r, { z: 0 })}">← Lista</a><span class="dim small">#${t.no} · <a href="#/v/wszystkie?klient=${c.id}">${esc(c.name)}</a></span><span class="grow"></span><button type="button" class="btn btn--sm" data-act="edit-ticket" data-no="${t.no}">Edytuj</button><a class="iconbtn" href="${inboxHref(r, { z: 0 })}" aria-label="Zamknij szczegóły (Esc)">×</a></div>
+  <div class="detail__bar"><a class="btn btn--text btn--sm detail__back" href="${inboxHref(r, { z: 0 })}">← Lista</a><span class="dim small">#${t.no} · <a href="#/v/wszystkie?klient=${c.id}">${esc(c.name)}</a></span><span class="grow"></span>${can('tickets.edit') ? `<button type="button" class="btn btn--sm" data-act="edit-ticket" data-no="${t.no}">Edytuj</button>` : ''}<a class="iconbtn" href="${inboxHref(r, { z: 0 })}" aria-label="Zamknij szczegóły (Esc)">×</a></div>
   <div class="detail__body">
     <h2 class="detail__title">${esc(t.title)}</h2>
     <p class="detail__meta">${statusChip(t.status)}${prioTag(t.priority)}<span class="dim">źródło: ${t.source}</span>${t.byClient ? '<span class="chip chip--outline">z panelu klienta</span>' : ''}<span class="dim">przyjęte ${fmtDTdow(t.receivedAt)}</span></p>
-    <section class="block" aria-label="Status">${statusFlow(t)}</section>
+    <section class="block" aria-label="Status">${statusFlow(t)}<p class="assignline"><span class="dim">Prowadzi:</span> ${assignControl(t, actor())}</p></section>
     <section class="block block--sla" aria-labelledby="slaH">
       <div class="block__head"><h3 id="slaH">Termin reakcji</h3>${slaTag(t, now)}</div>
       <p class="deadline">${fmtDTdow(t.deadline)} <span class="dim small">· ${ruleLabel(RULES[t.pkg][t.priority])}, pakiet ${t.pkg}</span></p>
@@ -434,7 +453,7 @@ function detailHTML(t, r) {
         <div><dt>Reakcja</dt><dd>${t.reactedAt != null ? `<span class="${late ? 'danger' : ''}">${fmtDTdow(t.reactedAt)}</span> <span class="dim">po ${fmtDur(t.reactedAt - t.receivedAt)}</span>` : '<span class="dim">jeszcze nie</span>'}</dd></div>
         <div><dt>Zamknięte</dt><dd>${t.closedAt != null ? fmtDTdow(t.closedAt) : '<span class="dim">otwarte</span>'}</dd></div>
       </dl>
-      ${t.reactedAt != null ? `<details class="more"><summary>Popraw godzinę reakcji</summary>
+      ${t.reactedAt != null && can('tickets.reaction') ? `<details class="more"><summary>Popraw godzinę reakcji</summary>
         <form data-form="reaction" data-no="${t.no}" class="hrow hrow--end" novalidate>
           <div class="fld"><label for="rxIn">Reakcja o</label><input type="datetime-local" id="rxIn" name="reactedAt" value="${toLocalInput(t.reactedAt)}" aria-describedby="e-reactedAt"><p class="fld__err" id="e-reactedAt" data-err="reactedAt"></p></div>
           <button type="submit" class="btn btn--sm btn--primary">Zapisz</button>
@@ -473,7 +492,7 @@ function viewClients(q) {
   return {
     title: 'Klienci',
     html: `<div class="page">
-<div class="phead"><div><h1>Klienci</h1><p class="dim">Pula za ${ymLabel(ym)}. Klienta się nie usuwa, tylko oznacza jako nieaktywnego.</p></div><button type="button" class="btn btn--primary" data-act="new-client">+ Dodaj klienta</button></div>
+<div class="phead"><div><h1>Klienci</h1><p class="dim">Pula za ${ymLabel(ym)}. Klienta się nie usuwa, tylko oznacza jako nieaktywnego.</p></div>${can('clients.edit') ? '<button type="button" class="btn btn--primary" data-act="new-client">+ Dodaj klienta</button>' : '<span class="dim small">Klientów dodaje i edytuje właściciel.</span>'}</div>
 <div class="toolbar">
   <label for="clientSearch" class="sr-only">Szukaj klienta</label><input type="search" id="clientSearch" placeholder="Szukaj po nazwie albo e-mailu" autocomplete="off">
   <label for="clientPkg" class="sr-only">Pakiet</label><select id="clientPkg"><option value="">Wszystkie pakiety</option>${PACKAGES.map(p => `<option>${p}</option>`).join('')}</select>
@@ -482,14 +501,14 @@ function viewClients(q) {
 </div>
 <table class="tbl tbl--click" id="clientTable">
   <caption class="sr-only">Klienci</caption>
-  <thead><tr>${th('name', 'Nazwa')}<th scope="col">Pakiet</th>${th('pool', 'Pula')}${th('open', 'Otwarte', 'num')}${th('price', 'Abonament', 'num')}</tr></thead>
+  <thead><tr>${th('name', 'Nazwa')}<th scope="col">Pakiet</th>${th('pool', 'Pula')}${th('open', 'Otwarte', 'num')}${can('money') ? th('price', 'Abonament', 'num') : ''}</tr></thead>
   <tbody>${rows.map(({ c, used, open, late }) => `
     <tr data-href="#/v/wszystkie?klient=${c.id}" data-search="${esc(norm(c.name + ' ' + c.email))}" data-pkg="${c.pkg}" data-active="${c.active}"${c.active ? '' : ' class="is-off"'}>
       <td data-label="Nazwa" class="tbl__main"><a href="#/v/wszystkie?klient=${c.id}">${esc(c.name)}</a>${c.active ? '' : ' <span class="chip">nieaktywny</span>'}${c.portal && c.active ? ' <span class="chip chip--outline" title="Ma dostęp do panelu klienta">panel</span>' : ''}<small>${esc(c.email) || '—'}</small></td>
       <td data-label="Pakiet">${c.pkg}</td>
       <td data-label="Pula">${meter(used, c.pool)}</td>
       <td class="num" data-label="Otwarte">${open}${late ? ` <span class="chip chip--danger">${late} po terminie</span>` : ''}</td>
-      <td class="num nowrap" data-label="Abonament">${fmtMoney(c.price)}</td>
+      ${can('money') ? `<td class="num nowrap" data-label="Abonament">${fmtMoney(c.price)}</td>` : ''}
     </tr>`).join('')}</tbody>
 </table>
 <div class="empty" id="clientEmpty" hidden><p>Brak klientów pasujących do filtra.</p></div>
@@ -522,7 +541,7 @@ function viewTime(q) {
 <dl class="sums">
   <div><dt>Pula</dt><dd>${fmtHours(sum('Pula'))} h</dd></div>
   <div><dt>Utrzymanie</dt><dd>${fmtHours(sum('Utrzymanie'))} h</dd></div>
-  <div><dt>Dodatkowe</dt><dd>${fmtHours(sum('Dodatkowe'))} h <small>${fmtMoney(sum('Dodatkowe') * DB.settings.rate)}</small></dd></div>
+  <div><dt>Dodatkowe</dt><dd>${fmtHours(sum('Dodatkowe'))} h <small>${can('money') ? fmtMoney(sum('Dodatkowe') * DB.settings.rate) : 'poza pakietem'}</small></dd></div>
   <div><dt>Razem</dt><dd>${fmtHours(sumHours(list))} h <small>${plural3(list.length, 'wpis', 'wpisy', 'wpisów')}</small></dd></div>
 </dl>
 ${list.length ? days.map(d => `<section class="day" aria-label="${fmtDn(dnFromISO(d))}">
@@ -592,8 +611,12 @@ function viewSettings(q) {
 <h2 class="sect">Święta ${year} <nav class="stepper" aria-label="Rok"><a href="#/ustawienia?rok=${year - 1}" aria-label="Rok ${year - 1}">‹</a><span>${year}</span><a href="#/ustawienia?rok=${year + 1}" aria-label="Rok ${year + 1}">›</a></nav></h2>
 <p class="dim small">Liczone z reguł: Wielkanoc ${fmtDn(e)}, Boże Ciało ${fmtDn(e + 60)}.${year >= 2025 ? ' Wigilia wolna od 2025.' : ''}</p>
 <ul class="hols">${[...holidays(year)].map(([dn, name]) => `<li><span class="mono">${fmtDn(dn).slice(0, 5)}</span><span class="dim">${DOW_SHORT[dowOf(dn)]}</span><span>${name}</span></li>`).join('')}</ul>
-<h2 class="sect">Konto</h2>
-<p>${esc(ACCOUNT.email)} · rola owner · TOTP ${store.get('totp', false) ? 'włączone' : 'nieskonfigurowane'} · sesja 7 dni od ostatniej aktywności</p>
+<h2 class="sect">Zespół</h2>
+<p class="dim small">Konta zakłada <code>create-user --email &lt;e-mail&gt; --role owner|employee</code>. Zablokowanie kończy sesje. Sesja: 7 dni od ostatniej aktywności.</p>
+<table class="tbl"><thead><tr><th scope="col">Osoba</th><th scope="col">E-mail</th><th scope="col">Rola</th><th scope="col">TOTP</th><th scope="col">Konto</th><th scope="col"><span class="sr-only">Akcje</span></th></tr></thead>
+  <tbody>${STAFF.map(u => `<tr><td class="tbl__main" data-label="Osoba">${whoTag(u.id)} ${esc(u.name)}</td><td data-label="E-mail">${esc(u.email)}</td><td data-label="Rola">${ROLE_LABEL[u.role]}</td><td data-label="TOTP">${store.get(totpKey(u), false) ? 'włączone' : 'nieskonfigurowane'}</td><td data-label="Konto">${staffActive(u.id) ? '<span class="chip st-done">aktywne</span>' : '<span class="chip chip--danger">zablokowane</span>'}</td><td class="num">${u.role === 'owner' ? '' : `<button type="button" class="btn btn--sm" data-act="staff-toggle" data-id="${u.id}">${staffActive(u.id) ? 'Zablokuj' : 'Odblokuj'}</button>`}</td></tr>`).join('')}</tbody></table>
+<details class="more"><summary>Co może pracownik, a co tylko właściciel</summary><div class="scroll"><table class="tbl tbl--plain"><thead><tr><th scope="col">Uprawnienie</th><th scope="col">Właściciel</th><th scope="col">Pracownik</th></tr></thead>
+  <tbody>${PERM_TABLE.map(([what, o, e]) => `<tr><td>${what}</td><td>${o}</td><td class="${e === 'nie' ? 'danger' : ''}">${e}</td></tr>`).join('')}</tbody></table></div></details>
 <p class="dim small">Polecenia serwisowe przez <code>dotnet run --</code>: <code>create-user</code>, <code>set-password</code>, <code>reset-totp</code>, <code>backup</code>, <code>reset-demo</code>.</p>
 </div>`,
   };
@@ -606,8 +629,8 @@ function syncRoleSelect() {
   const sel = $('#roleSelect');
   if (!sel) return;
   const s = store.get('session', null), on = s && Date.now() - s.last < 7 * DAY;
-  sel.innerHTML = `${on ? '' : '<option value="">niezalogowany</option>'}<option value="owner">Właściciel</option><optgroup label="Panel klienta (${portalClients().length})">${portalClients().map(c => `<option value="${c.id}">${esc(c.name)}</option>`).join('')}</optgroup>`;
-  sel.value = !on ? '' : s.role === 'client' ? s.clientId : 'owner';
+  sel.innerHTML = `${on ? '' : '<option value="">niezalogowany</option>'}<optgroup label="Zespół">${STAFF.map(u => `<option value="${u.role}">${u.name}${staffActive(u.id) ? '' : ' (zablokowany)'}</option>`).join('')}</optgroup><optgroup label="Panel klienta (${portalClients().length})">${portalClients().map(c => `<option value="${c.id}">${esc(c.name)}</option>`).join('')}</optgroup>`;
+  sel.value = !on ? '' : s.role === 'client' ? s.clientId : s.role;
 }
 function portalSideHTML(c, r, preview) {
   const ym = ymNow(), used = poolUsed(c.id, ym);
@@ -777,7 +800,7 @@ function openDialog({ title, body, submit = 'Zapisz', danger = false, wide = fal
   form.addEventListener('submit', ev => {
     ev.preventDefault();
     try { const msg = onSubmit(form); dlg.close(); render(); if (msg) toast(msg); }
-    catch (err) { if (err instanceof Invalid) showErrors(form, err.errors); else throw err; }
+    catch (err) { if (err instanceof Invalid) showErrors(form, err.errors); else if (err.forbidden) toast(err.message, 'danger'); else throw err; }
   });
   if (onInput) { form.addEventListener('input', ev => onInput(form, ev)); form.addEventListener('change', ev => onInput(form, ev)); onInput(form, null); }
   dlg.showModal();
@@ -854,7 +877,7 @@ function entryDialog(id, preset = {}) {
           <div class="hrow" role="group" aria-label="Szybki wybór czasu">${[0.25, 0.5, 1, 1.5, 2, 4].map(h => `<button type="button" class="btn btn--sm" data-quick="${fmtHours(h)}">${fmtHours(h)}</button>`).join('')}</div>
           <p class="fld__hint">Od 0,25 do 24 h, co 0,25 h. Przyjmuje 1,5 i 1.5.</p><p class="fld__err" id="e-hours" data-err="hours"></p></div>
       </div>
-      ${segmented('kind', 'Rodzaj', KINDS, e ? e.kind : 'Utrzymanie', { Pula: 'z puli pakietu', Utrzymanie: 'w cenie abonamentu', Dodatkowe: `${fmtMoney(DB.settings.rate)}/h` })}
+      ${segmented('kind', 'Rodzaj', KINDS, e ? e.kind : 'Utrzymanie', { Pula: 'z puli pakietu', Utrzymanie: 'w cenie abonamentu', Dodatkowe: can('money') ? `${fmtMoney(DB.settings.rate)}/h` : 'poza pakietem' })}
       ${fld('desc', 'Opis', `<input type="text" ${ctl('desc', 'maxlength="200" autocomplete="off"')} value="${e ? esc(e.desc) : ''}">`)}`,
     onInput(form, ev) { if (ev && ev.target.name === 'clientId') $('#f-ticketNo', form).innerHTML = ticketOpts(ev.target.value, null); },
     onSubmit(form) {
@@ -906,6 +929,9 @@ const confirmDialog = (title, text, submit, fn) => openDialog({ title, submit, d
 
 // ---------- events ----------
 document.addEventListener('click', ev => {
+  try { onClick(ev); } catch (err) { if (err.forbidden) return toast(err.message, 'danger'); throw err; }
+});
+function onClick(ev) {
   const row = ev.target.closest('tr[data-href]');
   if (row && !ev.target.closest('a, button')) { location.hash = row.dataset.href; return; }
   const q = ev.target.closest('[data-quick]');
@@ -923,7 +949,10 @@ document.addEventListener('click', ev => {
     });
     case 'logout': store.del('session'); login.step = 'password'; login.err = ''; toast('Wylogowano.'); return render();
     case 'fill-login': $('#lEmail').value = ACCOUNT.email; $('#lPass').value = ACCOUNT.password; return $('#loginForm button[type=submit]').focus();
-    case 'skip-login': return loginSucceeded();
+    case 'skip-login': login.user = 'u1'; return loginSucceeded();
+    case 'skip-login-employee': return startSession('employee');
+    case 'assign': { const t = assignTicket(+d.no, d.to || null); render(); return toast(`#${t.no}: prowadzi ${staffName(t.assignee)}.`); }
+    case 'staff-toggle': { const u = staffById(d.id); setStaffActive(u.id, !staffActive(u.id)); render(); return toast(`${u.name}: konto ${staffActive(u.id) ? 'odblokowane' : 'zablokowane, sesje zakończone'}.`); }
     case 'skip-login-client': { const c = portalClients().find(x => x.id === 'c2') || portalClients()[0]; return c ? startSession('client', c.id) : toast('Żaden klient nie ma dostępu do panelu.', 'danger'); }
     case 'portal-toggle': {
       const c = clientById(d.id);
@@ -961,7 +990,7 @@ document.addEventListener('click', ev => {
     }
     case 'dlg-close': return dlg.close();
   }
-});
+}
 document.addEventListener('input', ev => {
   if (ev.target.id === 'clientSearch') { clientUI.q = ev.target.value; filterClients(); }
   if (ev.target.id === 'sideSearch') { sideUI.q = ev.target.value; filterSide(); }
@@ -970,7 +999,8 @@ document.addEventListener('input', ev => {
 });
 document.addEventListener('change', ev => {
   const t = ev.target;
-  if (t.id === 'roleSelect') return t.value === 'owner' ? startSession('owner') : t.value ? startSession('client', t.value) : null;
+  if (t.dataset.assign) { try { const x = assignTicket(+t.dataset.assign, t.value || null); render(); return toast(`#${x.no}: prowadzi ${staffName(x.assignee)}.`); } catch (err) { if (err.forbidden) { render(); return toast(err.message, 'danger'); } throw err; } }
+  if (t.id === 'roleSelect') return ['owner', 'employee'].includes(t.value) ? startSession(t.value) : t.value ? startSession('client', t.value) : null;
   if (t.id === 'clientPkg') { clientUI.pkg = t.value; return filterClients(); }
   if (t.id === 'clientInactive') { clientUI.inactive = t.checked; return filterClients(); }
   if (t.id === 'datasetSelect') {
@@ -1008,7 +1038,7 @@ document.addEventListener('submit', ev => {
       saveSettings({ biz: w('biz'), day: w('day'), rate: parseHoursInput(fd.get('rate')) });
       render(); toast('Zapisano ustawienia. Obowiązują nowe zgłoszenia.');
     }
-  } catch (err) { if (err instanceof Invalid) showErrors(form, err.errors); else throw err; }
+  } catch (err) { if (err instanceof Invalid) showErrors(form, err.errors); else if (err.forbidden) toast(err.message, 'danger'); else throw err; }
 });
 // keyboard: j/k move through the list, n new ticket, t time entry, / filter clients, Esc closes the detail or the menu
 document.addEventListener('keydown', ev => {
