@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#140d0a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Nolja">
+<title>TableTalk — zamawianie i czat przy stoliku</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Caveat+Brush&family=Dela+Gothic+One&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- demo controls: views, second phone, offline, simulation, reset (not part of the product) -->
+<div class="demobar" id="demobar"></div>
+<div id="shell"></div>
+
+<!-- shared gradients for the dish drawings -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <radialGradient id="g-gold" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#f6d27a"/><stop offset=".6" stop-color="#d9a63a"/><stop offset="1" stop-color="#a87a1f"/></radialGradient>
+    <radialGradient id="g-steel" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#e7ecef"/><stop offset=".55" stop-color="#aab3b9"/><stop offset="1" stop-color="#6e777d"/></radialGradient>
+    <radialGradient id="g-snow" cx="45%" cy="40%" r="60%"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#e6eef2"/></radialGradient>
+    <linearGradient id="g-bottle" x1="0" x2="1"><stop offset="0" stop-color="#1f8a55"/><stop offset=".45" stop-color="#39b877"/><stop offset="1" stop-color="#16663f"/></linearGradient>
+  </defs>
+</svg>
+
+<script src="https://unpkg.com/qrcode-generator@1.4.4/qrcode.js"></script>
+<script src="ui.js"></script>
+<script src="data.js"></script>
+<script src="i18n.js"></script>
+<script src="db.js"></script>
+<script src="games.js"></script>
+<script src="guest.js"></script>
+<script src="staff.js"></script>
+<script src="admin.js"></script>
+<script src="sim.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

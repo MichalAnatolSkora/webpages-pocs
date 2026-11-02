@@ -402,6 +402,12 @@
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "8166", "--directory", "clienttracker"],
       "port": 8166
+    },
+    {
+      "name": "tabletalk-v1",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8167", "--directory", "tabletalk/v1"],
+      "port": 8167
     }
   ]
 }
