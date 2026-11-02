@@ -396,6 +396,12 @@
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "8164", "--directory", "peron/v2"],
       "port": 8164
+    },
+    {
+      "name": "clienttracker-v1",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8166", "--directory", "clienttracker"],
+      "port": 8166
     }
   ]
 }
