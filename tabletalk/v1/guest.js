@@ -120,7 +120,8 @@ function gateJoin(c) {
     <form class="gate__form" data-submit="g-join" novalidate>
       ${G.adult ? '' : `
       <label class="tick"><input type="checkbox" name="adult"><span class="tick__box"></span><span>${esc(t('on.adult'))}</span></label>
-      <label class="tick"><input type="checkbox" name="terms"><span class="tick__box"></span><span>${esc(t('on.terms'))} <button type="button" class="link" data-act="g-terms">${esc(t('on.termsLink'))}</button></span></label>`}
+      <label class="tick"><input type="checkbox" name="terms"><span class="tick__box"></span><span>${esc(t('on.terms'))}</span></label>
+      <button type="button" class="link tick__more" data-act="g-terms">${esc(t('on.termsLink'))}</button>`}
       <label class="field"><span>${esc(t('on.nick'))}</span><input name="nick" id="onNick" maxlength="24" autocomplete="off" placeholder="${esc(t('g.table', { n: c.table.no }))}" value="${esc(G.nick)}"></label>
       ${pin ? `<label class="field"><span>${esc(t('on.pin'))}</span><input name="pin" id="onPin" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="••••"></label>` : ''}
       <p class="form-err" id="onErr" role="alert"></p>
@@ -153,7 +154,7 @@ function tentArt() {
     <path d="M10 46h180v8c-10 0-10 8-20 8s-10-8-20-8-10 8-20 8-10-8-20-8-10 8-20 8-10-8-20-8-10 8-20 8-10-8-20-8-10 8-20 8-10-8-20-8z" class="tarp-edge"/>
     <path d="M14 62v52M186 62v52" class="pole"/>
     <path d="M20 58 Q100 76 180 58" class="wire"/>${bulbs}
-    <rect x="40" y="96" width="120" height="6" rx="3" class="counter"/>
+    <rect x="40" y="96" width="120" height="6" rx="3" class="tent-counter"/>
   </svg>`;
 }
 function closedTableArt() {

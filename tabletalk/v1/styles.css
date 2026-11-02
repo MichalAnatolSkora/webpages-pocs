@@ -334,7 +334,7 @@ body:not(.mode-guest) .layers { position: fixed; inset: 0; z-index: 110; pointer
 .pole { stroke: #6b4b35; stroke-width: 3; }
 .wire { fill: none; stroke: #3a2a20; stroke-width: 1; }
 .bulb { fill: #ffe7a6; filter: drop-shadow(0 0 4px #ffcf6a); animation: twinkle 3s ease-in-out infinite; }
-.counter { fill: #8d969c; }
+.tent-counter { fill: #8d969c; }
 .gate__art .shadow { fill: rgba(0, 0, 0, .45); }
 .gate__art .leg { fill: #646d73; }
 .gate__art .steel { fill: #737c82; }
@@ -348,6 +348,7 @@ body:not(.mode-guest) .layers { position: fixed; inset: 0; z-index: 110; pointer
 .tick input:checked + .tick__box { background: var(--tarp); border-color: var(--tarp); }
 .tick input:checked + .tick__box::after { content: ''; width: 6px; height: 11px; border: solid #230b00; border-width: 0 3px 3px 0; transform: translate(0, -1px) rotate(45deg); }
 .tick input:focus-visible + .tick__box { outline: 2px solid var(--tarp-l); outline-offset: 2px; }
+.tick__more { display: block; margin: -6px 0 6px 34px; font-size: 14px; }
 .bigbell { display: flex; flex-direction: column; align-items: center; gap: 14px; margin: 8px 0; border: 0; background: none; color: var(--ink); font: 700 17px var(--font); cursor: pointer; }
 .bigbell__btn { position: relative; width: 136px; height: 98px; border-radius: 49px; display: grid; place-items: center;
   background: linear-gradient(#303030, #0e0e0e); box-shadow: 0 6px 0 #000, inset 0 1px 0 rgba(255, 255, 255, .12), 0 20px 40px rgba(0, 0, 0, .5); }
@@ -1067,7 +1068,7 @@ body:not(.mode-guest) .layers { position: fixed; inset: 0; z-index: 110; pointer
 .ted h2 { display: flex; align-items: center; gap: 10px; margin: 0 0 8px; font: 20px var(--display); }
 .ted .cfg-num .input { width: 140px; }
 .ted__qr { display: flex; align-items: center; gap: 12px; margin: 14px 0; }
-.ted__qr .qr { display: block; width: 120px; height: 120px; border-radius: 6px; }
+.ted__qr .qrcode { display: block; width: 120px; height: 120px; border-radius: 6px; }
 .ted__qr > div { display: grid; gap: 4px; min-width: 0; }
 .ted__qr small { color: var(--ink-3); font-size: 11.5px; }
 .ted__qr code { color: var(--warn); font: 600 14px var(--mono); word-break: break-all; }
@@ -1077,7 +1078,7 @@ body:not(.mode-guest) .layers { position: fixed; inset: 0; z-index: 110; pointer
 .qtent__top { width: 100%; padding: 6px 10px; border-radius: 6px; background: #140d0a; }
 .qtent__no { display: flex; align-items: center; gap: 8px; }
 .qtent__no span { font: 18px var(--display); }
-.qtent .qr { width: 70%; height: auto; }
+.qtent .qrcode { width: 70%; height: auto; }
 .qtent__how { margin: 0; font-size: 10px; line-height: 1.4; }
 .qtent__wifi { margin: 0; font: 10px var(--mono); }
 .qtent__tok { margin: 0; color: #777; font: 8px var(--mono); word-break: break-all; }
@@ -1131,7 +1132,7 @@ body:not(.mode-guest) .layers { position: fixed; inset: 0; z-index: 110; pointer
 .tentcard::after { content: ''; position: absolute; left: 12%; right: 12%; bottom: -8px; height: 8px; border-radius: 0 0 6px 6px; background: linear-gradient(#2a2a2a, #0e0e0e); }
 .tentcard__scan { position: relative; display: block; width: 100%; padding: 6px; border-radius: 4px; background: #fff; transition: transform .15s; }
 .tentcard__scan:hover { transform: scale(1.03); }
-.tentcard__scan .qr { display: block; width: 100%; height: auto; }
+.tentcard__scan .qrcode { display: block; width: 100%; height: auto; }
 .tentcard__no { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
 .tentcard__meta { text-align: center; }
 .tentcard__meta b { font: 15px var(--display); }

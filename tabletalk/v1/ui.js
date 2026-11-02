@@ -301,7 +301,7 @@ const art = (kind, cls = '') => `<svg class="art ${cls}" viewBox="0 0 100 100" a
 
 // ---------- QR codes (qrcode-generator from unpkg; a plain placeholder if it did not load) ----------
 function qrSVG(text, { margin = 2, cls = '' } = {}) {
-  if (typeof qrcode !== 'function') return `<svg class="qr qr--missing ${cls}" viewBox="0 0 10 10" aria-label="Kod QR"><rect width="10" height="10" fill="#fff"/><text x="5" y="5.8" font-size="2.2" text-anchor="middle" fill="#111">QR</text></svg>`;
+  if (typeof qrcode !== 'function') return `<svg class="qrcode qrcode--missing ${cls}" viewBox="0 0 10 10" aria-label="Kod QR"><rect width="10" height="10" fill="#fff"/><text x="5" y="5.8" font-size="2.2" text-anchor="middle" fill="#111">QR</text></svg>`;
   const q = qrcode(0, 'M');
   q.addData(text);
   q.make();
@@ -317,7 +317,7 @@ function qrSVG(text, { margin = 2, cls = '' } = {}) {
       c += w;
     }
   }
-  return `<svg class="qr ${cls}" viewBox="0 0 ${s} ${s}" shape-rendering="crispEdges" role="img" aria-label="Kod QR"><rect width="${s}" height="${s}" fill="#fff"/><path d="${d}" fill="#111"/></svg>`;
+  return `<svg class="qrcode ${cls}" viewBox="0 0 ${s} ${s}" shape-rendering="crispEdges" role="img" aria-label="Kod QR"><rect width="${s}" height="${s}" fill="#fff"/><path d="${d}" fill="#111"/></svg>`;
 }
 
 // Keep the focused field, its caret and the marked scroll boxes across a full redraw.
