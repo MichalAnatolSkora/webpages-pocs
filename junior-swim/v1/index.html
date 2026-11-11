@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Junior Swim — nauka pływania dla dzieci</title>
+  <meta name="description" content="Propozycja nowej strony szkoły pływania dla dzieci: poziomy jak naszywki, grafik z filtrem, zapisy na lekcję próbną.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ============ SVG sprites ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="duck" viewBox="0 0 120 100">
+      <ellipse cx="64" cy="70" rx="46" ry="24" fill="#ffd23f"/>
+      <path d="M100 58c12-4 16-16 14-24-6 8-14 10-22 10z" fill="#ffd23f"/>
+      <ellipse cx="64" cy="74" rx="34" ry="14" fill="#f5b800" opacity=".45"/>
+      <circle cx="42" cy="38" r="26" fill="#ffd23f"/>
+      <path d="M14 40c-8 0-13 4-13 8s6 7 15 5c4-1 6-4 6-7z" fill="#ff7a3d"/>
+      <rect x="20" y="28" width="46" height="5" rx="2.5" fill="#0d3b5c" transform="rotate(-6 43 30)"/>
+      <circle cx="30" cy="33" r="9" fill="#7fe3ff" stroke="#0d3b5c" stroke-width="3.5"/>
+      <circle cx="50" cy="31" r="9" fill="#7fe3ff" stroke="#0d3b5c" stroke-width="3.5"/>
+      <circle cx="28" cy="31" r="2.6" fill="#fff"/>
+      <circle cx="48" cy="29" r="2.6" fill="#fff"/>
+      <path d="M58 64c10 10 26 10 34-2" fill="none" stroke="#f5b800" stroke-width="4" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </defs>
+</svg>
+
+<!-- ============ header ============ -->
+<header class="top" id="top">
+  <div class="wrap top__row">
+    <a class="logo" href="#top" aria-label="Junior Swim — na górę strony">
+      <svg class="logo__duck" aria-hidden="true"><use href="#duck"/></svg>
+      <span class="logo__word">Junior<b>Swim</b></span>
+    </a>
+    <button class="burger" aria-expanded="false" aria-controls="nav" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav" id="nav">
+      <a href="#poziomy">Poziomy</a>
+      <a href="#jak">Jak uczymy</a>
+      <a href="#grafik">Grafik</a>
+      <a href="#cennik">Cennik</a>
+      <a href="#rodzice">Dla rodziców</a>
+      <a href="#faq">Pytania</a>
+      <a class="nav__cta" href="#zapisy">Lekcja próbna</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ hero ============ -->
+<section class="hero">
+  <div class="hero__air">
+    <div class="wrap hero__grid">
+      <div class="hero__copy">
+        <p class="hero__kicker">Szkoła pływania dla dzieci od 3 do 14 lat</p>
+        <h1 class="hero__title">Pływanie,<br>po którym dzieci <span class="splash">pytają</span><br>„kiedy znowu?”</h1>
+        <p class="hero__lead">Małe grupy, ciepła woda i instruktorzy, którzy wiedzą, że pierwszy krok to nie kraul, tylko uśmiech pod wodą. Każde dziecko zbiera naszywki za kolejne umiejętności.</p>
+        <div class="hero__actions">
+          <a class="btn btn--sun" href="#zapisy">Zapisz na lekcję próbną <svg><use href="#i-arrow"/></svg></a>
+          <a class="btn btn--line" href="#poziomy">Zobacz poziomy</a>
+        </div>
+        <ul class="hero__facts">
+          <li><b>max 6</b><span>dzieci w grupie</span></li>
+          <li><b>45 min</b><span>zajęcia w wodzie</span></li>
+          <li><b>32°C</b><span>woda dla maluchów</span></li>
+        </ul>
+      </div>
+
+      <!-- age finder on a kickboard -->
+      <form class="board" id="finder" aria-labelledby="finder-title">
+        <div class="board__hole" aria-hidden="true"></div>
+        <h2 class="board__title" id="finder-title">Do której grupy?</h2>
+        <p class="board__hint">Dwa kliknięcia i wiesz.</p>
+        <fieldset>
+          <legend>Ile lat ma dziecko?</legend>
+          <div class="pills" id="age-pills"></div>
+        </fieldset>
+        <fieldset>
+          <legend>Jak radzi sobie w wodzie?</legend>
+          <div class="pills pills--wide" id="skill-pills">
+            <label><input type="radio" name="skill" value="0"><span>Boi się wody</span></label>
+            <label><input type="radio" name="skill" value="1"><span>Lubi, ale nie pływa</span></label>
+            <label><input type="radio" name="skill" value="2"><span>Przepłynie kawałek</span></label>
+            <label><input type="radio" name="skill" value="3"><span>Pływa 25 m</span></label>
+          </div>
+        </fieldset>
+        <output class="board__out" id="finder-out" aria-live="polite">
+          <span class="board__placeholder">Wybierz wiek i umiejętności</span>
+        </output>
+      </form>
+    </div>
+  </div>
+
+  <!-- water surface -->
+  <div class="surface" aria-hidden="true">
+    <svg class="surface__wave surface__wave--back" viewBox="0 0 1440 80" preserveAspectRatio="none"><path d="M0 40 Q 90 10 180 40 T 360 40 T 540 40 T 720 40 T 900 40 T 1080 40 T 1260 40 T 1440 40 V80 H0Z"/></svg>
+    <svg class="surface__wave surface__wave--front" viewBox="0 0 1440 80" preserveAspectRatio="none"><path d="M0 46 Q 120 16 240 46 T 480 46 T 720 46 T 960 46 T 1200 46 T 1440 46 V80 H0Z"/></svg>
+    <svg class="surface__duck"><use href="#duck"/></svg>
+  </div>
+  <div class="hero__water">
+    <div class="bubbles" aria-hidden="true"></div>
+    <div class="wrap hero__strip">
+      <p>Lekcja próbna bez karnetu</p>
+      <p>Instruktorzy z uprawnieniami i kursem ratownika</p>
+      <p>Rodzic widzi zajęcia z galerii</p>
+      <p>Postępy w dzienniczku po każdym miesiącu</p>
+    </div>
+  </div>
+</section>
+
+<div class="rope" aria-hidden="true"></div>
+
+<!-- ============ levels ============ -->
+<section class="sec" id="poziomy">
+  <div class="wrap">
+    <header class="sec__head">
+      <span class="depth" aria-hidden="true"><b>0,4</b>m</span>
+      <div>
+        <h2>Pięć poziomów, pięć naszywek</h2>
+        <p>Dziecko przechodzi dalej, kiedy umie — nie kiedy minie semestr. Każdy poziom kończy się sprawdzianem w wodzie i naszywką na czepek lub plecak.</p>
+      </div>
+    </header>
+
+    <div class="levels">
+      <div class="lane" role="tablist" aria-label="Poziomy nauki pływania" id="lane"></div>
+      <article class="level-card" id="level-card" role="tabpanel" aria-live="polite"></article>
+    </div>
+  </div>
+</section>
+
+<div class="rope rope--blue" aria-hidden="true"></div>
+
+<!-- ============ how we teach ============ -->
+<section class="sec sec--tiles" id="jak">
+  <div class="wrap">
+    <header class="sec__head">
+      <span class="depth" aria-hidden="true"><b>0,8</b>m</span>
+      <div>
+        <h2>Jak wygląda jedna lekcja</h2>
+        <p>Zawsze ten sam rytm, więc nawet najmłodsze dzieci wiedzą, co je czeka — to zdejmuje połowę strachu.</p>
+      </div>
+    </header>
+
+    <ol class="timeline">
+      <li>
+        <span class="timeline__min">0–5 min</span>
+        <h3>Wejście i rozgrzewka</h3>
+        <p>Powitanie po imieniu, piosenka na brzegu, spokojne wejście po schodkach.</p>
+      </li>
+      <li>
+        <span class="timeline__min">5–20 min</span>
+        <h3>Nowa umiejętność</h3>
+        <p>Jedno zadanie na lekcję: wydech pod wodą, poślizg, praca nóg. Krótko i z przyborami.</p>
+      </li>
+      <li>
+        <span class="timeline__min">20–35 min</span>
+        <h3>Zabawa z celem</h3>
+        <p>Nurkowanie po krążki, tunel z makaronów, wyścig żółwi — ćwiczymy to samo, tylko weselej.</p>
+      </li>
+      <li>
+        <span class="timeline__min">35–45 min</span>
+        <h3>Czas wolny i pieczątka</h3>
+        <p>Ulubiona zabawa na koniec i pieczątka w dzienniczku. Rodzic dostaje jedno zdanie o postępach.</p>
+      </li>
+    </ol>
+
+    <div class="promises">
+      <div class="promise">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="28" fill="#ffd23f"/><path d="M20 38c4 6 20 6 24 0" stroke="#0d3b5c" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="24" cy="26" r="3.5" fill="#0d3b5c"/><circle cx="40" cy="26" r="3.5" fill="#0d3b5c"/></svg>
+        <h3>Bez zmuszania</h3>
+        <p>Dziecko samo decyduje, kiedy zanurzy głowę. Zachęcamy, nie popychamy.</p>
+      </div>
+      <div class="promise">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><rect x="8" y="14" width="48" height="36" rx="6" fill="#7fe3ff"/><path d="M8 34c8-6 16 6 24 0s16 6 24 0v10a6 6 0 0 1-6 6H14a6 6 0 0 1-6-6z" fill="#13a6d8"/><circle cx="20" cy="26" r="4" fill="#fff"/></svg>
+        <h3>Płytka i ciepła woda</h3>
+        <p>Maluchy zaczynają w niecce, gdzie stoją, w wodzie około 32°C.</p>
+      </div>
+      <div class="promise">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6l7 15 16 2-12 11 3 16-14-8-14 8 3-16L9 23l16-2z" fill="#ff6b5b"/></svg>
+        <h3>Widoczne postępy</h3>
+        <p>Dzienniczek z listą umiejętności. Wiesz, co już umie i co dalej.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rope" aria-hidden="true"></div>
+
+<!-- ============ schedule ============ -->
+<section class="sec" id="grafik">
+  <div class="wrap">
+    <header class="sec__head">
+      <span class="depth" aria-hidden="true"><b>1,2</b>m</span>
+      <div>
+        <h2>Grafik zajęć</h2>
+        <p>Wybierz poziom i basen — zostaną tylko pasujące godziny. Kliknij termin, a od razu trafi do formularza zapisu.</p>
+      </div>
+    </header>
+
+    <div class="filters" role="group" aria-label="Filtry grafiku">
+      <div class="seg" id="f-level" aria-label="Poziom"></div>
+      <div class="seg" id="f-pool" aria-label="Basen"></div>
+    </div>
+
+    <div class="week" id="week"></div>
+    <p class="note">Grafik przykładowy. Liczba wolnych miejsc odświeżałaby się na żywo z systemu zapisów.</p>
+  </div>
+</section>
+
+<div class="rope rope--blue" aria-hidden="true"></div>
+
+<!-- ============ pricing ============ -->
+<section class="sec sec--tiles" id="cennik">
+  <div class="wrap">
+    <header class="sec__head">
+      <span class="depth" aria-hidden="true"><b>1,4</b>m</span>
+      <div>
+        <h2>Cennik</h2>
+        <p>Jasno i bez gwiazdek. Nieobecność zgłoszona dzień wcześniej to zajęcia do odrobienia w innej grupie.</p>
+      </div>
+    </header>
+
+    <div class="period" role="radiogroup" aria-label="Okres rozliczenia">
+      <label><input type="radio" name="period" value="month" checked><span>Miesięcznie</span></label>
+      <label><input type="radio" name="period" value="term"><span>Semestr <em>−10%</em></span></label>
+    </div>
+
+    <div class="tickets" id="tickets"></div>
+    <p class="note">Ceny przykładowe — do uzupełnienia przez szkołę. Rodzeństwo: −10% na drugie dziecko.</p>
+  </div>
+</section>
+
+<div class="rope" aria-hidden="true"></div>
+
+<!-- ============ parents ============ -->
+<section class="sec" id="rodzice">
+  <div class="wrap">
+    <header class="sec__head">
+      <span class="depth" aria-hidden="true"><b>1,6</b>m</span>
+      <div>
+        <h2>Dla rodziców</h2>
+        <p>Spakuj torbę z dzieckiem — odhaczajcie razem. Lista zostaje na tym urządzeniu.</p>
+      </div>
+    </header>
+
+    <div class="parents">
+      <div class="bag">
+        <div class="bag__top">
+          <h3>Torba na basen</h3>
+          <span class="bag__count" id="bag-count">0 / 8</span>
+        </div>
+        <ul class="bag__list" id="bag"></ul>
+        <div class="bag__done" id="bag-done" hidden>
+          <svg aria-hidden="true"><use href="#duck"/></svg>
+          <p>Spakowane! Do zobaczenia w wodzie.</p>
+        </div>
+      </div>
+
+      <div class="tips">
+        <div class="tip">
+          <h3>Przed pierwszą lekcją</h3>
+          <p>Przyjdźcie 15 minut wcześniej. Lekki posiłek najpóźniej godzinę przed zajęciami. Opowiedz dziecku, że będzie zabawa — nie „nauka”.</p>
+        </div>
+        <div class="tip">
+          <h3>W trakcie zajęć</h3>
+          <p>Rodzice oglądają z galerii nad basenem. Dzieci w szatni do 7 lat mogą być z opiekunem, starsze — z instruktorem.</p>
+        </div>
+        <div class="tip">
+          <h3>Po lekcji</h3>
+          <p>Ciepły prysznic, suszarka, czapka. Raz w miesiącu dzienniczek z pieczątkami i krótką notatką od instruktora.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ reviews ============ -->
+<section class="sec sec--tiles sec--tight">
+  <div class="wrap">
+    <div class="quotes" id="quotes">
+      <figure class="quote">
+        <blockquote>„Syn przez rok nie chciał zamoczyć twarzy. Po trzech lekcjach sam nurkował po krążki.”</blockquote>
+        <figcaption>mama 5-latka, poziom Kijanka</figcaption>
+      </figure>
+      <figure class="quote">
+        <blockquote>„Najbardziej podoba mi się dzienniczek. Wiem, nad czym córka pracuje, i mogę ją pochwalić za konkret.”</blockquote>
+        <figcaption>tata 8-latki, poziom Rybka</figcaption>
+      </figure>
+      <figure class="quote">
+        <blockquote>„Fajnie, że mogę zmienić godzinę, kiedy mam trening piłki. Odrobienie zajęć to dwa kliknięcia.”</blockquote>
+        <figcaption>mama 11-latka, poziom Delfin</figcaption>
+      </figure>
+    </div>
+    <p class="note note--center">Opinie przykładowe — w gotowej stronie prawdziwe, za zgodą rodziców.</p>
+  </div>
+</section>
+
+<div class="rope rope--blue" aria-hidden="true"></div>
+
+<!-- ============ FAQ ============ -->
+<section class="sec" id="faq">
+  <div class="wrap wrap--narrow">
+    <header class="sec__head">
+      <span class="depth" aria-hidden="true"><b>1,8</b>m</span>
+      <div>
+        <h2>Pytania rodziców</h2>
+      </div>
+    </header>
+
+    <div class="faq">
+      <details>
+        <summary>Od jakiego wieku dziecko może zacząć?</summary>
+        <p>Grupy zaczynamy od 3 lat. Dziecko powinno umieć zostać w wodzie z instruktorem bez rodzica przez 45 minut — jeśli to jeszcze za wcześnie, polecamy lekcję próbną i spokojne oswajanie.</p>
+      </details>
+      <details>
+        <summary>Moje dziecko boi się wody. Czy to problem?</summary>
+        <p>To najczęstszy początek. Poziom Kijanka jest właśnie dla dzieci, które wodę dopiero poznają: płytka niecka, zabawki, zero zmuszania do zanurzania głowy.</p>
+      </details>
+      <details>
+        <summary>Co, jeśli dziecko zachoruje?</summary>
+        <p>Zgłoś nieobecność najpóźniej dzień wcześniej, a zajęcia odrobisz w innej grupie tego samego poziomu w ciągu 30 dni.</p>
+      </details>
+      <details>
+        <summary>Czy mogę patrzeć na zajęcia?</summary>
+        <p>Tak, z galerii dla widzów. Prosimy tylko, by nie wołać dziecka z brzegu — to rozprasza całą grupę.</p>
+      </details>
+      <details>
+        <summary>Jak dziecko przechodzi na wyższy poziom?</summary>
+        <p>Instruktor odhacza umiejętności w dzienniczku. Gdy lista jest pełna, dziecko podchodzi do sprawdzianu, dostaje naszywkę i miejsce w nowej grupie.</p>
+      </details>
+      <details>
+        <summary>Czy potrzebny jest czepek?</summary>
+        <p>Tak, wymaga tego regulamin pływalni. Pierwszy czepek w kolorze poziomu dziecko dostaje od nas.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ signup ============ -->
+<section class="deep" id="zapisy">
+  <div class="bubbles bubbles--deep" aria-hidden="true"></div>
+  <div class="wrap deep__grid">
+    <div class="deep__copy">
+      <span class="depth depth--deep" aria-hidden="true"><b>2,0</b>m</span>
+      <h2>Lekcja próbna</h2>
+      <p>Wypełnij formularz, a szkoła odezwie się z potwierdzeniem terminu. Pierwsze zajęcia rozliczasz dopiero, gdy dziecko chce wrócić.</p>
+      <ul class="deep__list">
+        <li><svg><use href="#i-check"/></svg> bez podpisywania karnetu</li>
+        <li><svg><use href="#i-check"/></svg> czepek w kolorze poziomu w prezencie</li>
+        <li><svg><use href="#i-check"/></svg> rozmowa z instruktorem po zajęciach</li>
+      </ul>
+    </div>
+
+    <form class="signup" id="signup" novalidate>
+      <div class="field">
+        <label for="s-child">Imię dziecka</label>
+        <input id="s-child" name="child" autocomplete="off" required>
+      </div>
+      <div class="field field--half">
+        <label for="s-age">Wiek</label>
+        <select id="s-age" name="age" required></select>
+      </div>
+      <div class="field field--half">
+        <label for="s-level">Poziom</label>
+        <select id="s-level" name="level" required></select>
+      </div>
+      <div class="field">
+        <label for="s-slot">Termin</label>
+        <select id="s-slot" name="slot" required></select>
+      </div>
+      <div class="field">
+        <label for="s-parent">Jak się z Tobą skontaktować?</label>
+        <input id="s-parent" name="parent" autocomplete="off" placeholder="telefon lub e-mail rodzica" required>
+      </div>
+      <label class="consent"><input type="checkbox" name="ok" required> <span>Zgadzam się na kontakt w sprawie zapisu.</span></label>
+      <button class="btn btn--sun btn--full" type="submit">Wyślij zgłoszenie <svg><use href="#i-arrow"/></svg></button>
+      <p class="signup__demo">Formularz demonstracyjny — nic nie jest wysyłane.</p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__row">
+    <a class="logo logo--foot" href="#top">
+      <svg class="logo__duck" aria-hidden="true"><use href="#duck"/></svg>
+      <span class="logo__word">Junior<b>Swim</b></span>
+    </a>
+    <p>Propozycja nowej strony szkoły pływania. Treści, grafik i ceny są przykładowe; dane kontaktowe celowo pominięte.</p>
+    <button class="foot__btn" id="open-changes" type="button">Co proponujemy zmienić →</button>
+  </div>
+</footer>
+
+<!-- ============ proposal drawer ============ -->
+<button class="changes-fab" id="fab" type="button" aria-controls="changes">
+  <svg aria-hidden="true"><use href="#duck"/></svg><span>Propozycje zmian</span>
+</button>
+<dialog class="changes" id="changes" aria-labelledby="changes-title">
+  <div class="changes__head">
+    <h2 id="changes-title">Co ta wersja proponuje</h2>
+    <button class="changes__x" id="close-changes" type="button" aria-label="Zamknij">×</button>
+  </div>
+  <ol class="changes__list">
+    <li><b>Dobór grupy w hero.</b> Rodzic podaje wiek i to, jak dziecko czuje się w wodzie — strona sama wskazuje poziom i prowadzi do pasujących godzin.</li>
+    <li><b>Poziomy jako naszywki.</b> Ścieżka od Kijanki do Rekina z listą umiejętności. Dziecko widzi cel, rodzic widzi postęp.</li>
+    <li><b>Grafik z filtrem.</b> Poziom i basen zamiast długiej tabeli. Termin klika się prosto do formularza.</li>
+    <li><b>Jeden główny przycisk.</b> „Lekcja próbna” w menu, w hero i na dole strony — zawsze widać następny krok.</li>
+    <li><b>Cennik bez gwiazdek.</b> Przełącznik miesiąc/semestr, zasady odrabiania zajęć napisane obok cen.</li>
+    <li><b>Strona dla rodzica.</b> Przebieg lekcji minuta po minucie, lista rzeczy do torby, odpowiedzi na typowe obawy.</li>
+    <li><b>Telefon na pierwszym miejscu.</b> Układ jednokolumnowy na komórce, duże pola i przyciski, menu pod kciukiem.</li>
+    <li><b>Dostępność.</b> Kontrast tekstu, nawigacja klawiaturą, ograniczenie animacji dla osób, które je wyłączyły w systemie.</li>
+    <li><b>Charakter.</b> Basen z góry: kafelki, liny torów, oznaczenia głębokości jako numery sekcji i kaczka w okularkach jako maskotka.</li>
+  </ol>
+  <p class="changes__foot">Treści, grafik i ceny są przykładowe. Prawdziwe opisy, ceny i godziny wchodzą w te same miejsca 1:1.</p>
+</dialog>
+
+<script src="app.js"></script>
+</body>
+</html>

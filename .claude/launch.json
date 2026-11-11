@@ -408,6 +408,12 @@
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "8167", "--directory", "tabletalk/v1"],
       "port": 8167
+    },
+    {
+      "name": "junior-swim-v1",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8168", "--directory", "junior-swim/v1"],
+      "port": 8168
     }
   ]
 }
