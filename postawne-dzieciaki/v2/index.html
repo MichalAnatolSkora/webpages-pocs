@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Postawne Dzieciaki — gimnastyka korekcyjna dla dzieci</title>
+  <meta name="description" content="Propozycja nowej strony: gimnastyka korekcyjna i diagnostyka wad postawy dla dzieci 5–14 lat. Treść dla rodziców, wygląd jak z dziecięcego zeszytu.">
+  <meta name="theme-color" content="#fff8ec">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Gochi+Hand&family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ============ doodles: rysunki jak z zeszytu ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="d-sun" viewBox="0 0 100 100">
+      <g stroke="#1f2747" stroke-width="4" stroke-linecap="round">
+        <path d="M50 4v12M50 84v12M4 50h12M84 50h12M17 17l9 9M74 74l9 9M83 17l-9 9M26 74l-9 9"/>
+      </g>
+      <circle cx="50" cy="50" r="24" fill="#ffc23a" stroke="#1f2747" stroke-width="4"/>
+      <circle cx="42" cy="47" r="3" fill="#1f2747"/><circle cx="58" cy="47" r="3" fill="#1f2747"/>
+      <path d="M41 56q9 8 18 0" fill="none" stroke="#1f2747" stroke-width="3.5" stroke-linecap="round"/>
+      <circle cx="36" cy="55" r="3.5" fill="#ff8fb8"/><circle cx="64" cy="55" r="3.5" fill="#ff8fb8"/>
+    </symbol>
+    <symbol id="d-cloud" viewBox="0 0 120 70">
+      <path d="M24 60c-12 0-20-8-20-18s8-17 18-17c2-12 12-20 25-20 11 0 20 6 24 15 3-2 7-3 11-3 12 0 21 9 21 20 0 13-9 23-22 23z" fill="#fff" stroke="#1f2747" stroke-width="4" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="d-star" viewBox="0 0 60 60">
+      <path d="M30 4l7 17 18 2-14 12 5 18-16-10-16 10 5-18L5 23l18-2z" fill="currentColor" stroke="#1f2747" stroke-width="3.5" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="d-heart" viewBox="0 0 60 56">
+      <path d="M30 52S4 36 4 18C4 9 11 4 18 4c6 0 10 3 12 8 2-5 6-8 12-8 7 0 14 5 14 14 0 18-26 34-26 34z" fill="currentColor" stroke="#1f2747" stroke-width="3.5" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="d-squiggle" viewBox="0 0 120 30">
+      <path d="M4 18c10-14 20-14 28 0s18 14 28 0 18-14 28 0 18 14 28 0" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="d-rainbow" viewBox="0 0 160 90">
+      <g fill="none" stroke-width="12" stroke-linecap="round">
+        <path d="M10 84a70 70 0 0 1 140 0" stroke="#ff6a4d"/>
+        <path d="M24 84a56 56 0 0 1 112 0" stroke="#ffc23a"/>
+        <path d="M38 84a42 42 0 0 1 84 0" stroke="#2fc39a"/>
+        <path d="M52 84a28 28 0 0 1 56 0" stroke="#4b9dff"/>
+      </g>
+    </symbol>
+    <symbol id="d-plane" viewBox="0 0 80 60">
+      <path d="M4 30L76 4 56 56 40 36z" fill="#fff" stroke="#1f2747" stroke-width="3.5" stroke-linejoin="round"/>
+      <path d="M40 36L76 4" stroke="#1f2747" stroke-width="3" fill="none"/>
+    </symbol>
+    <symbol id="d-flower" viewBox="0 0 60 60">
+      <g fill="currentColor" stroke="#1f2747" stroke-width="3">
+        <circle cx="30" cy="13" r="10"/><circle cx="47" cy="27" r="10"/><circle cx="40" cy="46" r="10"/><circle cx="20" cy="46" r="10"/><circle cx="13" cy="27" r="10"/>
+      </g>
+      <circle cx="30" cy="31" r="8" fill="#ffc23a" stroke="#1f2747" stroke-width="3"/>
+    </symbol>
+  </defs>
+</svg>
+
+<a class="skip" href="#main">Przejdź do treści</a>
+
+<aside class="ruler" aria-hidden="true">
+  <div class="ruler__scale" id="rulerScale"></div>
+  <div class="ruler__kid" id="rulerKid">
+    <svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="16" fill="#ffc23a" stroke="#1f2747" stroke-width="3"/><circle cx="15" cy="18" r="2.4" fill="#1f2747"/><circle cx="25" cy="18" r="2.4" fill="#1f2747"/><path d="M14 24q6 5 12 0" fill="none" stroke="#1f2747" stroke-width="2.5" stroke-linecap="round"/></svg>
+    <span id="rulerCm">80 cm</span>
+  </div>
+</aside>
+<div class="topbar" aria-hidden="true"><i id="topbarFill"></i></div>
+
+<header class="head" id="top">
+  <div class="wrap head__row">
+    <a class="brand" href="#top" aria-label="Postawne Dzieciaki — na górę strony">
+      <svg class="brand__mark" viewBox="0 0 44 44" aria-hidden="true">
+        <circle cx="22" cy="7" r="5.5" fill="#ff6a4d" stroke="#1f2747" stroke-width="2"/>
+        <circle cx="22" cy="18" r="5.5" fill="#ffc23a" stroke="#1f2747" stroke-width="2"/>
+        <circle cx="22" cy="29" r="5.5" fill="#2fc39a" stroke="#1f2747" stroke-width="2"/>
+        <circle cx="22" cy="40" r="3.5" fill="#4b9dff" stroke="#1f2747" stroke-width="2"/>
+      </svg>
+      <span class="brand__name"><span class="c1">Postawne</span><br><span class="c2">Dzieciaki</span></span>
+    </a>
+    <nav class="nav" id="nav" aria-label="Główna nawigacja">
+      <a href="#dla-kogo">Dla kogo</a>
+      <a href="#start">Jak zaczynamy</a>
+      <a href="#zajecia">Zajęcia</a>
+      <a href="#test">Test w domu</a>
+      <a href="#wady">Wady postawy</a>
+      <a href="#efekty">Efekty</a>
+      <a href="#cennik">Cennik</a>
+      <a href="#sale">Sale</a>
+    </nav>
+    <a class="btn btn--sun head__cta" href="#zapisy">Zapisz dziecko</a>
+    <button class="burger" id="burger" aria-expanded="false" aria-controls="nav" aria-label="Menu"><span></span><span></span></button>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" style="--bg:#fff8ec">
+    <svg class="doodle" style="--x:3%;--y:8%;--s:70px;--r:-8deg" aria-hidden="true"><use href="#d-cloud"/></svg>
+    <svg class="doodle doodle--star" style="--x:44%;--y:6%;--s:34px;--r:12deg;color:#ff8fb8" aria-hidden="true"><use href="#d-star"/></svg>
+    <svg class="doodle" style="--x:48%;--y:86%;--s:90px;--r:-4deg;color:#9b7bff" aria-hidden="true"><use href="#d-squiggle"/></svg>
+
+    <div class="wrap hero__grid">
+      <div class="hero__copy">
+        <p class="kicker"><b>80 cm</b> Gimnastyka korekcyjna dla dzieci 5–14 lat</p>
+        <h1 class="hero__title">Zdrowe plecy,<br><span class="rainbow" aria-label="wesołe"><i>w</i><i>e</i><i>s</i><i>o</i><i>ł</i><i>e</i></span> dzieciaki.</h1>
+        <p class="hero__lead">Pomagamy dzieciom z wadami postawy przez ruch i zabawę. Fizjoterapeuta bada dziecko i układa plan ćwiczeń, a zajęcia w małych grupach prowadzą trenerzy, z którymi dzieci lubią ćwiczyć.</p>
+        <div class="hero__ctas">
+          <a class="btn btn--ink" href="#zapisy">Zapisz dziecko na diagnostykę</a>
+          <a class="btn btn--line" href="#start">Jak wygląda pierwsza wizyta</a>
+        </div>
+        <ul class="facts">
+          <li style="--c:var(--tomato)"><b>5–14</b><span>lat</span></li>
+          <li style="--c:var(--sun)"><b>4–8</b><span>dzieci w grupie</span></li>
+          <li style="--c:var(--mint)"><b>3–4</b><span>mies. do badania kontrolnego</span></li>
+        </ul>
+      </div>
+
+      <div class="hero__art">
+        <svg class="doodle doodle--rainbow" aria-hidden="true"><use href="#d-rainbow"/></svg>
+        <svg class="doodle doodle--sun" aria-hidden="true"><use href="#d-sun"/></svg>
+        <figure class="board" aria-label="Rysunek dziecka przy pionie, widzianego od tyłu">
+          <div class="board__head">
+            <span>Plansza postawy</span>
+          </div>
+          <div class="pair">
+            <div class="pair__item">
+              <svg class="kid" id="heroBefore" viewBox="0 0 200 340" role="img" aria-label="Przed ćwiczeniami: kręgosłup wygięty, barki nierówno"></svg>
+              <span class="pair__lbl pair__lbl--before">przed</span>
+            </div>
+            <div class="pair__item">
+              <svg class="kid" id="heroAfter" viewBox="0 0 200 340" role="img" aria-label="Po kilku miesiącach: kręgosłup w pionie"></svg>
+              <span class="pair__lbl pair__lbl--after">po kilku miesiącach</span>
+            </div>
+          </div>
+          <figcaption><span class="hand">Koraliki to kręgosłup, przerywana linia to pion.</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DLA KOGO ============ -->
+  <section class="sec wave" id="dla-kogo" style="--bg:#e9f6ff">
+    <svg class="doodle doodle--float" style="--x:92%;--y:12%;--s:56px;--r:10deg" aria-hidden="true"><use href="#d-plane"/></svg>
+    <div class="wrap">
+      <p class="kicker"><b>95 cm</b> Czy to dla nas?</p>
+      <h2 class="h2">Zaznacz, co widzisz u swojego dziecka</h2>
+      <p class="lead">Najczęściej to rodzic pierwszy coś zauważa: na basenie, przy przymierzaniu ubrań albo gdy dziecko odrabia lekcje. Wiele dzieci ma wady postawy, choć dużo się rusza, bo mięśnie, które trzymają kręgosłup, trzeba ćwiczyć celowo i długo.</p>
+
+      <div class="check">
+        <div class="check__tiles" id="checkTiles">
+          <button type="button" aria-pressed="false">Garbi się przy biurku</button>
+          <button type="button" aria-pressed="false">Łopatki odstają jak skrzydełka</button>
+          <button type="button" aria-pressed="false">Jedno ramię jest wyżej</button>
+          <button type="button" aria-pressed="false">Kolana schodzą się do środka</button>
+          <button type="button" aria-pressed="false">Stopy stoją płasko</button>
+          <button type="button" aria-pressed="false">Głowa wysunięta do przodu</button>
+          <button type="button" aria-pressed="false">Buty zdzierają się krzywo</button>
+          <button type="button" aria-pressed="false">Szybko męczy się przy staniu</button>
+        </div>
+        <div class="check__out" aria-live="polite">
+          <div class="check__count"><b id="checkCount">0</b><span>z 8</span></div>
+          <p id="checkMsg">Kliknij to, co zauważasz. Nie ma złych odpowiedzi.</p>
+          <a class="btn btn--sun btn--sm" href="#zapisy" id="checkCta" hidden>Umów diagnostykę</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ JAK ZACZYNAMY: klasy ============ -->
+  <section class="sec wave chalk" id="start" style="--bg:#3d4458">
+    <div class="wrap">
+      <p class="kicker kicker--light"><b>110 cm</b> Jak zaczynamy</p>
+      <h2 class="h2">Od zgłoszenia do pierwszych zajęć w czterech skokach</h2>
+      <ol class="hop">
+        <li class="hop__sq" style="--c:#ff9d88">
+          <span class="hop__n">1</span>
+          <h3>Zgłoszenie</h3>
+          <p>Wypełniasz krótki formularz. Oddzwaniamy i umawiamy pierwszą wizytę w centrum diagnostyki.</p>
+        </li>
+        <li class="hop__sq" style="--c:#ffd978">
+          <span class="hop__n">2</span>
+          <h3>Diagnostyka</h3>
+          <p>Badanie komputerowe trwa 10–15 minut. Dziecko przychodzi w obcisłym stroju sportowym, Ty jesteś obok przez cały czas.</p>
+        </li>
+        <li class="hop__sq" style="--c:#8ce3c8">
+          <span class="hop__n">3</span>
+          <h3>Plan i grupa</h3>
+          <p>Fizjoterapeuta dobiera plan ćwiczeń i grupę wiekową. Ty wybierasz salę, dni i godziny.</p>
+        </li>
+        <li class="hop__sq" style="--c:#9cc8ff">
+          <span class="hop__n">4</span>
+          <h3>Ćwiczymy i sprawdzamy</h3>
+          <p>Zajęcia raz lub dwa razy w tygodniu. Co 3–4 miesiące badanie kontrolne pokazuje, ile się zmieniło.</p>
+        </li>
+        <li class="hop__sky" aria-hidden="true"><span>niebo!</span></li>
+      </ol>
+      <p class="note">Na diagnostykę zabierz obcisłe ubranie sportowe lub strój kąpielowy i podpisaną zgodę na badanie (dostaniesz ją też na miejscu).</p>
+    </div>
+  </section>
+
+  <!-- ============ ZAJĘCIA ============ -->
+  <section class="sec wave" id="zajecia" style="--bg:#fff8ec">
+    <svg class="doodle" style="--x:90%;--y:6%;--s:46px;--r:-10deg;color:#ffc23a" aria-hidden="true"><use href="#d-star"/></svg>
+    <div class="wrap">
+      <p class="kicker"><b>125 cm</b> Zajęcia</p>
+      <h2 class="h2">Dwie drogi, ten sam cel: zdrowe plecy</h2>
+      <div class="tracks">
+        <article class="track track--group">
+          <div class="track__tag">W grupie</div>
+          <h3>Gimnastyka korekcyjna na salach</h3>
+          <p>Zajęcia ogólnorozwojowe z elementami korekcji, w kameralnych grupach dobranych wiekiem i potrzebami. Plany ćwiczeń opracowali fizjoterapeuci, a każdy trener przechodzi szkolenie z ich prowadzenia.</p>
+          <ul class="ticks">
+            <li>Grupy 4–8 dzieci, wiek 5–14 lat</li>
+            <li>Pięć sal gimnastycznych w okolicy</li>
+            <li>Poniedziałek–piątek po południu, sobota przed południem</li>
+            <li>Badanie kontrolne co 3–4 miesiące</li>
+          </ul>
+          <a class="arrow" href="#cennik">Karnety grupowe</a>
+        </article>
+        <article class="track track--solo">
+          <div class="track__tag">Indywidualnie</div>
+          <h3>Rehabilitacja w centrum diagnostyki</h3>
+          <p>Terapia manualna połączona z ćwiczeniami, prowadzona przez fizjoterapeutę jeden na jeden. Uczysz się razem z dzieckiem, jak bezpiecznie ćwiczyć w domu.</p>
+          <ul class="ticks">
+            <li>Skolioza: metody Schrotha i FITS</li>
+            <li>Diagnostyka i terapia niemowląt, NDT-Bobath</li>
+            <li>Wsparcie przy zaburzeniach SI i logopedycznych</li>
+            <li>Powrót do formy po urazach</li>
+          </ul>
+          <a class="arrow" href="#cennik">Ceny terapii</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TEST W DOMU ============ -->
+  <section class="sec wave" id="test" style="--bg:#ffe08a">
+    <svg class="doodle" style="--x:88%;--y:6%;--s:44px;--r:-12deg;color:#ff6a4d" aria-hidden="true"><use href="#d-heart"/></svg>
+    <svg class="doodle doodle--float" style="--x:46%;--y:84%;--s:54px;--r:8deg;color:#ff8fb8" aria-hidden="true"><use href="#d-flower"/></svg>
+    <div class="wrap test">
+      <div class="test__copy">
+        <p class="kicker kicker--ink"><b>130 cm</b> Sprawdź w domu</p>
+        <h2 class="h2">Test skłonu: 30 sekund przed kąpielą</h2>
+        <p class="lead">Najprostszy sposób, żeby wychwycić skrzywienie kręgosłupa. Lekarze i fizjoterapeuci robią go na każdym badaniu postawy.</p>
+        <ol class="howto">
+          <li><b>Rozbierz dziecko do pasa</b> i postaw boso, stopy razem, plecami do siebie.</li>
+          <li><b>Poproś o powolny skłon</b>, ręce luźno w dół, jakby chciało dotknąć palców stóp.</li>
+          <li><b>Kucnij za dzieckiem</b> i popatrz na plecy na wysokości łopatek i lędźwi. Obie strony powinny być równe.</li>
+        </ol>
+        <div class="seg" id="testSeg" role="group" aria-label="Co widać">
+          <button type="button" data-t="stand" aria-pressed="false">Stoi</button>
+          <button type="button" data-t="ok" aria-pressed="true">Skłon: równo</button>
+          <button type="button" data-t="bad" aria-pressed="false">Skłon: jedna strona wyżej</button>
+        </div>
+        <p class="tiny">Test nie zastępuje badania, ale jeśli jedna strona pleców jest wyżej, umów diagnostykę.</p>
+      </div>
+      <div class="test__stage">
+        <svg class="kid" id="testKid" viewBox="0 0 200 340" role="img" aria-label="Dziecko w skłonie, widziane od tyłu"></svg>
+        <p class="bubble" id="testSay">Równo! Poziomica stoi prosto.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WADY POSTAWY ============ -->
+  <section class="sec wave" id="wady" style="--bg:#fff8ec">
+    <div class="wrap">
+      <p class="kicker"><b>140 cm</b> Wady postawy</p>
+      <h2 class="h2">Najczęstsze wady i jak o nich rozmawiać z dzieckiem</h2>
+      <div class="wady">
+        <div class="wady__list" id="wadyList" role="tablist" aria-label="Wady postawy"></div>
+        <div class="wady__card" id="wadyCard" role="tabpanel" aria-live="polite">
+          <div class="wady__pic" id="wadyPic"></div>
+          <div class="wady__txt">
+            <h3 id="wadyName"></h3>
+            <p id="wadyText"></p>
+            <div class="say">
+              <span class="say__lbl">Tak możesz to wytłumaczyć dziecku:</span>
+              <p class="say__txt" id="wadyKid"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ EFEKTY ============ -->
+  <section class="sec wave" id="efekty" style="--bg:#e6f8f0">
+    <svg class="doodle" style="--x:6%;--y:86%;--s:40px;--r:14deg;color:#4b9dff" aria-hidden="true"><use href="#d-star"/></svg>
+    <div class="wrap efekty">
+      <div class="efekty__copy">
+        <p class="kicker"><b>150 cm</b> Efekty</p>
+        <h2 class="h2">Przed i po: co zmieniają ćwiczenia</h2>
+        <div class="cases" id="cases" role="tablist" aria-label="Przykłady"></div>
+        <p class="lead" id="caseText"></p>
+        <p class="tiny">Ilustracje poglądowe. Na docelowej stronie tu trafią zdjęcia porównawcze, publikowane za zgodą rodziców.</p>
+      </div>
+      <div class="pair pair--big" aria-hidden="true">
+        <div class="pair__item pair__item--before">
+          <svg class="kid" id="cmpBefore" viewBox="0 0 200 340"></svg>
+          <span class="pair__lbl pair__lbl--before">przed</span>
+        </div>
+        <div class="pair__item pair__item--after">
+          <svg class="kid" id="cmpAfter" viewBox="0 0 200 340"></svg>
+          <span class="pair__lbl pair__lbl--after" id="cmpAfterLbl">po</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CENNIK ============ -->
+  <section class="sec wave" id="cennik" style="--bg:#fff8ec">
+    <div class="wrap">
+      <p class="kicker"><b>155 cm</b> Cennik</p>
+      <h2 class="h2">Karnety i terapia</h2>
+      <p class="lead">Badanie kontrolne co 3–4 miesiące jest w cenie każdego karnetu. Przed pierwszymi zajęciami robimy jednorazową diagnostykę z pełną dokumentacją.</p>
+      <div class="tags">
+        <article class="tag" style="--c:var(--sun)">
+          <h3>Karnet podstawowy</h3>
+          <p class="tag__price"><b>330</b> zł <span>/ miesiąc</span></p>
+          <p>Zajęcia grupowe raz w tygodniu na wybranej sali.</p>
+        </article>
+        <article class="tag tag--hot" style="--c:var(--tomato)">
+          <span class="tag__badge">najczęściej</span>
+          <h3>Karnet rozszerzony</h3>
+          <p class="tag__price"><b>490</b> zł <span>/ miesiąc</span></p>
+          <p>Zajęcia grupowe dwa razy w tygodniu. Szybsze efekty przy większych wadach.</p>
+        </article>
+        <article class="tag" style="--c:var(--mint)">
+          <h3>Diagnostyka</h3>
+          <p class="tag__price"><b>90</b> zł <span>jednorazowo</span></p>
+          <p>Badanie komputerowe postawy, dokumentacja, dobór planu i grupy.</p>
+        </article>
+        <article class="tag" style="--c:var(--sky)">
+          <h3>Terapia indywidualna</h3>
+          <p class="tag__price"><b>od 680</b> zł <span>/ miesiąc</span></p>
+          <p>Terapia manualna i ćwiczenia 1 lub 2 razy w tygodniu, z planem na dom.</p>
+        </article>
+        <article class="tag" style="--c:var(--lilac)">
+          <h3>Konsultacja niemowlęcia</h3>
+          <p class="tag__price"><b>230</b> zł <span>50 minut</span></p>
+          <p>Ocena napięcia mięśniowego, odruchów i rozwoju ruchowego.</p>
+        </article>
+      </div>
+      <p class="tiny">Kwoty w tej propozycji są przykładowe.</p>
+    </div>
+  </section>
+
+  <!-- ============ SALE ============ -->
+  <section class="sec wave" id="sale" style="--bg:#efeaff">
+    <div class="wrap sale">
+      <div>
+        <p class="kicker"><b>160 cm</b> Sale</p>
+        <h2 class="h2">Pięć sal blisko domu i centrum diagnostyki</h2>
+        <p class="lead">Zajęcia grupowe: poniedziałek–piątek 15:00–20:00, sobota 10:00–14:00. Grupy młodszych i starszych dzieci mieszają się w ciągu dnia, więc godzinę ustalamy po diagnostyce.</p>
+        <ul class="places" id="places"></ul>
+      </div>
+      <div class="map" id="map" aria-label="Schematyczna mapa sal">
+        <svg viewBox="0 0 400 360" aria-hidden="true">
+          <path class="map__land" d="M60 120c10-50 70-90 140-88s130 30 150 80 10 120-30 160-110 60-170 40S50 230 48 180s2-40 12-60z"/>
+          <path class="map__river" d="M20 150c60-30 90 20 150 0s80-60 140-30 60 50 80 40"/>
+          <g class="map__trees">
+            <circle cx="120" cy="260" r="10"/><circle cx="134" cy="268" r="8"/><circle cx="290" cy="120" r="9"/><circle cx="302" cy="110" r="7"/>
+          </g>
+        </svg>
+        <div id="pins"></div>
+        <p class="map__note hand">schemat, położenie orientacyjne</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ZESPÓŁ ============ -->
+  <section class="sec wave" id="zespol" style="--bg:#fff8ec">
+    <div class="wrap">
+      <p class="kicker"><b>165 cm</b> Zespół</p>
+      <h2 class="h2">Fizjoterapeuci układają plan, trenerzy go prowadzą</h2>
+      <div class="team">
+        <article class="mate"><span class="mate__face" style="--c:var(--tomato)"></span><h3>Fizjoterapeutka</h3><p>Skolioza i wady postawy, certyfikowana terapia metodą Schrotha.</p></article>
+        <article class="mate"><span class="mate__face" style="--c:var(--lilac)"></span><h3>Fizjoterapeutka</h3><p>Niemowlęta i rozwój ruchowy, terapeutka NDT-Bobath.</p></article>
+        <article class="mate"><span class="mate__face" style="--c:var(--mint)"></span><h3>Trenerzy</h3><p>Absolwenci AWF ze specjalizacją z gimnastyki korekcyjnej i własnym doświadczeniem sportowym.</p></article>
+        <article class="mate"><span class="mate__face" style="--c:var(--sun)"></span><h3>Recepcja</h3><p>Pomaga w zapisach, zmianie grupy i terminach badań kontrolnych.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ZAPISY ============ -->
+  <section class="sec wave" id="zapisy" style="--bg:#2b3460">
+    <svg class="doodle" style="--x:6%;--y:12%;--s:40px;--r:-10deg;color:#ffc23a" aria-hidden="true"><use href="#d-star"/></svg>
+    <svg class="doodle" style="--x:40%;--y:78%;--s:30px;--r:16deg;color:#ff8fb8" aria-hidden="true"><use href="#d-star"/></svg>
+    <div class="wrap signup">
+      <div class="signup__copy">
+        <p class="kicker kicker--light"><b>170 cm</b> Zapisy</p>
+        <h2 class="h2">Zapisz dziecko na diagnostykę</h2>
+        <p class="lead">Oddzwonimy w ciągu dwóch dni roboczych, umówimy badanie i podpowiemy, która grupa pasuje.</p>
+      </div>
+      <form class="form" id="form" novalidate>
+        <div class="field">
+          <label for="fName">Imię dziecka</label>
+          <input id="fName" name="name" autocomplete="off" required placeholder="np. Zosia">
+        </div>
+        <fieldset class="field">
+          <legend>Ile lat ma dziecko?</legend>
+          <div class="chips chips--age" id="fAge"></div>
+        </fieldset>
+        <fieldset class="field">
+          <legend>Która sala?</legend>
+          <div class="chips" id="fPlace"></div>
+        </fieldset>
+        <fieldset class="field">
+          <legend>Pasujące dni</legend>
+          <div class="chips" id="fDays"></div>
+        </fieldset>
+        <div class="field">
+          <label for="fPhone">Twój telefon</label>
+          <input id="fPhone" name="phone" type="tel" inputmode="tel" autocomplete="off" required placeholder="np. 600 000 000">
+        </div>
+        <div class="consent">
+          <label><input type="checkbox" id="fOk" required> Zgadzam się na kontakt w sprawie zapisu.</label>
+          <a href="#faq">Jak przetwarzamy dane?</a>
+        </div>
+        <p class="form__err" id="formErr" role="alert"></p>
+        <button class="btn btn--sun" type="submit">Wyślij zgłoszenie</button>
+        <p class="tiny tiny--light">Wersja pokazowa: formularz niczego nie wysyła.</p>
+      </form>
+      <div class="ticket" id="ticket" hidden tabindex="-1">
+        <p class="ticket__top">Zgłoszenie przyjęte</p>
+        <p class="ticket__name" id="tName"></p>
+        <dl>
+          <div><dt>Wiek</dt><dd id="tAge"></dd></div>
+          <div><dt>Sala</dt><dd id="tPlace"></dd></div>
+          <div><dt>Dni</dt><dd id="tDays"></dd></div>
+        </dl>
+        <p>Oddzwonimy, żeby umówić diagnostykę. Do zobaczenia!</p>
+        <button class="btn btn--line btn--sm" type="button" id="tAgain">Zapisz kolejne dziecko</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="sec wave" id="faq" style="--bg:#fff8ec">
+    <div class="wrap faq">
+      <div>
+        <p class="kicker"><b>175 cm</b> Pytania</p>
+        <h2 class="h2">Rodzice często pytają</h2>
+        <svg class="faq__doodle" aria-hidden="true"><use href="#d-sun"/></svg>
+      </div>
+      <div class="faq__list">
+        <details open>
+          <summary>Czy dziecko dostanie ćwiczenia do domu?</summary>
+          <p>W zajęciach grupowych nie, bo źle wykonane ćwiczenie korekcyjne potrafi zaszkodzić, a w domu nikt go nie poprawi. Plan na dom dostają dzieci z terapii indywidualnej: fizjoterapeuta uczy go dziecko i rodzica.</p>
+        </details>
+        <details>
+          <summary>Jak długo trzeba ćwiczyć, żeby było widać efekty?</summary>
+          <p>Pierwsze zmiany zwykle widać po 3–4 miesiącach, czyli przy pierwszym badaniu kontrolnym. Praca nad mięśniami posturalnymi jest długa, dlatego najlepiej ćwiczyć cały rok szkolny.</p>
+        </details>
+        <details>
+          <summary>Moje dziecko trenuje już inny sport. Czy to wystarczy?</summary>
+          <p>Nie zawsze. Wiele dzieci, które dużo się ruszają, ma wady postawy, bo sport rozwija inne mięśnie niż te, które trzymają kręgosłup w pionie. Gimnastyka korekcyjna dobrze uzupełnia każdą dyscyplinę.</p>
+        </details>
+        <details>
+          <summary>Czy mogę zmienić salę albo grupę?</summary>
+          <p>Tak. Jeśli zmieni się plan lekcji albo dziecko lepiej czuje się z innymi rówieśnikami, recepcja znajdzie miejsce w innej grupie o podobnym planie ćwiczeń.</p>
+        </details>
+        <details>
+          <summary>Jak przetwarzamy dane z formularza?</summary>
+          <p>Dane z formularza służą tylko do kontaktu w sprawie zapisu. Pełna polityka prywatności będzie podlinkowana w stopce docelowej strony.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot wave" style="--bg:#2b3460">
+  <div class="wrap foot__row">
+    <a class="brand brand--light" href="#top">
+      <svg class="brand__mark" viewBox="0 0 44 44" aria-hidden="true">
+        <circle cx="22" cy="7" r="5.5" fill="#ff6a4d"/>
+        <circle cx="22" cy="18" r="5.5" fill="#ffc23a"/>
+        <circle cx="22" cy="29" r="5.5" fill="#2fc39a"/>
+        <circle cx="22" cy="40" r="3.5" fill="#4b9dff"/>
+      </svg>
+      <span class="brand__name">Postawne<br>Dzieciaki</span>
+    </a>
+    <nav class="foot__nav" aria-label="Stopka">
+      <a href="#zajecia">Zajęcia</a>
+      <a href="#test">Test w domu</a>
+      <a href="#wady">Wady postawy</a>
+      <a href="#cennik">Cennik</a>
+      <a href="#sale">Sale</a>
+      <a href="#zapisy">Zapisy</a>
+    </nav>
+    <p class="foot__note">Propozycja nowej strony. Dane kontaktowe, adresy, nazwiska, zdjęcia i ceny zostały usunięte lub zastąpione przykładowymi.</p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
