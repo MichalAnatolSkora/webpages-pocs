@@ -297,7 +297,10 @@ const MIASTA = {
     start: { lat: 52.51856, lon: 13.37500, kierunek: 180 },
     wrogowie: [[52.51883, 13.36948, 1], [52.51964, 13.37146, 1], [52.52085, 13.37169, 1], [52.51762, 13.37058, 1],
       [52.51856, 13.36837, 2], [52.52112, 13.36992, 2], [52.51950, 13.36925, 2], [52.52139, 13.37146, 2]],
-    kamera: [-40, -450, 450], osm: '52.5130,13.3640,52.5230,13.3820' },
+    kamera: [-40, -450, 450], osm: '52.5130,13.3640,52.5230,13.3820',
+    // mapa przejezdności co 10 m (e od -700, n od -400 m względem startu): '.' trawnik i ulice na wysokości 72,5–75,8 m,
+    // '#' drzewa, budynki, Szprewa; zebrana raz z kafelków 3D (tools/tanks_wroclaw/berlin_przejezdnosc.txt)
+    siatka: { e0: -700, n0: -400, k: 10, kol: 91, wier: 81, dane: '################################....###########################...###################...#.#########.######################.#...##########################....###################...##################################....#############################..###################...#.###################################.###################################################....################################.##.###..#######################.######################..........#####.######################.##############################..##################.#...#................##########.###.######.###########################.#####################.....#######.....................#.###...#####.##.###################.######################....##...##########........................###########.#############.#####################.....###################..#.............................####.######.####################.......###############################............................#####.##########.#######........##.################################.....##...........................#...##.######.........####################################...###.....................................##.........##############################.######..#...##...............##............................##.###################################.....#.#.##.............#####.#....#.................##.###################################....###....#........#.################...............##.################################.###...##.#..........#...#.###...################.......#..###################################....##.#...#...........#####.##.##############.......#######################################...##.....####.#...#.######.#..##############........#####################.#################..##..##.##.##.#..#..#######.####.###########......#####################.##########.#######..###..#.#.#.###..###.######..##################....###############################.##.##.##..#...#.###.###..########################.#####...################.#############.########.#.#.#..###....##...######.##############.#######..#.##########.##.###############.#######.##...#.####.#.####....###.#####.#######..########...##.#######.#############################...##.####...######....##############..#########...#..#############################.#######....######....####..#########...####.##...#####..#.##################################.##.......#####..........#######.##...###.###...#####...#####.######################..######.#######..##......#.#...############.#.#####...#####...######..###########.#######.#######...###..#..#.....##.##.#.############..#######..#####.#.######.##.########.##.###.#.###.##.#...###.#..##.#.#################.###.##############....######..#########.....###....##...#.....#.#....#.######..##.#....##..#....####.....##.#...###############.#.####.###########..###.........#..........................................###########.##....####..######....###..#.........##..#.##..........#...........##....#........#.#########.#.########.###.####..#..#.#.#......####.####..##.##..#..........................#########..#####.##.############..##.###.#....#######.##.#.##..###...##....#########....######.###########....#.#############.#..##.#...#..#.##...........###..###...##########....######.##########........#######..#####...#.#....#....#.........#.###..###....########.....######.#####..#...#.##...########.##...###..#.........#........#.........#....###..###.....######.........#...###....####.........###......#.........................###.########...#.################.#.####..####.##......######...............................############..#.##########.#####....#.#...#...#..#........#................................############....###########..##..#####..#..##.#.###......#..........................#......############....###########.##.#.##.##....########.......#.........................#.......############....###########..###.#.......#.##.##.......#...........................#.......##.########.....##########..###............######.#..###...#......................#.........#.###..###.....##..######.........#........##..#......##.##......................##..........########....###..######..................###...#.......###................................##########..###.#..###########.....##.....###..####.....##............................#.....#########...##...######.##.......#.....#..###....#....###.....................#.#.........................###......##..#....#.....##.....#.................##..........................##.....#....######....######....##....##...####....#....#......#.........#...........#.....##........########.######.##...####.#####..#####..####..#............................#............##################.##...#########.#.#...#....#.####......................#................###################################################...######..#...#..####..##..#..##..########################################################...###..#..####...####..##..#..##..########################################################....#.........#...####..##..#..##..############.###################################..#.#.#..##...........#...##############################.####################################.......###..............################################..###############################.#.#.....#.#..............################################..#.#############################.........#................#################################.....###########################.........#.##.............#################################.....#.#################################...######...###...####..##..#..##..############..##.........##################.####.#######..######...###....####..##..#..##..############..##.......#.....######..........#.............####............................####################......#.############...##.....#....#.....##..............##....###....#.######.......####...##....#..##########...#......###........##....#...#.#....#....#......########......####....##..##....#########............#....#....#....#.....#..........##.....#######..................#.#.#.##########.................#.##............................########...#.#............##.##.###.################....#..#####...........................#########.#####..........#..######.################....#...#.####.....#..#...#.#...################..#####.###..........###.###########.#####....##....#............#.....##....#############...#####.###.........########.#######.#####....#....#.###........#.#...........##..########..##.##..####........######.################.#......#..#............##...###....###########..####.....####.##...##.###....#################....#..............##.#...###....##########...##.#..########...###..####..#################....................#..#....###.##########..##......###..##...###...######.################....................#.#........###########...#####..###...#...###..#######.################...#.......###.................##########...########.##..##..##.##########..#######.#.#####...#.....###.##.....#....###..############..######....##.#..########...################.###...#...#.###.###.......#.###.####################..#..###..#########.....###############.###.......####.####...#.##.##.###############.####..##...###.###........#..##############.#.##......############...##....##############.......##.' } },
   // start po wschodniej stronie Rynku Głównego (między Sukiennicami a Mariackim), wrogowie w uliczkach Starego Miasta
   krakow: { nazwa: 'Kraków', wygrana: 'Stare Miasto w Krakowie oczyszczone',
     odprawa: 'Kraków, Rynek Główny. Osiem czołgów w uliczkach wokół Rynku. Wąsko: strzelaj z zasadzki, zanim cię zobaczą.', start: { lat: 50.06117, lon: 19.93797, kierunek: 90 },
@@ -516,6 +519,22 @@ function swist(odl) {
   const g = A.ctx.createGain(); g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(1.6 * gl, t0 + 0.06);
   g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.55);
   n.connect(bp).connect(g); wyslij(g, 5); n.start(t0); n.stop(t0 + 0.6);
+}
+
+// Czołg łamie drzewko albo krzak: trzask gałęzi przy wozie, kilka zielonych liści w powietrzu
+function trzaskGalezi(w) {
+  const p = C.Matrix4.multiplyByPoint(w.model.modelMatrix, new C.Cartesian3(3.2, 0, 1.5), new C.Cartesian3());
+  const g = C.Ellipsoid.WGS84.geodeticSurfaceNormal(p, new C.Cartesian3());
+  for (let i = 0; i < 8; i++) czastka(p, { tex: 'odlamek', v: losowyKierunek(g, losuj(1, 4), 3), zycie: losuj(1, 2), r0: 0.35, r1: 0.25, kolor: new C.Color(0.22, 0.32, 0.12, 1), opor: 1.5, grav: 3 });
+  if (!A.ctx || wyciszony) return;
+  const odl = C.Cartesian3.distance(viewer.camera.positionWC, p);
+  for (let i = 0; i < 5; i++) {
+    const t0 = A.ctx.currentTime + odl / 343 + losuj(0, 0.4);
+    const n = A.ctx.createBufferSource(); n.buffer = A.szum;
+    const bp = A.ctx.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = losuj(600, 1800); bp.Q.value = 2;
+    const gn = A.ctx.createGain(); gn.gain.setValueAtTime(clamp(0.6 / (1 + odl / 40), 0.03, 0.6), t0); gn.gain.exponentialRampToValueAtTime(0.0001, t0 + losuj(0.05, 0.15));
+    n.connect(bp).connect(gn); wyslij(gn, odl); n.start(t0); n.stop(t0 + 0.2);
+  }
 }
 
 // Gruz i kamienie spadające po wybuchu: krótkie trzaski rozrzucone w czasie
@@ -1025,17 +1044,20 @@ function nowaGra() {
     Object.assign(w, { e: p.e, n: p.n, h: undefined, yaw: Math.atan2(-p.n, -p.e) + losuj(-0.6, 0.6), pitch: 0, roll: 0,
       wiezaYaw: losuj(-0.5, 0.5), elev: 0, odrzut: 0, zywy: true, ladowanie: losuj(2, 5), widzi: false, wykryl: false, losOd: 0, strzaly: 0, widzialTs: 0, alarmDo: 0, ruch: null, strzalyOdRuchu: 0,
       fala: WROGOWIE[w.idx][2] || 1, natarcie: !!MIASTO.natarcie, v: 0, omijanie: 0, omijanieZn: 1, fazaL: 0, fazaP: 0, tNat: losuj(0, 0.35),
+      trasa: null, trasaIdx: 0, planT: undefined, postepT: undefined, cofaDo: 0, ruszaOd: 0, chcial: 0,
       dopasowanie: 0, czasDymu: 0, ostatniaWys: 0, bp: 0, br: 0, bvp: 0, bvr: 0 });
     w.model.color = C.Color.WHITE; w.model.colorBlendAmount = 0; w.model.show = true;
     if (!w.audio) dzwiekWroga(w); else w.audio.g.gain.value = 0.9;
     w.aktywny = w.fala === 1;
-    if (w.natarcie) { w.yaw = Math.atan2(-p.n, -p.e); terenWroga(w); w.dopasowanie = 2; } else postawWroga(w, 0);
+    if (w.natarcie) { w.yaw = Math.atan2(-p.n, -p.e); w.dopasowanie = 2; } else postawWroga(w, 0);
     w.model.show = w.aktywny && w.h !== undefined;
     if (w.audio) w.audio.g.gain.value = w.aktywny ? 0.9 : 0;
     ustawWezly(w);
   }
   zatrzymajSilnik(); uruchomSilnik();
   Object.assign(gra, { start: performance.now() / 1000, koniec: false, wygrana: false, gotowa: true, punkty: 0, fala2: false });
+  przygotujNawigacje();
+  if (MIASTO.natarcie) { przestawWZasieg(wrogowie); for (const w of wrogowie) { terenWroga(w); w.model.show = w.aktywny && w.h !== undefined; } }
   gracz.naprawy = POZIOM.naprawy; gracz.naprawa = null;
   setTimeout(() => komunikat(MIASTO.odprawa, '#e8d9a8', 9000), 600);
   setTimeout(() => komunikat(`Poziom: ${POZIOM.nazwa}. Naprawy polowe: ${POZIOM.naprawy}. Wróg zacznie strzelać po ${POZIOM.cisza} s.`, null, 7000), 3500);
@@ -1410,6 +1432,13 @@ function wrak(m) { m.color = new C.Color(0.12, 0.1, 0.09, 1); m.colorBlendMode =
 
 function zniszczWroga(w, poz, gora) {
   w.zywy = false;
+  if (NAV) {   // wrak to przeszkoda do końca misji: pola pod kadłubem i nowe trasy dla wszystkich
+    for (const d of [-3, 0, 3]) {
+      const i = komorka(w.e + Math.cos(w.yaw) * d, w.n + Math.sin(w.yaw) * d);
+      if (i >= 0) NAV.blokadaDo[i] = 1e9;
+    }
+    for (const o of wrogowie) o.planT = -99;
+  }
   wrak(w.model);
   wybuch(poz, gora, 2);
   const odlW = C.Cartesian3.distance(viewer.camera.positionWC, poz);
@@ -1734,12 +1763,129 @@ function krokFal(t) {
   if (!MIASTO.natarcie || gra.fala2 || gra.koniec) return;
   if (wrogowie.filter(w => w.fala === 1 && w.zywy).length > 1 || t - gra.start < POZIOM.cisza) return;
   gra.fala2 = true;
+  let k = 0;
   for (const w of wrogowie) if (w.fala === 2) {
-    w.aktywny = true; terenWroga(w);
+    w.aktywny = true; terenWroga(w); w.ruszaOd = t + 4 * k++;   // ruszają po kolei, co 4 s
     w.model.show = w.h !== undefined;
     if (w.audio) w.audio.g.gain.value = 0.9;
   }
   komunikat('Druga fala natarcia! Czołgi zza Urzędu Kanclerskiego i znad Szprewy', '#ff8a75', 5000);
+}
+
+// ---------- Nawigacja po mapie przejezdności: A* po polach 10 m, wygładzanie trasy ----------
+let NAV = null;
+function przygotujNawigacje() {
+  const s = MIASTO.siatka;
+  if (!s || s.dane.startsWith('__')) { NAV = null; return; }
+  const n = s.kol * s.wier, wolne = new Uint8Array(n), koszt = new Float32Array(n).fill(1);
+  for (let i = 0; i < n; i++) wolne[i] = s.dane[i] === '.' ? 1 : 0;
+  // przy przeszkodzie drożej: czołg ma 3,4 m szerokości, więc trasa trzyma się środka przejazdu
+  for (let r = 0; r < s.wier; r++) for (let c = 0; c < s.kol; c++) {
+    const i = r * s.kol + c;
+    if (!wolne[i]) continue;
+    for (let dr = -1; dr <= 1; dr++) for (let dc = -1; dc <= 1; dc++) {
+      const rr = r + dr, cc = c + dc;
+      if (rr < 0 || cc < 0 || rr >= s.wier || cc >= s.kol || !wolne[rr * s.kol + cc]) { koszt[i] = 4; }
+    }
+  }
+  NAV = { ...s, wolne, koszt, blokadaDo: new Float32Array(n) };
+}
+// pole wolne na mapie i bez tymczasowej blokady (przeszkoda wykryta w jeździe blokuje je na 15 s)
+const wolnePole = (i, bezBlokad) => NAV.wolne[i] && (bezBlokad || NAV.blokadaDo[i] < performance.now() / 1000);
+function komorka(e, n) {
+  const c = Math.round((e - NAV.e0) / NAV.k), r = Math.round((n - NAV.n0) / NAV.k);
+  return c < 0 || r < 0 || c >= NAV.kol || r >= NAV.wier ? -1 : r * NAV.kol + c;
+}
+const srodekKomorki = i => ({ e: NAV.e0 + (i % NAV.kol) * NAV.k, n: NAV.n0 + Math.floor(i / NAV.kol) * NAV.k });
+function najblizszaWolna(e, n) {
+  for (let pr = 0; pr <= 8; pr++) for (let dr = -pr; dr <= pr; dr++) for (let dc = -pr; dc <= pr; dc++) {
+    if (Math.max(Math.abs(dr), Math.abs(dc)) !== pr) continue;
+    const i = komorka(e + dc * NAV.k, n + dr * NAV.k);
+    if (i >= 0 && wolnePole(i)) return i;
+  }
+  return -1;
+}
+function aGwiazdka(start, cel, bezBlokad = false) {
+  const { kol, wier, wolne, koszt } = NAV, n = kol * wier;
+  const g = new Float32Array(n).fill(Infinity), skad = new Int32Array(n).fill(-1), zamk = new Uint8Array(n);
+  const kopiec = [];   // [f, i] – kopiec binarny
+  const wloz = (f, i) => { kopiec.push([f, i]); let k = kopiec.length - 1; while (k > 0) { const p = (k - 1) >> 1; if (kopiec[p][0] <= kopiec[k][0]) break; [kopiec[p], kopiec[k]] = [kopiec[k], kopiec[p]]; k = p; } };
+  const zdejmij = () => { const top = kopiec[0], ost = kopiec.pop(); if (kopiec.length) { kopiec[0] = ost; let k = 0; for (;;) { const a = 2 * k + 1, b = a + 1; let m = k; if (a < kopiec.length && kopiec[a][0] < kopiec[m][0]) m = a; if (b < kopiec.length && kopiec[b][0] < kopiec[m][0]) m = b; if (m === k) break; [kopiec[m], kopiec[k]] = [kopiec[k], kopiec[m]]; k = m; } } return top; };
+  const cr = cel % kol, rr = Math.floor(cel / kol);
+  const h = i => { const dx = Math.abs(i % kol - cr), dy = Math.abs(Math.floor(i / kol) - rr); return Math.max(dx, dy) + 0.414 * Math.min(dx, dy); };
+  g[start] = 0; wloz(h(start), start);
+  while (kopiec.length) {
+    const [, i] = zdejmij();
+    if (zamk[i]) continue;
+    zamk[i] = 1;
+    if (i === cel) break;
+    const c = i % kol, r = Math.floor(i / kol);
+    for (let dr = -1; dr <= 1; dr++) for (let dc = -1; dc <= 1; dc++) {
+      if (!dr && !dc) continue;
+      const c2 = c + dc, r2 = r + dr;
+      if (c2 < 0 || r2 < 0 || c2 >= kol || r2 >= wier) continue;
+      const j = r2 * kol + c2;
+      if (!wolnePole(j, bezBlokad) || zamk[j]) continue;
+      if (dr && dc && (!wolne[r * kol + c2] || !wolne[r2 * kol + c])) continue;   // bez ścinania narożników
+      const ng = g[i] + (dr && dc ? 1.414 : 1) * koszt[j];
+      if (ng < g[j]) { g[j] = ng; skad[j] = i; wloz(ng + h(j), j); }
+    }
+  }
+  if (skad[cel] < 0 && cel !== start) return null;
+  const trasa = [];
+  for (let i = cel; i >= 0; i = skad[i]) { trasa.push(i); if (i === start) break; }
+  return trasa.reverse().map(srodekKomorki);
+}
+function prostaWolna(a, b) {   // odcinek po wolnych polach (co 3 m, bez pola, na którym czołg stoi)
+  const d = Math.hypot(b.e - a.e, b.n - a.n), wlasne = komorka(a.e, a.n);
+  for (let s = 2; s <= d; s += 3) {
+    const f = s / d, i = komorka(a.e + (b.e - a.e) * f, a.n + (b.n - a.n) * f);
+    if (i === wlasne) continue;
+    if (i < 0 || !wolnePole(i)) return false;
+  }
+  return true;
+}
+// Pola, z których da się dojechać do gracza (zalanie mapy od jego pola). Wróg spoza nich (kieszeń między drzewami,
+// której nie widać na mapie co 15 m) przesuwa się na start na najbliższe pole w zasięgu.
+function przestawWZasieg(lista) {
+  if (!NAV) return;
+  const cel = najblizszaWolna(gracz.e, gracz.n);
+  if (cel < 0) return;
+  const { kol, wier, wolne } = NAV, dost = new Uint8Array(kol * wier), kolejka = [cel];
+  dost[cel] = 1;
+  while (kolejka.length) {
+    const i = kolejka.pop(), c = i % kol, r = Math.floor(i / kol);
+    for (let dr = -1; dr <= 1; dr++) for (let dc = -1; dc <= 1; dc++) {
+      const c2 = c + dc, r2 = r + dr, j = r2 * kol + c2;
+      if (c2 < 0 || r2 < 0 || c2 >= kol || r2 >= wier || dost[j] || !wolne[j]) continue;
+      if (dr && dc && (!wolne[r * kol + c2] || !wolne[r2 * kol + c])) continue;
+      dost[j] = 1; kolejka.push(j);
+    }
+  }
+  for (const w of lista) {
+    const i = komorka(w.e, w.n);
+    if (i >= 0 && dost[i]) continue;
+    let best = -1, bd = 1e9;
+    for (let j = 0; j < dost.length; j++) {
+      if (!dost[j] || NAV.koszt[j] > 1) continue;
+      const p = srodekKomorki(j), d = Math.hypot(p.e - w.e, p.n - w.n);
+      if (d < bd) { bd = d; best = j; }
+    }
+    if (best >= 0) { const p = srodekKomorki(best); w.e = p.e; w.n = p.n; terenWroga(w); }
+  }
+}
+
+function planujTrase(w, t) {
+  w.planT = t;
+  if (!NAV) { w.trasa = null; return; }
+  const a = najblizszaWolna(w.e, w.n), b = najblizszaWolna(gracz.e, gracz.n);
+  let tr = a >= 0 && b >= 0 ? aGwiazdka(a, b) : null;
+  if (!tr && a >= 0 && b >= 0) tr = aGwiazdka(a, b, true);   // tymczasowe blokady odcięły drogę: bez nich
+  w.trasa = tr && tr.length ? tr : null; w.trasaIdx = 0;
+  if (w.trasa) {
+    let best = 1e9;
+    w.trasa.forEach((p, k) => { const d = Math.hypot(p.e - w.e, p.n - w.n); if (d < best) { best = d; w.trasaIdx = k; } });
+  }
 }
 
 // Natarcie: wóz jedzie prosto na gracza, przeszkodę (mur, drzewa, skarpę nad Szprewą) wykrywa próbką terenu 4 m przed
@@ -1747,26 +1893,70 @@ function krokFal(t) {
 function terenLekki(w) {
   const cy = Math.cos(w.yaw), sy = Math.sin(w.yaw);
   const hp = wysokosc(w.e + cy * 2.7, w.n + sy * 2.7, wszystkie), ht = wysokosc(w.e - cy * 2.7, w.n - sy * 2.7, wszystkie);
-  if (hp !== undefined && ht !== undefined && Math.abs(hp - ht) < 3) {
+  // w górę najwyżej 1,2 m na próbkę: wyżej to korona drzewa nad ulicą, nie teren (czołg jedzie dalej pod nią)
+  const pasuje = x => x !== undefined && (w.h === undefined || (x < w.h + 1.2 && x > w.h - 3));
+  if (pasuje(hp) && pasuje(ht) && Math.abs(hp - ht) < 3) {
     w.h = (hp + ht) / 2; w.pitch = clamp(Math.atan2(hp - ht, 5.4), -0.45, 0.45);
   } else {
-    const v = [hp, ht].filter(x => x !== undefined && (w.h === undefined || Math.abs(x - w.h) < 2));
-    if (v.length) w.h = v[0];
+    const v = [hp, ht].filter(pasuje);
+    if (v.length) { w.h = v[0]; w.pitch *= 0.8; }
   }
   w.roll = 0;
   if (w.h !== undefined) w.model.show = true;
 }
 function natarcieWroga(w, dt, t, odl) {
   const vPrzed = w.v, yawPrzed = w.yaw, kolo = w.spec.kolo || 0.4;
-  const ogien = w.wykryl && odl < 450 && t - gra.start >= POZIOM.cisza;
-  let vCel = ogien || odl < 45 || gra.koniec ? 0 : w.omijanie > 0 ? 2 : w.spec.vNatarcia;
+  // ogień z krótkiego postoju: staje tylko na strzał (działo prawie załadowane), między strzałami jedzie dalej;
+  // na stałe zatrzymuje się 150 m od gracza
+  const ogien = w.wykryl && odl < 450 && t - gra.start >= POZIOM.cisza && (odl < 150 || w.ladowanie < 2);
+  let vCel = ogien || odl < 45 || gra.koniec || (w.ruszaOd || 0) > t ? 0 : w.omijanie > 0 ? 2 : w.spec.vNatarcia;
   const doGracza = Math.atan2(gracz.n - w.n, gracz.e - w.e);
   let celYaw = doGracza;
+  // trasa A*: nowa co 12 s (gracz się przesuwa) albo po zablokowaniu; cel to najdalszy punkt trasy widoczny po prostej
+  if (NAV) {
+    if (t - (w.planT ?? -99) > (w.trasa ? 12 : 3)) planujTrase(w, t);
+    if (w.trasa) {
+      while (w.trasaIdx < w.trasa.length - 1 && Math.hypot(w.trasa[w.trasaIdx].e - w.e, w.trasa[w.trasaIdx].n - w.n) < 8) w.trasaIdx++;
+      let j = w.trasaIdx;
+      for (let k = Math.min(w.trasa.length - 1, w.trasaIdx + 8); k > w.trasaIdx; k--)
+        if (Math.hypot(w.trasa[k].e - w.e, w.trasa[k].n - w.n) < 60 && prostaWolna({ e: w.e, n: w.n }, w.trasa[k])) { j = k; break; }
+      // punkty trasy już minięte (bliżej celu niż czołg) przeskakuje, żeby nie zawracał
+      if (j === w.trasaIdx && w.trasaIdx < w.trasa.length - 1) {
+        const a = w.trasa[w.trasaIdx], b = w.trasa[w.trasaIdx + 1];
+        if ((w.e - a.e) * (b.e - a.e) + (w.n - a.n) * (b.n - a.n) > 0) { w.trasaIdx++; j = w.trasaIdx; }
+      }
+      const p = w.trasa[j];
+      if (Math.hypot(p.e - w.e, p.n - w.n) > 3) celYaw = Math.atan2(p.n - w.n, p.e - w.e);
+    }
+  }
+  // odstęp: wrak albo czołg bliżej celu w promieniu 14 m przed kadłubem – zwolnij i odbij w bok (ustępuje tylko
+  // ten z tyłu kolejki, inaczej dwa czołgi ustępowałyby sobie nawzajem bez końca)
+  for (const o of wrogowie) {
+    if (o === w || (o.zywy && !o.aktywny)) continue;
+    const dx = o.e - w.e, dn = o.n - w.n, d = Math.hypot(dx, dn);
+    if (d > 14 || d < 0.1) continue;
+    if (o.zywy && Math.hypot(o.e - gracz.e, o.n - gracz.n) > odl) continue;
+    const kat = zawin(Math.atan2(dn, dx) - w.yaw);
+    if (Math.abs(kat) < 0.9) { vCel = Math.min(vCel, d < 8 ? 0.6 : 2); celYaw = zawin(celYaw - Math.sign(kat || 1) * 0.6); }
+  }
+  // zablokowany: przez 5 s mniej niż 2 m mimo jazdy – cofa 2 s i planuje trasę od nowa
+  // liczy się tylko czas, w którym chciał jechać naprzód (bez cofania, postoju do strzału i czekania za innym)
+  if (w.cofaDo > t || w.postepT === undefined) { w.postepT = t; w.postepE = w.e; w.postepN = w.n; w.chcial = 0; }
+  else {
+    if (vCel > 1) w.chcial = (w.chcial || 0) + dt;
+    if (t - w.postepT > 5) {
+      const ruszyl = Math.hypot(w.e - w.postepE, w.n - w.postepN);
+      if (w.chcial > 4 && ruszyl < 2) { w.cofaDo = t + 2; w.planT = t - 10; }   // po cofnięciu nowa trasa
+      w.postepT = t; w.postepE = w.e; w.postepN = w.n; w.chcial = 0;
+    }
+  }
+  if (w.cofaDo > t) vCel = -1.5;
   if (w.omijanie > 0) { celYaw = w.kurs; w.omijanie -= dt; }
   const r = zawin(celYaw - w.yaw);
   w.yaw = zawin(w.yaw + clamp(r, -18 * D * dt, 18 * D * dt));
   if (Math.abs(r) > 0.8) vCel = Math.min(vCel, 1.5);
   w.v = dazy(w.v, vCel, (vCel > w.v ? 1.2 : 3) * dt);
+  if (w.cofaDo > t) w.yaw = zawin(w.yaw - clamp(r, -18 * D * dt, 18 * D * dt) * 0.5);   // na wstecznym nie skręca w stronę celu
   const krok = w.v * dt;
   w.tNat -= dt;
   const probka = w.tNat <= 0;
@@ -1776,12 +1966,26 @@ function natarcieWroga(w, dt, t, odl) {
     let stop = false;
     if (probka) {
       // pod koronami drzew próbka widzi liście kilkanaście metrów wyżej: wtedy jedzie bez sprawdzania, aż wyjedzie
-      const hz = wysokosc(ne + Math.cos(w.yaw) * 4, nn + Math.sin(w.yaw) * 4, wszystkie);
-      if (hz !== undefined && w.h !== undefined && (hz > w.h + 1.3 || hz < w.h - 3)) {
+      const kz = w.v < 0 ? -4 : 4;
+      const hz = wysokosc(ne + Math.cos(w.yaw) * kz, nn + Math.sin(w.yaw) * kz, wszystkie);
+      const iz = NAV ? komorka(ne + Math.cos(w.yaw) * kz, nn + Math.sin(w.yaw) * kz) : -1;
+      // drobna przeszkoda na polu, które mapa uznaje za wolne (drzewko, krzak, latarnia): czołg ją łamie i jedzie dalej;
+      // budynki, gęste grupy drzew i Szprewę omija trasa
+      const drobna = hz !== undefined && w.h !== undefined && hz > w.h + 1.3 && iz >= 0 && NAV.wolne[iz];
+      if (drobna && !w.lamie) { w.lamie = true; trzaskGalezi(w); }
+      if (!drobna) w.lamie = false;
+      if (!drobna && hz !== undefined && w.h !== undefined && (hz > w.h + 1.3 || hz < w.h - 3)) {
         const pod = wysokosc(w.e, w.n, wszystkie);   // dalsze próbki tylko przy przeszkodzie
         if (pod !== undefined && pod < w.h - 1.5) w.h = pod;          // wisiał nad ziemią (start na koronie drzewa)
         else if (!(pod !== undefined && pod > w.h + 3)) {             // pod koronami drzew jedzie dalej bez sprawdzania
           stop = true;
+          if (NAV) {   // przeszkoda, której nie ma na mapie: zaznacz pole i zaplanuj od nowa
+            for (const d of [kz, kz * 1.75]) {
+              const i = komorka(ne + Math.cos(w.yaw) * d, nn + Math.sin(w.yaw) * d);
+              if (i >= 0 && i !== komorka(w.e, w.n)) NAV.blokadaDo[i] = t + 15;
+            }
+            planujTrase(w, t);
+          } else {
           // pierwszy wolny kierunek, jak najbliżej kierunku na gracza: ±30°, ±60°, ±90°, ±125°, w tył
           let wolny = null;
           for (const kat of [0.5, -0.5, 1.05, -1.05, 1.6, -1.6, 2.2, -2.2, Math.PI]) {
@@ -1790,6 +1994,7 @@ function natarcieWroga(w, dt, t, odl) {
           }
           w.kurs = wolny ?? zawin(w.yaw + Math.PI / 2);
           w.omijanie = losuj(2, 3.5);
+          }
         }
       }
     }
