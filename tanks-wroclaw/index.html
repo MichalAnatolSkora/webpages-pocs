@@ -765,13 +765,39 @@ function shaderGasienic(spec) {
       float plamy(vec3 p) {
         return sin(p.x * 1.7 + 1.3 * sin(p.z * 2.3)) + sin(p.z * 1.9 + 1.1 * sin(p.x * 1.4 + p.y * 2.0)) + 0.6 * sin((p.x + p.y) * 3.1);
       }
+      float hash3(vec3 p) { p = fract(p * 0.3183099 + 0.1); p *= 17.0; return fract(p.x * p.y * p.z * (p.x + p.y + p.z)); }
+      float szum(vec3 x) {
+        vec3 i = floor(x), f = fract(x); f = f * f * (3.0 - 2.0 * f);
+        return mix(mix(mix(hash3(i), hash3(i + vec3(1, 0, 0)), f.x), mix(hash3(i + vec3(0, 1, 0)), hash3(i + vec3(1, 1, 0)), f.x), f.y),
+                   mix(mix(hash3(i + vec3(0, 0, 1)), hash3(i + vec3(1, 0, 1)), f.x), mix(hash3(i + vec3(0, 1, 1)), hash3(i + vec3(1, 1, 1)), f.x), f.y), f.z);
+      }
+      float fbm(vec3 p) { return 0.5 * szum(p) + 0.25 * szum(p * 2.03 + 7.1) + 0.125 * szum(p * 4.01 + 3.3) + 0.0625 * szum(p * 8.1 + 1.7); }
       void fragmentMain(FragmentInput fsInput, inout czm_modelMaterial material) {
-        float farba = 1.0 - smoothstep(0.03, 0.07, distance(material.diffuse, vec3(0.18, 0.22, 0.12)));
-        vec3 p = fsInput.attributes.positionMC;
+        vec3 d = material.diffuse;
+        float farba = 1.0 - smoothstep(0.03, 0.07, distance(d, vec3(0.18, 0.22, 0.12)));
+        float napis = smoothstep(0.45, 0.6, dot(d, vec3(0.33)));        // białe numery i krzyże
+        vec3 p = fsInput.attributes.positionMC;                          // osie glTF: y w górę, 0 na ziemi
+        // lekkie malowanie w plamy
         float a = smoothstep(0.6, 0.9, plamy(p));
         float b = smoothstep(0.75, 1.05, plamy(p.zyx * 1.3 + vec3(4.0, 1.0, 2.5)));
-        vec3 c = mix(material.diffuse, material.diffuse * u_odcien, a * u_sila * farba);
-        material.diffuse = mix(c, u_jasny, b * u_sila * 0.7 * farba);
+        vec3 c = mix(d, d * u_odcien, a * u_sila * farba);
+        c = mix(c, u_jasny, b * u_sila * 0.7 * farba);
+        // zniszczona farba: wypłowiała od słońca, odpryski do gołej stali z rdzą, pionowe zacieki, błoto na dole
+        float l = dot(c, vec3(0.3, 0.59, 0.11));
+        c = mix(c, vec3(l) * 1.2 + vec3(0.02, 0.015, 0.0), 0.28 * farba);
+        float odprysk = smoothstep(0.66, 0.71, fbm(p * 9.0 + vec3(1.3, 0.0, 2.1)));
+        c = mix(c, mix(vec3(0.09, 0.08, 0.075), vec3(0.2, 0.09, 0.04), szum(p * 23.0)), odprysk * 0.9 * farba);
+        float zaciek = smoothstep(0.6, 0.78, fbm(vec3(p.x * 7.0, p.y * 0.5, p.z * 7.0))) * smoothstep(2.6, 1.0, p.y);
+        c = mix(c, c * vec3(0.72, 0.5, 0.33), zaciek * 0.75 * farba);
+        // wytarte napisy: przez biel przebija farba
+        c = mix(c, vec3(0.2, 0.22, 0.14), smoothstep(0.62, 0.74, fbm(p * 14.0)) * 0.6 * napis);
+        // błoto i kurz z ulic na dole kadłuba i gąsienicach, nierówna granica, na górze szary kurz
+        float bloto = 1.0 - smoothstep(0.55, 1.3, p.y + (fbm(p * 2.2) - 0.5) * 0.7);
+        c = mix(c, mix(vec3(0.13, 0.105, 0.075), vec3(0.2, 0.17, 0.12), szum(p * 5.0)), bloto * 0.75 * (1.0 - 0.75 * napis));
+        float kurz = smoothstep(1.6, 2.6, p.y) * smoothstep(0.45, 0.7, fbm(p * 3.0 + 11.0));
+        c = mix(c, vec3(0.3, 0.28, 0.24), kurz * 0.3 * farba);
+        material.diffuse = c;
+        material.roughness = mix(material.roughness, 1.0, 0.5);
       }`,
     vertexShaderText: `
       void vertexMain(VertexInput vsInput, inout czm_modelVertexOutput vsOutput) {
