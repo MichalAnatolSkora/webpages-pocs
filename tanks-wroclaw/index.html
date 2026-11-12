@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<title>Tiger we Wrocławiu</title>
-<!-- Szablon: zbuduj.py wstawia modele i dźwięki (base64) i zapisuje tiger_wroclaw.html -->
+<title>Tanks Wrocław</title>
+<!-- Szablon: zbuduj.py wstawia modele i dźwięki (base64) i zapisuje tanks_wroclaw.html -->
 <script src="https://cdn.jsdelivr.net/npm/cesium@1.147.0/Build/Cesium/Cesium.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/cesium@1.147.0/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
 <style>
@@ -60,7 +60,8 @@
   #celownik { width: 28px; height: 28px; }
   #lufa { width: 44px; height: 44px; border: 2px solid rgba(232, 228, 212, .75); border-radius: 50%; box-sizing: border-box; }
   #lufa.gotowa { border-color: rgba(143, 191, 90, .95); }
-  #luneta { position: absolute; inset: 0; background: radial-gradient(circle at center, transparent 0 41vmin, rgba(0,0,0,.94) 42vmin); }
+  #wynik, #stan, #radar, #komunikaty { z-index: 2; }
+  #luneta { position: absolute; inset: 0; z-index: 1; background: radial-gradient(circle at center, transparent 0 41vmin, rgba(0,0,0,.94) 42vmin); }
   #luneta svg { position: absolute; left: 50%; top: 50%; width: 80vmin; height: 80vmin; transform: translate(-50%, -50%); }
   #trafienie { position: absolute; inset: 0; background: radial-gradient(ellipse at center, transparent 40%, rgba(200, 30, 10, .55));
                opacity: 0; transition: opacity .5s; }
@@ -87,7 +88,7 @@
          border: 2px solid rgba(232, 228, 212, .4); background: rgba(18, 20, 14, .3); }
   #joy-galka { position: absolute; left: 50%; top: 50%; width: 56px; height: 56px; margin: -28px 0 0 -28px; border-radius: 50%;
                background: rgba(216, 176, 74, .7); }
-  .przycisk-dotyk { position: absolute; pointer-events: auto; touch-action: none; border-radius: 50%; padding: 0;
+  .przycisk-dotyk { position: absolute; z-index: 3; pointer-events: auto; touch-action: none; border-radius: 50%; padding: 0;
                     box-shadow: 0 2px 10px rgba(0, 0, 0, .5); }
   #b-ogien { right: calc(20px + env(safe-area-inset-right)); bottom: 26px; width: 92px; height: 92px;
              background: rgba(224, 83, 61, .88); color: #fff; font-size: 15px; }
@@ -167,7 +168,7 @@
 
 <div id="menu">
   <div class="karta panel">
-    <h1>Pancerni we Wrocławiu</h1>
+    <h1>Tanks Wrocław</h1>
     <p>Jedziesz czołgiem po Starym Mieście na trójwymiarowych kafelkach Google. Wyszukaj i zniszcz wrogie czołgi
        ukryte na placach i ulicach. Silniki grają z prawdziwych nagrań: Maybach HL 230 i diesel W-2 z T-34-85.</p>
     <label>Czołg</label>
@@ -279,6 +280,12 @@ const A = { ctx: null, master: null, poglos: null, szum: null, bufory: {}, silni
 async function initAudio() {
   const ctx = new (window.AudioContext || window.webkitAudioContext)();
   A.ctx = ctx;
+  // iPhone: dźwięk WWW jako odtwarzanie (gra też przy przełączniku wyciszenia), wznowienie i cichy bufor w geście
+  try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch (e) {}
+  if (ctx.state !== 'running') ctx.resume().catch(() => {});
+  try { const s0 = ctx.createBufferSource(); s0.buffer = ctx.createBuffer(1, 1, 22050); s0.connect(ctx.destination); s0.start(0); } catch (e) {}
+  const wznow = () => { if (ctx.state !== 'running') ctx.resume().catch(() => {}); };
+  for (const t of ['pointerdown', 'touchend', 'keydown']) addEventListener(t, wznow, true);
   const komp = ctx.createDynamicsCompressor();
   komp.threshold.value = -14; komp.ratio.value = 4;
   A.master = ctx.createGain(); A.master.gain.value = 0.8;
@@ -773,15 +780,17 @@ function podlaczSterowanie() {
     myszZablokowana = document.pointerLockElement === pl;
     $('klik').classList.toggle('ukryty', myszZablokowana || bezBlokady || gra.koniec);
   });
-  addEventListener('mousemove', e => {
-    if (!myszZablokowana && !bezBlokady) return;
+  // Zdarzenia wskaźnika, nie myszy: Cesium blokuje domyślną akcję pointerdown na płótnie, więc mousedown nie przychodzi
+  addEventListener('pointermove', e => {
+    if (e.pointerType === 'touch' || (!myszZablokowana && !bezBlokady)) return;
     const czulosc = 0.0022 * (kamera.luneta ? 0.22 : 1);
     kamera.yaw -= e.movementX * czulosc;
-    kamera.pitch = clamp(kamera.pitch - e.movementY * czulosc, -55 * D, 25 * D);
+    kamera.pitch = clamp(kamera.pitch - e.movementY * czulosc, -55 * D, maxPitch());
     if (bezBlokady) kursor = { x: e.clientX, y: e.clientY };
   });
   document.addEventListener('mouseleave', () => { kursor = null; });
-  addEventListener('mousedown', e => {
+  addEventListener('pointerdown', e => {
+    if (e.pointerType === 'touch') return;
     if (!myszZablokowana && !(bezBlokady && e.target === pl)) return;
     if (e.button === 0) strzal();
     if (e.button === 2) przelaczLunete();
@@ -819,7 +828,7 @@ function podlaczDotyk() {
     } else if (e.pointerId === dotyk.kamId) {
       const c = 0.0048 * (kamera.luneta ? 0.2 : 1);
       kamera.yaw -= (e.clientX - dotyk.kamPrev.x) * c;
-      kamera.pitch = clamp(kamera.pitch - (e.clientY - dotyk.kamPrev.y) * c, -55 * D, 25 * D);
+      kamera.pitch = clamp(kamera.pitch - (e.clientY - dotyk.kamPrev.y) * c, -55 * D, maxPitch());
       dotyk.kamPrev = { x: e.clientX, y: e.clientY };
     }
   });
@@ -853,8 +862,12 @@ function obrotKamery(dt) {
   }
 }
 
+// Z zewnątrz kamera patrzy najwyżej lekko w górę (inaczej schodzi pod czołg), w lunecie wyżej
+const maxPitch = () => (kamera.luneta ? 20 : 6) * D;
+
 function przelaczLunete() {
   kamera.luneta = !kamera.luneta;
+  kamera.pitch = Math.min(kamera.pitch, maxPitch());
   $('luneta').classList.toggle('ukryty', !kamera.luneta);
   $('b-luneta').classList.toggle('wl', kamera.luneta);
   viewer.camera.frustum.fov = (kamera.luneta ? 13 : 62) * D;
@@ -1169,10 +1182,18 @@ function ruchGracza(dt) {
       const hf = (f + fl + fr) / 3, hb = (b + bl + br) / 3, hl = (fl + bl) / 2, hr = (fr + br) / 2;
       const celH = (hf + hb) / 2;
       if (p.h === undefined) p.h = celH;
-      const k = Math.min(1, dt * 9);
-      p.h += (celH - p.h) * k;
-      p.pitch += (clamp(Math.atan2(hf - hb, 2 * L), -0.5, 0.5) - p.pitch) * Math.min(1, dt * 6);
-      p.roll += (clamp(Math.atan2(hl - hr, 2 * W), -0.4, 0.4) - p.roll) * Math.min(1, dt * 6);
+      // Kafelki zmieniają poziom szczegółów i pojedyncza próbka potrafi skoczyć o metry: duży spadek musi się
+      // powtórzyć kilka razy, a wysokość zmienia się najwyżej o 5 m/s (inaczej czołg i kamera skaczą pod mapę)
+      const spadek = celH < p.h - 2;
+      p.spadki = spadek ? (p.spadki || 0) + 1 : 0;
+      if (!spadek || p.spadki > 8) {
+        const k = Math.min(1, dt * 9);
+        p.h += clamp((celH - p.h) * k, -5 * dt, 5 * dt);
+        if (Math.abs(hf - hb) < 3.5 && Math.abs(hl - hr) < 2.5) {
+          p.pitch += (clamp(Math.atan2(hf - hb, 2 * L), -0.5, 0.5) - p.pitch) * Math.min(1, dt * 6);
+          p.roll += (clamp(Math.atan2(hl - hr, 2 * W), -0.4, 0.4) - p.roll) * Math.min(1, dt * 6);
+        }
+      }
     }
   }
   if (p.h === undefined) p.h = 0;
@@ -1241,7 +1262,7 @@ function aktualizujKamere(dt) {
       return h === undefined || k.height > h + 0.6;
     };
     const teraz = Math.min(kamera.odl, odlKolizji);
-    if (!wolne(teraz)) odlKolizji = Math.max(3, teraz * 0.75);
+    if (!wolne(teraz)) odlKolizji = Math.max(6.5, teraz * 0.75);   // bliżej kamera weszłaby w czołg
     else if (teraz < kamera.odl) { const dalej = Math.min(kamera.odl, teraz + 2); if (wolne(dalej)) odlKolizji = dalej; }
     else odlKolizji = kamera.odl;
   }
