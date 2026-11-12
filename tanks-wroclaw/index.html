@@ -182,7 +182,7 @@
     <label>Miasto</label>
     <div class="wybor">
       <label><input type="radio" name="miasto" value="wroclaw" checked>Wrocław<small>Stare Miasto, płasko</small></label>
-      <label><input type="radio" name="miasto" value="walbrzych">Wałbrzych<small>Rynek w górach, strome uliczki</small></label>
+      <label><input type="radio" name="miasto" value="berlin">Berlin<small>Reichstag, czołgi nacierają</small></label>
       <label><input type="radio" name="miasto" value="krakow">Kraków<small>Rynek Główny i ciasne uliczki</small></label>
     </div>
     <label>Poziom</label>
@@ -251,7 +251,7 @@ const POJAZDY = {
     gotowyPo: 5.0, petlePo: 7.0,
     // bryły do trafień: [x0, x1, y0, y1, z0, z1]; wieża w osiach wieży (obrót wokół osi z w punkcie „wieza”)
     brylaKadluba: [-3.3, 2.97, -1.78, 1.78, 0.3, 1.9], brylaWiezy: [-1.16, 1.3, -1.16, 1.16, 1.81, 2.63],
-    pancerzWiezy: { przod: 110, bok: 80, tyl: 80 }, przebiciaDoZniszczenia: 3,
+    pancerzWiezy: { przod: 110, bok: 80, tyl: 80 }, przebiciaDoZniszczenia: 3, vNatarcia: 4,
     masa: 57000, zawieszenie: 'drazki', kadlub: [-3.033, 2.822, -1.57, 1.57, 0.47, 1.8], pocisk: 10.2, hamulec: true },
   t3485: { nazwa: 'T-34-85', model: 't3485', wieza: [0.4, 0, 1.59], jarzmo: [0.811, 0, 0.47], lufa: 3.79,
     vmax: 50 / 3.6, vwstecz: 10 / 3.6, przysp: 1.8, skret: 28 * D, obrotWiezy: 22 * D, podniesienie: 6 * D,
@@ -260,10 +260,10 @@ const POJAZDY = {
     dl: 2.95, szer: 1.45, kolo: 0.415, kola: 5, postoj: 'T34_IDLE', jazda: 'T34_DRIVE', rozruch: 'T34_START',
     gotowyPo: 2.6, petlePo: 4.8,
     brylaKadluba: [-3.01, 2.98, -1.48, 1.48, 0.3, 1.7], brylaWiezy: [-1.32, 1.38, -0.97, 0.97, 1.59, 2.44],
-    pancerzWiezy: { przod: 90, bok: 75, tyl: 52 }, przebiciaDoZniszczenia: 4,
+    pancerzWiezy: { przod: 90, bok: 75, tyl: 52 }, przebiciaDoZniszczenia: 4, vNatarcia: 5,
     masa: 32000, zawieszenie: 'christie', kadlub: [-2.94, 2.938, -1.32, 1.32, 0.4, 1.59], pocisk: 9.2, hamulec: false },
   t3476: { nazwa: 'T-34/76', model: 't3476', wieza: [0.6, 0, 1.59], jarzmo: [0.61, 0, 0.585], lufa: 2.56,
-    obrotWiezy: 20 * D, ladowanie: 8, v0: 662, przebicie: d => 78 - 0.03 * d, pancerz: { przod: 75, bok: 55, tyl: 45 },
+    obrotWiezy: 20 * D, ladowanie: 8, v0: 662, kolo: 0.415, vNatarcia: 5, przebicie: d => 78 - 0.03 * d, pancerz: { przod: 75, bok: 55, tyl: 45 },
     postoj: 'T34_IDLE', elevMin: -5 * D, elevMax: 25 * D,
     brylaKadluba: [-3.0, 2.98, -1.48, 1.48, 0.3, 1.7], brylaWiezy: [-1.18, 0.76, -0.89, 0.89, 1.59, 2.39],
     pancerzWiezy: { przod: 60, bok: 52, tyl: 52 },
@@ -281,20 +281,23 @@ const POZIOMY = {
 let POZIOM = POZIOMY.weteran;
 
 // ---------- Miasta ----------
-// start.kierunek: 0 = wschód, 90 = północ. Wrogowie na placach i ulicach; w Wałbrzychu po jednym w każdym kierunku,
-// ok. 300 m od Rynku, na ulicach z OpenStreetMap. Kamera startowa: (e, n, wysokość elipsoidalna).
+// start.kierunek: 0 = wschód, 90 = północ. Wrogowie na placach i ulicach z OpenStreetMap; we Wrocławiu i Krakowie
+// czekają w zasadzce, w Berlinie nacierają. Kamera startowa: (e, n, wysokość elipsoidalna).
 const MIASTA = {
   wroclaw: { nazwa: 'Wrocław', wygrana: 'Stare Miasto oczyszczone',
     odprawa: 'Wrocław, Rynek. Na placach i w uliczkach Starego Miasta czeka osiem czołgów. Zniszcz je wszystkie.', start: { lat: 51.10955, lon: 17.03050, kierunek: 90 },
     wrogowie: [[51.11055, 17.03330], [51.10915, 17.02930], [51.10690, 17.03125], [51.11040, 17.03850],
       [51.11395, 17.03420], [51.10790, 17.04020], [51.11440, 17.04640], [51.10630, 17.02800]],
     kamera: [-60, -420, 520], osm: '51.1000,17.0150,51.1220,17.0520' },
-  // Nowa Ruda i Kłodzko nie mają w Google brył 3D (budynki tylko na zdjęciu terenu), Wałbrzych ma
-  walbrzych: { nazwa: 'Wałbrzych', wygrana: 'Wałbrzych oczyszczony',
-    odprawa: 'Wałbrzych, Rynek w dolinie. Wróg stoi wyżej na stromych ulicach – patrz w górę i nie wyjeżdżaj na otwarte.', start: { lat: 50.76593, lon: 16.28265, kierunek: 90 },
-    wrogowie: [[50.76698, 16.28607], [50.76821, 16.28394], [50.76974, 16.28248], [50.76738, 16.27942],
-      [50.76509, 16.27891], [50.76409, 16.28001], [50.76349, 16.28392], [50.76483, 16.28448]],
-    kamera: [-40, -450, 950], osm: '50.7580,16.2700,50.7740,16.2960' },
+  // Berlin: obrona pod Reichstagiem. Wrogowie nacierają w dwóch falach (trzecia liczba = fala) przez trawnik Platz der
+  // Republik i park nad Szprewą: miejsca wybrane z mapy wysokości co 15 m tak, żeby prosta do Reichstagu była w 85–100%
+  // otwarta (pod drzewami Tiergarten próbki widzą korony na 22 m i czołg nie ruszy)
+  berlin: { nazwa: 'Berlin', wygrana: 'Natarcie na Reichstag odparte', natarcie: true,
+    odprawa: 'Berlin, Reichstag. Osiem czołgów naciera w dwóch falach przez Platz der Republik i znad Szprewy. Utrzymaj pozycję przed portalem.',
+    start: { lat: 52.51856, lon: 13.37500, kierunek: 180 },
+    wrogowie: [[52.51883, 13.36948, 1], [52.51964, 13.37146, 1], [52.52085, 13.37169, 1], [52.51762, 13.37058, 1],
+      [52.51856, 13.36837, 2], [52.52112, 13.36992, 2], [52.51950, 13.36925, 2], [52.52139, 13.37146, 2]],
+    kamera: [-40, -450, 450], osm: '52.5130,13.3640,52.5230,13.3820' },
   // start po wschodniej stronie Rynku Głównego (między Sukiennicami a Mariackim), wrogowie w uliczkach Starego Miasta
   krakow: { nazwa: 'Kraków', wygrana: 'Stare Miasto w Krakowie oczyszczone',
     odprawa: 'Kraków, Rynek Główny. Osiem czołgów w uliczkach wokół Rynku. Wąsko: strzelaj z zasadzki, zanim cię zobaczą.', start: { lat: 50.06117, lon: 19.93797, kierunek: 90 },
@@ -909,7 +912,8 @@ async function graj(wybranyTryb) {
     const spec = POJ.model === 'tiger' ? (i % 2 ? POJAZDY.t3476 : POJAZDY.t3485) : POJAZDY.tiger;
     const m = await wczytajModel(spec.model);
     const ww = wezly(m, spec);
-    wrogowie.push({ model: m, wezly: ww.w, kola: null, spec, idx: i });
+    const sh = shaderGasienic(); m.customShader = sh;
+    wrogowie.push({ model: m, wezly: ww.w, kola: ww.kola, shader: sh, spec, idx: i });
   }
   wszystkie = [gracz.model, ...wrogowie.map(w => w.model), 'fx'];
 
@@ -997,14 +1001,18 @@ function nowaGra() {
     const p = zLatLon(WROGOWIE[w.idx][0], WROGOWIE[w.idx][1]);
     Object.assign(w, { e: p.e, n: p.n, h: undefined, yaw: Math.atan2(-p.n, -p.e) + losuj(-0.6, 0.6), pitch: 0, roll: 0,
       wiezaYaw: losuj(-0.5, 0.5), elev: 0, odrzut: 0, zywy: true, ladowanie: losuj(2, 5), widzi: false, wykryl: false, losOd: 0, strzaly: 0, widzialTs: 0, alarmDo: 0, ruch: null, strzalyOdRuchu: 0,
+      fala: WROGOWIE[w.idx][2] || 1, natarcie: !!MIASTO.natarcie, v: 0, omijanie: 0, omijanieZn: 1, fazaL: 0, fazaP: 0, tNat: losuj(0, 0.35),
       dopasowanie: 0, czasDymu: 0, ostatniaWys: 0, bp: 0, br: 0, bvp: 0, bvr: 0 });
     w.model.color = C.Color.WHITE; w.model.colorBlendAmount = 0; w.model.show = true;
     if (!w.audio) dzwiekWroga(w); else w.audio.g.gain.value = 0.9;
-    postawWroga(w, 0);
+    w.aktywny = w.fala === 1;
+    if (w.natarcie) { w.yaw = Math.atan2(-p.n, -p.e); terenWroga(w); w.dopasowanie = 2; } else postawWroga(w, 0);
+    w.model.show = w.aktywny && w.h !== undefined;
+    if (w.audio) w.audio.g.gain.value = w.aktywny ? 0.9 : 0;
     ustawWezly(w);
   }
   zatrzymajSilnik(); uruchomSilnik();
-  Object.assign(gra, { start: performance.now() / 1000, koniec: false, wygrana: false, gotowa: true, punkty: 0 });
+  Object.assign(gra, { start: performance.now() / 1000, koniec: false, wygrana: false, gotowa: true, punkty: 0, fala2: false });
   gracz.naprawy = POZIOM.naprawy; gracz.naprawa = null;
   setTimeout(() => komunikat(MIASTO.odprawa, '#e8d9a8', 9000), 600);
   setTimeout(() => komunikat(`Poziom: ${POZIOM.nazwa}. Naprawy polowe: ${POZIOM.naprawy}. Wróg zacznie strzelać po ${POZIOM.cisza} s.`, null, 7000), 3500);
@@ -1279,7 +1287,7 @@ function aktualizujPociski(dt) {
       const odl = C.Cartesian3.distance(cam, C.Cartesian3.add(s.p, C.Cartesian3.multiplyByScalar(ab, u, new C.Cartesian3()), new C.Cartesian3()));
       if (odl < 30) { s.swist = true; swist(odl); }
     }
-    for (const c of (s.tylkoEfekt ? [] : [gracz, ...wrogowie])) {
+    for (const c of (s.tylkoEfekt ? [] : [gracz, ...wrogowie.filter(x => x.aktywny !== false)])) {
       if (c === s.kto) continue;
       const r = trafienieBryly(c, s.p, nast);
       if (r && (tCel === null || r.t < tCel)) { tCel = r.t; cel = c; wieza = r.wieza; }
@@ -1550,7 +1558,7 @@ function ruchGracza(dt) {
     h = probki(p.e, p.n, p.yaw);
   }
   if (h) {
-    // Teren pod gąsienicami: mediany przodu i tyłu kadłuba dają wysokość i pochylenie na stoku (Wałbrzych), lewa i prawa
+    // Teren pod gąsienicami: mediany przodu i tyłu kadłuba dają wysokość i pochylenie na stoku (Kraków, Berlin), lewa i prawa
     // strona przechył. Kafelki zmieniają poziom szczegółów i pojedyncze próbki potrafią spaść o metry, więc spadek ponad
     // 1 m musi się powtórzyć 10 razy, wysokość idzie w dół najwyżej 1,5 m/s, w górę 4 m/s, a kąty najwyżej 20°/s.
     const ok = h.filter(v => v !== undefined).sort((a, b) => a - b);
@@ -1698,14 +1706,91 @@ function dzwiekRuchuWroga(w, jedzie) {
   w.audio.g.gain.setTargetAtTime(jedzie ? 1.5 : 0.9, t, 0.4);
 }
 
+// Druga fala rusza, gdy z pierwszej został jeden czołg
+function krokFal(t) {
+  if (!MIASTO.natarcie || gra.fala2 || gra.koniec) return;
+  if (wrogowie.filter(w => w.fala === 1 && w.zywy).length > 1 || t - gra.start < POZIOM.cisza) return;
+  gra.fala2 = true;
+  for (const w of wrogowie) if (w.fala === 2) {
+    w.aktywny = true; terenWroga(w);
+    w.model.show = w.h !== undefined;
+    if (w.audio) w.audio.g.gain.value = 0.9;
+  }
+  komunikat('Druga fala natarcia! Czołgi zza Urzędu Kanclerskiego i znad Szprewy', '#ff8a75', 5000);
+}
+
+// Natarcie: wóz jedzie prosto na gracza, przeszkodę (mur, drzewa, skarpę nad Szprewą) wykrywa próbką terenu 4 m przed
+// sobą co 0,35 s i omija skrętem w bok; gdy wykrył gracza w zasięgu 450 m, staje i strzela z krótkiego postoju
+function terenLekki(w) {
+  const cy = Math.cos(w.yaw), sy = Math.sin(w.yaw);
+  const hp = wysokosc(w.e + cy * 2.7, w.n + sy * 2.7, wszystkie), ht = wysokosc(w.e - cy * 2.7, w.n - sy * 2.7, wszystkie);
+  if (hp !== undefined && ht !== undefined && Math.abs(hp - ht) < 3) {
+    w.h = (hp + ht) / 2; w.pitch = clamp(Math.atan2(hp - ht, 5.4), -0.45, 0.45);
+  } else {
+    const v = [hp, ht].filter(x => x !== undefined && (w.h === undefined || Math.abs(x - w.h) < 2));
+    if (v.length) w.h = v[0];
+  }
+  w.roll = 0;
+  if (w.h !== undefined) w.model.show = true;
+}
+function natarcieWroga(w, dt, t, odl) {
+  const vPrzed = w.v, yawPrzed = w.yaw, kolo = w.spec.kolo || 0.4;
+  const ogien = w.wykryl && odl < 450 && t - gra.start >= POZIOM.cisza;
+  let vCel = ogien || odl < 45 || gra.koniec ? 0 : w.omijanie > 0 ? 2 : w.spec.vNatarcia;
+  const doGracza = Math.atan2(gracz.n - w.n, gracz.e - w.e);
+  let celYaw = doGracza;
+  if (w.omijanie > 0) { celYaw = w.kurs; w.omijanie -= dt; }
+  const r = zawin(celYaw - w.yaw);
+  w.yaw = zawin(w.yaw + clamp(r, -18 * D * dt, 18 * D * dt));
+  if (Math.abs(r) > 0.8) vCel = Math.min(vCel, 1.5);
+  w.v = dazy(w.v, vCel, (vCel > w.v ? 1.2 : 3) * dt);
+  const krok = w.v * dt;
+  w.tNat -= dt;
+  const probka = w.tNat <= 0;
+  if (probka) w.tNat = 0.35;
+  if (Math.abs(krok) > 1e-4) {
+    const ne = w.e + Math.cos(w.yaw) * krok, nn = w.n + Math.sin(w.yaw) * krok;
+    let stop = false;
+    if (probka) {
+      // pod koronami drzew próbka widzi liście kilkanaście metrów wyżej: wtedy jedzie bez sprawdzania, aż wyjedzie
+      const hz = wysokosc(ne + Math.cos(w.yaw) * 4, nn + Math.sin(w.yaw) * 4, wszystkie);
+      if (hz !== undefined && w.h !== undefined && (hz > w.h + 1.3 || hz < w.h - 3)) {
+        const pod = wysokosc(w.e, w.n, wszystkie);   // dalsze próbki tylko przy przeszkodzie
+        if (pod !== undefined && pod < w.h - 1.5) w.h = pod;          // wisiał nad ziemią (start na koronie drzewa)
+        else if (!(pod !== undefined && pod > w.h + 3)) {             // pod koronami drzew jedzie dalej bez sprawdzania
+          stop = true;
+          // pierwszy wolny kierunek, jak najbliżej kierunku na gracza: ±30°, ±60°, ±90°, ±125°, w tył
+          let wolny = null;
+          for (const kat of [0.5, -0.5, 1.05, -1.05, 1.6, -1.6, 2.2, -2.2, Math.PI]) {
+            const k = doGracza + kat, h6 = wysokosc(w.e + Math.cos(k) * 6, w.n + Math.sin(k) * 6, wszystkie);
+            if (h6 !== undefined && h6 < w.h + 1 && h6 > w.h - 3) { wolny = k; break; }
+          }
+          w.kurs = wolny ?? zawin(w.yaw + Math.PI / 2);
+          w.omijanie = losuj(2, 3.5);
+        }
+      }
+    }
+    if (stop) w.v = 0;
+    else { w.e = ne; w.n = nn; w.fazaL += krok / kolo; w.fazaP += krok / kolo; if (probka) terenLekki(w); }
+  }
+  const dy = zawin(w.yaw - yawPrzed);
+  w.fazaL -= dy * 1.4 / kolo; w.fazaP += dy * 1.4 / kolo;
+  if (dt > 0) krokBujania(w, dt, (w.v - vPrzed) / dt, w.v * dy / dt, 0.005 * Math.min(Math.abs(w.v), 12));
+  if (w.h !== undefined) w.model.modelMatrix = macierzPojazdu(w.e, w.n, w.h + 0.02, w.yaw, w.pitch + w.bp, w.roll + w.br);
+  dzwiekRuchuWroga(w, Math.abs(w.v) > 0.5);
+}
+
 function aktualizujWrogow(dt, t) {
   const pozGracza = C.Matrix4.multiplyByPoint(gracz.model.modelMatrix, new C.Cartesian3(0, 0, 1.4), new C.Cartesian3());
   if (klatkaNr % 2 === 1) krokLiniiWzroku(t, pozGracza);   // na zmianę z próbkami terenu pod czołgiem
+  krokFal(t);
   for (const w of wrogowie) {
+    if (w.zywy && !w.aktywny) continue;
     const odl = Math.hypot(w.e - gracz.e, w.n - gracz.n);
     if (w.zywy) {
-      // dopasowanie do terenu, gdy gracz blisko (dokładniejsze kafelki)
-      if (w.dopasowanie < 1 && odl < 420) postawWroga(w, 1);
+      // dopasowanie do terenu, gdy gracz blisko (dokładniejsze kafelki); nacierające wozy próbkują teren w ruchu
+      if (w.natarcie) { if (w.h === undefined && t - w.ostatniaWys > 1) { terenWroga(w); w.ostatniaWys = t; } }
+      else if (w.dopasowanie < 1 && odl < 420) postawWroga(w, 1);
       else if (w.dopasowanie < 2 && odl < 160) postawWroga(w, 2);
       else if ((odl < 300 || w.h === undefined) && t - w.ostatniaWys > 1.5) { terenWroga(w); w.ostatniaWys = t; }
       // alarm: po huku twojego działa wieża obraca się w twoją stronę, zanim cię zobaczą
@@ -1720,7 +1805,7 @@ function aktualizujWrogow(dt, t) {
         w.elev = dazy(w.elev, celElev, 6 * D * dt);
         w.ladowanie -= dt;
         const cisza = t - gra.start < POZIOM.cisza;   // na początku załogi wrogów nie są jeszcze w gotowości
-        const jedzie = w.ruch && w.ruch.faza !== 'czeka';
+        const jedzie = (w.ruch && w.ruch.faza !== 'czeka') || (w.natarcie && Math.abs(w.v) > 0.5);
         if (w.wykryl && !jedzie && Math.abs(r) < 1.5 * D && w.ladowanie <= 0 && !cisza && !gracz.zniszczony && !gra.koniec) {
           w.ladowanie = w.spec.ladowanie * POZIOM.przeladowanie + losuj(0, 3);
           w.odrzut = 0.45;
@@ -1733,12 +1818,13 @@ function aktualizujWrogow(dt, t) {
           strzalNagrany(C.Cartesian3.distance(viewer.camera.positionWC, poz), 1);
           // po dwóch strzałach wóz cofa się za róg, czeka i wraca na stanowisko (strzel i zmień miejsce)
           w.strzalyOdRuchu = (w.strzalyOdRuchu || 0) + 1;
-          if (w.strzalyOdRuchu >= 2 && !w.ruch) w.ruch = { faza: 'cofa', droga: 0, dystans: losuj(9, 15), t: 0 };
+          if (!w.natarcie && w.strzalyOdRuchu >= 2 && !w.ruch) w.ruch = { faza: 'cofa', droga: 0, dystans: losuj(9, 15), t: 0 };
         }
       }
       if (w.ruch) ruchWroga(w, dt);
+      if (w.natarcie) natarcieWroga(w, dt, t, odl);
       w.odrzut = Math.max(0, w.odrzut - dt * 0.9);
-      if (w.h !== undefined && krokBujania(w, dt, 0, 0, 0)) w.model.modelMatrix = macierzPojazdu(w.e, w.n, w.h + 0.02, w.yaw, w.pitch + w.bp, w.roll + w.br);
+      if (!w.natarcie && w.h !== undefined && krokBujania(w, dt, 0, 0, 0)) w.model.modelMatrix = macierzPojazdu(w.e, w.n, w.h + 0.02, w.yaw, w.pitch + w.bp, w.roll + w.br);
       ustawWezly(w);
     } else {
       // płonący wrak
@@ -1762,7 +1848,7 @@ function krokLiniiWzroku(t, pozGracza) {
     for (let k = 0; k < wrogowie.length && !losZad; k++) {
       losIdx = (losIdx + 1) % wrogowie.length;
       const w = wrogowie[losIdx];
-      if (!w.zywy || w.h === undefined) continue;
+      if (!w.zywy || w.h === undefined || !w.aktywny) continue;
       const odl = Math.hypot(w.e - gracz.e, w.n - gracz.n);
       if (odl > 750) { w.widzi = w.wykryl = false; continue; }
       const a = doEnh(wylotLufy(w, w.spec).poz), b = doEnh(pozGracza);
@@ -1854,7 +1940,7 @@ function hud(t) {
   wrogowie.forEach((w, i) => {
     const el = kont.children[i];
     const odl = Math.hypot(w.e - p.e, w.n - p.n);
-    if (!w.zywy || odl > 900) { el.style.display = 'none'; return; }
+    if (!w.zywy || !w.aktywny || odl > 900) { el.style.display = 'none'; return; }
     const pk = C.Matrix4.multiplyByPoint(w.model.modelMatrix, new C.Cartesian3(0, 0, 4.2), new C.Cartesian3());
     const ek = C.SceneTransforms.worldToWindowCoordinates(scene, pk);
     const zaKamera = C.Cartesian3.dot(C.Cartesian3.subtract(pk, viewer.camera.positionWC, tmpV), viewer.camera.directionWC) < 0;
@@ -1875,6 +1961,7 @@ function hud(t) {
   c.fillStyle = 'rgba(232,228,212,.5)'; c.font = 'bold 20px system-ui'; c.textAlign = 'center';
   c.fillText('N', 0, -R + 22);
   for (const w of wrogowie) {
+    if (!w.aktywny) continue;
     const dx = (w.e - p.e) * sk, dy = -(w.n - p.n) * sk;
     if (Math.hypot(dx, dy) > R - 6) continue;
     c.fillStyle = w.zywy ? (t - w.widzialTs < 2 ? '#ff6a52' : '#c9786a') : '#555';
