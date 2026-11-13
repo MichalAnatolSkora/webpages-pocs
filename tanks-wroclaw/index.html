@@ -29,7 +29,8 @@
     width: 100%; box-sizing: border-box; padding: 8px 10px; border-radius: 4px; border: 1px solid #4c4d3a;
     background: #0e0f0a; color: var(--tekst); font: inherit; }
   #menu .wiersz { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
-  .wybor { flex: 1 1 200px; display: flex; gap: 10px; }
+  .wybor { flex: 1 1 200px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .wybor label { min-width: 130px; }
   .wybor label { flex: 1; margin: 0; padding: 10px 12px; border: 1px solid #4c4d3a; border-radius: 4px; cursor: pointer;
                  font-weight: 600; }
   .wybor input { margin-right: 6px; }
@@ -181,7 +182,8 @@
        ukryte na placach i ulicach. Silniki grają z prawdziwych nagrań: Maybach HL 230 i diesel W-2 z T-34-85.</p>
     <label>Miasto</label>
     <div class="wybor">
-      <label><input type="radio" name="miasto" value="wroclaw" checked>Wrocław<small>Stare Miasto, płasko</small></label>
+      <label><input type="radio" name="miasto" value="tempelhof" checked>Tempelhof<small>Berlin, lotnisko: otwarte pole, natarcie</small></label>
+      <label><input type="radio" name="miasto" value="wroclaw">Wrocław<small>Stare Miasto, ciasno</small></label>
       <label><input type="radio" name="miasto" value="berlin">Berlin<small>Reichstag, czołgi nacierają</small></label>
       <label><input type="radio" name="miasto" value="krakow">Kraków<small>Rynek Główny i ciasne uliczki</small></label>
     </div>
@@ -292,6 +294,16 @@ let POZIOM = POZIOMY.weteran;
 // start.kierunek: 0 = wschód, 90 = północ. Wrogowie na placach i ulicach z OpenStreetMap; we Wrocławiu i Krakowie
 // czekają w zasadzce, w Berlinie nacierają. Kamera startowa: (e, n, wysokość elipsoidalna).
 const MIASTA = {
+  // Tempelhof: płyta przed terminalem dawnego lotniska, przed nią kilometr otwartego pola z pasami startowymi (91% pól
+  // przejezdnych w pomiarze co 20 m, bez uskoków). Wrogowie nacierają w dwóch falach z 630–970 m.
+  tempelhof: { nazwa: 'Tempelhof', wygrana: 'Natarcie na Tempelhof odparte', natarcie: true,
+    odprawa: 'Berlin, lotnisko Tempelhof. Stoisz na płycie przed terminalem. Osiem czołgów naciera przez otwarte pole w dwóch falach – trafiaj z daleka, zanim podejdą.',
+    start: { lat: 52.48140, lon: 13.39431, kierunek: -45 },
+    wrogowie: [[52.47736, 13.40094, 1], [52.47960, 13.40316, 1], [52.47601, 13.39800, 1], [52.47556, 13.39357, 1],
+      [52.47511, 13.40463, 2], [52.47331, 13.39947, 2], [52.47286, 13.39505, 2], [52.47825, 13.40610, 2]],
+    kamera: [-40, -450, 530], osm: '52.4700,13.3850,52.4850,13.4120',
+    // mapa przejezdności co 20 m (e od -450, n od -1150 m), zapisana seriami (liczba + znak), zob. tempelhof_przejezdnosc.txt
+    siatka: { e0: -450, n0: -1150, k: 20, kol: 76, wier: 71, dane: '2123.1#157.2#74.2#225.1#62.1#12.1#68.1#6.1#52.1#3.1#7.1#3.1#6.1#64.1#10.1#54.1#20.1#41.2#5.1#4.2#10.1#9.1#41.2#7.4#21.1#50.4#4.1#5.1#10.2#48.4#3.2#1.4#12.2#52.1#9.1#11.2#48.1#7.2#16.2#50.2#16.1#5.3#71.1#1.3#65.1#1.1#1.2#1.5#63.1#6.6#66.1#2.8#70.6#66.5#1.5#61.1#6.2#1.6#59.1#2.2#1.3#4.4#51.1#2.1#3.1#1.3#2.3#1.1#2.5#58.1#1.1#2.1#1.1#7.4#57.1#4.3#3.1#3.5#57.2#2.2#2.1#2.1#1.1#2.4#31.2#22.1#4.3#1.1#3.9#30.1#28.2#2.3#1.11#35.1#7.1#9.4#1.2#3.14#54.2#5.9#2.6#31.1#24.2#1.12#1.6#54.5#2.7#3.8#17.1#1.1#28.3#2.2#4.6#5.10#9.4#12.1#1.1#14.2#12.6#5.22#8.2#12.2#2.5#11.2#1.1#3.1#4.22#7.3#9.2#1.1#3.3#12.5#3.1#4.1#2.17#18.2#1.1#1.3#1.1#5.1#8.1#3.3#8.2#1.3#4.3#1.2#2.3#12.8#2.4#5.1#7.3#1.4#3.1#6.1#1.2#4.2#2.1#14.1#8.3#4.2#5.2#4.' } },
   wroclaw: { nazwa: 'Wrocław', wygrana: 'Stare Miasto oczyszczone',
     odprawa: 'Wrocław, Rynek. Na placach i w uliczkach Starego Miasta czeka osiem czołgów. Zniszcz je wszystkie.', start: { lat: 51.10955, lon: 17.03050, kierunek: 90 },
     wrogowie: [[51.11055, 17.03330], [51.10915, 17.02930], [51.10690, 17.03125], [51.11040, 17.03850],
@@ -1880,8 +1892,10 @@ let NAV = null;
 function przygotujNawigacje() {
   const s = MIASTO.siatka;
   if (!s || s.dane.startsWith('__')) { NAV = null; return; }
+  // dane jako znaki '.'/'#' albo zapisane seriami: „123.4#” = 123 pola wolne, 4 zajęte
+  const dane = /\d/.test(s.dane) ? s.dane.replace(/(\d+)([.#])/g, (m, k, z) => z.repeat(+k)) : s.dane;
   const n = s.kol * s.wier, wolne = new Uint8Array(n), koszt = new Float32Array(n).fill(1);
-  for (let i = 0; i < n; i++) wolne[i] = s.dane[i] === '.' ? 1 : 0;
+  for (let i = 0; i < n; i++) wolne[i] = dane[i] === '.' ? 1 : 0;
   // przy przeszkodzie drożej: czołg ma 3,4 m szerokości, więc trasa trzyma się środka przejazdu
   for (let r = 0; r < s.wier; r++) for (let c = 0; c < s.kol; c++) {
     const i = r * s.kol + c;
