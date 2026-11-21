@@ -414,6 +414,12 @@
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "8168", "--directory", "junior-swim/v1"],
       "port": 8168
+    },
+    {
+      "name": "infotek-v1",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8174", "--directory", "infotek/v1"],
+      "port": 8174
     }
   ]
 }
