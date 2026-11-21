@@ -27,7 +27,7 @@
     '#a9e3f7', '#4cc0ea', '#009ddc', '#0a62a0', '#0b3566',
     '#e2e2ea', '#a9a8bb', '#6a687e',
   ].map((h) => [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)]);
-  const BAYER = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5].map((v) => (v / 16 - 0.47) * 26);
+  const BAYER = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5].map((v) => (v / 16 - 0.47) * 12);
   const QCACHE = new Map();
   function quantize(img, w, h) {
     const d = img.data;
@@ -336,6 +336,8 @@
   const canvas = $('#shop');
   const ctx = canvas.getContext('2d', { willReadFrequently: true });
   const steps = $$('.step');
+  const railLinks = $$('#rail a');
+  railLinks[0].classList.add('is-active');
   let view = { W: 0, H: 0, px: 3, bw: 0, bh: 0, mobile: false };
   const cam = { x: 0, y: 0, z: 1 };
   let target = { x: 0, y: 0, z: 1 };
@@ -343,7 +345,7 @@
 
   function stationTarget(i) {
     const { W, H, mobile } = view;
-    const availW = mobile ? W * 0.94 : W * 0.56, availH = mobile ? H * 0.44 : H * 0.86;
+    const availW = mobile ? W * 0.94 : W * 0.5, availH = mobile ? H * 0.44 : H * 0.84;
     const fit = Math.min(availW / (ROOM.x1 - ROOM.x0), availH / (ROOM.y1 - ROOM.y0));
     if (!STATIONS[i]) return { x: (ROOM.x0 + ROOM.x1) / 2, y: (ROOM.y0 + ROOM.y1) / 2, z: fit };
     const [sx, sy] = P(...STATIONS[i].p);
@@ -351,7 +353,7 @@
   }
   function anchor() {
     const { W, H, mobile } = view;
-    return mobile ? [W / 2, H * 0.25] : [W * 0.66, H * 0.5];
+    return mobile ? [W / 2, H * 0.25] : [W * 0.7, H * 0.5];
   }
 
   function layout() {
@@ -396,6 +398,7 @@
     steps.forEach((s, i) => { if (s.getBoundingClientRect().top <= mid) best = i; });
     if (best !== active) {
       active = best;
+      railLinks.forEach((a, i) => a.classList.toggle('is-active', i === active));
       target = stationTarget(active);
       if (reduceMotion) Object.assign(cam, target);
       dirty = true;
@@ -425,6 +428,7 @@
   }
   new IntersectionObserver(([en]) => {
     stageVisible = en.isIntersecting;
+    $('#rail').classList.toggle('is-hidden', !stageVisible);
     if (stageVisible) start();
   }).observe($('.story'));
 
