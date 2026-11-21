@@ -428,6 +428,12 @@
       "port": 8175
     },
     {
+      "name": "infotek-v3",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8176", "--directory", "infotek/v3"],
+      "port": 8176
+    },
+    {
       "name": "postawne-v1",
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "8172", "--directory", "postawne-dzieciaki/v1"],

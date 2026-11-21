@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InfoTEK — serwis komputerów, programy dla firm i kasy fiskalne · Nowa Ruda</title>
+  <meta name="description" content="Serwis laptopów i komputerów, odzyskiwanie danych, oprogramowanie dla firm i kasy fiskalne w Nowej Rudzie. Od 1992 roku.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Pixelify+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+
+<a class="skip" href="#warsztat">Przejdź do treści</a>
+
+<header class="top" id="top">
+  <a class="logo" href="#start"><span class="mark" aria-hidden="true"></span>InfoTEK</a>
+  <nav class="nav" id="nav" aria-label="Główne">
+    <a href="#warsztat">Serwis</a>
+    <a href="#dane">Dane</a>
+    <a href="#programy">Programy</a>
+    <a href="#kasy">Kasy fiskalne</a>
+    <a href="#kontakt">Kontakt</a>
+  </nav>
+  <span class="top__status" id="status"></span>
+  <a class="top__tel" href="tel:+48740000000">74 000 00 00</a>
+  <button class="top__menu" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
+</header>
+
+<main>
+<div class="story">
+  <div class="stage" aria-hidden="true"><canvas id="shop"></canvas></div>
+
+  <div class="steps">
+
+    <section class="step" id="start" data-station="0" aria-labelledby="h1">
+      <div class="panel panel--hero">
+        <p class="kicker">Rynek, Nowa Ruda · od 1992</p>
+        <h1 id="h1">Serwis komputerów w&nbsp;Nowej Rudzie</h1>
+        <p>Naprawiamy laptopy, komputery i drukarki, odzyskujemy dane, wdrażamy programy dla firm i obsługujemy kasy fiskalne. Wszystko w jednym serwisie przy Rynku.</p>
+        <div class="btns">
+          <a class="pbtn pbtn--yellow" href="tel:+48740000000">Zadzwoń: 74 000 00 00</a>
+          <a class="pbtn" href="#warsztat">Zajrzyj do środka</a>
+        </div>
+        <p class="hint" aria-hidden="true">Przewijaj, a kamera przejdzie po serwisie.</p>
+      </div>
+    </section>
+
+    <section class="step" id="warsztat" data-station="1" aria-labelledby="warsztat-h">
+      <div class="panel">
+        <p class="dymo dymo--green">Warsztat</p>
+        <h2 id="warsztat-h">Serwis komputerów i pilne awarie</h2>
+        <p>Naprawa laptopów, komputerów stacjonarnych, drukarek i kopiarek. W serwisie na Rynku albo u klienta, w Nowej Rudzie i okolicach.</p>
+        <p>Komputer się nie uruchamia, laptop się przegrzewa, drukarka zniknęła z sieci? Przy poważnej awarii odbieramy sprzęt i odwozimy go po naprawie.</p>
+        <ul class="ticks">
+          <li>proste usterki zwykle tego samego dnia</li>
+          <li>wycena i czas naprawy przy pierwszym kontakcie</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="step" id="dane" data-station="2" aria-labelledby="dane-h">
+      <div class="panel">
+        <p class="dymo dymo--blue">Dane</p>
+        <h2 id="dane-h">Odzyskiwanie danych</h2>
+        <p>Z dysków, pendrive’ów i kart pamięci. Odzyskiwanie trwa zwykle kilka dni, szacowany czas podajemy przy pierwszym kontakcie.</p>
+        <p class="warn">Jeśli dysk stuka albo nie jest widoczny, nie uruchamiaj komputera ponownie. Każde włączenie zmniejsza szansę na odzyskanie plików.</p>
+      </div>
+    </section>
+
+    <section class="step" id="programy" data-station="3" aria-labelledby="programy-h">
+      <div class="panel">
+        <p class="dymo dymo--red">Programy</p>
+        <h2 id="programy-h">Oprogramowanie dla firm</h2>
+        <p>Systemy ERP i CRM, programy do fakturowania, oprogramowanie dla gastronomii i sklepów. Instalujemy, przenosimy dane, ustawiamy kopie zapasowe i porządkujemy sieć w biurze.</p>
+        <table class="list">
+          <caption>Autoryzowane oprogramowanie</caption>
+          <tbody>
+            <tr><th scope="row">Insert</th><td>sprzedaż, magazyn, księgowość, kadry</td></tr>
+            <tr><th scope="row">Symfonia</th><td>ERP: finanse, księgowość, handel</td></tr>
+            <tr><th scope="row">Symplex</th><td>system ERP</td></tr>
+            <tr><th scope="row">Comarch ERP Optima</th><td>księgowość, faktury, kadry i płace</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="step" id="kasy" data-station="4" aria-labelledby="kasy-h">
+      <div class="panel">
+        <p class="dymo dymo--orange">Lada</p>
+        <h2 id="kasy-h">Kasy fiskalne Novitus i Posnet</h2>
+        <p>Prowadzimy cały proces, więc nie musisz sam załatwiać formalności.</p>
+        <ol class="steps-list">
+          <li>Dobieramy model do rodzaju sprzedaży: sklep, gastronomia, usługi.</li>
+          <li>Programujemy towary, stawki VAT i dane firmy.</li>
+          <li>Przeprowadzamy fiskalizację i pomagamy z formalnościami w urzędzie skarbowym.</li>
+          <li>Robimy serwis, przeglądy i aktualizacje.</li>
+        </ol>
+        <a class="pbtn" href="tel:+48740000000">Zapytaj o kasę</a>
+      </div>
+    </section>
+
+    <section class="step" id="kontakt" data-station="5" aria-labelledby="kontakt-h">
+      <div class="panel">
+        <p class="dymo dymo--purple">Drzwi</p>
+        <h2 id="kontakt-h">Serwis przy Rynku w Nowej Rudzie</h2>
+        <a class="tel" href="tel:+48740000000">74 000 00 00</a>
+        <p><a href="mailto:biuro@przyklad.pl">biuro@przyklad.pl</a> · Rynek, 57-400 Nowa Ruda</p>
+        <table class="hours">
+          <caption>Godziny otwarcia</caption>
+          <tbody>
+            <tr data-days="1,2,3,4,5"><th scope="row">poniedziałek–piątek</th><td>9:00–17:00</td></tr>
+            <tr data-days="6"><th scope="row">sobota</th><td>10:00–13:00</td></tr>
+            <tr data-days="0"><th scope="row">niedziela</th><td>nieczynne</td></tr>
+          </tbody>
+        </table>
+        <p class="open" id="openNow"></p>
+        <a class="pbtn pbtn--yellow" href="https://www.google.com/maps/search/?api=1&query=Rynek+Nowa+Ruda" target="_blank" rel="noopener">Jak dojechać</a>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<section class="faq" id="pytania" aria-labelledby="pytania-h">
+  <div class="wrap">
+    <h2 class="dymo dymo--ink" id="pytania-h">Pytania</h2>
+    <div class="faq__list">
+      <details>
+        <summary>Jak długo trwa naprawa?</summary>
+        <p>Proste usterki naprawiamy zwykle tego samego dnia. Bardziej złożone, na przykład odzyskiwanie danych, mogą potrwać kilka dni. Szacowany czas podajemy przy pierwszym kontakcie.</p>
+      </details>
+      <details>
+        <summary>Czy dojeżdżacie do klienta?</summary>
+        <p>Tak, w Nowej Rudzie i okolicach. Przy poważnych awariach możemy odebrać sprzęt i odwieźć go po naprawie.</p>
+      </details>
+      <details>
+        <summary>Czy muszę się umówić?</summary>
+        <p>Nie. W godzinach otwarcia można przyjść bez umawiania. Jeśli wcześniej zadzwonisz albo napiszesz, szybciej się Tobą zajmiemy.</p>
+      </details>
+      <details>
+        <summary>Jakie kasy fiskalne obsługujecie?</summary>
+        <p>Novitus i Posnet. Pomagamy wybrać model, przeprowadzamy fiskalizację i formalności, a potem robimy serwis i aktualizacje.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__row">
+    <p>InfoTEK sp. z o.o. · Rynek, Nowa Ruda · serwis IT od 1992</p>
+    <p class="foot__note">Propozycja strony. Telefon, e-mail i dane rejestrowe są przykładowe.</p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
